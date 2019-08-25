@@ -1,0 +1,61 @@
+@import "../styles/global.css";
+
+.all   {
+    background-color: #ffffff;
+}
+
+.backarrow h5{
+    display: inline;
+}
+
+.backarrow  {
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.backarrow button   {
+    border: none;
+    border-bottom: 2px dashed #333;
+    padding: 0.5rem;
+}
+
+.container  {
+    margin: 5rem auto 5rem auto;
+    width: 55%;
+    background-color: #f5f5f5;
+    padding: 2rem 8rem;
+}
+
+h2 {
+    font-family: 'Montserrat';
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+h3 {
+    font-family: 'Montserrat';
+    font-size: 1.75rem;
+    font-weight: 500;
+}
+
+h4 {
+    font-family: 'Montserrat';
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+h5 {
+    font-family: 'Montserrat';
+    font-size: 1.25rem;
+    font-weight: 400;
+}
+
+
+@media (max-width: 1150px) {
+    .container  {
+        padding: 2rem;
+        margin: 3rem;
+        width: auto;
+    }
+}

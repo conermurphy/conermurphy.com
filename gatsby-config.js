@@ -5,5 +5,82 @@
  */
 
 module.exports = {
-  /* Your site config here */
+  siteMetadata: {
+    title: `Coner Murphy`,
+    description: "Self taught web-develop sharing his work while blogging about all things web and data related. I also love coffee...",
+  },
+  plugins: [
+    {
+    resolve: 'gatsby-source-filesystem',
+    options: {
+      path: `${__dirname}/content/posts`,
+      name: 'posts'
+    }
+  },
+  {
+    resolve: 'gatsby-source-filesystem',
+    options: {
+      path: `${__dirname}/content/projects`,
+      name: 'projects'
+    }
+  },
+  {
+    resolve: 'gatsby-source-filesystem',
+    options: {
+      path: `${__dirname}/content/media/images`,
+      name: 'images'
+    }
+  },
+  {
+    resolve: 'gatsby-source-filesystem',
+    options: {
+      path: `${__dirname}/content/media/assets`,
+      name: 'assets'
+    }
+  },
+  {
+    resolve: `gatsby-transformer-remark`,
+    options: {
+      plugins: [
+        {
+          resolve: `gatsby-remark-images`,
+          options: {
+            maxWidth: 800,
+          },
+        },
+      ],
+    },
+  },
+  {
+    resolve: `gatsby-plugin-typography`,
+    options: {
+      pathToConfigModule: `src/utils/typography`,
+    },
+  },
+  {
+    resolve: `gatsby-plugin-manifest`,
+    options: {
+      name: `Coner Murphy`,
+      short_name: `Coner Murphy`,
+      start_url: `/`,
+      background_color: `#F5F5F5`,
+      theme_color: `#F5F5F5`,
+      // Enables "Add to Homescreen" prompt and disables browser UI (including back button)
+      // see https://developers.google.com/web/fundamentals/web-app-manifest/#display
+      display: `standalone`,
+      icon: `content/media/assets/CM-Favicon-2019.gif`, // This path is relative to the root of the site.
+    },
+  }, 
+  {
+    resolve: `gatsby-plugin-google-analytics`,
+    options: {
+      // replace "UA-XXXXXXXXX-X" with your own Tracking ID
+      trackingId: "UA-107696124-1",
+    },
+  },
+  `gatsby-plugin-sharp`,
+  `gatsby-transformer-sharp`,
+  `gatsby-plugin-react-helmet`,
+  `gatsby-plugin-offline`,
+  ],
 }
