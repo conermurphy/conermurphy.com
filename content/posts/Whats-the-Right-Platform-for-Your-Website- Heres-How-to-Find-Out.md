@@ -1,9 +1,10 @@
 ---
 title: "What’s the Right Platform for Your Website? Here’s How to Find Out."
-subtitle: "Choosing the Right Platform for Your next Site Doesn’t Need to Be Hard."
+description: "Choosing the Right Platform for Your next Site Doesn’t Need to Be Hard."
 date: "2019-08-19"
-thumbnail: "../media/images/08-19/Whats-the-Right-Platform-for-Your-Website/Whats-the-Right-Platform-for-Your-Website.jpg"
 id: "1"
+category: "Test Category"
+tags: ["TestTag1","TestTag2"]
 ---
 
 ![Computer screens showing websites in dark setting.](../media/images/08-19/Whats-the-Right-Platform-for-Your-Website/Whats-the-Right-Platform-for-Your-Website.jpg)

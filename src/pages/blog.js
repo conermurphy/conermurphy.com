@@ -1,10 +1,8 @@
 import React from "react"
 import { Link, graphql, useStaticQuery } from "gatsby"
-import Header from "../components/header"
-import Footer from "../components/footer"
 import layoutStyles from "../components/layout.module.css"
 import Img from 'gatsby-image';
-import { Helmet } from "react-helmet"
+import SEO from '../components/seo'
 
 export default () => {
   const data = useStaticQuery(
@@ -17,20 +15,10 @@ export default () => {
             frontmatter {
               date(formatString: "DD/MM/YY")
               title
-              thumbnail {
-                childImageSharp {
-                  id
-                  fixed {
-                    base64
-                    width
-                    height
-                    src
-                    srcSet
-                  }
-                }
-              }
-              subtitle
+              description
               id
+              category
+              tags
             }
             fields {
               slug
@@ -45,17 +33,8 @@ export default () => {
   )
     return (
         <div className={layoutStyles.container}>
-          <Helmet
-              title="Coner Murphy"
-              meta={[
-                { name: 'description', content: "This is where I share everything I've learnt so far in the world of web development, hopefully I can help people improve like others have with me." },
-                { name: 'keywords', content: 'Web Development, Data, Blogging' },
-              ]}>
-                <html lang="en" />
-                <meta charSet="utf-8" />
-                <link rel="canonical" href="https://conermurphy.com" />
-            </Helmet>
-            <Header/>
+          <SEO title="Coner Murphy"/>
+
             <div className={layoutStyles.writingContainer} id={'writing'}> {/*start of writing section of page*/}
               <div className={layoutStyles.writingHeader}>
               <h2 className={layoutStyles.writingHeadTitle}>Writing</h2>            
@@ -81,7 +60,6 @@ export default () => {
                     ))}
                   </div>
             </div>
-            <Footer/>
         </div>
     )
 }

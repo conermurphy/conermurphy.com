@@ -1,13 +1,8 @@
-/**
- * Configure your Gatsby site with this file.
- *
- * See: https://www.gatsbyjs.org/docs/gatsby-config/
- */
-
 module.exports = {
   siteMetadata: {
     title: `Coner Murphy`,
-    description: "Self taught web-develop sharing his work while blogging about all things web and data related. I also love coffee...",
+    description: "Insert a description here.",
+    author: `Coner Murphy`,
   },
   plugins: [
     {
@@ -15,13 +10,6 @@ module.exports = {
     options: {
       path: `${__dirname}/content/posts`,
       name: 'posts'
-    }
-  },
-  {
-    resolve: 'gatsby-source-filesystem',
-    options: {
-      path: `${__dirname}/content/projects`,
-      name: 'projects'
     }
   },
   {
@@ -49,12 +37,6 @@ module.exports = {
           },
         },
       ],
-    },
-  },
-  {
-    resolve: `gatsby-plugin-typography`,
-    options: {
-      pathToConfigModule: `src/utils/typography`,
     },
   },
   {

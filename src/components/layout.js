@@ -1,11 +1,9 @@
 //Importing dependcies from other sources to be worked with.
-import React from "react"
+import React from 'react'
 import { Link, graphql, useStaticQuery } from "gatsby" 
-import { Helmet } from "react-helmet"
 import layoutStyles from "./layout.module.css"
-import Header from "./header"
-import Footer from "./footer"
-import Img from 'gatsby-image';
+// import Img from 'gatsby-image';
+import SEO from './seo';
 import {FaTwitter} from 'react-icons/fa';
 import {FaInstagram} from 'react-icons/fa';
 import {FaEnvelope} from 'react-icons/fa';
@@ -29,50 +27,10 @@ export default () => {
             frontmatter {
               date(formatString: "DD/MM/YY")
               title
-              thumbnail {
-                childImageSharp {
-                  id
-                  fixed {
-                    base64
-                    width
-                    height
-                    src
-                    srcSet
-                  }
-                }
-              }
-              subtitle
+              description
               id
-            }
-            fields {
-              slug
-            }
-            excerpt
-            timeToRead
-          }
-        }
-      }
-      projects: allMarkdownRemark(limit: 3, sort: {order: DESC, fields: frontmatter___date}, filter: {fileAbsolutePath: {regex: "/(projects)/.*\\\\.md$/"}}) {
-        edges {
-          node {
-            id
-            frontmatter {
-              date(formatString: "DD/MM/YY")
-              title
-              thumbnail {
-                childImageSharp {
-                  id
-                  fixed {
-                    base64
-                    width
-                    height
-                    src
-                    srcSet
-                  }
-                }
-              }
-              subtitle
-              id
+              category
+              tags
             }
             fields {
               slug
@@ -100,19 +58,12 @@ export default () => {
     `
   )
     return (
-          <div className={layoutStyles.pageContainer}> {/*container for whole page*/}
-            <Helmet
-              title="Coner Murphy"
-              meta={[
-                { name: 'description', content: 'Self taught web-develop sharing his work while blogging about all things web and data related. I also love coffee...' },
-                { name: 'keywords', content: 'Web Development, Data, Blogging' },
-              ]}>
-                <html lang="en" />
-                <meta charSet="utf-8" />
-                <link rel="canonical" href="https://conermurphy.com" />
-            </Helmet>
-            <Header/>
-            <div className={layoutStyles.home} id={"contact"} > {/*start of home section of page*/}
+      <div className={layoutStyles.pageContainer}> {/*container for whole page*/}
+          <div>
+            <SEO title="Coner Murphy"/>
+
+            {/*start of home section of page*/}
+            <div className={layoutStyles.home} id={"contact"} > 
               <div className={layoutStyles.homeTitle}>
                 <h1>Hi, I'm Coner Murphy</h1>
                 <div className={layoutStyles.homeRW}>
@@ -131,6 +82,9 @@ export default () => {
                 <div className={layoutStyles.homeSocialBox}><a href="https://github.com/conermurphy" aria-label="Github" target="_blank" rel="noopener noreferrer"><FaGithub/></a></div>
               </div>
             </div> 
+            {/* End of the home section */}
+
+            {/* Beginning of About Section */}
             <div className={layoutStyles.aboutContainer} id ={"about"}>
               <h2 className={layoutStyles.aboutTitle}>About Me</h2>
               <h4 className={layoutStyles.aboutSubTitle}>A little bit about me.</h4>
@@ -151,48 +105,11 @@ export default () => {
                 <div className={layoutStyles.profileImage}></div>
               </div>
             </div>
-            <div className={layoutStyles.projectContainer} id={'projects'}> {/*start of projects section of page*/}
-              <div className={layoutStyles.projectHeader}>
-                <h2 className={layoutStyles.projectHeadTitle}>Projects</h2>         
-                <h4 className={layoutStyles.projectHeadSubTitle}>Some of my most recent projects.</h4>
-                <hr className={layoutStyles.hr}/>
-              </div>
-
-              {/* START OF QUERY PROJECT BOX GENERATION */}
-              <div className={layoutStyles.projectBox}>
-                  {data.projects.edges.map(({ node }) => (
-                    <div className={layoutStyles.projectBoxSlave} key={node.id}>                  
-                    <Link to={node.fields.slug} style={{textDecoration: `none`, color: `inherit`, backgroundImage: `none`}}>
-                      <div className={layoutStyles.projectImage}>
-                          <Img fixed={node.frontmatter.thumbnail.childImageSharp.fixed}/>
-                      </div>
-                    <div className={layoutStyles.projectBody}>
-                        <div className={layoutStyles.projectID}><h4>Project: #{node.frontmatter.id}</h4></div>
-                        <div className={layoutStyles.projectTitle}><h3>{node.frontmatter.title}</h3></div>
-                    </div>     
-                    <div className={layoutStyles.projectBottom}>
-                          <div className={layoutStyles.projectDate}><p>{node.frontmatter.date}</p></div>
-                          <div className={layoutStyles.projectTime}><p>{node.timeToRead} mins read</p></div>
-                    </div>
-                    </Link>  
-                      </div>
-                  ))}
-                </div>
-                {/* END OF QUERY PROJECT BOX GENERATION */}
-                {/* START OF VIEW MORE PROJECT BOX */}
-                <div className={layoutStyles.viewMoreBox}>
-                                     
-                    <Link to={"/projects"} style={{textDecoration: `none`, color: `inherit`, backgroundImage: `none`}}>
-                    <div className={layoutStyles.viewMoreBody}>
-                        <div className={layoutStyles.viewMoreTitle}><h4>Click Here To View More Projects.</h4></div>
-                    </div>     
-                    </Link>  
-                      
-                </div>
-                 {/* END OF VIEW MORE PROJECT BOX */}
-
+            {/* End of the about section */}
+            
+            {/*start of writing section of page*/}
             </div>
-            <div className={layoutStyles.writingContainer} id={'writing'}> {/*start of writing section of page*/}
+            <div className={layoutStyles.writingContainer} id={'blog'}> 
               <div className={layoutStyles.writingHeader}>
               <h2 className={layoutStyles.writingHeadTitle}>Writing</h2>            
               <h4 className={layoutStyles.writingHeadSubTitle}>Some of my most recent blog posts.</h4>
@@ -205,9 +122,6 @@ export default () => {
                       <div className={layoutStyles.writingBoxSlave} key={node.id}>
 
                         <Link to={node.fields.slug} style={{textDecoration: `none`, color: `inherit`, backgroundImage: `none`}}>
-                        <div className={layoutStyles.writingImage}>
-                          <Img fixed={node.frontmatter.thumbnail.childImageSharp.fixed}/>
-                        </div>
                         <div className={layoutStyles.writingBody}>
                           <div className={layoutStyles.writingDateTTR}><p>Post: #{node.frontmatter.id} | {node.frontmatter.date} | {node.timeToRead} mins read</p></div>
                           <div className={layoutStyles.writingTitle}><h3>{node.frontmatter.title}</h3></div>
@@ -215,6 +129,7 @@ export default () => {
                         </Link>
                       </div>
                     ))}
+
                   </div>
                   {/* START OF VIEW MORE WRITING BOX */}
                 <div className={layoutStyles.viewMoreBox}>
@@ -228,7 +143,6 @@ export default () => {
                 </div>
                  {/* END OF VIEW MORE WRITING BOX */}
             </div>
-            <Footer/>
         </div>
     )
 }
