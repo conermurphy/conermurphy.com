@@ -21,7 +21,6 @@
     "gatsby-plugin-offline": "^2.2.10",
     "gatsby-plugin-react-helmet": "^3.1.5",
     "gatsby-plugin-sharp": "^2.2.18",
-    "gatsby-plugin-typography": "^2.3.5",
     "gatsby-remark-images": "^3.1.18",
     "gatsby-source-filesystem": "^2.1.17",
     "gatsby-transformer-remark": "^2.6.19",
@@ -32,11 +31,7 @@
     "react-helmet": "^5.2.1",
     "react-icons": "^3.7.0",
     "react-typography": "^0.16.19",
-    "smooth-scroll": "^16.1.0",
-    "typeface-anonymous-pro": "0.0.72",
-    "typography": "^0.16.19",
-    "typography-theme-grand-view": "^0.16.19",
-    "typography-theme-lincoln": "^0.16.19"
+    "smooth-scroll": "^16.1.0"
   },
   "devDependencies": {
     "prettier": "^1.18.2",
