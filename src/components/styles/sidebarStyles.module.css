@@ -1,0 +1,40 @@
+*   {
+    color: white;
+}
+
+.sidebarContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    background-color: #1f2a51;
+    width: 17.5vw;
+    height: 100vh;
+    min-width: 10rem;
+    padding: 4rem 2rem;
+    box-sizing: border-box;
+}
+
+.sidebarTop {
+    text-align: center;
+}
+
+.navContainer   {
+    display: flex;
+    flex-direction: column;
+}
+
+.navContainer > a {
+    font-size: 1.5rem;
+    text-decoration: none;
+    padding: 0.5rem;
+}
+
+.socialMediaContainer  {
+    font-size: 2rem;
+}
+
+.socialMediaContainer > a {
+    padding: 0.5rem;
+}
