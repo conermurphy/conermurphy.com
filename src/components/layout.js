@@ -9,12 +9,16 @@ if (typeof window !== "undefined") {
   require("smooth-scroll")('a[href*="#"]')
 }
 
-// What is rendered to the page
-export default () => {
+// Template for other pages to use.
+const Layout = (props) => {
     return (
       <div className={layoutStyles.layoutContainer}>
         <Sidebar/>
+        <div className={layoutStyles.mainSectionContainer}>
+          {props.children}
+        </div>
       </div>
     )
 }
 
+export default Layout

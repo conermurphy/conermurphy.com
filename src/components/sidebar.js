@@ -22,7 +22,7 @@ const Sidebar = () => {
                 <svg width="100" height="100">
                     <rect width="100" height="100" fill="white"/>
                 </svg>
-                <h1>{data.site.siteMetadata.title.slice(0,5)}<br/>{data.site.siteMetadata.title.slice(5)}</h1>
+                <h1 className={sidebarStyles.title}>{data.site.siteMetadata.title.slice(0,5)}<br/>{data.site.siteMetadata.title.slice(5)}</h1>
                 <nav className={sidebarStyles.navContainer}>
                     <a href="/">Home</a>
                     <a href="/">Blog</a>

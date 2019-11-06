@@ -46,8 +46,11 @@ const Index = () => {
   )
   return (
     <div className={pageStyles.pageContainer}>
-      <Layout/>
-      
+      <Layout>
+        <div>
+          <h1>Hello World!</h1>
+        </div>
+      </Layout>
     </div>
     
   )

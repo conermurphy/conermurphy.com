@@ -1,0 +1,10 @@
+.layoutContainer    {
+    display: grid;
+    grid-template-areas: 'sidebar main ';
+    grid-template-columns: 17.5vw auto ;
+}
+
+.mainSectionContainer   {
+    grid-area: main;
+    margin: 5rem 15rem;
+}
