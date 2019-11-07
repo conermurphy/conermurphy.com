@@ -1,7 +1,8 @@
 import React from "react"
 import Layout from "../components/layout"
-import {data, useStaticQuery} from 'gatsby'
+import {Link, useStaticQuery} from 'gatsby'
 import pageStyles from '../styles/pageStyles.module.css'
+import { FaBookmark } from "react-icons/fa"
 
 const Index = () => {
   const data = useStaticQuery(
@@ -12,7 +13,7 @@ const Index = () => {
           node {
             id
             frontmatter {
-              date(formatString: "DD/MM/YY")
+              date(formatString: "DDMMYYYY")
               title
               description
               id
@@ -47,9 +48,57 @@ const Index = () => {
   return (
     <div className={pageStyles.pageContainer}>
       <Layout>
-        <div>
-          <h1>Hello World!</h1>
-        </div>
+        <section id="home" className={pageStyles.Container}>
+          <h1>Coner Murphy</h1>
+          <p>Some amazing text that is all about me, what I aim to do and how this website will change the world</p>
+        </section>
+        <section id="blog" className={pageStyles.Container}>
+          <h2>Blog</h2>
+          <p>Everything Web Related and a bit more...</p>
+          <div className={pageStyles.blogContainerOuter}>
+            {data.writing.edges.map(({ node }) => (
+              <Link to={node.fields.slug} style={{textDecoration:`none`}}>
+              <div className={pageStyles.blogPostContainer} key={node.id}>
+                <div className={pageStyles.blogPostLeftContainer}>
+                  <div className={pageStyles.blogPostIDCategoryContainer}>
+                    <h4 className={pageStyles.blogPostID}>#{node.frontmatter.id}</h4>
+                    <h4 className={pageStyles.blogPostCategory}>{node.frontmatter.category}</h4>
+                  </div>
+                  <h3 className={pageStyles.blogPostTitle}>{node.frontmatter.title}</h3>
+                  <p>{node.frontmatter.description}</p>  
+                </div>
+                <div className={pageStyles.blogPostRightContainer}>
+                  <div className={pageStyles.blogPostDateContainer}>  
+                    <h4 className={pageStyles.blogPostDate}>{node.frontmatter.date}</h4>
+                  </div>
+                </div>
+              </div>
+              </Link>
+            ))}
+            <Link to='/blog' style={{textDecoration:`none`}}>
+              <div className={pageStyles.blogPostContainer}>
+                <div className={pageStyles.blogPostLeftContainer}>
+                  <div className={pageStyles.blogPostIDCategoryContainer}>
+                    <h4 className={pageStyles.blogPostCategory}>View More</h4>
+                  </div>
+                  <h3 className={pageStyles.blogPostTitle}>View More Blog Posts...</h3>
+                  <p>If you like some of the posts you've seen above, you can see all of the posts I've written by clicking here.</p>  
+                </div>
+                <div className={pageStyles.blogPostRightContainer}>
+                  <div className={pageStyles.blogPostDateContainer}>  
+                    <h4 className={pageStyles.blogPostDate}><FaBookmark/></h4>
+                  </div>
+                </div>
+              </div>
+              </Link>
+          </div>
+        </section>
+        <section id="work" className={pageStyles.Container}>
+
+        </section>
+        <section id="contact" className={pageStyles.Container}> 
+          <h2>Contact</h2>
+        </section>
       </Layout>
     </div>
     

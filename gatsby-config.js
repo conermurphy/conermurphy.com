@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `Coner Murphy`,
-    description: "Insert a description here.",
+    description: "The Web Made Simple.",
     author: `Coner Murphy`,
   },
   plugins: [
@@ -45,12 +45,12 @@ module.exports = {
       name: `Coner Murphy`,
       short_name: `Coner Murphy`,
       start_url: `/`,
-      background_color: `#F5F5F5`,
-      theme_color: `#F5F5F5`,
+      background_color: `#1f2a51`,
+      theme_color: `#1f2a51`,
       // Enables "Add to Homescreen" prompt and disables browser UI (including back button)
       // see https://developers.google.com/web/fundamentals/web-app-manifest/#display
       display: `standalone`,
-      icon: `content/media/assets/CM-Favicon-2019.gif`, // This path is relative to the root of the site.
+      icon: `content/media/assets/CM-Logo-2019.gif`, // This path is relative to the root of the site.
     },
   }, 
   {

@@ -1,7 +1,3 @@
-a   {
-    color: white;
-}
-
 .sidebarContainer {
     display: flex;
     flex-direction: column;
@@ -33,6 +29,7 @@ a   {
     font-size: 1.5rem;
     text-decoration: none;
     padding: 0.5rem;
+    color: white;
 }
 
 .socialMediaContainer  {
@@ -41,4 +38,5 @@ a   {
 
 .socialMediaContainer > a {
     padding: 0.5rem;
+    color: white;
 }
