@@ -1,6 +1,6 @@
 import React from "react"
 import Layout from "../components/layout"
-import {Link, useStaticQuery} from 'gatsby'
+import {Link, useStaticQuery, graphql} from 'gatsby'
 import pageStyles from '../styles/pageStyles.module.css'
 import { FaBookmark } from "react-icons/fa"
 
@@ -8,7 +8,7 @@ const Index = () => {
   const data = useStaticQuery(
     graphql`
     query {
-      writing: allMarkdownRemark(limit: 4, sort: {order: DESC, fields: frontmatter___date}, filter: {fileAbsolutePath: {regex: "/(posts)/.*\\\\.md$/"}}) {
+      writing: allMarkdownRemark(limit: 2, sort: {order: DESC, fields: frontmatter___date}, filter: {fileAbsolutePath: {regex: "/(posts)/.*\\\\.md$/"}}) {
         edges {
           node {
             id
@@ -49,11 +49,11 @@ const Index = () => {
     <div className={pageStyles.pageContainer}>
       <Layout>
         <section id="home" className={pageStyles.Container}>
-          <h1>Coner Murphy</h1>
+          <h1>CONER MURPHY</h1>
           <p>Some amazing text that is all about me, what I aim to do and how this website will change the world</p>
         </section>
         <section id="blog" className={pageStyles.Container}>
-          <h2>Blog</h2>
+          <h2>BLOG</h2>
           <p>Everything Web Related and a bit more...</p>
           <div className={pageStyles.blogContainerOuter}>
             {data.writing.edges.map(({ node }) => (
@@ -97,7 +97,7 @@ const Index = () => {
 
         </section>
         <section id="contact" className={pageStyles.Container}> 
-          <h2>Contact</h2>
+          <h2>CONTACT</h2>
         </section>
       </Layout>
     </div>

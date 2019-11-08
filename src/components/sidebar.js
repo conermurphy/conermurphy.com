@@ -1,9 +1,10 @@
 import React from 'react'
-import {data, useStaticQuery} from 'gatsby'
+import {useStaticQuery, graphql} from 'gatsby'
 import sidebarStyles from './styles/sidebarStyles.module.css'
 import {FaTwitter,FaInstagram,FaEnvelope,FaMediumM,FaGithub} from 'react-icons/fa';
 
 const Sidebar = () => {
+
     const data = useStaticQuery(
         graphql`
             query {
@@ -31,12 +32,13 @@ const Sidebar = () => {
             </div>
             <div className={sidebarStyles.sidebarBottom}>
                 <div className={sidebarStyles.socialMediaContainer}>
-                    <a href=""><FaTwitter/></a>
-                    <a href=""><FaInstagram/></a>
-                    <a href=""><FaMediumM/></a>
-                    <a href=""><FaGithub/></a>
-                    <a href=""><FaEnvelope/></a>
+                    <a href="/"><FaTwitter/></a>
+                    <a href="/"><FaInstagram/></a>
+                    <a href="/"><FaMediumM/></a>
+                    <a href="/"><FaGithub/></a>
+                    <a href="/"><FaEnvelope/></a>
                 </div>
+                <p className={sidebarStyles.copyright}>Copyright © 2019 <br/>Coner Murphy</p>
             </div>
         </div>
     )

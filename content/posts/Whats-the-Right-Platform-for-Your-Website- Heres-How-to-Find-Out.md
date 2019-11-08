@@ -4,13 +4,12 @@ description: "Choosing the Right Platform for Your next Site Doesn’t Need to B
 date: "2019-08-19"
 id: "1"
 category: "Test Category"
+featuredImage: ../media/images/08-19/Whats-the-Right-Platform-for-Your-Website/Whats-the-Right-Platform-for-Your-Website.jpg
 tags: ["TestTag1","TestTag2"]
 ---
 
-![Computer screens showing websites in dark setting.](../media/images/08-19/Whats-the-Right-Platform-for-Your-Website/Whats-the-Right-Platform-for-Your-Website.jpg)
-
-## What’s the Right Platform for Your Website? Here’s How to Find Out.
-### Choosing the Right Platform for Your next Site Doesn’t Need to Be Hard.
+# What’s the Right Platform for Your Website? Here’s How to Find Out.
+## Choosing the Right Platform for Your next Site Doesn’t Need to Be Hard.
 
 Setting up a website may seem like a daunting prospect for the uninitiated and if it was ten years ago, I’d agree with you. But, truth is creating your own website is no longer a task just for the web-developers. Instead, it’s something we can all do from the comfort of our living room.
 
@@ -18,7 +17,7 @@ Once you’ve decided you’re going to make a website and you know the subject 
 
 There’s plenty of options available from CMS’s (Content Management System) like Wordpress to SSG’s (Static Site Generator) like Gatsby and we’re going to cover them and everything in between to help you decide which platform is right for your website.
 
-#### Available Platforms
+### Available Platforms
 
 There’s plenty of options available to you but before we dive in and look at each platform we need to look at the bigger picture and understand a few facts about your website. So, before carrying on answer these questions:
 
@@ -41,9 +40,7 @@ But, that’s enough hypotheticals, let’s get into the meat of this post and a
 
 Also, as a side-note, I will mostly be avoiding the topic of speed and website load times as while they’re a very important issue there are a lot of variables that play into this besides the platform.
 
----
-
-##### Wordpress
+#### Wordpress
 
 *(I’m only discussing Wordpress.org in this article but there is another option Wordpress.com. Essentially wordpress.org is the self-hosted version where you’re responsible for updating software, adding themes and plugins and making sure it works while .com is the version of Wordpress where they host and maintain the site for you, so you just build the frontend.)*
 
@@ -67,7 +64,7 @@ And, this is before we even consider employing a developer which could cost hund
 
 To summarise, Wordpress is a great tool for building some amazing websites that range from the simple to the elaborate. But, if you’re considering a complex website with custom features I’d get ready to open your chequebook or roll up your sleeves.
 
-##### Squarespace
+#### Squarespace
 
 In recent years, Squarespace has made a name for itself for being easy to use, no coding skills required platform that they support for you and to be fair, I’d say this is accurate.
 
@@ -75,16 +72,13 @@ When you take out a plan with Squarespace (see image below) they offer 24/7 cust
 
 And, while we’re on the topic of pricing, there’s only one monthly fee to worry about, none of this buy a theme here, plugin there and a host to wrap it all together stuff you have to do with Wordpress. No, Squarespace offers all of their features, support and themes in one monthly payment.
 
-![Squarespace Pricing](../media/images/08-19/Whats-the-Right-Platform-for-Your-Website/Squarespace-pricing.jpg)
-
-
 Following this trend of simplicity, they offer an easy to use drag and drop builder that doesn’t require a line of code. They’ve made it so someone with zero website development skills can pick it up, play with it and come out with a decent looking website with features like a blog and a store all without needing years of experience.
 
 However, while it is easy to use, if you’re looking for a feature and it’s not included in Squarespace’s list, you’re out of luck as no custom tools are supported so it can be quite limiting.
 
 Overall, Squarespace is a great option for those who are looking for a website builder that requires no coding and no knowledge of website development, hosting or maintenance. Although I’m not sure how much cheaper Squarespace will be in the long run compared to Wordpress or other platforms then simplicity does come with a price.
 
-##### Ghost
+#### Ghost
 
 Ghost while not as popular as Wordpress or Squarespace is still a well supported and ever-growing platform that has come to light in the last few years. If you’re considering blogging as your primary use then Ghost is a very valid option.
 
@@ -100,7 +94,7 @@ And, I know you might be saying “this sounds like Wordpress” but hold up. Wi
 
 Simply, Ghost is for those who aren’t interested in learning code or running a store or forum but instead want something that handles a blog fantastically and Ghost could be that solution.
 
-##### SSG (GatsbyJS)
+#### SSG (GatsbyJS)
 
 SSG’s or Static Site Generators are the new kids on the block when it comes to website platforms. Now I won’t discuss every single one as there are quite a few (if you’re interested, you can see a list here). But, instead, I’m going to talk about the one I have the most experience with which is GatsbyJS.
 
@@ -126,9 +120,7 @@ However, it ain’t all bad news, GatsbyJS is the only one on this list you can 
 
 But, with this, all said and done. Is GatsbyJS for everyone? No. Unless you already know the languages or want to pay for a developer / dedicate time to learning the code and making your site then GatsbyJS and other SSG’s are probably not the best options.
 
----
-
-#### Which Is Right for You
+### Which Is Right for You
 
 It’s hard to answer this question without knowing individual circumstances so instead, I’m going to list some scenarios and what platform I think is best for each.
 
@@ -141,7 +133,7 @@ Now, your circumstances may fall somewhere in the middle of two or three of thes
 
 For example, It’s a lot easier to add a shop later on if you plan for it now and choose a platform that can support that, rather than selecting what meets your needs now and needing to change platforms later on (which is a pain).
 
-#### My Experience
+### My Experience
 
 I’ve personally used all of the options in this list for varying amounts of time, although I’m currently only working with GatsbyJS on my website which while challenging is proving to be rewarding.
 
@@ -149,9 +141,7 @@ Beyond that, I’ve used Wordpress for the longest amount of time but that was m
 
 Then, I’ve used Squarespace and Ghost for the least amount of time but they’re both still great options if they fit your needs.
 
----
-
-#### Wrapping Up
+### Wrapping Up
 
 To round up, there’s plenty of options out there on the market and I haven’t even got close to listing them here, these ones are just the most popular on the market / the one I have enough experience to discuss.
 
@@ -165,9 +155,7 @@ Want to discuss this article? Or, just say hi:
 
 [Website](https://www.conermurphy.com) | [Twitter](https://twitter.com/ConerMMurphy) | [Instagram](https://www.instagram.com/conermurphy/) | [Quora](https://www.quora.com/profile/Coner-Murphy) | [Medium](https://medium.com/@conermurphy)
 
----
-
-#### Further Reading / Sources
+### Further Reading / Sources
 
 - * According to https://hostingtribunal.com/blog/wordpress-statistics/
 - https://www.squarespace.com/

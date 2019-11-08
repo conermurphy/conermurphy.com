@@ -21,14 +21,33 @@ h3  {
 
 h4  {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 500;
     margin-top: 0;
 }
 
-p   {
+h5  {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-top: 0;
+}
+
+p, li   {
     font-family: 'Source Code Pro', monospace;
     font-size: 1.1rem;
     font-weight: 300;
     margin-top: 0;
+    line-height: 1.75rem;
+}
+
+hr  {
+    border-bottom: 1px #999999 solid;
+    border-top: none;
+    margin: 2rem 0;
+}
+
+ul  {
+    padding: 1rem;
+    margin: 1rem;
 }

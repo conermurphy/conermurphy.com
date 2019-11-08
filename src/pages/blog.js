@@ -1,8 +1,8 @@
 import React from "react"
 import { Link, graphql, useStaticQuery } from "gatsby"
-import Img from 'gatsby-image';
 import SEO from '../components/seo'
-import blogStyles from '../styles/blogStyles.module.css'
+import pageStyles from '../styles/pageStyles.module.css'
+import Layout from "../components/layout"
 
 export default () => {
   const data = useStaticQuery(
@@ -13,7 +13,7 @@ export default () => {
           node {
             id
             frontmatter {
-              date(formatString: "DD/MM/YY")
+              date(formatString: "DDMMYYYY")
               title
               description
               id
@@ -32,10 +32,33 @@ export default () => {
     `
   )
     return (
-        <div className={blogStyles.container}>
+        <Layout>
           <SEO title="Coner Murphy"/>
-
-            
-        </div>
+            <main id="blog" className={pageStyles.Container}>
+              <h2>BLOG</h2>
+              <p>Everything Web Related and a bit more...</p>
+              <div className={pageStyles.blogContainerOuter}>
+                {data.writing.edges.map(({ node }) => (
+                  <Link to={node.fields.slug} style={{textDecoration:`none`}} key={node.id}>
+                  <div className={pageStyles.blogPostContainer}>
+                    <div className={pageStyles.blogPostLeftContainer}>
+                      <div className={pageStyles.blogPostIDCategoryContainer}>
+                        <h4 className={pageStyles.blogPostID}>#{node.frontmatter.id}</h4>
+                        <h4 className={pageStyles.blogPostCategory}>{node.frontmatter.category}</h4>
+                      </div>
+                      <h3 className={pageStyles.blogPostTitle}>{node.frontmatter.title}</h3>
+                      <p>{node.frontmatter.description}</p>  
+                    </div>
+                    <div className={pageStyles.blogPostRightContainer}>
+                      <div className={pageStyles.blogPostDateContainer}>  
+                        <h4 className={pageStyles.blogPostDate}>{node.frontmatter.date}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  </Link>
+                ))}
+              </div>
+          </main>
+        </Layout>
     )
 }

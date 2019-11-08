@@ -8,7 +8,7 @@
     width: 17.5vw;
     height: 100vh;
     min-width: 10rem;
-    padding: 4rem 2rem;
+    padding: 4rem 2rem 2rem 2rem;
     box-sizing: border-box;
 }
 
@@ -30,6 +30,7 @@
     text-decoration: none;
     padding: 0.5rem;
     color: white;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .socialMediaContainer  {
@@ -39,4 +40,11 @@
 .socialMediaContainer > a {
     padding: 0.5rem;
     color: white;
+}
+
+.copyright  {
+    font-size: 1rem;
+    color: white;
+    text-align: center;
+    margin-top: 1rem;
 }
