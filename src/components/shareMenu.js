@@ -74,9 +74,26 @@ class ShareMenu extends React.Component {
         })
     }
 
+    handleClick = (e) => {
+        if (this.shareContainer.contains(e.target)) {
+            return;
+        }
+        this.setState({
+            shareOpen: false
+        })
+    }
+
+    componentDidMount() {
+        document.addEventListener('mousedown',this.handleClick, false);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown',this.handleClick,false);
+    }
+
     render() {
     return (
-        <ShareContainer>
+        <ShareContainer ref={shareContainer => this.shareContainer = shareContainer}>
               <ShareButton onClick={this.openShare.bind(this)}><FaShareAlt/></ShareButton>
               <ShareIcon shareOpen={this.state.shareOpen}><FaTwitter/></ShareIcon>
               <ShareIcon shareOpen={this.state.shareOpen}><FaInstagram/></ShareIcon>
