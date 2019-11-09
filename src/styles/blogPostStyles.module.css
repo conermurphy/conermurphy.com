@@ -82,18 +82,18 @@
     top: 4%;
     left: 20%;
     word-break: break-all;
-    width: 2.5rem;
-    padding: 0.5rem;
-    height: 2.5rem;
+    background-color: #1f2a51;
+    color: white;
+    width: 3.5rem;
+    height: 3.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #1f2a51;
-    color: white;
+    border: 2px solid #1f2a51;
 }
 
 .blogPostDate   {
-    margin: 0;
+    margin: 0.5rem;
     text-align: center;
     font-size: 1rem;
 }
