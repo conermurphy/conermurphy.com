@@ -44,32 +44,42 @@
     height: 1.5rem;
 }
 
-.backarrow  {
+.backarrow{
     text-align: center;
     position: fixed;
-    top: 4%;
     left: 20%;
     z-index: 2;
+    top: 12%;
+}
+
+.backarrow {
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #1f2a51;
+    color: #1f2a51;
+    background-color: white;
 }
 
 .backarrow button {
     -webkit-appearance: none;
-    border: 2px solid black;
     background-color: white;
     transition: 0.2s;
     width: 3.5rem;
     height: 3.5rem;
+    border: none;
 }
 
 .backarrow button:hover {
     background-color: #1f2a51;
     color: white;
-    border-color: white;
 }
 
 .blogPostDateContainer   {
     position: fixed;
-    top: 12%;
+    top: 4%;
     left: 20%;
     word-break: break-all;
     width: 2.5rem;
