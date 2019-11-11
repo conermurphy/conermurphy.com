@@ -94,3 +94,48 @@
 }
 
 /* End of blog section stylings */
+
+/* Start of contact section stylings */
+
+.contactContainer   {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.formContainer  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.socialMediaContainer   {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.socialMediaItem    {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+}
+
+.socialMediaItem  h5  {
+    font-size: 1.5rem;
+    border: none;
+    margin: 0 1rem;
+}
+
+.socialMediaItem svg {
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+/* End of contact section stylings */
