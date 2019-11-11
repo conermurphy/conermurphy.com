@@ -1,7 +1,7 @@
 import React from 'react'
 import {useStaticQuery, graphql} from 'gatsby'
 import sidebarStyles from './styles/sidebarStyles.module.css'
-import {FaTwitter,FaInstagram,FaEnvelope,FaMediumM,FaGithub} from 'react-icons/fa';
+import {FaTwitter,FaInstagram,FaEnvelope,FaGithub} from 'react-icons/fa';
 
 const Sidebar = () => {
 
@@ -34,7 +34,6 @@ const Sidebar = () => {
                 <div className={sidebarStyles.socialMediaContainer}>
                     <a href="/"><FaTwitter/></a>
                     <a href="/"><FaInstagram/></a>
-                    <a href="/"><FaMediumM/></a>
                     <a href="/"><FaGithub/></a>
                     <a href="/"><FaEnvelope/></a>
                 </div>

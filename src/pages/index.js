@@ -19,6 +19,7 @@ const Index = () => {
               id
               category
               tags
+              languages
             }
             fields {
               slug
@@ -63,6 +64,12 @@ const Index = () => {
                   <div className={pageStyles.blogPostIDCategoryContainer}>
                     <h4 className={pageStyles.blogPostID}>#{node.frontmatter.id}</h4>
                     <h4 className={pageStyles.blogPostCategory}>{node.frontmatter.category}</h4>
+
+                      {node.frontmatter.languages.map( lan => 
+                          // <h4 className={pageStyles.blogPostCategory}>{language.languages}</h4>
+                          <h4 className={pageStyles.blogPostLanguages} key={lan}>{lan}</h4>
+                      )}
+                      
                   </div>
                   <h3 className={pageStyles.blogPostTitle}>{node.frontmatter.title}</h3>
                   <p>{node.frontmatter.description}</p>  
@@ -98,6 +105,8 @@ const Index = () => {
         </section>
         <section id="contact" className={pageStyles.Container}> 
           <h2>CONTACT</h2>
+          <p>This is a mock description which needs to be filled by an actual description at some point.</p>
+
         </section>
       </Layout>
     </div>

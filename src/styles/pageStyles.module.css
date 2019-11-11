@@ -34,6 +34,7 @@
 .blogPostIDCategoryContainer    {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .blogPostID {
@@ -46,10 +47,22 @@
 }
 
 .blogPostCategory   {
-    background-color: red;
+    background-color: white;
+    border: 1px solid #1f2a51;
+    color: #1f2a51;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    padding: .5rem;
+}
+
+.blogPostLanguages   {
+    background-color: #1f2a51;
+    color: white;
     padding: 0.5rem;
     width: fit-content;
     height: 1.5rem;
+    margin-left: 1rem;
 }
 
 .blogPostTitle  {

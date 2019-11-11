@@ -11,37 +11,16 @@
     margin-bottom: 5rem;
 }
 
-.container h3 {
+.content h3 {
     border-top: 5px solid #999999;
     padding: 1rem 0;
     border-bottom: 5px solid #999999;
 }
 
-.container  h4, h5   {
+.content  h4, h5   {
     border-bottom: 2px solid #333333;
     width: fit-content;
     margin-top: 1.5rem;
-}
-
-.blogPostIDCategoryContainer    {
-    display: flex;
-    flex-direction: row;
-}
-
-.blogPostID {
-    height: 1.5rem;
-    width: 1.5rem;
-    background-color: #1f2a51;
-    padding: 0.5rem;
-    text-align: center;
-    color: white;
-}
-
-.blogPostCategory   {
-    background-color: red;
-    padding: 0.5rem;
-    width: fit-content;
-    height: 1.5rem;
 }
 
 .backarrow{
