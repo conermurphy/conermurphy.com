@@ -41,8 +41,6 @@ const SocialMediaItem = styled.div`
 
 const FormContainer = styled.div`
     position: fixed;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
     justify-content: center;
     flex-grow: 1;
@@ -52,6 +50,8 @@ const FormContainer = styled.div`
     height: ${props => props.formContainerOpen ? '100vh' : '0vh'};
     transition: 0.5s;
     display: flex;
+    top: ${props => props.formContainerOpen ? '50%' : '0%'};
+    left: ${props => props.formContainerOpen ? '50%' : '0%'};
 `
 
 const Form = styled.form`
@@ -61,6 +61,7 @@ const Form = styled.form`
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    display: ${props => props.formContainerOpen ? 'flex' : 'none'};
 `
 
 const FormLabelContainer = styled.p`
@@ -78,7 +79,7 @@ const Formlabel = styled.label`
 
 const Forminput = styled.input`
     padding: 0.5rem;
-    width: 17.5rem;
+    width: 17.5rem;socialMedia
 `
 
 const FormDropdown = styled.select`
@@ -127,7 +128,7 @@ const FormSubmitButton = styled.button`
     }
 `
 
-class SocialMediaLinks extends React.Component {
+class ContactLinks extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -203,4 +204,4 @@ class SocialMediaLinks extends React.Component {
     }
 }
 
-export default SocialMediaLinks
+export default ContactLinks

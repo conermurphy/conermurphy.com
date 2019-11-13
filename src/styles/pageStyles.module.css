@@ -5,11 +5,16 @@
 
 .blogContainerOuter {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
 }
 
 .blogContainerOuter > a {
     color: black;
+    transition: 0.5s;
+}
+
+.blogContainerOuter > a:hover    {
+    transform: scale(1.1,1.1);
 }
 
 .blogPostContainer  {

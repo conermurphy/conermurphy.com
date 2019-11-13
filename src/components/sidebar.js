@@ -26,8 +26,8 @@ const Sidebar = () => {
                 <h1 className={sidebarStyles.title}>{data.site.siteMetadata.title.slice(0,5)}<br/>{data.site.siteMetadata.title.slice(5)}</h1>
                 <nav className={sidebarStyles.navContainer}>
                     <a href="/">Home</a>
-                    <a href="/">Blog</a>
-                    <a href="/">Contact</a>
+                    <a href="/#blog">Blog</a>
+                    <a href="/#contact">Contact</a>
                 </nav>
             </div>
             <div className={sidebarStyles.sidebarBottom}>

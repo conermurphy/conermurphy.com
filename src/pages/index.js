@@ -1,9 +1,15 @@
 import React from "react"
 import Layout from "../components/layout"
+import InstaFeed from "../components/instaFeed.js"
 import {Link, useStaticQuery, graphql} from 'gatsby'
 import pageStyles from '../styles/pageStyles.module.css'
 import { FaBookmark} from "react-icons/fa"
-import SocialMediaLinks from "../components/socialMediaLinks"
+import ContactLinks from "../components/contactLinks"
+import styled from 'styled-components'
+
+const SectionContainer = styled.section`
+    margin-top: 3rem;
+`
 
 const Index = () => {
   const data = useStaticQuery(
@@ -48,22 +54,22 @@ const Index = () => {
     `
   )
 
-  
-
   return (
     <div className={pageStyles.pageContainer}>
       <Layout>
-        <section id="home" className={pageStyles.Container}>
+        <SectionContainer id="home">
           <h1>CONER MURPHY</h1>
           <p>Some amazing text that is all about me, what I aim to do and how this website will change the world</p>
-        </section>
-        <section id="blog" className={pageStyles.Container}>
+        </SectionContainer>
+
+        <SectionContainer id="blog">
           <h2>BLOG</h2>
           <p>Everything Web Related and a bit more...</p>
           <div className={pageStyles.blogContainerOuter}>
+
             {data.writing.edges.map(({ node }) => (
-              <Link to={node.fields.slug} style={{textDecoration:`none`}}>
-              <div className={pageStyles.blogPostContainer} key={node.id}>
+              <Link to={node.fields.slug} style={{textDecoration:`none`}} key={node.id}>
+              <div className={pageStyles.blogPostContainer}>
                 <div className={pageStyles.blogPostLeftContainer}>
                   <div className={pageStyles.blogPostIDCategoryContainer}>
                     <h4 className={pageStyles.blogPostID}>#{node.frontmatter.id}</h4>
@@ -85,8 +91,9 @@ const Index = () => {
               </div>
               </Link>
             ))}
+
             <Link to='/blog' style={{textDecoration:`none`}}>
-              <div className={pageStyles.blogPostContainer}>
+              <div className={pageStyles.blogPostContainer} style={{marginBottom:`0`}}>
                 <div className={pageStyles.blogPostLeftContainer}>
                   <div className={pageStyles.blogPostIDCategoryContainer}>
                     <h4 className={pageStyles.blogPostCategory}>View More</h4>
@@ -102,15 +109,20 @@ const Index = () => {
               </div>
               </Link>
           </div>
-        </section>
-        <section id="work" className={pageStyles.Container}>
+        </SectionContainer>
 
-        </section>
-        <section id="contact" className={pageStyles.Container}> 
+        <SectionContainer id="work">
+          <h2>WORK</h2>
+          <p>Some of the stuff I've been working on.</p>
+          <InstaFeed/>
+        </SectionContainer>
+
+        <SectionContainer id="contact"> 
           <h2>CONTACT</h2>
           <p>This is a mock description which needs to be filled by an actual description at some point.</p>
-          <SocialMediaLinks/>
-        </section>
+          <ContactLinks/>
+        </SectionContainer>
+
       </Layout>
     </div>
     
