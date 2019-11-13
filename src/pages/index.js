@@ -2,7 +2,8 @@ import React from "react"
 import Layout from "../components/layout"
 import {Link, useStaticQuery, graphql} from 'gatsby'
 import pageStyles from '../styles/pageStyles.module.css'
-import { FaBookmark, FaInstagram, FaTwitter, FaGithub, FaEnvelope } from "react-icons/fa"
+import { FaBookmark} from "react-icons/fa"
+import SocialMediaLinks from "../components/socialMediaLinks"
 
 const Index = () => {
   const data = useStaticQuery(
@@ -46,6 +47,9 @@ const Index = () => {
     }        
     `
   )
+
+  
+
   return (
     <div className={pageStyles.pageContainer}>
       <Layout>
@@ -66,7 +70,6 @@ const Index = () => {
                     <h4 className={pageStyles.blogPostCategory}>{node.frontmatter.category}</h4>
 
                       {node.frontmatter.languages.map( lan => 
-                          // <h4 className={pageStyles.blogPostCategory}>{language.languages}</h4>
                           <h4 className={pageStyles.blogPostLanguages} key={lan}>{lan}</h4>
                       )}
                       
@@ -106,38 +109,7 @@ const Index = () => {
         <section id="contact" className={pageStyles.Container}> 
           <h2>CONTACT</h2>
           <p>This is a mock description which needs to be filled by an actual description at some point.</p>
-          <div className={pageStyles.contactContainer}>
-              <div className={pageStyles.formContainer}>
-                  <form name="contact" method="POST" data-netlify="true">
-                    <p>
-                      <label>Your Name:<br/><input type="text" name="name"/></label>
-                    </p>
-                    <p>
-                      <label>Your Email:<br/><input type="email" name="email"/></label>
-                    </p>
-                    <p>
-                      <label>What's your message about? <br/><select name="category[]" dropdown>
-                        <option value="General">General</option>
-                        <option value="Work Availability">Work Availability</option>
-                        <option value="Partnership Idea">Partnership Idea</option>
-                        <option value="Content Request">Content Request</option>
-                        </select></label>
-                    </p>
-                    <p>
-                      <label>Your Message:<br/><textarea name="message"></textarea></label>
-                    </p>
-                    <p>
-                      <button type="submit">Submit</button>
-                    </p>
-                  </form>
-              </div>
-              <div className={pageStyles.socialMediaContainer}>
-                <div className={pageStyles.socialMediaItem}><FaInstagram/><h5>@conermmurphy</h5></div>
-                <div className={pageStyles.socialMediaItem}><FaTwitter/><h5>@conermurphy</h5></div>
-                <div className={pageStyles.socialMediaItem}><FaGithub/><h5>Coner Murphy</h5></div>
-                <div className={pageStyles.socialMediaItem}><FaEnvelope/><h5><a>coner@conermurphy.com</a></h5></div>
-              </div>
-          </div>
+          <SocialMediaLinks/>
         </section>
       </Layout>
     </div>
