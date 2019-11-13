@@ -1,5 +1,5 @@
 import React from 'react'
-import {FaInstagram, FaTwitter, FaGithub, FaEnvelope, FaRegWindowClose } from "react-icons/fa"
+import {FaInstagram, FaTwitter, FaGithub, FaEnvelope, FaRegWindowClose, FaPaperPlane } from "react-icons/fa"
 import styled from 'styled-components'
 
 const ContactContainer = styled.div`
@@ -40,9 +40,6 @@ const SocialMediaItem = styled.div`
 `
 
 const FormContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -54,18 +51,80 @@ const FormContainer = styled.div`
     width: ${props => props.formContainerOpen ? '100vw' : '0vw'};
     height: ${props => props.formContainerOpen ? '100vh' : '0vh'};
     transition: 0.5s;
+    display: flex;
 `
 
 const Form = styled.form`
     opacity : ${props => props.formContainerOpen ? '100%' : '0%'};
     transition: 0.5s
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+`
+
+const FormLabelContainer = styled.p`
+    font-size: 1.25rem;
+    margin: 0.5rem
+`
+
+const Formlabel = styled.label`
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+`
+
+const Forminput = styled.input`
+    padding: 0.5rem;
+    width: 17.5rem;
+`
+
+const FormDropdown = styled.select`
+    padding: 0.5rem;
+    width: 17.5rem;
+    border: none;
+    background-color: white;
+`
+
+const FormTextArea = styled.textarea`
+    padding: 0.5rem;
+    height: 7.5rem;
+    width: 17.5rem;
 `
 
 const FormCloseButton = styled.a`
- & > svg {
-     width: 3rem;
-     height: 3rem;
- }
+    transition: 0.5s
+
+    & > svg {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    :hover {
+        transform: scale(1.25,1.25);
+    }
+`
+
+const FormSubmitButton = styled.button`
+    border: 2px solid white;
+    border-radius: 50%;
+    padding: 1rem;
+    color: white;
+    background-color: #1f2a51;
+    transition: 0.5s;
+    margin: 0.5rem;
+
+    :hover {
+        background-color: white;
+        color: #1f2a51;
+        transform: scale(1.25,1.25);
+    }
+
+    & > svg {
+        transform: translate(-2px, 1px);
+    }
 `
 
 class SocialMediaLinks extends React.Component {
@@ -110,27 +169,27 @@ class SocialMediaLinks extends React.Component {
         <ContactContainer>
             <FormContainer formContainerOpen={this.state.formContainerOpen}>
                   <Form formContainerOpen={this.state.formContainerOpen} ref={form => this.form = form} name="contact" method="POST" data-netlify="true">
-                    <p>
-                      <label>Your Name:<br/><input type="text" name="name"/></label>
-                    </p>
-                    <p>
-                      <label>Your Email:<br/><input type="email" name="email"/></label>
-                    </p>
-                    <p>
-                      <label>What's your message about? <br/><select name="category[]" dropdown>
+                    <FormCloseButton onClick={this.closeContactForm.bind(this)}><FaRegWindowClose/></FormCloseButton>
+                    <FormLabelContainer>
+                      <Formlabel>Your Name:<br/><Forminput type="text" name="name"/></Formlabel>
+                    </FormLabelContainer>
+                    <FormLabelContainer>
+                      <Formlabel>Your Email:<br/><Forminput type="email" name="email"/></Formlabel>
+                    </FormLabelContainer>
+                    <FormLabelContainer>
+                      <Formlabel>What's your message about? <br/><FormDropdown name="category[]" dropdown>
                         <option value="General">General</option>
                         <option value="Work Availability">Work Availability</option>
                         <option value="Partnership Idea">Partnership Idea</option>
                         <option value="Content Request">Content Request</option>
-                        </select></label>
-                    </p>
-                    <p>
-                      <label>Your Message:<br/><textarea name="message"></textarea></label>
-                    </p>
-                    <p>
-                      <button type="submit">Submit</button>
-                    </p>
-                    <FormCloseButton onClick={this.closeContactForm.bind(this)}><FaRegWindowClose/></FormCloseButton>
+                        </FormDropdown></Formlabel>
+                    </FormLabelContainer>
+                    <FormLabelContainer>
+                      <Formlabel>Your Message:<br/><FormTextArea name="message"></FormTextArea></Formlabel>
+                    </FormLabelContainer>
+                    <FormLabelContainer>
+                      <FormSubmitButton type="submit"><FaPaperPlane/></FormSubmitButton>
+                    </FormLabelContainer>
                   </Form>
             </FormContainer>
             <SocialMediaContainer>
