@@ -3,6 +3,7 @@ import { graphql } from "gatsby"
 import Img from 'gatsby-image'
 import Layout from '../components/layout'
 import ShareMenu from '../components/shareMenu'
+import AuthorCard from '../components/authorCard'
 import blogPostStyles from "../styles/blogPostStyles.module.css"
 import pageStyles from "../styles/pageStyles.module.css"
 import {FaArrowLeft} from 'react-icons/fa';
@@ -17,6 +18,7 @@ export const query = graphql`
         date(formatString: "DDMMYYYY")
         tags
         id
+        authorid
         languages
         featuredImage {
           childImageSharp {
@@ -53,6 +55,7 @@ export default ({ data }) => {
               </div>
               <div className={blogPostStyles.content} dangerouslySetInnerHTML={{ __html: data.markdownRemark.html }}/>
             </div>
+            <AuthorCard id={data.markdownRemark.frontmatter.authorid}/>
         </Layout>
   )
 }

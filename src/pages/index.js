@@ -24,6 +24,7 @@ const Index = () => {
               title
               description
               id
+              authorid
               category
               tags
               languages

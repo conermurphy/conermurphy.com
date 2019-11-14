@@ -17,6 +17,7 @@ export default () => {
               title
               description
               id
+              authorid
               category
               tags
             }

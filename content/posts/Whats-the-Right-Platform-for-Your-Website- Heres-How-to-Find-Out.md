@@ -3,6 +3,7 @@ title: "What’s the Right Platform for Your Website? Here’s How to Find Out."
 description: "Choosing the Right Platform for Your next Site Doesn’t Need to Be Hard."
 date: "2019-08-19"
 id: "1"
+authorid: "0"
 category: "Test Category"
 languages: ["ReactJS","HTML"]
 featuredImage: ../media/images/08-19/Whats-the-Right-Platform-for-Your-Website/Whats-the-Right-Platform-for-Your-Website.jpg
