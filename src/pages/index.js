@@ -4,9 +4,12 @@ import InstaFeed from "../components/instaFeed.js"
 import BlogPost from "../components/blogPost.js"
 import ContactLinks from "../components/contactLinks"
 import {Link, useStaticQuery, graphql} from 'gatsby'
-import pageStyles from '../styles/pageStyles.module.css'
 import { FaBookmark} from "react-icons/fa"
 import styled from 'styled-components'
+
+const PageContainer = styled.div`
+
+`
 
 const SectionContainer = styled.section`
     margin-top: 3rem;
@@ -71,7 +74,7 @@ const Index = () => {
   )
 
   return (
-    <div className={pageStyles.pageContainer}>
+    <PageContainer>
       <Layout>
         <SectionContainer id="home">
           <h1>CONER MURPHY</h1>
@@ -108,7 +111,7 @@ const Index = () => {
         </SectionContainer>
 
       </Layout>
-    </div>
+    </PageContainer>
     
   )
 }

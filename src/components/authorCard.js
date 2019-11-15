@@ -42,7 +42,12 @@ const SocialMediaIcon = styled.a`
     & > svg {
         width: 1.5rem;
         height: 1.5rem;
-        margin-right: 1rem
+        margin-right: 1rem;
+        transition: 0.2s;
+    }
+
+    & > svg:hover {
+        transform: scale(1.25,1.25);
     }
 `
 
@@ -50,7 +55,6 @@ const AuthorImg = styled.img`
     height: 7.5rem;
     width: 7.5rem;
     border-radius: 50%;
-    border: 3px solid #1f2a51;
     margin: 1rem;
 `
 
