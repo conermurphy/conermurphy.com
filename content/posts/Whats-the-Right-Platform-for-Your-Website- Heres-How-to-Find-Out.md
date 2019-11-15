@@ -158,8 +158,7 @@ Want to discuss this article? Or, just say hi:
 [Website](https://www.conermurphy.com) | [Twitter](https://twitter.com/ConerMMurphy) | [Instagram](https://www.instagram.com/conermurphy/) | [Quora](https://www.quora.com/profile/Coner-Murphy) | [Medium](https://medium.com/@conermurphy)
 
 ### Further Reading / Sources
-
-- * According to https://hostingtribunal.com/blog/wordpress-statistics/
+- According to https://hostingtribunal.com/blog/wordpress-statistics/
 - https://www.squarespace.com/
 - https://www.gatsbyjs.org/
 - https://wordpress.org/

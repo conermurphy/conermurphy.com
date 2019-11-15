@@ -1,28 +1,56 @@
 import React from 'react'
 import styled from 'styled-components'
 import {useStaticQuery} from 'gatsby'
+import {FaTwitter, FaInstagram, FaGithub} from 'react-icons/fa'
 
 const AuthorCardContainer = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    -webkit-box-shadow: 0px 0px 10px 0px rgba(153,153,153,0.7);
-    -moz-box-shadow: 0px 0px 10px 0px rgba(153,153,153,0.7);
-    box-shadow: 0px 0px 10px 0px rgba(153,153,153,0.7);
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 30vw;
+    margin: 0rem 2.5rem;
+    border: 2px solid;
+    padding: 1rem
 `
 
-const AuthorDescription = styled.div`
+const AuthorInfo = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    margin-top: 1.5rem;
+    margin-left: 1.5rem;
 `
+
+const AuthorTitle = styled.h3`
+    margin: 0;
+`
+
+const AuthorDescription = styled.p`
+
+`
+
+const AuthorSocialMedia = styled.div`
+
+`
+
+const SocialMediaIcon = styled.a`
+    text-decoration: none;
+    color: black;
+
+    & > svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 1rem
+    }
+`
+
 const AuthorImg = styled.img`
-    height: 10rem;
-    width: 10rem;
-    border-radius: 10px;
-    border: 5px solid #1f2a51;
+    height: 7.5rem;
+    width: 7.5rem;
+    border-radius: 50%;
+    border: 3px solid #1f2a51;
     margin: 1rem;
 `
 
@@ -47,10 +75,15 @@ const AuthorCard = (props) => {
     return(
         <AuthorCardContainer>
             <AuthorImg src={data.allAuthorsJson.edges[props.id].node.profileImg}/>
-            <AuthorDescription>
-                <h3>{data.allAuthorsJson.edges[props.id].node.Name}</h3>
-                <p>{data.allAuthorsJson.edges[props.id].node.Description}</p>
-            </AuthorDescription>
+            <AuthorInfo>
+                <AuthorTitle>{data.allAuthorsJson.edges[props.id].node.Name}</AuthorTitle>
+                <AuthorDescription>{data.allAuthorsJson.edges[props.id].node.Description}</AuthorDescription>
+                <AuthorSocialMedia>
+                    <SocialMediaIcon href="/"><FaTwitter/></SocialMediaIcon>
+                    <SocialMediaIcon href="/"><FaInstagram/></SocialMediaIcon>
+                    <SocialMediaIcon href="/"><FaGithub/></SocialMediaIcon>
+                </AuthorSocialMedia>
+            </AuthorInfo>
         </AuthorCardContainer>
     )
 }

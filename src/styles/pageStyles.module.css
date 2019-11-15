@@ -42,6 +42,10 @@
     align-items: center;
 }
 
+.blogPostIDCategoryContainer > * {
+    margin-bottom: 0;
+}
+
 .blogPostID {
     height: 1.5rem;
     width: 1.5rem;
