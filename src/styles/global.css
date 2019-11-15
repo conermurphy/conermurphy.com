@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600|Source+Code+Pro:300,400,500&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600|Hind:300,400,500&display=swap');
 
 h1  {
     font-family: 'Montserrat', sans-serif;
@@ -34,11 +34,11 @@ h5  {
 }
 
 p, li   {
-    font-family: 'Source Code Pro', monospace;
+    font-family: 'Hind', sans-serif;
     font-size: 1.1rem;
     font-weight: 300;
     margin-top: 0;
-    line-height: 1.75rem;
+    line-height: 2rem;
 }
 
 hr  {
@@ -50,4 +50,10 @@ hr  {
 ul  {
     padding: 1rem;
     margin: 1rem;
+}
+
+a {
+    text-decoration: underline;
+    color: black;
+    font-weight: 400;
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import {useStaticQuery, graphql} from 'gatsby'
+import {useStaticQuery, graphql, Link} from 'gatsby'
 import sidebarStyles from './styles/sidebarStyles.module.css'
 import {FaTwitter,FaInstagram,FaEnvelope,FaGithub} from 'react-icons/fa';
 
@@ -25,9 +25,9 @@ const Sidebar = () => {
                 </svg>
                 <h1 className={sidebarStyles.title}>{data.site.siteMetadata.title.slice(0,5)}<br/>{data.site.siteMetadata.title.slice(5)}</h1>
                 <nav className={sidebarStyles.navContainer}>
-                    <a href="/">Home</a>
-                    <a href="/#blog">Blog</a>
-                    <a href="/#contact">Contact</a>
+                    <Link to="/">Home</Link>
+                    <Link to="/#blog">Blog</Link>
+                    <Link to="/#contact">Contact</Link>
                 </nav>
             </div>
             <div className={sidebarStyles.sidebarBottom}>
