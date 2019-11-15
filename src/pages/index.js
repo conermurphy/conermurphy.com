@@ -1,14 +1,29 @@
 import React from "react"
 import Layout from "../components/layout"
 import InstaFeed from "../components/instaFeed.js"
+import BlogPost from "../components/blogPost.js"
+import ContactLinks from "../components/contactLinks"
 import {Link, useStaticQuery, graphql} from 'gatsby'
 import pageStyles from '../styles/pageStyles.module.css'
 import { FaBookmark} from "react-icons/fa"
-import ContactLinks from "../components/contactLinks"
 import styled from 'styled-components'
 
 const SectionContainer = styled.section`
     margin-top: 3rem;
+`
+
+const BlogContainerOuter = styled.div`
+    display: flex;
+    flex-direction: column; 
+
+    & > a {
+      color: black;
+      transition: 0.5s;
+    }
+
+    & > a:hover {
+      transform: scale(1.1,1.1);
+    }
 `
 
 const Index = () => {
@@ -66,50 +81,18 @@ const Index = () => {
         <SectionContainer id="blog">
           <h2>BLOG</h2>
           <p>Everything Web Related and a bit more...</p>
-          <div className={pageStyles.blogContainerOuter}>
+          <BlogContainerOuter>
 
             {data.writing.edges.map(({ node }) => (
               <Link to={node.fields.slug} style={{textDecoration:`none`}} key={node.id}>
-              <div className={pageStyles.blogPostContainer}>
-                <div className={pageStyles.blogPostLeftContainer}>
-                  <div className={pageStyles.blogPostIDCategoryContainer}>
-                    <h4 className={pageStyles.blogPostID}>#{node.frontmatter.id}</h4>
-                    <h4 className={pageStyles.blogPostCategory}>{node.frontmatter.category}</h4>
-
-                      {node.frontmatter.languages.map( lan => 
-                          <h4 className={pageStyles.blogPostLanguages} key={lan}>{lan}</h4>
-                      )}
-                      
-                  </div>
-                  <h3 className={pageStyles.blogPostTitle}>{node.frontmatter.title}</h3>
-                  <p>{node.frontmatter.description}</p>  
-                </div>
-                <div className={pageStyles.blogPostRightContainer}>
-                  <div className={pageStyles.blogPostDateContainer}>  
-                    <h4 className={pageStyles.blogPostDate}>{node.frontmatter.date}</h4>
-                  </div>
-                </div>
-              </div>
+                <BlogPost id={node.frontmatter.id} category={node.frontmatter.category} languages={node.frontmatter.languages} title={node.frontmatter.title} description={node.frontmatter.description} date={node.frontmatter.date}/>
               </Link>
             ))}
 
             <Link to='/blog' style={{textDecoration:`none`}}>
-              <div className={pageStyles.blogPostContainer} style={{marginBottom:`0`}}>
-                <div className={pageStyles.blogPostLeftContainer}>
-                  <div className={pageStyles.blogPostIDCategoryContainer}>
-                    <h4 className={pageStyles.blogPostCategory}>View More</h4>
-                  </div>
-                  <h3 className={pageStyles.blogPostTitle}>View More Blog Posts...</h3>
-                  <p>If you like some of the posts you've seen above, you can see all of the posts I've written by clicking here.</p>  
-                </div>
-                <div className={pageStyles.blogPostRightContainer}>
-                  <div className={pageStyles.blogPostDateContainer}>  
-                    <h4 className={pageStyles.blogPostDate}><FaBookmark/></h4>
-                  </div>
-                </div>
-              </div>
+              <BlogPost id={null} category={"View More"} languages={null} title={"View More Blog Posts..."} description={"If you like some of the posts you've seen above, you can see all of the posts I've written by clicking here."} date={<FaBookmark/>}/>
               </Link>
-          </div>
+          </BlogContainerOuter>
         </SectionContainer>
 
         <SectionContainer id="work">

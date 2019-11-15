@@ -1,8 +1,23 @@
 import React from "react"
-import { Link, graphql, useStaticQuery } from "gatsby"
 import SEO from '../components/seo'
-import pageStyles from '../styles/pageStyles.module.css'
 import Layout from "../components/layout"
+import BlogPost from "../components/blogPost"
+import { Link, graphql, useStaticQuery } from "gatsby"
+import styled from 'styled-components'
+
+const BlogContainerOuter = styled.div`
+    display: flex;
+    flex-direction: column; 
+
+    & > a {
+      color: black;
+      transition: 0.5s;
+    }
+
+    & > a:hover {
+      transform: scale(1.1,1.1);
+    }
+`
 
 export default () => {
   const data = useStaticQuery(
@@ -18,6 +33,7 @@ export default () => {
               description
               id
               authorid
+              languages
               category
               tags
             }
@@ -35,30 +51,16 @@ export default () => {
     return (
         <Layout>
           <SEO title="Coner Murphy"/>
-            <main id="blog" className={pageStyles.Container}>
+            <main id="blog">
               <h2>BLOG</h2>
               <p>Everything Web Related and a bit more...</p>
-              <div className={pageStyles.blogContainerOuter}>
+              <BlogContainerOuter>
                 {data.writing.edges.map(({ node }) => (
                   <Link to={node.fields.slug} style={{textDecoration:`none`}} key={node.id}>
-                  <div className={pageStyles.blogPostContainer}>
-                    <div className={pageStyles.blogPostLeftContainer}>
-                      <div className={pageStyles.blogPostIDCategoryContainer}>
-                        <h4 className={pageStyles.blogPostID}>#{node.frontmatter.id}</h4>
-                        <h4 className={pageStyles.blogPostCategory}>{node.frontmatter.category}</h4>
-                      </div>
-                      <h3 className={pageStyles.blogPostTitle}>{node.frontmatter.title}</h3>
-                      <p>{node.frontmatter.description}</p>  
-                    </div>
-                    <div className={pageStyles.blogPostRightContainer}>
-                      <div className={pageStyles.blogPostDateContainer}>  
-                        <h4 className={pageStyles.blogPostDate}>{node.frontmatter.date}</h4>
-                      </div>
-                    </div>
-                  </div>
+                    <BlogPost id={node.frontmatter.id} category={node.frontmatter.category} languages={node.frontmatter.languages} title={node.frontmatter.title} description={node.frontmatter.description} date={node.frontmatter.date}/> 
                   </Link>
                 ))}
-              </div>
+              </BlogContainerOuter>
           </main>
         </Layout>
     )
