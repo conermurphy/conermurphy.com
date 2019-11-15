@@ -56,7 +56,7 @@ const InstaFeed = () => {
     const data = useStaticQuery(
         graphql`
         query {
-            allInstaNode(limit: 6, filter: {caption: {regex: "/cat/"}}) {
+            allInstaNode(limit: 6, filter: {caption: {regex: "/web/"}}) {
               edges {
                 node {
                   id
@@ -94,8 +94,8 @@ const InstaFeed = () => {
     return(
         <InstaFeedContainer>
             {data.allInstaNode.edges.map(( { node } ) => (
-                <InstaImgLink href={`https://www.instagram.com/p/${node.id}/`} >
-                    <InstaImg key={node.id} fluid={node.localFile.childImageSharp.fluid}/>
+                <InstaImgLink key={node.id} href={`https://www.instagram.com/p/${node.id}/`} >
+                    <InstaImg fluid={node.localFile.childImageSharp.fluid}/>
                     <InstaImgStatsContainer>
                         <InstaImgStats><FaHeart/> {node.likes}</InstaImgStats>
                         <InstaImgStats><FaComment/> {node.comments === 0 ? node.comments : 0}</InstaImgStats>

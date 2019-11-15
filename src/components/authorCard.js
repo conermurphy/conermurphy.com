@@ -79,9 +79,9 @@ const AuthorCard = (props) => {
                 <AuthorTitle>{data.allAuthorsJson.edges[props.id].node.Name}</AuthorTitle>
                 <AuthorDescription>{data.allAuthorsJson.edges[props.id].node.Description}</AuthorDescription>
                 <AuthorSocialMedia>
-                    <SocialMediaIcon href="/"><FaTwitter/></SocialMediaIcon>
-                    <SocialMediaIcon href="/"><FaInstagram/></SocialMediaIcon>
-                    <SocialMediaIcon href="/"><FaGithub/></SocialMediaIcon>
+                    <SocialMediaIcon href="https://twitter.com/ConerMMurphy" target="_blank" rel="noopener noreferrer"><FaTwitter/></SocialMediaIcon>
+                    <SocialMediaIcon href="https://www.instagram.com/conermurphy/" target="_blank" rel="noopener noreferrer"><FaInstagram/></SocialMediaIcon>
+                    <SocialMediaIcon href="https://github.com/conermurphy" target="_blank" rel="noopener noreferrer"><FaGithub/></SocialMediaIcon>
                 </AuthorSocialMedia>
             </AuthorInfo>
         </AuthorCardContainer>

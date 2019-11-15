@@ -1,6 +1,6 @@
 import React from 'react'
 import {useStaticQuery, graphql, Link} from 'gatsby'
-import {FaTwitter,FaInstagram,FaEnvelope,FaGithub} from 'react-icons/fa';
+import {FaTwitter,FaInstagram,FaGithub} from 'react-icons/fa';
 import logo from '../../content/media/assets/CM-Logo-2019.gif'
 import styled from 'styled-components'
 
@@ -40,11 +40,20 @@ const NavContainer = styled.nav`
     }
 `
 
-const SocialMediaContainer = styled.div`
-    & > a {
-        padding: 0.5rem;
-        color: white;
-        font-size: 2rem;
+const SocialMediaItem = styled.a`
+    padding: 0.5rem;
+    color: white;
+    font-size: 2rem;
+    transition: 0.5s;
+
+    & > svg {
+        transition: 0.2s;
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    & > svg:hover {
+        transform: scale(1.25,1.25);
     }
 `
 
@@ -81,12 +90,11 @@ const Sidebar = () => {
                 </NavContainer>
             </SidebarTop>
             <div>
-                <SocialMediaContainer>
-                    <a href="/"><FaTwitter/></a>
-                    <a href="/"><FaInstagram/></a>
-                    <a href="/"><FaGithub/></a>
-                    <a href="/"><FaEnvelope/></a>
-                </SocialMediaContainer>
+                <div>
+                    <SocialMediaItem href="https://twitter.com/ConerMMurphy" target="_blank" rel="noopener noreferrer"><FaTwitter/></SocialMediaItem>
+                    <SocialMediaItem href="https://www.instagram.com/conermurphy/" target="_blank" rel="noopener noreferrer"><FaInstagram/></SocialMediaItem>
+                    <SocialMediaItem href="https://github.com/conermurphy" target="_blank" rel="noopener noreferrer"><FaGithub/></SocialMediaItem>
+                </div>
                 <Copyright>Copyright © 2019 <br/>Coner Murphy</Copyright>
             </div>
         </SidebarContainer>

@@ -39,6 +39,13 @@ const SocialMediaItem = styled.div`
     }
 `
 
+const OpenContactFormButton = styled.button`
+    webkit-appearance: none;
+    border: none;
+    background-color: transparent;
+    margin: -0.5rem;
+`
+
 const FormContainer = styled.div`
     position: fixed;
     transform: translate(-50%, -50%);
@@ -101,6 +108,7 @@ const FormCloseButton = styled.a`
     & > svg {
         width: 3rem;
         height: 3rem;
+        color: white;
     }
 
     :hover {
@@ -194,10 +202,10 @@ class ContactLinks extends React.Component {
                   </Form>
             </FormContainer>
             <SocialMediaContainer>
-                <a href="/"><SocialMediaItem><FaInstagram/></SocialMediaItem></a>
-                <a href="/"><SocialMediaItem><FaTwitter/></SocialMediaItem></a>
-                <a href="/"><SocialMediaItem><FaGithub/></SocialMediaItem></a>
-                <a onClick={this.openContactForm.bind(this)}><SocialMediaItem><FaEnvelope/></SocialMediaItem></a>
+                <a href="https://twitter.com/ConerMMurphy" target="_blank" rel="noopener noreferrer"><SocialMediaItem><FaTwitter/></SocialMediaItem></a>
+                <a href="https://www.instagram.com/conermurphy/" target="_blank" rel="noopener noreferrer"><SocialMediaItem><FaInstagram/></SocialMediaItem></a>
+                <a href="https://github.com/conermurphy" target="_blank" rel="noopener noreferrer"><SocialMediaItem><FaGithub/></SocialMediaItem></a>
+                <OpenContactFormButton onClick={this.openContactForm.bind(this)}><SocialMediaItem><FaEnvelope/></SocialMediaItem></OpenContactFormButton>
             </SocialMediaContainer>
         </ContactContainer>
         )

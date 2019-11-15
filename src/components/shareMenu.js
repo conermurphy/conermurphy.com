@@ -95,8 +95,8 @@ class ShareMenu extends React.Component {
     return (
         <ShareContainer ref={shareContainer => this.shareContainer = shareContainer}>
               <ShareButton onClick={this.openShare.bind(this)}><FaShareAlt/></ShareButton>
-              <ShareIcon shareOpen={this.state.shareOpen}><FaTwitter/></ShareIcon>
-              <ShareIcon shareOpen={this.state.shareOpen}><FaInstagram/></ShareIcon>
+              <ShareIcon shareOpen={this.state.shareOpen}><FaTwitter href=""/></ShareIcon>
+              <ShareIcon shareOpen={this.state.shareOpen}><FaInstagram href=""/></ShareIcon>
         </ShareContainer>
     )
     }
