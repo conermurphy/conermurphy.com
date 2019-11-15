@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {useStaticQuery} from 'gatsby'
+import {useStaticQuery, graphql} from 'gatsby'
 import {FaTwitter, FaInstagram, FaGithub} from 'react-icons/fa'
 
 const AuthorCardContainer = styled.div`
