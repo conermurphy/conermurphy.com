@@ -1,7 +1,59 @@
 import React from 'react'
 import {useStaticQuery, graphql, Link} from 'gatsby'
-import sidebarStyles from './styles/sidebarStyles.module.css'
 import {FaTwitter,FaInstagram,FaEnvelope,FaGithub} from 'react-icons/fa';
+import logo from '../../content/media/assets/CM-Logo-2019.gif'
+import styled from 'styled-components'
+
+const SidebarContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    background-color: #1f2a51;
+    width: 17.5vw;
+    height: 100vh;
+    min-width: 10rem;
+    padding: 4rem 2rem 2rem 2rem;
+    box-sizing: border-box;
+`
+
+const SidebarTop = styled.div`
+    text-align: center;
+`
+
+const Logo = styled.img`
+    width: 7.5rem;
+    height: 7.5rem;
+`
+
+const NavContainer = styled.nav`
+    display: flex;
+    flex-direction: column;
+
+    & > a {
+        font-size: 1.5rem;
+        text-decoration: none;
+        padding: 0.5rem;
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+    }
+`
+
+const SocialMediaContainer = styled.div`
+    & > a {
+        padding: 0.5rem;
+        color: white;
+        font-size: 2rem;
+    }
+`
+
+const Copyright = styled.p`
+    font-size: 1rem;
+    color: white;
+    text-align: center;
+    margin-top: 1rem;
+`
 
 const Sidebar = () => {
 
@@ -18,28 +70,26 @@ const Sidebar = () => {
     )
 
     return (
-        <div className={sidebarStyles.sidebarContainer}>
-            <div className={sidebarStyles.sidebarTop}>
-                <svg width="100" height="100">
-                    <rect width="100" height="100" fill="white"/>
-                </svg>
-                <h1 className={sidebarStyles.title}>{data.site.siteMetadata.title.slice(0,5)}<br/>{data.site.siteMetadata.title.slice(5)}</h1>
-                <nav className={sidebarStyles.navContainer}>
+        <SidebarContainer>
+            <SidebarTop>
+                <Logo src={logo} alt="CM Logo"/>
+                <h1 style={{color:`white`}}>{data.site.siteMetadata.title.slice(0,5)}<br/>{data.site.siteMetadata.title.slice(5)}</h1>
+                <NavContainer>
                     <Link to="/">Home</Link>
                     <Link to="/#blog">Blog</Link>
                     <Link to="/#contact">Contact</Link>
-                </nav>
-            </div>
-            <div className={sidebarStyles.sidebarBottom}>
-                <div className={sidebarStyles.socialMediaContainer}>
+                </NavContainer>
+            </SidebarTop>
+            <div>
+                <SocialMediaContainer>
                     <a href="/"><FaTwitter/></a>
                     <a href="/"><FaInstagram/></a>
                     <a href="/"><FaGithub/></a>
                     <a href="/"><FaEnvelope/></a>
-                </div>
-                <p className={sidebarStyles.copyright}>Copyright © 2019 <br/>Coner Murphy</p>
+                </SocialMediaContainer>
+                <Copyright>Copyright © 2019 <br/>Coner Murphy</Copyright>
             </div>
-        </div>
+        </SidebarContainer>
     )
 }
 
