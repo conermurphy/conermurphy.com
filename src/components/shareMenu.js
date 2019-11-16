@@ -1,9 +1,12 @@
 import React from 'react'
 import {FaShareAlt, FaTwitter, FaInstagram} from 'react-icons/fa'
 import styled from 'styled-components'
+import { device } from '../components/device'
 
 const ShareContainer = styled.section`
-
+    @media ${device.mobileL} {
+        display: none;
+    }
 `
 
 const ShareButton = styled.a`

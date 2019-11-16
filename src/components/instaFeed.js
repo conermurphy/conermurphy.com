@@ -12,9 +12,10 @@ const InstaFeedContainer = styled.section`
     justify-content: flex-start;
 
     @media ${device.mobileL} {
-        grid-template-areas : '1';
-        justify-content: center;
+        grid-template-areas : '1 2';
+        justify-content: flex-start;
         z-index: 1;
+        grid-gap: 1rem;
     }
 `
 
@@ -30,6 +31,11 @@ const InstaImg = styled(Img)`
 
     :hover  {
         transform: scale(1.05,1.05);
+    }
+
+    @media ${device.mobileL} {
+        width: 150px;
+        height: 150px;
     }
 `
 
@@ -50,6 +56,10 @@ const InstaImgStatsContainer = styled.div`
         opacity: 100;
         background-color: #1f2a51;
         padding: 0.5rem;
+    }
+
+    @media ${device.mobileL} {
+        display: none;
     }
 `
 

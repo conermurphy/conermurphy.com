@@ -16,6 +16,10 @@ const PageContainer = styled.div`
 const SectionTitle = styled.h2`
   border-top: 3px solid #1f2a51;
   width: fit-content;
+
+  @media ${device.mobileL} {
+    margin-top: 0rem;
+  }
 `
 
 const SectionContainer = styled.section`
@@ -24,7 +28,7 @@ const SectionContainer = styled.section`
     flex-direction: column;
 
     @media ${device.mobileL} {
-      margin-top: 0rem;
+      margin-top: 3rem;
     }
 
 `
@@ -91,8 +95,8 @@ const Index = () => {
     <PageContainer>
       <Layout>
         <SectionContainer id="home" style={{marginTop:`0rem`}}>
-          <h1>CONER MURPHY</h1>
-          <p>Some amazing text that is all about me, what I aim to do and how this website will change the world</p>
+          <h1 style={{marginBottom:`1rem`}}>CONER MURPHY</h1>
+          <p style={{marginBottom:`0`}}>Some amazing text that is all about me, what I aim to do and how this website will change the world</p>
         </SectionContainer>
 
         <SectionContainer id="blog">

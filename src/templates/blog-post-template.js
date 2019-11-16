@@ -66,6 +66,8 @@ const BlogPostLanguages = styled.h4`
     margin-bottom: 0rem;
 
     @media ${device.mobileL} {
+        margin-top: 1rem;
+
         :first-child {
             margin-left: 0rem;
         }
@@ -134,6 +136,10 @@ const BackArrow = styled.div`
     background-color: #1f2a51;
     color: white;
   }
+
+  @media ${device.mobileL} {
+    display: none;
+  }
 `
 
 const BlogPostDateContainer = styled.div`
@@ -149,6 +155,10 @@ const BlogPostDateContainer = styled.div`
   align-items: center;
   justify-content: center;
   border: 2px solid #1f2a51;
+
+  @media ${device.mobileL} {
+    display: none;
+  }
 `
 
 const BlogPostDate = styled.h4`

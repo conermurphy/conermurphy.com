@@ -84,6 +84,7 @@ const BlogPostLanguages = styled.h4`
     margin-bottom: 0rem;
 
     @media ${device.mobileL} {
+        margin-top: 1rem;
         :first-child {
             margin-left: 0rem;
         }

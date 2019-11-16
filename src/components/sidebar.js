@@ -21,7 +21,7 @@ const SidebarContainer = styled.div`
     @media ${device.mobileL} {
         z-index: 999;
         display: flex;
-        flex-direction: row;
+        flex-direction: ${props => props.isMenuOpen ? 'column' : 'row'}
         width: 100vw;
         height: ${props => props.isMenuOpen ? '100vh' : 'auto'}
         padding: ${props => props.isMenuOpen ? '2rem' : '0rem 1rem'}
@@ -36,16 +36,25 @@ const SidebarTop = styled.div`
     align-items: center;
 
     @media ${device.mobileL} {
-        flex-direction: row;
+        flex-direction: ${props => props.isMenuOpen ? 'column' : 'row'}
         width: 100vw
     }
 `
 
 const MenuOpenButton = styled.button`
     display: none;
+    border: none;
+    background-color: transparent;
+    color: white;
+    padding: 1rem;
 
     @media ${device.mobileL} {
-        display: block;
+        display: ${props => props.isMenuOpen ? 'none' : 'block'};
+    }
+
+    & > svg {
+        width: 1.5rem;
+        height: 1.5rem;
     }
 `
 
@@ -129,19 +138,22 @@ class Sidebar extends React.Component {
         }
     }
 
-    openMenu(e) {
+    openCloseMenu(e) {
         this.setState({
             isMenuOpen: !this.state.isMenuOpen
         })
     }
 
-    closeMenu(e) {
-        this.setState({
-            isMenuOpen: !this.state.isMenuOpen
-        })
-    }
+    // handleClick = (e) => {
+    //     if (this.sidebar.contains(e.target)) {
+    //         this.setState({
+    //             isMenuOpen: false
+    //         })
+    //     }
+        
+    // }
 
-    componentDidMount() {
+    componentWillMount() {
         document.addEventListener('mousedown',this.handleClick, false);
     }
 
@@ -151,16 +163,18 @@ class Sidebar extends React.Component {
 
     render() {
         return (
-            <SidebarContainer isMenuOpen={this.state.isMenuOpen}>
+            <SidebarContainer isMenuOpen={this.state.isMenuOpen} ref={sidebar => this.sidebar = sidebar}>
                 <SidebarTop isMenuOpen={this.state.isMenuOpen}>
-                    <Logo src={logo} alt="CM Logo"/>
+                    <Link to="/">
+                        <Logo src={logo} alt="CM Logo"/>
+                    </Link>
                     <Title isMenuOpen={this.state.isMenuOpen}>Coner<br/>Murphy</Title>
-                    <MenuOpenButton onClick={this.openMenu.bind(this)}><FaAlignRight/></MenuOpenButton>
+                    <MenuOpenButton isMenuOpen={this.state.isMenuOpen} onClick={this.openCloseMenu.bind(this)}><FaAlignRight/></MenuOpenButton>
                 </SidebarTop>
                 <NavContainer isMenuOpen={this.state.isMenuOpen}>
-                        <Link to="/">Home</Link>
-                        <Link to="/#blog">Blog</Link>
-                        <Link to="/#contact">Contact</Link>
+                        <Link onClick={this.openCloseMenu.bind(this)} to="/">Home</Link>
+                        <Link onClick={this.openCloseMenu.bind(this)} to="/#blog">Blog</Link>
+                        <Link onClick={this.openCloseMenu.bind(this)} to="/#contact">Contact</Link>
                 </NavContainer>
                 <SocialAndCopyrightContainer isMenuOpen={this.state.isMenuOpen}>
                     <div>

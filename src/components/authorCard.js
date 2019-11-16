@@ -13,10 +13,13 @@ const AuthorCardContainer = styled.div`
     width: fit-content;
 
     @media ${device.mobileL} {
-        flex-direction: column;
-        width: auto;
-        align-content: center;
-        justify-content: center;
+        flex-direction: row;
+        width: fit-content;
+        align-content: flex-start;
+        justify-content: flex-start;
+        margin-bottom: 0;
+        margin-top: -2rem;
+        border: none;
     }
 `
 
@@ -28,8 +31,7 @@ const AuthorInfo = styled.div`
     margin-left: 1.5rem;
     
     @media ${device.mobileL} {
-        align-items: center;
-        align-self: center;
+        align-items: flex-start;
         margin: 1rem;
     }
 `
@@ -80,7 +82,6 @@ const AuthorCard = (props) => {
                 edges {
                     node {
                     ID
-                    Description
                     Name
                     profileImg
                     }
