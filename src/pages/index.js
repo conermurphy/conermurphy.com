@@ -13,6 +13,11 @@ const PageContainer = styled.div`
   flex-direction: column;
 `
 
+const SectionTitle = styled.h2`
+  border-top: 3px solid #1f2a51;
+  width: fit-content;
+`
+
 const SectionContainer = styled.section`
     margin-top: 3rem;
     display: flex;
@@ -85,13 +90,13 @@ const Index = () => {
   return (
     <PageContainer>
       <Layout>
-        <SectionContainer id="home">
+        <SectionContainer id="home" style={{marginTop:`0rem`}}>
           <h1>CONER MURPHY</h1>
           <p>Some amazing text that is all about me, what I aim to do and how this website will change the world</p>
         </SectionContainer>
 
         <SectionContainer id="blog">
-          <h2>BLOG</h2>
+          <SectionTitle>BLOG</SectionTitle>
           <p>Everything Web Related and a bit more...</p>
           <BlogContainerOuter>
 
@@ -108,13 +113,13 @@ const Index = () => {
         </SectionContainer>
 
         <SectionContainer id="work">
-          <h2>WORK</h2>
+          <SectionTitle>WORK</SectionTitle>
           <p>Some of the stuff I've been working on.</p>
           <InstaFeed/>
         </SectionContainer>
 
         <SectionContainer id="contact"> 
-          <h2>CONTACT</h2>
+          <SectionTitle>CONTACT</SectionTitle>
           <p>This is a mock description which needs to be filled by an actual description at some point.</p>
           <ContactLinks/>
         </SectionContainer>

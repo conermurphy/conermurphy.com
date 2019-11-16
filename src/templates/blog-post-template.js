@@ -41,6 +41,7 @@ const BlogPostID = styled.h4`
     padding: 0.5rem;
     text-align: center;
     color: white;
+    margin-bottom: 0rem;
 `
 
 const BlogPostCategory = styled.h4`
@@ -52,6 +53,7 @@ const BlogPostCategory = styled.h4`
     width: fit-content;
     padding: .5rem;
     max-height: 1.5rem;  
+    margin-bottom: 0rem;
 `
 
 const BlogPostLanguages = styled.h4`
@@ -61,12 +63,12 @@ const BlogPostLanguages = styled.h4`
     width: fit-content;
     height: 1.5rem;
     margin-left: 1rem;
+    margin-bottom: 0rem;
 
     @media ${device.mobileL} {
         :first-child {
             margin-left: 0rem;
         }
-        margin-bottom: 0rem;
     }
 `
 
@@ -191,7 +193,7 @@ export default ({ data }) => {
             <ShareMenu/>
             <Container>
               <Img style={{width:`100%`, borderRadius:`2rem`, marginBottom:`2rem`}} fluid={data.markdownRemark.frontmatter.featuredImage.childImageSharp.fluid}/> 
-
+              <AuthorCard id={data.markdownRemark.frontmatter.authorid}/>
               <BlogPostInfoContainer>
                   <BlogPostIDCategoryContainer>
                     <BlogPostID>#{data.markdownRemark.frontmatter.id}</BlogPostID>
@@ -202,11 +204,11 @@ export default ({ data }) => {
                       <BlogPostLanguages key={lan}>{lan}</BlogPostLanguages>
                     )}
                   </BlogPostLanguagesContainer>
+                  
                 </BlogPostInfoContainer>
 
               <Content dangerouslySetInnerHTML={{ __html: data.markdownRemark.html }}/>
             </Container>
-            <AuthorCard id={data.markdownRemark.frontmatter.authorid}/>
         </Layout>
   )
 }

@@ -7,12 +7,10 @@ import {FaTwitter, FaInstagram, FaGithub} from 'react-icons/fa'
 const AuthorCardContainer = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    width: 30vw;
-    margin: 0rem 2.5rem;
-    border: 2px solid;
-    padding: 1rem
+    padding: 0.5rem;
+    border: 1px solid #1f2a51;
+    margin-bottom: 2rem;
+    width: fit-content;
 
     @media ${device.mobileL} {
         flex-direction: column;
@@ -27,7 +25,6 @@ const AuthorInfo = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    margin-top: 1.5rem;
     margin-left: 1.5rem;
     
     @media ${device.mobileL} {
@@ -39,25 +36,24 @@ const AuthorInfo = styled.div`
 
 const AuthorTitle = styled.h3`
     margin: 0;
-`
-
-const AuthorDescription = styled.p`
-
+    font-size: 1.25rem;
 `
 
 const AuthorSocialMedia = styled.div`
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
+    margin-top: 0.5rem;
 `
 
 const SocialMediaIcon = styled.a`
     text-decoration: none;
     color: black;
+    margin-right: 1rem;
 
     & > svg {
-        width: 1.5rem;
-        height: 1.5rem;
-        margin: 0rem 1rem 1rem 1rem;
+        width: 1.25rem;
+        height: 1.25rem;
         transition: 0.2s;
     }
 
@@ -67,10 +63,9 @@ const SocialMediaIcon = styled.a`
 `
 
 const AuthorImg = styled.img`
-    height: 7.5rem;
-    width: 7.5rem;
+    height: 3.5rem;
+    width: 3.5rem;
     border-radius: 50%;
-    margin: 1rem;
 
     @media ${device.mobileL} {
         align-self: center;
@@ -100,13 +95,13 @@ const AuthorCard = (props) => {
             <AuthorImg src={data.allAuthorsJson.edges[props.id].node.profileImg}/>
             <AuthorInfo>
                 <AuthorTitle>{data.allAuthorsJson.edges[props.id].node.Name}</AuthorTitle>
-                <AuthorDescription>{data.allAuthorsJson.edges[props.id].node.Description}</AuthorDescription>
                 <AuthorSocialMedia>
                     <SocialMediaIcon href="https://twitter.com/ConerMMurphy" target="_blank" rel="noopener noreferrer"><FaTwitter/></SocialMediaIcon>
                     <SocialMediaIcon href="https://www.instagram.com/conermurphy/" target="_blank" rel="noopener noreferrer"><FaInstagram/></SocialMediaIcon>
                     <SocialMediaIcon href="https://github.com/conermurphy" target="_blank" rel="noopener noreferrer"><FaGithub/></SocialMediaIcon>
                 </AuthorSocialMedia>
             </AuthorInfo>
+            
         </AuthorCardContainer>
     )
 }

@@ -11,29 +11,42 @@ const SidebarContainer = styled.div`
     justify-content: space-between;
     position: fixed;
     background-color: #1f2a51;
-    padding: ${props => props.isMenuOpen ? '4rem 2rem 2rem 2rem' : '0rem 1rem'}
+    padding: 2rem;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     width: 17.5vw;
     height: 100vh;
-    z-index: 999;
 
     @media ${device.mobileL} {
+        z-index: 999;
         display: flex;
         flex-direction: row;
         width: 100vw;
         height: ${props => props.isMenuOpen ? '100vh' : 'auto'}
+        padding: ${props => props.isMenuOpen ? '2rem' : '0rem 1rem'}
     }
 `
 
 const SidebarTop = styled.div`
     text-align: center;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
-    width: 100vw;
     align-items: center;
+
+    @media ${device.mobileL} {
+        flex-direction: row;
+        width: 100vw
+    }
+`
+
+const MenuOpenButton = styled.button`
+    display: none;
+
+    @media ${device.mobileL} {
+        display: block;
+    }
 `
 
 const Logo = styled.img`
@@ -49,11 +62,15 @@ const Logo = styled.img`
 
 const Title = styled.h1`
     color: white;
-    display: ${props => props.isMenuOpen ? 'block' : 'none'}
+    display: block;
+
+    @media ${device.mobileL} {
+        display: ${props => props.isMenuOpen ? 'block' : 'none'}
+    }
 `
 
 const NavContainer = styled.nav`
-    display: ${props => props.isMenuOpen ? 'flex' : 'none'}
+    display: flex;
     flex-direction: column;
     align-items: center;
     flex-grow: 1;
@@ -65,10 +82,19 @@ const NavContainer = styled.nav`
         color: white;
         font-family: 'Montserrat', sans-serif;
     }
+
+    @media ${device.mobileL} {
+        display: ${props => props.isMenuOpen ? 'flex' : 'none'}
+    }
 `
 
 const SocialAndCopyrightContainer = styled.div`
-    display: ${props => props.isMenuOpen ? 'block' : 'none'}
+    display: flex;
+    flex-direction: column;
+
+    @media ${device.mobileL} {
+        display: ${props => props.isMenuOpen ? 'flex' : 'none'};
+    }
 `
 
 const SocialMediaItem = styled.a`
@@ -129,7 +155,7 @@ class Sidebar extends React.Component {
                 <SidebarTop isMenuOpen={this.state.isMenuOpen}>
                     <Logo src={logo} alt="CM Logo"/>
                     <Title isMenuOpen={this.state.isMenuOpen}>Coner<br/>Murphy</Title>
-                    <button onClick={this.openMenu.bind(this)}><FaAlignRight/></button>
+                    <MenuOpenButton onClick={this.openMenu.bind(this)}><FaAlignRight/></MenuOpenButton>
                 </SidebarTop>
                 <NavContainer isMenuOpen={this.state.isMenuOpen}>
                         <Link to="/">Home</Link>

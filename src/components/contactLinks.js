@@ -58,8 +58,8 @@ const FormContainer = styled.div`
     height: ${props => props.formContainerOpen ? '100vh' : '0vh'};
     transition: 0.5s;
     display: flex;
-    top: ${props => props.formContainerOpen ? '50%' : '0%'};
-    left: ${props => props.formContainerOpen ? '50%' : '0%'};
+    top: 50%
+    left: 50%;
 `
 
 const Form = styled.form`
@@ -69,7 +69,7 @@ const Form = styled.form`
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    display: ${props => props.formContainerOpen ? 'flex' : 'none'};
+    display : ${props => props.formContainerOpen ? 'flex' : 'none'};
 `
 
 const FormLabelContainer = styled.p`

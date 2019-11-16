@@ -29,7 +29,7 @@ const InstaImg = styled(Img)`
     transition: 0.5s;
 
     :hover  {
-        transform: scale(1.1,1.1);
+        transform: scale(1.05,1.05);
     }
 `
 
@@ -49,7 +49,7 @@ const InstaImgStatsContainer = styled.div`
     ${InstaImgLink}:hover & {
         opacity: 100;
         background-color: #1f2a51;
-        padding: 1rem;
+        padding: 0.5rem;
     }
 `
 
