@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
+import { device } from '../components/device'
 import Img from 'gatsby-image'
 import {useStaticQuery, graphql} from 'gatsby'
 import { FaComment, FaHeart } from 'react-icons/fa';
@@ -9,6 +10,12 @@ const InstaFeedContainer = styled.section`
     grid-template-areas: '1 2 3';
     grid-gap: 1.5rem;
     justify-content: flex-start;
+
+    @media ${device.mobileL} {
+        grid-template-areas : '1';
+        justify-content: center;
+        z-index: 1;
+    }
 `
 
 const InstaImgLink = styled.a`
@@ -56,7 +63,7 @@ const InstaFeed = () => {
     const data = useStaticQuery(
         graphql`
         query {
-            allInstaNode(limit: 6, filter: {caption: {regex: "/web/"}}) {
+            allInstaNode(limit: 6, filter: {caption: {regex: "/cat/"}}) {
               edges {
                 node {
                   id

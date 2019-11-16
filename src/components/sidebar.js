@@ -1,35 +1,62 @@
 import React from 'react'
-import {useStaticQuery, graphql, Link} from 'gatsby'
-import {FaTwitter,FaInstagram,FaGithub} from 'react-icons/fa';
+import {Link} from 'gatsby'
+import {FaTwitter,FaInstagram,FaGithub, FaAlignRight} from 'react-icons/fa';
 import logo from '../../content/media/assets/CM-Logo-2019.gif'
 import styled from 'styled-components'
+import { device } from "./device"
 
 const SidebarContainer = styled.div`
-    display: flex;
-    flex-direction: column;
+    
     align-items: center;
     justify-content: space-between;
     position: fixed;
     background-color: #1f2a51;
+    padding: ${props => props.isMenuOpen ? '4rem 2rem 2rem 2rem' : '0rem 1rem'}
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     width: 17.5vw;
     height: 100vh;
-    min-width: 10rem;
-    padding: 4rem 2rem 2rem 2rem;
-    box-sizing: border-box;
+    z-index: 999;
+
+    @media ${device.mobileL} {
+        display: flex;
+        flex-direction: row;
+        width: 100vw;
+        height: ${props => props.isMenuOpen ? '100vh' : 'auto'}
+    }
 `
 
 const SidebarTop = styled.div`
     text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100vw;
+    align-items: center;
 `
 
 const Logo = styled.img`
-    width: 7.5rem;
     height: 7.5rem;
+    width: 7.5rem;
+
+    @media ${device.mobileL} {
+        height: ${props => props.isMenuOpen ? '7.5rem' : '2.5rem'}
+        width: ${props => props.isMenuOpen ? '7.5rem' : '2.5rem'}
+        padding: 1rem;
+    }
+`
+
+const Title = styled.h1`
+    color: white;
+    display: ${props => props.isMenuOpen ? 'block' : 'none'}
 `
 
 const NavContainer = styled.nav`
-    display: flex;
+    display: ${props => props.isMenuOpen ? 'flex' : 'none'}
     flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
 
     & > a {
         font-size: 1.5rem;
@@ -38,6 +65,10 @@ const NavContainer = styled.nav`
         color: white;
         font-family: 'Montserrat', sans-serif;
     }
+`
+
+const SocialAndCopyrightContainer = styled.div`
+    display: ${props => props.isMenuOpen ? 'block' : 'none'}
 `
 
 const SocialMediaItem = styled.a`
@@ -64,41 +95,58 @@ const Copyright = styled.p`
     margin-top: 1rem;
 `
 
-const Sidebar = () => {
+class Sidebar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isMenuOpen: false
+        }
+    }
 
-    const data = useStaticQuery(
-        graphql`
-            query {
-                site {
-                    siteMetadata {
-                        title
-                    }
-                }
-            }
-        `
-    )
+    openMenu(e) {
+        this.setState({
+            isMenuOpen: !this.state.isMenuOpen
+        })
+    }
 
-    return (
-        <SidebarContainer>
-            <SidebarTop>
-                <Logo src={logo} alt="CM Logo"/>
-                <h1 style={{color:`white`}}>{data.site.siteMetadata.title.slice(0,5)}<br/>{data.site.siteMetadata.title.slice(5)}</h1>
-                <NavContainer>
-                    <Link to="/">Home</Link>
-                    <Link to="/#blog">Blog</Link>
-                    <Link to="/#contact">Contact</Link>
+    closeMenu(e) {
+        this.setState({
+            isMenuOpen: !this.state.isMenuOpen
+        })
+    }
+
+    componentDidMount() {
+        document.addEventListener('mousedown',this.handleClick, false);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown',this.handleClick, false);
+    }
+
+    render() {
+        return (
+            <SidebarContainer isMenuOpen={this.state.isMenuOpen}>
+                <SidebarTop isMenuOpen={this.state.isMenuOpen}>
+                    <Logo src={logo} alt="CM Logo"/>
+                    <Title isMenuOpen={this.state.isMenuOpen}>Coner<br/>Murphy</Title>
+                    <button onClick={this.openMenu.bind(this)}><FaAlignRight/></button>
+                </SidebarTop>
+                <NavContainer isMenuOpen={this.state.isMenuOpen}>
+                        <Link to="/">Home</Link>
+                        <Link to="/#blog">Blog</Link>
+                        <Link to="/#contact">Contact</Link>
                 </NavContainer>
-            </SidebarTop>
-            <div>
-                <div>
-                    <SocialMediaItem href="https://twitter.com/ConerMMurphy" target="_blank" rel="noopener noreferrer"><FaTwitter/></SocialMediaItem>
-                    <SocialMediaItem href="https://www.instagram.com/conermurphy/" target="_blank" rel="noopener noreferrer"><FaInstagram/></SocialMediaItem>
-                    <SocialMediaItem href="https://github.com/conermurphy" target="_blank" rel="noopener noreferrer"><FaGithub/></SocialMediaItem>
-                </div>
-                <Copyright>Copyright © 2019 <br/>Coner Murphy</Copyright>
-            </div>
-        </SidebarContainer>
-    )
+                <SocialAndCopyrightContainer isMenuOpen={this.state.isMenuOpen}>
+                    <div>
+                        <SocialMediaItem href="https://twitter.com/ConerMMurphy" target="_blank" rel="noopener noreferrer"><FaTwitter/></SocialMediaItem>
+                        <SocialMediaItem href="https://www.instagram.com/conermurphy/" target="_blank" rel="noopener noreferrer"><FaInstagram/></SocialMediaItem>
+                        <SocialMediaItem href="https://github.com/conermurphy" target="_blank" rel="noopener noreferrer"><FaGithub/></SocialMediaItem>
+                    </div>
+                    <Copyright>Copyright © 2019<br/>Coner Murphy</Copyright>
+                </SocialAndCopyrightContainer>
+            </SidebarContainer>
+        )
+    }
 }
 
 export default Sidebar

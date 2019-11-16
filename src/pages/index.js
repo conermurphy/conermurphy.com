@@ -3,16 +3,25 @@ import Layout from "../components/layout"
 import InstaFeed from "../components/instaFeed.js"
 import BlogPost from "../components/blogPost.js"
 import ContactLinks from "../components/contactLinks"
+import { device } from '../components/device'
 import {Link, useStaticQuery, graphql} from 'gatsby'
 import { FaBookmark} from "react-icons/fa"
 import styled from 'styled-components'
 
 const PageContainer = styled.div`
-
+  display: flex;
+  flex-direction: column;
 `
 
 const SectionContainer = styled.section`
     margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+
+    @media ${device.mobileL} {
+      margin-top: 0rem;
+    }
+
 `
 
 const BlogContainerOuter = styled.div`

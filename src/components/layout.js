@@ -4,6 +4,7 @@ import Sidebar from './sidebar'
 import 'normalize.css' // Installing Normalize css
 import styled from 'styled-components'
 import '../styles/global.css'
+import {device} from './device'
 
 if (typeof window !== "undefined") {
   // eslint-disable-next-line global-require
@@ -11,14 +12,28 @@ if (typeof window !== "undefined") {
 }
 
 const LayoutContainer = styled.div`
-  display: grid;
-  grid-template-areas: 'sidebar main ';
-  grid-template-columns: 17.5vw auto ;
+    display: grid;
+    grid-template-areas: 'sidebar main ';
+    grid-template-columns: 17.5vw auto ;
+
+  @media ${device.mobileL} {
+    display: grid;
+    grid-template-areas: 'sidebar','main';
+    grid-template-columns: auto;
+  }
+    
 `
 
-const MainSectionContainer = styled.div`
-  grid-area: main;
+const MainSectionContainer = styled.div`{
+    grid-area: main;
     margin: 5rem 15rem;
+
+  @media ${device.mobileL} {
+    grid-area: main;
+    margin: 5rem 1rem 1rem 1rem;
+  }
+    
+    
 `
 
 // Template for other pages to use.

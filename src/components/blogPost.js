@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import { device } from '../components/device'
 
 const BlogPostContainer = styled.div`
     display: flex;
@@ -10,6 +11,11 @@ const BlogPostContainer = styled.div`
     box-shadow: 0px 0px 10px 0px rgba(153,153,153,0.7);
     padding: 1rem;
     margin-bottom: 2rem;
+    
+    @media ${device.mobileL} {
+        flex-wrap: wrap;
+        flex-direction: row-reverse;
+    }
 `
 
 const BlogPostLeftContainer = styled.div`
@@ -23,11 +29,27 @@ const BlogPostLeftContainer = styled.div`
 const BlogPostIDCategoryContainer = styled.div`
     display: flex;
     flex-direction: row;
+`
+
+const BlogPostInfoContainer = styled.div`
+    display: flex;
+    flex-direction: row;
     align-items: center;
 
     & > * {
         margin-bottom: 0;
     }
+
+    @media ${device.mobileL} {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+`
+
+const BlogPostLanguagesContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 `
 
 const BlogPostID = styled.h4`
@@ -47,6 +69,7 @@ const BlogPostCategory = styled.h4`
     width: -moz-fit-content;
     width: fit-content;
     padding: .5rem;
+    max-height: 1.5rem;  
 `
 
 const BlogPostLanguages = styled.h4`
@@ -56,6 +79,13 @@ const BlogPostLanguages = styled.h4`
     width: fit-content;
     height: 1.5rem;
     margin-left: 1rem;
+
+    @media ${device.mobileL} {
+        :first-child {
+            margin-left: 0rem;
+        }
+        margin-bottom: 0rem;
+    }
 `
 
 const BlogPostTitle = styled.h3`
@@ -93,15 +123,17 @@ const BlogPost = (props) => {
         return (
             <BlogPostContainer>
                 <BlogPostLeftContainer>
-                    <BlogPostIDCategoryContainer>
-                        <BlogPostID>#{props.id}</BlogPostID>
-                        <BlogPostCategory>{props.category}</BlogPostCategory>
-
+                    <BlogPostInfoContainer>
+                        <BlogPostIDCategoryContainer>
+                            <BlogPostID>#{props.id}</BlogPostID>
+                            <BlogPostCategory>{props.category}</BlogPostCategory>
+                        </BlogPostIDCategoryContainer>
+                        <BlogPostLanguagesContainer>
                             {props.languages.map( lan => 
                                 <BlogPostLanguages key={lan}>{lan}</BlogPostLanguages>
                             )}
-                            
-                    </BlogPostIDCategoryContainer>
+                        </BlogPostLanguagesContainer>
+                    </BlogPostInfoContainer>
                     <BlogPostTitle>{props.title}</BlogPostTitle>
                     <p>{props.description}</p>  
                 </BlogPostLeftContainer>

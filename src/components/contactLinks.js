@@ -14,6 +14,7 @@ const SocialMediaContainer = styled.div`
     flex-direction: row;
     justify-content: center;
     flex-grow: 1;
+    flex-wrap: wrap;
 `
 
 const SocialMediaItem = styled.div`

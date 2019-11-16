@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { device } from '../components/device'
 import {useStaticQuery, graphql} from 'gatsby'
 import {FaTwitter, FaInstagram, FaGithub} from 'react-icons/fa'
 
@@ -12,6 +13,13 @@ const AuthorCardContainer = styled.div`
     margin: 0rem 2.5rem;
     border: 2px solid;
     padding: 1rem
+
+    @media ${device.mobileL} {
+        flex-direction: column;
+        width: auto;
+        align-content: center;
+        justify-content: center;
+    }
 `
 
 const AuthorInfo = styled.div`
@@ -21,6 +29,12 @@ const AuthorInfo = styled.div`
     align-items: flex-start;
     margin-top: 1.5rem;
     margin-left: 1.5rem;
+    
+    @media ${device.mobileL} {
+        align-items: center;
+        align-self: center;
+        margin: 1rem;
+    }
 `
 
 const AuthorTitle = styled.h3`
@@ -32,7 +46,8 @@ const AuthorDescription = styled.p`
 `
 
 const AuthorSocialMedia = styled.div`
-
+    display: flex;
+    flex-direction: row;
 `
 
 const SocialMediaIcon = styled.a`
@@ -42,7 +57,7 @@ const SocialMediaIcon = styled.a`
     & > svg {
         width: 1.5rem;
         height: 1.5rem;
-        margin-right: 1rem;
+        margin: 0rem 1rem 1rem 1rem;
         transition: 0.2s;
     }
 
@@ -56,6 +71,10 @@ const AuthorImg = styled.img`
     width: 7.5rem;
     border-radius: 50%;
     margin: 1rem;
+
+    @media ${device.mobileL} {
+        align-self: center;
+    }
 `
 
 const AuthorCard = (props) => {
