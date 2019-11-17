@@ -78,7 +78,7 @@ const InstaFeed = () => {
     const data = useStaticQuery(
         graphql`
         query {
-            allInstaNode(limit: 4, filter: {caption: {regex: "/cat/"}}) {
+            allInstaNode(limit: 4) {
               edges {
                 node {
                   id

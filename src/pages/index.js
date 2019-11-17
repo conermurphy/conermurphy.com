@@ -124,7 +124,7 @@ const Index = () => {
     <PageContainer>
       <SEO title="Coner Murphy"/>
       <Layout>
-        <SectionContainer id="home" style={{marginBottom:0}}>
+        <SectionContainer id="home" style={{marginTop:0}}>
           <SiteTitle>CONER MURPHY</SiteTitle>
           <h2>FRONT-END WEB DEVELOPER</h2>
           <AboutMe>
@@ -138,7 +138,7 @@ const Index = () => {
 
         <SectionContainer id="blog">
           <SectionTitle>BLOG</SectionTitle>
-          <p>Everything Web Related and a bit more...</p>
+          <p>Everything Front-End related. HTML, CSS, JS and more. If you see something interesting or want to request a topic, please <Link to="/#contact">contact me.</Link></p>
           <BlogContainerOuter>
 
             {data.writing.edges.map(({ node }) => (
@@ -155,7 +155,7 @@ const Index = () => {
 
         <SectionContainer id="contact"> 
           <SectionTitle>CONTACT</SectionTitle>
-          <p>This is a mock description which needs to be filled by an actual description at some point.</p>
+          <p>Have a question you're itching to ask? Want to work on a project together? Or, just want to chat this is how to do it.</p>
           <ContactLinks/>
         </SectionContainer>
 

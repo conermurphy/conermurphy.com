@@ -53,7 +53,7 @@ export default () => {
           <SEO title="Coner Murphy | Blog"/>
             <main id="blog">
               <h2>BLOG</h2>
-              <p>Everything Web Related and a bit more...</p>
+              <p>Everything Front-End related. HTML, CSS, JS and more. If you see something interesting or want to request a topic, please <Link to="/#contact">contact me.</Link></p>
               <BlogContainerOuter>
                 {data.writing.edges.map(({ node }) => (
                   <Link to={node.fields.slug} style={{textDecoration:`none`}} key={node.id}>
