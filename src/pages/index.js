@@ -18,7 +18,7 @@ const SectionTitle = styled.h2`
   width: fit-content;
 
   @media ${device.mobileL} {
-    margin-top: 0rem;
+    margin-top: 1rem;
   }
 `
 

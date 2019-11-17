@@ -23,8 +23,10 @@ const SidebarContainer = styled.div`
         display: flex;
         flex-direction: ${props => props.isMenuOpen ? 'column' : 'row'}
         width: 100vw;
-        height: ${props => props.isMenuOpen ? '100vh' : 'auto'}
+        height: ${props => props.isMenuOpen ? '100vh' : '10vh'}
         padding: ${props => props.isMenuOpen ? '2rem' : '0rem 1rem'}
+        transform: translate(0, ${props => props.slide});
+        transition: 180ms linear;
     }
 `
 
@@ -134,7 +136,9 @@ class Sidebar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isMenuOpen: false
+            isMenuOpen: false,
+            lastScrollY: 0,
+            slide: '0vh'
         }
     }
 
@@ -153,17 +157,32 @@ class Sidebar extends React.Component {
         
     // }
 
+    handleScroll = () => {
+        const { lastScrollY } = this.state; 
+        const currentScrollY = window.scrollY;
+    
+    
+        if (currentScrollY > lastScrollY) {
+          this.setState({ slide: '-10vh' });
+        }  else  {
+          this.setState({ slide: '0vh' });
+        }
+        this.setState({ lastScrollY: currentScrollY });
+      };
+
     componentWillMount() {
-        document.addEventListener('mousedown',this.handleClick, false);
+        // document.addEventListener('mousedown',this.handleClick, false);
+        window.addEventListener('scroll', this.handleScroll);
     }
 
     componentWillUnmount() {
-        document.removeEventListener('mousedown',this.handleClick, false);
+        // document.removeEventListener('mousedown',this.handleClick, false);
+        window.removeEventListener('scroll', this.handleScroll);
     }
 
     render() {
         return (
-            <SidebarContainer isMenuOpen={this.state.isMenuOpen} ref={sidebar => this.sidebar = sidebar}>
+            <SidebarContainer isMenuOpen={this.state.isMenuOpen} slide={this.state.slide} ref={sidebar => this.sidebar = sidebar}>
                 <SidebarTop isMenuOpen={this.state.isMenuOpen}>
                     <Link to="/">
                         <Logo src={logo} alt="CM Logo"/>
