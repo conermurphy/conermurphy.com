@@ -20,7 +20,7 @@ const AuthorCardContainer = styled.div`
         margin-bottom: 0;
         margin-top: -2rem;
         border: none;
-    }
+    };
 `
 
 const AuthorInfo = styled.div`
@@ -33,7 +33,7 @@ const AuthorInfo = styled.div`
     @media ${device.mobileL} {
         align-items: flex-start;
         margin: 1rem;
-    }
+    };
 `
 
 const AuthorTitle = styled.h3`
@@ -57,11 +57,11 @@ const SocialMediaIcon = styled.a`
         width: 1.25rem;
         height: 1.25rem;
         transition: 0.2s;
-    }
+    };
 
     & > svg:hover {
         transform: scale(1.25,1.25);
-    }
+    };
 `
 
 const AuthorImg = styled.img`
@@ -71,7 +71,7 @@ const AuthorImg = styled.img`
 
     @media ${device.mobileL} {
         align-self: center;
-    }
+    };
 `
 
 const AuthorCard = (props) => {

@@ -19,7 +19,7 @@ const AboutTitle = styled.h4`
 
     @media ${device.tablet} {
       margin-top: 0rem;
-    }
+    };
 `
 
 const AboutSubTitle = styled.h5`
@@ -30,7 +30,6 @@ const EOA = styled.hr `
     border: 2px dashed #1f2a51;
     width: 20%;
     margin: 1rem auto;
-
 `
 
 const BlogPostIDCategoryContainer = styled.div`
@@ -48,12 +47,12 @@ const BlogPostInfoContainer = styled.div`
 
     & > * {
         margin-bottom: 0;
-    }
+    };
 
     @media ${device.tablet} {
         flex-direction: column;
         align-items: flex-start;
-    }
+    };
 `
 
 const BlogPostID = styled.h4`
@@ -63,7 +62,7 @@ const BlogPostID = styled.h4`
     text-align: center;
     color: white;
     margin-bottom: 0rem;
-    line-height: 1.5rem
+    line-height: 1.5rem;
 `
 
 const BlogPostCategory = styled.h4`
@@ -95,7 +94,7 @@ const BlogPostLanguageContainer = styled.div`
 
     :first-child {
       margin-left: 0rem;
-    }
+    };
 `
 
 const BlogPostLanguage = styled.h4`
@@ -118,11 +117,11 @@ const Container = styled.div`
 
   @media ${device.laptop} {
     margin-top: 0rem;
-  }
+  };
 
   @media ${device.tablet} {
     margin-top: 0rem;
-  }
+  };
 `
 
 const Content = styled.div`
@@ -130,20 +129,19 @@ const Content = styled.div`
   & > .gatsby-resp-image-wrapper {
     margin-bottom: 5rem;
     word-break: break-word;
-  }
+  };
 
   & > h3 {
     border-top: 5px solid #999999;
     padding: 1rem 0;
     border-bottom: 5px solid #999999;
-  }
+  };
 
   & > h4, h5 {
     border-bottom: 2px solid #333333;
     width: fit-content;
     margin-top: 1.5rem;
-  }
-
+  };
 `
 
 const BackArrow = styled.div`
@@ -168,22 +166,22 @@ const BackArrow = styled.div`
     width: 3.5rem;
     height: 3.5rem;
     border: none;
-  }
+  };
 
   & > button:hover {
     background-color: #1f2a51;
     color: white;
-  }
+  };
 
   @media ${device.laptop} {
     left: 90%;
     margin: 0rem;
     top: 12%;
-  }
+  };
 
   @media ${device.tablet} {
     display: none;
-  }
+  };
 `
 
 const BlogPostDateContainer = styled.div`
@@ -202,11 +200,11 @@ const BlogPostDateContainer = styled.div`
 
   @media ${device.laptop} {
     left: 90%;
-  }
+  };
 
   @media ${device.tablet} {
     display: none;
-  }
+  };
 `
 
 const BlogPostDate = styled.h4`
@@ -244,7 +242,6 @@ export default ({ data }) => {
   if (typeof window !== 'undefined') {
 
     if (window.innerWidth > device.mobileL) {
-
       return (
 
         <Layout>
@@ -314,6 +311,10 @@ export default ({ data }) => {
   )
 
     }
+  } else {
+    return(
+      null
+    )
   }
 }
 

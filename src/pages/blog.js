@@ -12,11 +12,11 @@ const BlogContainerOuter = styled.div`
     & > a {
       color: black;
       transition: 0.5s;
-    }
+    };
 
     & > a:hover {
       transform: scale(1.1,1.1);
-    }
+    };
 `
 
 export default () => {
@@ -50,7 +50,7 @@ export default () => {
   )
     return (
         <Layout>
-          <SEO title="Coner Murphy"/>
+          <SEO title="Coner Murphy | Blog"/>
             <main id="blog">
               <h2>BLOG</h2>
               <p>Everything Web Related and a bit more...</p>

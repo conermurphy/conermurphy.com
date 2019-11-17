@@ -15,13 +15,13 @@ const InstaFeedContainer = styled.section`
         grid-template-areas : '1 2 3 4';
         justify-content: flex-start;
         z-index: 1;
-    }
+    };
 
     @media ${device.mobileL} {
         grid-template-areas : '1 2';
         justify-content: flex-start;
         z-index: 1;
-    }
+    };
 `
 
 const InstaImgLink = styled.a`
@@ -36,12 +36,12 @@ const InstaImg = styled(Img)`
 
     :hover  {
         transform: scale(1.05,1.05);
-    }
+    };
 
     @media ${device.tablet} {
         width: 150px;
         height: 150px;
-    }
+    };
 `
 
 const InstaImgStatsContainer = styled.div`
@@ -61,11 +61,11 @@ const InstaImgStatsContainer = styled.div`
         opacity: 100;
         background-color: #1f2a51;
         padding: 0.5rem;
-    }
+    };
 
     @media ${device.tablet} {
         display: none;
-    }
+    };
 `
 
 const InstaImgStats = styled.p`
@@ -116,7 +116,7 @@ const InstaFeed = () => {
     return(
         <InstaFeedContainer>
             {data.allInstaNode.edges.map(( { node } ) => (
-                <InstaImgLink key={node.id} href={`https://www.instagram.com/p/${node.id}/`} >
+                <InstaImgLink aria-label={`Image from Instagram Feed with the caption: ${node.caption}`} key={node.id} href={`https://www.instagram.com/p/${node.id}/`} >
                     <InstaImg fluid={node.localFile.childImageSharp.fluid}/>
                     <InstaImgStatsContainer>
                         <InstaImgStats><FaHeart/> {node.likes}</InstaImgStats>

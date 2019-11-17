@@ -1,5 +1,5 @@
 ---
-title: "What’s the Right Platform for Your Website? Here’s How to Find Out."
+title: "What’s the Right Platform for Your Website Here’s How to Find Out."
 description: "Choosing the Right Platform for Your next Site Doesn’t Need to Be Hard."
 date: "2019-08-19"
 id: "1"

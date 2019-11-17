@@ -15,7 +15,7 @@ const BlogPostContainer = styled.div`
     @media ${device.mobileL} {
         flex-wrap: wrap;
         flex-direction: row-reverse;
-    }
+    };
 `
 
 const BlogPostLeftContainer = styled.div`
@@ -41,12 +41,12 @@ const BlogPostInfoContainer = styled.div`
 
     & > * {
         margin-bottom: 0;
-    }
+    };
 
     @media ${device.mobileL} {
         flex-direction: column;
         align-items: flex-start;
-    }
+    };
 `
 
 const BlogPostID = styled.h4`
@@ -56,7 +56,8 @@ const BlogPostID = styled.h4`
     text-align: center;
     color: white;
     margin-bottom: 0rem;
-    line-height: 1.5rem
+    line-height: 1.5rem;
+    height: 1.5rem;
 `
 
 const BlogPostCategory = styled.h4`

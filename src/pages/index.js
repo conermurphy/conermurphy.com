@@ -4,6 +4,7 @@ import InstaFeed from "../components/instaFeed.js"
 import BlogPost from "../components/blogPost.js"
 import ContactLinks from "../components/contactLinks"
 import { device } from '../components/device'
+import SEO from "../components/seo"
 import {Link, useStaticQuery, graphql} from 'gatsby'
 import { FaBookmark} from "react-icons/fa"
 import styled from 'styled-components'
@@ -18,11 +19,11 @@ const SiteTitle = styled.h1`
 
   @media ${device.tablet} {
     margin-bottom: 1rem;
-  }
+  };
 
   @media ${device.mobileL} {
     margin-bottom: 0rem;  
-  }
+  };
 `
 
 const SectionTitle = styled.h2`
@@ -32,11 +33,11 @@ const SectionTitle = styled.h2`
 
   @media ${device.tablet} {
     margin-top: 1rem;
-  }
+  };
 `
 
 const SectionContainer = styled.section`
-    margin-top: 0rem;
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
 
@@ -49,17 +50,17 @@ const BlogContainerOuter = styled.div`
     & > a {
       color: black;
       transition: 0.5s;
-    }
+    };
 
     & a:hover {
       transform: scale(1.1,1.1);
-    }
+    };
 
     @media ${device.laptop} {
       & a:hover {
         transform: scale(1.025,1.025);
-      }
-    }
+      };
+    };
 `
 
 const Index = () => {
@@ -108,6 +109,7 @@ const Index = () => {
 
   return (
     <PageContainer>
+      <SEO title="Coner Murphy"/>
       <Layout>
         <SectionContainer id="home">
           <SiteTitle>CONER MURPHY</SiteTitle>

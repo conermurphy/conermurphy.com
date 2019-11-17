@@ -32,12 +32,12 @@ const SocialMediaItem = styled.div`
         background-color: white;
         border: 1px solid #1f2a51;
         color: #1f2a51;
-    }
+    };
 
     & > svg {
         height: 2.5rem;
         width: 2.5rem;
-    }
+    };
 `
 
 const OpenContactFormButton = styled.button`
@@ -49,7 +49,8 @@ const OpenContactFormButton = styled.button`
 
 const FormContainer = styled.div`
     position: fixed;
-    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
     justify-content: center;
     flex-grow: 1;
     background-color: #1f2a51;
@@ -58,14 +59,13 @@ const FormContainer = styled.div`
     height: ${props => props.formContainerOpen ? '100vh' : '0vh'};
     transition: 0.5s;
     display: flex;
-    top: 50%
-    left: 50%;
     z-index: 999;
+    transform: translate(-50%, -50%);
 `
 
 const Form = styled.form`
     opacity : ${props => props.formContainerOpen ? '100%' : '0%'};
-    transition: 0.5s
+    transition: 0.5s;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -75,7 +75,7 @@ const Form = styled.form`
 
 const FormLabelContainer = styled.p`
     font-size: 1.25rem;
-    margin: 0.5rem
+    margin: 0.5rem;
 `
 
 const Formlabel = styled.label`
@@ -88,7 +88,7 @@ const Formlabel = styled.label`
 
 const Forminput = styled.input`
     padding: 0.5rem;
-    width: 17.5rem;socialMedia
+    width: 17.5rem;
 `
 
 const FormDropdown = styled.select`
@@ -104,18 +104,20 @@ const FormTextArea = styled.textarea`
     width: 17.5rem;
 `
 
-const FormCloseButton = styled.a`
-    transition: 0.5s
+const FormCloseButton = styled.button`
+    transition: 0.5s;
+    background-color: transparent;
+    border: none;
 
     & > svg {
         width: 3rem;
         height: 3rem;
         color: white;
-    }
+    };
 
     :hover {
         transform: scale(1.25,1.25);
-    }
+    };
 `
 
 const FormSubmitButton = styled.button`
@@ -131,11 +133,11 @@ const FormSubmitButton = styled.button`
         background-color: white;
         color: #1f2a51;
         transform: scale(1.25,1.25);
-    }
+    };
 
     & > svg {
         transform: translate(-2px, 1px);
-    }
+    };
 `
 
 class ContactLinks extends React.Component {
@@ -204,10 +206,10 @@ class ContactLinks extends React.Component {
                   </Form>
             </FormContainer>
             <SocialMediaContainer>
-                <a href="https://twitter.com/ConerMMurphy" target="_blank" rel="noopener noreferrer"><SocialMediaItem><FaTwitter/></SocialMediaItem></a>
-                <a href="https://www.instagram.com/conermurphy/" target="_blank" rel="noopener noreferrer"><SocialMediaItem><FaInstagram/></SocialMediaItem></a>
-                <a href="https://github.com/conermurphy" target="_blank" rel="noopener noreferrer"><SocialMediaItem><FaGithub/></SocialMediaItem></a>
-                <OpenContactFormButton onClick={this.openContactForm.bind(this)}><SocialMediaItem><FaEnvelope/></SocialMediaItem></OpenContactFormButton>
+                <a aria-label="Twitter Profile" href="https://twitter.com/ConerMMurphy" target="_blank" rel="noopener noreferrer"><SocialMediaItem><FaTwitter/></SocialMediaItem></a>
+                <a aria-label="Instagram Profile" href="https://www.instagram.com/conermurphy/" target="_blank" rel="noopener noreferrer"><SocialMediaItem><FaInstagram/></SocialMediaItem></a>
+                <a aria-label="Github Profile" href="https://github.com/conermurphy" target="_blank" rel="noopener noreferrer"><SocialMediaItem><FaGithub/></SocialMediaItem></a>
+                <OpenContactFormButton aria-label="Open Contact Form." onClick={this.openContactForm.bind(this)}><SocialMediaItem><FaEnvelope/></SocialMediaItem></OpenContactFormButton>
             </SocialMediaContainer>
         </ContactContainer>
         )

@@ -19,14 +19,14 @@ const LayoutContainer = styled.div`
   @media ${device.laptop} {
     display: grid;
     grid-template-areas: 'sidebar main';
-    grid-template-columns: auto
-    }
+    grid-template-columns: auto;
+    };
 
   @media ${device.tablet} {
     display: grid;
     grid-template-areas: 'sidebar','main';
     grid-template-columns: auto;
-  }
+  };
     
 `
 
@@ -37,17 +37,18 @@ const MainSectionContainer = styled.div`{
 
   @media ${device.laptop} {
     margin: 0rem 10rem 2rem 13rem;
-  }
+  };
 
   @media ${device.tablet} {
     margin: 5rem 1rem 1rem 1rem;
-  }
+  };
     
     
 `
 
 // Template for other pages to use.
 const Layout = (props) => {
+
     return (
       <LayoutContainer>
         <Sidebar/>
