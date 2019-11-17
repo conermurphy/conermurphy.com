@@ -96,7 +96,8 @@ const Index = () => {
       <Layout>
         <SectionContainer id="home" style={{marginTop:`0rem`}}>
           <h1 style={{marginBottom:`1rem`}}>CONER MURPHY</h1>
-          <p style={{marginBottom:`0`}}>Some amazing text that is all about me, what I aim to do and how this website will change the world</p>
+          <p>Some amazing text that is all about me, what I aim to do and how this website will change the world</p>
+          <InstaFeed/>
         </SectionContainer>
 
         <SectionContainer id="blog">
@@ -114,12 +115,6 @@ const Index = () => {
               <BlogPost id={null} category={"View More"} languages={null} title={"View More Blog Posts..."} description={"If you like some of the posts you've seen above, you can see all of the posts I've written by clicking here."} date={<FaBookmark/>}/>
               </Link>
           </BlogContainerOuter>
-        </SectionContainer>
-
-        <SectionContainer id="work">
-          <SectionTitle>WORK</SectionTitle>
-          <p>Some of the stuff I've been working on.</p>
-          <InstaFeed/>
         </SectionContainer>
 
         <SectionContainer id="contact"> 

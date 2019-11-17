@@ -8,14 +8,13 @@ import { FaComment, FaHeart } from 'react-icons/fa';
 const InstaFeedContainer = styled.section`
     display: grid;
     grid-template-areas: '1 2 3';
-    grid-gap: 1.5rem;
+    grid-gap: 1rem;
     justify-content: flex-start;
 
     @media ${device.mobileL} {
         grid-template-areas : '1 2';
         justify-content: flex-start;
         z-index: 1;
-        grid-gap: 1rem;
     }
 `
 
@@ -25,8 +24,8 @@ const InstaImgLink = styled.a`
 `
 
 const InstaImg = styled(Img)`
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     transition: 0.5s;
 
     :hover  {
@@ -73,7 +72,7 @@ const InstaFeed = () => {
     const data = useStaticQuery(
         graphql`
         query {
-            allInstaNode(limit: 6, filter: {caption: {regex: "/cat/"}}) {
+            allInstaNode(limit: 4, filter: {caption: {regex: "/cat/"}}) {
               edges {
                 node {
                   id

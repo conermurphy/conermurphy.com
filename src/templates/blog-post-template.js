@@ -8,6 +8,31 @@ import {FaArrowLeft} from 'react-icons/fa';
 import styled from 'styled-components'
 import { device } from '../components/device'
 
+const AboutArticle = styled.div`
+    display: flex;
+    flex-direction: column;
+`
+
+const AboutTitle = styled.h4`
+    padding: 1rem 0;
+    border-bottom: 3px solid #1f2a51;
+
+    @media ${device.mobileL} {
+      margin-top: 0rem;
+    }
+`
+
+const AboutSubTitle = styled.h5`
+    margin-bottom: 0;
+`
+
+const EOA = styled.hr `
+    border: 2px dashed #1f2a51;
+    width: 20%;
+    margin: 1rem auto;
+
+`
+
 const BlogPostIDCategoryContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -193,7 +218,9 @@ export const query = graphql`
 
 export default ({ data }) => {
   
-    return (
+    if (window.innerWidth > device.mobileL) {
+
+      return (
 
         <Layout>
             <BlogPostDateContainer>  
@@ -221,5 +248,42 @@ export default ({ data }) => {
             </Container>
         </Layout>
   )
+      
+    } else {
+
+      return (
+
+        <Layout>
+            <BlogPostDateContainer>  
+              <BlogPostDate>{data.markdownRemark.frontmatter.date}</BlogPostDate>
+            </BlogPostDateContainer>
+            <BackArrow><button onClick={() => window.history.back()}><FaArrowLeft/></button></BackArrow>
+            <ShareMenu/>
+            <Container>
+              <Img style={{width:`100%`, borderRadius:`2rem`, marginBottom:`2rem`}} fluid={data.markdownRemark.frontmatter.featuredImage.childImageSharp.fluid}/> 
+              <AuthorCard id={data.markdownRemark.frontmatter.authorid}/>
+              <BlogPostInfoContainer>
+                  <BlogPostIDCategoryContainer>
+                    <BlogPostID>#{data.markdownRemark.frontmatter.id}</BlogPostID>
+                    <BlogPostCategory>{data.markdownRemark.frontmatter.category}</BlogPostCategory>
+                  </BlogPostIDCategoryContainer>
+                </BlogPostInfoContainer>
+
+              <Content dangerouslySetInnerHTML={{ __html: data.markdownRemark.html }}/>
+              <EOA/>
+              <AboutArticle>
+                <AboutTitle>ABOUT THIS ARTICLE</AboutTitle>
+                <AboutSubTitle>LANGUAGES:</AboutSubTitle>
+                <BlogPostLanguagesContainer>
+                  {data.markdownRemark.frontmatter.languages.map( lan => 
+                    <BlogPostLanguages key={lan}>{lan}</BlogPostLanguages>
+                  )}
+                </BlogPostLanguagesContainer>
+              </AboutArticle>
+            </Container>
+        </Layout>
+  )
+
+    }
 }
 
