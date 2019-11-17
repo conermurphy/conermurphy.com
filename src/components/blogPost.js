@@ -134,8 +134,8 @@ const BlogPost = (props) => {
                         </BlogPostIDCategoryContainer>
                         <BlogPostLanguagesContainer>
                             {props.languages.map( lan => 
-                                <BlogPostLanguageContainer>
-                                    <BlogPostLanguage key={lan}>{lan}</BlogPostLanguage>
+                                <BlogPostLanguageContainer key={lan}>
+                                    <BlogPostLanguage>{lan}</BlogPostLanguage>
                                 </BlogPostLanguageContainer>
                             )}
                         </BlogPostLanguagesContainer>

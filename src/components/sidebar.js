@@ -214,7 +214,7 @@ class Sidebar extends React.Component {
         this.setState({ lastScrollY: currentScrollY });
       };
 
-    componentWillMount() {
+    componentDidMount() {
         // document.addEventListener('mousedown',this.handleClick, false);
         window.addEventListener('scroll', this.handleScroll);
     }
