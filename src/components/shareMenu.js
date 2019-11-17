@@ -4,7 +4,8 @@ import styled from 'styled-components'
 import { device } from '../components/device'
 
 const ShareContainer = styled.section`
-    @media ${device.mobileL} {
+
+    @media ${device.tablet} {
         display: none;
     }
 `
@@ -27,6 +28,12 @@ const ShareButton = styled.a`
     :hover  {
         background-color: #1f2a51;
         color: white;
+    }
+
+    @media ${device.laptop} {
+        left: 90%;
+        margin: 0rem;
+        top: 20%;
     }
 `
 
@@ -60,6 +67,23 @@ const ShareIcon = styled.a`
         top: ${props => props.shareOpen ? '32%' : '20%'};
         z-index: 1;
         transition: 0.5s
+    }
+
+    @media ${device.laptop} {
+        left: 90%;
+        margin: 0rem;
+        
+        :nth-child(2)   {
+            top: ${props => props.shareOpen ? '26%' : '20%'};
+            z-index: 2;
+            transition: 0.25s
+        }
+    
+        :nth-child(3)  {
+            top: ${props => props.shareOpen ? '32%' : '20%'};
+            z-index: 1;
+            transition: 0.5s
+        }
     }
 `
 

@@ -17,7 +17,7 @@ const AboutTitle = styled.h4`
     padding: 1rem 0;
     border-bottom: 3px solid #1f2a51;
 
-    @media ${device.mobileL} {
+    @media ${device.tablet} {
       margin-top: 0rem;
     }
 `
@@ -36,6 +36,9 @@ const EOA = styled.hr `
 const BlogPostIDCategoryContainer = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #1f2a51;
 `
 
 const BlogPostInfoContainer = styled.div`
@@ -47,60 +50,62 @@ const BlogPostInfoContainer = styled.div`
         margin-bottom: 0;
     }
 
-    @media ${device.mobileL} {
+    @media ${device.tablet} {
         flex-direction: column;
         align-items: flex-start;
     }
 `
 
-const BlogPostLanguagesContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-`
-
 const BlogPostID = styled.h4`
-    height: 1.5rem;
     width: 1.5rem;
     background-color: #1f2a51;
     padding: 0.5rem;
     text-align: center;
     color: white;
     margin-bottom: 0rem;
+    line-height: 1.5rem
 `
 
 const BlogPostCategory = styled.h4`
     background-color: white;
-    border: 1px solid #1f2a51;
     color: #1f2a51;
-    width: -webkit-fit-content;
-    width: -moz-fit-content;
     width: fit-content;
     padding: .5rem;
     max-height: 1.5rem;  
     margin-bottom: 0rem;
+    line-height: 1.5rem;
 `
 
-const BlogPostLanguages = styled.h4`
+const BlogPostLanguagesContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+`
+const BlogPostLanguageContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     background-color: #1f2a51;
-    color: white;
     padding: 0.5rem;
     width: fit-content;
-    height: 1.5rem;
     margin-left: 1rem;
-    margin-bottom: 0rem;
+    margin-top: 1rem;
 
-    @media ${device.mobileL} {
-        margin-top: 1rem;
-
-        :first-child {
-            margin-left: 0rem;
-        }
+    :first-child {
+      margin-left: 0rem;
     }
+`
+
+const BlogPostLanguage = styled.h4`
+    color: white;
+    margin-bottom: 0rem;
 `
 
 const Container = styled.div`
   word-break: break-word;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -108,13 +113,20 @@ const Container = styled.div`
   padding: 2rem;
   margin-top: -5rem;
   flex-wrap: wrap;
+  padding: 0rem;
+  padding-top 2rem;
 
-  @media ${device.mobileL} {
+  @media ${device.laptop} {
+    margin-top: 0rem;
+  }
+
+  @media ${device.tablet} {
     margin-top: 0rem;
   }
 `
 
 const Content = styled.div`
+
   & > .gatsby-resp-image-wrapper {
     margin-bottom: 5rem;
     word-break: break-word;
@@ -131,6 +143,7 @@ const Content = styled.div`
     width: fit-content;
     margin-top: 1.5rem;
   }
+
 `
 
 const BackArrow = styled.div`
@@ -162,7 +175,13 @@ const BackArrow = styled.div`
     color: white;
   }
 
-  @media ${device.mobileL} {
+  @media ${device.laptop} {
+    left: 90%;
+    margin: 0rem;
+    top: 12%;
+  }
+
+  @media ${device.tablet} {
     display: none;
   }
 `
@@ -181,7 +200,11 @@ const BlogPostDateContainer = styled.div`
   justify-content: center;
   border: 2px solid #1f2a51;
 
-  @media ${device.mobileL} {
+  @media ${device.laptop} {
+    left: 90%;
+  }
+
+  @media ${device.tablet} {
     display: none;
   }
 `
@@ -238,7 +261,9 @@ export default ({ data }) => {
                   </BlogPostIDCategoryContainer>
                   <BlogPostLanguagesContainer>
                     {data.markdownRemark.frontmatter.languages.map( lan => 
-                      <BlogPostLanguages key={lan}>{lan}</BlogPostLanguages>
+                      <BlogPostLanguageContainer>
+                        <BlogPostLanguage key={lan}>{lan}</BlogPostLanguage>
+                      </BlogPostLanguageContainer>
                     )}
                   </BlogPostLanguagesContainer>
                   
@@ -276,7 +301,9 @@ export default ({ data }) => {
                 <AboutSubTitle>LANGUAGES:</AboutSubTitle>
                 <BlogPostLanguagesContainer>
                   {data.markdownRemark.frontmatter.languages.map( lan => 
-                    <BlogPostLanguages key={lan}>{lan}</BlogPostLanguages>
+                    <BlogPostLanguageContainer>
+                      <BlogPostLanguage key={lan}>{lan}</BlogPostLanguage>
+                    </BlogPostLanguageContainer>
                   )}
                 </BlogPostLanguagesContainer>
               </AboutArticle>

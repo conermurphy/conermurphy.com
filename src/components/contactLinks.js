@@ -60,6 +60,7 @@ const FormContainer = styled.div`
     display: flex;
     top: 50%
     left: 50%;
+    z-index: 999;
 `
 
 const Form = styled.form`

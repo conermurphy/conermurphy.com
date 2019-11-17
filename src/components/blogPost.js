@@ -29,6 +29,9 @@ const BlogPostLeftContainer = styled.div`
 const BlogPostIDCategoryContainer = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #1f2a51;
 `
 
 const BlogPostInfoContainer = styled.div`
@@ -46,49 +49,47 @@ const BlogPostInfoContainer = styled.div`
     }
 `
 
-const BlogPostLanguagesContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-`
-
 const BlogPostID = styled.h4`
-    height: 1.5rem;
     width: 1.5rem;
     background-color: #1f2a51;
     padding: 0.5rem;
     text-align: center;
     color: white;
     margin-bottom: 0rem;
+    line-height: 1.5rem
 `
 
 const BlogPostCategory = styled.h4`
     background-color: white;
-    border: 1px solid #1f2a51;
     color: #1f2a51;
-    width: -webkit-fit-content;
-    width: -moz-fit-content;
     width: fit-content;
     padding: .5rem;
-    max-height: 1.5rem;
-    margin-bottom: 0rem;  
+    max-height: 1.5rem;  
+    margin-bottom: 0rem;
+    line-height: 1.5rem;
 `
 
-const BlogPostLanguages = styled.h4`
+const BlogPostLanguagesContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+
+`
+const BlogPostLanguageContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     background-color: #1f2a51;
-    color: white;
     padding: 0.5rem;
     width: fit-content;
-    height: 1.5rem;
     margin-left: 1rem;
-    margin-bottom: 0rem;
+`
 
-    @media ${device.mobileL} {
-        margin-top: 1rem;
-        :first-child {
-            margin-left: 0rem;
-        }
-    }
+const BlogPostLanguage = styled.h4`
+    color: white;
+    margin-bottom: 0rem;
 `
 
 const BlogPostTitle = styled.h3`
@@ -133,7 +134,9 @@ const BlogPost = (props) => {
                         </BlogPostIDCategoryContainer>
                         <BlogPostLanguagesContainer>
                             {props.languages.map( lan => 
-                                <BlogPostLanguages key={lan}>{lan}</BlogPostLanguages>
+                                <BlogPostLanguageContainer>
+                                    <BlogPostLanguage key={lan}>{lan}</BlogPostLanguage>
+                                </BlogPostLanguageContainer>
                             )}
                         </BlogPostLanguagesContainer>
                     </BlogPostInfoContainer>

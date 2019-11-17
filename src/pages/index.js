@@ -13,23 +13,32 @@ const PageContainer = styled.div`
   flex-direction: column;
 `
 
+const SiteTitle = styled.h1`
+  marginBottom: 1rem;
+
+  @media ${device.tablet} {
+    margin-bottom: 1rem;
+  }
+
+  @media ${device.mobileL} {
+    margin-bottom: 0rem;  
+  }
+`
+
 const SectionTitle = styled.h2`
   border-top: 3px solid #1f2a51;
   width: fit-content;
+  margin-bottom: 0rem;
 
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     margin-top: 1rem;
   }
 `
 
 const SectionContainer = styled.section`
-    margin-top: 3rem;
+    margin-top: 0rem;
     display: flex;
     flex-direction: column;
-
-    @media ${device.mobileL} {
-      margin-top: 3rem;
-    }
 
 `
 
@@ -42,8 +51,14 @@ const BlogContainerOuter = styled.div`
       transition: 0.5s;
     }
 
-    & > a:hover {
+    & a:hover {
       transform: scale(1.1,1.1);
+    }
+
+    @media ${device.laptop} {
+      & a:hover {
+        transform: scale(1.025,1.025);
+      }
     }
 `
 
@@ -94,8 +109,8 @@ const Index = () => {
   return (
     <PageContainer>
       <Layout>
-        <SectionContainer id="home" style={{marginTop:`0rem`}}>
-          <h1 style={{marginBottom:`1rem`}}>CONER MURPHY</h1>
+        <SectionContainer id="home">
+          <SiteTitle>CONER MURPHY</SiteTitle>
           <p>Some amazing text that is all about me, what I aim to do and how this website will change the world</p>
           <InstaFeed/>
         </SectionContainer>

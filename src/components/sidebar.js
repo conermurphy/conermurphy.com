@@ -18,7 +18,7 @@ const SidebarContainer = styled.div`
     width: 17.5vw;
     height: 100vh;
 
-    @media ${device.mobileL} {
+    @media ${device.tablet} {
         z-index: 999;
         display: flex;
         flex-direction: ${props => props.isMenuOpen ? 'column' : 'row'}
@@ -37,7 +37,7 @@ const SidebarTop = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    @media ${device.mobileL} {
+    @media ${device.tablet} {
         flex-direction: ${props => props.isMenuOpen ? 'column' : 'row'}
         width: 100vw
     }
@@ -50,7 +50,7 @@ const MenuOpenButton = styled.button`
     color: white;
     padding: 1rem;
 
-    @media ${device.mobileL} {
+    @media ${device.tablet} {
         display: ${props => props.isMenuOpen ? 'none' : 'block'};
     }
 
@@ -64,7 +64,12 @@ const Logo = styled.img`
     height: 7.5rem;
     width: 7.5rem;
 
-    @media ${device.mobileL} {
+    @media ${device.laptop} {
+        height: 5rem;
+        width: 5rem;
+    }
+
+    @media ${device.tablet} {
         height: ${props => props.isMenuOpen ? '7.5rem' : '2.5rem'}
         width: ${props => props.isMenuOpen ? '7.5rem' : '2.5rem'}
         padding: 1rem;
@@ -74,9 +79,15 @@ const Logo = styled.img`
 const Title = styled.h1`
     color: white;
     display: block;
+    font-size: 1.5rem;
 
-    @media ${device.mobileL} {
+    @media ${device.tablet} {
         display: ${props => props.isMenuOpen ? 'block' : 'none'}
+    }
+
+    @media screen and (min-width: 2560px) {
+        font-size: 2rem;
+        line-height: auto;
     }
 `
 
@@ -87,14 +98,19 @@ const NavContainer = styled.nav`
     flex-grow: 1;
 
     & > a {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         text-decoration: none;
         padding: 0.5rem;
         color: white;
         font-family: 'Montserrat', sans-serif;
+
+        @media screen and (min-width: 2560px) {
+            font-size: 1.75rem;
+            line-height: auto;
+        }
     }
 
-    @media ${device.mobileL} {
+    @media ${device.tablet} {
         display: ${props => props.isMenuOpen ? 'flex' : 'none'}
     }
 `
@@ -103,9 +119,26 @@ const SocialAndCopyrightContainer = styled.div`
     display: flex;
     flex-direction: column;
 
-    @media ${device.mobileL} {
+    @media ${device.tablet} {
         display: ${props => props.isMenuOpen ? 'flex' : 'none'};
     }
+`
+
+const SocialMediaContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media ${device.laptop} {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    @media ${device.tablet} {
+        flex-direction: row;
+        align-items: center;
+    }
+    
 `
 
 const SocialMediaItem = styled.a`
@@ -118,6 +151,11 @@ const SocialMediaItem = styled.a`
         transition: 0.2s;
         width: 2.5rem;
         height: 2.5rem;
+
+        @media screen and (min-width: 2560px) {
+            height: 3.5rem;
+            width: 3.5rem;
+        }
     }
 
     & > svg:hover {
@@ -126,10 +164,16 @@ const SocialMediaItem = styled.a`
 `
 
 const Copyright = styled.p`
-    font-size: 1rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
     color: white;
     text-align: center;
     margin-top: 1rem;
+
+    @media screen and (min-width: 2560px) {
+        font-size: 1.25rem;
+        line-height: auto;
+    }
 `
 
 class Sidebar extends React.Component {
@@ -196,12 +240,12 @@ class Sidebar extends React.Component {
                         <Link onClick={this.openCloseMenu.bind(this)} to="/#contact">Contact</Link>
                 </NavContainer>
                 <SocialAndCopyrightContainer isMenuOpen={this.state.isMenuOpen}>
-                    <div>
+                    <SocialMediaContainer>
                         <SocialMediaItem href="https://twitter.com/ConerMMurphy" target="_blank" rel="noopener noreferrer"><FaTwitter/></SocialMediaItem>
                         <SocialMediaItem href="https://www.instagram.com/conermurphy/" target="_blank" rel="noopener noreferrer"><FaInstagram/></SocialMediaItem>
                         <SocialMediaItem href="https://github.com/conermurphy" target="_blank" rel="noopener noreferrer"><FaGithub/></SocialMediaItem>
-                    </div>
-                    <Copyright>Copyright © 2019<br/>Coner Murphy</Copyright>
+                    </SocialMediaContainer>
+                    <Copyright>Copyright © 2019 Coner Murphy</Copyright>
                 </SocialAndCopyrightContainer>
             </SidebarContainer>
         )

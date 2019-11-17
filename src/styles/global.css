@@ -14,14 +14,14 @@ h2  {
 
 h3  {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 500;
     margin-top: 0;
 }
 
 h4  {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
     margin-top: 0;
 }
@@ -57,4 +57,27 @@ a {
     color: black;
     font-family: 'Hind', sans-serif;
     font-weight: 400;
+}
+
+@media screen and (min-width: 2560px) {
+    h1 {
+        font-size: 2.3rem;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+    }
+
+    h4, h5 {
+        font-size: 1.3rem;
+    }
+
+    p, li {
+        font-size: 1.4rem;
+        line-height: 2.5rem;
+    }
 }

@@ -7,9 +7,15 @@ import { FaComment, FaHeart } from 'react-icons/fa';
 
 const InstaFeedContainer = styled.section`
     display: grid;
-    grid-template-areas: '1 2 3';
+    grid-template-areas: '1 2 3 4';
     grid-gap: 1rem;
     justify-content: flex-start;
+
+    @media ${device.tablet} {
+        grid-template-areas : '1 2 3 4';
+        justify-content: flex-start;
+        z-index: 1;
+    }
 
     @media ${device.mobileL} {
         grid-template-areas : '1 2';
@@ -32,7 +38,7 @@ const InstaImg = styled(Img)`
         transform: scale(1.05,1.05);
     }
 
-    @media ${device.mobileL} {
+    @media ${device.tablet} {
         width: 150px;
         height: 150px;
     }
@@ -57,7 +63,7 @@ const InstaImgStatsContainer = styled.div`
         padding: 0.5rem;
     }
 
-    @media ${device.mobileL} {
+    @media ${device.tablet} {
         display: none;
     }
 `
