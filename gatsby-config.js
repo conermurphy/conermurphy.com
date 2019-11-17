@@ -62,6 +62,7 @@ module.exports = {
       theme_color: `#1f2a51`,
       // Enables "Add to Homescreen" prompt and disables browser UI (including back button)
       // see https://developers.google.com/web/fundamentals/web-app-manifest/#display
+      lang: `en`,
       display: `standalone`,
       icon: `content/media/assets/CM-Logo-2019.gif`, // This path is relative to the root of the site.
     },

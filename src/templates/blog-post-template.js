@@ -241,6 +241,8 @@ export const query = graphql`
 
 export default ({ data }) => {
   
+  if (typeof window !== 'undefined') {
+
     if (window.innerWidth > device.mobileL) {
 
       return (
@@ -312,5 +314,6 @@ export default ({ data }) => {
   )
 
     }
+  }
 }
 
