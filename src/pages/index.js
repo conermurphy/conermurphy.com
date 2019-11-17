@@ -6,7 +6,7 @@ import ContactLinks from "../components/contactLinks"
 import { device } from '../components/device'
 import SEO from "../components/seo"
 import {Link, useStaticQuery, graphql} from 'gatsby'
-import { FaBookmark} from "react-icons/fa"
+import { FaBookmark, FaInstagram, FaCoffee, FaGlobeEurope, FaGamepad} from "react-icons/fa"
 import styled from 'styled-components'
 
 const PageContainer = styled.div`
@@ -15,14 +15,27 @@ const PageContainer = styled.div`
 `
 
 const SiteTitle = styled.h1`
-  marginBottom: 1rem;
+  margin-bottom: 0rem;
+`
 
-  @media ${device.tablet} {
-    margin-bottom: 1rem;
+const AboutMe = styled.p`
+  & > span {
+    display: block;
+    margin-bottom: 0.8rem;
   };
 
-  @media ${device.mobileL} {
-    margin-bottom: 0rem;  
+  & svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    transition: 0.25s;
+    padding: 0rem 0.25rem;
+    top: 0.2rem;
+    position: relative;
+
+    :hover {
+      transform: scale(1.25,1.25);
+      color: #1f2a51;
+    }
   };
 `
 
@@ -111,9 +124,15 @@ const Index = () => {
     <PageContainer>
       <SEO title="Coner Murphy"/>
       <Layout>
-        <SectionContainer id="home">
+        <SectionContainer id="home" style={{marginBottom:0}}>
           <SiteTitle>CONER MURPHY</SiteTitle>
-          <p>Some amazing text that is all about me, what I aim to do and how this website will change the world</p>
+          <h2>FRONT-END WEB DEVELOPER</h2>
+          <AboutMe>
+            <span>Hi, I'm Coner a Front-End Web Developer from the United Kingdom. I specialise in building fast, responsive, and beautiful websites.</span>
+            <span>When I'm not building websites, I help others improve their web development skills and knowledge on my <Link to="/blog">Blog</Link> and<a aria-label="Instagram Profile" href="https://www.instagram.com/conermurphy/" target="_blank" rel="noopener noreferrer"><FaInstagram aria-label="Instagram"/></a>.</span>
+            <span>And, if I'm not doing either of those things, I'm probably drinking <FaCoffee aria-label="Coffee"/>, exploring the <FaGlobeEurope aria-label="Globe showing Europe"/> or just chilling out. <FaGamepad aria-label="Game Controller"/></span>
+            <span>If you're interested in finding out more or are just curious, below is the latest from my <FaInstagram aria-label="Instagram"/> and if you have an idea you want to work with me on, please <Link to="/#contact">contact me.</Link></span>
+          </AboutMe>
           <InstaFeed/>
         </SectionContainer>
 
