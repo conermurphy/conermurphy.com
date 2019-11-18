@@ -19,6 +19,14 @@ Once you’ve decided you’re going to make a website and you know the subject 
 
 There’s plenty of options available from CMS’s (Content Management System) like Wordpress to SSG’s (Static Site Generator) like Gatsby and we’re going to cover them and everything in between to help you decide which platform is right for your website.
 
+```javascript
+var s = "JavaScript syntax highlighting";
+
+alert(s);
+
+const this = "this is a code example";
+```
+
 ### Available Platforms
 
 There’s plenty of options available to you but before we dive in and look at each platform we need to look at the bigger picture and understand a few facts about your website. So, before carrying on answer these questions:
