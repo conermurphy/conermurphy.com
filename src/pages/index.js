@@ -42,7 +42,7 @@ const AboutMe = styled.p`
 const SectionTitle = styled.h2`
   border-top: 3px solid #1f2a51;
   width: fit-content;
-  margin-bottom: 0rem;
+  margin-bottom: 0.5rem;
 
   @media ${device.tablet} {
     margin-top: 1rem;
@@ -131,7 +131,7 @@ const Index = () => {
             <span>Hi, I'm Coner a Front-End Web Developer from the United Kingdom. I specialise in building fast, responsive, and beautiful websites.</span>
             <span>When I'm not building websites, I help others improve their web development skills and knowledge on my <Link to="/blog">Blog</Link> and<a aria-label="Instagram Profile" href="https://www.instagram.com/conermurphy/" target="_blank" rel="noopener noreferrer"><FaInstagram aria-label="Instagram"/></a>.</span>
             <span>And, if I'm not doing either of those things, I'm probably drinking <FaCoffee aria-label="Coffee"/>, exploring the <FaGlobeEurope aria-label="Globe showing Europe"/> or just chilling out. <FaGamepad aria-label="Game Controller"/></span>
-            <span>If you're interested in finding out more or are just curious, below is the latest from my <FaInstagram aria-label="Instagram"/> and if you have an idea you want to work with me on, please <Link to="/#contact">contact me.</Link></span>
+            <span>If you're interested in finding out more or are just curious, below is the latest from my <a aria-label="Instagram Profile" href="https://www.instagram.com/conermurphy/" target="_blank" rel="noopener noreferrer"><FaInstagram aria-label="Instagram"/></a> and if you have an idea you want to work with me on, please <Link to="/#contact">contact me.</Link></span>
           </AboutMe>
           <InstaFeed/>
         </SectionContainer>

@@ -57,7 +57,6 @@ const BlogPostID = styled.h4`
     color: white;
     margin-bottom: 0rem;
     line-height: 1.5rem;
-    height: 1.5rem;
 `
 
 const BlogPostCategory = styled.h4`
