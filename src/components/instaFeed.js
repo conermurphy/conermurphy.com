@@ -78,7 +78,7 @@ const InstaFeed = () => {
     const data = useStaticQuery(
         graphql`
         query {
-            allInstaNode(limit: 4) {
+            allInstaNode(limit: 4, sort: {order: DESC, fields: timestamp}) {
               edges {
                 node {
                   id
