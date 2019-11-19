@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'gatsby'
 import {FaTwitter,FaInstagram,FaGithub, FaAlignRight} from 'react-icons/fa';
-import logo from '../../content/media/assets/CM-Logo-2019.gif'
+import logo from '../../content/media/assets/CM-Logo-2019.svg'
 import styled from 'styled-components'
 import { device } from "./device"
 

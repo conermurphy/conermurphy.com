@@ -64,7 +64,7 @@ module.exports = {
       // see https://developers.google.com/web/fundamentals/web-app-manifest/#display
       lang: `en`,
       display: `standalone`,
-      icon: `content/media/assets/CM-Logo-2019.gif`, // This path is relative to the root of the site.
+      icon: `content/media/assets/CM-Logo-2019.svg`, // This path is relative to the root of the site.
     },
   }, 
   {
