@@ -182,7 +182,7 @@ class ContactLinks extends React.Component {
         <ContactContainer>
             <FormContainer formContainerOpen={this.state.formContainerOpen}>
                   <Form formContainerOpen={this.state.formContainerOpen} ref={form => this.form = form} name="contact" method="POST" data-netlify="true">
-                    <FormCloseButton onClick={this.closeContactForm.bind(this)}><FaRegWindowClose/></FormCloseButton>
+                    <FormCloseButton><FaRegWindowClose/></FormCloseButton>
                     <FormLabelContainer>
                       <Formlabel>Your Name:<br/><Forminput type="text" name="name"/></Formlabel>
                     </FormLabelContainer>

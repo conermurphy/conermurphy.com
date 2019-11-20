@@ -89,11 +89,8 @@ const BlogPostLanguageContainer = styled.div`
     
 
     @media ${device.mobileL} {
-        margin-top: 1rem;
-        :first-child {
-            margin-left: 0;
-        };
-    }
+        display: none;
+    };
     
 `
 

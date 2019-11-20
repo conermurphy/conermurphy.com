@@ -11,6 +11,8 @@ import { device } from '../components/device'
 const AboutArticle = styled.div`
     display: flex;
     flex-direction: column;
+
+    
 `
 
 const AboutTitle = styled.h4`
@@ -24,6 +26,14 @@ const AboutTitle = styled.h4`
 
 const AboutSubTitle = styled.h5`
     margin-bottom: 0;
+`
+
+const AboutSubSectionContainer = styled.div`
+    margin-top: 1rem;
+
+    &:nth-child(2) {
+      margin: 0rem;
+    };
 `
 
 const EOA = styled.hr `
@@ -296,14 +306,26 @@ export default ({ data }) => {
               <EOA/>
               <AboutArticle>
                 <AboutTitle>ABOUT THIS ARTICLE</AboutTitle>
-                <AboutSubTitle>LANGUAGES:</AboutSubTitle>
-                <BlogPostLanguagesContainer>
-                  {data.markdownRemark.frontmatter.languages.map( lan => 
-                    <BlogPostLanguageContainer>
-                      <BlogPostLanguage key={lan}>{lan}</BlogPostLanguage>
-                    </BlogPostLanguageContainer>
-                  )}
-                </BlogPostLanguagesContainer>
+                <AboutSubSectionContainer>
+                  <AboutSubTitle>LANGUAGES:</AboutSubTitle>
+                  <BlogPostLanguagesContainer>
+                    {data.markdownRemark.frontmatter.languages.map( lan => 
+                      <BlogPostLanguageContainer>
+                        <BlogPostLanguage key={lan}>{lan}</BlogPostLanguage>
+                      </BlogPostLanguageContainer>
+                    )}
+                  </BlogPostLanguagesContainer>
+                </AboutSubSectionContainer>
+                <AboutSubSectionContainer>
+                <AboutSubTitle>TAGS:</AboutSubTitle>
+                  <BlogPostLanguagesContainer>
+                    {data.markdownRemark.frontmatter.tags.map( tag => 
+                      <BlogPostLanguageContainer>
+                        <BlogPostLanguage key={tag}>{tag}</BlogPostLanguage>
+                      </BlogPostLanguageContainer>
+                    )}
+                  </BlogPostLanguagesContainer>
+                </AboutSubSectionContainer>
               </AboutArticle>
             </Container>
         </Layout>
