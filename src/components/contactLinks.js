@@ -1,5 +1,5 @@
 import React from 'react'
-import {FaInstagram, FaTwitter, FaGithub, FaEnvelope, FaRegWindowClose, FaPaperPlane } from "react-icons/fa"
+import {FaInstagram, FaTwitter, FaGithub, FaRegWindowClose, FaPaperPlane } from "react-icons/fa"
 import styled from 'styled-components'
 
 const ContactContainer = styled.div`
@@ -40,12 +40,12 @@ const SocialMediaItem = styled.div`
     };
 `
 
-const OpenContactFormButton = styled.button`
-    webkit-appearance: none;
-    border: none;
-    background-color: transparent;
-    margin: -0.5rem;
-`
+// const OpenContactFormButton = styled.button`
+//     webkit-appearance: none;
+//     border: none;
+//     background-color: transparent;
+//     margin: -0.5rem;
+// `
 
 const FormContainer = styled.div`
     position: fixed;
@@ -209,7 +209,7 @@ class ContactLinks extends React.Component {
                 <a aria-label="Twitter Profile" href="https://twitter.com/ConerMMurphy" target="_blank" rel="noopener noreferrer"><SocialMediaItem><FaTwitter/></SocialMediaItem></a>
                 <a aria-label="Instagram Profile" href="https://www.instagram.com/conermurphy/" target="_blank" rel="noopener noreferrer"><SocialMediaItem><FaInstagram/></SocialMediaItem></a>
                 <a aria-label="Github Profile" href="https://github.com/conermurphy" target="_blank" rel="noopener noreferrer"><SocialMediaItem><FaGithub/></SocialMediaItem></a>
-                <OpenContactFormButton aria-label="Open Contact Form." onClick={this.openContactForm.bind(this)}><SocialMediaItem><FaEnvelope/></SocialMediaItem></OpenContactFormButton>
+                {/* <OpenContactFormButton aria-label="Open Contact Form." onClick={this.openContactForm.bind(this)}><SocialMediaItem><FaEnvelope/></SocialMediaItem></OpenContactFormButton> */}
             </SocialMediaContainer>
         </ContactContainer>
         )
