@@ -46,7 +46,9 @@ const MainSectionContainer = styled.div`{
 
   @media ${device.tablet} {
     grid-area: main;
-    margin: 5rem;
+    margin: auto;
+    padding: 3rem;
+    padding-top: 5rem;
     width: fit-content;
   };
     
