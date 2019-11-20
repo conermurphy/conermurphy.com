@@ -24,7 +24,9 @@ const LayoutContainer = styled.div`
 
   @media ${device.tablet} {
     display: grid;
-    grid-template-areas: 'sidebar','main';
+    grid-template-areas: 'sidebar',
+                          'main'
+                        ;
     grid-template-columns: auto;
   };
     
@@ -34,15 +36,18 @@ const MainSectionContainer = styled.div`{
     grid-area: main;
     margin: 5rem 15rem;
     justify-self: center;
+    width: fit-content;
 
   @media ${device.laptop} {
     grid-area: main;
-    margin: 0 5rem;
+    margin: 5rem;
+    width: fit-content;
   };
 
   @media ${device.tablet} {
     grid-area: main;
-    margin: 5rem 1rem;
+    margin: 5rem;
+    width: fit-content;
   };
     
     

@@ -6,9 +6,8 @@ import {useStaticQuery, graphql} from 'gatsby'
 import { FaComment, FaHeart } from 'react-icons/fa';
 
 const InstaFeedContainer = styled.section`
-    display: grid;
-    grid-template-areas: '1 2 3 4';
-    grid-gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: flex-start;
 
     @media ${device.tablet} {
@@ -34,6 +33,7 @@ const InstaImg = styled(Img)`
     width: 10rem;
     height: 10rem;
     transition: 0.5s;
+    margin: 0.5rem;
 
     :hover  {
         transform: scale(1.05,1.05);
@@ -42,11 +42,11 @@ const InstaImg = styled(Img)`
     @media ${device.tablet} {
         width: 7.5rem;
         height: 7.5rem;
-        margin: 1rem;
+        margin: 0.5rem;
     };
 
     @media ${device.mobileL} {
-        margin: 0.5rem;
+        margin: 0.25rem;
     };
 `
 
@@ -66,7 +66,7 @@ const InstaImgStatsContainer = styled.div`
     ${InstaImgLink}:hover & {
         opacity: 100;
         background-color: #1f2a51;
-        padding: 0.5rem;
+        padding: 0.5rem 0rem;
     };
 
     @media ${device.tablet} {
