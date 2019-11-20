@@ -16,7 +16,7 @@ const SidebarContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 17.5vw;
-    height: 100vh;
+    height: 100%;
 
     @media ${device.tablet} {
         z-index: 999;
@@ -24,10 +24,11 @@ const SidebarContainer = styled.div`
         flex-direction: ${props => props.isMenuOpen ? 'column' : 'row'};
         width: 100vw;
         height: ${props => props.isMenuOpen ? '100vh' : '10vh'};
-        padding: ${props => props.isMenuOpen ? '2rem' : '0rem 1rem'};
+        padding: ${props => props.isMenuOpen ? '3rem' : '0rem 2rem'};
         transform: translate(0, ${props => props.slide});
         transition: 180ms linear;
         grid-area: sidebar;
+        touch-action: ${props => props.isMenuOpen ? 'none' : 'auto'};
     };
 `
 

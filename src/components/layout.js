@@ -51,21 +51,19 @@ const MainSectionContainer = styled.div`{
     padding-top: 5rem;
     width: fit-content;
   };
-    
-    
 `
 
 // Template for other pages to use.
 const Layout = (props) => {
 
-    return (
-      <LayoutContainer>
-        <Sidebar/>
-        <MainSectionContainer>
-          {props.children}
-        </MainSectionContainer>
-      </LayoutContainer>
-    )
+  return (
+    <LayoutContainer>
+      <Sidebar/>
+      <MainSectionContainer>
+        {props.children}
+      </MainSectionContainer>
+    </LayoutContainer>
+  )
 }
 
 export default Layout
