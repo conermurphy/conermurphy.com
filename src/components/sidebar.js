@@ -27,6 +27,7 @@ const SidebarContainer = styled.div`
         padding: ${props => props.isMenuOpen ? '2rem' : '0rem 1rem'};
         transform: translate(0, ${props => props.slide});
         transition: 180ms linear;
+        grid-area: sidebar;
     };
 `
 

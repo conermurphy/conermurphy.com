@@ -78,8 +78,7 @@ const BlogPostCategory = styled.h4`
 const BlogPostLanguagesContainer = styled.div`
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
-
+    align-items: flex-start;   
 `
 const BlogPostLanguageContainer = styled.div`
     display: flex;
@@ -92,9 +91,11 @@ const BlogPostLanguageContainer = styled.div`
     margin-left: 1rem;
     margin-top: 1rem;
 
-    :first-child {
-      margin-left: 0rem;
-    };
+    @media ${device.mobileL} {
+      :first-child {
+        margin-left: 0rem;
+      };
+    }
 `
 
 const BlogPostLanguage = styled.h4`
@@ -174,9 +175,7 @@ const BackArrow = styled.div`
   };
 
   @media ${device.laptop} {
-    left: 90%;
-    margin: 0rem;
-    top: 12%;
+    display: none;
   };
 
   @media ${device.tablet} {
@@ -199,7 +198,7 @@ const BlogPostDateContainer = styled.div`
   border: 2px solid #1f2a51;
 
   @media ${device.laptop} {
-    left: 90%;
+    display: none;
   };
 
   @media ${device.tablet} {

@@ -75,6 +75,7 @@ const BlogPostLanguagesContainer = styled.div`
     align-items: flex-start;
     justify-content: center;
 
+    
 `
 const BlogPostLanguageContainer = styled.div`
     display: flex;
@@ -85,6 +86,15 @@ const BlogPostLanguageContainer = styled.div`
     padding: 0.5rem;
     width: fit-content;
     margin-left: 1rem;
+    
+
+    @media ${device.mobileL} {
+        margin-top: 1rem;
+        :first-child {
+            margin-left: 0;
+        };
+    }
+    
 `
 
 const BlogPostLanguage = styled.h4`

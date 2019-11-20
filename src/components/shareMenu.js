@@ -5,7 +5,7 @@ import { device } from '../components/device'
 
 const ShareContainer = styled.section`
 
-    @media ${device.tablet} {
+    @media ${device.laptop} {
         display: none;
     };
 `

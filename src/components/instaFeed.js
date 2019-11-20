@@ -12,13 +12,14 @@ const InstaFeedContainer = styled.section`
     justify-content: flex-start;
 
     @media ${device.tablet} {
-        grid-template-areas : '1 2 3 4';
+        display: flex;
         justify-content: flex-start;
         z-index: 1;
     };
 
     @media ${device.mobileL} {
-        grid-template-areas : '1 2';
+        display: flex;
+        flex-wrap: wrap;
         justify-content: flex-start;
         z-index: 1;
     };
@@ -30,8 +31,8 @@ const InstaImgLink = styled.a`
 `
 
 const InstaImg = styled(Img)`
-    width: 250px;
-    height: 250px;
+    width: 10rem;
+    height: 10rem;
     transition: 0.5s;
 
     :hover  {
@@ -39,8 +40,13 @@ const InstaImg = styled(Img)`
     };
 
     @media ${device.tablet} {
-        width: 150px;
-        height: 150px;
+        width: 7.5rem;
+        height: 7.5rem;
+        margin: 1rem;
+    };
+
+    @media ${device.mobileL} {
+        margin: 0.5rem;
     };
 `
 

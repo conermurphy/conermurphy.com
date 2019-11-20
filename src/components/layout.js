@@ -19,7 +19,7 @@ const LayoutContainer = styled.div`
   @media ${device.laptop} {
     display: grid;
     grid-template-areas: 'sidebar main';
-    grid-template-columns: auto;
+    grid-template-columns: 17.5vw auto;
     };
 
   @media ${device.tablet} {
@@ -36,11 +36,13 @@ const MainSectionContainer = styled.div`{
     justify-self: center;
 
   @media ${device.laptop} {
-    margin: 0rem 10rem 2rem 13rem;
+    grid-area: main;
+    margin: 0 5rem;
   };
 
   @media ${device.tablet} {
-    margin: 5rem 1rem 1rem 1rem;
+    grid-area: main;
+    margin: 5rem 1rem;
   };
     
     
