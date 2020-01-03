@@ -1,5 +1,5 @@
 ---
-title: "JavaScript Fundamentals - 001 - Functions"
+title: "JavaScript Fundamentals - 001 - Functions Part 1"
 description: "Function Fundamentals."
 date: "2020-01-02"
 id: "1"
