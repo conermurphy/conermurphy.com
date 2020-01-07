@@ -24,6 +24,7 @@ const AboutTitle = styled.h4`
 
 const AboutSubTitle = styled.h5`
     margin-bottom: 0;
+    display: ${props => props.length ? "none" : "flex"};
 `
 
 const AboutSubSectionContainer = styled.div`
@@ -84,9 +85,9 @@ const BlogPostCategory = styled.h4`
 `
 
 const BlogPostLanguagesContainer = styled.div`
-    display: flex;
+    display: ${props => props.length ? "none" : "flex"};
     flex-direction: row;
-    align-items: flex-start;   
+    align-items: flex-start;  
 `
 const BlogPostLanguageContainer = styled.div`
     display: flex;
@@ -99,11 +100,9 @@ const BlogPostLanguageContainer = styled.div`
     margin-left: 1rem;
     margin-top: 1rem;
 
-    @media ${device.mobileL} {
-      :first-child {
-        margin-left: 0rem;
-      };
-    }
+    & :first-child {
+      margin-left: 0rem;
+    };
 `
 
 const BlogPostLanguage = styled.h4`
@@ -249,7 +248,13 @@ export const query = graphql`
 `
 
 export default ({ data }) => {
-  
+
+  // if (data.markdownRemark.frontmatter.languages.length === 0) {
+    
+  // }
+
+  console.log(data.markdownRemark.frontmatter.languages.length === 0);
+
   if (typeof window !== 'undefined') {
 
     if (window.innerWidth > device.mobileL) {
@@ -269,7 +274,7 @@ export default ({ data }) => {
                     <BlogPostID>#{data.markdownRemark.frontmatter.id}</BlogPostID>
                     <BlogPostCategory>{data.markdownRemark.frontmatter.category}</BlogPostCategory>
                   </BlogPostIDCategoryContainer>
-                  <BlogPostLanguagesContainer>
+                  <BlogPostLanguagesContainer length = {data.markdownRemark.frontmatter.languages.length === 0}>
                     {data.markdownRemark.frontmatter.languages.map( lan => 
                       <BlogPostLanguageContainer>
                         <BlogPostLanguage key={lan}>{lan}</BlogPostLanguage>
@@ -309,23 +314,30 @@ export default ({ data }) => {
               <AboutArticle>
                 <AboutTitle>ABOUT THIS ARTICLE</AboutTitle>
                 <AboutSubSectionContainer>
-                  <AboutSubTitle>LANGUAGES:</AboutSubTitle>
-                  <BlogPostLanguagesContainer>
-                    {data.markdownRemark.frontmatter.languages.map( lan => 
-                      <BlogPostLanguageContainer>
-                        <BlogPostLanguage key={lan}>{lan}</BlogPostLanguage>
-                      </BlogPostLanguageContainer>
-                    )}
+                  <AboutSubTitle length = {data.markdownRemark.frontmatter.languages.length === 0}>LANGUAGES:</AboutSubTitle>
+                  <BlogPostLanguagesContainer length = {data.markdownRemark.frontmatter.languages.length === 0}>
+                  
+                   {
+                      data.markdownRemark.frontmatter.languages.map( lan => 
+                        <BlogPostLanguageContainer>
+                          <BlogPostLanguage key={lan}>{lan}</BlogPostLanguage>
+                          {console.log(lan)}
+                        </BlogPostLanguageContainer>
+                      )
+                    }
                   </BlogPostLanguagesContainer>
                 </AboutSubSectionContainer>
                 <AboutSubSectionContainer>
-                <AboutSubTitle>TAGS:</AboutSubTitle>
-                  <BlogPostLanguagesContainer>
-                    {data.markdownRemark.frontmatter.tags.map( tag => 
-                      <BlogPostLanguageContainer key={tag}>
-                        <BlogPostLanguage key={tag}>{tag}</BlogPostLanguage>
-                      </BlogPostLanguageContainer>
-                    )}
+                  <AboutSubTitle length = {data.markdownRemark.frontmatter.tags.length === 0}>TAGS:</AboutSubTitle>
+                  <BlogPostLanguagesContainer length = {data.markdownRemark.frontmatter.tags.length === 0}>
+                  
+                    {
+                      data.markdownRemark.frontmatter.tags.map( tag => 
+                        <BlogPostLanguageContainer key={tag}>
+                          <BlogPostLanguage key={tag}>{tag}</BlogPostLanguage>
+                        </BlogPostLanguageContainer>
+                      )
+                    }
                   </BlogPostLanguagesContainer>
                 </AboutSubSectionContainer>
               </AboutArticle>
