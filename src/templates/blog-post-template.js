@@ -10,9 +10,7 @@ import { device } from '../components/device'
 
 const AboutArticle = styled.div`
     display: flex;
-    flex-direction: column;
-
-    
+    flex-direction: column; 
 `
 
 const AboutTitle = styled.h4`
@@ -152,6 +150,10 @@ const Content = styled.div`
     border-bottom: 2px solid #333333;
     width: fit-content;
     margin-top: 1.5rem;
+  };
+
+  & a {
+    text-decoration: none;
   };
 `
 
@@ -320,7 +322,7 @@ export default ({ data }) => {
                 <AboutSubTitle>TAGS:</AboutSubTitle>
                   <BlogPostLanguagesContainer>
                     {data.markdownRemark.frontmatter.tags.map( tag => 
-                      <BlogPostLanguageContainer>
+                      <BlogPostLanguageContainer key={tag}>
                         <BlogPostLanguage key={tag}>{tag}</BlogPostLanguage>
                       </BlogPostLanguageContainer>
                     )}
