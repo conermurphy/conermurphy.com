@@ -6,7 +6,7 @@ id: "2"
 authorid: "0"
 category: "Hot Tips🔥"
 languages: []
-featuredImage: ../media/images/01-20/insta-post-desktop/insta-resized.png
+featuredImage: ../media/images/01-20/insta-post-desktop/Posting to Instagram from a Desktop.png
 tags: ["Tutorial", "Social Media"]
 ---
 
@@ -79,3 +79,7 @@ If you enjoyed this article, then please share this article. | It would mean a l
 Want to discuss this article? Or, just say hi:
 
 [Website 🌐](https://www.conermurphy.com) | [Twitter 🐦](https://twitter.com/ConerMMurphy) | [Instagram 📷](https://www.instagram.com/conermurphy/)
+
+### Further Reading / Sources
+
+- [SVG Icons (Instagram and Desktop) for Featured Image from Font Awesome](https://fontawesome.com/license)
