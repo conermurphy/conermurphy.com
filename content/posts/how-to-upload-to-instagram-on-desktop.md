@@ -6,13 +6,13 @@ id: "2"
 authorid: "0"
 category: "Hot Tips🔥"
 languages: []
-featuredImage: ../media/images/01-20/insta-post-desktop/Posting to Instagram from a Desktop.png
+featuredImage: ../media/images/01-20/insta-post-desktop/Posting-to-Instagram-from-a-Desktop.png
 tags: ["Tutorial", "Social Media"]
 ---
 
-# Posting to Instagram from a Desktop? Here's how.
+# Posting to Instagram from a Desktop? Here's how
 
-## Posting to Instagram isn't just for mobile users.
+## Posting to Instagram isn't just for mobile users
 
 Instagram has worked it's way onto nearly every mobile device in the world, and on the way to doing it they made a platform that is unparralled for sharing visual content. For consumers it's easy to use and everything you could imagine is right at your finger tips. For content-creators it's one of the best places to to try build an audience by sharing your work.
 
@@ -22,7 +22,7 @@ There's no desktop upload...
 
 Or, is there? Read on to find out how.
 
-### Uploading images from desktops.
+### Uploading images from desktops
 
 Instagram has very much adapted to being a desktop app. Primarily, it is and will always be a mobile application. And, I don't see that changing any time soon. So, instead of waiting for Instagram to implement a feature that may never happen, we need to get creative.
 
@@ -30,7 +30,7 @@ If you log into Instagram on a desktop you should see your Instagram feed but wi
 
 No image upload.
 
-#### But, we're only getting started...
+#### But, we're only getting started
 
 Every modern browser has developer tools built in, one of which is a window resizing tool that allows a developer to see how their site looks and feels on different screen sizes. And, this is what we will be using to 'trick' Instagram into thinking we are a mobile user.
 
@@ -60,11 +60,11 @@ Now, you have yourself a virtual mobile phone. We can close the developer panel 
 
 But, we still have an issue, no button to upload images...
 
-We can soon sort that... 
+We can soon sort that...
 
 With a simple refresh, the menu at the bottom of the screen should be displayed.
 
-Now, all we need to do is press the '+' icon in the center of the menu and upload any images you wish without needing to ever leave your desktop. 👍 
+Now, all we need to do is press the '+' icon in the center of the menu and upload any images you wish without needing to ever leave your desktop. 👍
 
 Now, that's productivity 🔥.
 

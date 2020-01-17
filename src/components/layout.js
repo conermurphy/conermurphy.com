@@ -1,14 +1,14 @@
-//Importing dependcies from other sources to be worked with.
-import React from 'react'
-import Sidebar from './sidebar'
-import 'normalize.css' // Installing Normalize css
-import styled from 'styled-components'
-import '../styles/global.css'
-import {device} from './device'
+// Importing dependcies from other sources to be worked with.
+import React from 'react';
+import Sidebar from './sidebar';
+import 'normalize.css'; // Installing Normalize css
+import styled from 'styled-components';
+import '../styles/global.css';
+import { device } from './device';
 
-if (typeof window !== "undefined") {
+if (typeof window !== 'undefined') {
   // eslint-disable-next-line global-require
-  require("smooth-scroll")('a[href*="#"]')
+  require('smooth-scroll')('a[href*="#"]');
 }
 
 const LayoutContainer = styled.div`
@@ -30,7 +30,7 @@ const LayoutContainer = styled.div`
     grid-template-columns: auto;
   };
     
-`
+`;
 
 const MainSectionContainer = styled.div`{
     grid-area: main;
@@ -51,19 +51,16 @@ const MainSectionContainer = styled.div`{
     padding-top: 5rem;
     width: fit-content;
   };
-`
+`;
 
 // Template for other pages to use.
-const Layout = (props) => {
+const Layout = (props) => (
+  <LayoutContainer>
+    <Sidebar />
+    <MainSectionContainer>
+      {props.children}
+    </MainSectionContainer>
+  </LayoutContainer>
+);
 
-  return (
-    <LayoutContainer>
-      <Sidebar/>
-      <MainSectionContainer>
-        {props.children}
-      </MainSectionContainer>
-    </LayoutContainer>
-  )
-}
-
-export default Layout
+export default Layout;

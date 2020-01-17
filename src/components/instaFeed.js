@@ -1,9 +1,9 @@
 import React from 'react';
-import styled from 'styled-components'
-import { device } from '../components/device'
-import Img from 'gatsby-image'
-import {useStaticQuery, graphql} from 'gatsby'
+import styled from 'styled-components';
+import Img from 'gatsby-image';
+import { useStaticQuery, graphql } from 'gatsby';
 import { FaComment, FaHeart } from 'react-icons/fa';
+import { device } from './device';
 
 const InstaFeedContainer = styled.section`
     display: flex;
@@ -22,12 +22,12 @@ const InstaFeedContainer = styled.section`
         justify-content: flex-start;
         z-index: 1;
     };
-`
+`;
 
 const InstaImgLink = styled.a`
     position: relative;
     color: black;
-`
+`;
 
 const InstaImg = styled(Img)`
     width: 10rem;
@@ -48,7 +48,7 @@ const InstaImg = styled(Img)`
     @media ${device.mobileL} {
         margin: 0.25rem;
     };
-`
+`;
 
 const InstaImgStatsContainer = styled.div`
     position: absolute;
@@ -72,17 +72,17 @@ const InstaImgStatsContainer = styled.div`
     @media ${device.tablet} {
         display: none;
     };
-`
+`;
 
 const InstaImgStats = styled.p`
     font-size: 1.25rem;
     color: white;
     margin: 0.5rem;
-`
+`;
 
 const InstaFeed = () => {
-    const data = useStaticQuery(
-        graphql`
+  const data = useStaticQuery(
+    graphql`
         query {
             allInstaNode(limit: 4, sort: {order: DESC, fields: timestamp}) {
               edges {
@@ -116,23 +116,31 @@ const InstaFeed = () => {
               }
             }
           }
-        `
-    )
+        `,
+  );
 
-    return(
-        <InstaFeedContainer>
-            {data.allInstaNode.edges.map(( { node } ) => (
-                <InstaImgLink aria-label={`Image from Instagram Feed with the caption: ${node.caption}`} key={node.id} href={`https://www.instagram.com/p/${node.id}/`} >
-                    <InstaImg fluid={node.localFile.childImageSharp.fluid}/>
-                    <InstaImgStatsContainer>
-                        <InstaImgStats><FaHeart/> {node.likes}</InstaImgStats>
-                        <InstaImgStats><FaComment/> {node.comments === 0 ? node.comments : 0}</InstaImgStats>
-                    </InstaImgStatsContainer>
-                </InstaImgLink>
-            ))}
-            
-        </InstaFeedContainer>
-    )
-}
+  return (
+    <InstaFeedContainer>
+      {data.allInstaNode.edges.map(({ node }) => (
+        <InstaImgLink aria-label={`Image from Instagram Feed with the caption: ${node.caption}`} key={node.id} href={`https://www.instagram.com/p/${node.id}/`}>
+          <InstaImg fluid={node.localFile.childImageSharp.fluid} />
+          <InstaImgStatsContainer>
+            <InstaImgStats>
+              <FaHeart />
+              {' '}
+              {node.likes}
+            </InstaImgStats>
+            <InstaImgStats>
+              <FaComment />
+              {' '}
+              {node.comments === 0 ? node.comments : 0}
+            </InstaImgStats>
+          </InstaImgStatsContainer>
+        </InstaImgLink>
+      ))}
 
-export default InstaFeed
+    </InstaFeedContainer>
+  );
+};
+
+export default InstaFeed;
