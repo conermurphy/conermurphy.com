@@ -4,7 +4,7 @@ description: "To Get or To Set? That is the question."
 date: "2020-01-17"
 id: "3"
 authorid: "0"
-category: "The Fundamentals"
+category: "JavaScript Fundamentals"
 languages: ["JavaScript"]
 featuredImage: ../media/images/01-20/getters-and-setters/getters-and-setters-background-image.jpeg
 tags: ["Tutorial","JavaScript"]

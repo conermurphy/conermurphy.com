@@ -4,7 +4,7 @@ description: "Function Fundamentals."
 date: "2020-01-02"
 id: "1"
 authorid: "0"
-category: "The Fundamentals"
+category: "JavaScript Fundamentals"
 languages: ["JavaScript"]
 featuredImage: ../media/images/01-20/Functions-part1-feature.jpg
 tags: ["Tutorial", "JavaScript"]
@@ -14,9 +14,9 @@ tags: ["Tutorial", "JavaScript"]
 
 ## Series Introduction
 
-Often as developers we get a bit starry-eyed by the new and exciting parts of programming. For me and many others JavaScript is our language of choice and in the JS world there's always a new framework to get distracted by. Last year, frameworks like ReactJS, VueJS and Angluar domainated the headlines and firmly cemented themselves as the goto frameworks. 
+Often as developers we get a bit starry-eyed by the new and exciting parts of programming. For me and many others JavaScript is our language of choice and in the JS world there's always a new framework to get distracted by. Last year, frameworks like ReactJS, VueJS and Angluar domainated the headlines and firmly cemented themselves as the goto frameworks.
 
-But, while the work all these frameworks are doing is exciting, there's one very important thing often forgotten about... The basics. 
+But, while the work all these frameworks are doing is exciting, there's one very important thing often forgotten about... The basics.
 
 How often do you find yourself doing something, not because you understand how or why. But, because it's that's how it's done?
 
@@ -126,7 +126,7 @@ Simply, you can call your functions anything you want, but for your own sake it'
 
 Paramters are the values defined in the '()' of the function following the name, so in our example we passed in the parameters 'x' and 'y' which where then used inside the function body to perform the calculation.
 
-Now, if you look at the bottom of the code example, at the function call, we placed 2 values inside the '()' these are known as arguments. 
+Now, if you look at the bottom of the code example, at the function call, we placed 2 values inside the '()' these are known as arguments.
 
 You will often here Parametes and Arguments used interchangley but this ins't the case, they are actually different. Parameters are what we tell the function to expect to recieve when it's called and arguments are the values we pass into the function when we call it. A small difference but a key difference that you should be aware of.
 
@@ -194,9 +194,9 @@ The function call would be:
 addition(2,3);
 ```
 
-With this single line, we call the function 'addition' and pass it in 2 arguments (2 & 3) and are returned an output (5). But, because we haven't hard-coded anything into our function we could pass it any two numbers and get a result. For example, we could pass it the arguments (10 & 5) and would get 15 in reply. 
+With this single line, we call the function 'addition' and pass it in 2 arguments (2 & 3) and are returned an output (5). But, because we haven't hard-coded anything into our function we could pass it any two numbers and get a result. For example, we could pass it the arguments (10 & 5) and would get 15 in reply.
 
-Refering back to the previous section on Parameters & Arguments, the function call is the final piece to making the function functional. 
+Refering back to the previous section on Parameters & Arguments, the function call is the final piece to making the function functional.
 
 We pass parameters into the function defintion when it's created so it allows us to re-use the funciton by passing arguments in the function call whenever we need to.
 
@@ -211,5 +211,3 @@ If you enjoyed this article, then please share this article. | It would mean a l
 Want to discuss this article? Or, just say hi:
 
 [Website](https://www.conermurphy.com) | [Twitter](https://twitter.com/ConerMMurphy) | [Instagram](https://www.instagram.com/conermurphy/) | [Medium](https://medium.com/@conermurphy)
-
-
