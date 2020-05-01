@@ -5,7 +5,6 @@ import logo from '../../static/profileImgs/CM-Logo-2019.svg';
 
 const LogoImg = styled.img`
   height: ${props => props.height};
-  background-color: black;
 `;
 
 const Logo = ({ height }) => <LogoImg src={logo} alt="Coner Murphy Creative Logo " height={height} />;

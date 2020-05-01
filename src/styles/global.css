@@ -27,7 +27,7 @@ p,a {
 
 h1, h2, h3, h4, h5 {
     font-family: var(--header-font);
-    color: var(-header-font-color);
+    color: var(--header-font-color);
     font-size: 2rem;
     font-weight: 500;
 }

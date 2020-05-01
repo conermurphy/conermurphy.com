@@ -7,7 +7,7 @@ import Logo from './logo';
 const NavContainer = styled.nav`
   display: flex;
   position: sticky;
-  top: 100vh;
+  flex: 1;
   justify-content: space-evenly;
   align-items: center;
 
