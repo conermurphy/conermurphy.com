@@ -12,11 +12,26 @@ const BlogContainer = styled.div`
   align-items: center;
 `;
 
+const Tag = styled.button`
+  margin: 0.5rem;
+  padding: 0.5rem;
+  transition: 0.2s all;
+  background-color: ${props => (props.active ? 'var(--header-color)' : '')};
+  border: 1px solid ${props => (props.active ? 'var(--background-color)' : 'var(--header-color)')};
+  color: ${props => (props.active ? 'var(--background-color)' : 'var(--header-color)')};
+
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
 const Blog = ({ data }) => {
   const [activeCategories, setActiveCategories] = useState([]);
   const posts = data.allMdx.edges;
   const categories = [];
   const { title } = useSiteMetadata();
+
+  // console.log(data);
 
   posts.forEach(post => {
     const { category } = post.node.frontmatter;
@@ -39,6 +54,22 @@ const Blog = ({ data }) => {
       <BlogContainer>
         <h1>{title}</h1>
         <p>Some subtitle I need to add back in at a later date.</p>
+        <div>
+          {categories.map(category => (
+            <Tag type="button" key={category.class} onClick={handleClick} active={!!activeCategories.includes(category)}>
+              {category}
+            </Tag>
+          ))}
+        </div>
+        <div>
+          {posts.map(({ node }) => {
+            const postCategory = node.frontmatter.category;
+            if (activeCategories.includes(postCategory) || activeCategories.length === 0) {
+              // return <PortfolioPost post={node} key={node.id} page="blog" />;
+            }
+            return null;
+          })}
+        </div>
       </BlogContainer>
     </Layout>
   );
@@ -46,8 +77,8 @@ const Blog = ({ data }) => {
 
 Blog.propTypes = {
   data: PropTypes.shape({
-    allMdx: PropTypes.shape({
-      edges: PropTypes.arrayOf({
+    allMdx: PropTypes.shape(
+      PropTypes.arrayOf({
         node: PropTypes.shape({
           frontmatter: PropTypes.shape({
             title: PropTypes.string.isRequired,
@@ -63,8 +94,8 @@ Blog.propTypes = {
             slug: PropTypes.string.isRequired,
           }),
         }),
-      }),
-    }),
+      }).isRequired
+    ),
   }).isRequired,
 };
 
