@@ -5,12 +5,19 @@ import styled from 'styled-components';
 import '../styles/global.css';
 import PropTypes from 'prop-types';
 import Header from './header';
+import Nav from './nav';
+
+const Container = styled.div`
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
 
 const Layout = ({ children }) => (
-  <>
+  <Container>
     <main>{children}</main>
-    <header></header>
-  </>
+    <Nav></Nav>
+  </Container>
 );
 
 Layout.propTypes = {
