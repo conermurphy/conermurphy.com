@@ -15,6 +15,11 @@ exports.onCreateNode = ({ node, actions }) => {
         name: 'slug',
         value: `/blog/${e.id}`,
       });
+      createNodeField({
+        node,
+        name: 'postId',
+        value: e.id,
+      });
     });
   }
 };

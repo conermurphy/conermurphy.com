@@ -116,6 +116,7 @@ export const query = graphql`
           id
           fields {
             slug
+            postId
           }
         }
       }
