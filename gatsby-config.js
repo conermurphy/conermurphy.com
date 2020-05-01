@@ -31,15 +31,8 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        path: './content/data/portfolio',
-        name: 'portfolio',
-      },
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        path: './content/data/testimonials',
-        name: 'testimonials',
+        path: './content/data/',
+        name: 'data',
       },
     },
     {
