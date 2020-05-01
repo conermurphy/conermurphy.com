@@ -16,7 +16,7 @@ const Container = styled.div`
 const Layout = ({ children }) => (
   <Container>
     <main>{children}</main>
-    <Nav></Nav>
+    <Nav />
   </Container>
 );
 

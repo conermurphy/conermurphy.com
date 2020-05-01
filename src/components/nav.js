@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'gatsby';
 import { FaPenSquare, FaBriefcase } from 'react-icons/fa';
 import styled from 'styled-components';
-import logo from '../../static/profileImgs/CM-Logo-2019.svg';
+import Logo from './logo';
 
 const NavContainer = styled.nav`
   display: flex;
@@ -29,20 +29,13 @@ const NavItem = styled(Link)`
   }
 `;
 
-const Logo = styled.img`
-  height: 3.75vh;
-  background-color: black;
-  border-radius: 50%;
-  border: 2px solid var(--body-font-color);
-`;
-
 const Nav = () => (
   <NavContainer>
     <NavItem to="/">
       <FaBriefcase />
     </NavItem>
     <NavItem to="/">
-      <Logo src={logo} alt="Coner Murphy Creative Logo " />
+      <Logo height="3.75vh" />
     </NavItem>
     <NavItem to="/blog">
       <FaPenSquare />
