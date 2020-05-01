@@ -112,6 +112,7 @@ export const query = graphql`
             description
             languages
           }
+          blog
           timeToRead
           id
           fields {
