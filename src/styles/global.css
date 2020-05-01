@@ -25,6 +25,10 @@ p,a {
     font-weight: 400;
 }
 
+a {
+    text-decoration: none;
+}
+
 h1, h2, h3, h4, h5 {
     font-family: var(--header-font);
     color: var(--header-font-color);

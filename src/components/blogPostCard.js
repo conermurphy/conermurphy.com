@@ -3,12 +3,48 @@ import { Link } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+const CardContainer = styled.div`
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid var(--body-font-color);
+  margin: 1rem;
+  padding: 2rem;
+  padding-top: 1.5rem;
+  width: 60vw;
+  height: auto;
+  max-width: 20rem;
+  border-radius: 2vh;
+`;
+
+const PostInfo = styled.p`
+  font-size: 0.9rem;
+`;
+
+const PostTitle = styled.h3`
+  margin: 0.5rem;
+  font-size: 1.4rem;
+`;
+
+const AuthorName = styled.p`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding-left: 1rem;
+  font-size: 0.75rem;
+`;
+
 const BlogPostCard = ({ post }) => (
-  <div>
-    <p>{post.frontmatter.category}</p>
-    <h3>{post.frontmatter.title}</h3>
-    <p>{`${post.fields.postId} | ${post.frontmatter.date}`}</p>
-  </div>
+  <Link to={post.fields.slug}>
+    <CardContainer>
+      <PostInfo>{post.frontmatter.category}</PostInfo>
+      <PostTitle>{post.frontmatter.title}</PostTitle>
+      <PostInfo>{`Post ${post.fields.postId} - ${post.frontmatter.date}`}</PostInfo>
+      <AuthorName>@MrConerMurphy</AuthorName>
+    </CardContainer>
+  </Link>
 );
 
 BlogPostCard.propTypes = {
@@ -22,6 +58,7 @@ BlogPostCard.propTypes = {
     }),
     fields: PropTypes.shape({
       slug: PropTypes.string.isRequired,
+      postId: PropTypes.number.isRequired,
     }),
   }),
 };
