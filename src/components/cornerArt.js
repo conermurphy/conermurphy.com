@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const SVGContainer = styled.svg`
   position: absolute;
@@ -26,6 +27,10 @@ const CornerArt = ({ adjustments }) => {
       />
     </SVGContainer>
   );
+};
+
+CornerArt.propTypes = {
+  adjustments: PropTypes.array.isRequired,
 };
 
 export default CornerArt;
