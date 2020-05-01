@@ -5,6 +5,10 @@ import styled from 'styled-components';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 
-const Index = () => <h1>Hello World!</h1>;
+const Index = () => (
+  <Layout>
+    <h1>Test</h1>
+  </Layout>
+);
 
 export default Index;

@@ -3,25 +3,18 @@ import React from 'react';
 import 'normalize.css'; // Installing Normalize css
 import styled from 'styled-components';
 import '../styles/global.css';
+import PropTypes from 'prop-types';
+import Header from './header';
 
-const LayoutContainer = styled.div`
-  display: grid;
-  grid-template-areas: 'sidebar main ';
-  grid-template-columns: 17.5vw auto;
-`;
-
-const MainSectionContainer = styled.div`{
-    grid-area: main;
-    margin: 5rem 15rem;
-    justify-self: center;
-    width: fit-content;
-`;
-
-// Template for other pages to use.
 const Layout = ({ children }) => (
-  <LayoutContainer>
-    <MainSectionContainer>{children}</MainSectionContainer>
-  </LayoutContainer>
+  <>
+    <main>{children}</main>
+    <header></header>
+  </>
 );
+
+Layout.propTypes = {
+  children: PropTypes.shape,
+};
 
 export default Layout;
