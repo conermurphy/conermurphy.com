@@ -47,9 +47,9 @@ Simply put a function is a block of code that can be called at any point to carr
 
 To someone who isn't a developer that may sound gobbledygook but in reality, it is quite simple. Let's take a look at an example.
 
-```JavaScript
+```JS
 function example() {
-  console.log("I'm a function! :)");
+  console.log("I'm a function! :)";);
 }
 
 example();
@@ -73,10 +73,10 @@ We breifly looked at the different parts of a function above but let's break dow
 
 Take a look at this function.
 
-```JavaScript
+```JS
 function addition(x, y) {
-  return (x + y;);
-}
+  return (x + y;)
+};
 
 addition(2,3);
 ```
@@ -180,18 +180,18 @@ Being able to invoke functions is one reason functions are so pivotal in coding.
 
 For once final time in this post, let's look at our example function:
 
-```JavaScript
+```JS
 function addition(x, y) {
-  return (x + y;);
-}
+  return (x + y);
+
 
 addition(2,3);
 ```
 
 The function call would be:
 
-```JavaScript
-addition(2,3);
+```JS
+addition(2, 3);
 ```
 
 With this single line, we call the function 'addition' and pass it in 2 arguments (2 & 3) and are returned an output (5). But, because we haven't hard-coded anything into our function we could pass it any two numbers and get a result. For example, we could pass it the arguments (10 & 5) and would get 15 in reply.
