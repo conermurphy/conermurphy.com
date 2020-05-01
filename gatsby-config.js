@@ -22,13 +22,6 @@ module.exports = {
         name: 'images',
       },
     },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        path: `${__dirname}/content/media/assets`,
-        name: 'assets',
-      },
-    },
     'gatsby-transformer-json',
     {
       resolve: 'gatsby-source-filesystem',
