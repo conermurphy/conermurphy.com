@@ -3,6 +3,10 @@ import { Link } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+const CardLink = styled(Link)`
+  margin: 1rem;
+`;
+
 const CardContainer = styled.div`
   display: flex;
   position: relative;
@@ -10,7 +14,6 @@ const CardContainer = styled.div`
   align-items: center;
   text-align: center;
   border: 1px solid var(--body-font-color);
-  margin: 1rem;
   padding: 2rem;
   padding-top: 1.5rem;
   width: 60vw;
@@ -37,14 +40,14 @@ const AuthorName = styled.p`
 `;
 
 const BlogPostCard = ({ post }) => (
-  <Link to={post.fields.slug}>
+  <CardLink to={post.fields.slug}>
     <CardContainer>
       <PostInfo>{post.frontmatter.category}</PostInfo>
       <PostTitle>{post.frontmatter.title}</PostTitle>
       <PostInfo>{`Post ${post.fields.postId} - ${post.frontmatter.date}`}</PostInfo>
       <AuthorName>@MrConerMurphy</AuthorName>
     </CardContainer>
-  </Link>
+  </CardLink>
 );
 
 BlogPostCard.propTypes = {
