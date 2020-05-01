@@ -1,0 +1,32 @@
+{
+    "extends": [
+        "wesbos"
+    ],
+    "rules": {
+        "indent": 1,
+        "quotes": [
+            2,
+            "single",
+            {
+                "avoidEscape": true
+            }
+        ],
+        "no-unused-expressions": [
+            1,
+            {
+                "allowTernary": true
+            }
+        ],
+        "prettier/prettier": [
+            "error",
+            {
+                "trailingComma": "es5",
+                "singleQuote": true,
+                "printWidth": 140
+            }
+        ]
+    },
+    "plugins": [
+        "markdown"
+    ]
+}
