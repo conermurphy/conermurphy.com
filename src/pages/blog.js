@@ -101,7 +101,7 @@ Blog.propTypes = {
 };
 
 export const query = graphql`
-  query blogQuery {
+  query {
     allMdx(sort: { order: DESC, fields: frontmatter___date }) {
       edges {
         node {
@@ -112,8 +112,7 @@ export const query = graphql`
             description
             languages
           }
-          blog
-          timeToRead
+          body
           id
           fields {
             slug
