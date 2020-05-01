@@ -5,6 +5,7 @@ module.exports = {
     author: 'Coner Murphy',
     siteUrl: 'https://conermurphy.com',
     twitter: '',
+    // logo: '../content/media/assets/CM-Logo-2019.svg',
   },
   plugins: [
     {
@@ -59,7 +60,7 @@ module.exports = {
         theme_color: '#1f2a51',
         lang: 'en',
         display: 'standalone',
-        icon: 'content/media/assets/CM-Logo-2019.svg', // Change this at a later point
+        // icon: './content/media/assets/CM-Logo-2019.svg', // Change this at a later point
       },
     },
     'gatsby-plugin-sharp',
