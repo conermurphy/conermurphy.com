@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500|Montserrat:300,400,600&display=swap');
+
+:root {
+    --background-color: rgba(253,250,250,255);
+    --body-font-color: rgba(50,50,50,200);
+    --header-font-color: rgba(149,55,32,255);    
+    --body-font: 'Montserrat', sans-serif;
+    --header-font: 'Fira Sans', sans-serif;
+}
+
+/* [data-theme="dark"] {
+    --background-color: 
+    --body-font-color: 
+    --header-font-color:
+} */
+
+p,a {
+    font-family: var(--body-font);
+    color: var(--body-font-color);
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: var(--header-font);
+    color: var(-header-font-color);
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+h2 {
+    font-size: 1.75rem;
+    font-weight: 500;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+h4 {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+h5 {
+    font-size: 1.25rem;
+    font-weight: 400;
+}
