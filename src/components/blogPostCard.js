@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import CornerArt from './cornerArt';
 
 const CardLink = styled(Link)`
   margin: 1rem;
@@ -20,6 +21,7 @@ const CardContainer = styled.div`
   height: auto;
   max-width: 20rem;
   border-radius: 2vh;
+  overflow: hidden;
 `;
 
 const PostInfo = styled.p`
@@ -46,6 +48,7 @@ const BlogPostCard = ({ post }) => (
       <PostTitle>{post.frontmatter.title}</PostTitle>
       <PostInfo>{`Post ${post.fields.postId} - ${post.frontmatter.date}`}</PostInfo>
       <AuthorName>@MrConerMurphy</AuthorName>
+      <CornerArt />
     </CardContainer>
   </CardLink>
 );
