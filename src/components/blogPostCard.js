@@ -48,7 +48,7 @@ const BlogPostCard = ({ post }) => (
       <PostTitle>{post.frontmatter.title}</PostTitle>
       <PostInfo>{`Post ${post.fields.postId} - ${post.frontmatter.date}`}</PostInfo>
       <AuthorName>@MrConerMurphy</AuthorName>
-      <CornerArt />
+      <CornerArt adjustments={[1, 0, 0, 0]} />
     </CardContainer>
   </CardLink>
 );
