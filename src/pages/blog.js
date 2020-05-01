@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link, graphql } from 'gatsby';
+import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
+import BlogPostCard from '../components/blogPostCard';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
 
 const BlogContainer = styled.div`
@@ -56,7 +57,7 @@ const Blog = ({ data }) => {
         <p>Some subtitle I need to add back in at a later date.</p>
         <div>
           {categories.map(category => (
-            <Tag type="button" key={category.class} onClick={handleClick} active={!!activeCategories.includes(category)}>
+            <Tag type="button" key={category} onClick={handleClick} active={!!activeCategories.includes(category)}>
               {category}
             </Tag>
           ))}
@@ -65,7 +66,7 @@ const Blog = ({ data }) => {
           {posts.map(({ node }) => {
             const postCategory = node.frontmatter.category;
             if (activeCategories.includes(postCategory) || activeCategories.length === 0) {
-              // return <PortfolioPost post={node} key={node.id} page="blog" />;
+              return <BlogPostCard post={node} key={node.id} />;
             }
             return null;
           })}
@@ -111,7 +112,6 @@ export const query = graphql`
             description
             languages
           }
-          body
           timeToRead
           id
           fields {
