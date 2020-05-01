@@ -1,13 +1,20 @@
 const path = require('path');
 
+const nodes = [];
+
 exports.onCreateNode = ({ node, actions }) => {
-  const { createNodeField } = actions;
+  const { createNodeField } = actions; // Getting the createNodeField API
   if (node.internal.type === 'Mdx') {
-    const { id } = node.frontmatter;
-    createNodeField({
-      node,
-      name: 'slug',
-      value: `/blog/${id}`,
+    nodes.push({ node, date: node.frontmatter.date }); // Adds the node with the date field to the nodes array.
+    nodes.sort((a, b) => (a.date - b.date ? -1 : 1)); // Sorts the nodes field into ascending order (oldest = 0).
+    const sortedNodes = nodes.map((x, index) => ({ ...x, id: index })); // Creates the new id field based off the sorted array.
+    sortedNodes.forEach(e => {
+      // Adds the new id field as the slug to the node so can be queried later on.
+      createNodeField({
+        node,
+        name: 'slug',
+        value: `/blog/${e.id}`,
+      });
     });
   }
 };
