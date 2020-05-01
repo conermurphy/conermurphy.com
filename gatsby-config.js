@@ -27,19 +27,6 @@ module.exports = {
         name: 'assets',
       },
     },
-    {
-      resolve: 'gatsby-transformer-remark',
-      options: {
-        plugins: [
-          {
-            resolve: 'gatsby-remark-images',
-            options: {
-              maxWidth: 800,
-            },
-          },
-        ],
-      },
-    },
     'gatsby-transformer-json',
     {
       resolve: 'gatsby-source-filesystem',
@@ -53,6 +40,19 @@ module.exports = {
       options: {
         path: './content/data/testimonials',
         name: 'testimonials',
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-mdx',
+      options: {
+        gatsbyRemarkPlugins: [
+          {
+            resolve: 'gatsby-remark-images',
+            options: {
+              maxWidth: 1035,
+            },
+          },
+        ],
       },
     },
     {
