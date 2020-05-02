@@ -19,11 +19,17 @@ body {
     background-color: var(--background-color);
 }
 
-p,a,button {
+p,a,button,li {
     font-family: var(--body-font);
     color: var(--body-font-color);
     font-size: 0.9rem;
     font-weight: 400;
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+ul {
+    margin-bottom: 0;
 }
 
 a {

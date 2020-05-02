@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const PostNavigation = ({ pageContext }) => {
   const { prev, next } = pageContext;
-  return <p>Test content</p>;
+  return <div></div>;
 };
 
 PostNavigation.propTypes = {

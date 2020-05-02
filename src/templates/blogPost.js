@@ -8,6 +8,11 @@ import Layout from '../components/layout';
 import CodeBlock from '../components/mdx/codeBlock.js';
 import PostNavigation from '../components/mdx/postNavigation.js';
 
+const BlogPostContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const components = {
   pre: props => <div {...props} />,
   code: props => <CodeBlock {...props} />,
@@ -16,12 +21,14 @@ const components = {
 const BlogPost = ({ data, pageContext }) => {
   const post = data.mdx;
   return (
-    <div>
-      <MDXProvider components={components}>
-        <MDXRenderer>{post.body}</MDXRenderer>
-      </MDXProvider>
-      <PostNavigation pageContext={pageContext} />
-    </div>
+    <Layout>
+      <BlogPostContainer>
+        <MDXProvider components={components}>
+          <MDXRenderer>{post.body}</MDXRenderer>
+        </MDXProvider>
+        <PostNavigation pageContext={pageContext} />
+      </BlogPostContainer>
+    </Layout>
   );
 };
 
