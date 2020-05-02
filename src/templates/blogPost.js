@@ -47,6 +47,9 @@ BlogPost.propTypes = {
         languages: PropTypes.array.isRequired,
       }),
       timeToRead: PropTypes.number.isRequired,
+      fields: PropTypes.shape({
+        postId: PropTypes.number.isRequired,
+      }),
     }),
   }).isRequired,
   pageContext: PropTypes.shape({
