@@ -19,7 +19,7 @@ body {
     background-color: var(--background-color);
 }
 
-p,a {
+p,a,button {
     font-family: var(--body-font);
     color: var(--body-font-color);
     font-size: 0.9rem;
@@ -28,6 +28,10 @@ p,a {
 
 a {
     text-decoration: none;
+}
+
+button {
+    font-size: 1rem;
 }
 
 h1, h2, h3, h4, h5 {

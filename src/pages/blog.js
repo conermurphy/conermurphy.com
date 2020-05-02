@@ -13,17 +13,17 @@ const BlogContainer = styled.div`
   align-items: center;
 `;
 
-const Tag = styled.button`
-  margin: 0.5rem;
-  padding: 0.5rem;
-  transition: 0.2s all;
-  background-color: ${props => (props.active ? 'var(--header-color)' : '')};
-  border: 1px solid ${props => (props.active ? 'var(--background-color)' : 'var(--header-color)')};
-  color: ${props => (props.active ? 'var(--background-color)' : 'var(--header-color)')};
+const Language = styled.button`
+  padding: 0.7rem;
+  transition: 0.2s all ease;
+  background-color: ${props => (props.active ? 'var(--header-font-color)' : 'var(--secondary-color)')};
+  border: 1px solid ${props => (props.active ? 'var(--secondary-color)' : 'var(--header-font-color)')};
+  border-radius: 2vw;
+  color: ${props => (props.active ? 'var(--secondary-color)' : 'var(--header-color)')};
 
-  &:hover {
-    transform: scale(1.1);
-  }
+  box-shadow: 0px 1px 1px rgba(200, 200, 200, 10);
+  box-shadow: 0px 2px 2px rgba(200, 200, 200, 10);
+  box-shadow: 0px 3px 3px rgba(200, 200, 200, 10);
 `;
 
 const PostContainer = styled.div`
@@ -65,9 +65,9 @@ const Blog = ({ data }) => {
         <p>Some subtitle I need to add back in at a later date.</p>
         <div>
           {allLanguages.map(language => (
-            <Tag type="button" key={language} onClick={handleClick} active={!!activeLanguages.includes(language)}>
+            <Language type="button" key={language} onClick={handleClick} active={!!activeLanguages.includes(language)}>
               {language}
-            </Tag>
+            </Language>
           ))}
         </div>
         <PostContainer>
