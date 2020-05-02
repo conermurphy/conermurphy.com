@@ -5,6 +5,12 @@ import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
+import CodeBlock from '../components/mdx/codeBlock.js';
+
+const components = {
+  pre: props => <div {...props} />,
+  code: props => <CodeBlock {...props} />,
+};
 
 const BlogPost = ({ data, pageContext }) => {
   const post = data.mdx;
@@ -12,6 +18,9 @@ const BlogPost = ({ data, pageContext }) => {
   return (
     <div>
       <h1>Hello World</h1>
+      <MDXProvider components={components}>
+        <MDXRenderer>{post.body}</MDXRenderer>
+      </MDXProvider>
     </div>
   );
 };
@@ -27,7 +36,6 @@ export const query = graphql`
         category
         languages
       }
-      timeToRead
       fields {
         postId
       }
@@ -46,7 +54,6 @@ BlogPost.propTypes = {
         description: PropTypes.string.isRequired,
         languages: PropTypes.array.isRequired,
       }),
-      timeToRead: PropTypes.number.isRequired,
       fields: PropTypes.shape({
         postId: PropTypes.number.isRequired,
       }),
