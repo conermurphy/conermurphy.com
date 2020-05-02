@@ -26,6 +26,14 @@ const Tag = styled.button`
   }
 `;
 
+const PostContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Blog = ({ data }) => {
   const [activeCategories, setActiveCategories] = useState([]);
   const posts = data.allMdx.edges;
@@ -62,7 +70,7 @@ const Blog = ({ data }) => {
             </Tag>
           ))}
         </div>
-        <div>
+        <PostContainer>
           {posts.map(({ node }) => {
             const postCategory = node.frontmatter.category;
             if (activeCategories.includes(postCategory) || activeCategories.length === 0) {
@@ -70,7 +78,7 @@ const Blog = ({ data }) => {
             }
             return null;
           })}
-        </div>
+        </PostContainer>
       </BlogContainer>
     </Layout>
   );
