@@ -17,6 +17,8 @@ const NavContainer = styled.nav`
   border-top-left-radius: 2vh;
 
   filter: drop-shadow(0 -2px 2px rgba(200, 200, 200, 20));
+
+  bottom: 0;
 `;
 
 const NavItem = styled(Link)`
