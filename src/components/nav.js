@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
 import { Link } from 'gatsby';
+import { motion } from 'framer-motion';
 import { FaPenSquare, FaBriefcase } from 'react-icons/fa';
 import styled from 'styled-components';
 import Logo from './logo';
 
-const NavContainer = styled(motion.nav)`
+const NavContainer = styled.nav`
   position: sticky;
-  flex: 1;
   justify-content: space-evenly;
   align-items: center;
 
-  background-color: rgba(250, 250, 250, 230);
+  // background-color: rgba(250, 250, 250, 230);
+
+  background-color: var(--header-font-color);
 
   border-top-right-radius: 2vh;
   border-top-left-radius: 2vh;
@@ -32,43 +33,18 @@ const NavItem = styled(Link)`
   }
 `;
 
-const variants = {
-  open: { opacity: 1, zIndex: 1 },
-  closed: { opacity: 0, zIndex: '-1' },
-};
-
-const Nav = () => {
-  const [active, setActive] = useState(true);
-  const [lastScroll, setLastScroll] = useState(0);
-
-  const handleScroll = () => {
-    const currentScroll = window.scrollY;
-
-    if (currentScroll < lastScroll || window.pageYOffset === 0) {
-      setActive(true);
-    } else {
-      setActive(false);
-    }
-    setLastScroll(currentScroll);
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-  });
-
-  return (
-    <NavContainer animate={active ? 'open' : 'closed'} variants={variants}>
-      <NavItem to="/">
-        <FaBriefcase />
-      </NavItem>
-      <NavItem to="/">
-        <Logo height="3.75vh" />
-      </NavItem>
-      <NavItem to="/blog">
-        <FaPenSquare />
-      </NavItem>
-    </NavContainer>
-  );
-};
+const Nav = () => (
+  <NavContainer>
+    <NavItem to="/">
+      <FaBriefcase />
+    </NavItem>
+    <NavItem to="/">
+      <Logo height="3.75vh" />
+    </NavItem>
+    <NavItem to="/blog">
+      <FaPenSquare />
+    </NavItem>
+  </NavContainer>
+);
 
 export default Nav;

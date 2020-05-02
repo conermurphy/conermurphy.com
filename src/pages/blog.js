@@ -8,7 +8,6 @@ import BlogPostCard from '../components/blogPostCard';
 const BlogContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100vw;
   align-items: center;
 `;
 
