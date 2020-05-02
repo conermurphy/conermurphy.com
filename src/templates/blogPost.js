@@ -6,6 +6,7 @@ import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
 import CodeBlock from '../components/mdx/codeBlock.js';
+import PostNavigation from '../components/mdx/postNavigation.js';
 
 const components = {
   pre: props => <div {...props} />,
@@ -14,13 +15,13 @@ const components = {
 
 const BlogPost = ({ data, pageContext }) => {
   const post = data.mdx;
-  console.log(post);
+  console.log(pageContext);
   return (
     <div>
-      <h1>Hello World</h1>
       <MDXProvider components={components}>
         <MDXRenderer>{post.body}</MDXRenderer>
       </MDXProvider>
+      <PostNavigation pageContext={pageContext} />
     </div>
   );
 };
@@ -66,11 +67,21 @@ BlogPost.propTypes = {
         slug: PropTypes.string,
         postId: PropTypes.number.isRequired,
       }),
+      frontmatter: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        date: PropTypes.string.isRequired,
+        category: PropTypes.string.isRequired,
+      }),
     }),
     next: PropTypes.shape({
       fields: PropTypes.shape({
         slug: PropTypes.string.isRequired,
         postId: PropTypes.number.isRequired,
+      }),
+      frontmatter: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        date: PropTypes.string.isRequired,
+        category: PropTypes.string.isRequired,
       }),
     }),
   }).isRequired,
