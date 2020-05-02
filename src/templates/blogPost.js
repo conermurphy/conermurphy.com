@@ -15,7 +15,6 @@ const components = {
 
 const BlogPost = ({ data, pageContext }) => {
   const post = data.mdx;
-  console.log(pageContext);
   return (
     <div>
       <MDXProvider components={components}>
