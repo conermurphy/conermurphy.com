@@ -35,26 +35,26 @@ const PostContainer = styled.div`
 `;
 
 const Blog = ({ data }) => {
-  const [activeCategories, setActiveCategories] = useState([]);
+  const [activeLanguages, setActiveLanguages] = useState([]);
   const posts = data.allMdx.edges;
-  const categories = [];
+  const allLanguages = [];
   const { title } = useSiteMetadata();
 
-  // console.log(data);
-
   posts.forEach(post => {
-    const { category } = post.node.frontmatter;
-    if (!categories.includes(category)) {
-      categories.push(category);
-    }
+    const { languages } = post.node.frontmatter;
+    languages.forEach(language => {
+      if (!allLanguages.includes(language)) {
+        allLanguages.push(language);
+      }
+    });
   });
 
   const handleClick = e => {
-    const categoryToSet = e.target.innerText;
-    if (activeCategories.includes(categoryToSet)) {
-      setActiveCategories(activeCategories.filter(category => category !== categoryToSet));
+    const languageToSet = e.target.innerText;
+    if (activeLanguages.includes(languageToSet)) {
+      setActiveLanguages(activeLanguages.filter(language => language !== languageToSet));
     } else {
-      setActiveCategories([...activeCategories, categoryToSet]);
+      setActiveLanguages([...activeLanguages, languageToSet]);
     }
   };
 
@@ -64,19 +64,21 @@ const Blog = ({ data }) => {
         <h1>{title}</h1>
         <p>Some subtitle I need to add back in at a later date.</p>
         <div>
-          {categories.map(category => (
-            <Tag type="button" key={category} onClick={handleClick} active={!!activeCategories.includes(category)}>
-              {category}
+          {allLanguages.map(language => (
+            <Tag type="button" key={language} onClick={handleClick} active={!!activeLanguages.includes(language)}>
+              {language}
             </Tag>
           ))}
         </div>
         <PostContainer>
           {posts.map(({ node }) => {
-            const postCategory = node.frontmatter.category;
-            if (activeCategories.includes(postCategory) || activeCategories.length === 0) {
-              return <BlogPostCard post={node} key={node.id} />;
-            }
-            return null;
+            const [...postLanguages] = node.frontmatter.languages;
+            return postLanguages.map(language => {
+              if (activeLanguages.includes(language) || activeLanguages.length === 0) {
+                return <BlogPostCard post={node} key={node.id} />;
+              }
+              return null;
+            });
           })}
         </PostContainer>
       </BlogContainer>
