@@ -4,7 +4,6 @@ import 'normalize.css'; // Installing Normalize css
 import styled from 'styled-components';
 import '../styles/global.css';
 import PropTypes from 'prop-types';
-import Header from './header';
 import Nav from './nav';
 
 const Container = styled.div`

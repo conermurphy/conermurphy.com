@@ -1,7 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
-import '../styles/global.css';
-import PropTypes from 'prop-types';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
 
 const Header = () => {
