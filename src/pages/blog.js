@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
 import BlogPostCard from '../components/blogPostCard';
-import { useSiteMetadata } from '../hooks/use-site-metadata';
 
 const BlogContainer = styled.div`
   display: flex;
@@ -38,7 +37,6 @@ const Blog = ({ data }) => {
   const [activeLanguages, setActiveLanguages] = useState([]);
   const posts = data.allMdx.edges;
   const allLanguages = [];
-  const { title } = useSiteMetadata();
 
   posts.forEach(post => {
     const { languages } = post.node.frontmatter;
@@ -61,8 +59,11 @@ const Blog = ({ data }) => {
   return (
     <Layout>
       <BlogContainer>
-        <h1>{title}</h1>
-        <p>Some subtitle I need to add back in at a later date.</p>
+        <h1>Blog Posts</h1>
+        <p style={{ textAlign: 'center' }}>
+          Welcome to my blog! Here you'll find all of my latest posts, published here anywhere else. If you have any questions I'd be happy
+          answer them!
+        </p>
         <div>
           {allLanguages.map(language => (
             <Language type="button" key={language} onClick={handleClick} active={!!activeLanguages.includes(language)}>
