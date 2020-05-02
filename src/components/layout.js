@@ -16,7 +16,6 @@ const PageContentContainer = styled.main`
   display: flex;
   flex: 10;
   padding 1rem;
-  height: 90vh;
   overflow: scroll;
 `;
 
