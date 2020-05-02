@@ -1,8 +1,10 @@
 const path = require('path');
 
+const { createFilePath } = require('gatsby-source-filesystem');
+
 const nodes = [];
 
-exports.onCreateNode = ({ node, actions }) => {
+exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions; // Getting the createNodeField API
   if (node.internal.type === 'Mdx') {
     nodes.push({ node, date: node.frontmatter.date }); // Adds the node with the date field to the nodes array.
@@ -10,10 +12,11 @@ exports.onCreateNode = ({ node, actions }) => {
     const sortedNodes = nodes.map((x, index) => ({ ...x, id: index })); // Creates the new id field based off the sorted array.
     sortedNodes.forEach(e => {
       // Adds the new id field as the slug to the node so can be queried later on.
+      const slug = createFilePath({ node, getNode, basePath: 'content/posts' }).replace(/[0-9]/g, '');
       createNodeField({
         node,
         name: 'slug',
-        value: `/blog/${e.id}`,
+        value: slug,
       });
       createNodeField({
         node,
