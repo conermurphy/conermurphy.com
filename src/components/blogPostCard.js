@@ -14,7 +14,6 @@ const CardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  border: 1px solid var(--body-font-color);
   padding: 2rem;
   padding-top: 1.5rem;
   width: 60vw;
@@ -22,6 +21,11 @@ const CardContainer = styled.div`
   max-width: 20rem;
   border-radius: 2vh;
   overflow: hidden;
+  background-color: var(--secondary-color);
+
+  box-shadow: 0px 2px 2px rgba(200, 200, 200, 20);
+  box-shadow: 0px 4px 4px rgba(200, 200, 200, 20);
+  box-shadow: 0px 6px 6px rgba(200, 200, 200, 20);
 `;
 
 const PostInfo = styled.p`
