@@ -1,17 +1,18 @@
 import React from 'react';
 import { Link } from 'gatsby';
+import { motion } from 'framer-motion';
 import { FaPenSquare, FaBriefcase } from 'react-icons/fa';
 import styled from 'styled-components';
 import Logo from './logo';
 
 const NavContainer = styled.nav`
-  display: flex;
   position: sticky;
-  flex: 1;
   justify-content: space-evenly;
   align-items: center;
 
-  background-color: rgba(250, 250, 250, 230);
+  // background-color: rgba(250, 250, 250, 230);
+
+  background-color: var(--header-font-color);
 
   border-top-right-radius: 2vh;
   border-top-left-radius: 2vh;
@@ -19,6 +20,7 @@ const NavContainer = styled.nav`
   filter: drop-shadow(0 -2px 2px rgba(200, 200, 200, 20));
 
   bottom: 0;
+  display: flex;
 `;
 
 const NavItem = styled(Link)`
