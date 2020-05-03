@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql, Link } from 'gatsby';
+import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
@@ -14,10 +14,12 @@ const BlogPostContainer = styled.div`
   padding: 1rem;
 `;
 
+/* eslint-disable */
 const components = {
   pre: props => <div {...props} />,
   code: props => <CodeBlock {...props} />,
 };
+/* eslint-enable */
 
 const BlogPost = ({ data, pageContext }) => {
   const post = data.mdx;
