@@ -52,7 +52,8 @@ const PostNavigation = ({ pageContext }) => {
   const totalPosts = data.allMdx.edges;
   const randomPostId = Math.round(Math.random() * totalPosts.length) - 1 < 0 ? 0 : Math.round(Math.random() * totalPosts.length) - 1;
 
-  const randLink = totalPosts[randomPostId].node.fields.slug;
+  const randPost = totalPosts[randomPostId];
+  const randLink = randPost.node.fields.slug;
   const prevLink = prev !== null ? prev.fields.slug : document.URL;
   const nextLink = next !== null ? next.fields.slug : document.URL;
 
