@@ -34,7 +34,7 @@ const NavButton = styled.button`
   padding: 0.5rem 1rem;
   transition: 0.2s all ease;
   background-color: ${props => (props.active ? 'var(--secondary-color)' : 'var(--header-font-color)')};
-  border: 1px solid ${props => (props.active ? 'var(--header-font-color)' : 'var(--secondary-color)')};
+  border: 2px solid ${props => (props.active ? 'var(--header-font-color)' : 'transparent')};
   border-radius: 0.5rem;
   color: ${props => (props.active ? 'var(--header-color)' : 'var(--secondary-color)')};
 
