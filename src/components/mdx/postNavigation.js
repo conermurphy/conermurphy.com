@@ -21,6 +21,7 @@ const NavButton = styled.button`
   color: ${props => (props.active ? 'var(--header-color)' : 'var(--secondary-color)')};
 
   pointer-events: ${props => (props.active ? 'auto' : 'none')};
+  cursor: ${props => (props.active ? 'pointer' : 'none')};
   text-decoration: ${props => (props.active ? 'none' : 'line-through')};
 
   box-shadow: 0px 1px 1px rgba(200, 200, 200, 10);
