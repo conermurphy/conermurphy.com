@@ -32,7 +32,7 @@ const ButtonLink = styled(Link)`
   pointer-events: ${props => (props.disabled ? 'none' : 'auto')};
 `;
 
-const PostNavigation = ({ pageContext }) => {
+const PostNavigation = ({ pageContext, postId }) => {
   const { prev, next } = pageContext;
   const data = useStaticQuery(graphql`
     query {
@@ -50,7 +50,16 @@ const PostNavigation = ({ pageContext }) => {
   `);
 
   const totalPosts = data.allMdx.edges;
-  const randomPostId = Math.round(Math.random() * totalPosts.length) - 1 < 0 ? 0 : Math.round(Math.random() * totalPosts.length) - 1;
+
+  const idMaker = () => Math.round(Math.random() * totalPosts.length) - 1;
+
+  let randomPostId = idMaker();
+
+  if (randomPostId < 0) {
+    randomPostId = 0;
+  } else if (randomPostId === postId) {
+    randomPostId += 1;
+  }
 
   const randPost = totalPosts[randomPostId];
   const randLink = randPost.node.fields.slug;
