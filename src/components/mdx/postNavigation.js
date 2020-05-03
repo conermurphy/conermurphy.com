@@ -8,14 +8,26 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  position: relative;
   justify-content: space-evenly;
   padding: 1rem;
-  margin: 1rem;
+  margin: 0rem;
+  margin-top: 2rem;
   background-color: var(--secondary-color);
 
-  box-shadow: 0px 1px 1px rgba(200, 200, 200, 10);
-  box-shadow: 0px 2px 2px rgba(200, 200, 200, 10);
-  box-shadow: 0px 3px 3px rgba(200, 200, 200, 10);
+  filter: drop-shadow(0 0 3px rgba(200, 200, 200, 10));
+
+  &::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 1rem solid transparent;
+    border-right: 1rem solid transparent;
+    border-bottom: 1rem solid var(--secondary-color);
+    position: absolute;
+    top: -1rem;
+    left: 10%;
+  }
 `;
 
 const NavButton = styled.button`
