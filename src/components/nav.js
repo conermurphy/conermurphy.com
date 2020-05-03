@@ -73,7 +73,7 @@ const NavMenu = ({ onClick, navActive }) => (
       <div>
         <Link to="/work">Work</Link>
       </div>
-      <NavItem onClick={onClick}>{navActive ? 'X' : 'Menu'}</NavItem>
+      <NavItem onClick={onClick}>X</NavItem>
     </SubNavMenuContainer>
   </AnimatePresence>
 );
@@ -96,7 +96,7 @@ const Nav = () => {
         transition={{ ease: 'easeInOut', duration: 0.2 }}
       >
         <Logo height="3rem" />
-        <NavItem onClick={handleClick}>{navActive ? 'X' : 'Menu'}</NavItem>
+        <NavItem onClick={handleClick}>Menu</NavItem>
       </NavContainer>
     </>
   );
