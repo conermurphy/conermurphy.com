@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'gatsby';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Logo from './logo';
 
-const NavContainer = styled.nav`
+const NavContainer = styled(motion.nav)`
   position: ${props => (props.navActive ? 'relative' : 'sticky')};
+  display: ${props => (props.navActive ? 'none' : 'flex')};
   justify-content: space-around;
   align-items: center;
   background-color: var(--secondary-color);
-
   bottom: 0;
-  display: flex;
   padding: 0.5rem;
 `;
 
@@ -27,7 +26,7 @@ const NavItem = styled.button`
   background-color: var(--secondary-color);
 `;
 
-const SubNavMenuContainer = styled.div`
+const SubNavMenuContainer = styled(motion.nav)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,22 +42,40 @@ const SubNavMenuContainer = styled.div`
   }
 `;
 
+const navMenuVariants = {
+  open: { opacity: 1, x: 0 },
+  closed: { opacity: 0, x: 50 },
+};
+
+const navBarVariants = {
+  open: { opacity: 1, x: 0 },
+  closed: { opacity: 0, x: -50 },
+};
+
 const NavMenu = ({ onClick, navActive }) => (
-  <SubNavMenuContainer>
-    <div>
-      <h1>Coner Murphy</h1>
-    </div>
-    <div>
-      <Link to="/">Home</Link>
-    </div>
-    <div>
-      <Link to="/blog">Blog</Link>
-    </div>
-    <div>
-      <Link to="/work">Work</Link>
-    </div>
-    <NavItem onClick={onClick}>{navActive ? 'X' : 'Menu'}</NavItem>
-  </SubNavMenuContainer>
+  <AnimatePresence>
+    <SubNavMenuContainer
+      active={navActive}
+      initial="closed"
+      animate={navActive ? 'open' : 'closed'}
+      variants={navMenuVariants}
+      transition={{ ease: 'easeInOut', duration: 0.2 }}
+    >
+      <div>
+        <h1>Coner Murphy</h1>
+      </div>
+      <div>
+        <Link to="/">Home</Link>
+      </div>
+      <div>
+        <Link to="/blog">Blog</Link>
+      </div>
+      <div>
+        <Link to="/work">Work</Link>
+      </div>
+      <NavItem onClick={onClick}>{navActive ? 'X' : 'Menu'}</NavItem>
+    </SubNavMenuContainer>
+  </AnimatePresence>
 );
 
 const Nav = () => {
@@ -68,13 +85,20 @@ const Nav = () => {
     setNavActive(!navActive);
   }
 
-  return navActive ? (
-    <NavMenu onClick={handleClick} navActive={navActive} />
-  ) : (
-    <NavContainer navActive={navActive}>
-      <Logo height="3rem" />
-      <NavItem onClick={handleClick}>{navActive ? 'X' : 'Menu'}</NavItem>
-    </NavContainer>
+  return (
+    <>
+      <NavMenu onClick={handleClick} navActive={navActive} />
+      <NavContainer
+        navActive={navActive}
+        initial="open"
+        animate={navActive ? 'closed' : 'open'}
+        variants={navBarVariants}
+        transition={{ ease: 'easeInOut', duration: 0.2 }}
+      >
+        <Logo height="3rem" />
+        <NavItem onClick={handleClick}>{navActive ? 'X' : 'Menu'}</NavItem>
+      </NavContainer>
+    </>
   );
 };
 
