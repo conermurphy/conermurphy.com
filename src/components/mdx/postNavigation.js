@@ -36,11 +36,12 @@ const PostNavigation = ({ pageContext }) => {
   const { prev, next } = pageContext;
   const data = useStaticQuery(graphql`
     query {
-      allMdx(sort: { order: DESC, fields: frontmatter___date }) {
+      allMdx(sort: { order: ASC, fields: fields___postId }) {
         edges {
           node {
             fields {
               postId
+              slug
             }
           }
         }
@@ -48,19 +49,19 @@ const PostNavigation = ({ pageContext }) => {
     }
   `);
 
-  const totalPosts = data.allMdx.edges.length;
+  const totalPosts = data.allMdx.edges;
+  const randomPostId = Math.round(Math.random() * totalPosts.length) - 1 < 0 ? 0 : Math.round(Math.random() * totalPosts.length) - 1;
+
+  const randLink = totalPosts[randomPostId].node.fields.slug;
   const prevLink = prev !== null ? prev.fields.slug : document.URL;
   const nextLink = next !== null ? next.fields.slug : document.URL;
-
-  console.log(prevLink);
-  console.log(nextLink);
 
   return (
     <Container>
       <ButtonLink to={prevLink} disabled={prev === null}>
         <NavButton active={prev !== null}>Prev</NavButton>
       </ButtonLink>
-      <Link to="/">
+      <Link to={randLink}>
         <NavButton active>
           <FaDice />
         </NavButton>
