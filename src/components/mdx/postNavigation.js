@@ -108,6 +108,7 @@ PostNavigation.propTypes = {
       }),
     }),
   }),
+  postId: PropTypes.number.isRequired,
 };
 
 export default PostNavigation;
