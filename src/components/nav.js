@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'gatsby';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import Logo from './logo';
 
 const NavContainer = styled.nav`
-  position: ${props => (props.active ? 'relative' : 'sticky')};
+  position: ${props => (props.navActive ? 'relative' : 'sticky')};
   justify-content: space-around;
   align-items: center;
   background-color: var(--secondary-color);
@@ -42,42 +42,32 @@ const SubNavMenuContainer = styled.div`
   }
 `;
 
-const Nav = () => {
-  const [navActive, setNavActive] = useState(false);
+const NavMenu = ({ onClick, navActive }) => (
+  <SubNavMenuContainer>
+    <div>
+      <h1>Coner Murphy</h1>
+    </div>
+    <div>
+      <Link to="/">Home</Link>
+    </div>
+    <div>
+      <Link to="/blog">Blog</Link>
+    </div>
+    <div>
+      <Link to="/work">Work</Link>
+    </div>
+    <NavItem onClick={onClick}>{navActive ? 'X' : 'Menu'}</NavItem>
+  </SubNavMenuContainer>
+);
 
-  function handleClick() {
-    setNavActive(!navActive);
-  }
-
-  const NavMenu = ({ active }) => {
-    console.log(active);
-    return (
-      <SubNavMenuContainer active={active}>
-        <div>
-          <h1>Coner Murphy</h1>
-        </div>
-        <div>
-          <Link to="/">Home</Link>
-        </div>
-        <div>
-          <Link to="/blog">Blog</Link>
-        </div>
-        <div>
-          <Link to="/work">Work</Link>
-        </div>
-        <NavItem onClick={handleClick}>{navActive ? 'X' : 'Menu'}</NavItem>
-      </SubNavMenuContainer>
-    );
-  };
-
-  return navActive ? (
-    <NavMenu active={navActive} />
+const Nav = ({ onClick, navActive }) =>
+  navActive ? (
+    <NavMenu onClick={onClick} navActive={navActive} />
   ) : (
-    <NavContainer active={navActive}>
+    <NavContainer navActive={navActive}>
       <Logo height="3rem" />
-      <NavItem onClick={handleClick}>{navActive ? 'X' : 'Menu'}</NavItem>
+      <NavItem onClick={onClick}>{navActive ? 'X' : 'Menu'}</NavItem>
     </NavContainer>
   );
-};
 
 export default Nav;
