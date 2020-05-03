@@ -14,26 +14,24 @@ const Container = styled.div`
 `;
 
 const PageContentContainer = styled.main`
-  display: flex;
+  display: flex};
   flex: 10;
   padding 1rem;
   padding-bottom: 7.5vh;
 `;
 
-const Layout = ({ children }) => {
-  const [navActive, setNavActive] = useState(false);
+const Layout = ({ children }) => (
+  // const [navActive, setNavActive] = useState(false);
 
-  function handleClick() {
-    setNavActive(!navActive);
-  }
+  // function handleClick() {
+  //   setNavActive(!navActive);
+  // }
 
-  return (
-    <Container>
-      <PageContentContainer>{children}</PageContentContainer>
-      <Nav onClick={handleClick} navActive={navActive} />
-    </Container>
-  );
-};
+  <Container>
+    <PageContentContainer>{children}</PageContentContainer>
+    <Nav />
+  </Container>
+);
 
 Layout.propTypes = {
   children: PropTypes.shape,

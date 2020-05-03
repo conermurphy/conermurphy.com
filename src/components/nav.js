@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
@@ -30,7 +30,7 @@ const SubNavMenuContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: absolute;
+  position: fixed;
   justify-content: center;
   transition: 0.2s all;
   height: 100vh;
@@ -60,14 +60,21 @@ const NavMenu = ({ onClick, navActive }) => (
   </SubNavMenuContainer>
 );
 
-const Nav = ({ onClick, navActive }) =>
-  navActive ? (
-    <NavMenu onClick={onClick} navActive={navActive} />
+const Nav = () => {
+  const [navActive, setNavActive] = useState(false);
+
+  function handleClick() {
+    setNavActive(!navActive);
+  }
+
+  return navActive ? (
+    <NavMenu onClick={handleClick} navActive={navActive} />
   ) : (
     <NavContainer navActive={navActive}>
       <Logo height="3rem" />
-      <NavItem onClick={onClick}>{navActive ? 'X' : 'Menu'}</NavItem>
+      <NavItem onClick={handleClick}>{navActive ? 'X' : 'Menu'}</NavItem>
     </NavContainer>
   );
+};
 
 export default Nav;
