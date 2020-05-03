@@ -25,11 +25,19 @@ p,a,button,li {
     font-size: 0.9rem;
     font-weight: 400;
     margin-bottom: 0;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 ul {
     margin-bottom: 0;
+    padding-left: 1rem;
+}
+
+hr {
+    width: 5rem;
+    text-decoration: none;
+    color: var(--body-font-color);
+    opacity: 0.5;
 }
 
 a {
