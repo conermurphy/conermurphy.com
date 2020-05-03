@@ -43,8 +43,8 @@ const SubNavMenuContainer = styled(motion.nav)`
 `;
 
 const navMenuVariants = {
-  open: { opacity: 1, x: 0 },
-  closed: { opacity: 0, x: 50 },
+  open: { opacity: 1, x: 0, zIndex: 1 },
+  closed: { opacity: 0, x: 50, zIndex: -1 },
 };
 
 const navBarVariants = {
