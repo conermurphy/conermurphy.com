@@ -31,7 +31,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
   const result = await graphql(`
     query {
-      allMdx(sort: { order: ASC, fields: frontmatter___date }) {
+      allMdx(sort: { order: ASC, fields: fields___postId }) {
         edges {
           node {
             fields {
