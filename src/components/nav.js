@@ -44,40 +44,48 @@ const SubNavMenuContainer = styled(motion.nav)`
 
 const navMenuVariants = {
   open: { opacity: 1, x: 0, zIndex: 1 },
-  closed: { opacity: 0, x: 50, zIndex: -1 },
+  closed: { opacity: 0, x: 200, zIndex: -1 },
 };
 
 const navBarVariants = {
   open: { opacity: 1, x: 0 },
-  closed: { opacity: 0, x: -50 },
+  closed: { opacity: 0, x: -200 },
 };
 
-const NavMenu = ({ onClick, navActive }) => (
-  <AnimatePresence>
-    <SubNavMenuContainer
-      active={navActive}
-      initial="closed"
-      animate={navActive ? 'open' : 'closed'}
-      variants={navMenuVariants}
-      transition={{ ease: 'easeInOut', duration: 0.2 }}
-    >
-      <div>
-        <h1>Coner Murphy</h1>
-      </div>
-      <div>
-        <Link to="/">Home</Link>
-      </div>
-      <div>
-        <Link to="/blog">Blog</Link>
-      </div>
-      <div>
-        <Link to="/work">Work</Link>
-      </div>
-      <NavItem onClick={onClick}>X</NavItem>
-    </SubNavMenuContainer>
-  </AnimatePresence>
-);
+const NavMenu = ({ onClick, navActive, callback }) => {
+  function handleClick(e) {
+    if (e.target.tagName === 'NAV') {
+      callback();
+    }
+  }
 
+  return (
+    <AnimatePresence>
+      <SubNavMenuContainer
+        active={navActive}
+        onClick={handleClick}
+        initial="closed"
+        animate={navActive ? 'open' : 'closed'}
+        variants={navMenuVariants}
+        transition={{ ease: 'easeInOut', duration: 0.1 }}
+      >
+        <div>
+          <h1>Coner Murphy</h1>
+        </div>
+        <div>
+          <Link to="/">Home</Link>
+        </div>
+        <div>
+          <Link to="/blog">Blog</Link>
+        </div>
+        <div>
+          <Link to="/work">Work</Link>
+        </div>
+        <NavItem onClick={onClick}>X</NavItem>
+      </SubNavMenuContainer>
+    </AnimatePresence>
+  );
+};
 const Nav = () => {
   const [navActive, setNavActive] = useState(false);
 
@@ -85,15 +93,19 @@ const Nav = () => {
     setNavActive(!navActive);
   }
 
+  function navMenuCallback() {
+    setNavActive(!navActive);
+  }
+
   return (
     <>
-      <NavMenu onClick={handleClick} navActive={navActive} />
+      <NavMenu onClick={handleClick} navActive={navActive} callback={navMenuCallback} />
       <NavContainer
         navActive={navActive}
         initial="open"
         animate={navActive ? 'closed' : 'open'}
         variants={navBarVariants}
-        transition={{ ease: 'easeInOut', duration: 0.2 }}
+        transition={{ ease: 'easeInOut', duration: 0.1 }}
       >
         <Logo height="3rem" />
         <NavItem onClick={handleClick}>Menu</NavItem>
@@ -104,6 +116,7 @@ const Nav = () => {
 
 NavMenu.propTypes = {
   onClick: PropTypes.func.isRequired,
+  callback: PropTypes.func.isRequired,
   navActive: PropTypes.bool.isRequired,
 };
 
