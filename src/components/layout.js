@@ -10,13 +10,14 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: visible;
 `;
 
 const PageContentContainer = styled.main`
   display: flex;
   flex: 10;
   padding 1rem;
-  overflow: scroll;
+  padding-bottom: 7.5vh;
 `;
 
 const Layout = ({ children }) => (

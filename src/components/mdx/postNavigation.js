@@ -9,7 +9,13 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-  padding: 2rem;
+  padding: 1rem;
+  margin: 1rem;
+  background-color: var(--secondary-color);
+
+  box-shadow: 0px 1px 1px rgba(200, 200, 200, 10);
+  box-shadow: 0px 2px 2px rgba(200, 200, 200, 10);
+  box-shadow: 0px 3px 3px rgba(200, 200, 200, 10);
 `;
 
 const NavButton = styled.button`

@@ -10,8 +10,6 @@ const NavContainer = styled.nav`
   justify-content: space-evenly;
   align-items: center;
 
-  // background-color: rgba(250, 250, 250, 230);
-
   background-color: var(--header-font-color);
 
   border-top-right-radius: 2vh;
