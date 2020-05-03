@@ -11,6 +11,7 @@ import PostNavigation from '../components/mdx/postNavigation.js';
 const BlogPostContainer = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 1rem;
 `;
 
 const components = {
