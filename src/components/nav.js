@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Logo from './logo';
 
 const NavContainer = styled.nav`
@@ -75,6 +76,11 @@ const Nav = () => {
       <NavItem onClick={handleClick}>{navActive ? 'X' : 'Menu'}</NavItem>
     </NavContainer>
   );
+};
+
+NavMenu.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  navActive: PropTypes.bool.isRequired,
 };
 
 export default Nav;
