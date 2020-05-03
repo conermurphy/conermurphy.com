@@ -54,8 +54,8 @@ const PostNavigation = ({ pageContext }) => {
 
   const randPost = totalPosts[randomPostId];
   const randLink = randPost.node.fields.slug;
-  const prevLink = prev !== null ? prev.fields.slug : document.URL;
-  const nextLink = next !== null ? next.fields.slug : document.URL;
+  const prevLink = prev !== null ? prev.fields.slug : '/';
+  const nextLink = next !== null ? next.fields.slug : '/';
 
   return (
     <Container>
