@@ -1,5 +1,5 @@
 // Importing dependcies from other sources to be worked with.
-import React, { useState } from 'react';
+import React from 'react';
 import 'normalize.css'; // Installing Normalize css
 import styled from 'styled-components';
 import '../styles/global.css';
@@ -21,12 +21,6 @@ const PageContentContainer = styled.main`
 `;
 
 const Layout = ({ children }) => (
-  // const [navActive, setNavActive] = useState(false);
-
-  // function handleClick() {
-  //   setNavActive(!navActive);
-  // }
-
   <Container>
     <PageContentContainer>{children}</PageContentContainer>
     <Nav />
