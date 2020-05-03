@@ -15,14 +15,21 @@ const Container = styled.div`
 const NavButton = styled.button`
   padding: 0.5rem 1rem;
   transition: 0.2s all ease;
-  background-color: ${props => (props.available ? 'var(--secondary-color)' : 'var(--header-font-color)')};
-  border: 1px solid ${props => (props.available ? 'var(--header-font-color)' : 'var(--secondary-color)')};
+  background-color: ${props => (props.active ? 'var(--secondary-color)' : 'var(--header-font-color)')};
+  border: 1px solid ${props => (props.active ? 'var(--header-font-color)' : 'var(--secondary-color)')};
   border-radius: 0.5rem;
-  color: ${props => (props.available ? 'var(--header-color)' : 'var(--secondary-color)')};
+  color: ${props => (props.active ? 'var(--header-color)' : 'var(--secondary-color)')};
+
+  pointer-events: ${props => (props.active ? 'auto' : 'none')};
+  text-decoration: ${props => (props.active ? 'none' : 'line-through')};
 
   box-shadow: 0px 1px 1px rgba(200, 200, 200, 10);
   box-shadow: 0px 2px 2px rgba(200, 200, 200, 10);
   box-shadow: 0px 3px 3px rgba(200, 200, 200, 10);
+`;
+
+const ButtonLink = styled(Link)`
+  pointer-events: ${props => (props.disabled ? 'none' : 'auto')};
 `;
 
 const PostNavigation = ({ pageContext }) => {
@@ -42,19 +49,25 @@ const PostNavigation = ({ pageContext }) => {
   `);
 
   const totalPosts = data.allMdx.edges.length;
-  const prevAvailable = prev !== null;
-  const nextAvailable = next !== null;
+  const prevLink = prev !== null ? prev.fields.slug : document.URL;
+  const nextLink = next !== null ? next.fields.slug : document.URL;
 
-  console.log(prevAvailable);
-  console.log(nextAvailable);
+  console.log(prevLink);
+  console.log(nextLink);
 
   return (
     <Container>
-      <NavButton available>Prev</NavButton>
-      <NavButton available>
-        <FaDice />
-      </NavButton>
-      <NavButton available>Next</NavButton>
+      <ButtonLink to={prevLink} disabled={prev === null}>
+        <NavButton active={prev !== null}>Prev</NavButton>
+      </ButtonLink>
+      <Link to="/">
+        <NavButton active>
+          <FaDice />
+        </NavButton>
+      </Link>
+      <ButtonLink to={nextLink} disabled={next === null}>
+        <NavButton active={next !== null}>Next</NavButton>
+      </ButtonLink>
     </Container>
   );
 };
