@@ -29,7 +29,7 @@ const BlogPost = ({ data, pageContext }) => {
         <MDXProvider components={components}>
           <MDXRenderer>{post.body}</MDXRenderer>
         </MDXProvider>
-        <PostNavigation pageContext={pageContext} postId={post.fields.postId} />
+        <PostNavigation pageContext={pageContext} />
       </BlogPostContainer>
     </Layout>
   );
