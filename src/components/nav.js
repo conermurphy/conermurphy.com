@@ -54,7 +54,7 @@ const navBarVariants = {
 
 const NavMenu = ({ onClick, navActive, callback }) => {
   function handleClick(e) {
-    if (e.target.tagName === 'NAV') {
+    if (e.target.tagName === 'NAV' || e.target.href === document.URL) {
       callback();
     }
   }
