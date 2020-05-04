@@ -5,8 +5,10 @@ import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
+// MDX Component Imports Used on each page.
 import CodeBlock from '../components/mdx/codeBlock.js';
 import PostNavigation from '../components/mdx/postNavigation.js';
+import ContactBlock from '../components/mdx/contactBlock.js';
 
 const BlogPostContainer = styled.div`
   display: flex;
@@ -30,6 +32,7 @@ const BlogPost = ({ data, pageContext }) => {
           <MDXRenderer>{post.body}</MDXRenderer>
         </MDXProvider>
         <PostNavigation pageContext={pageContext} />
+        <ContactBlock />
       </BlogPostContainer>
     </Layout>
   );
