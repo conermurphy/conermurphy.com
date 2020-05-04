@@ -27,7 +27,7 @@ const NavItem = styled.button`
 `;
 
 const SubNavMenuContainer = styled(motion.nav)`
-  display: flex;
+  display: ${props => (props.navActive ? 'none' : 'flex')};
   flex-direction: column;
   align-items: flex-start;
   position: fixed;
@@ -60,13 +60,13 @@ const SubNavItemContainer = styled.div`
 `;
 
 const navMenuVariants = {
-  open: { opacity: 1, x: 0, zIndex: 1 },
-  closed: { opacity: 0, x: 200, zIndex: -1 },
+  open: { opacity: 1, x: 0, zIndex: 1, display: 'flex' },
+  closed: { opacity: 0, x: 200, zIndex: -1, display: 'none' },
 };
 
 const navBarVariants = {
-  open: { opacity: 1, x: 0 },
-  closed: { opacity: 0, x: -200 },
+  open: { opacity: 1, x: 0, display: 'flex' },
+  closed: { opacity: 0, x: -200, display: 'none' },
 };
 
 const NavMenu = ({ onClick, navActive, callback }) => {
