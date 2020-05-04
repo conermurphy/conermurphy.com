@@ -93,13 +93,9 @@ const Nav = () => {
     setNavActive(!navActive);
   }
 
-  function navMenuCallback() {
-    setNavActive(!navActive);
-  }
-
   return (
     <>
-      <NavMenu onClick={handleClick} navActive={navActive} callback={navMenuCallback} />
+      <NavMenu onClick={handleClick} navActive={navActive} callback={handleClick} />
       <NavContainer
         navActive={navActive}
         initial="open"
