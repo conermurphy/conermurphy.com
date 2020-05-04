@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FaPencilAlt, FaBriefcase, FaCommentDots, FaQuestion } from 'react-icons/fa';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Logo from './logo';
@@ -18,7 +19,6 @@ const NavContainer = styled(motion.nav)`
 const NavItem = styled.button`
   display: flex;
   align-items: center;
-  margin: 0.5rem;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   border: 2px solid var(--header-font-color);
@@ -29,16 +29,33 @@ const NavItem = styled.button`
 const SubNavMenuContainer = styled(motion.nav)`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   position: fixed;
   justify-content: center;
   transition: 0.2s all;
   height: 100vh;
   width: 100vw;
+  padding-left: 2.5rem;
   background-color: white;
 
-  & > div {
+  & > a {
+    margin: 1rem 1rem 1rem 0;
+  }
+`;
+
+const SubNavItemContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: center;
+
+  & > svg {
+    height: 1rem;
+    width: 1rem;
+    border: 2px solid black;
+    border-radius: 0.5rem;
     padding: 1rem;
+    margin-right: 1rem;
   }
 `;
 
@@ -69,19 +86,36 @@ const NavMenu = ({ onClick, navActive, callback }) => {
         variants={navMenuVariants}
         transition={{ ease: 'easeInOut', duration: 0.1 }}
       >
-        <div>
-          <h1>Coner Murphy</h1>
-        </div>
-        <div>
-          <Link to="/">Home</Link>
-        </div>
-        <div>
-          <Link to="/blog">Blog</Link>
-        </div>
-        <div>
-          <Link to="/work">Work</Link>
-        </div>
-        <NavItem onClick={onClick}>X</NavItem>
+        <SubNavItemContainer>
+          <Logo height="3rem" />
+        </SubNavItemContainer>
+        <Link to="">
+          <SubNavItemContainer>
+            <FaQuestion />
+            <p>About</p>
+          </SubNavItemContainer>
+        </Link>
+        <Link to="/blog">
+          <SubNavItemContainer>
+            <FaPencilAlt />
+            <p>Blog</p>
+          </SubNavItemContainer>
+        </Link>
+        <Link to="/work">
+          <SubNavItemContainer>
+            <FaBriefcase />
+            <p>Work</p>
+          </SubNavItemContainer>
+        </Link>
+        <Link to="/" style={{ marginBottom: '2rem' }}>
+          <SubNavItemContainer>
+            <FaCommentDots />
+            <p>Contact</p>
+          </SubNavItemContainer>
+        </Link>
+        <NavItem onClick={onClick} active={navActive}>
+          Close
+        </NavItem>
       </SubNavMenuContainer>
     </AnimatePresence>
   );
