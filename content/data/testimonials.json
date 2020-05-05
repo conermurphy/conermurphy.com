@@ -4,7 +4,7 @@
         {
             "title": "nameOfTheProject",
             "type": "Website",
-            "URL": "example.com",
+            "URL": "http://google.com",
             "description": "Example Description",
             "technologies": "GatsbyJS, Primsic",
             "date": "01-01-2020"
@@ -12,7 +12,7 @@
         {
             "title": "fffff",
             "type": "ffff",
-            "URL": "fffff.com",
+            "URL": "http://google.com",
             "description": "Example descipriton",
             "technologies": "GatsbyJS, Primsic",
             "date": "01-01-2020"
