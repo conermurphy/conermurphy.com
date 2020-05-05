@@ -3,7 +3,7 @@ import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
-import BlogPostCard from '../components/blogPostCard';
+import BlogPostCard from '../components/templates/blogPostCard';
 
 const BlogContainer = styled.div`
   display: flex;
