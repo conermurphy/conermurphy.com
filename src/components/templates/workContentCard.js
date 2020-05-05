@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import CornerArt from './cornerArt';
@@ -59,6 +58,17 @@ const WorkContentCard = ({ item }) => {
       </CardContainer>
     </CardLink>
   );
+};
+
+WorkContentCard.propTypes = {
+  item: PropTypes.shape({
+    URL: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    technologies: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+  }),
 };
 
 export default WorkContentCard;

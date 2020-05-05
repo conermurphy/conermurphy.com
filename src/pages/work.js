@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -21,7 +21,6 @@ const PostContainer = styled.div`
 
 const Work = ({ data }) => {
   const work = data.dataJson.content;
-  console.log(work);
   return (
     <Layout>
       <WorkContainer>
@@ -44,7 +43,7 @@ const Work = ({ data }) => {
 
 Work.propTypes = {
   data: PropTypes.shape({
-    allDataJson: PropTypes.shape(
+    dataJson: PropTypes.shape(
       PropTypes.arrayOf({
         node: PropTypes.shape(
           PropTypes.arrayOf(
