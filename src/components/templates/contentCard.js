@@ -50,7 +50,7 @@ const AuthorName = styled.p`
   font-size: 0.75rem;
 `;
 
-const contentCard = ({ data }) => {
+const ContentCard = ({ data }) => {
   const { internal, link, topLine, title, bottomLine } = data;
 
   return internal ? (
@@ -76,4 +76,4 @@ const contentCard = ({ data }) => {
   );
 };
 
-export default contentCard;
+export default ContentCard;
