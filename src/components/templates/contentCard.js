@@ -76,4 +76,14 @@ const ContentCard = ({ data }) => {
   );
 };
 
+ContentCard.propTypes = {
+  data: PropTypes.shape({
+    internal: PropTypes.bool,
+    link: PropTypes.string,
+    topLine: PropTypes.string,
+    title: PropTypes.string,
+    bottomLine: PropTypes.string,
+  }).isRequired,
+};
+
 export default ContentCard;
