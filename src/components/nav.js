@@ -29,24 +29,23 @@ const NavItem = styled.button`
 const SubNavMenuContainer = styled(motion.nav)`
   display: ${props => (props.navActive ? 'none' : 'flex')};
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   position: fixed;
   justify-content: center;
   transition: 0.2s all;
   height: 100vh;
   width: 100vw;
-  padding-left: 2.5rem;
   background-color: white;
 
   & > a {
-    margin: 1rem 1rem 1rem 0;
+    margin: 1rem 0rem 1rem 0;
   }
 `;
 
 const SubNavItemContainer = styled.div`
   display: flex;
-  align-items: flex-start;
-  flex-direction: row;
+  align-items: center;
+  flex-direction: column;
   justify-content: center;
 
   & > svg {
@@ -55,7 +54,6 @@ const SubNavItemContainer = styled.div`
     border: 2px solid black;
     border-radius: 0.5rem;
     padding: 1rem;
-    margin-right: 1rem;
   }
 `;
 
