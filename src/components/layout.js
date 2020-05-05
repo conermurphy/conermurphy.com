@@ -17,7 +17,7 @@ const PageContentContainer = styled.main`
   display: flex};
   flex: 10;
   padding 1rem;
-  padding-bottom: 7.5vh;
+  padding-bottom: 10vh;
 `;
 
 const Layout = ({ children }) => (
