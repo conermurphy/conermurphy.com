@@ -14,7 +14,7 @@ const Container = styled.div`
 `;
 
 const PageContentContainer = styled.main`
-  display: flex};
+  display: flex;
   flex: 10;
   padding 1rem;
   padding-bottom: 5rem;
