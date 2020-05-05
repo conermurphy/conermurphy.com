@@ -3,7 +3,7 @@ import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
-import BlogPostCard from '../components/templates/blogPostCard';
+import ContentCard from '../components/templates/contentCard';
 
 const BlogContainer = styled.div`
   display: flex;
@@ -82,7 +82,14 @@ const Blog = ({ data }) => {
             const [...postLanguages] = node.frontmatter.languages;
             return postLanguages.map(language => {
               if (activeLanguages.includes(language) || activeLanguages.length === 0) {
-                return <BlogPostCard post={node} key={node.id} />;
+                const contentData = {
+                  internal: true,
+                  link: node.fields.slug,
+                  topLine: node.frontmatter.languages.join(', '),
+                  title: node.frontmatter.title,
+                  bottomLine: `Post ${node.fields.postId} - ${node.frontmatter.date}`,
+                };
+                return <ContentCard data={contentData} key={node.id} />;
               }
               return null;
             });

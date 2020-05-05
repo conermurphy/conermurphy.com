@@ -1,9 +1,14 @@
 import React from 'react';
+import { Link } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import CornerArt from './cornerArt';
 
-const CardLink = styled.a`
+const CardLink = styled(Link)`
+  margin: 1rem;
+`;
+
+const CardLinkExternal = styled.a`
   margin: 1rem;
 `;
 
@@ -45,30 +50,30 @@ const AuthorName = styled.p`
   font-size: 0.75rem;
 `;
 
-const WorkContentCard = ({ item }) => {
-  const { URL, type, title, technologies, description, date } = item;
-  return (
-    <CardLink href={URL}>
+const contentCard = ({ data }) => {
+  const { internal, link, topLine, title, bottomLine } = data;
+
+  return internal ? (
+    <CardLink to={link}>
       <CardContainer>
-        <PostInfo>{date}</PostInfo>
+        <PostInfo>{topLine}</PostInfo>
         <PostTitle>{title}</PostTitle>
-        <PostInfo>{technologies}</PostInfo>
+        <PostInfo>{bottomLine}</PostInfo>
         <AuthorName>@MrConerMurphy</AuthorName>
         <CornerArt adjustments={[1.5, 0, 0, 0]} />
       </CardContainer>
     </CardLink>
+  ) : (
+    <CardLinkExternal href={link}>
+      <CardContainer>
+        <PostInfo>{topLine}</PostInfo>
+        <PostTitle>{title}</PostTitle>
+        <PostInfo>{bottomLine}</PostInfo>
+        <AuthorName>@MrConerMurphy</AuthorName>
+        <CornerArt adjustments={[1.5, 0, 0, 0]} />
+      </CardContainer>
+    </CardLinkExternal>
   );
 };
 
-WorkContentCard.propTypes = {
-  item: PropTypes.shape({
-    URL: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    technologies: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-  }),
-};
-
-export default WorkContentCard;
+export default contentCard;

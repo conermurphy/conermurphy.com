@@ -3,7 +3,7 @@ import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
-import WorkContentCard from '../components/templates/workContentCard';
+import ContentCard from '../components/templates/contentCard';
 
 const WorkContainer = styled.div`
   display: flex;
@@ -21,6 +21,7 @@ const PostContainer = styled.div`
 
 const Work = ({ data }) => {
   const work = data.dataJson.content;
+
   return (
     <Layout>
       <WorkContainer>
@@ -32,9 +33,16 @@ const Work = ({ data }) => {
           If you have any questions about one of my projects or want to chat about working with me then please get in touch.
         </p>
         <PostContainer>
-          {work.map(item => (
-            <WorkContentCard item={item} key={item.title} />
-          ))}
+          {work.map(item => {
+            const contentData = {
+              internal: false,
+              link: item.link,
+              topLine: item.date,
+              title: item.title,
+              bottomLine: item.technologies,
+            };
+            return <ContentCard data={contentData} key={contentData.title} />;
+          })}
         </PostContainer>
       </WorkContainer>
     </Layout>
