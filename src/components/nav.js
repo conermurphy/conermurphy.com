@@ -16,7 +16,7 @@ const NavContainer = styled(motion.nav)`
   padding: 0.5rem;
 `;
 
-const NavItem = styled.button`
+const NavItem = styled(motion.button)`
   display: flex;
   align-items: center;
   border-radius: 0.5rem;
@@ -24,6 +24,7 @@ const NavItem = styled.button`
   border: 2px solid var(--header-font-color);
   justify-content: center;
   background-color: var(--secondary-color);
+  cursor: pointer;
 `;
 
 const SubNavMenuContainer = styled(motion.nav)`
@@ -42,7 +43,7 @@ const SubNavMenuContainer = styled(motion.nav)`
   }
 `;
 
-const SubNavItemContainer = styled.div`
+const SubNavItemContainer = styled(motion.div)`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -51,10 +52,14 @@ const SubNavItemContainer = styled.div`
   & > svg {
     height: 1rem;
     width: 1rem;
-    border: 2px solid black;
+    border: 2px solid rgba(50, 50, 50, 200);
     border-radius: 0.5rem;
     padding: 1rem;
   }
+`;
+
+const SubNavItemText = styled.p`
+  text-align: center;
 `;
 
 const navMenuVariants = {
@@ -65,6 +70,15 @@ const navMenuVariants = {
 const navBarVariants = {
   open: { opacity: 1, x: 0, display: 'flex' },
   closed: { opacity: 0, x: -200, display: 'none' },
+};
+
+const navItemHover = {
+  scale: 1.1,
+  color: 'rgba(149,55,32,255)',
+};
+
+const navItemTap = {
+  scale: 0.9,
 };
 
 const NavMenu = ({ onClick, navActive, callback }) => {
@@ -87,31 +101,31 @@ const NavMenu = ({ onClick, navActive, callback }) => {
         <SubNavItemContainer>
           <Logo height="3rem" />
         </SubNavItemContainer>
-        <Link to="">
-          <SubNavItemContainer>
+        <Link to="/">
+          <SubNavItemContainer whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
             <FaQuestion />
-            <p>About</p>
           </SubNavItemContainer>
+          <SubNavItemText>About</SubNavItemText>
         </Link>
         <Link to="/blog">
-          <SubNavItemContainer>
+          <SubNavItemContainer whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
             <FaPencilAlt />
-            <p>Blog</p>
           </SubNavItemContainer>
+          <SubNavItemText>Blog</SubNavItemText>
         </Link>
         <Link to="/work">
-          <SubNavItemContainer>
+          <SubNavItemContainer whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
             <FaBriefcase />
-            <p>Work</p>
           </SubNavItemContainer>
+          <SubNavItemText>Work</SubNavItemText>
         </Link>
         <Link to="/" style={{ marginBottom: '2rem' }}>
-          <SubNavItemContainer>
+          <SubNavItemContainer whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
             <FaCommentDots />
-            <p>Contact</p>
           </SubNavItemContainer>
+          <SubNavItemText>Contact</SubNavItemText>
         </Link>
-        <NavItem onClick={onClick} active={navActive}>
+        <NavItem onClick={onClick} active={navActive} whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
           Close
         </NavItem>
       </SubNavMenuContainer>
