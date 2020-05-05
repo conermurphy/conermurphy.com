@@ -11,6 +11,13 @@ const BlogContainer = styled.div`
   align-items: center;
 `;
 
+const LanguagesContainer = styled.div`
+  display: flex;
+  padding: 1rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
 const Language = styled.button`
   padding: 0.7rem;
   transition: 0.2s all ease;
@@ -63,13 +70,13 @@ const Blog = ({ data }) => {
           Welcome to my blog! Here you'll find all of my latest posts, published here anywhere else. If you have any questions I'd be happy
           answer them!
         </p>
-        <div>
+        <LanguagesContainer>
           {allLanguages.map(language => (
             <Language type="button" key={language} onClick={handleClick} active={!!activeLanguages.includes(language)}>
               {language}
             </Language>
           ))}
-        </div>
+        </LanguagesContainer>
         <PostContainer>
           {posts.map(({ node }) => {
             const [...postLanguages] = node.frontmatter.languages;
