@@ -1,10 +1,19 @@
 {
-    "testimonials": {
-        "fsfdfdf": {
-            "type": "ffff",
+    "title": "Testimonials",
+    "content": [
+        {
+            "title": "nameOfTheProject",
+            "type": "Website",
+            "URL": "example.com",
+            "description": "Example Description",
+            "technologies": "GatsbyJS, Primsic"
+        },
+        {
             "title": "fffff",
+            "type": "ffff",
             "URL": "fffff.com",
-            "description": "This is a test description as I cannot be bothered to make up a real one right about now as I need to do more pressing things."
+            "description": "Example descipriton",
+            "technologies": "GatsbyJS, Primsic"
         }
-    }
+    ]
 }
