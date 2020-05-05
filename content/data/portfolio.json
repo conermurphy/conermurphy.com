@@ -6,14 +6,16 @@
             "type": "Website",
             "URL": "example.com",
             "description": "Example Description",
-            "technologies": "GatsbyJS, Primsic"
+            "technologies": "GatsbyJS, Primsic",
+            "date": "01-01-2020"
         },
         {
             "title": "fffff",
             "type": "ffff",
             "URL": "fffff.com",
             "description": "Example descipriton",
-            "technologies": "GatsbyJS, Primsic"
+            "technologies": "GatsbyJS, Primsic",
+            "date": "01-01-2020"
         }
     ]
 }
