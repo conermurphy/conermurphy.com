@@ -12,7 +12,7 @@ const Container = styled.div`
   justify-content: space-evenly;
   padding: 1rem;
   margin: 0rem;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   background-color: var(--secondary-color);
 
   filter: drop-shadow(0 0 3px rgba(200, 200, 200, 10));

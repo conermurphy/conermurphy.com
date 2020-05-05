@@ -14,6 +14,7 @@ const BlogPostContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  padding-bottom: 0;
 `;
 
 /* eslint-disable */
