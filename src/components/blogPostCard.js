@@ -30,6 +30,7 @@ const CardContainer = styled.div`
 
 const PostInfo = styled.p`
   font-size: 0.9rem;
+  margin: 0.5rem;
 `;
 
 const PostTitle = styled.h3`
@@ -41,14 +42,14 @@ const AuthorName = styled.p`
   position: absolute;
   bottom: 0;
   left: 0;
-  padding-left: 1rem;
+  padding: 0.5rem 1rem;
   font-size: 0.75rem;
 `;
 
 const BlogPostCard = ({ post }) => (
   <CardLink to={post.fields.slug}>
     <CardContainer>
-      <PostInfo>{post.frontmatter.category}</PostInfo>
+      <PostInfo>{post.frontmatter.languages.join(', ')}</PostInfo>
       <PostTitle>{post.frontmatter.title}</PostTitle>
       <PostInfo>{`Post ${post.fields.postId} - ${post.frontmatter.date}`}</PostInfo>
       <AuthorName>@MrConerMurphy</AuthorName>
