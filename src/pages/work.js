@@ -25,7 +25,7 @@ const Work = ({ data }) => {
   return (
     <Layout>
       <WorkContainer>
-        <h1>Recent Projects</h1>
+        <h1>My Work</h1>
         <p style={{ textAlign: 'center' }}>
           Here you'll find all of the recent projects I've been working. Including a mixture of client work and personal projects.
         </p>
@@ -36,7 +36,7 @@ const Work = ({ data }) => {
           {work.map(item => {
             const contentData = {
               internal: false,
-              link: item.link,
+              link: item.URL,
               topLine: item.date,
               title: item.title,
               bottomLine: item.technologies,
