@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { GrCss3, GrHtml5, GrJs, GrReactjs, GrGatsbyjs, GrGraphQl, GrNode } from 'react-icons/gr';
+import { motion } from 'framer-motion';
 
-const LanguageIconContainer = styled.div`
+const LanguageIconContainer = styled(motion.div)`
   width: 2rem;
   height: 2rem;
   padding: 0.5rem;
+
   & > svg {
     width: 2rem;
     height: 2rem;
@@ -20,7 +22,7 @@ const LanguageIconContainer = styled.div`
 const LanguageIcons = ({ language }) => {
   console.log(language.trim());
   return (
-    <LanguageIconContainer>
+    <LanguageIconContainer whileHover={{ scale: 1.2, rotate: '360deg' }} transition={{ duration: 1, ease: 'easeInOut' }}>
       {
         {
           HTML: <GrHtml5 style={{ stroke: '#E34C26' }} />,
