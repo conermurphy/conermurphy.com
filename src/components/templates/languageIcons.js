@@ -10,6 +10,10 @@ const LanguageIconContainer = styled.div`
   & > svg {
     width: 2rem;
     height: 2rem;
+
+    & > path {
+      stroke: inherit; // Now this is a hack.
+    }
   }
 `;
 
@@ -19,13 +23,13 @@ const LanguageIcons = ({ language }) => {
     <LanguageIconContainer>
       {
         {
-          HTML: <GrHtml5 />,
-          CSS: <GrCss3 />,
+          HTML: <GrHtml5 style={{ stroke: '#E34C26' }} />,
+          CSS: <GrCss3 style={{ stroke: 'rgb(38, 77, 228)' }} />,
           JavaScript: <GrJs style={{ backgroundColor: 'yellow' }} />,
-          NodeJS: <GrNode />,
-          ReactJS: <GrReactjs />,
+          NodeJS: <GrNode style={{ color: 'rgb(68, 136, 62)' }} />,
+          ReactJS: <GrReactjs style={{ color: '#61dafb' }} />,
           GatsbyJS: <GrGatsbyjs style={{ color: 'rgb(102 51 153' }} />,
-          GraphQL: <GrGraphQl />,
+          GraphQL: <GrGraphQl style={{ color: '#E10098' }} />,
         }[language.trim()]
       }
     </LanguageIconContainer>
