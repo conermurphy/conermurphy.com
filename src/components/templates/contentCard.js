@@ -33,6 +33,11 @@ const CardContainer = styled.div`
   box-shadow: 0px 6px 6px rgba(200, 200, 200, 20);
 `;
 
+const LanguagesContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 const PostInfo = styled.p`
   font-size: 0.9rem;
   margin: 0.5rem;
@@ -71,11 +76,11 @@ const ContentCard = ({ data }) => {
   ) : (
     <CardLinkExternal href={link}>
       <CardContainer>
-        <PostInfo>
+        <LanguagesContainer>
           {topLine.split(',').map(line => (
             <LanguageIcons language={line} />
           ))}
-        </PostInfo>
+        </LanguagesContainer>
         <PostTitle>{title}</PostTitle>
         <PostInfo>{bottomLine}</PostInfo>
         <AuthorName>@MrConerMurphy</AuthorName>

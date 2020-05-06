@@ -6,7 +6,7 @@
             "type": "Website",
             "URL": "http://google.com",
             "description": "Example Description",
-            "technologies": "GatsbyJS, Primsic",
+            "technologies": "GatsbyJS, HTML, CSS, JavaScript, NodeJS, ReactJS, GraphQL",
             "date": "01-01-2020"
         },
         {
@@ -14,7 +14,7 @@
             "type": "ffff",
             "URL": "http://google.com",
             "description": "Example descipriton",
-            "technologies": "GatsbyJS, Primsic",
+            "technologies": "GatsbyJS",
             "date": "01-01-2020"
         }
     ]
