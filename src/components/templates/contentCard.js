@@ -36,6 +36,8 @@ const CardContainer = styled.div`
 const LanguagesContainer = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 
 const PostInfo = styled.p`
