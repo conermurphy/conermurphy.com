@@ -40,10 +40,10 @@ const LanguageIcons = ({ language }) => {
   const [hover, setHover] = useState(false);
   const [hoveredComponent, setHoveredComponent] = useState('');
 
-  function handleHover(e) {
+  const handleHover = e => {
     setHover(true);
-    setHoveredComponent(e.target.dataset.label);
-  }
+    setHoveredComponent(e.currentTarget.dataset.label);
+  };
 
   function handleHoverLeave() {
     setHover(false);
