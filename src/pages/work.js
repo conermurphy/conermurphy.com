@@ -37,9 +37,9 @@ const Work = ({ data }) => {
             const contentData = {
               internal: false,
               link: item.URL,
-              topLine: item.date,
+              topLine: item.technologies,
               title: item.title,
-              bottomLine: item.technologies,
+              bottomLine: item.date,
             };
             return <ContentCard data={contentData} key={contentData.title} />;
           })}

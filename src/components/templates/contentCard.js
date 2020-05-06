@@ -3,6 +3,7 @@ import { Link } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import CornerArt from './cornerArt';
+import LanguageIcons from './languageIcons';
 
 const CardLink = styled(Link)`
   margin: 1rem;
@@ -56,7 +57,11 @@ const ContentCard = ({ data }) => {
   return internal ? (
     <CardLink to={link}>
       <CardContainer>
-        <PostInfo>{topLine}</PostInfo>
+        <PostInfo>
+          {topLine.split(',').map(line => (
+            <LanguageIcons language={line} />
+          ))}
+        </PostInfo>
         <PostTitle>{title}</PostTitle>
         <PostInfo>{bottomLine}</PostInfo>
         <AuthorName>@MrConerMurphy</AuthorName>
@@ -66,7 +71,11 @@ const ContentCard = ({ data }) => {
   ) : (
     <CardLinkExternal href={link}>
       <CardContainer>
-        <PostInfo>{topLine}</PostInfo>
+        <PostInfo>
+          {topLine.split(',').map(line => (
+            <LanguageIcons language={line} />
+          ))}
+        </PostInfo>
         <PostTitle>{title}</PostTitle>
         <PostInfo>{bottomLine}</PostInfo>
         <AuthorName>@MrConerMurphy</AuthorName>
