@@ -39,7 +39,7 @@ const LanguageIcons = ({ language }) => {
 };
 
 LanguageIcons.propTypes = {
-  language: PropTypes.object.isRequired,
+  language: PropTypes.string.isRequired,
 };
 
 export default LanguageIcons;
