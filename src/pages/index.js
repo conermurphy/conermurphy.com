@@ -81,16 +81,18 @@ const Index = ({ data }) => {
   const listDescription = description.split(',');
   const portfolioContent = data.dataJson.content;
 
-  console.log(portfolioContent);
+  console.log(data);
 
   return (
     <Layout>
       <PageContainer>
         <h1>{title}</h1>
-        {listDescription.map(item => (
-          <h2 style={{ marginBottom: 0, fontSize: '1.2rem', fontWeight: 400 }}>{item}</h2>
+        {listDescription.map((item, index) => (
+          <h2 style={{ marginBottom: 0, fontSize: '1.2rem', fontWeight: 400 }} key={index}>
+            {item}
+          </h2>
         ))}
-        <Link>Contact Me</Link>
+        <Link to="/#contact">Contact Me</Link>
         <CornerArt adjustments={[2.5, 0, 0, 0]} />
       </PageContainer>
       <AboutContainer id="about">
@@ -162,7 +164,6 @@ Index.propTypes = {
 export const query = graphql`
   query {
     dataJson(title: { eq: "Portfolio" }) {
-      id
       content {
         title
         type
