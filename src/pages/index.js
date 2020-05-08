@@ -4,7 +4,6 @@ import { Link } from 'gatsby';
 import { FaTwitter, FaInstagram, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import Layout from '../components/layout';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
-import Logo from '../components/logo';
 import CornerArt from '../components/templates/cornerArt';
 
 const PageContainer = styled.div`
