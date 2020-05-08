@@ -16,8 +16,8 @@ const Container = styled.div`
 const PageContentContainer = styled.main`
   display: flex;
   flex: 10;
-  padding 1rem;
-  padding-bottom: 5rem;
+  overflow: scroll;
+  flex-direction: column;
 `;
 
 const Layout = ({ children }) => (

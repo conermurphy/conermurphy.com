@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: 'Coner Murphy',
-    description: 'Web Developer | Blogger | Content Creator.',
+    description: 'Web Developer, Blogger, Content Creator',
     author: 'Coner Murphy',
     siteUrl: 'https://conermurphy.com',
     twitter: '',

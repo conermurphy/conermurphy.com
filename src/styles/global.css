@@ -51,10 +51,14 @@ button {
 
 h1, h2, h3, h4, h5 {
     font-family: var(--header-font);
-    color: var(--header-font-color);
-    font-size: 2rem;
+    color: var(--bpdy-font-color);
+    font-size: 2.5rem;
     font-weight: 500;
     margin-bottom: 0;
+}
+
+h1 {
+    color: var(--header-font-color);
 }
 
 h2 {
