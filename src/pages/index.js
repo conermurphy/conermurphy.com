@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Layout from '../components/layout';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
 import CornerArt from '../components/templates/cornerArt';
+import ContentCard from '../components/templates/contentCard';
 
 const PageContainer = styled.div`
   display: flex;
@@ -35,6 +36,12 @@ const AboutContainer = styled.div`
   & > h3 {
     margin-top: 0;
   }
+`;
+
+const BlogAndWorkContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 const ContactContainer = styled.div`
@@ -82,6 +89,24 @@ const Index = ({ data }) => {
   const portfolioContent = data.dataJson.content;
 
   console.log(data);
+  const lastBlogItem = data.allMdx.edges[0].node;
+  const lastPortfolioItem = portfolioContent.pop();
+
+  const workcontentData = {
+    internal: false,
+    link: lastPortfolioItem.URL,
+    topLine: lastPortfolioItem.technologies,
+    title: lastPortfolioItem.title,
+    bottomLine: lastPortfolioItem.date,
+  };
+
+  const blogcontentData = {
+    internal: true,
+    link: lastBlogItem.fields.slug,
+    topLine: lastBlogItem.frontmatter.languages.join(', '),
+    title: lastBlogItem.frontmatter.title,
+    bottomLine: `Post ${lastBlogItem.fields.postId} - ${lastBlogItem.frontmatter.date}`,
+  };
 
   return (
     <Layout>
@@ -105,6 +130,16 @@ const Index = ({ data }) => {
           egestas dignissim ante vitae placerat. Etiam sit amet mauris vitae turpis accumsan convallis. Nulla vel justo metus.
         </p>
       </AboutContainer>
+      <BlogAndWorkContainer>
+        <div>
+          <h4>My Latest Project</h4>
+          <ContentCard data={workcontentData} key={workcontentData.title} />
+        </div>
+        <div>
+          <h4>My Latest Blog Post</h4>
+          <ContentCard data={blogcontentData} key={blogcontentData.title} />
+        </div>
+      </BlogAndWorkContainer>
       <ContactContainer id="contact">
         <ContactContent>
           <h3>Let's Chat!</h3>
@@ -163,14 +198,32 @@ Index.propTypes = {
 
 export const query = graphql`
   query {
+    allMdx(sort: { fields: fields___postId, order: DESC }, limit: 1) {
+      edges {
+        node {
+          id
+          frontmatter {
+            title
+            date(formatString: "DD-MM-YYYY")
+            category
+            description
+            languages
+          }
+          fields {
+            postId
+            slug
+          }
+        }
+      }
+    }
     dataJson(title: { eq: "Portfolio" }) {
       content {
         title
         type
         URL
+        date
         description
         technologies
-        date
       }
     }
   }
