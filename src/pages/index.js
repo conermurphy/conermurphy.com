@@ -114,7 +114,7 @@ const Index = () => {
           </a>
           <a href="https://www.linkedin.com/in/coner-murphy/" aria-label="Linkedin">
             <FaLinkedin />
-            <p>HConer Murphy</p>
+            <p>Coner Murphy</p>
           </a>
           <a href="mailto:coner@conermurphy.com" aria-label="Email">
             <FaEnvelope />
