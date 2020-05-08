@@ -29,7 +29,11 @@ const AboutContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 1rem 2rem;
+  padding: 2rem;
+
+  & > h3 {
+    margin-top: 0;
+  }
 `;
 
 const ContactContainer = styled.div`
@@ -40,8 +44,12 @@ const ContactContainer = styled.div`
 `;
 
 const ContactContent = styled.div`
-  padding: 1rem 2rem;
+  padding: 2rem;
   background-color: var(--secondary-color);
+
+  & > h3 {
+    margin-top: 0;
+  }
 `;
 
 const ContactIconContainer = styled.div`
