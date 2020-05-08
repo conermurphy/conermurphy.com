@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import { FaTwitterSquare, FaInstagramSquare, FaGithubSquare, FaLinkedin, FaEnvelopeSquare, FaArrowDown } from 'react-icons/fa';
+import { FaTwitter, FaInstagram, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import Layout from '../components/layout';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
 import Logo from '../components/logo';
@@ -35,10 +35,37 @@ const AboutContainer = styled.div`
 
 const ContactContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   position: relative;
+`;
+
+const ContactContent = styled.div`
   padding: 1rem 2rem;
   background-color: var(--secondary-color);
+`;
+
+const ContactIconContainer = styled.div`
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex=start;
+  background-color: var(--background-color);
+
+  & > a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    & > svg {
+      height: 1rem;
+      width: 1rem;
+      border: 2px solid var(--body-font-color);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin: 1rem 1rem 0 0;
+    }
+  }
 `;
 
 const Index = () => {
@@ -65,38 +92,39 @@ const Index = () => {
         </p>
       </AboutContainer>
       <ContactContainer id="contact">
-        <h3>Let's Chat!</h3>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus suscipit sed magna vitae facilisis. Nullam et arcu vitae enim
-          mollis laoreet non id leo. Suspendisse sollicitudin leo nec velit pulvinar, nec pretium quam mollis. Nulla a neque eu nulla
-          sollicitudin maximus malesuada a sem. Phasellus sodales mauris id dui fermentum eleifend.
-        </p>
+        <ContactContent>
+          <h3>Let's Chat!</h3>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus suscipit sed magna vitae facilisis. Nullam et arcu vitae enim
+            mollis laoreet non id leo. Suspendisse sollicitudin leo nec velit pulvinar, nec pretium quam mollis. Nulla a neque eu nulla
+            sollicitudin maximus malesuada a sem. Phasellus sodales mauris id dui fermentum eleifend.
+          </p>
+        </ContactContent>
+        <ContactIconContainer>
+          <a href="https://twitter.com/MrConerMurphy" aria-label="Twitter">
+            <FaTwitter />
+            <p>@MrConerMurphy</p>
+          </a>
+          <a href="https://www.instagram.com/mrconermurphy/" aria-label="Instagram">
+            <FaInstagram />
+            <p>@MrConerMurphy</p>
+          </a>
+          <a href="https://github.com/conermurphy" aria-label="Github">
+            <FaGithub />
+            <p>Coner Murphy</p>
+          </a>
+          <a href="https://www.linkedin.com/in/coner-murphy/" aria-label="Linkedin">
+            <FaLinkedin />
+            <p>HConer Murphy</p>
+          </a>
+          <a href="mailto:coner@conermurphy.com" aria-label="Email">
+            <FaEnvelope />
+            <p>coner@conermurphy.com</p>
+          </a>
+        </ContactIconContainer>
       </ContactContainer>
     </Layout>
   );
 };
 
 export default Index;
-
-{
-  /* <Logo height="15vh" />
-        <h1>{title}</h1>
-        <h2>{description}</h2>
-        <ContactLinkContainer>
-          <a href="https://twitter.com/MrConerMurphy" aria-label="Twitter">
-            <FaTwitterSquare />
-          </a>
-          <a href="https://www.instagram.com/mrconermurphy/" aria-label="Instagram">
-            <FaInstagramSquare />
-          </a>
-          <a href="https://github.com/conermurphy" aria-label="Github">
-            <FaGithubSquare />
-          </a>
-          <a href="https://www.linkedin.com/in/coner-murphy/" aria-label="Linkedin">
-            <FaLinkedin />
-          </a>
-          <a href="mailto:coner@conermurphy.com" aria-label="Email">
-            <FaEnvelopeSquare />
-          </a>
-        </ContactLinkContainer> */
-}
