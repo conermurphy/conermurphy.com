@@ -2,19 +2,15 @@
     "title": "Testimonials",
     "content": [
         {
-            "title": "nameOfTheProject",
-            "type": "Website",
-            "URL": "http://google.com",
-            "description": "Example Description",
-            "technologies": "GatsbyJS, Primsic",
+            "client": "nameOfTheProject",
+            "project": "Website",
+            "quote": "Example Description",
             "date": "01-01-2020"
         },
         {
-            "title": "fffff",
-            "type": "ffff",
-            "URL": "http://google.com",
-            "description": "Example descipriton",
-            "technologies": "GatsbyJS, Primsic",
+            "client": "fffff",
+            "project": "ffff",
+            "quote": "Example descipriton",
             "date": "01-01-2020"
         }
     ]
