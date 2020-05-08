@@ -193,6 +193,25 @@ Index.propTypes = {
         ),
       }).isRequired
     ),
+    allMdx: PropTypes.array({
+      edges: PropTypes.shape({
+        node: PropTypes.shape({
+          frontmatter: PropTypes.shape({
+            title: PropTypes.string.isRequired,
+            date: PropTypes.string.isRequired,
+            category: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
+            languages: PropTypes.array.isRequired,
+          }),
+          body: PropTypes.string.isRequired,
+          timeToRead: PropTypes.number.isRequired,
+          id: PropTypes.string.isRequired,
+          fields: PropTypes.shape({
+            slug: PropTypes.string.isRequired,
+          }),
+        }),
+      }).isRequired,
+    }),
   }),
 };
 
