@@ -44,6 +44,17 @@ const BlogAndWorkContainer = styled.div`
   flex-wrap: wrap;
 `;
 
+const WorkContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: var(--secondary-color);
+`;
+
+const BlogContent = styled(WorkContent)``;
+
 const ContactContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -131,14 +142,14 @@ const Index = ({ data }) => {
         </p>
       </AboutContainer>
       <BlogAndWorkContainer>
-        <div>
+        <WorkContent>
           <h4>My Latest Project</h4>
           <ContentCard data={workcontentData} key={workcontentData.title} />
-        </div>
-        <div>
+        </WorkContent>
+        <BlogContent>
           <h4>My Latest Blog Post</h4>
           <ContentCard data={blogcontentData} key={blogcontentData.title} />
-        </div>
+        </BlogContent>
       </BlogAndWorkContainer>
       <ContactContainer id="contact">
         <ContactContent>
@@ -193,7 +204,7 @@ Index.propTypes = {
         ),
       }).isRequired
     ),
-    allMdx: PropTypes.array({
+    allMdx: PropTypes.arrayOf({
       edges: PropTypes.shape({
         node: PropTypes.shape({
           frontmatter: PropTypes.shape({
