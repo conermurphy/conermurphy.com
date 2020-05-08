@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'gatsby';
+import { Link, graphql } from 'gatsby';
 import { FaTwitter, FaInstagram, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 import Layout from '../components/layout';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
 import CornerArt from '../components/templates/cornerArt';
@@ -75,9 +76,13 @@ const ContactIconContainer = styled.div`
   }
 `;
 
-const Index = () => {
+const Index = ({ data }) => {
   const { title, description } = useSiteMetadata();
   const listDescription = description.split(',');
+  const portfolioContent = data.dataJson.content;
+
+  console.log(portfolioContent);
+
   return (
     <Layout>
       <PageContainer>
@@ -133,5 +138,41 @@ const Index = () => {
     </Layout>
   );
 };
+
+Index.propTypes = {
+  data: PropTypes.shape({
+    dataJson: PropTypes.shape(
+      PropTypes.arrayOf({
+        node: PropTypes.shape(
+          PropTypes.arrayOf(
+            PropTypes.shape({
+              URL: PropTypes.string,
+              description: PropTypes.string,
+              technologies: PropTypes.string,
+              title: PropTypes.string,
+              type: PropTypes.string,
+            })
+          )
+        ),
+      }).isRequired
+    ),
+  }),
+};
+
+export const query = graphql`
+  query {
+    dataJson(title: { eq: "Portfolio" }) {
+      id
+      content {
+        title
+        type
+        URL
+        description
+        technologies
+        date
+      }
+    }
+  }
+`;
 
 export default Index;
