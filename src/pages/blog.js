@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
 import ContentCard from '../components/templates/contentCard';
+import LanguageIcons from '../components/templates/languageIcons';
 
 const BlogContainer = styled.div`
   display: flex;
@@ -19,16 +20,8 @@ const LanguagesContainer = styled.div`
 `;
 
 const Language = styled.button`
-  padding: 0.7rem;
-  transition: 0.2s all ease;
-  background-color: ${props => (props.active ? 'var(--header-font-color)' : 'var(--secondary-color)')};
-  border: 1px solid ${props => (props.active ? 'var(--secondary-color)' : 'var(--header-font-color)')};
-  border-radius: 2vw;
-  color: ${props => (props.active ? 'var(--secondary-color)' : 'var(--header-color)')};
-
-  box-shadow: 0px 1px 1px rgba(200, 200, 200, 10);
-  box-shadow: 0px 2px 2px rgba(200, 200, 200, 10);
-  box-shadow: 0px 3px 3px rgba(200, 200, 200, 10);
+  border: none;
+  padding: 0;
 `;
 
 const PostContainer = styled.div`
@@ -54,7 +47,7 @@ const Blog = ({ data }) => {
   });
 
   const handleClick = e => {
-    const languageToSet = e.target.innerText;
+    const languageToSet = e.currentTarget.dataset.label;
     if (activeLanguages.includes(languageToSet)) {
       setActiveLanguages(activeLanguages.filter(language => language !== languageToSet));
     } else {
@@ -71,9 +64,9 @@ const Blog = ({ data }) => {
           answer them!
         </p>
         <LanguagesContainer>
-          {allLanguages.map(language => (
-            <Language type="button" key={language} onClick={handleClick} active={!!activeLanguages.includes(language)}>
-              {language}
+          {allLanguages.map((language, index) => (
+            <Language key={language} onClick={handleClick} active={!!activeLanguages.includes(language)} data-label={language}>
+              <LanguageIcons language={language} key={index} />
             </Language>
           ))}
         </LanguagesContainer>
