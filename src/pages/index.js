@@ -209,16 +209,18 @@ Index.propTypes = {
     allMdx: PropTypes.shape({
       edges: PropTypes.arrayOf(
         PropTypes.shape({
-          frontmatter: PropTypes.shape({
-            title: PropTypes.string.isRequired,
-            date: PropTypes.string.isRequired,
-            category: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired,
-            languages: PropTypes.array.isRequired,
-          }),
-          fields: PropTypes.shape({
-            slug: PropTypes.string.isRequired,
-            postId: PropTypes.string.isRequired,
+          node: PropTypes.shape({
+            frontmatter: PropTypes.shape({
+              title: PropTypes.string.isRequired,
+              date: PropTypes.string.isRequired,
+              category: PropTypes.string.isRequired,
+              description: PropTypes.string.isRequired,
+              languages: PropTypes.array.isRequired,
+            }),
+            fields: PropTypes.shape({
+              slug: PropTypes.string.isRequired,
+              postId: PropTypes.number.isRequired,
+            }),
           }),
         })
       ).isRequired,
