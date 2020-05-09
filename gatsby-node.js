@@ -9,8 +9,10 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
   if (node.internal.type === 'Mdx') {
     nodes.push({ node, date: node.frontmatter.date }); // Adds the node with the date field to the nodes array.
     nodes.sort((a, b) => (a.date - b.date ? -1 : 1)); // Sorts the nodes field into ascending order (oldest = 0).
-    const sortedNodes = nodes.map((x, index) => ({ ...x, id: index })); // Creates the new id field based off the sorted array.
+    const sortedNodes = nodes.filter((x, index, self) => self.indexOf(x) === index).map((x, index) => ({ ...x, id: index })); // Creates the new id field based off the sorted array.
+
     sortedNodes.forEach(e => {
+      console.log(e.node.id);
       // Adds the new id field as the slug to the node so can be queried later on.
       const slug = createFilePath({ node, getNode, basePath: 'content/posts' }).replace(/[0-9]/g, '');
       createNodeField({
