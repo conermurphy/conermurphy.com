@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
@@ -10,6 +10,10 @@ const WorkContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 0 1rem;
+
+  & > p {
+    text-align: center;
+  }
 `;
 
 const PostContainer = styled.div`
@@ -27,11 +31,15 @@ const Work = ({ data }) => {
     <Layout>
       <WorkContainer>
         <h1>My Work</h1>
-        <p style={{ textAlign: 'center' }}>
-          Here you'll find all of the recent projects I've been working. Including a mixture of client work and personal projects.
+        <p>
+          Here's all my recent projects I've been working on. Including a mixture of previous client work and personal projects I've built.
         </p>
-        <p style={{ textAlign: 'center' }}>
-          If you have any questions about one of my projects or want to chat about working with me then please get in touch.
+        <p>
+          If you have any questions or want to chat about working with me on a future project please get in touch using the methods listed
+          on the{' '}
+          <Link to="/#contact" style={{ fontWeight: 600 }}>
+            Contact Section.
+          </Link>
         </p>
         <PostContainer>
           {work.map(item => {
