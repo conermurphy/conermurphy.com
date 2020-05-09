@@ -39,8 +39,13 @@ const HoveredComponentText = styled.p`
 const LanguageIcons = ({ language }) => {
   const [hover, setHover] = useState(false);
   const [hoveredComponent, setHoveredComponent] = useState('');
+  const [tap, setTap] = useState(false);
+
+  const onDesktop = window.matchMedia('(max-width: 1080px)').matches;
+  console.log(onDesktop);
 
   const handleHover = e => {
+    console.log(e.currentTarget.dataset.label);
     setHover(true);
     setHoveredComponent(e.currentTarget.dataset.label);
   };
@@ -49,51 +54,81 @@ const LanguageIcons = ({ language }) => {
     setHover(false);
   }
 
+  const handleTap = () => {
+    setTap(!tap);
+  };
+
+  const variants = {
+    clicked: { scale: 1.25 },
+    notClicked: { scale: 1 },
+  };
+
   return (
     <LanguageIconContainer>
-      <IconContainer whileHover={{ scale: 1.2, rotate: '360deg' }} transition={{ duration: 1, ease: 'easeInOut' }}>
+      <IconContainer
+        whileHover={{ scale: 0.8 }}
+        transition={{ duration: 0.5, ease: 'easeInOut' }}
+        onClick={handleTap}
+        animate={tap ? 'clicked' : 'notClicked'}
+        variants={variants}
+      >
         {
           {
             HTML: (
               <GrHtml5
                 style={{ stroke: 'hsl(12, 77%, 52%)' }}
                 data-label="HTML"
-                onMouseEnter={handleHover}
-                onMouseLeave={handleHoverLeave}
+                onMouseEnter={onDesktop ? undefined : handleHover}
+                onMouseLeave={onDesktop ? undefined : handleHoverLeave}
               />
             ),
             CSS: (
-              <GrCss3 style={{ stroke: 'rgb(38, 77, 228)' }} data-label="CSS" onMouseEnter={handleHover} onMouseLeave={handleHoverLeave} />
+              <GrCss3
+                style={{ stroke: 'rgb(38, 77, 228)' }}
+                data-label="CSS"
+                onMouseEnter={onDesktop ? undefined : handleHover}
+                onMouseLeave={onDesktop ? undefined : handleHoverLeave}
+              />
             ),
             JavaScript: (
               <GrJs
                 style={{ backgroundColor: 'yellow' }}
                 data-label="JavaScript"
-                onMouseEnter={handleHover}
-                onMouseLeave={handleHoverLeave}
+                onMouseEnter={onDesktop ? undefined : handleHover}
+                onMouseLeave={onDesktop ? undefined : handleHoverLeave}
               />
             ),
             NodeJS: (
               <GrNode
                 style={{ color: 'rgb(68, 136, 62)' }}
                 data-label="NodeJS"
-                onMouseEnter={handleHover}
-                onMouseLeave={handleHoverLeave}
+                onMouseEnter={onDesktop ? undefined : handleHover}
+                onMouseLeave={onDesktop ? undefined : handleHoverLeave}
               />
             ),
             ReactJS: (
-              <GrReactjs style={{ color: '#61dafb' }} data-label="ReactJS" onMouseEnter={handleHover} onMouseLeave={handleHoverLeave} />
+              <GrReactjs
+                style={{ color: '#61dafb' }}
+                data-label="ReactJS"
+                onMouseEnter={onDesktop ? undefined : handleHover}
+                onMouseLeave={onDesktop ? undefined : handleHoverLeave}
+              />
             ),
             GatsbyJS: (
               <GrGatsbyjs
                 style={{ color: 'rgb(102 51 153' }}
                 data-label="GatsbyJS"
-                onMouseEnter={handleHover}
-                onMouseLeave={handleHoverLeave}
+                onMouseEnter={onDesktop ? undefined : handleHover}
+                onMouseLeave={onDesktop ? undefined : handleHoverLeave}
               />
             ),
             GraphQL: (
-              <GrGraphQl style={{ color: '#E10098' }} data-label="GraphQL" onMouseEnter={handleHover} onMouseLeave={handleHoverLeave} />
+              <GrGraphQl
+                style={{ color: '#E10098' }}
+                data-label="GraphQL"
+                onMouseEnter={onDesktop ? undefined : handleHover}
+                onMouseLeave={onDesktop ? undefined : handleHoverLeave}
+              />
             ),
           }[language.trim()]
         }
