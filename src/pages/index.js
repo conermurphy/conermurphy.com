@@ -206,9 +206,9 @@ Index.propTypes = {
         ),
       }).isRequired
     ),
-    allMdx: PropTypes.arrayOf({
-      edges: PropTypes.shape({
-        node: PropTypes.shape({
+    allMdx: PropTypes.shape({
+      edges: PropTypes.arrayOf(
+        PropTypes.shape({
           frontmatter: PropTypes.shape({
             title: PropTypes.string.isRequired,
             date: PropTypes.string.isRequired,
@@ -216,14 +216,12 @@ Index.propTypes = {
             description: PropTypes.string.isRequired,
             languages: PropTypes.array.isRequired,
           }),
-          body: PropTypes.string.isRequired,
-          timeToRead: PropTypes.number.isRequired,
-          id: PropTypes.string.isRequired,
           fields: PropTypes.shape({
             slug: PropTypes.string.isRequired,
+            postId: PropTypes.string.isRequired,
           }),
-        }),
-      }).isRequired,
+        })
+      ).isRequired,
     }),
   }),
 };
