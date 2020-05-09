@@ -12,7 +12,6 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
     const sortedNodes = nodes.filter((x, index, self) => self.indexOf(x) === index).map((x, index) => ({ ...x, id: index })); // Creates the new id field based off the sorted array.
 
     sortedNodes.forEach(e => {
-      console.log(e.node.id);
       // Adds the new id field as the slug to the node so can be queried later on.
       const slug = createFilePath({ node, getNode, basePath: 'content/posts' }).replace(/[0-9]/g, '');
       createNodeField({
@@ -27,6 +26,14 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       });
     });
   }
+};
+
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig({
+    resolve: {
+      modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    },
+  });
 };
 
 exports.createPages = async ({ graphql, actions }) => {
