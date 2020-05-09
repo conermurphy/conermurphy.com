@@ -7,6 +7,7 @@ import Layout from '../components/layout';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
 import CornerArt from '../components/templates/cornerArt';
 import ContentCard from '../components/templates/contentCard';
+import LanguageIcons from '../components/templates/languageIcons';
 
 const PageContainer = styled.div`
   display: flex;
@@ -101,9 +102,10 @@ const Index = ({ data }) => {
   const listDescription = description.split(',');
   const portfolioContent = data.dataJson.content;
 
-  console.log(data);
   const lastBlogItem = data.allMdx.edges[0].node;
   const lastPortfolioItem = portfolioContent.pop();
+
+  const languagesUsed = ['GatsbyJS', 'HTML', 'CSS', 'JavaScript', 'NodeJS', 'ReactJS', 'GraphQL'];
 
   const workcontentData = {
     internal: false,
@@ -135,12 +137,33 @@ const Index = ({ data }) => {
       </PageContainer>
       <AboutContainer id="about">
         <h3>About Me</h3>
+        <p>Hey, I'm Coner a web developer from Norwich 🇬🇧.</p>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus suscipit sed magna vitae facilisis. Nullam et arcu vitae enim
-          mollis laoreet non id leo. Suspendisse sollicitudin leo nec velit pulvinar, nec pretium quam mollis. Nulla a neque eu nulla
-          sollicitudin maximus malesuada a sem. Phasellus sodales mauris id dui fermentum eleifend. Maecenas commodo egestas quam quis
-          commodo. Vivamus pretium ex varius congue pharetra. Etiam cursus cursus diam, sit amet condimentum nibh blandit eget. Curabitur
-          egestas dignissim ante vitae placerat. Etiam sit amet mauris vitae turpis accumsan convallis. Nulla vel justo metus.
+          I primarily use JavaScript in my work, if you're interested in seeing some of my previous work please check out my{' '}
+          <Link to="/work" style={{ fontWeight: 600 }}>
+            Portfolio.
+          </Link>
+        </p>
+        <p>
+          I also believe in helping others become amazing developers so I release blog posts reguarly, you can see my latest blog post above
+          or check out all of them on my{' '}
+          <Link to="/blog" style={{ fontWeight: 600 }}>
+            Blog.
+          </Link>
+        </p>
+        <p>Currently, the primary technologies I use are:</p>
+        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {languagesUsed.map((line, index) => (
+            <LanguageIcons language={line} key={index} />
+          ))}
+        </div>
+        <p>But, I'm always looking to add more to this list as I'm always looking to learn new things.</p>
+        <p>
+          I really hope you enjoy my work and if you want to get in touch with me for any reason, you can do so via the methods listed in
+          the{' '}
+          <Link to="/#contact" style={{ fontWeight: 600 }}>
+            Contact Section.
+          </Link>
         </p>
       </AboutContainer>
       <BlogAndWorkContainer>
@@ -157,9 +180,12 @@ const Index = ({ data }) => {
         <ContactContent>
           <h3>Let's Chat!</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus suscipit sed magna vitae facilisis. Nullam et arcu vitae enim
-            mollis laoreet non id leo. Suspendisse sollicitudin leo nec velit pulvinar, nec pretium quam mollis. Nulla a neque eu nulla
-            sollicitudin maximus malesuada a sem. Phasellus sodales mauris id dui fermentum eleifend.
+            If you have any questions about either my work or me in general I'd be happy to chat with you about them, just get in touch with
+            me via one of the methods below and I'll get back to you as soon as possible.
+          </p>
+          <p>
+            If you have a project in mind you'd like to work with me on, then it's your lucky day I am currently <b>accepting</b> client
+            work and would be happy to chat with you about your requirements just get in touch with me via one of the methods below.
           </p>
         </ContactContent>
         <ContactIconContainer>
