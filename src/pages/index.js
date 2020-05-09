@@ -9,8 +9,19 @@ import { useSiteMetadata } from '../hooks/use-site-metadata';
 import CornerArt from '../components/templates/cornerArt';
 import ContentCard from '../components/templates/contentCard';
 import LanguageIcons from '../components/templates/languageIcons';
+import device from '../components/device';
+
+const MainContainer = styled.div`
+  display: grid;
+  grid-template-areas: 'home' 'about' 'work' 'blog' 'contact';
+
+  @media ${device.laptopL} {
+    grid-template-areas: 'home about about' 'home work blog' 'contact contact contact';
+  }
+`;
 
 const PageContainer = styled.div`
+  grid-areas: home;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -23,6 +34,7 @@ const PageContainer = styled.div`
 `;
 
 const AboutContainer = styled.div`
+  grid-area: about;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -41,13 +53,8 @@ const ContactMeLink = styled(motion.div)`
   margin: 2rem 0 0rem 0;
 `;
 
-const BlogAndWorkContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
-
 const WorkContent = styled.div`
+  grid-area: work;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,6 +64,7 @@ const WorkContent = styled.div`
 `;
 
 const BlogContent = styled(WorkContent)`
+  grid-area: blog;
   background-color: var(--background-color);
 `;
 
@@ -65,10 +73,12 @@ const ContactContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   position: relative;
+  grid-area: contact;
 `;
 
 const ContactContent = styled.div`
   padding: 2rem;
+
   background-color: var(--secondary-color);
 
   & > h3 {
@@ -147,50 +157,51 @@ const Index = ({ data }) => {
 
   return (
     <Layout>
-      <PageContainer>
-        <h1>{title}</h1>
-        {listDescription.map((item, index) => (
-          <h2 style={{ marginBottom: 0, fontSize: '1.2rem', fontWeight: 400 }} key={index}>
-            {item}
-          </h2>
-        ))}
-        <ContactMeLink whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-          <Link to="/#contact">Contact Me</Link>
-        </ContactMeLink>
-        <CornerArt adjustments={[2.5, 0, 0, 0]} />
-      </PageContainer>
-      <AboutContainer id="about">
-        <h3>About Me</h3>
-        <p>Hey, I'm Coner a web developer from Norwich 🇬🇧.</p>
-        <p>
-          I primarily use JavaScript in my work, if you're interested in seeing some of my previous work please check out my{' '}
-          <Link to="/work" style={{ fontWeight: 600 }}>
-            Portfolio.
-          </Link>
-        </p>
-        <p>
-          I also believe in helping others become amazing developers so I release blog posts reguarly, you can see my latest blog post above
-          or check out all of them on my{' '}
-          <Link to="/blog" style={{ fontWeight: 600 }}>
-            Blog.
-          </Link>
-        </p>
-        <p>Currently, the primary technologies I use are:</p>
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
-          {languagesUsed.map((line, index) => (
-            <LanguageIcons language={line} key={index} />
+      <MainContainer>
+        <PageContainer>
+          <h1>{title}</h1>
+          {listDescription.map((item, index) => (
+            <h2 style={{ marginBottom: 0, fontSize: '1.2rem', fontWeight: 400 }} key={index}>
+              {item}
+            </h2>
           ))}
-        </div>
-        <p>But, I'm always looking to add more to this list as I'm always looking to learn new things.</p>
-        <p>
-          I really hope you enjoy my work and if you want to get in touch with me for any reason, you can do so via the methods listed in
-          the{' '}
-          <Link to="/#contact" style={{ fontWeight: 600 }}>
-            Contact Section.
-          </Link>
-        </p>
-      </AboutContainer>
-      <BlogAndWorkContainer>
+          <ContactMeLink whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+            <Link to="/#contact">Contact Me</Link>
+          </ContactMeLink>
+          <CornerArt adjustments={[2.5, 0, 0, 0]} />
+        </PageContainer>
+        <AboutContainer id="about">
+          <h3>About Me</h3>
+          <p>Hey, I'm Coner a web developer from Norwich 🇬🇧.</p>
+          <p>
+            I primarily use JavaScript in my work, if you're interested in seeing some of my previous work please check out my{' '}
+            <Link to="/work" style={{ fontWeight: 600 }}>
+              Portfolio.
+            </Link>
+          </p>
+          <p>
+            I also believe in helping others become amazing developers so I release blog posts reguarly, you can see my latest blog post
+            above or check out all of them on my{' '}
+            <Link to="/blog" style={{ fontWeight: 600 }}>
+              Blog.
+            </Link>
+          </p>
+          <p>Currently, the primary technologies I use are:</p>
+          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
+            {languagesUsed.map((line, index) => (
+              <LanguageIcons language={line} key={index} />
+            ))}
+          </div>
+          <p>But, I'm always looking to add more to this list as I'm always looking to learn new things.</p>
+          <p>
+            I really hope you enjoy my work and if you want to get in touch with me for any reason, you can do so via the methods listed in
+            the{' '}
+            <Link to="/#contact" style={{ fontWeight: 600 }}>
+              Contact Section.
+            </Link>
+          </p>
+        </AboutContainer>
+
         <WorkContent>
           <h4>My Latest Project</h4>
           <ContentCard data={workcontentData} key={workcontentData.title} />
@@ -199,52 +210,53 @@ const Index = ({ data }) => {
           <h4>My Latest Blog Post</h4>
           <ContentCard data={blogcontentData} key={blogcontentData.title} />
         </BlogContent>
-      </BlogAndWorkContainer>
-      <ContactContainer id="contact">
-        <ContactContent>
-          <h3>Let's Chat!</h3>
-          <p>
-            If you have any questions about either my work or me in general I'd be happy to chat with you about them, just get in touch with
-            me via one of the methods below and I'll get back to you as soon as possible.
-          </p>
-          <p>
-            If you have a project in mind you'd like to work with me on, then it's your lucky day I am currently <b>accepting</b> client
-            work and would be happy to chat with you about your requirements just get in touch with me via one of the methods below.
-          </p>
-        </ContactContent>
-        <ContactIconContainer>
-          <a href="https://twitter.com/MrConerMurphy" aria-label="Twitter">
-            <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-              <FaTwitter />
-            </IconContainer>
-            <p>@MrConerMurphy</p>
-          </a>
-          <a href="https://www.instagram.com/mrconermurphy/" aria-label="Instagram">
-            <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-              <FaInstagram />
-            </IconContainer>
-            <p>@MrConerMurphy</p>
-          </a>
-          <a href="https://github.com/conermurphy" aria-label="Github">
-            <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-              <FaGithub />
-            </IconContainer>
-            <p>Coner Murphy</p>
-          </a>
-          <a href="https://www.linkedin.com/in/coner-murphy/" aria-label="Linkedin">
-            <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-              <FaLinkedin />
-            </IconContainer>
-            <p>Coner Murphy</p>
-          </a>
-          <a href="mailto:coner@conermurphy.com" aria-label="Email">
-            <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-              <FaEnvelope />
-            </IconContainer>
-            <p>coner@conermurphy.com</p>
-          </a>
-        </ContactIconContainer>
-      </ContactContainer>
+
+        <ContactContainer id="contact">
+          <ContactContent>
+            <h3>Let's Chat!</h3>
+            <p>
+              If you have any questions about either my work or me in general I'd be happy to chat with you about them, just get in touch
+              with me via one of the methods below and I'll get back to you as soon as possible.
+            </p>
+            <p>
+              If you have a project in mind you'd like to work with me on, then it's your lucky day I am currently <b>accepting</b> client
+              work and would be happy to chat with you about your requirements just get in touch with me via one of the methods below.
+            </p>
+          </ContactContent>
+          <ContactIconContainer>
+            <a href="https://twitter.com/MrConerMurphy" aria-label="Twitter">
+              <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+                <FaTwitter />
+              </IconContainer>
+              <p>@MrConerMurphy</p>
+            </a>
+            <a href="https://www.instagram.com/mrconermurphy/" aria-label="Instagram">
+              <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+                <FaInstagram />
+              </IconContainer>
+              <p>@MrConerMurphy</p>
+            </a>
+            <a href="https://github.com/conermurphy" aria-label="Github">
+              <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+                <FaGithub />
+              </IconContainer>
+              <p>Coner Murphy</p>
+            </a>
+            <a href="https://www.linkedin.com/in/coner-murphy/" aria-label="Linkedin">
+              <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+                <FaLinkedin />
+              </IconContainer>
+              <p>Coner Murphy</p>
+            </a>
+            <a href="mailto:coner@conermurphy.com" aria-label="Email">
+              <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+                <FaEnvelope />
+              </IconContainer>
+              <p>coner@conermurphy.com</p>
+            </a>
+          </ContactIconContainer>
+        </ContactContainer>
+      </MainContainer>
     </Layout>
   );
 };
