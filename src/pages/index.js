@@ -53,7 +53,9 @@ const WorkContent = styled.div`
   background-color: var(--secondary-color);
 `;
 
-const BlogContent = styled(WorkContent)``;
+const BlogContent = styled(WorkContent)`
+  background-color: var(--background-color);
+`;
 
 const ContactContainer = styled.div`
   display: flex;
