@@ -13,7 +13,7 @@ import ContactBlock from '../components/mdx/contactBlock.js';
 const BlogPostContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 2rem;
   padding-bottom: 0;
 `;
 
