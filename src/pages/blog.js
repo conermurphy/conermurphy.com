@@ -81,7 +81,7 @@ const Blog = ({ data }) => {
                 link: node.fields.slug,
                 topLine: node.frontmatter.languages.join(', '),
                 title: node.frontmatter.title,
-                bottomLine: `# ${node.frontmatter.id} - ${node.frontmatter.date}`,
+                bottomLine: `#${node.frontmatter.id} - ${node.frontmatter.date}`,
               };
               return <ContentCard data={contentData} key={node.id} />;
             }

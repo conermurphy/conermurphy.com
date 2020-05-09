@@ -133,7 +133,7 @@ const Index = ({ data }) => {
     link: lastBlogItem.fields.slug,
     topLine: lastBlogItem.frontmatter.languages.join(', '),
     title: lastBlogItem.frontmatter.title,
-    bottomLine: `# ${lastBlogItem.frontmatter.id} - ${lastBlogItem.frontmatter.date}`,
+    bottomLine: `#${lastBlogItem.frontmatter.id} - ${lastBlogItem.frontmatter.date}`,
   };
 
   const itemHover = {
