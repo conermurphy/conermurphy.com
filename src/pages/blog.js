@@ -72,20 +72,19 @@ const Blog = ({ data }) => {
         </LanguagesContainer>
         <PostContainer>
           {posts.map(({ node }) => {
-            // const postLanguages = node.frontmatter.languages;
-            // return postLanguages.map(language => {
-            // if (activeLanguages.includes(language) || activeLanguages.length === 0) {
-            const contentData = {
-              internal: true,
-              link: node.fields.slug,
-              topLine: node.frontmatter.languages.join(', '),
-              title: node.frontmatter.title,
-              bottomLine: `Post ${node.fields.postId} - ${node.frontmatter.date}`,
-            };
-            return <ContentCard data={contentData} key={node.id} />;
-            // }
-            // return null;
-            // });
+            const postLanguages = node.frontmatter.languages;
+            console.log(activeLanguages.some(language => postLanguages.includes(language)));
+            if (activeLanguages.some(language => postLanguages.includes(language)) || activeLanguages.length === 0) {
+              const contentData = {
+                internal: true,
+                link: node.fields.slug,
+                topLine: node.frontmatter.languages.join(', '),
+                title: node.frontmatter.title,
+                bottomLine: `Post ${node.fields.postId} - ${node.frontmatter.date}`,
+              };
+              return <ContentCard data={contentData} key={node.id} />;
+            }
+            return null;
           })}
         </PostContainer>
       </BlogContainer>
