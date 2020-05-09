@@ -101,7 +101,7 @@ const NavMenu = ({ onClick, navActive, callback }) => {
         <SubNavItemContainer>
           <Logo height="3rem" />
         </SubNavItemContainer>
-        <Link to="/">
+        <Link to="/#about">
           <SubNavItemContainer whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
             <FaQuestion />
           </SubNavItemContainer>
@@ -119,7 +119,7 @@ const NavMenu = ({ onClick, navActive, callback }) => {
           </SubNavItemContainer>
           <SubNavItemText>Work</SubNavItemText>
         </Link>
-        <Link to="/" style={{ marginBottom: '2rem' }}>
+        <Link to="/#contact" style={{ marginBottom: '2rem' }}>
           <SubNavItemContainer whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
             <FaCommentDots />
           </SubNavItemContainer>
