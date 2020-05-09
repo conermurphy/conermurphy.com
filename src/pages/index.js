@@ -14,14 +14,10 @@ import device from '../components/device';
 const MainContainer = styled.div`
   display: grid;
   grid-template-areas: 'home' 'about' 'work' 'blog' 'contact';
-
-  @media ${device.laptopL} {
-    grid-template-areas: 'home about about' 'home work blog' 'contact contact contact';
-  }
 `;
 
 const PageContainer = styled.div`
-  grid-areas: home;
+  grid-area: home;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -78,7 +74,6 @@ const ContactContainer = styled.div`
 
 const ContactContent = styled.div`
   padding: 2rem;
-
   background-color: var(--secondary-color);
 
   & > h3 {
@@ -90,7 +85,7 @@ const ContactIconContainer = styled.div`
   padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
-  align-items: flex=start;
+  align-items: flex-start;
   background-color: var(--background-color);
 
   & > a {
