@@ -49,9 +49,7 @@ export const query = graphql`
         date(formatString: "DDMMYYYY")
         category
         languages
-      }
-      fields {
-        postId
+        id
       }
     }
   }
@@ -68,9 +66,6 @@ BlogPost.propTypes = {
         description: PropTypes.string.isRequired,
         languages: PropTypes.array.isRequired,
       }),
-      fields: PropTypes.shape({
-        postId: PropTypes.number.isRequired,
-      }),
     }),
   }).isRequired,
   pageContext: PropTypes.shape({
@@ -78,7 +73,6 @@ BlogPost.propTypes = {
     prev: PropTypes.shape({
       fields: PropTypes.shape({
         slug: PropTypes.string,
-        postId: PropTypes.number.isRequired,
       }),
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
@@ -89,7 +83,6 @@ BlogPost.propTypes = {
     next: PropTypes.shape({
       fields: PropTypes.shape({
         slug: PropTypes.string.isRequired,
-        postId: PropTypes.number.isRequired,
       }),
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,

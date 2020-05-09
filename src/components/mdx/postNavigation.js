@@ -55,11 +55,10 @@ const PostNavigation = ({ pageContext }) => {
   const { prev, next } = pageContext;
   const data = useStaticQuery(graphql`
     query {
-      allMdx(sort: { order: ASC, fields: fields___postId }) {
+      allMdx(sort: { order: ASC, fields: frontmatter___id }) {
         edges {
           node {
             fields {
-              postId
               slug
             }
           }
@@ -99,7 +98,6 @@ PostNavigation.propTypes = {
     prev: PropTypes.shape({
       fields: PropTypes.shape({
         slug: PropTypes.string,
-        postId: PropTypes.number,
       }),
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
@@ -110,7 +108,6 @@ PostNavigation.propTypes = {
     next: PropTypes.shape({
       fields: PropTypes.shape({
         slug: PropTypes.string,
-        postId: PropTypes.number,
       }),
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,

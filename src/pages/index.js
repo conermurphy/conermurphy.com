@@ -133,7 +133,7 @@ const Index = ({ data }) => {
     link: lastBlogItem.fields.slug,
     topLine: lastBlogItem.frontmatter.languages.join(', '),
     title: lastBlogItem.frontmatter.title,
-    bottomLine: `Post ${lastBlogItem.fields.postId} - ${lastBlogItem.frontmatter.date}`,
+    bottomLine: `# ${lastBlogItem.frontmatter.id} - ${lastBlogItem.frontmatter.date}`,
   };
 
   const itemHover = {
@@ -276,10 +276,10 @@ Index.propTypes = {
               category: PropTypes.string.isRequired,
               description: PropTypes.string.isRequired,
               languages: PropTypes.array.isRequired,
+              id: PropTypes.number.isRequired,
             }),
             fields: PropTypes.shape({
               slug: PropTypes.string.isRequired,
-              postId: PropTypes.number.isRequired,
             }),
           }),
         })
@@ -290,7 +290,7 @@ Index.propTypes = {
 
 export const query = graphql`
   query {
-    allMdx(sort: { fields: fields___postId, order: DESC }, limit: 1) {
+    allMdx(sort: { fields: frontmatter___id, order: DESC }, limit: 1) {
       edges {
         node {
           id
@@ -300,9 +300,9 @@ export const query = graphql`
             category
             description
             languages
+            id
           }
           fields {
-            postId
             slug
           }
         }

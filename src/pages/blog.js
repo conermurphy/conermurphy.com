@@ -81,7 +81,7 @@ const Blog = ({ data }) => {
                 link: node.fields.slug,
                 topLine: node.frontmatter.languages.join(', '),
                 title: node.frontmatter.title,
-                bottomLine: `Post ${node.fields.postId} - ${node.frontmatter.date}`,
+                bottomLine: `# ${node.frontmatter.id} - ${node.frontmatter.date}`,
               };
               return <ContentCard data={contentData} key={node.id} />;
             }
@@ -119,7 +119,7 @@ Blog.propTypes = {
 
 export const query = graphql`
   query {
-    allMdx(sort: { order: DESC, fields: fields___postId }) {
+    allMdx(sort: { order: DESC, fields: frontmatter___id }) {
       edges {
         node {
           frontmatter {
@@ -128,12 +128,12 @@ export const query = graphql`
             category
             description
             languages
+            id
           }
           body
           id
           fields {
             slug
-            postId
           }
         }
       }
