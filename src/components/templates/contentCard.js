@@ -44,6 +44,9 @@ const LanguagesContainer = styled.div`
 const PostInfo = styled.div`
   font-size: 0.9rem;
   margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 const PostTitle = styled.h3`
