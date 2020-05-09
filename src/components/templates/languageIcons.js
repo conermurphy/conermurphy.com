@@ -41,7 +41,7 @@ const LanguageIcons = ({ language }) => {
   const [hoveredComponent, setHoveredComponent] = useState('');
   const [tap, setTap] = useState(false);
 
-  const onDesktop = window.matchMedia('(max-width: 1080px)').matches;
+  const onDesktop = window.matchMedia('(max-width: 1024px)').matches;
   console.log(onDesktop);
 
   const handleHover = e => {
