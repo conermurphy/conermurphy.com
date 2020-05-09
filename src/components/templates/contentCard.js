@@ -40,7 +40,7 @@ const LanguagesContainer = styled.div`
   justify-content: center;
 `;
 
-const PostInfo = styled.p`
+const PostInfo = styled.div`
   font-size: 0.9rem;
   margin: 0.5rem;
 `;
