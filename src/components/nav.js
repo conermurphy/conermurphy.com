@@ -5,6 +5,7 @@ import { FaPencilAlt, FaBriefcase, FaCommentDots, FaQuestion } from 'react-icons
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Logo from './logo';
+import device from './device';
 
 const NavContainer = styled(motion.nav)`
   position: ${props => (props.navActive ? 'relative' : 'sticky')};
@@ -12,8 +13,11 @@ const NavContainer = styled(motion.nav)`
   justify-content: space-around;
   align-items: center;
   background-color: var(--secondary-color);
-  bottom: 0;
   padding: 0.5rem;
+
+  @media ${device.laptopL} {
+    box-shadow: 0px 2px 2px rgba(200, 200, 200, 20);
+  }
 `;
 
 const NavItem = styled(motion.button)`

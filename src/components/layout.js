@@ -5,17 +5,21 @@ import styled from 'styled-components';
 import '../styles/global.css';
 import PropTypes from 'prop-types';
 import Nav from './nav';
+import device from './device';
 
 const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: visible;
+
+  @media ${device.laptopL} {
+    flex-direction: column-reverse;
+  }
 `;
 
 const PageContentContainer = styled.main`
   display: flex;
-  flex: 10;
+  flex: 9;
   overflow: scroll;
   flex-direction: column;
 `;
