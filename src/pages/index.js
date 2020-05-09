@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link, graphql } from 'gatsby';
 import { FaTwitter, FaInstagram, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
 import Layout from '../components/layout';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
 import CornerArt from '../components/templates/cornerArt';
@@ -19,13 +20,6 @@ const PageContainer = styled.div`
   margin-bottom: 0;
   background-color: var(--secondary-color);
   position: relative;
-
-  & > a {
-    border: 2px solid var(--header-font-color);
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    margin: 2rem 0 0rem 0;
-  }
 `;
 
 const AboutContainer = styled.div`
@@ -37,6 +31,14 @@ const AboutContainer = styled.div`
   & > h3 {
     margin-top: 0;
   }
+`;
+
+const ContactMeLink = styled(motion.div)`
+  display: flex;
+  border: 2px solid var(--header-font-color);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin: 2rem 0 0rem 0;
 `;
 
 const BlogAndWorkContainer = styled.div`
@@ -86,14 +88,25 @@ const ContactIconContainer = styled.div`
     flex-direction: row;
     align-items: center;
 
-    & > svg {
-      height: 1rem;
-      width: 1rem;
-      border: 2px solid var(--body-font-color);
-      border-radius: 0.5rem;
-      padding: 1rem;
-      margin: 1rem 1rem 0 0;
+    & > p {
+      margin: 0 1rem;
     }
+  }
+`;
+
+const IconContainer = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0.5rem 0;
+
+  & > svg {
+    height: 1rem;
+    width: 1rem;
+    border: 2px solid rgba(50, 50, 50, 200);
+    border-radius: 0.5rem;
+    padding: 1rem;
   }
 `;
 
@@ -123,6 +136,15 @@ const Index = ({ data }) => {
     bottomLine: `Post ${lastBlogItem.fields.postId} - ${lastBlogItem.frontmatter.date}`,
   };
 
+  const itemHover = {
+    scale: 1.1,
+    color: 'rgba(149,55,32,255)',
+  };
+
+  const itemTap = {
+    scale: 0.9,
+  };
+
   return (
     <Layout>
       <PageContainer>
@@ -132,7 +154,9 @@ const Index = ({ data }) => {
             {item}
           </h2>
         ))}
-        <Link to="/#contact">Contact Me</Link>
+        <ContactMeLink whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+          <Link to="/#contact">Contact Me</Link>
+        </ContactMeLink>
         <CornerArt adjustments={[2.5, 0, 0, 0]} />
       </PageContainer>
       <AboutContainer id="about">
@@ -190,23 +214,33 @@ const Index = ({ data }) => {
         </ContactContent>
         <ContactIconContainer>
           <a href="https://twitter.com/MrConerMurphy" aria-label="Twitter">
-            <FaTwitter />
+            <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+              <FaTwitter />
+            </IconContainer>
             <p>@MrConerMurphy</p>
           </a>
           <a href="https://www.instagram.com/mrconermurphy/" aria-label="Instagram">
-            <FaInstagram />
+            <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+              <FaInstagram />
+            </IconContainer>
             <p>@MrConerMurphy</p>
           </a>
           <a href="https://github.com/conermurphy" aria-label="Github">
-            <FaGithub />
+            <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+              <FaGithub />
+            </IconContainer>
             <p>Coner Murphy</p>
           </a>
           <a href="https://www.linkedin.com/in/coner-murphy/" aria-label="Linkedin">
-            <FaLinkedin />
+            <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+              <FaLinkedin />
+            </IconContainer>
             <p>Coner Murphy</p>
           </a>
           <a href="mailto:coner@conermurphy.com" aria-label="Email">
-            <FaEnvelope />
+            <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+              <FaEnvelope />
+            </IconContainer>
             <p>coner@conermurphy.com</p>
           </a>
         </ContactIconContainer>
