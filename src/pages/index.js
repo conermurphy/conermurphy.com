@@ -103,7 +103,7 @@ const Index = ({ data }) => {
   const portfolioContent = data.dataJson.content;
 
   const lastBlogItem = data.allMdx.edges[0].node;
-  const lastPortfolioItem = portfolioContent.pop();
+  const lastPortfolioItem = portfolioContent[portfolioContent.length - 1];
 
   const languagesUsed = ['GatsbyJS', 'HTML', 'CSS', 'JavaScript', 'NodeJS', 'ReactJS', 'GraphQL'];
 
