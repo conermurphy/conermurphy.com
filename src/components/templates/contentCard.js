@@ -65,8 +65,8 @@ const ContentCard = ({ data }) => {
     <CardLink to={link}>
       <CardContainer>
         <PostInfo>
-          {topLine.split(',').map(line => (
-            <LanguageIcons language={line} />
+          {topLine.split(',').map((line, index) => (
+            <LanguageIcons language={line} key={index} />
           ))}
         </PostInfo>
         <PostTitle>{title}</PostTitle>
@@ -79,8 +79,8 @@ const ContentCard = ({ data }) => {
     <CardLinkExternal href={link}>
       <CardContainer>
         <LanguagesContainer>
-          {topLine.split(',').map(line => (
-            <LanguageIcons language={line} />
+          {topLine.split(',').map((line, index) => (
+            <LanguageIcons language={line} key={index} />
           ))}
         </LanguagesContainer>
         <PostTitle>{title}</PostTitle>
