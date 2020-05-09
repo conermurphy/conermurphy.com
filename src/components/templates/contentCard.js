@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
 import CornerArt from './cornerArt';
 import LanguageIcons from './languageIcons';
 
@@ -13,7 +14,7 @@ const CardLinkExternal = styled.a`
   margin: 1rem;
 `;
 
-const CardContainer = styled.div`
+const CardContainer = styled(motion.div)`
   display: flex;
   position: relative;
   flex-direction: column;
@@ -63,7 +64,7 @@ const ContentCard = ({ data }) => {
 
   return internal ? (
     <CardLink to={link}>
-      <CardContainer>
+      <CardContainer whileHover={{ y: -10, scale: 0.95 }} transition={{ duration: 0.25, ease: 'easeInOut' }}>
         <PostInfo>
           {topLine.split(',').map((line, index) => (
             <LanguageIcons language={line} key={index} />
@@ -77,7 +78,7 @@ const ContentCard = ({ data }) => {
     </CardLink>
   ) : (
     <CardLinkExternal href={link}>
-      <CardContainer>
+      <CardContainer whileHover={{ y: -10, scale: 0.95 }} transition={{ duration: 0.25, ease: 'easeInOut' }}>
         <LanguagesContainer>
           {topLine.split(',').map((line, index) => (
             <LanguageIcons language={line} key={index} />
