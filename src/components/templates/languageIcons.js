@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { GrCss3, GrHtml5, GrJs, GrReactjs, GrGatsbyjs, GrGraphQl, GrNode } from 'react-icons/gr';
 import { motion } from 'framer-motion';
+import device from '../device';
 
 const LanguageIconContainer = styled.div`
   position: relative;
@@ -41,11 +42,9 @@ const LanguageIcons = ({ language }) => {
   const [hoveredComponent, setHoveredComponent] = useState('');
   const [tap, setTap] = useState(false);
 
-  const onDesktop = window.matchMedia('(max-width: 1024px)').matches;
-  console.log(onDesktop);
+  const onDesktop = window.matchMedia(device.laptopL).matches;
 
   const handleHover = e => {
-    console.log(e.currentTarget.dataset.label);
     setHover(true);
     setHoveredComponent(e.currentTarget.dataset.label);
   };
