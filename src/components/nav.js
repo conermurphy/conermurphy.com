@@ -14,6 +14,7 @@ const NavContainer = styled(motion.nav)`
   align-items: center;
   background-color: var(--secondary-color);
   padding: 0.5rem;
+  height: 5vh;
 
   @media ${device.laptopL} {
     box-shadow: 0px 2px 2px rgba(200, 200, 200, 20);

@@ -14,6 +14,7 @@ import device from '../components/device';
 const MainContainer = styled.div`
   display: grid;
   grid-template-areas: 'home' 'about' 'work' 'blog' 'contact';
+  grid-template-columns: repeat(1, 1fr);
 `;
 
 const PageContainer = styled.div`
@@ -27,6 +28,7 @@ const PageContainer = styled.div`
   margin-bottom: 0;
   background-color: var(--secondary-color);
   position: relative;
+  height 90vh;
 `;
 
 const AboutContainer = styled.div`
