@@ -43,6 +43,7 @@ const LanguageIcons = ({ language }) => {
   const [tap, setTap] = useState(false);
 
   const onDesktop = window.matchMedia(device.desktop).matches;
+  console.log(onDesktop);
 
   const handleHover = e => {
     setHover(true);
@@ -77,56 +78,56 @@ const LanguageIcons = ({ language }) => {
               <GrHtml5
                 style={{ stroke: 'hsl(12, 77%, 52%)' }}
                 data-label="HTML"
-                onMouseEnter={onDesktop ? undefined : handleHover}
-                onMouseLeave={onDesktop ? undefined : handleHoverLeave}
+                onMouseEnter={onDesktop ? handleHover : undefined}
+                onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
             ),
             CSS: (
               <GrCss3
                 style={{ stroke: 'rgb(38, 77, 228)' }}
                 data-label="CSS"
-                onMouseEnter={onDesktop ? undefined : handleHover}
-                onMouseLeave={onDesktop ? undefined : handleHoverLeave}
+                onMouseEnter={onDesktop ? handleHover : undefined}
+                onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
             ),
             JavaScript: (
               <GrJs
                 style={{ backgroundColor: 'yellow' }}
                 data-label="JavaScript"
-                onMouseEnter={onDesktop ? undefined : handleHover}
-                onMouseLeave={onDesktop ? undefined : handleHoverLeave}
+                onMouseEnter={onDesktop ? handleHover : undefined}
+                onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
             ),
             NodeJS: (
               <GrNode
                 style={{ color: 'rgb(68, 136, 62)' }}
                 data-label="NodeJS"
-                onMouseEnter={onDesktop ? undefined : handleHover}
-                onMouseLeave={onDesktop ? undefined : handleHoverLeave}
+                onMouseEnter={onDesktop ? handleHover : undefined}
+                onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
             ),
             ReactJS: (
               <GrReactjs
                 style={{ color: '#61dafb' }}
                 data-label="ReactJS"
-                onMouseEnter={onDesktop ? undefined : handleHover}
-                onMouseLeave={onDesktop ? undefined : handleHoverLeave}
+                onMouseEnter={onDesktop ? handleHover : undefined}
+                onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
             ),
             GatsbyJS: (
               <GrGatsbyjs
                 style={{ color: 'rgb(102 51 153' }}
                 data-label="GatsbyJS"
-                onMouseEnter={onDesktop ? undefined : handleHover}
-                onMouseLeave={onDesktop ? undefined : handleHoverLeave}
+                onMouseEnter={onDesktop ? handleHover : undefined}
+                onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
             ),
             GraphQL: (
               <GrGraphQl
                 style={{ color: '#E10098' }}
                 data-label="GraphQL"
-                onMouseEnter={onDesktop ? undefined : handleHover}
-                onMouseLeave={onDesktop ? undefined : handleHoverLeave}
+                onMouseEnter={onDesktop ? handleHover : undefined}
+                onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
             ),
           }[language.trim()]
