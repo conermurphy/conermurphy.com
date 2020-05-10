@@ -167,15 +167,7 @@ const Index = ({ data }) => {
 
   const screenViewportQuery = window.matchMedia(device.laptopL);
 
-  function handleViewportResize(evt) {
-    if (evt.matches) {
-      console.log(evt.matches);
-      setOnDesktop(evt.matches);
-    } else {
-      console.log(evt.matches);
-      setOnDesktop(evt.matches);
-    }
-  }
+  const handleViewportResize = evt => setOnDesktop(evt.matches);
 
   screenViewportQuery.addListener(handleViewportResize);
 
