@@ -53,7 +53,7 @@ h1, h2, h3, h4, h5 {
     color: var(--body-font-color);
     font-size: 2rem;
     font-weight: 600;
-    margin-bottom: 0;
+    margin-bottom: 0rem;
 }
 
 h1 {

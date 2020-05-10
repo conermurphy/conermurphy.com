@@ -33,7 +33,7 @@ const HomeContainer = styled.div`
   z-index: 2;
 `;
 
-const HomeContentContainer = styled.div`
+const HomeContentContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   margin: 5rem 1rem;
@@ -47,7 +47,7 @@ const HomeContentContainer = styled.div`
   }
 `;
 
-const HomeTitle = styled.h1`
+const HomeTitle = styled(motion.h1)`
   font-size: 2rem;
 
   @media ${device.tablet} {
@@ -59,7 +59,7 @@ const HomeTitle = styled.h1`
   }
 `;
 
-const HomeJobRoles = styled.h2`
+const HomeJobRoles = styled(motion.h2)`
   margin-bottom: 0;
   font-size: 1.5rem;
   font-weight: 400;
@@ -289,16 +289,33 @@ const Index = ({ data }) => {
     scale: 0.9,
   };
 
+  const homeContainer = {
+    visible: {
+      opacity: 1,
+    },
+    hidden: {
+      opacity: 0,
+    },
+  };
+
+  const homeJobRoles = {
+    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 100 },
+  };
+
   return (
     <Layout>
       <MainContainer>
         <HomeContainer>
-          <HomeContentContainer>
-            <HomeTitle>{title}.</HomeTitle>
+          <HomeContentContainer initial="hidden" animate="visible" varaints={homeContainer}>
+            <HomeTitle variants={homeJobRoles}>{title}.</HomeTitle>
             {listDescription.map((item, index) => (
-              <HomeJobRoles key={index}>{item}.</HomeJobRoles>
+              <HomeJobRoles variants={homeJobRoles} key={index}>
+                {item}.
+              </HomeJobRoles>
             ))}
-            <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+
+            <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut" variants={homeJobRoles}>
               <HomeButton to="/#contact">Contact Me</HomeButton>
             </HomeButtonContainer>
           </HomeContentContainer>
