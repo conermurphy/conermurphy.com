@@ -62,12 +62,32 @@ const AuthorName = styled.p`
   font-size: 0.75rem;
 `;
 
+const cardContainerVariants = {
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+    },
+  },
+  hidden: {
+    opacity: 0,
+    y: 100,
+  },
+};
+
 const ContentCard = ({ data }) => {
   const { internal, link, topLine, title, bottomLine } = data;
 
   return internal ? (
     <CardLink to={link}>
-      <CardContainer whileHover={{ y: -10, scale: 0.95 }} transition={{ duration: 0.25, ease: 'easeInOut' }}>
+      <CardContainer
+        whileHover={{ y: -10, scale: 0.95 }}
+        transition={{ duration: 0.25, ease: 'easeInOut' }}
+        initial="hidden"
+        animate="visible"
+        variants={cardContainerVariants}
+      >
         <PostInfo>
           {topLine.split(',').map((line, index) => (
             <LanguageIcons language={line} key={index} />
@@ -81,7 +101,13 @@ const ContentCard = ({ data }) => {
     </CardLink>
   ) : (
     <CardLinkExternal href={link}>
-      <CardContainer whileHover={{ y: -10, scale: 0.95 }} transition={{ duration: 0.25, ease: 'easeInOut' }}>
+      <CardContainer
+        whileHover={{ y: -10, scale: 0.95 }}
+        transition={{ duration: 0.25, ease: 'easeInOut' }}
+        initial="hidden"
+        animate="visible"
+        variants={cardContainerVariants}
+      >
         <LanguagesContainer>
           {topLine.split(',').map((line, index) => (
             <LanguageIcons language={line} key={index} />
