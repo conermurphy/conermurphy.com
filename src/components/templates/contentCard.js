@@ -68,11 +68,12 @@ const cardContainerVariants = {
     y: 0,
     transition: {
       duration: 1,
+      type: 'spring',
     },
   },
   hidden: {
     opacity: 0,
-    y: 100,
+    y: 50,
   },
 };
 
@@ -87,6 +88,7 @@ const ContentCard = ({ data }) => {
         initial="hidden"
         animate="visible"
         variants={cardContainerVariants}
+        positionTransition
       >
         <PostInfo>
           {topLine.split(',').map((line, index) => (
@@ -107,6 +109,7 @@ const ContentCard = ({ data }) => {
         initial="hidden"
         animate="visible"
         variants={cardContainerVariants}
+        positionTransition
       >
         <LanguagesContainer>
           {topLine.split(',').map((line, index) => (
