@@ -5,6 +5,7 @@ import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
+import device from '../components/device';
 // MDX Component Imports Used on each page.
 import CodeBlock from '../components/mdx/codeBlock.js';
 import PostNavigation from '../components/mdx/postNavigation.js';
@@ -15,6 +16,11 @@ const BlogPostContainer = styled.div`
   flex-direction: column;
   padding: 2rem;
   padding-bottom: 0;
+
+  @media ${device.desktop} {
+    width: 50%;
+    margin: auto;
+  }
 `;
 
 /* eslint-disable */
