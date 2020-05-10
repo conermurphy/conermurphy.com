@@ -29,6 +29,8 @@ const HomeContainer = styled.div`
   background-color: var(--secondary-color);
   position: relative;
   height 90vh;
+  box-shadow: 0px 2px 10px rgba(200, 200, 200, 20);
+  z-index: 2;
 `;
 
 const HomeContentContainer = styled.div`
@@ -63,7 +65,7 @@ const HomeContactLink = styled(Link)`
   font-size: 1rem;
 
   @media ${device.laptopL} {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 `;
 
@@ -133,6 +135,7 @@ const ContactContainer = styled.div`
   flex-wrap: wrap;
   position: relative;
   grid-area: contact;
+  box-shadow: 0px -2px 10px rgba(200, 200, 200, 20);
 
   @media ${device.laptopL} {
     flex-wrap: nowrap;
@@ -161,7 +164,7 @@ const ContactIconContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: var(--background-color);
+  background-color: var(--secondary-color);
 
   & > a {
     display: flex;

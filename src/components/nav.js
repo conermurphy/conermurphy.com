@@ -15,6 +15,7 @@ const NavContainer = styled(motion.nav)`
   background-color: var(--secondary-color);
   padding: 0.5rem;
   height: 5vh;
+  z-index: 999;
 
   @media ${device.laptopL} {
     box-shadow: 0px 2px 2px rgba(200, 200, 200, 20);
@@ -68,8 +69,8 @@ const SubNavItemText = styled.p`
 `;
 
 const navMenuVariants = {
-  open: { opacity: 1, x: 0, zIndex: 1, display: 'flex' },
-  closed: { opacity: 0, x: 200, zIndex: -1, display: 'none' },
+  open: { opacity: 1, x: 0, zIndex: 999, display: 'flex' },
+  closed: { opacity: 0, x: 200, zIndex: -999, display: 'none' },
 };
 
 const navBarVariants = {
