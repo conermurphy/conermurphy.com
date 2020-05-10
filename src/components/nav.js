@@ -16,6 +16,7 @@ const NavContainer = styled(motion.nav)`
   padding: 0.5rem;
   height: 5vh;
   z-index: 999;
+  box-shadow: 0px -2px 2px rgba(200, 200, 200, 20);
 
   @media ${device.laptopL} {
     box-shadow: 0px 2px 2px rgba(200, 200, 200, 20);
