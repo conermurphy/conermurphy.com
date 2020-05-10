@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, graphql } from 'gatsby';
 import { FaTwitter, FaInstagram, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
@@ -155,6 +155,7 @@ const IconContainer = styled(motion.div)`
 `;
 
 const Index = ({ data }) => {
+  const [onDekstop, setOnDesktop] = useState();
   const { title, description } = useSiteMetadata();
   const listDescription = description.split(',');
   const portfolioContent = data.dataJson.content;
@@ -165,23 +166,20 @@ const Index = ({ data }) => {
   const languagesUsed = ['GatsbyJS', 'HTML', 'CSS', 'JavaScript', 'NodeJS', 'ReactJS', 'GraphQL'];
 
   const screenViewportQuery = window.matchMedia(device.laptopL);
-  let onDesktop;
 
   function handleViewportResize(evt) {
     if (evt.matches) {
       console.log(evt.matches);
-      onDesktop = evt.matches;
+      setOnDesktop(evt.matches);
     } else {
       console.log(evt.matches);
-      onDesktop = evt.matches;
+      setOnDesktop(evt.matches);
     }
   }
 
-  handleViewportResize(screenViewportQuery);
-
   screenViewportQuery.addListener(handleViewportResize);
 
-  const cornerArtAdjustments = onDesktop ? [7.5, 0, 0, 0] : [2.5, 0, 0, 0];
+  const cornerArtAdjustments = onDekstop ? [7.5, 0, 0, 0] : [5, 0, 0, 0];
 
   const workcontentData = {
     internal: false,
