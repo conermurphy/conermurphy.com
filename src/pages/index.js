@@ -73,7 +73,16 @@ const HomeJobRoles = styled.h2`
   }
 `;
 
-const HomeContactLink = styled(Link)`
+const HomeButtonContainer = styled(motion.div)`
+  display: flex;
+  border: 2px solid var(--header-font-color);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin: 1rem 0;
+  width: max-content;
+`;
+
+const HomeButton = styled(Link)`
   font-size: 1rem;
   z-index: 2;
 
@@ -103,15 +112,6 @@ const AboutContainer = styled.div`
   @media ${device.desktop} {
     width: 50vw;
   }
-`;
-
-const ContactMeLink = styled(motion.div)`
-  display: flex;
-  border: 2px solid var(--header-font-color);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  margin: 2rem 0 0rem 0;
-  width: max-content;
 `;
 
 const WorkContent = styled.div`
@@ -154,9 +154,7 @@ const WorkPosts = styled.div`
   }
 `;
 
-const BlogPosts = styled(WorkPosts)`
-  padding-bottom: 2rem;
-`;
+const BlogPosts = styled(WorkPosts)``;
 
 const ContactContainer = styled.div`
   display: flex;
@@ -300,9 +298,9 @@ const Index = ({ data }) => {
             {listDescription.map((item, index) => (
               <HomeJobRoles key={index}>{item}.</HomeJobRoles>
             ))}
-            <ContactMeLink whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-              <HomeContactLink to="/#contact">Contact Me</HomeContactLink>
-            </ContactMeLink>
+            <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+              <HomeButton to="/#contact">Contact Me</HomeButton>
+            </HomeButtonContainer>
           </HomeContentContainer>
           <CornerArt adjustments={cornerArtAdjustments} />
         </HomeContainer>
@@ -339,7 +337,7 @@ const Index = ({ data }) => {
         </AboutContainer>
 
         <WorkContent>
-          <h3>Latest Projects</h3>
+          <h3 style={{ marginTop: '0' }}>Latest Projects</h3>
           <WorkPosts>
             {portfolioItems.map((item, index) => {
               const workcontentData = {
@@ -352,9 +350,14 @@ const Index = ({ data }) => {
               return <ContentCard data={workcontentData} key={index} />;
             })}
           </WorkPosts>
+          <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+            <HomeButton to="/work" style={{ fontSize: '1rem' }}>
+              View More
+            </HomeButton>
+          </HomeButtonContainer>
         </WorkContent>
         <BlogContent>
-          <h3>Latest Blog Posts</h3>
+          <h3 style={{ marginTop: '0' }}>Latest Blog Posts</h3>
           <BlogPosts>
             {blogPosts.map(({ node }, index) => {
               const blogcontentData = {
@@ -367,6 +370,11 @@ const Index = ({ data }) => {
               return <ContentCard data={blogcontentData} key={index} />;
             })}
           </BlogPosts>
+          <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+            <HomeButton to="/blog" style={{ fontSize: '1rem' }}>
+              View More
+            </HomeButton>
+          </HomeButtonContainer>
         </BlogContent>
 
         <ContactContainer id="contact">
