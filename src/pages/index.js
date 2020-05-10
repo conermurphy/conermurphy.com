@@ -38,7 +38,11 @@ const HomeContentContainer = styled.div`
   flex-direction: column;
   margin: 5rem 1rem;
 
-  @media ${device.laptopL} {
+  @media ${device.tablet} {
+    margin: 5rem;
+  }
+
+  @media ${device.desktop} {
     margin: 10rem;
   }
 `;
@@ -46,7 +50,11 @@ const HomeContentContainer = styled.div`
 const HomeTitle = styled.h1`
   font-size: 2rem;
 
-  @media ${device.laptopL} {
+  @media ${device.tablet} {
+    font-size: 2.5rem;
+  }
+
+  @media ${device.desktop} {
     font-size: 3.5rem;
   }
 `;
@@ -56,7 +64,11 @@ const HomeJobRoles = styled.h2`
   font-size: 1.5rem;
   font-weight: 400;
 
-  @media ${device.laptopL} {
+  @media ${device.tablet} {
+    font-size: 2rem;
+  }
+
+  @media ${device.desktop} {
     font-size: 2.25rem;
   }
 `;
@@ -64,7 +76,7 @@ const HomeJobRoles = styled.h2`
 const HomeContactLink = styled(Link)`
   font-size: 1rem;
 
-  @media ${device.laptopL} {
+  @media ${device.desktop} {
     font-size: 1.5rem;
   }
 `;
@@ -139,6 +151,10 @@ const ContactContainer = styled.div`
   box-shadow: 0px -2px 10px rgba(200, 200, 200, 20);
 
   @media ${device.laptopL} {
+    flex-wrap: wrap;
+  }
+
+  @media ${device.desktop} {
     flex-wrap: nowrap;
   }
 `;
@@ -152,9 +168,20 @@ const ContactContent = styled.div`
     margin-top: 0;
   }
 
-  @media ${device.laptopL} {
-    flex: 1;
+  @media ${device.tablet} {
     justify-content: center;
+    height: 20vh;
+    padding-bottom: 0;
+  }
+
+  @media ${device.laptopL} {
+    justify-content: center;
+    height: 25vh;
+  }
+
+  @media ${device.desktop} {
+    flex: 1;
+    justify-content: flex-start;
     height: 25vh;
   }
 `;
@@ -175,10 +202,19 @@ const ContactIconContainer = styled.div`
     }
   }
 
-  @media ${device.laptopL} {
-    flex: 1;
+  @media ${device.tablet} {
     flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 20vh;
+  }
+
+  @media ${device.desktop} {
+    flex: 1;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     height: 25vh;
   }
 `;
