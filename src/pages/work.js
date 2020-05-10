@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
 import ContentCard from '../components/templates/contentCard';
+import device from '../components/device';
 
 const WorkContainer = styled.div`
   display: flex;
@@ -17,11 +18,13 @@ const WorkContainer = styled.div`
 `;
 
 const PostContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr;
   align-items: center;
-  justify-content: center;
+
+  @media ${device.laptopL} {
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
 
 const Work = ({ data }) => {
