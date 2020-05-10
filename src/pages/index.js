@@ -132,6 +132,7 @@ const BlogPosts = styled(WorkPosts)``;
 const ContactContainer = styled.div`
   display: flex;
   flex-direction: row;
+  background-color: var(--secondary-color);
   flex-wrap: wrap;
   position: relative;
   grid-area: contact;
@@ -144,7 +145,6 @@ const ContactContainer = styled.div`
 
 const ContactContent = styled.div`
   padding: 2rem;
-  background-color: var(--secondary-color);
   display: flex;
   flex-direction: column;
 
@@ -164,7 +164,6 @@ const ContactIconContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: var(--secondary-color);
 
   & > a {
     display: flex;
