@@ -102,13 +102,30 @@ const WorkContent = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  background-color: var(--secondary-color);
+  background-color: var(--background-color);
+
+  @media ${device.laptopL} {
+    width: 50vw;
+    margin: auto;
+    padding: 2rem;
+    padding-top: 0;
+    align-items: flex-start;
+  }
 `;
 
 const BlogContent = styled(WorkContent)`
   grid-area: blog;
-  background-color: var(--background-color);
 `;
+
+const WorkPosts = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+`;
+
+const BlogPosts = styled(WorkPosts)``;
 
 const ContactContainer = styled.div`
   display: flex;
@@ -186,8 +203,8 @@ const Index = ({ data }) => {
   const listDescription = description.split(',');
   const portfolioContent = data.dataJson.content;
 
-  const lastBlogItem = data.allMdx.edges[0].node;
-  const lastPortfolioItem = portfolioContent[portfolioContent.length - 1];
+  const blogPosts = data.allMdx.edges;
+  const portfolioItems = portfolioContent.slice(portfolioContent.length - 2);
 
   const languagesUsed = ['GatsbyJS', 'HTML', 'CSS', 'JavaScript', 'NodeJS', 'ReactJS', 'GraphQL'];
 
@@ -198,22 +215,6 @@ const Index = ({ data }) => {
   screenViewportQuery.addListener(handleViewportResize);
 
   const cornerArtAdjustments = onDekstop ? [7.5, 0, 0, 0] : [5, 0, 0, 0];
-
-  const workcontentData = {
-    internal: false,
-    link: lastPortfolioItem.URL,
-    topLine: lastPortfolioItem.technologies,
-    title: lastPortfolioItem.title,
-    bottomLine: lastPortfolioItem.date,
-  };
-
-  const blogcontentData = {
-    internal: true,
-    link: lastBlogItem.fields.slug,
-    topLine: lastBlogItem.frontmatter.languages.join(', '),
-    title: lastBlogItem.frontmatter.title,
-    bottomLine: `#${lastBlogItem.frontmatter.id} - ${lastBlogItem.frontmatter.date}`,
-  };
 
   const itemHover = {
     scale: 1.1,
@@ -272,12 +273,34 @@ const Index = ({ data }) => {
         </AboutContainer>
 
         <WorkContent>
-          <h4>My Latest Project</h4>
-          <ContentCard data={workcontentData} key={workcontentData.title} />
+          <h3>Latest Projects</h3>
+          <WorkPosts>
+            {portfolioItems.map((item, index) => {
+              const workcontentData = {
+                internal: false,
+                link: item.URL,
+                topLine: item.technologies,
+                title: item.title,
+                bottomLine: item.date,
+              };
+              return <ContentCard data={workcontentData} key={index} />;
+            })}
+          </WorkPosts>
         </WorkContent>
         <BlogContent>
-          <h4>My Latest Blog Post</h4>
-          <ContentCard data={blogcontentData} key={blogcontentData.title} />
+          <h3>Latest Blog Posts</h3>
+          <BlogPosts>
+            {blogPosts.map(({ node }, index) => {
+              const blogcontentData = {
+                internal: true,
+                link: node.fields.slug,
+                topLine: node.frontmatter.languages.join(', '),
+                title: node.frontmatter.title,
+                bottomLine: `#${node.frontmatter.id} - ${node.frontmatter.date}`,
+              };
+              return <ContentCard data={blogcontentData} key={index} />;
+            })}
+          </BlogPosts>
         </BlogContent>
 
         <ContactContainer id="contact">
@@ -371,7 +394,7 @@ Index.propTypes = {
 
 export const query = graphql`
   query {
-    allMdx(sort: { fields: frontmatter___id, order: DESC }, limit: 1) {
+    allMdx(sort: { fields: frontmatter___id, order: DESC }, limit: 2) {
       edges {
         node {
           id
