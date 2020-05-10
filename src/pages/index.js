@@ -92,11 +92,15 @@ const AboutContainer = styled.div`
     margin-top: 0;
   }
 
-  @media ${device.laptopL} {
+  @media ${device.tablet} {
     align-items: flex-start;
-    width: 50vw;
+    width: 75vw;
     background-color: var(--background-color);
     margin: auto;
+  }
+
+  @media ${device.desktop} {
+    width: 50vw;
   }
 `;
 
@@ -115,15 +119,12 @@ const WorkContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
   background-color: var(--background-color);
 
-  @media ${device.laptopL} {
-    width: 50vw;
-    margin: auto;
+  @media ${device.tablet} {
     padding: 2rem;
     padding-top: 0;
-    align-items: flex-start;
+    align-items: center;
   }
 `;
 
@@ -132,11 +133,14 @@ const BlogContent = styled(WorkContent)`
 `;
 
 const WorkPosts = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr;
   align-items: center;
   justify-content: center;
+
+  @media ${device.tablet} {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const BlogPosts = styled(WorkPosts)``;
@@ -204,10 +208,11 @@ const ContactIconContainer = styled.div`
 
   @media ${device.tablet} {
     flex-wrap: wrap;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
     height: 20vh;
+    width: 100%;
   }
 
   @media ${device.desktop} {
