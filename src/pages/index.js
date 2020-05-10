@@ -17,7 +17,7 @@ const MainContainer = styled.div`
   grid-template-columns: repeat(1, 1fr);
 `;
 
-const PageContainer = styled.div`
+const HomeContainer = styled.div`
   grid-area: home;
   display: flex;
   flex-direction: column;
@@ -29,6 +29,42 @@ const PageContainer = styled.div`
   background-color: var(--secondary-color);
   position: relative;
   height 90vh;
+`;
+
+const HomeContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 5rem 1rem;
+
+  @media ${device.laptopL} {
+    margin: 10rem;
+  }
+`;
+
+const HomeTitle = styled.h1`
+  font-size: 2rem;
+
+  @media ${device.laptopL} {
+    font-size: 3.5rem;
+  }
+`;
+
+const HomeJobRoles = styled.h2`
+  margin-bottom: 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+
+  @media ${device.laptopL} {
+    font-size: 2.25rem;
+  }
+`;
+
+const HomeContactLink = styled(Link)`
+  font-size: 1rem;
+
+  @media ${device.laptopL} {
+    font-size: 2rem;
+  }
 `;
 
 const AboutContainer = styled.div`
@@ -49,6 +85,7 @@ const ContactMeLink = styled(motion.div)`
   border-radius: 0.5rem;
   padding: 0.5rem;
   margin: 2rem 0 0rem 0;
+  width: max-content;
 `;
 
 const WorkContent = styled.div`
@@ -158,18 +195,18 @@ const Index = ({ data }) => {
   return (
     <Layout>
       <MainContainer>
-        <PageContainer>
-          <h1>{title}</h1>
-          {listDescription.map((item, index) => (
-            <h2 style={{ marginBottom: 0, fontSize: '1.2rem', fontWeight: 400 }} key={index}>
-              {item}
-            </h2>
-          ))}
-          <ContactMeLink whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-            <Link to="/#contact">Contact Me</Link>
-          </ContactMeLink>
+        <HomeContainer>
+          <HomeContentContainer>
+            <HomeTitle>{title}.</HomeTitle>
+            {listDescription.map((item, index) => (
+              <HomeJobRoles key={index}>{item}.</HomeJobRoles>
+            ))}
+            <ContactMeLink whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+              <HomeContactLink to="/#contact">Contact Me</HomeContactLink>
+            </ContactMeLink>
+          </HomeContentContainer>
           <CornerArt adjustments={cornerArtAdjustments} />
-        </PageContainer>
+        </HomeContainer>
         <AboutContainer id="about">
           <h3>About Me</h3>
           <p>Hey, I'm Coner a web developer from Norwich 🇬🇧.</p>

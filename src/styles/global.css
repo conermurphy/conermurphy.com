@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500|Montserrat:300,400,600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,600&display=swap');
 
 :root {
     --background-color: rgba(248,245,245,255);
@@ -6,7 +6,6 @@
     --body-font-color: rgba(50,50,50,200);
     --header-font-color: rgba(149,55,32,255);    
     --body-font: 'Montserrat', sans-serif;
-    --header-font: 'Fira Sans', sans-serif;
 }
 
 /* [data-theme="dark"] {
@@ -50,10 +49,10 @@ button {
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: var(--header-font);
-    color: var(--bpdy-font-color);
+    font-family: var(--body-font);
+    color: var(--body-font-color);
     font-size: 2rem;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 0;
 }
 
