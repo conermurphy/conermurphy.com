@@ -87,7 +87,7 @@ const HomeButton = styled(Link)`
   z-index: 2;
 
   @media ${device.desktop} {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
 `;
 
@@ -281,7 +281,7 @@ const Index = ({ data }) => {
   const cornerArtAdjustments = onDekstop ? [7.5, 0, 0, 0] : [5, 0, 0, 0];
 
   const itemHover = {
-    scale: 1.1,
+    scale: 1.05,
     color: 'rgba(149,55,32,255)',
   };
 
