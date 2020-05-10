@@ -10,10 +10,14 @@ const WorkContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0 1em;
 
   & > p {
     text-align: center;
+  }
+
+  @media ${device.tablet} {
+    padding: 0 3rem;
   }
 `;
 
@@ -23,6 +27,10 @@ const PostContainer = styled.div`
   align-items: center;
 
   @media ${device.laptopL} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media ${device.desktop} {
     grid-template-columns: repeat(3, 1fr);
   }
 `;

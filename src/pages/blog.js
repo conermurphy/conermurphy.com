@@ -12,6 +12,10 @@ const BlogContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 0 1rem;
+
+  @media ${device.tablet} {
+    padding: 0 3rem;
+  }
 `;
 
 const LanguagesContainer = styled.div`
@@ -32,6 +36,10 @@ const PostContainer = styled.div`
   align-items: center;
 
   @media ${device.laptopL} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media ${device.desktop} {
     grid-template-columns: repeat(3, 1fr);
   }
 `;

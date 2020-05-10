@@ -38,7 +38,7 @@ const HomeContentContainer = styled.div`
   flex-direction: column;
   margin: 5rem 1rem;
 
-  @media ${device.tablet} {
+  @media ${device.laptopL} {
     margin: 5rem;
   }
 
@@ -121,7 +121,7 @@ const WorkContent = styled.div`
   justify-content: center;
   background-color: var(--background-color);
 
-  @media ${device.tablet} {
+  @media ${device.laptopL} {
     padding: 2rem;
     padding-top: 0;
     align-items: center;
@@ -138,12 +138,14 @@ const WorkPosts = styled.div`
   align-items: center;
   justify-content: center;
 
-  @media ${device.tablet} {
+  @media ${device.laptopL} {
     grid-template-columns: repeat(2, 1fr);
   }
 `;
 
-const BlogPosts = styled(WorkPosts)``;
+const BlogPosts = styled(WorkPosts)`
+  padding-bottom: 2rem;
+`;
 
 const ContactContainer = styled.div`
   display: flex;
@@ -209,10 +211,14 @@ const ContactIconContainer = styled.div`
   @media ${device.tablet} {
     flex-wrap: wrap;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
     height: 20vh;
     width: 100%;
+  }
+
+  @media ${device.laptopL} {
+    justify-content: space-between;
   }
 
   @media ${device.desktop} {
