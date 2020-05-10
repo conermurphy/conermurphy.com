@@ -77,6 +77,13 @@ const AboutContainer = styled.div`
   & > h3 {
     margin-top: 0;
   }
+
+  @media ${device.laptopL} {
+    align-items: flex-start;
+    width: 50vw;
+    background-color: var(--background-color);
+    margin: auto;
+  }
 `;
 
 const ContactMeLink = styled(motion.div)`
@@ -249,7 +256,7 @@ const Index = ({ data }) => {
             </Link>
           </p>
           <p>Currently, the primary technologies I use are:</p>
-          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', marginTop: '0.5rem' }}>
             {languagesUsed.map((line, index) => (
               <LanguageIcons language={line} key={index} />
             ))}
