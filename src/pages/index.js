@@ -164,7 +164,23 @@ const Index = ({ data }) => {
 
   const languagesUsed = ['GatsbyJS', 'HTML', 'CSS', 'JavaScript', 'NodeJS', 'ReactJS', 'GraphQL'];
 
-  const onDesktop = window.matchMedia(device.laptopL).matches;
+  const screenViewportQuery = window.matchMedia(device.laptopL);
+  let onDesktop;
+
+  function handleViewportResize(evt) {
+    if (evt.matches) {
+      console.log(evt.matches);
+      onDesktop = evt.matches;
+    } else {
+      console.log(evt.matches);
+      onDesktop = evt.matches;
+    }
+  }
+
+  handleViewportResize(screenViewportQuery);
+
+  screenViewportQuery.addListener(handleViewportResize);
+
   const cornerArtAdjustments = onDesktop ? [7.5, 0, 0, 0] : [2.5, 0, 0, 0];
 
   const workcontentData = {
