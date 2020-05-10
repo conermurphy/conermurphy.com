@@ -75,6 +75,7 @@ const HomeJobRoles = styled.h2`
 
 const HomeContactLink = styled(Link)`
   font-size: 1rem;
+  z-index: 2;
 
   @media ${device.desktop} {
     font-size: 1.5rem;

@@ -28,7 +28,7 @@ const CardContainer = styled(motion.div)`
   border-radius: 2vh;
   overflow: hidden;
   background-color: var(--secondary-color);
-
+  z-index: 1;
   box-shadow: 0px 2px 2px rgba(200, 200, 200, 20);
   box-shadow: 0px 4px 4px rgba(200, 200, 200, 20);
   box-shadow: 0px 6px 6px rgba(200, 200, 200, 20);
