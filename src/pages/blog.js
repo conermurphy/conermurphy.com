@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Layout from '../components/layout';
 import ContentCard from '../components/templates/contentCard';
 import LanguageIcons from '../components/templates/languageIcons';
+import device from '../components/device';
 
 const BlogContainer = styled.div`
   display: flex;
@@ -26,11 +27,12 @@ const Language = styled.button`
 `;
 
 const PostContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr;
+
+  @media ${device.laptopL} {
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
 
 const Blog = ({ data }) => {
