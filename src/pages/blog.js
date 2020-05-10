@@ -29,6 +29,7 @@ const Language = styled.button`
 const PostContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
+  align-items: center;
 
   @media ${device.laptopL} {
     grid-template-columns: repeat(3, 1fr);
