@@ -124,7 +124,13 @@ const WorkContent = styled.div`
   @media ${device.laptopL} {
     padding: 2rem;
     padding-top: 0;
-    align-items: center;
+    width: 75vw;
+    margin: auto;
+    align-items: flex-start;
+  }
+
+  @media ${device.desktop} {
+    width: 50%;
   }
 `;
 
@@ -140,6 +146,10 @@ const WorkPosts = styled.div`
 
   @media ${device.laptopL} {
     grid-template-columns: repeat(2, 1fr);
+
+    a:first-child {
+      margin-left: 0;
+    }
   }
 `;
 
@@ -183,9 +193,13 @@ const ContactContent = styled.div`
   @media ${device.laptopL} {
     justify-content: center;
     height: 25vh;
+    margin: auto;
+    width: 75vw;
   }
 
   @media ${device.desktop} {
+    margin: none;
+    width: auto;
     flex: 1;
     justify-content: flex-start;
     height: 25vh;
@@ -219,6 +233,8 @@ const ContactIconContainer = styled.div`
 
   @media ${device.laptopL} {
     justify-content: space-between;
+    margin: auto;
+    width: 75vw;
   }
 
   @media ${device.desktop} {
