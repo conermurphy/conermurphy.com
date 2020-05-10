@@ -127,6 +127,9 @@ const Index = ({ data }) => {
 
   const languagesUsed = ['GatsbyJS', 'HTML', 'CSS', 'JavaScript', 'NodeJS', 'ReactJS', 'GraphQL'];
 
+  const onDesktop = window.matchMedia(device.laptopL).matches;
+  const cornerArtAdjustments = onDesktop ? [7.5, 0, 0, 0] : [2.5, 0, 0, 0];
+
   const workcontentData = {
     internal: false,
     link: lastPortfolioItem.URL,
@@ -165,7 +168,7 @@ const Index = ({ data }) => {
           <ContactMeLink whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
             <Link to="/#contact">Contact Me</Link>
           </ContactMeLink>
-          <CornerArt adjustments={[2.5, 0, 0, 0]} />
+          <CornerArt adjustments={cornerArtAdjustments} />
         </PageContainer>
         <AboutContainer id="about">
           <h3>About Me</h3>
