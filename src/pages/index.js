@@ -109,19 +109,31 @@ const ContactContainer = styled.div`
   flex-wrap: wrap;
   position: relative;
   grid-area: contact;
+
+  @media ${device.laptopL} {
+    flex-wrap: nowrap;
+  }
 `;
 
 const ContactContent = styled.div`
   padding: 2rem;
   background-color: var(--secondary-color);
+  display: flex;
+  flex-direction: column;
 
   & > h3 {
     margin-top: 0;
   }
+
+  @media ${device.laptopL} {
+    flex: 1;
+    justify-content: center;
+    height: 25vh;
+  }
 `;
 
 const ContactIconContainer = styled.div`
-  padding: 1rem 2rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -135,6 +147,13 @@ const ContactIconContainer = styled.div`
     & > p {
       margin: 0 1rem;
     }
+  }
+
+  @media ${device.laptopL} {
+    flex: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 25vh;
   }
 `;
 
@@ -259,11 +278,11 @@ const Index = ({ data }) => {
             <h3>Let's Chat!</h3>
             <p>
               If you have any questions about either my work or me in general I'd be happy to chat with you about them, just get in touch
-              with me via one of the methods below and I'll get back to you as soon as possible.
+              with me via one of the shown methods and I'll get back to you as soon as possible.
             </p>
             <p>
               If you have a project in mind you'd like to work with me on, then it's your lucky day I am currently <b>accepting</b> client
-              work and would be happy to chat with you about your requirements just get in touch with me via one of the methods below.
+              work and would be happy to chat with you about your requirements just get in touch with me via one of the shown methods.
             </p>
           </ContactContent>
           <ContactIconContainer>
