@@ -6,6 +6,7 @@ import Layout from '../components/layout';
 import ContentCard from '../components/templates/contentCard';
 import LanguageIcons from '../components/templates/languageIcons';
 import device from '../components/device';
+import SEO from '../components/seo';
 
 const BlogContainer = styled.div`
   display: flex;
@@ -70,6 +71,7 @@ const Blog = ({ data }) => {
 
   return (
     <Layout>
+      <SEO title="Blog" description="Become a better web developer with daily blog posts ranging from tutorials to small helpful tips." />
       <BlogContainer>
         <h1>Blog Posts</h1>
         <p style={{ textAlign: 'center' }}>
