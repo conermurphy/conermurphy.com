@@ -85,7 +85,6 @@ const Blog = ({ data }) => {
         <PostContainer>
           {posts.map(({ node }) => {
             const postLanguages = node.frontmatter.languages;
-            console.log(activeLanguages.some(language => postLanguages.includes(language)));
             if (activeLanguages.some(language => postLanguages.includes(language)) || activeLanguages.length === 0) {
               const contentData = {
                 internal: true,
