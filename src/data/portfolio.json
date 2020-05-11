@@ -2,20 +2,20 @@
     "title": "Portfolio",
     "content": [
         {
-            "title": "nameOfTheProject",
+            "title": "Coner Murphy",
             "type": "Website",
-            "URL": "http://google.com",
-            "description": "Example Description",
-            "technologies": "GatsbyJS, HTML, CSS, JavaScript, NodeJS, ReactJS, GraphQL",
-            "date": "01-01-2020"
+            "URL": "https://conermurphy.com",
+            "description": "My personal website (this site).",
+            "technologies": "GatsbyJS, HTML, CSS, GraphQL",
+            "date": "11-05-2020"
         },
         {
-            "title": "fffff",
-            "type": "ffff",
-            "URL": "http://google.com",
-            "description": "Example descipriton",
-            "technologies": "GatsbyJS",
-            "date": "02-01-2020"
+            "title": "MyrMedia",
+            "type": "Website",
+            "URL": "https://myrmedia.ltd/",
+            "description": "Photography & Cinematography Portfolio website.",
+            "technologies": "GatsbyJS, HTML, CSS, GraphQL",
+            "date": "08-03-2020"
         }
     ]
 }
