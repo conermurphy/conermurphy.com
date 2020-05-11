@@ -60,7 +60,7 @@ const SubNavItemContainer = styled(motion.div)`
     color: var(--body-font-color);
     height: 1rem;
     width: 1rem;
-    border: 2px solid rgba(50, 50, 50, 200);
+    border: 2px solid var(--header-font-color);
     border-radius: 0.5rem;
     padding: 1rem;
   }
