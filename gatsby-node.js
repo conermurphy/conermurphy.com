@@ -6,11 +6,11 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions; // Getting the createNodeField API
   if (node.internal.type === 'Mdx') {
     // Adds the new id field as the slug to the node so can be queried later on.
-    const slug = createFilePath({ node, getNode, basePath: 'content/posts' }).replace(/[0-9]/g, '');
+    const slug = createFilePath({ node, getNode }).split('/')[2];
     createNodeField({
       node,
       name: 'slug',
-      value: slug,
+      value: node.frontmatter.slug ? `/${node.frontmatter.slug}/` : slug,
     });
   }
 };
