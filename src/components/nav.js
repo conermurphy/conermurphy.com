@@ -108,10 +108,12 @@ const NavMenu = ({ onClick, navActive, callback }) => {
 
   let userThemePreference = null;
   let displayIcon = null;
+  let displayText = null;
 
   if (typeof window !== 'undefined') {
     userThemePreference = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
     displayIcon = document.documentElement.getAttribute('data-theme') === 'light' ? <FaMoon /> : <FaSun />;
+    displayText = localStorage.getItem('theme') === 'light' ? 'Dark?' : 'Light?';
   }
 
   useEffect(() => {
@@ -175,7 +177,7 @@ const NavMenu = ({ onClick, navActive, callback }) => {
           </SubNavItemContainer>
           <SubNavItemContainer onClick={handleDarkLight} whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
             {displayIcon}
-            <SubNavItemText>{localStorage.getItem('theme') === 'light' ? 'Dark?' : 'Light?'}</SubNavItemText>
+            <SubNavItemText>{displayText}</SubNavItemText>
           </SubNavItemContainer>
         </MiscMenuContainer>
       </SubNavMenuContainer>
