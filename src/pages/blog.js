@@ -28,6 +28,7 @@ const LanguagesContainer = styled.div`
 const Language = styled.button`
   border: none;
   padding: 0;
+  background-color: transparent;
 `;
 
 const PostContainer = styled.div`
