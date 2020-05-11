@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Layout from '../components/layout';
 import ContentCard from '../components/templates/contentCard';
 import device from '../components/device';
+import SEO from '../components/seo';
 
 const WorkContainer = styled.div`
   display: flex;
@@ -40,6 +41,10 @@ const Work = ({ data }) => {
 
   return (
     <Layout>
+      <SEO
+        title="Portfolio"
+        description="My portfolio showcasing my past web development work including both client and personal projects."
+      />
       <WorkContainer>
         <h1>My Work</h1>
         <p>
