@@ -1,6 +1,7 @@
 import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { FaDice } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 
@@ -30,7 +31,7 @@ const Container = styled.div`
   }
 `;
 
-const NavButton = styled.button`
+const NavButton = styled(motion.button)`
   padding: 0.5rem 1rem;
   transition: 0.2s all ease;
   background-color: ${props => (props.active ? 'var(--secondary-color)' : 'var(--header-font-color)')};
@@ -50,6 +51,16 @@ const NavButton = styled.button`
 const ButtonLink = styled(Link)`
   pointer-events: ${props => (props.disabled ? 'none' : 'auto')};
 `;
+
+const navItemHover = {
+  scale: 1.1,
+  ease: 'easeInOut',
+};
+
+const navItemTap = {
+  scale: 0.9,
+  ease: 'easeInOut',
+};
 
 const PostNavigation = ({ pageContext }) => {
   const { prev, next } = pageContext;
@@ -79,15 +90,19 @@ const PostNavigation = ({ pageContext }) => {
   return (
     <Container>
       <ButtonLink to={prevLink} disabled={prev === null}>
-        <NavButton active={prev !== null}>Prev</NavButton>
+        <NavButton active={prev !== null} whileHover={navItemHover} whileTap={navItemTap}>
+          Prev
+        </NavButton>
       </ButtonLink>
-      <Link to={randLink}>
-        <NavButton active>
+      <ButtonLink to={randLink}>
+        <NavButton active whileHover={navItemHover} whileTap={navItemTap}>
           <FaDice />
         </NavButton>
-      </Link>
+      </ButtonLink>
       <ButtonLink to={nextLink} disabled={next === null}>
-        <NavButton active={next !== null}>Next</NavButton>
+        <NavButton active={next !== null} whileHover={navItemHover} whileTap={navItemTap}>
+          Next
+        </NavButton>
       </ButtonLink>
     </Container>
   );
