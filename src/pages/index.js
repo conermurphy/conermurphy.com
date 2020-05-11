@@ -29,7 +29,7 @@ const HomeContainer = styled.div`
   background-color: var(--secondary-color);
   position: relative;
   height 90vh;
-  box-shadow: 0px 2px 10px rgba(200, 200, 200, 20);
+  box-shadow: 0px 2px 2px var(--drop-shadows);
   z-index: 2;
 `;
 
@@ -163,7 +163,7 @@ const ContactContainer = styled.div`
   flex-wrap: wrap;
   position: relative;
   grid-area: contact;
-  box-shadow: 0px -2px 10px rgba(200, 200, 200, 20);
+  box-shadow: 0px -2px 2px var(--drop-shadows);
 
   @media ${device.laptopL} {
     flex-wrap: wrap;
@@ -282,7 +282,6 @@ const Index = ({ data }) => {
 
   const itemHover = {
     scale: 1.05,
-    color: 'rgba(149,55,32,255)',
   };
 
   const itemTap = {

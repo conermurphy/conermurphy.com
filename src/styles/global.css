@@ -4,15 +4,18 @@
     --background-color: rgba(248,245,245,255);
     --secondary-color: rgba(253,253,253,255);
     --body-font-color: rgba(50,50,50,200);
-    --header-font-color: rgba(149,55,32,255);    
+    --header-font-color: rgba(149,55,32,255);  
+    --drop-shadows: rgba(199,196,196,255);
     --body-font: 'Montserrat', sans-serif;
 }
 
-/* [data-theme="dark"] {
-    --background-color: 
-    --body-font-color: 
-    --header-font-color:
-} */
+[data-theme="dark"] {
+    --background-color: rgba(11, 12, 22, 255);
+    --secondary-color: rgba(2,2,14,255);
+    --body-font-color: rgba(248,245,245,255);
+    --drop-shadows: rgba(0,0,0,1);
+    --header-font-color: rgba(207, 92, 54,255);
+}
 
 body {
     background-color: var(--background-color);
