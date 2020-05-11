@@ -42,7 +42,11 @@ const LanguageIcons = ({ language }) => {
   const [hoveredComponent, setHoveredComponent] = useState('');
   const [tap, setTap] = useState(false);
 
-  const onDesktop = window.matchMedia(device.desktop).matches;
+  let onDesktop = null;
+
+  if (typeof window !== 'undefined') {
+    onDesktop = window.matchMedia(device.desktop).matches;
+  }
 
   const handleHover = e => {
     setHover(true);
