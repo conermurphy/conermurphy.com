@@ -10,10 +10,10 @@
 }
 
 [data-theme="dark"] {
-    --background-color: rgba(11, 12, 22, 255);
-    --secondary-color: rgba(2,2,14,255);
+    --background-color: rgba(12, 12, 12, 255);
+    --secondary-color: rgba(5,5,5,255);
     --body-font-color: rgba(248,245,245,255);
-    --drop-shadows: rgba(0,0,0,1);
+    --drop-shadows: rgba(1,1,1,1);
     --header-font-color: rgba(207, 92, 54,255);
 }
 
