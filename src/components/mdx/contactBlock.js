@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { FaTwitter, FaInstagram, FaGithub, FaEnvelope } from 'react-icons/fa';
 
 const Container = styled.div`
@@ -32,8 +33,10 @@ const ContactMethodContainer = styled.div`
   justify-content: space-evenly;
   width: 100%;
   margin-top: 1rem;
+`;
 
-  & > a > svg {
+const ContactMethod = styled(motion.a)`
+  & > svg {
     color: var(--body-font-color);
     height: 1rem;
     width: 1rem;
@@ -43,6 +46,14 @@ const ContactMethodContainer = styled.div`
   }
 `;
 
+const navItemHover = {
+  scale: 1.1,
+};
+
+const navItemTap = {
+  scale: 0.9,
+};
+
 const ContactBlock = () => (
   <Container>
     <h4 style={{ marginTop: '1rem' }}>Got a question?</h4>
@@ -50,18 +61,18 @@ const ContactBlock = () => (
       If you've got a question, want to say hi, or are interested in working on a project with me. You can contact me via the links below:
     </p>
     <ContactMethodContainer>
-      <a href="https://twitter.com/MrConerMurphy" aria-label="Twitter">
+      <ContactMethod href="https://twitter.com/MrConerMurphy" aria-label="Twitter" whileHover={navItemHover} whileTap={navItemTap}>
         <FaTwitter />
-      </a>
-      <a href="https://www.instagram.com/mrconermurphy/" aria-label="Instagram">
+      </ContactMethod>
+      <ContactMethod href="https://www.instagram.com/mrconermurphy/" aria-label="Instagram" whileHover={navItemHover} whileTap={navItemTap}>
         <FaInstagram />
-      </a>
-      <a href="https://github.com/conermurphy" aria-label="Github">
+      </ContactMethod>
+      <ContactMethod href="https://github.com/conermurphy" aria-label="Github" whileHover={navItemHover} whileTap={navItemTap}>
         <FaGithub />
-      </a>
-      <a href="mailto:coner@conermurphy.com" aria-label="Email">
+      </ContactMethod>
+      <ContactMethod href="mailto:coner@conermurphy.com" aria-label="Email" whileHover={navItemHover} whileTap={navItemTap}>
         <FaEnvelope />
-      </a>
+      </ContactMethod>
     </ContactMethodContainer>
   </Container>
 );
