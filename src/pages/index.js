@@ -10,6 +10,7 @@ import CornerArt from '../components/templates/cornerArt';
 import ContentCard from '../components/templates/contentCard';
 import LanguageIcons from '../components/templates/languageIcons';
 import device from '../components/device';
+import SEO from '../components/seo';
 
 const MainContainer = styled.div`
   display: grid;
@@ -307,6 +308,7 @@ const Index = ({ data }) => {
 
   return (
     <Layout>
+      <SEO title="Home" />
       <MainContainer>
         <HomeContainer>
           <HomeContentContainer initial="hidden" animate="visible" varaints={homeContainer}>
