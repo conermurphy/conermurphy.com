@@ -90,6 +90,9 @@ const navBarVariants = {
 
 const navItemHover = {
   scale: 1.1,
+  transitionEnd: {
+    scale: 1,
+  },
 };
 
 const navItemTap = {
@@ -170,7 +173,7 @@ const NavMenu = ({ onClick, navActive, callback }) => {
             <FaWindowClose />
             <SubNavItemText>Close</SubNavItemText>
           </SubNavItemContainer>
-          <SubNavItemContainer onClick={handleDarkLight} whileHover={navItemHover} transition="easeInOut">
+          <SubNavItemContainer onClick={handleDarkLight} whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
             {displayIcon}
             <SubNavItemText>{localStorage.getItem('theme') === 'light' ? 'Dark?' : 'Light?'}</SubNavItemText>
           </SubNavItemContainer>
