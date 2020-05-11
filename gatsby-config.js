@@ -3,9 +3,9 @@ module.exports = {
     title: 'Coner Murphy',
     description: 'Web Developer, Blogger, Content Creator',
     author: 'Coner Murphy',
-    siteUrl: 'https://conermurphy.com',
-    twitter: '',
-    // logo: '../content/media/assets/CM-Logo-2019.svg',
+    url: 'https://conermurphy.com',
+    twitterUsername: '@MrConerMurphy',
+    image: '../content/media/assets/CM-Logo-2019.svg',
   },
   plugins: [
     {
@@ -54,6 +54,11 @@ module.exports = {
     'gatsby-transformer-sharp',
     'gatsby-plugin-styled-components',
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-offline',
+    {
+      resolve: 'gatsby-plugin-offline',
+      options: {
+        precachePages: ['/', '/blog/*'],
+      },
+    },
   ],
 };
