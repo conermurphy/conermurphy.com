@@ -53,15 +53,15 @@ const Work = ({ data }) => {
           </Link>
         </p>
         <PostContainer>
-          {work.map(item => {
+          {work.map((item, index) => {
             const contentData = {
               internal: false,
               link: item.URL,
               topLine: item.technologies,
               title: item.title,
-              bottomLine: item.date,
+              bottomLine: item.description,
             };
-            return <ContentCard data={contentData} key={contentData.title} />;
+            return <ContentCard data={contentData} key={index} />;
           })}
         </PostContainer>
       </WorkContainer>
