@@ -15,7 +15,7 @@ const Container = styled.div`
   margin-top: 2.5rem;
   background-color: var(--secondary-color);
 
-  filter: drop-shadow(0 0 3px rgba(200, 200, 200, 10));
+  filter: drop-shadow(0 0 3px var(--drop-shadows));
 
   &::before {
     content: '';
@@ -42,9 +42,9 @@ const NavButton = styled.button`
   cursor: ${props => (props.active ? 'pointer' : 'none')};
   text-decoration: ${props => (props.active ? 'none' : 'line-through')};
 
-  box-shadow: 0px 1px 1px rgba(200, 200, 200, 10);
-  box-shadow: 0px 2px 2px rgba(200, 200, 200, 10);
-  box-shadow: 0px 3px 3px rgba(200, 200, 200, 10);
+  box-shadow: 0px 1px 1px var(--drop-shadows);
+  box-shadow: 0px 2px 2px var(--drop-shadows);
+  box-shadow: 0px 3px 3px var(--drop-shadows);
 `;
 
 const ButtonLink = styled(Link)`

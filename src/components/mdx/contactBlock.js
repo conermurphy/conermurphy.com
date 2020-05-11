@@ -10,7 +10,7 @@ const Container = styled.div`
   text-align: center;
   background-color: var(--secondary-color);
   margin: 2rem 0;
-  filter: drop-shadow(0 0 3px rgba(200, 200, 200, 10));
+  filter: drop-shadow(0 0 3px var(--drop-shadows));
   padding: 1rem;
 
   &::before {
