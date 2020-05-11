@@ -142,7 +142,7 @@ const NavMenu = ({ onClick, navActive, callback }) => {
         transition={{ ease: 'easeInOut', duration: 0.1 }}
       >
         <SubNavItemContainer>
-          <Logo height="3rem" />
+          <Logo height="5rem" />
         </SubNavItemContainer>
         <Link to="/#about">
           <SubNavItemContainer whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
