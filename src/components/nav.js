@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'gatsby';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPencilAlt, FaBriefcase, FaCommentDots, FaQuestion } from 'react-icons/fa';
+import { FaPencilAlt, FaBriefcase, FaCommentDots, FaQuestion, FaMoon, FaSun, FaWindowClose } from 'react-icons/fa';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Logo from './logo';
@@ -16,10 +16,10 @@ const NavContainer = styled(motion.nav)`
   padding: 0.5rem;
   height: 5vh;
   z-index: 999;
-  box-shadow: 0px -2px 2px rgba(200, 200, 200, 20);
+  box-shadow: 0px -2px 2px var(--drop-shadows);
 
   @media ${device.laptopL} {
-    box-shadow: 0px 2px 2px rgba(200, 200, 200, 20);
+    box-shadow: 0px 2px 2px var(--drop-shadows);
   }
 `;
 
@@ -43,7 +43,7 @@ const SubNavMenuContainer = styled(motion.nav)`
   transition: 0.2s all;
   height: 100vh;
   width: 100vw;
-  background-color: white;
+  background-color: var(--secondary-color);
 
   & > a {
     margin: 1rem 0rem 1rem 0;
@@ -57,11 +57,20 @@ const SubNavItemContainer = styled(motion.div)`
   justify-content: center;
 
   & > svg {
+    color: var(--body-font-color);
     height: 1rem;
     width: 1rem;
     border: 2px solid rgba(50, 50, 50, 200);
     border-radius: 0.5rem;
     padding: 1rem;
+  }
+`;
+
+const MiscMenuContainer = styled.div`
+  display: flex;
+
+  & > div {
+    margin: 1rem;
   }
 `;
 
@@ -81,7 +90,6 @@ const navBarVariants = {
 
 const navItemHover = {
   scale: 1.1,
-  color: 'rgba(149,55,32,255)',
 };
 
 const navItemTap = {
@@ -94,6 +102,31 @@ const NavMenu = ({ onClick, navActive, callback }) => {
       callback();
     }
   }
+
+  let userThemePreference = null;
+  let displayIcon = null;
+
+  if (typeof window !== 'undefined') {
+    userThemePreference = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    displayIcon = document.documentElement.getAttribute('data-theme') === 'light' ? <FaMoon /> : <FaSun />;
+  }
+
+  useEffect(() => {
+    if (document.documentElement.getAttribute('data-theme') === null) {
+      document.documentElement.setAttribute('data-theme', userThemePreference);
+      localStorage.setItem('theme', userThemePreference);
+    }
+  }, [userThemePreference]);
+
+  const handleDarkLight = () => {
+    if (document.documentElement.getAttribute('data-theme') === 'light') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -126,19 +159,27 @@ const NavMenu = ({ onClick, navActive, callback }) => {
           </SubNavItemContainer>
           <SubNavItemText>Work</SubNavItemText>
         </Link>
-        <Link to="/#contact" style={{ marginBottom: '2rem' }}>
+        <Link to="/#contact">
           <SubNavItemContainer whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
             <FaCommentDots />
           </SubNavItemContainer>
           <SubNavItemText>Contact</SubNavItemText>
         </Link>
-        <NavItem onClick={onClick} active={navActive} whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
-          Close
-        </NavItem>
+        <MiscMenuContainer>
+          <SubNavItemContainer onClick={onClick} active={navActive} whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
+            <FaWindowClose />
+            <SubNavItemText>Close</SubNavItemText>
+          </SubNavItemContainer>
+          <SubNavItemContainer onClick={handleDarkLight} whileHover={navItemHover} transition="easeInOut">
+            {displayIcon}
+            <SubNavItemText>{localStorage.getItem('theme') === 'light' ? 'Dark?' : 'Light?'}</SubNavItemText>
+          </SubNavItemContainer>
+        </MiscMenuContainer>
       </SubNavMenuContainer>
     </AnimatePresence>
   );
 };
+
 const Nav = () => {
   const [navActive, setNavActive] = useState(false);
 
