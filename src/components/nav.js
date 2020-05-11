@@ -158,11 +158,11 @@ const NavMenu = ({ onClick, navActive, callback }) => {
           </SubNavItemContainer>
           <SubNavItemText>Blog</SubNavItemText>
         </Link>
-        <Link to="/work">
+        <Link to="/portfolio">
           <SubNavItemContainer whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
             <FaBriefcase />
           </SubNavItemContainer>
-          <SubNavItemText>Work</SubNavItemText>
+          <SubNavItemText>Portfolio</SubNavItemText>
         </Link>
         <Link to="/#contact">
           <SubNavItemContainer whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">

@@ -7,7 +7,7 @@ import ContentCard from '../components/templates/contentCard';
 import device from '../components/device';
 import SEO from '../components/seo';
 
-const WorkContainer = styled.div`
+const PortfolioContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,8 +36,8 @@ const PostContainer = styled.div`
   }
 `;
 
-const Work = ({ data }) => {
-  const work = data.dataJson.content;
+const Portfolio = ({ data }) => {
+  const portfolio = data.dataJson.content;
 
   return (
     <Layout>
@@ -45,8 +45,8 @@ const Work = ({ data }) => {
         title="Portfolio"
         description="My portfolio showcasing my past web development work including both client and personal projects."
       />
-      <WorkContainer>
-        <h1>My Work</h1>
+      <PortfolioContainer>
+        <h1>My Portfolio</h1>
         <p>
           Here's all my recent projects I've been working on. Including a mixture of previous client work and personal projects I've built.
         </p>
@@ -58,7 +58,7 @@ const Work = ({ data }) => {
           </Link>
         </p>
         <PostContainer>
-          {work.map((item, index) => {
+          {portfolio.map((item, index) => {
             const contentData = {
               internal: false,
               link: item.URL,
@@ -69,12 +69,12 @@ const Work = ({ data }) => {
             return <ContentCard data={contentData} key={index} />;
           })}
         </PostContainer>
-      </WorkContainer>
+      </PortfolioContainer>
     </Layout>
   );
 };
 
-Work.propTypes = {
+Portfolio.propTypes = {
   data: PropTypes.shape({
     dataJson: PropTypes.shape(
       PropTypes.arrayOf({
@@ -110,4 +110,4 @@ export const query = graphql`
   }
 `;
 
-export default Work;
+export default Portfolio;

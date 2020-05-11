@@ -14,7 +14,7 @@ import SEO from '../components/seo';
 
 const MainContainer = styled.div`
   display: grid;
-  grid-template-areas: 'home' 'about' 'work' 'blog' 'contact';
+  grid-template-areas: 'home' 'about' 'portfolio' 'blog' 'contact';
   grid-template-columns: repeat(1, 1fr);
 `;
 
@@ -115,8 +115,8 @@ const AboutContainer = styled.div`
   }
 `;
 
-const WorkContent = styled.div`
-  grid-area: work;
+const PortfolioContent = styled.div`
+  grid-area: portfolio;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -136,11 +136,11 @@ const WorkContent = styled.div`
   }
 `;
 
-const BlogContent = styled(WorkContent)`
+const BlogContent = styled(PortfolioContent)`
   grid-area: blog;
 `;
 
-const WorkPosts = styled.div`
+const PortfolioPosts = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
@@ -155,7 +155,7 @@ const WorkPosts = styled.div`
   }
 `;
 
-const BlogPosts = styled(WorkPosts)``;
+const BlogPosts = styled(PortfolioPosts)``;
 
 const ContactContainer = styled.div`
   display: flex;
@@ -333,7 +333,7 @@ const Index = ({ data }) => {
           <p>Hey, I'm Coner a web developer from Norwich 🇬🇧.</p>
           <p>
             I primarily use JavaScript in my work, if you're interested in seeing some of my previous work please check out my{' '}
-            <Link to="/work" style={{ fontWeight: 600 }}>
+            <Link to="/portfolio" style={{ fontWeight: 600 }}>
               Portfolio.
             </Link>
           </p>
@@ -360,26 +360,26 @@ const Index = ({ data }) => {
           </p>
         </AboutContainer>
 
-        <WorkContent>
+        <PortfolioContent>
           <h3 style={{ marginTop: '0' }}>Latest Projects</h3>
-          <WorkPosts>
+          <PortfolioPosts>
             {portfolioItems.map((item, index) => {
-              const workcontentData = {
+              const portfolioContentData = {
                 internal: false,
                 link: item.URL,
                 topLine: item.technologies,
                 title: item.title,
                 bottomLine: item.date,
               };
-              return <ContentCard data={workcontentData} key={index} />;
+              return <ContentCard data={portfolioContentData} key={index} />;
             })}
-          </WorkPosts>
+          </PortfolioPosts>
           <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-            <HomeButton to="/work" style={{ fontSize: '1rem' }}>
+            <HomeButton to="/portfolio" style={{ fontSize: '1rem' }}>
               View More
             </HomeButton>
           </HomeButtonContainer>
-        </WorkContent>
+        </PortfolioContent>
         <BlogContent>
           <h3 style={{ marginTop: '0' }}>Latest Blog Posts</h3>
           <BlogPosts>
