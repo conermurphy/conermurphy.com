@@ -48,10 +48,12 @@ const ContactMethod = styled(motion.a)`
 
 const navItemHover = {
   scale: 1.1,
+  ease: 'easeInOut',
 };
 
 const navItemTap = {
   scale: 0.9,
+  ease: 'easeInOut',
 };
 
 const ContactBlock = () => (
