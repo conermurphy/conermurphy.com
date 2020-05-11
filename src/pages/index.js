@@ -308,7 +308,10 @@ const Index = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title="Home" />
+      <SEO
+        title="Home"
+        description="The personal portfolio and blog of Coner Murphy. Start your jounrey to becoming a better developer today."
+      />
       <MainContainer>
         <HomeContainer>
           <HomeContentContainer initial="hidden" animate="visible" varaints={homeContainer}>
