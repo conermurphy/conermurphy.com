@@ -12,7 +12,7 @@ const LogoImg = styled.svg`
 
 const Logo = ({ height }) => (
   <Link to="/" aria-label="Home">
-    <LogoImg version="1.1" id="svg2" xmlSpace="preserve" height={height} viewBox="0 0 600 600">
+    <LogoImg version="1.1" xmlSpace="preserve" height={height} viewBox="0 0 600 600">
       <path
         style={{
           opacity: 1,
