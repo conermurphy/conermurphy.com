@@ -43,8 +43,8 @@ module.exports = {
         name: 'Coner Murphy',
         short_name: 'Coner Murphy',
         start_url: '/',
-        background_color: '#1f2a51',
-        theme_color: '#1f2a51',
+        background_color: 'rgba(248,245,245,255)',
+        theme_color: 'rgba(248,245,245,255)',
         lang: 'en',
         display: 'standalone',
         icon: './static/profileImgs/CM-Logo-2019.svg', // Change this at a later point
