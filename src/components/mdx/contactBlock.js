@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaTwitterSquare, FaInstagramSquare, FaGithubSquare, FaEnvelopeSquare } from 'react-icons/fa';
+import { FaTwitter, FaInstagram, FaGithub, FaEnvelope } from 'react-icons/fa';
 
 const Container = styled.div`
   display: flex;
@@ -34,9 +34,12 @@ const ContactMethodContainer = styled.div`
   margin-top: 1rem;
 
   & > a > svg {
-    height: 2.5rem;
-    width: 2.5rem;
-    color: var(--header-font-color);
+    color: var(--body-font-color);
+    height: 1rem;
+    width: 1rem;
+    border: 2px solid var(--header-font-color);
+    border-radius: 0.5rem;
+    padding: 1rem;
   }
 `;
 
@@ -48,16 +51,16 @@ const ContactBlock = () => (
     </p>
     <ContactMethodContainer>
       <a href="https://twitter.com/MrConerMurphy" aria-label="Twitter">
-        <FaTwitterSquare />
+        <FaTwitter />
       </a>
       <a href="https://www.instagram.com/mrconermurphy/" aria-label="Instagram">
-        <FaInstagramSquare />
+        <FaInstagram />
       </a>
       <a href="https://github.com/conermurphy" aria-label="Github">
-        <FaGithubSquare />
+        <FaGithub />
       </a>
       <a href="mailto:coner@conermurphy.com" aria-label="Email">
-        <FaEnvelopeSquare />
+        <FaEnvelope />
       </a>
     </ContactMethodContainer>
   </Container>
