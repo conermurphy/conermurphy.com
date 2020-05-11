@@ -15,7 +15,7 @@ const Container = styled.div`
   margin-top: 2.5rem;
   background-color: var(--secondary-color);
 
-  filter: drop-shadow(0 0 3px var(--drop-shadows));
+  filter: drop-shadow(0 0 2px var(--drop-shadows));
 
   &::before {
     content: '';
