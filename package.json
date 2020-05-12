@@ -11,8 +11,7 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\"",
-    "clean": "gatsby clean",
-    "preload-fonts": "gatsby-preload-fonts"
+    "clean": "gatsby clean"
   },
   "dependencies": {
     "@mdx-js/mdx": "^1.6.1",
@@ -24,7 +23,6 @@
     "gatsby-plugin-manifest": "^2.4.2",
     "gatsby-plugin-mdx": "^1.2.4",
     "gatsby-plugin-offline": "^3.2.1",
-    "gatsby-plugin-preload-fonts": "^1.2.1",
     "gatsby-plugin-react-helmet": "^3.3.1",
     "gatsby-plugin-sharp": "^2.6.2",
     "gatsby-plugin-styled-components": "^3.3.0",
