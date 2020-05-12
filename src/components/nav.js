@@ -111,9 +111,9 @@ const NavMenu = ({ onClick, navActive, callback }) => {
   let displayText = null;
 
   if (typeof window !== 'undefined') {
-    userThemePreference = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    displayIcon = document.documentElement.getAttribute('data-theme') === 'light' ? <FaMoon /> : <FaSun />;
-    displayText = localStorage.getItem('theme') === 'light' ? 'Dark?' : 'Light?';
+    userThemePreference = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    displayIcon = document.documentElement.getAttribute('data-theme') === 'dark' ? <FaSun /> : <FaMoon />;
+    displayText = localStorage.getItem('theme') === 'dark' ? 'Light?' : 'Dark?';
   }
 
   useEffect(() => {
