@@ -54,11 +54,6 @@ module.exports = {
     'gatsby-transformer-sharp',
     'gatsby-plugin-styled-components',
     'gatsby-plugin-react-helmet',
-    {
-      resolve: 'gatsby-plugin-offline',
-      options: {
-        precachePages: ['/', '/blog/*'],
-      },
-    },
+    'gatsby-plugin-offline',
   ],
 };
