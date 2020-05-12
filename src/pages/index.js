@@ -50,6 +50,7 @@ const HomeContentContainer = styled(motion.div)`
 
 const HomeTitle = styled(motion.h1)`
   font-size: 2rem;
+  margin-bottom: 1rem;
 
   @media ${device.tablet} {
     font-size: 2.5rem;
@@ -61,7 +62,7 @@ const HomeTitle = styled(motion.h1)`
 `;
 
 const HomeJobRoles = styled(motion.h2)`
-  margin-bottom: 0;
+  margin: 1rem 0;
   font-size: 1.5rem;
   font-weight: 400;
 
