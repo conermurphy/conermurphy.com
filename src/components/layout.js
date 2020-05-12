@@ -2,7 +2,6 @@
 import React from 'react';
 import 'normalize.css'; // Installing Normalize css
 import styled from 'styled-components';
-import '../styles/global.css';
 import PropTypes from 'prop-types';
 import Nav from './nav';
 import device from './device';
