@@ -32,6 +32,7 @@ const NavItem = styled(motion.button)`
   justify-content: center;
   background-color: var(--secondary-color);
   cursor: pointer;
+  font-family: var(--body-font);
 `;
 
 const SubNavMenuContainer = styled(motion.nav)`

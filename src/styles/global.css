@@ -19,7 +19,7 @@ body {
     background-color: var(--background-color);
 }
 
-p,a,button,li {
+p, a, button, li {
     font-family: var(--body-font);
     color: var(--body-font-color);
     font-size: 0.9rem;
