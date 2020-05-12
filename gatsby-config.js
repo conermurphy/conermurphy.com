@@ -60,6 +60,5 @@ module.exports = {
         precachePages: ['/', '/blog/*'],
       },
     },
-    'gatsby-plugin-preload-fonts',
   ],
 };

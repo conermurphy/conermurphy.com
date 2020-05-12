@@ -40,7 +40,8 @@
     "react-helmet": "^6.0.0",
     "react-icons": "^3.10.0",
     "react-typography": "^0.16.19",
-    "styled-components": "^5.1.0"
+    "styled-components": "^5.1.0",
+    "typeface-montserrat": "0.0.75"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",
