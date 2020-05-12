@@ -282,7 +282,7 @@ const Index = ({ data }) => {
     screenViewportQuery.addListener(handleViewportResize);
   }
 
-  const cornerArtAdjustments = onDekstop ? [7.5, 0, 0, 0] : [5, 0, 0, 0];
+  const cornerArtAdjustments = onDekstop ? ['75vh', 0, 0, 0] : ['50vh', 0, 0, 0];
 
   const itemHover = {
     scale: 1.05,

@@ -98,7 +98,7 @@ const ContentCard = ({ data }) => {
         <PostTitle>{title}</PostTitle>
         <PostInfo>{bottomLine}</PostInfo>
         <AuthorName>@MrConerMurphy</AuthorName>
-        <CornerArt adjustments={[1.5, 0, 0, 0]} />
+        <CornerArt adjustments={['17.5vh', 0, 0, 0]} />
       </CardContainer>
     </CardLink>
   ) : (
@@ -119,7 +119,7 @@ const ContentCard = ({ data }) => {
         <PostTitle>{title}</PostTitle>
         <PostInfo>{bottomLine}</PostInfo>
         <AuthorName>@MrConerMurphy</AuthorName>
-        <CornerArt adjustments={[1.5, 0, 0, 0]} />
+        <CornerArt adjustments={['17.5vh', 0, 0, 0]} />
       </CardContainer>
     </CardLinkExternal>
   );
