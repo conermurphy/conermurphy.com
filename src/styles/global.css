@@ -20,6 +20,7 @@ pre {
     font-family: var(--body-font);
     font-size: 0.9rem;
     line-height: 1.5rem;
+    background-color: var(--background-color);
 }
 
 body {
