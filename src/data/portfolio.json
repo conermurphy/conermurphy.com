@@ -6,7 +6,7 @@
             "type": "Website",
             "URL": "https://conermurphy.com",
             "description": "My personal website (this site).",
-            "technologies": "GatsbyJS, HTML, CSS, GraphQL",
+            "technologies": "GatsbyJS",
             "date": "11-05-2020"
         },
         {
@@ -14,7 +14,7 @@
             "type": "Website",
             "URL": "https://myrmedia.ltd/",
             "description": "Photography & Cinematography Portfolio website.",
-            "technologies": "GatsbyJS, HTML, CSS, GraphQL",
+            "technologies": "GatsbyJS",
             "date": "08-03-2020"
         }
     ]

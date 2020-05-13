@@ -32,7 +32,7 @@ const pet = {
     },
 };
 
-    console.log(pet.breed); // poodle
+console.log(pet.breed); // poodle
 ```
 
 Now, aside from this being a simple example, it actually shows the 'get' syntax beautifully.
@@ -72,17 +72,17 @@ So, if a getter, gets data, I'm sure you've guessed that a setter... Sets data.
 And, in the case of the 'set' syntax, here's how we can do that:
 
 ```JavaScript
-    const pet = {
-        name: "barny",
-        type: "dog",
-        breed: "",
-        set breedSet(breedVal) {
-            this.breed = breedVal
-        }
-    };
+const pet = {
+    name: "barny",
+    type: "dog",
+    breed: "",
+    set breedSet(breedVal) {
+        this.breed = breedVal
+    }
+};
 
-    pet.breedSet = "poodle";
-    console.log(pet.breed); // poodle
+pet.breedSet = "poodle";
+console.log(pet.breed); // poodle
 ```
 
 In reality, the 'set' syntax is quite similar to the 'get' syntax we saw earlier, the key difference being the change in keyword from 'get' to 'set' and the fact that we're not trying to retrieve data and instead update data that stored within the referenced object.
@@ -102,7 +102,7 @@ With this being said, there is one thing I want to touch on that I eluded to ear
 Firstly, you can have a 'getter' without using the 'get' syntax. For example, this is a getter:
 
 ```JavaScript
-    document.URL
+document.URL
 ```
 
 If you ran this code on a webpage it would return the current URL of the page. And, to get this information, what did the code need to do?
@@ -112,7 +112,7 @@ If you ran this code on a webpage it would return the current URL of the page. A
 Similarly, if you ran the following code on the Google Homepage:
 
 ```JavaScript
-    document.querySelector(".gLFyf").value = "JS is Awesome"
+document.querySelector(".gLFyf").value = "JS is Awesome"
 ```
 
 This code changes value of the search box to say `"JS is Awesome"` or if you would prefer, it sets the value.
@@ -122,15 +122,15 @@ So, while there are plenty of applications for the 'get' and 'set' syntax, in re
 Finally, if you would like to support me and my blog then I would greatly appreciate you:
 
 ```JavaScript
-    const value = {
-        followers: 0,
-        set current(x) {
-            this.followers + x
-        }
-    };
+const value = {
+    followers: 0,
+    set current(x) {
+        this.followers + x
+    }
+};
 
-    value.current = 1;
-    console.log(value.followers)
+value.current = 1;
+console.log(value.followers);
 ```
 
 If you found this topic interesting or wish to learn more about it then I have linked some further reading material below from W3Schools and MDN.
