@@ -94,8 +94,8 @@ const PostNavigation = ({ pageContext }) => {
           Prev
         </NavButton>
       </ButtonLink>
-      <ButtonLink to={randLink}>
-        <NavButton active whileHover={navItemHover} whileTap={navItemTap}>
+      <ButtonLink to={randLink} aria-label="Random Post">
+        <NavButton active whileHover={navItemHover} whileTap={navItemTap} aria-label="Random Post">
           <FaDice />
         </NavButton>
       </ButtonLink>

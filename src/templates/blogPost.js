@@ -9,6 +9,7 @@ import device from '../components/device';
 // MDX Component Imports Used on each page.
 import PostNavigation from '../components/mdx/postNavigation.js';
 import ContactBlock from '../components/mdx/contactBlock.js';
+import SEO from '../components/seo';
 
 const BlogPostContainer = styled.div`
   display: flex;
@@ -32,6 +33,7 @@ const BlogPost = ({ data, pageContext }) => {
   const post = data.mdx;
   return (
     <Layout>
+      <SEO title={`${post.frontmatter.title} | Coner Murphy`} description={post.frontmatter.description} />
       <BlogPostContainer>
         <MDXProvider components={components}>
           <MDXRenderer>{post.body}</MDXRenderer>
