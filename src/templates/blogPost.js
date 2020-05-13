@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import Layout from '../components/layout';
 import device from '../components/device';
 // MDX Component Imports Used on each page.
-import CodeBlock from '../components/mdx/codeBlock.js';
 import PostNavigation from '../components/mdx/postNavigation.js';
 import ContactBlock from '../components/mdx/contactBlock.js';
 
@@ -25,8 +24,7 @@ const BlogPostContainer = styled.div`
 
 /* eslint-disable */
 const components = {
-  pre: props => <div {...props} />,
-  code: props => <CodeBlock {...props} />,
+  pre: props => <pre {...props} />,
 };
 /* eslint-enable */
 

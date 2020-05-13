@@ -22,15 +22,15 @@ Let's take a look at both, starting with the syntax.
 
 Simply put, the 'Get' keyword, gets data... *surprising... I know* . Normally, the data is in the from an object. To better illustrate this, let's look at an example:
 
-```JavaScript
-    const pet = {
+```js
+const pet = {
     name: 'barny',
     type: 'dog',
     breed: 'Poodle',
     get breed() {
-      return this.breed;
+    return this.breed;
     },
-  };
+};
 
     console.log(pet.breed); // poodle
 ```
