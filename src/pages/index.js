@@ -169,6 +169,7 @@ const ContactContainer = styled.section`
   position: relative;
   grid-area: contact;
   box-shadow: 0px -2px 2px var(--drop-shadows);
+  scroll-snap-align: end;
 
   @media ${device.laptopL} {
     flex-wrap: wrap;
