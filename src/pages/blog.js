@@ -8,11 +8,15 @@ import LanguageIcons from '../components/templates/languageIcons';
 import device from '../components/device';
 import SEO from '../components/seo';
 
-const BlogContainer = styled.div`
+const BlogContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0 1rem;
+
+  & > header {
+    text-align: center;
+  }
 
   @media ${device.tablet} {
     padding: 0 3rem;
@@ -32,7 +36,7 @@ const Language = styled.button`
   background-color: transparent;
 `;
 
-const PostContainer = styled.div`
+const PostContainer = styled.article`
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
@@ -73,11 +77,13 @@ const Blog = ({ data }) => {
     <Layout>
       <SEO title="Blog" description="Become a better web developer with daily blog posts ranging from tutorials to small helpful tips." />
       <BlogContainer>
-        <h1>Blog Posts</h1>
-        <p style={{ textAlign: 'center' }}>
-          Welcome to my blog! Here you'll find all of my latest posts, published here anywhere else. If you have any questions I'd be happy
-          answer them!
-        </p>
+        <header>
+          <h1>Blog Posts</h1>
+          <p style={{ textAlign: 'center' }}>
+            Welcome to my blog! Here you'll find all of my latest posts, published here anywhere else. If you have any questions I'd be
+            happy answer them!
+          </p>
+        </header>
         <LanguagesContainer>
           {allLanguages.map((language, index) => (
             <Language key={language} onClick={handleClick} active={!!activeLanguages.includes(language)} data-label={language}>

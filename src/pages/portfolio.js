@@ -7,13 +7,13 @@ import ContentCard from '../components/templates/contentCard';
 import device from '../components/device';
 import SEO from '../components/seo';
 
-const PortfolioContainer = styled.div`
+const PortfolioContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0 1em;
 
-  & > p {
+  & > header {
     text-align: center;
   }
 
@@ -22,7 +22,7 @@ const PortfolioContainer = styled.div`
   }
 `;
 
-const PostContainer = styled.div`
+const PostContainer = styled.article`
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
@@ -46,17 +46,20 @@ const Portfolio = ({ data }) => {
         description="My portfolio showcasing my past web development work including both client and personal projects."
       />
       <PortfolioContainer>
-        <h1>My Portfolio</h1>
-        <p>
-          Here's all my recent projects I've been working on. Including a mixture of previous client work and personal projects I've built.
-        </p>
-        <p>
-          If you have any questions or want to chat about working with me on a future project please get in touch using the methods listed
-          on the{' '}
-          <Link to="/#contact" style={{ fontWeight: 600 }}>
-            Contact Section.
-          </Link>
-        </p>
+        <header>
+          <h1>My Portfolio</h1>
+          <p>
+            Here's all my recent projects I've been working on. Including a mixture of previous client work and personal projects I've
+            built.
+          </p>
+          <p>
+            If you have any questions or want to chat about working with me on a future project please get in touch using the methods listed
+            on the{' '}
+            <Link to="/#contact" style={{ fontWeight: 600 }}>
+              Contact Section.
+            </Link>
+          </p>
+        </header>
         <PostContainer>
           {portfolio.map((item, index) => {
             const contentData = {
