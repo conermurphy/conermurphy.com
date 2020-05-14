@@ -16,9 +16,13 @@ const MainContainer = styled.div`
   display: grid;
   grid-template-areas: 'home' 'about' 'portfolio' 'blog' 'contact';
   grid-template-columns: repeat(1, 1fr);
+
+  & > section {
+    scroll-snap-align: start;
+  }
 `;
 
-const HomeContainer = styled.div`
+const HomeContainer = styled.section`
   grid-area: home;
   display: flex;
   flex-direction: column;
@@ -93,12 +97,12 @@ const HomeButton = styled(Link)`
   }
 `;
 
-const AboutContainer = styled.div`
+const AboutContainer = styled.section`
   grid-area: about;
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 2rem;
+  padding: 1.5rem;
 
   & > h3 {
     margin-top: 0;
@@ -116,7 +120,7 @@ const AboutContainer = styled.div`
   }
 `;
 
-const PortfolioContent = styled.div`
+const PortfolioContent = styled.section`
   grid-area: portfolio;
   display: flex;
   flex-direction: column;
@@ -125,8 +129,7 @@ const PortfolioContent = styled.div`
   background-color: var(--background-color);
 
   @media ${device.laptopL} {
-    padding: 2rem;
-    padding-top: 0;
+    padding: 1.5rem;
     width: 75vw;
     margin: auto;
     align-items: flex-start;
@@ -158,7 +161,7 @@ const PortfolioPosts = styled.div`
 
 const BlogPosts = styled(PortfolioPosts)``;
 
-const ContactContainer = styled.div`
+const ContactContainer = styled.section`
   display: flex;
   flex-direction: row;
   background-color: var(--secondary-color);

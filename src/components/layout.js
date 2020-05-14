@@ -21,6 +21,7 @@ const PageContentContainer = styled.main`
   flex: 9;
   overflow-y: scroll;
   flex-direction: column;
+  scroll-snap-type: y mandatory;
 `;
 
 const Layout = ({ children }) => (
