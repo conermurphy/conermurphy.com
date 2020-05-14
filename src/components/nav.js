@@ -67,6 +67,26 @@ const SubNavItemContainer = styled(motion.div)`
   }
 `;
 
+const MiscNavItems = styled.button`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 0 1rem;
+
+  & > svg {
+    color: var(--body-font-color);
+    height: 1rem;
+    width: 1rem;
+    border: 2px solid var(--header-font-color);
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+`;
+
 const MiscMenuContainer = styled.div`
   display: flex;
 
@@ -172,14 +192,15 @@ const NavMenu = ({ onClick, navActive, callback }) => {
           <SubNavItemText>Contact</SubNavItemText>
         </Link>
         <MiscMenuContainer>
-          <SubNavItemContainer onClick={onClick} active={navActive} whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
+          <MiscNavItems onClick={onClick} active={navActive} whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
             <FaWindowClose />
             <SubNavItemText>Close</SubNavItemText>
-          </SubNavItemContainer>
-          <SubNavItemContainer onClick={handleDarkLight} whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
+          </MiscNavItems>
+
+          <MiscNavItems onClick={handleDarkLight} whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
             {displayIcon}
             <SubNavItemText>{displayText}</SubNavItemText>
-          </SubNavItemContainer>
+          </MiscNavItems>
         </MiscMenuContainer>
       </SubNavMenuContainer>
     </AnimatePresence>
