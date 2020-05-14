@@ -127,6 +127,14 @@ const NavMenu = ({ onClick, navActive, callback }) => {
     }
   }
 
+  useEffect(() => {
+    if (navActive) {
+      setTimeout(() => {
+        document.querySelector('#brandLogo').parentElement.focus();
+      }, 500);
+    }
+  });
+
   let userThemePreference = null;
   let displayIcon = null;
   let displayText = null;
