@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { FaTwitter, FaInstagram, FaGithub, FaEnvelope } from 'react-icons/fa';
 
-const Container = styled.div`
+const Container = styled.aside`
   display: flex;
   flex-direction: column;
   align-items: center;

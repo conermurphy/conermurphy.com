@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { FaDice } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 
-const Container = styled.div`
+const Container = styled.aside`
   display: flex;
   flex-direction: row;
   align-items: center;

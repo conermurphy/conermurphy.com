@@ -11,7 +11,7 @@ import PostNavigation from '../components/mdx/postNavigation.js';
 import ContactBlock from '../components/mdx/contactBlock.js';
 import SEO from '../components/seo';
 
-const BlogPostContainer = styled.div`
+const BlogPostContainer = styled.article`
   display: flex;
   flex-direction: column;
   padding: 2rem;
