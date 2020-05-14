@@ -130,7 +130,7 @@ const NavMenu = ({ onClick, navActive, callback }) => {
   useEffect(() => {
     if (navActive) {
       setTimeout(() => {
-        document.querySelector('#brandLogo').parentElement.focus();
+        document.querySelector('#gatsby-focus-wrapper').focus();
       }, 500);
     }
   });
