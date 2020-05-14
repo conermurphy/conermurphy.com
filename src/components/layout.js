@@ -9,10 +9,10 @@ import device from './device';
 const Container = styled.div`
   height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
 
   @media ${device.laptopL} {
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
 `;
 
@@ -26,8 +26,8 @@ const PageContentContainer = styled.main`
 
 const Layout = ({ children }) => (
   <Container>
-    <PageContentContainer>{children}</PageContentContainer>
     <Nav />
+    <PageContentContainer>{children}</PageContentContainer>
   </Container>
 );
 
