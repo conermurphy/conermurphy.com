@@ -31,7 +31,7 @@ module.exports = {
             resolve: 'gatsby-remark-vscode',
             options: {
               theme: 'Cobalt2',
-              extensions: ['theme-cobalt2'], // https://github.com/wesbos/cobalt2-vscode
+              extensions: ['theme-cobalt2'],
             },
           },
           {
