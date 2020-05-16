@@ -31,7 +31,7 @@ const Container = styled.aside`
   }
 `;
 
-const NavButton = styled(motion.button)`
+const NavButton = styled(motion.div)`
   padding: 0.5rem 1rem;
   transition: 0.2s all ease;
   background-color: ${props => (props.active ? 'var(--secondary-color)' : 'var(--header-font-color)')};
@@ -89,17 +89,17 @@ const PostNavigation = ({ pageContext }) => {
 
   return (
     <Container>
-      <ButtonLink to={prevLink} disabled={prev === null} aria-disabled={prev === null}>
+      <ButtonLink to={prevLink} disabled={prev === null} aria-disabled={prev === null} tabIndex={prev === null ? '-1' : '0'}>
         <NavButton active={prev !== null} whileHover={navItemHover} whileTap={navItemTap}>
           Prev
         </NavButton>
       </ButtonLink>
       <ButtonLink to={randLink} aria-label="Random Post">
-        <NavButton active whileHover={navItemHover} whileTap={navItemTap} aria-label="Random Post">
+        <NavButton active whileHover={navItemHover} whileTap={navItemTap}>
           <FaDice />
         </NavButton>
       </ButtonLink>
-      <ButtonLink to={nextLink} disabled={next === null} aria-disabled={next === null}>
+      <ButtonLink to={nextLink} disabled={next === null} aria-disabled={next === null} tabIndex={next === null ? '-1' : '0'}>
         <NavButton active={next !== null} whileHover={navItemHover} whileTap={navItemTap}>
           Next
         </NavButton>
