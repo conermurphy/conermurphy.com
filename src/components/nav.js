@@ -127,6 +127,14 @@ const NavMenu = ({ onClick, navActive, callback }) => {
     }
   }
 
+  function handleFocusChange(e) {
+    const destination = e.currentTarget.href.split('/')[3];
+    document
+      .querySelector(destination)
+      .querySelectorAll('a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])')[0]
+      .focus();
+  }
+
   useEffect(() => {
     if (navActive) {
       setTimeout(() => {
@@ -175,7 +183,7 @@ const NavMenu = ({ onClick, navActive, callback }) => {
         <SubNavItemContainer>
           <Logo height="5rem" />
         </SubNavItemContainer>
-        <Link to="/#about">
+        <Link to="/#about" onClick={handleFocusChange}>
           <SubNavItemContainer whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
             <FaQuestion />
           </SubNavItemContainer>
@@ -193,7 +201,7 @@ const NavMenu = ({ onClick, navActive, callback }) => {
           </SubNavItemContainer>
           <SubNavItemText>Portfolio</SubNavItemText>
         </Link>
-        <Link to="/#contact">
+        <Link to="/#contact" onClick={handleFocusChange}>
           <SubNavItemContainer whileHover={navItemHover} whileTap={navItemTap} transition="easeInOut">
             <FaCommentDots />
           </SubNavItemContainer>
