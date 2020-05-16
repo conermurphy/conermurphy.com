@@ -16,10 +16,6 @@ const MainContainer = styled.div`
   display: grid;
   grid-template-areas: 'home' 'about' 'portfolio' 'blog' 'contact';
   grid-template-columns: repeat(1, 1fr);
-
-  & > section {
-    scroll-snap-align: start;
-  }
 `;
 
 const HomeContainer = styled.section`
@@ -169,7 +165,6 @@ const ContactContainer = styled.section`
   position: relative;
   grid-area: contact;
   box-shadow: 0px -2px 2px var(--drop-shadows);
-  scroll-snap-align: start;
 
   @media ${device.laptopL} {
     flex-wrap: wrap;
