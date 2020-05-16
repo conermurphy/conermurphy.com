@@ -12,10 +12,16 @@ const LanguageIconContainer = styled.div`
 const IconContainer = styled(motion.button)`
   width: 2rem;
   height: 2rem;
-  margin: 0 0.5rem;
   -webkit-appearance: none;
   background-color: transparent;
   border: none;
+  transform: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0 0.5rem;
 
   & > svg {
     width: 2rem;
