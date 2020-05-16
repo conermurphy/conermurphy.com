@@ -10,6 +10,9 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column-reverse;
+  overflow-y: scroll;
+  // scroll-snap-type: y mandatory;
+  // scroll-padding: 10vh;
 
   @media ${device.laptopL} {
     flex-direction: column;
@@ -19,9 +22,7 @@ const Container = styled.div`
 const PageContentContainer = styled.main`
   display: flex;
   flex: 9;
-  overflow-y: scroll;
   flex-direction: column;
-  scroll-snap-type: y mandatory;
 `;
 
 const Layout = ({ children }) => (
