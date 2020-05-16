@@ -116,7 +116,6 @@ const LanguageIcons = ({ language }) => {
                 data-label="NodeJS"
                 onMouseEnter={onDesktop ? handleHover : undefined}
                 onMouseLeave={onDesktop ? handleHoverLeave : undefined}
-                onKeyPress={handleKeyPress}
               />
             ),
             ReactJS: (
