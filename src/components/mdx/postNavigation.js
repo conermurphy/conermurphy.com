@@ -89,7 +89,7 @@ const PostNavigation = ({ pageContext }) => {
 
   return (
     <Container>
-      <ButtonLink to={prevLink} disabled={prev === null}>
+      <ButtonLink to={prevLink} disabled={prev === null} aria-disabled={prev === null}>
         <NavButton active={prev !== null} whileHover={navItemHover} whileTap={navItemTap}>
           Prev
         </NavButton>
@@ -99,7 +99,7 @@ const PostNavigation = ({ pageContext }) => {
           <FaDice />
         </NavButton>
       </ButtonLink>
-      <ButtonLink to={nextLink} disabled={next === null}>
+      <ButtonLink to={nextLink} disabled={next === null} aria-disabled={next === null}>
         <NavButton active={next !== null} whileHover={navItemHover} whileTap={navItemTap}>
           Next
         </NavButton>
