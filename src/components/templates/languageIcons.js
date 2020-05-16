@@ -96,6 +96,7 @@ const LanguageIcons = ({ language }) => {
               <GrHtml5
                 style={{ stroke: 'hsl(12, 77%, 52%)' }}
                 data-label="HTML"
+                aria-label="HTML Icon"
                 onMouseEnter={onDesktop ? handleHover : undefined}
                 onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
@@ -104,6 +105,7 @@ const LanguageIcons = ({ language }) => {
               <GrCss3
                 style={{ stroke: 'rgb(38, 77, 228)' }}
                 data-label="CSS"
+                aria-label="CSS Icon"
                 onMouseEnter={onDesktop ? handleHover : undefined}
                 onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
@@ -112,6 +114,7 @@ const LanguageIcons = ({ language }) => {
               <GrJs
                 style={{ backgroundColor: 'yellow' }}
                 data-label="JavaScript"
+                aria-label="JavaScript Icon"
                 onMouseEnter={onDesktop ? handleHover : undefined}
                 onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
@@ -120,6 +123,7 @@ const LanguageIcons = ({ language }) => {
               <GrNode
                 style={{ color: 'rgb(68, 136, 62)' }}
                 data-label="NodeJS"
+                aria-label="NodeJS Icon"
                 onMouseEnter={onDesktop ? handleHover : undefined}
                 onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
@@ -128,6 +132,7 @@ const LanguageIcons = ({ language }) => {
               <GrReactjs
                 style={{ color: '#61dafb' }}
                 data-label="ReactJS"
+                aria-label="ReactJS Icon"
                 onMouseEnter={onDesktop ? handleHover : undefined}
                 onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
@@ -136,6 +141,7 @@ const LanguageIcons = ({ language }) => {
               <GrGatsbyjs
                 style={{ color: 'rgb(102 51 153' }}
                 data-label="GatsbyJS"
+                aria-label="GatsbyJS Icon"
                 onMouseEnter={onDesktop ? handleHover : undefined}
                 onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
@@ -144,6 +150,7 @@ const LanguageIcons = ({ language }) => {
               <GrGraphQl
                 style={{ color: '#E10098' }}
                 data-label="GraphQL"
+                aria-label="GraphQL Icon"
                 onMouseEnter={onDesktop ? handleHover : undefined}
                 onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
