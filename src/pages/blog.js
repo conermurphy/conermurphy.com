@@ -30,11 +30,7 @@ const LanguagesContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const Language = styled.button`
-  border: none;
-  padding: 0;
-  background-color: transparent;
-`;
+const Language = styled.div``;
 
 const PostContainer = styled.article`
   display: grid;

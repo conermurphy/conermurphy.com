@@ -9,10 +9,13 @@ const LanguageIconContainer = styled.div`
   position: relative;
 `;
 
-const IconContainer = styled(motion.div)`
+const IconContainer = styled(motion.button)`
   width: 2rem;
   height: 2rem;
-  padding: 0.5rem;
+  margin: 0 0.5rem;
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: none;
 
   & > svg {
     width: 2rem;
@@ -48,6 +51,11 @@ const LanguageIcons = ({ language }) => {
     onDesktop = window.matchMedia(device.desktop).matches;
   }
 
+  const handleKeyPress = e => {
+    setHover(!hover);
+    setHoveredComponent(e.currentTarget.children[0].dataset.label);
+  };
+
   const handleHover = e => {
     setHover(true);
     setHoveredComponent(e.currentTarget.dataset.label);
@@ -72,6 +80,7 @@ const LanguageIcons = ({ language }) => {
         whileHover={{ scale: 0.8 }}
         transition={{ duration: 0.5, ease: 'easeInOut' }}
         onClick={handleTap}
+        onKeyPress={handleKeyPress}
         animate={tap ? 'clicked' : 'notClicked'}
         variants={variants}
       >
@@ -107,6 +116,7 @@ const LanguageIcons = ({ language }) => {
                 data-label="NodeJS"
                 onMouseEnter={onDesktop ? handleHover : undefined}
                 onMouseLeave={onDesktop ? handleHoverLeave : undefined}
+                onKeyPress={handleKeyPress}
               />
             ),
             ReactJS: (
