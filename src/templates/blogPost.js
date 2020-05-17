@@ -31,10 +31,16 @@ const components = {
 
 const BlogPost = ({ data, pageContext }) => {
   const post = data.mdx;
+  console.log(post);
   return (
     <Layout>
       <SEO title={`${post.frontmatter.title} | Coner Murphy`} description={post.frontmatter.description} />
       <BlogPostContainer>
+        <h1>{post.frontmatter.title}</h1>
+        <p style={{ marginTop: 0 }}>
+          {post.frontmatter.date.slice(0, 2)}/{post.frontmatter.date.slice(2, 4)}/{post.frontmatter.date.slice(4, 8)} |{' '}
+          {post.frontmatter.languages} | {post.timeToRead} mins
+        </p>
         <MDXProvider components={components}>
           <MDXRenderer>{post.body}</MDXRenderer>
         </MDXProvider>
@@ -49,6 +55,7 @@ export const query = graphql`
   query($slug: String!) {
     mdx(fields: { slug: { eq: $slug } }) {
       body
+      timeToRead
       frontmatter {
         title
         description
@@ -65,6 +72,7 @@ BlogPost.propTypes = {
   data: PropTypes.shape({
     mdx: PropTypes.shape({
       body: PropTypes.string.isRequired,
+      timeToRead: PropTypes.number.isRequired,
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
