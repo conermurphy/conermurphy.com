@@ -31,6 +31,7 @@ const components = {
 
 const BlogPost = ({ data, pageContext }) => {
   const post = data.mdx;
+  console.log(post);
   return (
     <Layout>
       <SEO title={`${post.frontmatter.title} | Coner Murphy`} description={post.frontmatter.description} image={post.frontmatter.image} />
@@ -72,6 +73,7 @@ BlogPost.propTypes = {
         category: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
         languages: PropTypes.array.isRequired,
+        image: PropTypes.string.isRequired,
       }),
     }),
   }).isRequired,
