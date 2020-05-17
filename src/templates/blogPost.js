@@ -33,7 +33,7 @@ const BlogPost = ({ data, pageContext }) => {
   const post = data.mdx;
   return (
     <Layout>
-      <SEO title={`${post.frontmatter.title} | Coner Murphy`} description={post.frontmatter.description} />
+      <SEO title={`${post.frontmatter.title} | Coner Murphy`} description={post.frontmatter.description} image={post.frontmatter.image} />
       <BlogPostContainer>
         <MDXProvider components={components}>
           <MDXRenderer>{post.body}</MDXRenderer>
@@ -52,6 +52,7 @@ export const query = graphql`
       frontmatter {
         title
         description
+        image
         date(formatString: "DDMMYYYY")
         category
         languages
