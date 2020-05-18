@@ -46,8 +46,8 @@ const BlogPost = ({ data, pageContext }) => {
           <MDXRenderer>{post.body}</MDXRenderer>
         </MDXProvider>
         <GithubEdit />
-        <PostNavigation pageContext={pageContext} />
         <ContactBlock />
+        <PostNavigation pageContext={pageContext} />
       </BlogPostContainer>
     </Layout>
   );

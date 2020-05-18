@@ -13,7 +13,7 @@ const Container = styled.aside`
   justify-content: space-evenly;
   padding: 1rem;
   margin: 0rem;
-  margin-top: 2.5rem;
+  margin-bottom: 2rem;
   background-color: var(--secondary-color);
   filter: drop-shadow(0 0 2px var(--drop-shadows));
 `;
