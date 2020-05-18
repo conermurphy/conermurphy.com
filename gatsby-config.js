@@ -54,7 +54,7 @@ module.exports = {
         theme_color: '#F8F5F5',
         lang: 'en',
         display: 'standalone',
-        icon: 'static/profileImgs/CM-Logo-2020.png', // Change this at a later point
+        icon: './static/profileImgs/CM-Logo-2020.png',
       },
     },
     'gatsby-plugin-sharp',
