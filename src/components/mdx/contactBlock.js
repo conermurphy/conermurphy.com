@@ -27,11 +27,7 @@ const ContactMethodContainer = styled.div`
   grid-template-rows: repeat(2, 5rem);
   justify-content: center;
   align-items: center;
-  overflow-y: visible;
-
-  @media ${device.tablet} {
-    overflow: hidden;
-  }
+  overflow: visible;
 `;
 
 const ContactMethod = styled(motion.a)`
