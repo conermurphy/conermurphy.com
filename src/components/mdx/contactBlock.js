@@ -60,16 +60,44 @@ const ContactBlock = () => (
       </p>
     </div>
     <ContactMethodContainer>
-      <ContactMethod href="https://twitter.com/MrConerMurphy" aria-label="Twitter" whileHover={navItemHover} whileTap={navItemTap}>
+      <ContactMethod
+        href="https://twitter.com/MrConerMurphy"
+        aria-label="Twitter"
+        whileHover={navItemHover}
+        whileTap={navItemTap}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <FaTwitter />
       </ContactMethod>
-      <ContactMethod href="https://www.instagram.com/mrconermurphy/" aria-label="Instagram" whileHover={navItemHover} whileTap={navItemTap}>
+      <ContactMethod
+        href="https://www.instagram.com/mrconermurphy/"
+        aria-label="Instagram"
+        whileHover={navItemHover}
+        whileTap={navItemTap}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <FaInstagram />
       </ContactMethod>
-      <ContactMethod href="https://github.com/conermurphy" aria-label="Github" whileHover={navItemHover} whileTap={navItemTap}>
+      <ContactMethod
+        href="https://github.com/conermurphy"
+        aria-label="Github"
+        whileHover={navItemHover}
+        whileTap={navItemTap}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <FaGithub />
       </ContactMethod>
-      <ContactMethod href="mailto:coner@conermurphy.com" aria-label="Email" whileHover={navItemHover} whileTap={navItemTap}>
+      <ContactMethod
+        href="mailto:coner@conermurphy.com"
+        aria-label="Email"
+        whileHover={navItemHover}
+        whileTap={navItemTap}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <FaEnvelope />
       </ContactMethod>
     </ContactMethodContainer>
