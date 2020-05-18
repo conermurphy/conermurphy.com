@@ -32,7 +32,6 @@ const components = {
 
 const BlogPost = ({ data, pageContext }) => {
   const post = data.mdx;
-  console.log(post);
   return (
     <Layout>
       <SEO title={`${post.frontmatter.title} | Coner Murphy`} description={post.frontmatter.description} />
