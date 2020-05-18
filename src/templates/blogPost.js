@@ -9,6 +9,7 @@ import device from '../components/device';
 // MDX Component Imports Used on each page.
 import PostNavigation from '../components/mdx/postNavigation.js';
 import ContactBlock from '../components/mdx/contactBlock.js';
+import GithubEdit from '../components/mdx/githubEdit.js';
 import SEO from '../components/seo';
 
 const BlogPostContainer = styled.article`
@@ -44,6 +45,7 @@ const BlogPost = ({ data, pageContext }) => {
         <MDXProvider components={components}>
           <MDXRenderer>{post.body}</MDXRenderer>
         </MDXProvider>
+        <GithubEdit />
         <PostNavigation pageContext={pageContext} />
         <ContactBlock />
       </BlogPostContainer>
