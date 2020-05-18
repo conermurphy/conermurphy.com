@@ -2,10 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { FaGithub } from 'react-icons/fa';
+import device from '../device';
 
 const Container = styled.aside`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: left;
@@ -13,6 +14,10 @@ const Container = styled.aside`
   margin: 2rem 0 0 0;
   filter: drop-shadow(0 0 2px var(--drop-shadows));
   padding: 3rem;
+
+  @media ${device.tablet} {
+    flex-direction: row;
+  }
 `;
 
 const ContactMethod = styled(motion.a)`
