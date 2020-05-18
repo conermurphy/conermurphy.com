@@ -284,6 +284,14 @@ const Index = ({ data }) => {
 
   const cornerArtAdjustments = onDekstop ? ['75vh', 0, 0, 0] : ['50vh', 0, 0, 0];
 
+  const handleClick = e => {
+    const destination = e.currentTarget.attributes.href.value.slice(1);
+    document
+      .querySelector(destination)
+      .querySelectorAll('a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])')[0]
+      .focus();
+  };
+
   const itemHover = {
     scale: 1.05,
   };
@@ -323,7 +331,9 @@ const Index = ({ data }) => {
             ))}
 
             <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut" variants={homeJobRoles}>
-              <HomeButton to="/#contact">Contact Me</HomeButton>
+              <HomeButton to="/#contact" onClick={handleClick}>
+                Contact Me
+              </HomeButton>
             </HomeButtonContainer>
           </HomeContentContainer>
           <CornerArt adjustments={cornerArtAdjustments} />
@@ -354,7 +364,7 @@ const Index = ({ data }) => {
           <p>
             I really hope you enjoy my work and if you want to get in touch with me for any reason, you can do so via the methods listed in
             the{' '}
-            <Link to="/#contact" style={{ fontWeight: 600 }}>
+            <Link to="/#contact" style={{ fontWeight: 600 }} onClick={handleClick}>
               Contact Section.
             </Link>
           </p>
