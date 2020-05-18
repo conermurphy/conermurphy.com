@@ -13,18 +13,6 @@ const Container = styled.aside`
   margin: 2rem 0;
   filter: drop-shadow(0 0 2px var(--drop-shadows));
   padding: 1rem;
-
-  &::before {
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 1rem solid transparent;
-    border-right: 1rem solid transparent;
-    border-bottom: 1rem solid var(--secondary-color);
-    position: absolute;
-    top: -1rem;
-    left: 10%;
-  }
 `;
 
 const ContactMethodContainer = styled.div`
