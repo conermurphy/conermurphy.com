@@ -128,7 +128,7 @@ const NavMenu = ({ onClick, navActive, callback }) => {
   }
 
   function handleFocusChange(e) {
-    const destination = e.currentTarget.href.split('/')[3];
+    const destination = e.currentTarget.attributes.href.value.slice(1);
     document
       .querySelector(destination)
       .querySelectorAll('a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])')[0]
