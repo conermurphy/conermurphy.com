@@ -5,31 +5,38 @@ import { FaTwitter, FaInstagram, FaGithub, FaEnvelope } from 'react-icons/fa';
 
 const Container = styled.aside`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  text-align: center;
+  justify-content: space-between;
   background-color: var(--secondary-color);
   margin: 2rem 0;
   filter: drop-shadow(0 0 2px var(--drop-shadows));
-  padding: 1rem;
 `;
 
 const ContactMethodContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  width: 100%;
-  margin-top: 1rem;
+  flex: 1;
+  display: grid;
+  width: 20rem;
+  height: 10rem;
+  grid-template-columns: repeat(2, 10rem);
+  grid-template-rows: repear(2, 5rem);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 `;
 
 const ContactMethod = styled(motion.a)`
+  height: 5rem;
+  width: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--header-font-color);
+
   & > svg {
     color: var(--body-font-color);
-    height: 1rem;
-    width: 1rem;
-    border: 2px solid var(--header-font-color);
-    border-radius: 0.5rem;
+    height: 2rem;
+    width: 2rem;
     padding: 1rem;
   }
 `;
@@ -46,10 +53,12 @@ const navItemTap = {
 
 const ContactBlock = () => (
   <Container>
-    <h4 style={{ marginTop: '1rem' }}>Got a question?</h4>
-    <p>
-      If you've got a question, want to say hi, or are interested in working on a project with me. You can contact me via the links below:
-    </p>
+    <div style={{ flex: 2, padding: '1rem' }}>
+      <h4 style={{ marginTop: '0' }}>Got a question?</h4>
+      <p>
+        If you've got a question, want to say hi, or are interested in working on a project with me. You can contact me via the links below:
+      </p>
+    </div>
     <ContactMethodContainer>
       <ContactMethod href="https://twitter.com/MrConerMurphy" aria-label="Twitter" whileHover={navItemHover} whileTap={navItemTap}>
         <FaTwitter />
