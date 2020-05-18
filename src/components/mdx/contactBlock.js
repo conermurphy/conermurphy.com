@@ -2,15 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { FaTwitter, FaInstagram, FaGithub, FaEnvelope } from 'react-icons/fa';
+import device from '../device';
 
 const Container = styled.aside`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   background-color: var(--secondary-color);
   margin: 2rem 0;
   filter: drop-shadow(0 0 2px var(--drop-shadows));
+
+  @media ${device.tablet} {
+    flex-direction: row;
+  }
 `;
 
 const ContactMethodContainer = styled.div`
@@ -19,10 +24,14 @@ const ContactMethodContainer = styled.div`
   width: 20rem;
   height: 10rem;
   grid-template-columns: repeat(2, 10rem);
-  grid-template-rows: repear(2, 5rem);
+  grid-template-rows: repeat(2, 5rem);
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  overflow-y: visible;
+
+  @media ${device.tablet} {
+    overflow: hidden;
+  }
 `;
 
 const ContactMethod = styled(motion.a)`
