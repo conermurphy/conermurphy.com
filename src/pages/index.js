@@ -379,7 +379,7 @@ const Index = ({ data }) => {
                 link: item.URL,
                 topLine: item.technologies,
                 title: item.title,
-                bottomLine: item.date,
+                bottomLine: item.description,
               };
               return <ContentCard data={portfolioContentData} key={index} />;
             })}
