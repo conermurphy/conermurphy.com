@@ -5,7 +5,7 @@ module.exports = {
     author: 'Coner Murphy',
     url: 'https://conermurphy.com',
     twitterUsername: '@MrConerMurphy',
-    image: '/static/profileImgs/CM-Logo-2020.png',
+    image: '/src/assets/logo/CM-Logo-2020.png',
   },
   plugins: [
     {
@@ -54,7 +54,7 @@ module.exports = {
         theme_color: '#F8F5F5',
         lang: 'en',
         display: 'standalone',
-        icon: './static/profileImgs/CM-Logo-2020.png',
+        icon: './src/assets/logo/CM-Logo-2020.png',
       },
     },
     'gatsby-plugin-sharp',
