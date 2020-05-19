@@ -5,7 +5,7 @@ module.exports = {
     author: 'Coner Murphy',
     url: 'https://conermurphy.com',
     twitterUsername: '@MrConerMurphy',
-    image: 'static/profileImgs/CM-Logo-2020.png',
+    image: '/static/profileImgs/CM-Logo-2020.png',
   },
   plugins: [
     {

@@ -33,7 +33,7 @@ const components = {
 const BlogPost = ({ data, pageContext }) => {
   const post = data.mdx;
   const { image } = post.frontmatter;
-  const imagePath = image.childImageSharp.fixed.src ?? logo;
+  const imagePath = image && image.childImageSharp.fixed.src;
   return (
     <Layout>
       <SEO title={`${post.frontmatter.title} | Coner Murphy`} description={post.frontmatter.description} image={imagePath} />
