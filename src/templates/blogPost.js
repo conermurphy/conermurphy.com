@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
+import logo from '../../static/profileImgs/CM-Logo-2020.png';
 import Layout from '../components/layout';
 import device from '../components/device';
 // MDX Component Imports Used on each page.
@@ -31,10 +32,11 @@ const components = {
 
 const BlogPost = ({ data, pageContext }) => {
   const post = data.mdx;
-  console.log(post);
+  const { image } = post.frontmatter;
+  const imagePath = image.childImageSharp.fixed.src ?? logo;
   return (
     <Layout>
-      <SEO title={`${post.frontmatter.title} | Coner Murphy`} description={post.frontmatter.description} image={post.frontmatter.image} />
+      <SEO title={`${post.frontmatter.title} | Coner Murphy`} description={post.frontmatter.description} image={imagePath} />
       <BlogPostContainer>
         <MDXProvider components={components}>
           <MDXRenderer>{post.body}</MDXRenderer>
@@ -53,7 +55,13 @@ export const query = graphql`
       frontmatter {
         title
         description
-        image
+        image {
+          childImageSharp {
+            fixed {
+              src
+            }
+          }
+        }
         date(formatString: "DDMMYYYY")
         category
         languages
