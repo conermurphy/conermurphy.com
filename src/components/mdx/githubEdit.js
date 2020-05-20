@@ -25,8 +25,12 @@ const ContactMethod = styled(motion.a)`
     color: var(--body-font-color);
     height: 5rem;
     width: 5rem;
-    margin-right: 2.5rem;
     padding: 1rem;
+    margin-right: 0;
+
+    @media ${device.tablet} {
+      margin-right: 2.5rem;
+    }
   }
 `;
 
