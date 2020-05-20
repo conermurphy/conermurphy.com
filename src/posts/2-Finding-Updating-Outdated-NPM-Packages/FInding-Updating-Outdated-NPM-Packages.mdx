@@ -9,11 +9,8 @@ image:
 id: 2
 ---
 
-Unfortunately as developers our lives aren't just develop, develop and develop some more. As nice as that would be we aren't afordered that luxury. 
-Instead we have a whole host of other responsibilities we need to ensure we carry out.
-
-One of these responsibilities is ensuring the security of the applications and tools we build, there's many ways and methods of doing this but a good starting point is ensuring you have no
-outdated NPM packages, and if you do ensuring you update them. This is what I'm going to go over today.
+One of the many responsibilities of developers is ensuring the security of the applications and tools we build, there's many ways and methods of doing this but a good starting point is ensuring you have no
+outdated NPM packages, and if you do ensuring you update them.
 
 ## Finding Outdated Packages
 
@@ -42,18 +39,18 @@ So after running npm outdated this is what is returned to us, as you can see it 
 
 You might also notice the colours of the text are either red or yellow for your packages, that means something to:
 
-- **Red:** If a package is coloured in red it means that there is a newer version available that meets the semver range defined for that pacakge, if you look at the 'Wanted' column you'll see that 
+- **Red:** If a package is coloured in red it means that there is a newer version available that meets the semver range defined for that pacakge. If you look at the 'Wanted' column you'll see that 
 there is a newer version available and you should update as soon as possible.
 - **Yellow:** If it's in yellow this means that there is a newer version available but it doesn't meet your semver requirements, this normally indicated a new major version of the package. E.g. V5 to V6.
 Normally these version changes include breaking changes and you should proceed with caution before updating them.
 
 ### Definitions:
 
-- **semver:** For this unaware, semver is Semantic Versioning which is the method of versioning your package, software, tool or just about anything. [You can read more here]('https://semver.org/').
+- **semver:** For the unaware, semver is Semantic Versioning which is the method of versioning your package, software, tool or just about anything. [You can read more here]('https://semver.org/').
 
 ## Updating Oudated Packages
 
-It's all well and good knowing how to find outdated packages but what would be more helpful is knowing how to update them to either the 'Wanted' version or the 'Latest'.
+It's all well and good knowing how to find outdated packages but what would be more helpful is knowing how to update them to either the 'Wanted' or 'Latest' versions.
 
 ### Updating to the Wanted version
 
@@ -62,13 +59,13 @@ Updating to the wanted version of a package is simple, you need to do one of two
 - Delete your 'node_modules' folder and reinstall it will npm install, this will download the newest versions meeting your semver range, simply put it'll download the 'Wanted' version. Or,
 - run the npm update command from the terminal to update all your packages to the 'Wanted' version.
 
-At the end of the day it doesn't matter which method you choose to use, I personally choose to go with the npm update command as it's less involved but the decision is yours.
+At the end of the day it doesn't matter which method you choose, I personally choose to go with the npm update command as it's less involved but the decision is yours.
 
 ### Updating to the Latest version
 
-Now, before getting into this I want to reiterate the above warning. 
+Now, before getting into this I want to reiterate the warning from earlier. 
 
-**Upgrading to the latest version could possibily include breaking changes that could break parts or all of your application. Proceed with cauction.**
+**Upgrading to the latest version could possibily include breaking changes that could break parts or all of your application. Proceed with caution.**
 
 With the warning out of the way, let's look at how to upgrade your npm packages to their latest versions.
 
@@ -86,11 +83,12 @@ Then you just need to run the package by using the command:
 ncu -g
 ```
 
-This command will upgrade all of the version hints in the package.json allowing you to install the latest version of the package by running the command:
+This command will upgrade all of the version hints in the package.json to accept the latest version, essentially it removes the lock on the package keeping it within the same major version.
+Therefore, allowing you to install the latest version of the package by running the command:
 
 ```
 npm update
 ```
 
-Now you should have all of the latest packages in your project and if you downloaded the project without thes node_modules folder make sure to run npm install before running to download
+Now you should have all of the latest packages in your project and if you downloaded the project without the node_modules folder make sure to run npm install before running to download
 all of the said new packages before giving them a test run.

@@ -28,6 +28,7 @@ const BlogPostContainer = styled.article`
 /* eslint-disable */
 const components = {
   pre: props => <pre {...props} />,
+  a: props => <a style={{fontWeight: 'bold'}}{...props} />,
 };
 /* eslint-enable */
 
