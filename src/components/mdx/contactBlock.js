@@ -39,7 +39,7 @@ const ContactMethod = styled(motion.a)`
   background-color: var(--header-font-color);
 
   & > svg {
-    color: var(--body-font-color);
+    color: rgba(248, 245, 245, 255);
     height: 2rem;
     width: 2rem;
     padding: 1rem;
