@@ -81,7 +81,7 @@ const ContentCard = ({ data }) => {
   const { internal, link, topLine, title, bottomLine } = data;
 
   return internal ? (
-    <CardLink to={`/${link}`}>
+    <CardLink to={`${link}`}>
       <CardContainer
         whileHover={{ y: -10, scale: 0.95 }}
         transition={{ duration: 0.25, ease: 'easeInOut' }}
