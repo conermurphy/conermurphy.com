@@ -19,24 +19,35 @@ const Container = styled.aside`
 `;
 
 const ContactMethodContainer = styled.div`
-  flex: 1;
   display: grid;
-  width: 20rem;
-  height: 10rem;
-  grid-template-columns: repeat(2, 10rem);
-  grid-template-rows: repeat(2, 5rem);
-  justify-content: center;
-  align-items: center;
-  overflow: visible;
+  width: 100%;
+  grid-template-columns: repeat(4, 25%);
+
+  @media ${device.tablet} {
+    flex: 1;
+    display: grid;
+    width: 20rem;
+    height: 10rem;
+    grid-template-columns: repeat(2, 10rem);
+    grid-template-rows: repeat(2, 5rem);
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    justify-content: flex-end;
+  }
 `;
 
 const ContactMethod = styled(motion.a)`
   height: 5rem;
-  width: 10rem;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--header-font-color);
+
+  @media ${device.tablet} {
+    width: 10rem;
+  }
 
   & > svg {
     color: rgba(248, 245, 245, 255);
