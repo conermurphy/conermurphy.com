@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-// import logo from '../../static/profileImgs/CM-Logo-2019.svg';
 
 const LogoImg = styled.svg`
   height: ${props => props.height};
