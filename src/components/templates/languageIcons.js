@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { GrCss3, GrHtml5, GrJs, GrReactjs, GrGatsbyjs, GrGraphQl, GrNode } from 'react-icons/gr';
+import { IoLogoNpm } from 'react-icons/io';
 import { motion } from 'framer-motion';
 import device from '../device';
 
@@ -151,6 +152,15 @@ const LanguageIcons = ({ language }) => {
                 style={{ color: '#E10098' }}
                 data-label="GraphQL"
                 aria-label="GraphQL Icon"
+                onMouseEnter={onDesktop ? handleHover : undefined}
+                onMouseLeave={onDesktop ? handleHoverLeave : undefined}
+              />
+            ),
+            NPM: (
+              <IoLogoNpm
+                style={{ color: '#000000' }}
+                data-label="NPM"
+                aria-label="NPM Icon"
                 onMouseEnter={onDesktop ? handleHover : undefined}
                 onMouseLeave={onDesktop ? handleHoverLeave : undefined}
               />
