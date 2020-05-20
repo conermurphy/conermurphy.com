@@ -57,6 +57,12 @@ module.exports = {
         icon: './src/assets/logo/CM-Logo-2020.png',
       },
     },
+    {
+      resolve: 'gatsby-plugin-google-analytics',
+      options: {
+        trackingId: 'UA-167225463-1',
+      },
+    },
     'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',
     'gatsby-plugin-styled-components',
