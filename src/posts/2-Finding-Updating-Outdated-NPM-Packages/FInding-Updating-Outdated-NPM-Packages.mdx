@@ -33,7 +33,7 @@ Package     Current Wanted  Latest
 eslint      5.16.0  5.16.0  7.0.0
 ```
 
-So after running `npm outdated` this is what is returned to us, as you can see it returns a bit of information:
+So after running npm outdated this is what is returned to us, as you can see it returns a bit of information:
 
 - **Package:** This is the name of the package that is outdated.
 - **Current:** This is the current version number of the outdated package.
@@ -60,9 +60,9 @@ It's all well and good knowing how to find outdated packages but what would be m
 Updating to the wanted version of a package is simple, you need to do one of two things:
 
 - Delete your 'node_modules' folder and reinstall it will npm install, this will download the newest versions meeting your semver range, simply put it'll download the 'Wanted' version. Or,
-- run the `npm update` command from the terminal to update all your packages to the 'Wanted' version.
+- run the npm update command from the terminal to update all your packages to the 'Wanted' version.
 
-At the end of the day it doesn't matter which method you choose to use, I personally choose to go with the `npm update` command as it's less involved but the decision is yours.
+At the end of the day it doesn't matter which method you choose to use, I personally choose to go with the npm update command as it's less involved but the decision is yours.
 
 ### Updating to the Latest version
 
@@ -72,4 +72,25 @@ Now, before getting into this I want to reiterate the above warning.
 
 With the warning out of the way, let's look at how to upgrade your npm packages to their latest versions.
 
-https://www.npmjs.com/package/npm-check-updates
+To upgrade to a new major version of a package, I've found the best way it to use the package [npm-check-updates]('https://www.npmjs.com/package/npm-check-updates').
+
+You can install this globally by running the command:
+
+```
+npm i -g npm-check-updates
+```
+
+Then you just need to run the package by using the command:
+
+```
+ncu -g
+```
+
+This command will upgrade all of the version hints in the package.json allowing you to install the latest version of the package by running the command:
+
+```
+npm update
+```
+
+Now you should have all of the latest packages in your project and if you downloaded the project without thes node_modules folder make sure to run npm install before running to download
+all of the said new packages before giving them a test run.
