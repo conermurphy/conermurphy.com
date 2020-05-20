@@ -9,19 +9,19 @@ import device from './device';
 const Container = styled.div`
   display: flex;
   height: 100%;
-  flex-direction: column-reverse;
-
-  @media ${device.laptopL} {
-    flex-direction: column;
-  }
 `;
 
 const PageContentContainer = styled.main`
   display: flex;
-  margin-bottom: 7.5vh;
+  margin-bottom: 7vh;
   flex: 9;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: hidden;
+
+  @media ${device.laptopL} {
+    margin-bottom: 0;
+    margin-top: 7vh;
+  }
 `;
 
 const Layout = ({ children }) => (

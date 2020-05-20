@@ -27,9 +27,9 @@ const HomeContainer = styled.section`
   padding: 2rem;
   padding-top: 0;
   margin-bottom: 0;
+  height: 90vh;
   background-color: var(--secondary-color);
   position: relative;
-  height 90vh;
   box-shadow: 0px 2px 2px var(--drop-shadows);
   z-index: 2;
 `;

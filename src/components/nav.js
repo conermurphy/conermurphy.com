@@ -21,6 +21,7 @@ const NavContainer = styled(motion.nav)`
 
   @media ${device.laptopL} {
     box-shadow: 0px 2px 2px var(--drop-shadows);
+    top: 0;
   }
 `;
 
@@ -48,6 +49,10 @@ const SubNavMenuContainer = styled(motion.nav)`
   height: 100vh;
   width: 100vw;
   background-color: var(--secondary-color);
+
+  @media ${device.laptopL} {
+    top: 0;
+  }
 
   & > a {
     margin: 1rem 0rem 1rem 0;
