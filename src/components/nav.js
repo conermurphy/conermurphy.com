@@ -8,8 +8,9 @@ import Logo from './logo';
 import device from './device';
 
 const NavContainer = styled(motion.nav)`
-  position: ${props => (props.navActive ? 'relative' : 'sticky')};
-  display: ${props => (props.navActive ? 'none' : 'flex')};
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   justify-content: space-around;
   align-items: center;
   background-color: var(--secondary-color);
@@ -37,6 +38,8 @@ const NavItem = styled(motion.button)`
 
 const SubNavMenuContainer = styled(motion.nav)`
   display: ${props => (props.navActive ? 'none' : 'flex')};
+  position: fixed;
+  bottom: 0;
   flex-direction: column;
   align-items: center;
   position: fixed;

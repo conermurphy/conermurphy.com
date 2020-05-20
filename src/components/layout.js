@@ -7,8 +7,8 @@ import Nav from './nav';
 import device from './device';
 
 const Container = styled.div`
-  height: 100vh;
   display: flex;
+  height: 100%;
   flex-direction: column-reverse;
 
   @media ${device.laptopL} {
@@ -18,6 +18,7 @@ const Container = styled.div`
 
 const PageContentContainer = styled.main`
   display: flex;
+  margin-bottom: 7.5vh;
   flex: 9;
   flex-direction: column;
   overflow-y: scroll;
