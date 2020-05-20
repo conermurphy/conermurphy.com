@@ -91,7 +91,7 @@ BlogPost.propTypes = {
         category: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
         languages: PropTypes.array.isRequired,
-        image: PropTypes.string.isRequired,
+        image: PropTypes.object,
       }),
     }),
   }).isRequired,
