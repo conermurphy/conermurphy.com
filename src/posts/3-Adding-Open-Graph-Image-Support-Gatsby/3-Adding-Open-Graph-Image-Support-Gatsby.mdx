@@ -63,7 +63,7 @@ date: "2020-05-21"
 category: ""
 languages: ["GatsbyJS"]
 slug: gatsby-blog-open-graph-images
-image: 
+image: ./gatsbyOpenGraphImage-og.jpg
 id: 3
 ---
 ```
@@ -74,7 +74,7 @@ Now most of this data is unique to my website and has no importance to this arti
 ---
 title: How to add Open Graph images to Gatsby blog posts."
 description: "Adding Open Graph image support to GatsbyJS blog posts to drive visitors to your website."
-image: // The path is relative to the markdown file's location.
+image: ./gatsbyOpenGraphImage-og.jpg // The path is relative to the markdown file's location.
 ---
 ```
 
@@ -90,11 +90,11 @@ to use this data in the Blog Post template file and then in turn pass down to ou
 The final step for us to add Open Graph support to our blog posts is modiyfing our blog post template file which for me is *blogPost.js* but this is whatever file is responsible for creating
 the blog posts as pages, if you're new to Gatsby and not sure what file this is for you, you can find a reference to it normally in your *gatsby-node.js* file. It'll be in a code block like so:
 
-```js
+```js{4}
 posts.forEach(({ node }, index) => {
     createPage({
       path: node.fields.slug,
-      component: path.resolve('./src/templates/blogPost.js'), // this file.
+      component: path.resolve('./src/templates/blogPost.js'),
       context: {
         slug: node.fields.slug,
         prev: index === 0 ? null : posts[index - 1].node,
@@ -114,7 +114,7 @@ First on the list is we need to expand our existing frontmatter query to include
 
 So, to retrieve the src of the image using GraphQL, add in the below code to your existing frontmatter query:
 
-```js
+```js{9-14}
 export const query = graphql`
   query($slug: String!) {
     mdx(fields: { slug: { eq: $slug } }) {
@@ -123,12 +123,12 @@ export const query = graphql`
       frontmatter {
         title
         description
-        image { // from here
+        image {
           childImageSharp { 
             fixed { 
               src 
             } 
-          } // to here
+          } 
         } 
         date(formatString: "DDMMYYYY")
         category
