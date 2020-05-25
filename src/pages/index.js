@@ -360,7 +360,7 @@ const Index = ({ data }) => {
               <LanguageIcons language={line} key={index} />
             ))}
           </div>
-          <p>But, I'm always looking to add more to this list as I'm always looking to learn new things.</p>
+          <p>But, I'm always looking to add more to this list.</p>
           <p>
             I really hope you enjoy my work and if you want to get in touch with me for any reason, you can do so via the methods listed in
             the{' '}

@@ -4,7 +4,8 @@
     --body-font-color: rgba(248,245,245,255);
     --drop-shadows: rgba(1,1,1,1);
     --header-font-color: rgba(207, 92, 54,255);
-    --body-font: 'Montserrat', 'sans-serif';
+    --body-font: 'Montserrat', 'Sans-Serif';
+    --code-font: 'Inconsolata', 'Monospace';
     --grvsc-line-highlighted-background-color: rgba(255, 255, 255, 0.2); 
     --grvsc-line-highlighted-border-color: rgba(255, 255, 255, 0.5); 
     --grvsc-line-highlighted-border-width: 5px;
@@ -25,7 +26,7 @@
 pre {
     white-space: 'break-spaces';
     font-family: var(--body-font);
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     line-height: 1.5rem;
     background-color: var(--background-color);
 }
@@ -65,10 +66,10 @@ button {
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: var(--body-font);
+    font-family: var(--code-font);
     color: var(--body-font-color);
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 900;
     margin-bottom: 0rem;
 }
 
@@ -78,20 +79,16 @@ h1 {
 
 h2 {
     font-size: 1.75rem;
-    font-weight: 500;
 }
 
 h3 {
     font-size: 1.5rem;
-    font-weight: 400;
 }
 
 h4 {
     font-size: 1.25rem;
-    font-weight: 500;
 }
 
 h5 {
     font-size: 1.25rem;
-    font-weight: 400;
 }

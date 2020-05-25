@@ -29,6 +29,7 @@ const BlogPostContainer = styled.article`
 const components = {
   pre: props => <pre {...props} />,
   a: props => <a style={{fontWeight: 'bold'}}{...props} />,
+  code: props => <code style={{fontFamily: 'var(--code-font)'}} {...props}/>,
 };
 /* eslint-enable */
 
