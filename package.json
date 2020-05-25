@@ -20,6 +20,7 @@
     "gatsby": "^2.22.4",
     "gatsby-cli": "^2.12.29",
     "gatsby-image": "^2.4.5",
+    "gatsby-plugin-feed": "^2.5.3",
     "gatsby-plugin-google-analytics": "^2.3.2",
     "gatsby-plugin-manifest": "^2.4.8",
     "gatsby-plugin-mdx": "^1.2.11",
