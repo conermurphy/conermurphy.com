@@ -19,15 +19,15 @@ If you have any questions regarding anything in this series please get in contac
 
 ## Method #2: Array.isArray()
 
-*Array.isArray() methods allows for the checking of if a passed value is an Array or not.*
+*The Array.isArray() method checks if a passed value is an Array or not.*
 
 Array.isArray() is one of the more simpler methods on the Array.prototype, it allows for one argument to be passed in, a value of any type. 
 
-This value is then checked to see if it is of the type of an Array, if it is then it returns true, if isn't an array then it returns false.
+This value is then checked to see if it is of the Array type, if it is then it returns true, if isn't then it returns false.
 
 *Note:*
 
-Similar to Array.from() we looked at post #4, this method also exists on the parent Array data type prototype and not on individual arrays created. 
+Similar to Array.from() we looked at post #4, this method also exists on the parent Array data type prototype and not on individual arrays created from this parent Array.
 
 If you would like to read more about this and why some methods only exist on the parent Array.prototype and not on individual arrays created from the parent type then please check out post [#4](https://conermurphy.com/javascript-array-prototype-methods-from-explained/).
 
@@ -41,7 +41,7 @@ Below, is the syntax used for this method:
 Array.isArray(value)
 ```
 
-As you can see, the method only takes in one argument being the value of the item we are checking to be an array or not, and it returns a boolean value (true or false) for whether that value is indeed an array or not.
+As you can see, the method only takes in one argument the value of the item we are checking to be an array or not, and it returns a boolean value (true or false) for whether that value is indeed an array.
 
 Now, that's enough of the theory let's look at some examples.
 
@@ -57,7 +57,7 @@ Array.isArray([1,2,3]);
 Array.isArray(new Array());
 Array.isArray(new Array(1,2,3));
 
-// Interestingly the Array.prototype itself is an array and returns true.
+// Interestingly the Array.prototype itself is an array and returns true. 🤔
 Array.isArray(Array.prototype);
 
 // Here are some examples that return false.
@@ -69,13 +69,13 @@ Array.isArray(undefined);
 Array.isArray(1);
 Array.isArray(true);
 
-// Also, interestingly any other prototype will return false.
+// Also, interestingly any other prototype will return false. 🤔
 Array.isArray(String.prototype);
 Array.isArray(Object.prototype);
 
 ```
 
-In regards to the prototype examples, this behaviour makes sense because what is returned when you console.log a prototype of an data type is the actual type itself with an object containing all of the methods on that data's prototype. For example:
+In regards to the prototype examples, this behaviour makes seem odd at first but when we think about it, it actually makes a lot of sense because what is returned when you console.log a prototype of a data type is the actual type itself with an object containing all of the methods on that data's prototype. For example:
 
 ```javascript
 console.log(Array.prototype); // Array[] {...methods in here}
@@ -83,15 +83,15 @@ console.log(String.prototype); // String{""} {...methods in here}
 console.log(Object.prototype); // Object{...} {...methods in here}
 ```
 
-So, looking at the above code you can see why when passing in the prototypes to Array.isArray we get the outputs we do, Array.prototype returns true because it returns an empty array, while all the others return false because they return empty versions of themselves and not an array. 
+So, looking at the above code you can see why when passing in the prototypes to Array.isArray() we get the outputs we do, Array.prototype returns true because it returns an empty array, while all the others return false because they return empty versions of themselves and not an array. 
 
-This is also more interesting because at first I believed that when calling Array.isArray on a prototype of a data type it would be looking at the actual prototype itself, which would be the object containing the methods so it would return false. But, that's not the case and instead it looks at the returned value so will only return true for Array.prototype.
+This is also interesting because at first I believed that when calling Array.isArray on a prototype of a data type it would be looking at the actual prototype itself, which would be the object containing the methods so it would return false. But, that's not the case and instead it looks at the returned value so will only return true for Array.prototype.
 
 #### arrayLike values
 
-I wanted to do a quick section on arrayLike values, without going to in depth on them as we covered them more extensively in [#4](https://conermurphy.com/javascript-array-prototype-methods-from-explained/), arrayLike values are values that share some methods with arrays and are visually shown to be the same syntax as an array that is contained within '[]' but they are a different data type to a full array which is why sometimes you need to convert an arrayLike value to an array using Array.from() that we looked at in [#4](https://conermurphy.com/javascript-array-prototype-methods-from-explained/).
+Just a quick note on arrayLike values, without going to in depth on them as we covered them more extensively in [#4](https://conermurphy.com/javascript-array-prototype-methods-from-explained/). arrayLike values are values that share some methods with arrays and are visually shown to be the same syntax as an array but they are a different data type to a full array which is why sometimes you need to convert an arrayLike value to an array using Array.from() that we looked at in [#4](https://conermurphy.com/javascript-array-prototype-methods-from-explained/).
 
-However, arrayLike values although look like an Array are a separate data type so will return false when used with Array.isArray():
+However, arrayLike values although look like an Array are a separate data type and therefore will return false when used with Array.isArray().
 
 ```javascript
 const nodes = document.querySelectorAll('p');
