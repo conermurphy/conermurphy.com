@@ -86,7 +86,7 @@ module.exports = {
                   date: edge.node.frontmatter.date,
                   url: site.siteMetadata.url + edge.node.fields.slug,
                   guid: site.siteMetadata.url + edge.node.fields.slug,
-                  custom_elements: [{ 'content:encoded': edge.node.rawBody }],
+                  custom_elements: [{ 'content:encoded': edge.node.body }],
                 })
               ),
             query: `
