@@ -11,7 +11,7 @@ id: 0
 
 ## Series Introduction
 
-Often as developers we get a bit starry-eyed by the new and exciting parts of programming. For me and many others JavaScript is our language of choice and in the JS world there's always a new framework to get distracted by. Last year, frameworks like ReactJS, VueJS and Angluar domainated the headlines and firmly cemented themselves as the goto frameworks.
+Often as developers we get a bit starry-eyed by the new and exciting parts of programming. For me and many others JavaScript is our language of choice and in the JS world there's always a new framework to get distracted by. Last year, frameworks like ReactJS, VueJS and Angluar dominated the headlines and firmly cemented themselves as the goto frameworks.
 
 But, while the work all these frameworks are doing is exciting, there's one very important thing often forgotten about... The basics.
 
@@ -51,7 +51,7 @@ example();
 
 Here we define a function called 'example' and inside the function we tell it to log the message "I'm a function! :)" to the console.
 
-After the function defintion, we see:
+After the function definition, we see:
 
 ```JS
 example();
@@ -63,7 +63,7 @@ It's like calling up a mechanic for a quote on a vehicle service. You have given
 
 ## Making a function
 
-We breifly looked at the different parts of a function above but let's break down another example function down to better understand what really makes up a function and how we can define one.
+We briefly looked at the different parts of a function above but let's break down another example function down to better understand what really makes up a function and how we can define one.
 
 Take a look at this function.
 
@@ -79,7 +79,7 @@ There are 5 key aspects that make up a function, these are:
 
 - The 'Function' Keyword
 - Name
-- Paramters & Arguments.
+- Parameters & Arguments.
 - Function Body
 - Function Call
 
@@ -91,7 +91,7 @@ Let's start with the function definition which consists of:
 
 - The 'Function' Keyword
 - Name
-- Paramters & Arguments
+- Parameters & Arguments
 - Function Body
 
 ### The 'Function' Keyword
@@ -112,21 +112,21 @@ addition(2,3);
 
 We used the 'function' keyword to tell the machine we're going to define a function. Following this, there is the word 'addition', this is the name of the function. In reality we could call a function whatever we want as long as sticks to JavaScript casing rules (primarily camelCasing). But, it makes sense for readability to name the function a sensible name that makes sense to both yourself and anyone else who may read the code.
 
-So, in our case we called our function 'addition' because it adds 'x' and 'y' together. But, we could have easily called it 'additionOfXAndY' or some another name, it really depends on how many functions you have and how spefic you want to get with your naming conventions as to what you call your functions.
+So, in our case we called our function 'addition' because it adds 'x' and 'y' together. But, we could have easily called it 'additionOfXAndY' or some another name, it really depends on how many functions you have and how specific you want to get with your naming conventions as to what you call your functions.
 
 Simply, you can call your functions anything you want, but for your own sake it's best to give them a name that describes what it does.
 
 ### Parameters & Arguments
 
-Paramters are the values defined in the '()' of the function following the name, so in our example we passed in the parameters 'x' and 'y' which where then used inside the function body to perform the calculation.
+Parameters are the values defined in the '()' of the function following the name, so in our example we passed in the parameters 'x' and 'y' which where then used inside the function body to perform the calculation.
 
 Now, if you look at the bottom of the code example, at the function call, we placed 2 values inside the '()' these are known as arguments.
 
-You will often here Parametes and Arguments used interchangley but this ins't the case, they are actually different. Parameters are what we tell the function to expect to recieve when it's called and arguments are the values we pass into the function when we call it. A small difference but a key difference that you should be aware of.
+You will often here Parameters and Arguments used interchangeably but this isn't the case, they are actually different. Parameters are what we tell the function to expect to receive when it's called and arguments are the values we pass into the function when we call it. A small difference but a key difference that you should be aware of.
 
-In our example, when we defined the function we gave it 2 parameters (x and y), this essentially tells the function that when we call you, you will be given two values for you to substitue into the place of 'x' and 'y'.
+In our example, when we defined the function we gave it 2 parameters (x and y), this essentially tells the function that when we call you, you will be given two values for you to substitute into the place of 'x' and 'y'.
 
-So when we called the function addition, we substite the values x and y out for the passed arguments. So, in this case 'x' becomes '2' and 'y' becomes '3' so when the function body is run, it's not running 'x + y' but instead is running '2 + 3'.
+So when we called the function addition, we substitute the values x and y out for the passed arguments. So, in this case 'x' becomes '2' and 'y' becomes '3' so when the function body is run, it's not running 'x + y' but instead is running '2 + 3'.
 
 This comes back to the original idea that functions are designed to be reusable, for example instead of passing 2 & 3, we could pass:
 
@@ -134,7 +134,7 @@ This comes back to the original idea that functions are designed to be reusable,
 - 4 + 10
 - 3 + 7
 
-I mean, we could manually type out these calculations in the console but that isn't neither scalable or efficent. Say we needed to do this with 300 pairs, are we going to manually type them out?
+I mean, we could manually type out these calculations in the console but that isn't neither scalable or efficient. Say we needed to do this with 300 pairs, are we going to manually type them out?
 
 No, of course not. This is where passing values into functions as arguments makes more sense.
 
@@ -144,7 +144,7 @@ Finally, we arrive to the function body. The function body is main part of a fun
 
 In most cases this is the code located within the '{ }', however there are cases where this isn't true such as Arrow Functions but we will look at those in Part 2. But, essentially in the vast majority of cases anything located after a function name and parameters and is contained within a pair of '{ }' is the function body and will be executed once the function has been called.
 
-Looking at our code example from ealier:
+Looking at our code example from earlier:
 
 ```JavaScript
 function addition(x, y) {
@@ -190,9 +190,9 @@ addition(2, 3);
 
 With this single line, we call the function 'addition' and pass it in 2 arguments (2 & 3) and are returned an output (5). But, because we haven't hard-coded anything into our function we could pass it any two numbers and get a result. For example, we could pass it the arguments (10 & 5) and would get 15 in reply.
 
-Refering back to the previous section on Parameters & Arguments, the function call is the final piece to making the function functional.
+Referring back to the previous section on Parameters & Arguments, the function call is the final piece to making the function functional.
 
-We pass parameters into the function defintion when it's created so it allows us to re-use the funciton by passing arguments in the function call whenever we need to.
+We pass parameters into the function definition when it's created so it allows us to re-use the function by passing arguments in the function call whenever we need to.
 
 ---
 
