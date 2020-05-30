@@ -10,7 +10,7 @@ id: 3
 ---
 
 Having a super fast website is great for your users once there on your website but the hard part is exactly that, getting users onto your website. And, while GatsbyJS has the performance side sorted
-they unfortuantely can't help with the getting visitors to your website part. But, this is where the Open Graph protocol and more importantly Open Graph Images come into play. In this post, I'm going
+they unfortunately can't help with the getting visitors to your website part. But, this is where the Open Graph protocol and more importantly Open Graph Images come into play. In this post, I'm going
 to cover:
 
 1. What is Open Graph and why it's important
@@ -30,7 +30,7 @@ You did this via a series of meta tags in the head of your pages html. The most 
 
 If you're interested and want to read more, you can find them all on the [Facebook Documentation](https://developers.facebook.com/docs/sharing/webmasters/?_fb_noscript=1).
 
-When you set these tags on one of your website's blog posts or pages, it provides the content that will be used to popualte the 'card' shown to users on social media sites when they link to 
+When you set these tags on one of your website's blog posts or pages, it provides the content that will be used to populate the 'card' shown to users on social media sites when they link to 
 your article or page, this is why Open Graph tags are so important in driving users to your website and why you should be adding Open Graph support.
 
 **Side Note:** This was originally a Facebook only technology but other social media platforms now support the protocol making it all the more important.
@@ -40,16 +40,16 @@ your article or page, this is why Open Graph tags are so important in driving us
 For the purposes of this tutorial, I'm going to assume you already have a base working blog on Gatsby using markdown or Mdx, if you don't you can create one by following this
 [tutorial](https://www.gatsbyjs.org/tutorial/). Or, by using the base starter files [found here](https://github.com/gatsbyjs/gatsby-starter-blog).
 
-Once you have your blog setup, we can get to work adding Open Graph Image Support.
+Once you have your blog set-up, we can get to work adding Open Graph Image Support.
 
 ### SEO Component
 
-The first thing we need to do is add an SEO Component to our website. There's a good guide on making one with an example SEO Component on Gatsbys website
+The first thing we need to do is add an SEO Component to our website. There's a good guide on making one with an example SEO Component on Gatsby's website
 which you can [find here.](https://www.gatsbyjs.org/docs/add-seo-component/)
 
 *You may need to add some fields to your gatsby-config.js file under siteMetadata for the SEO Component to pull through all the required data.*
 
-Once you have setup the SEO component, you can move on to setting up your blog post frontmatter.
+Once you have set-up the SEO component, you can move on to setting up your blog post frontmatter.
 
 ### Blog Post Frontmatter
 
@@ -82,12 +82,12 @@ image: ./gatsbyOpenGraphImage-og.jpg // The path is relative to the markdown fil
 - **description:** This is a brief description describing your post and it's aim. This is also what will appear beneath your post on search results.
 - **image:** This is the image you will see when your link to your post on Social Media.
 
-Now, without getting to indepth but when Gatsby builds our site it will create a series of GraphQL nodes out of this frontmatter data which we can then query using GraphQL allowing us 
+Now, without getting to in-depth but when Gatsby builds our site it will create a series of GraphQL nodes out of this frontmatter data which we can then query using GraphQL allowing us 
 to use this data in the Blog Post template file and then in turn pass down to our SEO Component to be added into our Open Graph meta tags. Let's take a look at doing this next.
 
 ### Blog Post Template File
 
-The final step for us to add Open Graph support to our blog posts is modiyfing our blog post template file which for me is *blogPost.js* but this is whatever file is responsible for creating
+The final step for us to add Open Graph support to our blog posts is modifying our blog post template file which for me is *blogPost.js* but this is whatever file is responsible for creating
 the blog posts as pages, if you're new to Gatsby and not sure what file this is for you, you can find a reference to it normally in your *gatsby-node.js* file. It'll be in a code block like so:
 
 ```js{4}
@@ -110,7 +110,7 @@ Now, once you're in your blog post template file we will need to do a few things
 
 First on the list is we need to expand our existing frontmatter query to include the querying of the image to retrieve the src of the image. 
 
-*Unfortuantely it's not as simple as taking the direct url of the image file because when Gatsby creates our site it transforms all our content into the static folder and gives it a unique id.*
+*Unfortunately it's not as simple as taking the direct url of the image file because when Gatsby creates our site it transforms all our content into the static folder and gives it a unique id.*
 
 So, to retrieve the src of the image using GraphQL, add in the below code to your existing frontmatter query:
 
@@ -147,12 +147,12 @@ const post = data.mdx;
 const { image } = post.frontmatter;
 ```
 
-What we're doing here is assigning the variable post to the object returned from data.mdx and then in a seperate variable destructing out the image object into it's own variable from the frontmatter.
+What we're doing here is assigning the variable post to the object returned from data.mdx and then in a separate variable destructing out the image object into it's own variable from the frontmatter.
 
-This has now given us access to our graphQL query data in the post varaible for everything and more specifically / what we're interested in for this post; the Open Graph Image object.
-we assigned to the *image* varaible.
+This has now given us access to our graphQL query data in the post variable for everything and more specifically / what we're interested in for this post; the Open Graph Image object.
+we assigned to the *image* variable.
 
-#### Getting the image src & default image fallback
+#### Getting the image src & default image fall-back
 
 Getting the image src is a simple process, just one line of code accessing the properties inside the image object we retrieved from the graphQL query earlier.
 
@@ -160,20 +160,20 @@ Getting the image src is a simple process, just one line of code accessing the p
 image.childImageSharp.fixed.src
 ```
 
-Now, this is all well and good but what if the image is not set? At present the code will error out because image would be undefiend so we need to check if image is equal to undefiend or is actually
+Now, this is all well and good but what if the image is not set? At present the code will error out because image would be undefined so we need to check if image is equal to undefined or is actually
 an object.
 
 ```js
 const imagePath = image || image.childImageSharp.fixed.src;
 ```
 
-However, you could also go one further and display a default image in it's place should it be undefiend.
+However, you could also go one further and display a default image in it's place should it be undefined.
 
 ```js
 const imagePath = image ? image.childImageSharp.fixed.src : logo;
 ```
 
-In this case, I have imported logo seperately and just referenced it here. But now should we not set an image or it be undefined for whatever reason it will default to whatever we set on the right
+In this case, I have imported logo separately and just referenced it here. But now should we not set an image or it be undefined for whatever reason it will default to whatever we set on the right
 hand side of the ternary operator.
 
 #### SEO Component
@@ -208,6 +208,6 @@ So, instead we pass in some props that will override the defaults set in the SEO
 
 In this case, I'm passing in what I want to be the title, description and most importantly the path to the image file from earlier or the default image should that be used.
 
-That's it, now your Open Graph Images should be setup and working, give your gatsby server a restart and see for youself.
+That's it, now your Open Graph Images should be set-up and working, give your gatsby server a restart and see for yourself.
 
 I hope you found this post helpful.
