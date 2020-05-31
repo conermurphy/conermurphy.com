@@ -300,37 +300,21 @@ const Index = ({ data }) => {
     scale: 0.9,
   };
 
-  const homeContainer = {
-    visible: {
-      opacity: 1,
-    },
-    hidden: {
-      opacity: 0,
-    },
-  };
-
-  const homeJobRoles = {
-    visible: { opacity: 1, y: 0 },
-    hidden: { opacity: 0, y: 100 },
-  };
-
   return (
     <Layout>
       <SEO
         title="Home"
-        description="The personal portfolio and blog of Coner Murphy. Start your jounrey to becoming a better developer today."
+        description="The personal portfolio and blog of Coner Murphy. Start your journey to becoming a better developer today."
       />
       <MainContainer>
         <HomeContainer>
-          <HomeContentContainer initial="hidden" animate="visible" varaints={homeContainer}>
-            <HomeTitle variants={homeJobRoles}>{title}.</HomeTitle>
+          <HomeContentContainer initial="hidden" animate="visible">
+            <HomeTitle>{title}.</HomeTitle>
             {listDescription.map((item, index) => (
-              <HomeJobRoles variants={homeJobRoles} key={index}>
-                {item}.
-              </HomeJobRoles>
+              <HomeJobRoles key={index}>{item}.</HomeJobRoles>
             ))}
 
-            <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut" variants={homeJobRoles}>
+            <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
               <HomeButton to="/#contact" onClick={handleClick}>
                 Contact Me
               </HomeButton>
