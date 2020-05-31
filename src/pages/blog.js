@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Layout from '../components/layout';
 import ContentCard from '../components/templates/contentCard';
 import LanguageIcons from '../components/templates/languageIcons';
+import { useSiteMetadata } from '../hooks/use-site-metadata';
 import device from '../components/device';
 import SEO from '../components/seo';
 
@@ -49,6 +50,7 @@ const PostContainer = styled.article`
 const Blog = ({ data }) => {
   const [activeLanguages, setActiveLanguages] = useState([]);
   const posts = data.allMdx.edges;
+  const { title } = useSiteMetadata();
   const allLanguages = [];
 
   posts.forEach(post => {
@@ -71,7 +73,10 @@ const Blog = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title="Blog" description="Become a better web developer with daily blog posts ranging from tutorials to small helpful tips." />
+      <SEO
+        title={`Blog | ${title}`}
+        description="Become a better web developer with daily blog posts ranging from tutorials to small helpful tips."
+      />
       <BlogContainer>
         <header>
           <h1>Blog Posts</h1>

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
 import ContentCard from '../components/templates/contentCard';
+import { useSiteMetadata } from '../hooks/use-site-metadata';
 import device from '../components/device';
 import SEO from '../components/seo';
 
@@ -38,11 +39,12 @@ const PostContainer = styled.article`
 
 const Portfolio = ({ data }) => {
   const portfolio = data.dataJson.content;
+  const { title } = useSiteMetadata();
 
   return (
     <Layout>
       <SEO
-        title="Portfolio"
+        title={`Portfolio | ${title}`}
         description="My portfolio showcasing my past web development work including both client and personal projects."
       />
       <PortfolioContainer>

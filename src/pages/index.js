@@ -303,7 +303,7 @@ const Index = ({ data }) => {
   return (
     <Layout>
       <SEO
-        title="Home"
+        title={`Home | ${title}`}
         description="The personal portfolio and blog of Coner Murphy. Start your journey to becoming a better developer today."
       />
       <MainContainer>
