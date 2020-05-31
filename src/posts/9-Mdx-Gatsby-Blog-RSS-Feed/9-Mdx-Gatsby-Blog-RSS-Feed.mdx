@@ -1,25 +1,25 @@
 ---
-title: "Making a RSS Feed for a Gatsby Mdx Blog."
-description: "Mdx is a powerful tool for making blog posts and when coupled with GatsbyJS you have a great combination for beautiful blog posts but making an RSS feed there is a bit of set-up required, here's how to do it."
+title: "Making an RSS Feed for a Gatsby Mdx Blog."
+description: "Mdx is a powerful writing tool for blog posts and when used with GatsbyJS you can make beautiful blog posts. But, making an RSS feed takes a bit of set-up, here's how to do it."
 date: "2020-05-31"
 category: "Let's Code"
 languages: ["GatsbyJS"]
-slug: javascript-array-methods-of-explained
-image: 
+slug: gatsby-mdx-blog-rss-feed
+image: ./gatsby-mdx-blog-rss-feed.png
 id: 9
 ---
 
 ## Gatsby and RSS feeds.
 
-By default you can use markdown with Gatsby to create blog posts and this is fine for basic posts but Mdx takes the best things about markdown and goes one step further introducing the ability to use full ReactJS components inside your markdown blog posts opening up the possibilities. (If you're interested in reading more about the changes Mdx gives us, you can read more on [there docs here.](https://mdxjs.com/))
+By default you can use markdown with Gatsby to create blog posts and this is fine for basic posts but Mdx takes the best things about markdown and goes one step further introducing the ability to use full ReactJS components inside your markdown blog posts opening up the possibilities tenfold. (If you're interested in reading more about the changes Mdx gives us, you can read more on [their docs here.](https://mdxjs.com/))
 
 If you were to go ahead with using normal markdown on your Gatsby site you could use the ['gatsby-plugin-feed'](https://www.gatsbyjs.org/packages/gatsby-plugin-feed/) to generate an RSS feed for your site but when using Mdx we don't have this option by default so this is what we are going to cover in this blog post, how to take the aforementioned plugin and change it to work with Mdx. 
 
-I should mention before beginning that this work has already been completed and released as a plugin ['gatsby-plugin-feed-mdx'](https://www.gatsbyjs.org/packages/gatsby-plugin-feed-mdx/?=feed). So, if you want to quickly get your site up and running you can use this plugin. But, if you were curious like me how to get this working using the original plugin, stick around because I promise you it is a lot simpler than you think.
+I should mention before beginning that this work has already been completed and released as a plugin ['gatsby-plugin-feed-mdx'](https://www.gatsbyjs.org/packages/gatsby-plugin-feed-mdx/?=feed). So, if you want to quickly get your site up and running you can use this plugin. But, if you are curious like me how to get this working using the original plugin, stick around because I promise you it is a lot simpler than you think.
 
 ## Plugin Set-Up
 
-Before we get started on customising the plugin we first need to get it actually set-up as if we we're going to use it on a normal markdown site. You can do this by installing the plugin to your Gatsby site by using the command:
+Before we get started on customising the original plugin we first need to get it actually set-up as if we we're going to use it on a normal markdown site. You can do start by installing the plugin on your Gatsby site by using the following command:
 
 ```javascript
 npm install --save gatsby-plugin-feed
@@ -90,19 +90,21 @@ With the plugin installed, hop into your 'gatsby-config.js' and paste the below 
 },
 ```
 
-With this pasted in, you may need to change a few queries to get all the correct data pulled through, mainly this will be the siteMetadata query ran at the top of the plugins configuration you need to make sure the queried fields line up with the fields you have defined in your siteMetadata also in your 'gatsby-config.js' file. If they don't then you may need to change your siteMetadata configuration or alternatively set-up aliasing for the GraphQL query. This is outside of the aim of this blog post but you can learn more about [GraphQL aliasing here](https://graphql.org/learn/queries/#aliases).
+After pasting in this initial set-up you may need to change a few queries to get all the correct data pulled through, mainly this will be the siteMetadata query ran at the top of the plugin configuration, you need to make sure the queried fields line up with the fields you have defined in your siteMetadata further up in your 'gatsby-config.js' file. 
 
-Once you have this set-up, you may also want to change the 'output' and 'title' properties returned as this is the URL endpoint your rss feed can be found on and the title of it. I'll leave these up to you if you change them or not.
+If they don't align then you may need to change your siteMetadata configuration or alternatively set-up aliasing for the GraphQL query. This is outside the aim of this blog post but you can learn more about [GraphQL aliasing here](https://graphql.org/learn/queries/#aliases).
 
-If at any point you want an example to look at you can check out my site's 'gatsby-config.js' file, you can do so on the GitHub Repo for this site [here](https://github.com/conermurphy/conermurphy.com/blob/master/gatsby-config.js).
+Once you have this set-up, you may also want to change the 'output' and 'title' properties returned (in the plugin configuration) as this is the URL endpoint your RSS feed can be found on and the title of it. I'll leave these up to you if you change them.
+
+If at any point you want an example to look at you can check out my site's 'gatsby-config.js' file on the GitHub Repo for my site [here](https://github.com/conermurphy/conermurphy.com/blob/master/gatsby-config.js).
 
 ## Plugin changes
 
-With all of the original set-up completed, let's look at the changes we need to complete and I promise you there isn't a lot. 
+With all of the original plugin set-up completed, let's look at the changes we need to complete and I promise you there isn't a lot. 
 
-First of all, we need to change all the references to 'allMarkdownRemark' in the plugin configuration to 'allMdx', below are the bits you need to change:
+First of all, we need to change all the references to 'allMarkdownRemark' in the plugin configuration to 'allMdx', below the lines you need to change are highlighted:
 
-```javascript{19-20, 32}
+```javascript{19, 20, 31}
 {
     resolve: `gatsby-plugin-feed`,
     options: {
@@ -165,7 +167,7 @@ First of all, we need to change all the references to 'allMarkdownRemark' in the
 },
 ```
 
-With this completed, you can run the rss feed but it doesn't quite work as expected and that's because there is one more file we need to change. The actual 'gatsby-plugin-feed' gatsby-node.js file which is contained inside of the node_modules folder for your project. For me, I found the file at:
+With this changed, you can run the RSS feed but it doesn't quite work as expected and that's because there is one more file we need to change. The actual 'gatsby-plugin-feed' gatsby-node.js file which is contained inside of the node_modules folder for your project. I found the file at:
 
 ```
 /
@@ -174,7 +176,7 @@ With this completed, you can run the rss feed but it doesn't quite work as expec
         gatsby-node.js
 ```
 
-Once, you have located the file, all you need to do once again is change all references of 'allMarkdownRemark' to 'allMdx' inside of the serialize function which for me looks like:
+Once, you have located the file, we just need to repeat what we did above and change all references of 'allMarkdownRemark' to 'allMdx' inside of the serialize function, once complete it should look like this:
 
 ```javascript{4-5}
 var serialize = function serialize(_ref) {
@@ -194,19 +196,19 @@ var serialize = function serialize(_ref) {
 };
 ```
 
-Once, all of the changes have been completed, you should now be able to stop your Gatsby server and run the following command to build and serve your website:
+Once, all of these changes have been made, we should now be able to stop the Gatsby server and run the following command to build and serve the changed files including the RSS Feed:
 
 ```javascript
 gatsby build && gatsby serve
 ```
 
-This is important because by default 'gatsby-plugin-feed' will only generate an RSS feed when ran in production mode so if you are receiving any errors and no RSS feed is showing up, please first check that you are running in production mode. If you are still receiving errors, go back over the above and see if you have missed anything and if you're still having issues you can reach out to me on [Twitter @MrConerMurphy](https://twitter.com/MrConerMurphy) and I would be happy to help.
+This is important because 'gatsby-plugin-feed' will only generate an RSS feed when ran in production mode so if no RSS feed is showing up, please first check that you are running in production mode. If you are still receiving issues, go back over the above and see if you have missed anything and if not you can reach out to me on [Twitter @MrConerMurphy](https://twitter.com/MrConerMurphy) and I would be happy to help.
 
 ## Conclusion
 
-To finish up this post I want to address the issue of why you might want to do this as compared to using the ['gatsby-plugin-feed-mdx'](https://www.gatsbyjs.org/packages/gatsby-plugin-feed-mdx/?=feed). 
+To finish this post I want to address why you might want to do this as compared to using the ['gatsby-plugin-feed-mdx'](https://www.gatsbyjs.org/packages/gatsby-plugin-feed-mdx/?=feed) plugin. 
 
-If I'm being honest I made the choice to customise the original plugin for my site because I was curious as to how the original plugin could be changed to support Mdx like the above plugin but other than this there isn't many reasons to not use the Mdx plugin. I mean there is a chance if the original plugin is updated the Mdx plugin may not receive the updates due to discontinued support or some other reason but overall you could use the Mdx plugin and be fine. 
+If I'm being honest I made the choice to customise the original plugin for my site because I was curious as to how the original plugin could be changed to support Mdx like the Mdx plugin but other than this there isn't many reasons to not use the Mdx plugin. I mean there is a chance if the original plugin is updated the Mdx plugin may not receive the updates or be delayed due to less support or some other reason but overall you could use the Mdx plugin and be fine.
 
 I hope you found this post helpful and if you did then I would greatly appreciate it if you could share the post with someone else who may also find it helpful.
 
