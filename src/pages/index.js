@@ -263,7 +263,7 @@ const IconContainer = styled(motion.div)`
 `;
 
 const Index = ({ data }) => {
-  const [onDekstop, setOnDesktop] = useState();
+  const [onDesktop, setOnDesktop] = useState();
   const { title, description } = useSiteMetadata();
   const listDescription = description.split(',');
   const portfolioContent = data.dataJson.content;
@@ -282,7 +282,7 @@ const Index = ({ data }) => {
     screenViewportQuery.addListener(handleViewportResize);
   }
 
-  const cornerArtAdjustments = onDekstop ? ['75vh', 0, 0, 0] : ['50vh', 0, 0, 0];
+  const cornerArtAdjustments = onDesktop ? ['75vh', 0, 0, 0] : ['50vh', 0, 0, 0];
 
   const handleClick = e => {
     const destination = e.currentTarget.attributes.href.value.slice(1);
@@ -332,7 +332,7 @@ const Index = ({ data }) => {
             </Link>
           </p>
           <p>
-            I also believe in helping others become amazing developers so I release blog posts reguarly, you can see my latest blog post
+            I also believe in helping others become amazing developers so I release blog posts regularly, you can see my latest blog post
             above or check out all of them on my{' '}
             <Link to="/blog" style={{ fontWeight: 600 }}>
               Blog.
