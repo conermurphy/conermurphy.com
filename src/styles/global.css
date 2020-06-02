@@ -35,13 +35,21 @@ body {
     background-color: var(--background-color);
 }
 
-p, a, button, li {
+p, a, button, li, th, td {
     font-family: var(--body-font);
     color: var(--body-font-color);
     font-size: 0.9rem;
     font-weight: 400;
     margin-bottom: 0;
     line-height: 1.75;
+}
+
+table {
+    padding: 1rem;
+}
+
+th {
+    font-weight: bold;
 }
 
 ul {

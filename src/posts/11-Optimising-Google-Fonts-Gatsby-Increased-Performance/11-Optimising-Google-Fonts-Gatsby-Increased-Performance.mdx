@@ -11,11 +11,13 @@ id: 11
 
 ## The Problem
 
-Google Fonts is awesome, it has loads of great free fonts for anyone to use pretty much however they wish. But, even with all of this goodness there is one issue we can't escape, Google Fonts can be incredibly taxing on your website's load time. Sometimes, we can measuring the impact of Google Fonts loading in seconds rather than milliseconds which in today's world where your entire site and business can be penalised for slow load times, this is a big deal.
+Google Fonts is awesome, it has loads of great free fonts for anyone to use pretty much however they wish. But, even with all of this goodness there is one issue we can't escape, Google Fonts can be incredibly taxing on your website's load time. 
 
-Recently after redesigning my portfolio site, I spent a good few days trying to come up with an adequate solution to this issue and it this solution that I'm going to share with you today. 
+Sometimes, we can measure the impact of Google Fonts loading in seconds rather than milliseconds which in a world where your entire site and business can be penalised for slow load times, this is a majour issue.
 
-### How to not import fonts to Gatsby
+Recently when redesigning my portfolio site, I spent a good few days trying to come up with an adequate solution for this issue and it is that solution which is what I'm going to share with you today. 
+
+### How to not import Google Fonts
 
 First, let's take a look at how we should not be importing Google Fonts. 
 
@@ -25,34 +27,36 @@ First, let's take a look at how we should not be importing Google Fonts.
 </style> 
 ```
 
-Google lists using '@import' as one of the main ways of importing their fonts onto your site and while it is very user friendly, it comes with it's issues. To show these issues, let's take a look at some statistics of this site:
+Google lists using '@import' as one of the main ways of importing their fonts onto your site and while it is very user friendly, it comes with some performance issues for your website. To show these issues, let's take a look at some statistics for my own site:
 
-| Device                | @import | My Solution |
-|-----------------------|---------|-------------|
-| Desktop - no throttle | 3.5     | 2.6         |
-| Mobile - throttled    | 3.2     | 2.7         |
+|         Device        | @import | My Solution |
+|:---------------------:|:-------:|:-----------:|
+| Desktop - no throttle |   3.5   |     2.6     |
+|   Mobile - throttled  |   3.2   |     2.7     |
 
-So, as you can see the '@import' method while great for convenience and user friendliness isn't the best when it comes to performance. So, let's now look at some other methods for integrating Google Fonts onto your GatsbyJS site.
+So, as you can see the '@import' method while great for convenience and user friendliness isn't the best when it comes to performance. So, let's now look at some other methods for integrating Google Fonts onto a GatsbyJS site.
 
-## Possible solutions
+## Possible Solutions
 
-Here are some possible solutions that were things I experimented with before arriving at my current solution.
+Here are some possible solutions that I experimented with before arriving at my current solution.
 
 ### gatsby-plugin-google-fonts
 
-First, we have the Google Fonts plugin for GatsbyJS, you can find the plugins documentation page [here](https://www.gatsbyjs.org/packages/gatsby-plugin-google-fonts/). 
+First, we have the Google Fonts plugin for GatsbyJS, you can find the plugin documentation page [here](https://www.gatsbyjs.org/packages/gatsby-plugin-google-fonts/). 
 
 What this plugin allows you to do is define the fonts you want to use on your site in your 'gatsby-config.js' file and then when you build your website it will download the fonts and serve them to you from the server along with your site. 
 
-This plugin is a step in the right direction but increases the build time of your site plus it increases the bundle size of your site which isn't great either. Ultimately, we want to try keep the amount of external packages to a minimum as this increases both our page load time and build time. 
+This plugin is a step in the right direction by not downloading the fonts every time we load the site but it increases the build time of the site along with the total bundle size. 
+
+As a rule of thumb, we want to try keep the amount of external packages to a minimum as this increases both our page load time and bundle size. 
 
 So, while this plugin was a good option, it doesn't quite make the cut.
 
 ### Typefaces
 
-Now, this is an interesting option available to us, developed by Kyle Mathews (the guy behind GatsbyJS) it aims to solve some of the problems the previous plugin gives while keeping all of the good bits. 
+Now, this is an interesting option available to us, developed by Kyle Mathews (the guy behind GatsbyJS) it aims to solve some of the problems other methods of importing fonts gives us like the plugin above but while addressing some of the issues the above plugin gives us.
 
-So, what you need to do is find the typeface npm package for the font you want to use, so for our example earlier of importing 'Roboto', we would use the package:
+So, to use this plugin we need to find a typeface npm package for the font we want to use. For our earlier example of importing 'Roboto', we would use the package:
 
 ```
 typeface-roboto
@@ -72,27 +76,31 @@ Then just require it in your 'gatsby-browser.js' file by using:
 require('typeface-roboto')
 ```
 
-Now, this package removes the need to download the files each time we build the site, cutting down a lot on our total build time while also keeping the benefits of hosting the files locally and serving them alongside our website decreasing the total time our users need to wait for our site to load. 
+Now, this package removes the need to download the files each time we build the site, cutting down on our total build time. It also keeps the benefits of hosting the files locally and serving them alongside our website files decreasing the total time our users need to wait for our site to load. 
 
-But, there is still the issue of it being an external package being called in our code. But, what if we could create the benefits of both of these packages without needing to use either them. Essentially, could we host our fonts locally on our site, serve them with our site without having to download them each time and without having to use an external package.
+But, there is still the issue of it being an external package being called in our code. So, we won't be using this method either.
 
-And, the answer is YES! Obviously... Otherwise, why would I be writing this...
+But, what if we could create the benefits of both of these packages without needing to use either them?
 
-## External Package Free Solution - My Solution
+Essentially, could we host our fonts locally on our site, serve them with our site without having to download them each time while not needing an external package to do so.
 
-You see when we use the '@import' from earlier all it is doing is calling an API to access all of the files it needs to download via their own respective URLs. We can see this in action if we navigate to the URL we are calling the '@import' on. For example, the URL imported earlier returns:
+The answer is YES! Obviously... Otherwise, I wouldn't be writing this.
 
-[!Google Fonts API Files Gif](./static/gifs/11-GoogleFontsAPI.gif)
+## What I did
 
-Now, we know why using '@import' can have such an impact on our page load times because not only do we need to wait for an API to reply with the relevant URLs, we also need to wait for the users browser to download each of these files. So, even though on Google Fonts' website we are only selecting 3 fonts, in reality we are downloading 21 files when the page loads and this takes up a lot of precious time. 
+You see when we use the '@import' method from earlier all it is doing is calling a Google API to get a list of all of the files it needs to download via their respective URLs. We can see this in action if we navigate to the URL we are calling the '@import' on. For example, the URL imported earlier returns:
 
-Lucky for us though there is a way to avoid this.
+[!Google Fonts API Files Gif](./gifs/11-GoogleFontsAPI.gif)
 
-You see in this list we are actually calling multiple of the same font and font weight but with different language character supports depending on the languages of your audience you may or may not need to support these extra characters. I know the overwhelming majority of my audience can be supported by using the 'Latin' typeface but you may need more.
+Now we know why using '@import' can have such an impact on our page load times because not only do we need to wait for an API to reply with the relevant URLs, we also need to wait for the users browser to download each of these files. So, even though on Google Fonts' website we are only selecting 3 fonts, in reality we are downloading 21 files when the page loads and this takes up a lot of precious time. 
+
+Lucky for us there is a way round this.
+
+You see in this list of files we are actually calling multiple of the same font / font weight but with different language support. So, depending on the languages of your audience you may or may not need to support these extra characters. For me, I know the overwhelming majority of my audience can be supported by using the 'Latin' typeface but this may not be the case for you.
 
 ### Downloading the Fonts
 
-So, what we're going to do is download the files we need by accessing the URL contained within the url value inside of the src property on each of the font-face objects we require for our site. For our example, we would need to use the following 3 font-faces and the urls contained within them:
+Now we know what language support we need, we're going to download just the files we need by accessing the URL contained within each of the font-face objects we require. For our example, we would need to use the following 3 font-faces and the urls contained within them:
 
 ```JavaScript{7,17,27}
 /* latin */
@@ -126,11 +134,11 @@ So, what we're going to do is download the files we need by accessing the URL co
 }
 ```
 
-When we visit each of those urls, we download a font file that relates to the font-face object for that url. I would recommend renaming these files to something else a bit more user-friendly like 'Roboto-Regular' and so on for each font weight. 
+When we visit each of those urls, we are prompted to download a font file that relates to the font-face object for that url. When downloading these files, I would recommend renaming them to something  a bit more user-friendly like 'fontFamily-fontWeight'. 
 
 ### Importing to our Gatsby Site.
 
-To import our fonts into our GatsbyJS project, we need to move the files into our project files, and check them into our git repository so they are committed with the rest of our project. This can be in any location of our choosing but I choose to put my files in the following location:
+To import our fonts into our GatsbyJS project, we need to move the files into our project files, and check them into our git repository so they are committed with the rest of our project and sent to the build server when we deploy. The files can be in any location of your choosing but I choose to put my files in the following location:
 
 ```
 /
@@ -140,15 +148,15 @@ To import our fonts into our GatsbyJS project, we need to move the files into ou
                 ...files here
 ```
 
-Once you have moved your files into a location and checked them into your repository then we can move onto using our new fonts.
+Once you have moved your files and checked them into your repository we can move onto using our new fonts.
 
-### Using our new fonts
+### Using our Fonts
 
-To use your fonts in your styling, we need to create the font-faces for our fonts. This can either be done inside a global css file or if you're using Styled Components you can call the 'createGlobalStyle' API exported from Styled Components. With this API we can create global styles from inside a component. 
+To use our fonts in our styling, we need to create the relevant font-faces. This can either be done inside a global css file using vanilla CSS or if you're using Styled Components you can call the 'createGlobalStyle' API exported from Styled Components which allows us to create global styles from inside a component. Personally, I used Styled Components on my site but I will cover both below.
 
 #### Styled Components
 
-If you're using Styled Components you can use the same code I used and change it for your needs. To do this, we need to create a new Fonts component in the same location as your other components. Once you have created this file, drop the below code into it:
+If you're using Styled Components you can use the same code I have and just change it to suit your needs. To do this, we need to create a new Fonts component in the same location as your other components. Once you have created this file, drop the below code into it:
 
 ```JavaScript
 import { createGlobalStyle } from 'styled-components';
@@ -182,9 +190,9 @@ export default Fonts;
 
 ```
 
-You can change the configuration of this component to match all of the fonts you need installed on your site, you need to have one '@font-face' object per font per font weight.
+Now, you just need to change the configuration of this component to match all of the fonts you need installed, you need to have one '@font-face' object per font per font weight.
 
-Once you have imported all of your fonts and created a font face for all of them we then need to go to your layout.js file (or, whatever your template file is) and then import the fonts component to the page. This will ensure the fonts are imported to the page and the global styles are created. 
+Once you have imported all of your fonts and created a font face for all of them we then need to go to your layout.js file (or, whatever your template file is) and import the fonts component and return it to the page.
 
 To import them to your layout.js file use:
 
@@ -213,7 +221,7 @@ p {
 
 #### Vanilla CSS
 
-Creating the font faces for our fonts using vanilla CSS is largely the same as with Styled Components minus the external component parts, instead we will be putting all of the information inside a global CSS file. For our example we just need to include the below in our css file:
+Creating the font faces for our fonts using vanilla CSS is largely the same as with Styled Components minus the external component parts, instead we will be putting all of the information inside a global CSS file. For our example we need to include the below in our global css file:
 
 ```css
 @font-face {
@@ -236,7 +244,13 @@ Creating the font faces for our fonts using vanilla CSS is largely the same as w
   }
 ```
 
-With these imported into our global css file, we just need to include our global css file in our gatsby-browser.js file to import it for our site to use the styles and then we're done, you should now have access to all of your new fonts on your site using:
+With these imported into our css, we just need to import our global css file in our gatsby-browser.js file for our site to use like so:
+
+```JavaScript
+import './src/styles/global.css';
+```
+
+Then we're done, you should now have access to all of your new fonts on your site using:
 
 ```css
 p {
@@ -247,11 +261,15 @@ p {
 
 ## Conclusion
 
-Using this method, we are able to load only the fonts we need and serve them locally from our server cutting down any external load times without having to worry about importing any external packages and bloating our package size. Using this way of importing Google Fonts helped me increase the performance greatly as shown in the speed tests at the top of this post, this is was also reflected in my Lighthouse audit score. 
+Using this method, we are able to only load the fonts we need while serving them locally from our server; cutting down any external load times. We also don't need to worry about importing any external packages and bloating our bundle size. 
 
-Finally, it's worth mentioning if you need to support older browsers you may need to src other file file types than 'woff2' but all modern browsers support this font file type. I will leave the decision up to you if you need to use other file types or not but you can find more info on what does and doesn't support this format [here](https://caniuse.com/woff2).
+By, using this way of importing Google Fonts it has helped me increase the performance of my site greatly as shown in the speed tests at the top of this post, these improvements were also reflected in my Lighthouse audit score so if that is important to you this could help improve your score.
 
-Honestly, although this method takes more set-up then the external packages I prefer it for the control it gives us along with the performance and bundle size advantages it gives us. 
+Finally, it's worth mentioning that if you need to support older browsers you may need to source other file types than 'woff2'. However, all modern browsers support this font file type so I will leave the decision up to you. You can find more info on what does and doesn't support this format [here](https://caniuse.com/woff2).
+
+Honestly, although this method takes more set-up then the external packages I prefer it for the control it gives us along with the performance and bundle size advantages.
+
+---
 
 I'm curious to know, will you adopt this way of importing Google Fonts on your GatsbyJS site? Or, will you use one of the external packages? Or, something else altogether? Make sure to let me know over on Twitter [@MrConerMurphy](https://twitter.com/MrConerMurphy).
 
