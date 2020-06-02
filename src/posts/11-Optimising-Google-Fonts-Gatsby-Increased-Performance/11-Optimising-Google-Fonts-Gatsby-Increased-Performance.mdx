@@ -90,7 +90,7 @@ The answer is YES! Obviously... Otherwise, I wouldn't be writing this.
 
 You see when we use the '@import' method from earlier all it is doing is calling a Google API to get a list of all of the files it needs to download via their respective URLs. We can see this in action if we navigate to the URL we are calling the '@import' on. For example, the URL imported earlier returns:
 
-[!Google Fonts API Files Gif](./gifs/11-GoogleFontsAPI.gif)
+![Google Fonts API Files Gif](/gifs/11-GoogleFontsAPI.gif)
 
 Now we know why using '@import' can have such an impact on our page load times because not only do we need to wait for an API to reply with the relevant URLs, we also need to wait for the users browser to download each of these files. So, even though on Google Fonts' website we are only selecting 3 fonts, in reality we are downloading 21 files when the page loads and this takes up a lot of precious time. 
 
