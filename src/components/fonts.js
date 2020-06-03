@@ -1,9 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
 
-const MontserratSemiBold = 'src/assets/fonts/Montserrat-SemiBold.woff2';
-const MontserratRegular = 'src/assets/fonts/Montserrat-Regular.woff2';
-const InconsolataSemiBold = 'src/assets/fonts/Inconsolata-SemiBold.woff2';
-const InconsolataRegular = 'src/assets/fonts/Inconsolata-Regular.woff2';
+const MontserratSemiBold = '../assets/fonts/Montserrat-SemiBold.woff2';
+const MontserratRegular = '../assets/fonts/Montserrat-Regular.woff2';
+const InconsolataSemiBold = '../assets/fonts/Inconsolata-SemiBold.woff2';
+const InconsolataRegular = '../assets/fonts/Inconsolata-Regular.woff2';
 
 const Fonts = createGlobalStyle`
   @font-face {
