@@ -1,0 +1,113 @@
+---
+title: "JavaScript Array Methods: Array.prototype.copyWithin()"
+description: "The Array is one of the most important types of data in JavaScript, so in this series we are going to cover all of the Array Methods, in this post it's Array.prototype.copyWithin()"
+date: "2020-06-03"
+category: "JavaScript Array Methods Explained"
+languages: ["JavaScript"]
+slug: javascript-array-methods-prototype-copywithin-explained
+image: ./array-methods-prototype-copywithin-explained.png
+id: 12
+---
+
+## Series Introduction
+
+The JavaScript Array data type currently has 37 methods on it according to the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) and in this series we are going to cover them all one by one explaining each one with examples as we work our way down the list. 
+
+If you have any questions regarding anything in this series please get in contact with me by using the methods listed at the bottom of this post and if you think I've got something wrong please create a pull request on GitHub to correct the information (link at the bottom of the article).
+
+This is post #5 in the series and if you're interested in reading any of the other posts in this series you will find a complete list at the bottom of this post.
+
+---
+
+## Method #5: Array.prototype.copyWithin()
+
+.copyWithin() allows for the shallow copying of part of an array to another location within the same array. After completing it's actions it will then return a new version of the array without any modifications to it's length. 
+
+In practice what this means is you can copy any part of an array to another part of the same array without modifying the length of the array. This is important because we are copying a part of the array and pasting it in at a different location, if .copyWithin() allowed for the modification of the array length we could be inevintely increasing the length of the array every time we run the operation. 
+
+So, for a simple example:
+
+```javascript
+[1,2,3,4,5,6].copyWithin(-4); // [1,2,1,2,3,4]
+```
+
+Let's work out what is going on here. So, we will cover the syntax of this method in a second but what we are passing to the method in this example is the location of where we want to begin pasting in the values from and because we haven't specified a start and end point for the method it takes the entire array as the item to be copied. 
+
+```
+1,2,3,4,5,6 // array values
+0 1 2 3 4 5 // positive array indexes
+-6 -5 -2 -3 -2 -1 // negative array indexes
+```
+
+Using the above guide you can see that we took all of the values from the array, copied it and then moved the copy forward until the first value was then at the index we specified which was -4. So, to visulaise what we have done here it would be like:
+
+```javascript
+[1, 2, 3, 4, 5, 6]
+      [1, 2, 3, 4, 5, 6]
+```
+
+Now, this is why it's important that the method doesn't modify the length of the original array, if it did then in this example the array would become: [1, 2, 1, 2, 3, 4, 5, 6] or two items longer than what we started with. Luckily this isn't allowed or we could end up with some pretty disatrous outcomes.
+
+## Syntax
+
+Let's take a quick look at the syntax for this method before moving on and looking at some more examples to reinforce our outstanding of this method.
+
+```
+arr.copyWithin(target[, start[, end]])
+```
+
+.copyWithin() takes in a total of 3 possible parameters, these are:
+
+- **target:** The index of the value we want to start the copied array from, this can be either positive or negative, if negative then it will count from the end of the array. If a value greater than the length of the array is provided then nothing is copied. Finally, similar to the example above, if this value is after the start parameter then the copied sequence will be copied to the new location and trimmed to fit within array.length.
+- *Optional* | **start:** The start parameter allows us to specify where we wish to begin the copying of the array from. This is based on the zero index of the array and if provided with a negative index then it will start counting from the end of the array. If no value is provided here then it will take index 0 as the default location to start from.
+- *Optional* | **end:** The end parameter allows for the specification of the end of the array to be copied and if omitted then the default value used is the last index of the array which is by default the value equal to array.length. When using the end parameter, copyWithin will copy all values up to but not including the index provided.
+
+**Return:** .copyWithin returns the modified array to us. 
+
+Let's now take a look at some more examples of this method in use:
+
+## Examples
+
+```javascript
+// only passing the target parameter
+[1,2,3,4,5,6].copyWithin(-4); // [1,2,1,2,3,4] 
+
+// passing both the target and the start parameters
+[1,2,3,4,5,6].copyWithin(-4, 4); // [ 1, 2, 5, 6, 5, 6 ]
+
+// passing all parameters
+[1,2,3,4,5,6].copyWithin(2, 3, 5); // [ 1, 2, 4, 5, 5, 6 ]
+
+// using .copyWithin with nested arrays
+[1,2,[3],[1],4].copyWithin(2, -4) // [ 1, 2, 2, [3], [1] ]
+
+// using .copyWithin with empty nested items
+[[], {},1 ,2].copyWithin(2,0,2) // [ [], {}, [], {} ]
+```
+
+Hopefully, you know have a better understanding of this method because I'm now going to issue you with a coding question based on it. The first person to tweet me on Twitter ([@MrConerMurphy](https://twitter.com/MrConerMurphy)) with the correct answer will be shouted out and pinned to my Twitter for 24 hours. So, the pressure is on. 🔥
+
+Here, if your question:
+
+```javascript
+const arr1 = [1,2,3,[4]];
+const arr2 = arr1.copyWithin(0, -1);
+
+arr1[3].push(2);
+
+console.log(arr2); 
+
+// Question: What will arr2 be equal to when logged?
+```
+
+I look forward to hearing your answers over on Twitter and if you have any questions for me on this method then I would be happy to answer them for you, please get in touch via one of the links below.
+
+See you in the next post. 😃
+
+## Series post links
+
+- [#1: Array.from()](https://conermurphy.com/javascript-array-methods-from-explained)
+- [#2: Array.isArray()](https://conermurphy.com/javascript-array-methods-isarray-explained)
+- [#3: Array.of()](https://conermurphy.com/javascript-array-methods-of-explained)
+- [#4: Array.prototype.concat()](https://conermurphy.com/javascript-array-methods-prototype-concat-explained)
+- [#5: Array.prototype.copyWithin()](https://conermurphy.com/javascript-array-methods-prototype-copywithin-explained)
