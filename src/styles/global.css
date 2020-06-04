@@ -1,3 +1,32 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../assets/fonts/Montserrat-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Montserrat';
+    src: url('../assets/fonts/Montserrat-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Inconsolata';
+    src: url('../assets/fonts/Inconsolata-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Inconsolata';
+    src: url('../assets/fonts/Inconsolata-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
 :root {
     --background-color: rgba(12, 12, 12, 255);
     --secondary-color: rgba(5,5,5,255);

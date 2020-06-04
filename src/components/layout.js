@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Nav from './nav';
 import device from './device';
-import Fonts from './fonts';
 
 const Container = styled.div`
   display: flex;
@@ -27,7 +26,6 @@ const PageContentContainer = styled.main`
 
 const Layout = ({ children }) => (
   <Container>
-    <Fonts />
     <Nav />
     <PageContentContainer>{children}</PageContentContainer>
   </Container>
