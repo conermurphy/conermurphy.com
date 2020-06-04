@@ -53,6 +53,8 @@ const PostInfo = styled.div`
 const PostTitle = styled.h3`
   margin: 0.5rem;
   font-size: 1.4rem;
+  width: -webkit-fill-available;
+  width: -moz-available;
 `;
 
 const AuthorName = styled.p`

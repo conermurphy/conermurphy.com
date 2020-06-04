@@ -112,6 +112,7 @@ h1, h2, h3, h4, h5 {
     font-size: 2rem;
     font-weight: 900;
     margin-bottom: 0rem;
+    hyphens: auto;
 }
 
 h1 {
