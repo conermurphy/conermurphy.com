@@ -74,6 +74,10 @@ const visibleText = {
 
 const EmailSignup = () => {
   const [formValue, setFormValue] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  const FORM_ID = process.env.CONVERTKIT_SIGNUP_FORM;
+  const apiKey = process.env.CONVERTKIT_PUBLIC_KEY;
 
   function handleKeypress(e) {
     // const key = e.keyCode || e.charCode;
@@ -85,10 +89,29 @@ const EmailSignup = () => {
     // }
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const value = DOMPurify.sanitize(document.querySelector('input').value);
-    console.log(value);
+    setSubmitted(true);
+    try {
+      const response = await fetch(`https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`, {
+        method: 'post',
+        body: JSON.stringify({
+          email: value,
+          api_key: apiKey,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          charset: 'utf-8',
+        },
+      });
+
+      const responseJSON = await response.json();
+
+      console.log(responseJSON);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
