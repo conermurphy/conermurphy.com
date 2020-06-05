@@ -13,25 +13,31 @@ const SignupFormContainer = styled.form`
   filter: drop-shadow(0 0 2px var(--drop-shadows));
   padding: 1.5rem 3rem;
 
+  & > * {
+    text-align: center;
+    margin: 0.5rem;
+  }
+
   & > h3 {
     font-size: 2rem;
-    margin: 0.5rem;
     color: var(--header-font-color);
   }
 
   & > h4 {
     font-size: 1.5rem;
-    margin: 0.5rem;
   }
 `;
 
 const FormItems = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   width: 100%;
   margin: 1rem;
 
   & > * {
+    text-align: center;
     padding: 0.5rem;
     margin: 0.5rem;
     border: none;
@@ -41,12 +47,13 @@ const FormItems = styled.div`
 
   & > input {
     height: 2rem;
-    width: 40%;
+    min-width: 40%;
     font-family: var(--body-font);
   }
 
   & > button {
-    width: 15%;
+    height: 3rem;
+    min-width: 15%;
     font-family: var(--body-font);
     font-weight: 600;
     background-color: var(--header-font-color);
@@ -120,7 +127,7 @@ const EmailSignup = () => {
       }
 
       <FormItems>
-        <input type="text" placeholder="Enter Email" name="email" required></input>
+        <input type="text" placeholder="Please Enter Your Email Here..." name="email" required></input>
         <motion.button type="submit" whileHover={buttonHover} whileTap={buttonTap} onClick={handleSubmit}>
           Sign Up
         </motion.button>
