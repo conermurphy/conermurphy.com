@@ -12,6 +12,7 @@ import PostNavigation from '../components/mdx/postNavigation.js';
 import ContactBlock from '../components/mdx/contactBlock.js';
 import GithubEdit from '../components/mdx/githubEdit.js';
 import SEO from '../components/seo';
+import EmailSignup from '../components/mdx/emailSignup';
 
 const BlogPostContainer = styled.article`
   display: flex;
@@ -49,6 +50,7 @@ const BlogPost = ({ data, pageContext }) => {
         <MDXProvider components={components}>
           <MDXRenderer>{post.body}</MDXRenderer>
         </MDXProvider>
+        <EmailSignup />
         <GithubEdit />
         <ContactBlock />
         <PostNavigation pageContext={pageContext} />
