@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 const SignupFormContainer = styled.form`
   display: flex;
@@ -52,6 +53,16 @@ const FormItems = styled.div`
   }
 `;
 
+const buttonHover = {
+  scale: 1.05,
+  ease: 'easeInOut',
+};
+
+const buttonTap = {
+  scale: 0.95,
+  ease: 'easeInOut',
+};
+
 const EmailSignup = () => {
   const email = '';
 
@@ -61,7 +72,9 @@ const EmailSignup = () => {
       <h4>Join my weekly newsletter below.</h4>
       <FormItems>
         <input type="text" placeHolder="Enter Email" name="email" required></input>
-        <button type="submit">Sign Up</button>
+        <motion.button type="submit" whileHover={buttonHover} whileTap={buttonTap}>
+          Sign Up
+        </motion.button>
       </FormItems>
       <p>
         <i>Don't worry, I won't send you spam and you can unsubscribe at any time.</i>
