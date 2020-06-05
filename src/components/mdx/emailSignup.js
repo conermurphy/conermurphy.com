@@ -63,7 +63,7 @@ const buttonTap = {
 };
 
 const EmailSignup = () => {
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState('pending');
 
   const FORM_ID = process.env.CONVERTKIT_SIGNUP_FORM;
   const apiKey = process.env.CONVERTKIT_PUBLIC_KEY;
@@ -71,7 +71,7 @@ const EmailSignup = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     const value = DOMPurify.sanitize(document.querySelector('input').value);
-    setSubmitted(true);
+    setStatus('awaiting');
     try {
       const response = await fetch(`https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`, {
         method: 'post',
@@ -88,15 +88,25 @@ const EmailSignup = () => {
       const responseJSON = await response.json();
 
       console.log(responseJSON);
+
+      setStatus('confirmed');
     } catch (err) {
       console.error(err);
+      setStatus('error');
     }
   };
 
   return (
     <SignupFormContainer>
       <svg width="100" height="100" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="45" fill="none" stroke="#333333" strokeWidth="2.5px" />
+        {
+          {
+            pending: <circle cx="50" cy="50" r="45" fill="none" stroke="#333333" strokeWidth="2.5px" />,
+            awaiting: <circle cx="50" cy="50" r="45" fill="none" stroke="green" strokeWidth="2.5px" />,
+            confirmed: <circle cx="50" cy="50" r="45" fill="none" stroke="blue" strokeWidth="2.5px" />,
+            error: <circle cx="50" cy="50" r="45" fill="none" stroke="red" strokeWidth="2.5px" />,
+          }[status]
+        }
       </svg>
       <h3>Want More Content?</h3>
       <h4>Join my weekly newsletter below.</h4>
