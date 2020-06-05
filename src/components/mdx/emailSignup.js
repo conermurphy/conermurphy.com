@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import DOMPurify from 'dompurify';
 
 const SignupFormContainer = styled.form`
   display: flex;
@@ -55,40 +56,48 @@ const FormItems = styled.div`
 
 const buttonHover = {
   scale: 1.05,
-  ease: 'easeInOut',
 };
 
 const buttonTap = {
   scale: 0.95,
-  ease: 'easeInOut',
+};
+
+const hiddenText = {
+  y: 100,
+  opacity: 0,
+};
+
+const visibleText = {
+  y: 0,
+  opacity: 100,
 };
 
 const EmailSignup = () => {
   const [formValue, setFormValue] = useState('');
-  const email = '';
 
   function handleKeypress(e) {
-    const key = e.keyCode || e.charCode;
-
-    if (key === 8) {
-      setFormValue(formValue.slice(0, formValue.length - 1));
-    }
-    if (![9, 20, 16, 17, 18, 8, 13].includes(key)) {
-      setFormValue(formValue + e.key);
-    }
+    // const key = e.keyCode || e.charCode;
+    // if (key === 8) {
+    //   setFormValue(formValue.slice(0, formValue.length - 1));
+    // }
+    // if (![9, 20, 16, 17, 18, 8, 13].includes(key)) {
+    //   setFormValue(formValue + e.key);
+    // }
   }
 
-  useEffect(() => {
-    console.log(formValue);
-  });
+  const handleSubmit = e => {
+    e.preventDefault();
+    const value = DOMPurify.sanitize(document.querySelector('input').value);
+    console.log(value);
+  };
 
   return (
     <SignupFormContainer>
       <h3>Want More Content?</h3>
       <h4>Join my weekly newsletter below.</h4>
       <FormItems>
-        <input onKeyDown={handleKeypress} type="text" placeholder="Enter Email" name="email" value={formValue} required></input>
-        <motion.button type="submit" whileHover={buttonHover} whileTap={buttonTap}>
+        <input onKeyDown={handleKeypress} type="text" placeholder="Enter Email" name="email" required></input>
+        <motion.button type="submit" whileHover={buttonHover} whileTap={buttonTap} onClick={handleSubmit}>
           Sign Up
         </motion.button>
       </FormItems>
