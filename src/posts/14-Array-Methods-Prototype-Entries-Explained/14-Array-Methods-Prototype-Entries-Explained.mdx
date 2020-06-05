@@ -15,17 +15,17 @@ The JavaScript Array data type currently has 37 methods on it according to the [
 
 If you have any questions regarding anything in this series please get in contact with me by using the methods listed at the bottom of this post and if you think I've got something wrong please create a pull request on GitHub to correct the information (link at the bottom of the article).
 
-This is post #6 in the series. If you're interested in reading any of the other posts in this series, there is a up-to-date list at the bottom of this post.
+This is **post #6** in the series. If you're interested in reading any of the other posts in this series, there is a up-to-date list at the bottom of this post.
 
 ---
 
 ## Method #6: Array.prototype.entries()
 
-This method is another one of the quick Array methods, .entries() takes in no arguments and returns to us an 'Array Iterator' object. 
+.entries() is another one of the quicker, smaller Array methods as it takes in no arguments and returns us one thing, an 'Array Iterator' object. 
 
-Now, you may be asking what is an Array Iterator object and it'll be easier to explain with some examples but essentially it's an object we can store in a variable and call the .next() on to progress through the original array we called .entries on. 
+Now, you may be asking yourself what is an Array Iterator object and it'll be easier to explain with some examples but essentially it's an object we can store in a variable and call the .next() method on to progress through the original array we called .entries() on. 
 
-I understand this might not make to much sense but let's take a look at an example and it should click.
+I understand this might not make much sense but let's take a look at an example and it should fall into place.
 
 ```javascript
 const array1 = ['a', 'b', 'c'];
@@ -43,37 +43,39 @@ console.log(iterator1.next().value);
 
 So, what's happening in this example?
 
-Well, we have a new array being set to the 'array1' variable on line 1, then we take this array1 variable and call .entries() on it and store the output of that method into a new variable called 'iterator1'. Now, if we we're to console.log 'iterator1' one at this point we would get:
+Well, we have a new array being set to the 'array1' variable on line 1, then we take this array1 variable and call .entries() on it, we store the output of this into a new variable called 'iterator1'. 
+
+Now, if we we're to console.log 'iterator1' one at this point we would get:
 
 ```javascript
 Array Iterator { }
 ```
 
-Huh, an empty array iterator, that makes sense? Right?
+Huh, an empty Array Iterator object, that makes sense? Right? 🤔
 
-You'd be forgiven for thinking it would return something else like the first item of the array after all it is an 'iterator'.
+You'd be forgiven for thinking it should return something else. E.g. the first item of the array, after all it is an 'iterator'.
 
-But, no this is where the next line of code comes in:
-
-```javascript
-console.log(iterator1.next().value);
-```
-
-You can think of it like this, when we call .entries() on an array we get a new object back which is pointed at the array we called it on. Nothing has happened yet but we have told it, you see that array over there, when we tell you too, start iterating over that one.
-
-Then, when we're ready to start iterating over our chosen array, we call the .next() method on the iterator and it takes the first one in the array and iterates over it. So, if we where to call:
+But, this is where the following line of code comes in:
 
 ```javascript
 console.log(iterator1.next().value);
 ```
 
-We would get in return:
+A better way of thinking of it, is when we call .entries() on an array we get a new Array Iterator object back which is pointed at the array we called it on. Nothing has happened yet but we have created our Iterator and told it, you see that array over there, when we tell you too, start iterating over that.
+
+Then, when we're ready to start iterating over our chosen array, we call the .next() method on the iterator and it selects the first value in the array and iterates over it. So, if we where to call:
+
+```javascript
+console.log(iterator1.next().value);
+```
+
+We would be returned:
 
 ```javascript
 // Array [0, "a"]
 ```
 
-Now, even though our original array only had 3 items in ( a - c ), when we iterate over the array using .entries(), we actually get a new value inserted into the start of the array and that is the index of that item in the array we called .entries() on to begin with.
+Now, even though our original array only had 3 items in ( a - c ), when we iterate over the array using .entries(), we actually get a new value inserted into our retuned array, this is the index of that item in the original array we called .entries() on to.
 
 So, if we called .next() two more times like so, we would get the following outputs:
 
@@ -82,17 +84,21 @@ console.log(iterator1.next().value); // Array [1, "b"]
 console.log(iterator1.next().value); // Array [2, "c"]
 ```
 
-Now, we have reached the end of our array, if we were to call .next() one more time, it would simply return an undefined error.
+Now, we have reached the end of our array, if we were to call .next() one more time, it would simply return an undefined error like so:
+
+```javascript
+console.log(iterator1.next().value); // undefined
+```
 
 ## The Iterator Object
 
-Now, the keen eyed among you may have realised above we were calling:
+Now, the keen eyed among you may have realised that above we were calling:
 
 ```javascript
 console.log(iterator1.next().value);
 ```
 
-Notice, the .value at the end? Now, this implies that .next() is returning us an object and within that object there must be more properties than just .value. And, you would be absolutely correct!
+Notice, the .value at the end? This implies that .next() is returning us an object and within that object there could be more properties than just .value. And, you would be absolutely correct!
 
 If we were to console.log just:
 
@@ -109,13 +115,15 @@ Object {
  }
 ```
 
-So, there's the value property we have been calling to access the iterated arrays each time but there is also this 'done' property and well, I think you've guessed what it does. The 'done' property returns either true or false depending on if the iterator has completed iterating over the array.
+So, there's the 'value' property we have been calling to access the iterated arrays each time but there is also this 'done' property and well, I think you've guessed it. But, the 'done' property returns either true or false depending on if the iterator has completed iterating over the array.
 
-In the example we have been using, when do you think done returns true? On the last value pair? 
+In the example we have been using, when do you think done returns true? On the retuned value? 
 
-While it may seem this way, in fact it isn't and this is where our 'undefined' value comes in from earlier. While there is still data to be iterated over the .next() method will always will return false but as soon as the iterator has iterated over all the data, on the first undefined it returns, the 'done' property will also return true. 
+While it may seem this way, in fact it isn't and this is where our 'undefined' value comes into play from earlier. 
 
-Below is our example doing this:
+While there is still data to be iterated over, the .next() method will always will return false but as soon as the iterator has iterated over all the data, on the first undefined it returns, the 'done' property will return true. 
+
+Here is our example doing this:
 
 ```javascript
 console.log(iterator1.next()); // Object { value: Array [0, "a"], done: false }
@@ -129,7 +137,7 @@ This key/value pair of undefined and true will then always be returned for that 
 
 ## Examples
 
-Now, it gets very teadious calling .next() several times to process an entire iterator, so it's good news that you can process these operators using some of your standard looping methods for objects in JS as shown below:
+Now, it can get very tedious calling .next() several times to process an entire iterator, so it's good news that you can process these operators using some of the standard looping methods for objects in JS as shown below:
 
 ### Iterating with Index and Element
 
@@ -157,6 +165,8 @@ for (let e of iterator) {
 // [1, 'b']
 // [2, 'c'] 
 ```
+
+*Examples from [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/entries)*
 
 However, you cannot use looping methods of Arrays like .forEach() because the .entries() method returns a Array Iterator which in itself has a prototype of an Object therefore we cannot use any of our array prototype methods on it. Such a shame....👎
 
