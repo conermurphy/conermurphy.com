@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
@@ -64,14 +64,30 @@ const buttonTap = {
 };
 
 const EmailSignup = () => {
+  const [formValue, setFormValue] = useState('');
   const email = '';
+
+  function handleKeypress(e) {
+    const key = e.keyCode || e.charCode;
+
+    if (key === 8) {
+      setFormValue(formValue.slice(0, formValue.length - 1));
+    }
+    if (![9, 20, 16, 17, 18, 8, 13].includes(key)) {
+      setFormValue(formValue + e.key);
+    }
+  }
+
+  useEffect(() => {
+    console.log(formValue);
+  });
 
   return (
     <SignupFormContainer>
       <h3>Want More Content?</h3>
       <h4>Join my weekly newsletter below.</h4>
       <FormItems>
-        <input type="text" placeHolder="Enter Email" name="email" required></input>
+        <input onKeyDown={handleKeypress} type="text" placeholder="Enter Email" name="email" value={formValue} required></input>
         <motion.button type="submit" whileHover={buttonHover} whileTap={buttonTap}>
           Sign Up
         </motion.button>
