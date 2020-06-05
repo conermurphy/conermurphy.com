@@ -87,9 +87,10 @@ const EmailSignup = () => {
 
       const responseJSON = await response.json();
 
-      console.log(responseJSON);
+      if (responseJSON.error) throw responseJSON.error;
 
       setStatus('confirmed');
+      document.querySelector('input').value = '';
     } catch (err) {
       console.error(err);
       setStatus('error');
@@ -109,7 +110,15 @@ const EmailSignup = () => {
         }
       </svg>
       <h3>Want More Content?</h3>
-      <h4>Join my weekly newsletter below.</h4>
+      {
+        {
+          pending: <h4>Join my weekly newsletter below.</h4>,
+          awaiting: <h4>Processing your email</h4>,
+          confirmed: <h4>Thank you, please confirm your subscription via the email we sent you.</h4>,
+          error: <h4>Erm, sorry there was an error...</h4>,
+        }[status]
+      }
+
       <FormItems>
         <input type="text" placeholder="Enter Email" name="email" required></input>
         <motion.button type="submit" whileHover={buttonHover} whileTap={buttonTap} onClick={handleSubmit}>
