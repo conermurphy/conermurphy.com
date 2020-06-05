@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import DOMPurify from 'dompurify';
@@ -11,7 +11,7 @@ const SignupFormContainer = styled.form`
   background-color: var(--secondary-color);
   margin: 2rem 0 0 0;
   filter: drop-shadow(0 0 2px var(--drop-shadows));
-  padding: 3rem;
+  padding: 1.5rem 3rem;
 
   & > h3 {
     font-size: 2rem;
@@ -62,32 +62,11 @@ const buttonTap = {
   scale: 0.95,
 };
 
-const hiddenText = {
-  y: 100,
-  opacity: 0,
-};
-
-const visibleText = {
-  y: 0,
-  opacity: 100,
-};
-
 const EmailSignup = () => {
-  const [formValue, setFormValue] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const FORM_ID = process.env.CONVERTKIT_SIGNUP_FORM;
   const apiKey = process.env.CONVERTKIT_PUBLIC_KEY;
-
-  function handleKeypress(e) {
-    // const key = e.keyCode || e.charCode;
-    // if (key === 8) {
-    //   setFormValue(formValue.slice(0, formValue.length - 1));
-    // }
-    // if (![9, 20, 16, 17, 18, 8, 13].includes(key)) {
-    //   setFormValue(formValue + e.key);
-    // }
-  }
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -116,10 +95,13 @@ const EmailSignup = () => {
 
   return (
     <SignupFormContainer>
+      <svg width="100" height="100" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" fill="none" stroke="#333333" strokeWidth="2.5px" />
+      </svg>
       <h3>Want More Content?</h3>
       <h4>Join my weekly newsletter below.</h4>
       <FormItems>
-        <input onKeyDown={handleKeypress} type="text" placeholder="Enter Email" name="email" required></input>
+        <input type="text" placeholder="Enter Email" name="email" required></input>
         <motion.button type="submit" whileHover={buttonHover} whileTap={buttonTap} onClick={handleSubmit}>
           Sign Up
         </motion.button>
