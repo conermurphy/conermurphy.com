@@ -129,14 +129,14 @@ const EmailSignup = () => {
             ),
             awaiting: (
               <>
-                <circle cx="50" cy="10" r="5" fill="white" />
-                <circle cx="77.5" cy="22.5" r="5" fill="white" />
-                <circle cx="90" cy="50" r="5" fill="white" />
-                <circle cx="77.5" cy="77.5" r="5" fill="white" />
-                <circle cx="50" cy="90" r="5" fill="white" />
-                <circle cx="22.5" cy="77.5" r="5" fill="white" />
-                <circle cx="10" cy="50" r="5" fill="white" />
-                <circle cx="22.5" cy="22.5" r="5" fill="white" />
+                <circle cx="50" cy="25" r="5" fill="white" stroke="none" />
+                <circle cx="67.5" cy="32.5" r="5" fill="white" stroke="none" />
+                <circle cx="75" cy="50" r="5" fill="white" stroke="none" />
+                <circle cx="67.5" cy="67.5" r="5" fill="white" stroke="none" />
+                <circle cx="50" cy="75" r="5" fill="white" stroke="none" />
+                <circle cx="32.5" cy="67.5" r="5" fill="white" stroke="none" />
+                <circle cx="25" cy="50" r="5" fill="white" stroke="none" />
+                <circle cx="32.5" cy="32.5" r="5" fill="white" stroke="none" />
               </>
             ),
             confirmed: (
@@ -161,7 +161,7 @@ const EmailSignup = () => {
                 <path d="M 68.75 31.75 L 31.25 68.75" stroke="white" strokeWidth="1rem" strokeLinecap="round" />
               </>
             ),
-          }.confirmed
+          }.awaiting
         }
       </svg>
       <h3>Want More Content?</h3>
