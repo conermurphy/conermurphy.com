@@ -109,10 +109,36 @@ const EmailSignup = () => {
       <svg width="100" height="100" viewBox="0 0 100 100">
         {
           {
-            pending: <circle cx="50" cy="50" r="45" fill="none" stroke="#333333" strokeWidth="2.5px" />,
+            pending: (
+              <>
+                <path
+                  d="
+                    M 25 37.5
+                    C 25 0 75 0 75 30
+                    Q 75 45 62.5 50
+                    T 50 70
+                  "
+                  stroke="black"
+                  strokeWidth="1rem"
+                  strokeLinecap="round"
+                  fill="none"
+                />
+                <circle cx="50" cy="90" r="7.5" fill="black" />,
+              </>
+            ),
             awaiting: <circle cx="50" cy="50" r="45" fill="none" stroke="green" strokeWidth="2.5px" />,
-            confirmed: <circle cx="50" cy="50" r="45" fill="none" stroke="blue" strokeWidth="2.5px" />,
-            error: <circle cx="50" cy="50" r="45" fill="none" stroke="red" strokeWidth="2.5px" />,
+            confirmed: (
+              <>
+                <path d="M 0 25 L 25 50" stroke="green" strokeWidth="2.5px" />
+                <path d="M 25 50 L 50 0" stroke="green" strokeWidth="2.5px" />
+              </>
+            ),
+            error: (
+              <>
+                <path d="M 0 0 L 50 50" stroke="red" strokeWidth="2.5px" />
+                <path d="M 50 0 L 0 50" stroke="red" strokeWidth="2.5px" />
+              </>
+            ),
           }[status]
         }
       </svg>
