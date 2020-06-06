@@ -44,9 +44,10 @@ const BlogPost = ({ data, pageContext }) => {
       <BlogPostContainer>
         <h1>{post.frontmatter.title}</h1>
         <p style={{ marginTop: 0 }}>
-          {post.frontmatter.date.slice(0, 2)}/{post.frontmatter.date.slice(2, 4)}/{post.frontmatter.date.slice(4, 8)} |{' '}
-          {post.frontmatter.languages} | {post.timeToRead} mins
+          {post.frontmatter.date.slice(0, 2)}/{post.frontmatter.date.slice(2, 4)}/{post.frontmatter.date.slice(4, 8)} | {post.timeToRead}{' '}
+          minute read | <b>Languages:</b> {post.frontmatter.languages.map(lan => `${lan}, `)}
         </p>
+        <p></p>
         <MDXProvider components={components}>
           <MDXRenderer>{post.body}</MDXRenderer>
         </MDXProvider>
