@@ -68,7 +68,7 @@ body {
     background-color: var(--background-color);
 }
 
-p, a, button, li, th, td {
+p, a, button, li, th, td, input {
     font-family: var(--body-font);
     color: var(--body-font-color);
     font-size: 0.9rem;
