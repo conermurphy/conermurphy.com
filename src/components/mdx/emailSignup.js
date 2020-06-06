@@ -95,8 +95,8 @@ const buttonTap = {
 const EmailSignup = () => {
   const [status, setStatus] = useState('pending');
 
-  const FORM_ID = process.env.CONVERTKIT_SIGNUP_FORM;
-  const apiKey = process.env.CONVERTKIT_PUBLIC_KEY;
+  const formID = process.env.GATSBY_CONVERTKIT_SIGNUP_FORM;
+  const apiKey = process.env.GATSBY_CONVERTKIT_PUBLIC_KEY;
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -104,7 +104,7 @@ const EmailSignup = () => {
     setStatus('awaiting');
     setTimeout(async () => {
       try {
-        const response = await fetch(`https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`, {
+        const response = await fetch(`https://api.convertkit.com/v3/forms/${formID}/subscribe`, {
           method: 'post',
           body: JSON.stringify({
             email: value,
