@@ -114,17 +114,17 @@ const EmailSignup = () => {
               <>
                 <path
                   d="
-                    M 25 37.5
-                    C 25 0 75 0 75 30
-                    Q 75 45 62.5 50
-                    T 50 70
+                    M 35 25
+                    Q 50 12.5 65 25
+                    Q 75 40 60 55
+                    Q 55 60 50 65
                   "
                   stroke="white"
                   strokeWidth="1rem"
                   strokeLinecap="round"
                   fill="none"
                 />
-                <circle cx="50" cy="90" r="7.5" fill="white" />,
+                <circle cx="50" cy="85" r="0.5rem" fill="white" />,
               </>
             ),
             awaiting: (
@@ -161,7 +161,7 @@ const EmailSignup = () => {
                 <path d="M 68.75 31.75 L 31.25 68.75" stroke="white" strokeWidth="1rem" strokeLinecap="round" />
               </>
             ),
-          }.awaiting
+          }.pending
         }
       </svg>
       <h3>Want More Content?</h3>
