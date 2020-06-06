@@ -107,6 +107,7 @@ const EmailSignup = () => {
   return (
     <SignupFormContainer>
       <svg width="100" height="100" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50" fill="black" />
         {
           {
             pending: (
@@ -118,28 +119,49 @@ const EmailSignup = () => {
                     Q 75 45 62.5 50
                     T 50 70
                   "
-                  stroke="black"
+                  stroke="white"
                   strokeWidth="1rem"
                   strokeLinecap="round"
                   fill="none"
                 />
-                <circle cx="50" cy="90" r="7.5" fill="black" />,
+                <circle cx="50" cy="90" r="7.5" fill="white" />,
               </>
             ),
-            awaiting: <circle cx="50" cy="50" r="45" fill="none" stroke="green" strokeWidth="2.5px" />,
+            awaiting: (
+              <>
+                <circle cx="50" cy="10" r="5" fill="white" />
+                <circle cx="77.5" cy="22.5" r="5" fill="white" />
+                <circle cx="90" cy="50" r="5" fill="white" />
+                <circle cx="77.5" cy="77.5" r="5" fill="white" />
+                <circle cx="50" cy="90" r="5" fill="white" />
+                <circle cx="22.5" cy="77.5" r="5" fill="white" />
+                <circle cx="10" cy="50" r="5" fill="white" />
+                <circle cx="22.5" cy="22.5" r="5" fill="white" />
+              </>
+            ),
             confirmed: (
               <>
-                <path d="M 0 25 L 25 50" stroke="green" strokeWidth="2.5px" />
-                <path d="M 25 50 L 50 0" stroke="green" strokeWidth="2.5px" />
+                <path
+                  d="
+                  M 31.75 50.25 
+                  L 45.50 63.75
+                  Q 47.50 68.75 73.75 36.25
+                  L 73.75 36.25
+                  "
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="1rem"
+                  strokeLinecap="round"
+                />
               </>
             ),
             error: (
               <>
-                <path d="M 0 0 L 50 50" stroke="red" strokeWidth="2.5px" />
-                <path d="M 50 0 L 0 50" stroke="red" strokeWidth="2.5px" />
+                <path d="M 31.25 31.75 L 68.75 68.75" stroke="white" strokeWidth="1rem" strokeLinecap="round" />
+                <path d="M 68.75 31.75 L 31.25 68.75" stroke="white" strokeWidth="1rem" strokeLinecap="round" />
               </>
             ),
-          }[status]
+          }.confirmed
         }
       </svg>
       <h3>Want More Content?</h3>
