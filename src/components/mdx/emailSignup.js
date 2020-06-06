@@ -210,7 +210,12 @@ const EmailSignup = () => {
         {
           pending: <h4>Join my weekly newsletter below.</h4>,
           awaiting: <h4>Processing your email</h4>,
-          confirmed: <h4>Thank you, please confirm your subscription via the email we sent you.</h4>,
+          confirmed: (
+            <>
+              <h4>Thank you, please confirm your subscription via the email we sent you.</h4>
+              <p>Please check your spam folder if it doesn't arrive in the next few minutes.</p>
+            </>
+          ),
           error: <h4>Erm, sorry there was an error...</h4>,
         }[status]
       }
