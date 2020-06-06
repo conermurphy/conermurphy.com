@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 import DOMPurify from 'dompurify';
 
@@ -61,6 +61,29 @@ const FormItems = styled.div`
   }
 `;
 
+const awaitingRotate = keyframes`
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+`;
+
+const StatusSVG = styled.svg`
+  animation: ${props => (props.status === 'awaiting' ? awaitingRotate : 'none')} 2s ease-in-out infinite;
+`;
+
+const animateHover = {
+  scale: [0.95, 1.05, 0.95],
+};
+
+const transitionHover = {
+  duration: 2,
+  loop: Infinity,
+  ease: 'easeInOut',
+};
+
 const buttonHover = {
   scale: 1.05,
 };
@@ -75,56 +98,60 @@ const EmailSignup = () => {
   const FORM_ID = process.env.CONVERTKIT_SIGNUP_FORM;
   const apiKey = process.env.CONVERTKIT_PUBLIC_KEY;
 
-  const handleSubmit = async e => {
+  const handleSubmit = e => {
     e.preventDefault();
     const value = DOMPurify.sanitize(document.querySelector('input').value);
     setStatus('awaiting');
-    try {
-      const response = await fetch(`https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`, {
-        method: 'post',
-        body: JSON.stringify({
-          email: value,
-          api_key: apiKey,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          charset: 'utf-8',
-        },
-      });
+    setTimeout(async () => {
+      try {
+        const response = await fetch(`https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`, {
+          method: 'post',
+          body: JSON.stringify({
+            email: value,
+            api_key: apiKey,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            charset: 'utf-8',
+          },
+        });
 
-      const responseJSON = await response.json();
+        const responseJSON = await response.json();
 
-      if (responseJSON.error) throw responseJSON.error;
+        if (responseJSON.error) throw responseJSON.error;
 
-      setStatus('confirmed');
-      document.querySelector('input').value = '';
-    } catch (err) {
-      console.error(err);
-      setStatus('error');
-    }
+        setStatus('confirmed');
+        document.querySelector('input').value = '';
+      } catch (err) {
+        console.error(err);
+        setStatus('error');
+      }
+    }, 1000);
   };
 
   return (
     <SignupFormContainer>
-      <svg width="100" height="100" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50" fill="black" />
+      <StatusSVG width="100" height="100" viewBox="0 0 100 100" status={status}>
+        <circle cx="50" cy="50" r="50" fill="var(--header-font-color)" />
         {
           {
             pending: (
               <>
-                <path
+                <motion.path
                   d="
                     M 35 25
-                    Q 50 12.5 65 25
-                    Q 75 40 60 55
-                    Q 55 60 50 65
+                    Q 50 12.5 62.5 25
+                    Q 72.5 40 60 50
+                    Q 55 55 50 60
                   "
                   stroke="white"
                   strokeWidth="1rem"
                   strokeLinecap="round"
                   fill="none"
+                  animate={animateHover}
+                  transition={transitionHover}
                 />
-                <circle cx="50" cy="85" r="0.5rem" fill="white" />,
+                <motion.circle cx="50" cy="82.5" r="0.5rem" fill="white" animate={animateHover} transition={transitionHover} />,
               </>
             ),
             awaiting: (
@@ -157,13 +184,27 @@ const EmailSignup = () => {
             ),
             error: (
               <>
-                <path d="M 31.25 31.75 L 68.75 68.75" stroke="white" strokeWidth="1rem" strokeLinecap="round" />
-                <path d="M 68.75 31.75 L 31.25 68.75" stroke="white" strokeWidth="1rem" strokeLinecap="round" />
+                <motion.path
+                  d="M 31.25 31.75 L 68.75 68.75"
+                  stroke="white"
+                  strokeWidth="1rem"
+                  strokeLinecap="round"
+                  animate={animateHover}
+                  transition={transitionHover}
+                />
+                <motion.path
+                  d="M 68.75 31.75 L 31.25 68.75"
+                  stroke="white"
+                  strokeWidth="1rem"
+                  strokeLinecap="round"
+                  animate={animateHover}
+                  transition={transitionHover}
+                />
               </>
             ),
-          }.pending
+          }[status]
         }
-      </svg>
+      </StatusSVG>
       <h3>Want More Content?</h3>
       {
         {
@@ -176,7 +217,13 @@ const EmailSignup = () => {
 
       <FormItems>
         <input type="text" placeholder="Please Enter Your Email Here..." name="email" required></input>
-        <motion.button type="submit" whileHover={buttonHover} whileTap={buttonTap} onClick={handleSubmit}>
+        <motion.button
+          type="submit"
+          whileHover={buttonHover}
+          whileTap={buttonTap}
+          onClick={handleSubmit}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
+        >
           Sign Up
         </motion.button>
       </FormItems>
