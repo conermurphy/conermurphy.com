@@ -81,8 +81,8 @@ const Blog = ({ data }) => {
         <header>
           <h1>Blog Posts</h1>
           <p style={{ textAlign: 'center' }}>
-            Welcome to my blog! Here you'll find all of my latest posts, published here anywhere else. If you have any questions I'd be
-            happy answer them!
+            Welcome to my blog! Here you'll find all of my latest posts, published here before anywhere else. If you have any questions I'd
+            be happy answer them!
           </p>
         </header>
         <LanguagesContainer>
