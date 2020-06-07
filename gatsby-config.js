@@ -3,7 +3,7 @@ module.exports = {
     title: 'Coner Murphy',
     description: 'Web Developer, Blogger, Content Creator',
     author: 'Coner Murphy',
-    url: 'https://conermurphy.com',
+    siteUrl: 'https://conermurphy.com',
     twitterUsername: '@MrConerMurphy',
     image: '/src/assets/logo/CM-Logo-2020.png',
   },
@@ -72,7 +72,7 @@ module.exports = {
             siteMetadata {
               title
               description
-              url
+              siteUrl
             }
           }
         }
@@ -124,5 +124,6 @@ module.exports = {
     'gatsby-plugin-styled-components',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-offline',
+    'gatsby-plugin-sitemap',
   ],
 };
