@@ -21,42 +21,42 @@ This is **post #7** in the series. If you're interested in reading any of the ot
 
 ## Method #7: Array.prototype.every()
 
-Have you ever wanted to find out if every value in a passed array passes set criteria, yes? Then .every() is the method for you.
+Have you ever wanted to find out if every value in an array passes a set criteria, yes? Then .every() is the method for you.
 
-The .every() method allows for the testing of values in a given array, every value in the given array is tested against the provided callback function if they all return a truthy value then the overall method returns true, if one of the passed values fails the callback function and returns a falsy value then the overall method returns false.
+The .every() method allows you to test if every value in a given array passes a set criteria by calling a callback function on each value. If all the values within the array return a truthy value then the overall method returns True, if one of the passed values fails the callback function and returns a falsy value then the overall method returns False.
 
 ## Syntax
 
 Let's have a more in depth look at the syntax of this method to see what is required and how to use it.
 
 ```javascript
-arr.every(callback(element[, index[, array]])[, thisArg])
+arr.every( callback( element [, index [, array ] ] ) [, thisArg ] )
 ```
 
 ### Parameters
 
-The .every() method takes in 2 parameters:
+The .every() method takes in 2 top level parameters:
 
-1. **Callback function:** To test each element in the array the method was called on. This callback function takes in 3 arguments:
+1. **Callback function:** This is where you define yours tests to compare the iterated value. This callback function takes in 3 arguments:
     1. **Element:** The current element being processed from the passed array
-    2. **Index:** The index of the current element being processed in the array the method was called on.
-    3. **Array:** The array the .every() method was called upon.
-2. **thisArg:** A value to be used as the .this value when executing the callback function on the current element being processed, if omitted the value of undefined will be used.
+    2. **Index:** The index of the current element being processed in the array.
+    3. **Array:** The original array the .every() method was called upon.
+2. **thisArg:** A value to be used as the .this value when executing the callback function, if omitted a value of undefined will be used.
 
 ### Return
 
 There is only two possible return values for the .every() method:
 
-- **true:** If all of the tested values in the array return a truthy value then a value of true is returned from the method.
-- **false:** If any of the tested values fail the passed callback function then the method stops processing the array and returns a value of false.
+- **True:** If all of the tested values in the array return a truthy value then True is returned overall.
+- **False:** If any of the tested values fail the passed callback function then the method exits and returns a value of False.
 
-*If the .every() method is called upon an empty array then the returned value will always be true regardless of the callback function passed.*
+*If the .every() method is called upon an empty array then the returned value will always be True regardless of the callback function.*
 
 ## Other Info
 
 - The callback function will only be invoked for array indexes with assigned values, if the index does not have a value assigned or has been deleted then the callback will not be invoked.
 - The .every() method will not mutate the original array it has been called upon.
-- The elements that .every() will process is decided before the first invocation fo the callback function, this means if you add or remove any values to the original array they will not be processed by the callback function. However, if a value is changed during the execution of the method then the changed value is passed to the callback function when that index is visited.
+- The elements that .every() will process is decided before the first invocation of the callback function, this means if you add or remove any values to the original array they will not be processed by the callback function. However, if a value is changed during the execution of the method then the changed value is passed to the callback function when that index is visited.
 
 ## Examples
 
@@ -68,13 +68,13 @@ Below are some examples to cover the various aspects of the .every() method:
 [5,10,15,20,25].every(function(num, index) {
     return num >= 5;
 })
-// true 
+// True 
 ```
 
 ### Using arrow functions
 
 ```javascript
-[5,10,15,20,25].every((num, index) => num >= 5); // true
+[5,10,15,20,25].every((num, index) => num >= 5); // True
 ```
 
 ### Removing items during the callback
@@ -87,10 +87,14 @@ arr.every( (num, index, arr) => {
   // [1,2,3][0] -> 1 
   // [1,2][1] -> 2
   return num < 4
-}) // true
+}) // True
 ```
 
-The above code is only looped over twice as the remaining items are removed using .pop() this means that the code will return true because when all of the values in the array are compared to the condition they are all less than 4 meaning they all return true and therefore the entire method returns true. The only value that would have returned false is the last value in the array but as we pop this off when we invoke the callback function with the first value, there are no values left that will return false.
+The above code will only loop over the array twice as the remaining items are removed using .pop(), this means that the code will return True. 
+
+This happens because when all of the values in the array are compared to the condition they are less than 4 meaning they return True on the condition, therefore the entire method returns True. 
+
+The only value that would have returned False is the last value in the array but as this was .pop()'d' off when we invoked the callback function with the first value, there are no values left that would fail the conditional when compared.
 
 ### Adding items during the callback
 
@@ -101,10 +105,10 @@ arr1.every( (num, index, arr ) => {
     console.log(`[${arr}][${index}] => ${num}`);
     console.log(arr.length)
     return arr.length > 3;
-}) // true
+}) // True
 ```
 
-In the above code, it demonstrates an important point we need to remember when adding items using the .every() method, even if we add new items to the array during the callback, the new items are not passed into the .every() method so will not be looped over in the callback function, this is why the above code will only log out:
+The above code demonstrates an important point we need to remember when adding items using the .every() method, even if we add new items to the array during the callback, the new items are not passed into the original array that the .every() method was called on so they will not have the callback function invoked on them, this is why the above code will only log out:
 
 ```javascript
 // [1,2,3,num][0] => 1
@@ -112,9 +116,11 @@ In the above code, it demonstrates an important point we need to remember when a
 // [1,2,3,num,num,num][2] => 3
 ```
 
-Even though the added items are logged out as being part of the array, only the items inside the array when the .every() method was called are looped over, shown by the indexes we accessed ( 0 - 2 ). We need to remember this and take it into account when writing our conditions for returning, this example returns true because when we iterated over the final item in the array (3 - index 2) the array is: '[1,2,3,num,num,num]' which has a length of 6 therefore passing the condition and returning true.
+Even though we have added items to the array they are not logged out as an element accessed on the original array. This happens because only items inside the array when .every() was called have the callback function invoked on them, this is shown by the indexes we accessed ( 0 - 2 ). 
 
-Although on first look the array has a length of 3 which would fail the condition if the extra items were not added in. So, when adding items into the array during .every(), we need to consider how it will impact the conditions we write inside the callback.
+We need to remember to take this into account when writing our conditionals inside the callback function or we could end up short-circuiting the callback and getting the wrong boolean returned. 
+
+In the example of the code above, normally the conditional would return False on the initial array as it's not greater than 3 but as we add a new item to the array before running the conditional it passes and returns a value of True. If this was unintended it could cause possible issues with our code and should be considered.
 
 ### Modifying items during the callback
 
@@ -124,17 +130,17 @@ arr.every( (elem, index, arr) => {
   arr[index+1] -= 1
   console.log(`[${arr}][${index}] -> ${elem}`)
   return elem < 2 
-}) // false
+}) // False
 ```
 
-Without us modifying the array in the callback function of the above code, normally it would only run for 2 iterations before returning false.
+Without us modifying the array in the callback function of the above code, it would normally only run for 2 iterations before returning False.
 
 ```javascript
 // [1,2,3,4][0] -> 1
 // [1,2,3,4][1] -> 1
 ```
 
-However, with us modifying the array, the callback function is invoked three times before returning false:
+However, with us modifying the array, the callback function is invoked three times before returning False:
 
 ```javascript
 // [1,1,3,4][0] -> 1
@@ -142,17 +148,19 @@ However, with us modifying the array, the callback function is invoked three tim
 // [1,1,2,3][2] -> 2
 ```
 
-*Examples taken from / inspired from [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every)*
+This shows how modifying the array can alter the returned values of the callback function and should be considered when writing any callback functions that modify the original array.
+
+*Examples taken from / inspired by the [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every)*
 
 ## Summing Up.
 
-.every() can be a powerful method for comparing a series of values, but if we are using it modify, add or delete values then we need to ensure we fully evaluate the possible changes and implications that could occur to our value set and how that will impact the final boolean value that is returned.
+.every() can be a powerful method for comparing a series of values but if we are using it to modify, add, or delete values then we need to ensure we fully evaluate the possible changes and implications that could occur to our values and how that will impact the final boolean returned.
 
-If you have any questions regarding this method or any of the other methods in this series, you can contact me via the links below where I would be happy to answer them for you.
+I hope you enjoyed this post and if you have any questions regarding this method or any of the other methods in this series, you can contact me via the links below where I would be happy to answer them for you.
 
 See you in the next post. 😃
 
-## Series post links
+## Series links
 
 - [#1: Array.from()](https://conermurphy.com/javascript-array-methods-from-explained)
 - [#2: Array.isArray()](https://conermurphy.com/javascript-array-methods-isarray-explained)
