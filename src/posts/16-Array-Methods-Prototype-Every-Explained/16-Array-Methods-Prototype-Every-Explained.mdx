@@ -1,0 +1,163 @@
+---
+title: "JavaScript Array Methods: Array.prototype.every()"
+description: "The Array is one of the most important data types in JavaScript, so in this series we are going to cover all of the Array Methods. In this post it's Array.prototype.every()"
+date: "2020-06-07"
+category: "JavaScript Array Methods Explained"
+languages: ["JavaScript"]
+slug: javascript-array-methods-prototype-every-explained
+image: ./array-methods-prototype-every-explained.png
+id: 16
+---
+
+## Series Introduction
+
+The JavaScript Array data type currently has 37 methods on it according to the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) and in this series we are going to cover them all one by one explaining each with examples as we work our way down the list. 
+
+If you have any questions regarding anything in this series please get in contact with me by using the methods listed at the bottom of this post and if you think I've got something wrong please create a pull request on GitHub to correct the information (link at the bottom of the article).
+
+This is **post #7** in the series. If you're interested in reading any of the other posts in this series, there is a up-to-date list at the bottom of this post.
+
+---
+
+## Method #7: Array.prototype.every()
+
+Have you ever wanted to find out if every value in a passed array passes set criteria, yes? Then .every() is the method for you.
+
+The .every() method allows for the testing of values in a given array, every value in the given array is tested against the provided callback function if they all return a truthy value then the overall method returns true, if one of the passed values fails the callback function and returns a falsy value then the overall method returns false.
+
+## Syntax
+
+Let's have a more in depth look at the syntax of this method to see what is required and how to use it.
+
+```javascript
+arr.every(callback(element[, index[, array]])[, thisArg])
+```
+
+### Parameters
+
+The .every() method takes in 2 parameters:
+
+1. **Callback function:** To test each element in the array the method was called on. This callback function takes in 3 arguments:
+    1. **Element:** The current element being processed from the passed array
+    2. **Index:** The index of the current element being processed in the array the method was called on.
+    3. **Array:** The array the .every() method was called upon.
+2. **thisArg:** A value to be used as the .this value when executing the callback function on the current element being processed, if omitted the value of undefined will be used.
+
+### Return
+
+There is only two possible return values for the .every() method:
+
+- **true:** If all of the tested values in the array return a truthy value then a value of true is returned from the method.
+- **false:** If any of the tested values fail the passed callback function then the method stops processing the array and returns a value of false.
+
+*If the .every() method is called upon an empty array then the returned value will always be true regardless of the callback function passed.*
+
+## Other Info
+
+- The callback function will only be invoked for array indexes with assigned values, if the index does not have a value assigned or has been deleted then the callback will not be invoked.
+- The .every() method will not mutate the original array it has been called upon.
+- The elements that .every() will process is decided before the first invocation fo the callback function, this means if you add or remove any values to the original array they will not be processed by the callback function. However, if a value is changed during the execution of the method then the changed value is passed to the callback function when that index is visited.
+
+## Examples
+
+Below are some examples to cover the various aspects of the .every() method:
+
+### Testing if array values are >= X
+
+```javascript
+[5,10,15,20,25].every(function(num, index) {
+    return num >= 5;
+})
+// true 
+```
+
+### Using arrow functions
+
+```javascript
+[5,10,15,20,25].every((num, index) => num >= 5); // true
+```
+
+### Removing items during the callback
+
+```javascript
+const arr = [1, 2, 3, 4];
+arr.every( (num, index, arr) => {
+  arr.pop()
+  console.log(`[${arr}][${index}] -> ${num}`)
+  // [1,2,3][0] -> 1 
+  // [1,2][1] -> 2
+  return num < 4
+}) // true
+```
+
+The above code is only looped over twice as the remaining items are removed using .pop() this means that the code will return true because when all of the values in the array are compared to the condition they are all less than 4 meaning they all return true and therefore the entire method returns true. The only value that would have returned false is the last value in the array but as we pop this off when we invoke the callback function with the first value, there are no values left that will return false.
+
+### Adding items during the callback
+
+```javascript
+const arr1 = [1,2,3];
+arr1.every( (num, index, arr ) => {
+    arr1.push('num');
+    console.log(`[${arr}][${index}] => ${num}`);
+    console.log(arr.length)
+    return arr.length > 3;
+}) // true
+```
+
+In the above code, it demonstrates an important point we need to remember when adding items using the .every() method, even if we add new items to the array during the callback, the new items are not passed into the .every() method so will not be looped over in the callback function, this is why the above code will only log out:
+
+```javascript
+// [1,2,3,num][0] => 1
+// [1,2,3,num,num][1] => 2 
+// [1,2,3,num,num,num][2] => 3
+```
+
+Even though the added items are logged out as being part of the array, only the items inside the array when the .every() method was called are looped over, shown by the indexes we accessed ( 0 - 2 ). We need to remember this and take it into account when writing our conditions for returning, this example returns true because when we iterated over the final item in the array (3 - index 2) the array is: '[1,2,3,num,num,num]' which has a length of 6 therefore passing the condition and returning true.
+
+Although on first look the array has a length of 3 which would fail the condition if the extra items were not added in. So, when adding items into the array during .every(), we need to consider how it will impact the conditions we write inside the callback.
+
+### Modifying items during the callback
+
+```javascript
+const arr = [1, 2, 3, 4];
+arr.every( (elem, index, arr) => {
+  arr[index+1] -= 1
+  console.log(`[${arr}][${index}] -> ${elem}`)
+  return elem < 2 
+}) // false
+```
+
+Without us modifying the array in the callback function of the above code, normally it would only run for 2 iterations before returning false.
+
+```javascript
+// [1,2,3,4][0] -> 1
+// [1,2,3,4][1] -> 1
+```
+
+However, with us modifying the array, the callback function is invoked three times before returning false:
+
+```javascript
+// [1,1,3,4][0] -> 1
+// [1,1,2,4][1] -> 1
+// [1,1,2,3][2] -> 2
+```
+
+*Examples taken from / inspired from [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every)*
+
+## Summing Up.
+
+.every() can be a powerful method for comparing a series of values, but if we are using it modify, add or delete values then we need to ensure we fully evaluate the possible changes and implications that could occur to our value set and how that will impact the final boolean value that is returned.
+
+If you have any questions regarding this method or any of the other methods in this series, you can contact me via the links below where I would be happy to answer them for you.
+
+See you in the next post. 😃
+
+## Series post links
+
+- [#1: Array.from()](https://conermurphy.com/javascript-array-methods-from-explained)
+- [#2: Array.isArray()](https://conermurphy.com/javascript-array-methods-isarray-explained)
+- [#3: Array.of()](https://conermurphy.com/javascript-array-methods-of-explained)
+- [#4: Array.prototype.concat()](https://conermurphy.com/javascript-array-methods-prototype-concat-explained)
+- [#5: Array.prototype.copyWithin()](https://conermurphy.com/javascript-array-methods-prototype-copywithin-explained)
+- [#6: Array.prototype.entries()](https://conermurphy.com/javascript-array-methods-prototype-entries-explained)
+- [#7: Array.prototype.every()](https://conermurphy.com/javascript-array-methods-prototype-every-explained)
