@@ -96,14 +96,19 @@ const Blog = ({ data }) => {
           {posts.map(({ node }) => {
             const postLanguages = node.frontmatter.languages;
             if (activeLanguages.some(language => postLanguages.includes(language)) || activeLanguages.length === 0) {
-              const contentData = {
-                internal: true,
-                link: node.fields.slug,
-                topLine: node.frontmatter.languages.join(', '),
-                title: node.frontmatter.title,
-                bottomLine: `#${node.frontmatter.id} - ${node.frontmatter.date}`,
-              };
-              return <ContentCard data={contentData} key={node.id} />;
+              const incorrectDate = `${node.frontmatter.date.split('/')[1]}/${node.frontmatter.date.split('/')[0]}/${
+                node.frontmatter.date.split('/')[2]
+              }`;
+              if (new Date(incorrectDate) <= new Date()) {
+                const contentData = {
+                  internal: true,
+                  link: node.fields.slug,
+                  topLine: node.frontmatter.languages.join(', '),
+                  title: node.frontmatter.title,
+                  bottomLine: `#${node.frontmatter.id} - ${node.frontmatter.date}`,
+                };
+                return <ContentCard data={contentData} key={node.id} />;
+              }
             }
             return null;
           })}
@@ -144,7 +149,7 @@ export const query = graphql`
         node {
           frontmatter {
             title
-            date(formatString: "DD-MM-YYYY")
+            date(formatString: "DD/MM/YYYY")
             category
             description
             languages
