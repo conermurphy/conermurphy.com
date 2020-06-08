@@ -49,6 +49,8 @@ const FormItems = styled.div`
     height: 2rem;
     min-width: 40%;
     font-family: var(--body-font);
+    background-color: var(--background-color);
+    border: 2px solid var(--header-font-color);
   }
 
   & > button {
