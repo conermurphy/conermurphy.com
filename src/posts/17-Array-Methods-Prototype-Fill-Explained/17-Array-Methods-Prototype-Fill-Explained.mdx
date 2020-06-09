@@ -21,7 +21,7 @@ This is **post #8** in the series. If you're interested in reading any of the ot
 
 ## Method #8: Array.prototype.fill()
 
-.fill() allows us to quickly fill either an entire array or a subset of an array with a chosen static value. This is helpful if we need to overwrite a portion of an array with a new value or add a new value to an object that occurs many times within an array. Let's take a look at the syntax before moving on to some examples and getting hands on with this method.
+.fill() allows us to quickly fill either an entire array or a subset of an array with a chosen static value. This is helpful if we need to overwrite an entire array or a portion of an array with a new value. Let's take a look at the syntax for this method before moving on to some examples and getting hands on with this method.
 
 ### Syntax
 
@@ -33,13 +33,13 @@ arr.fill(value[, start[, end]])
 
 The .fill() method takes in 3 parameters:
 
-1. *Required -* **value:**  This is the value we want to fill the array we called the method on with. It's worth mentioning that all values in the array or in the chosen section of the array will be this value.
-2. *Optional -* **start:** The start index of the section of the called on array you want to replace from. *Default starts at 0*.
-3. *Optional -* **end:** The end index of the section of the called on array you want to replace up to. The specified end index is not included in the replacement. *Default is array.length*
+1. *Required -* **value:**  This is the value we want to fill the target array with. It's worth mentioning that all values in the array or in the chosen section of the array will be this replaced with this value.
+2. *Optional -* **start:** The start index of the section to replace on the target array. *Default starts at 0*
+3. *Optional -* **end:** The end index of the section to replace on the target array. (The specified end index is not included in the replacement). *Default is array.length*
 
 #### Returned Value
 
-The .fill() method only returns one value and that is the modified array we called the method on. It is worth mentioning that the .fill() method will modify the original array and not create a copy of it. So, if you need the original array intact before using .fill() then store a copy of the original array in a variable and call .fill() on the copy to ensure the original array is left untouched.
+The .fill() method only returns one value and that is the modified version of the array we called the method on. It is worth mentioning that the .fill() method will modify the original array and not create a copy of it. So, if you need the original array intact before using .fill() then store a copy of the original array in a variable and call .fill() on the copied array to ensure the original array is left untouched.
 
 ### Other Information
 
@@ -52,7 +52,7 @@ The .fill() method only returns one value and that is the modified array we call
 - If the end value passed is negative then it will be treated as 'array.length + end';
 
 ```javascript
-[1,2,3,4,5,6].fill(2,0,-3); // === [1,2,3,4,5,6].fill(2,0,3) => [1,2,2,4,5,6]
+[1,2,3,4,5,6].fill(2,0,-3); // === [1,2,3,4,5,6].fill(2,0,3) => [2,2,2,4,5,6]
 ```
 
 - .fill() will change the original array and return that, NOT create a copy. (mutator method).
@@ -60,7 +60,7 @@ The .fill() method only returns one value and that is the modified array we call
 
 ### Examples
 
-Let's have a look at some examples of the .fill() method and some of the other stuff it can do:
+Now, let's have a look at some examples of the .fill() method and some of the other stuff it can do:
 
 ```javascript
 // Replacing all values in an array.
@@ -85,15 +85,19 @@ array[1].test = "test" // [{test:test}, {test:test}, {test:test}]
 // This happens because each slot in the array references the original object that was used to fill the array.
 ```
 
-Interestingly if you pass false and true in as the start and end values respectively it will replace the value at index 0 as it will use the binary values of false (0) and true (1):
+Interestingly if you pass false and true in as the start and end values respectively it will replace just the value at index 0 as it will use the binary values of false (0) and true (1):
 
 ```javascript
 [1,2,3,4,5,6].fill('a',false,true); // === [1,2,3,4,5,6].fill('a',0,1); => [ "a", 2, 3, 4, 5, 6 ]
 ```
 
+### Rounding Up.
+
 That's about all there is to the .fill() method, I hope you found this post helpful and if you did then I would greatly appreciate you sharing this article with someone you think may find it helpful. If you have any questions then I would be happy to answer them, just get in contact with me via the links below. 
 
-If you're interested in 
+If you're interested in getting more content like this and exclusive content that is no where else then please consider joining my newsletter by using the form below.
+
+Thank you and see you in the next post.
 
 ## Series links
 
