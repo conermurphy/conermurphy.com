@@ -6,11 +6,7 @@
             "type": "Back-End",
             "URL": "https://covid-19-graphql-api.herokuapp.com/",
             "description": "GraphQL for the COVID-19 pandemic data.",
-            "technologies": [
-                "NodeJS",
-                "GraphQL",
-                "JS"
-            ],
+            "technologies": "GraphQL",
             "date": "29-06-2020"
         },
         {
@@ -18,10 +14,7 @@
             "type": "Front-End",
             "URL": "https://covid-19-analyser.netlify.app",
             "description": "Landing page for my COVID-19 GraphQL API.",
-            "technologies": [
-                "NextJS",
-                "JS"
-            ],
+            "technologies": "JavaScript",
             "date": "29-06-2020"
         },
         {
