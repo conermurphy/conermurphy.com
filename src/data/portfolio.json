@@ -2,8 +2,31 @@
     "title": "Portfolio",
     "content": [
         {
+            "title": "COVID-19 GraphQL API",
+            "type": "Back-End",
+            "URL": "https://covid-19-graphql-api.herokuapp.com/",
+            "description": "GraphQL for the COVID-19 pandemic data.",
+            "technologies": [
+                "NodeJS",
+                "GraphQL",
+                "JS"
+            ],
+            "date": "29-06-2020"
+        },
+        {
+            "title": "COVID-19 Analyser",
+            "type": "Front-End",
+            "URL": "https://covid-19-analyser.netlify.app",
+            "description": "Landing page for my COVID-19 GraphQL API.",
+            "technologies": [
+                "NextJS",
+                "JS"
+            ],
+            "date": "29-06-2020"
+        },
+        {
             "title": "Coner Murphy",
-            "type": "Website",
+            "type": "Front-End",
             "URL": "https://conermurphy.com",
             "description": "My personal website (this site).",
             "technologies": "GatsbyJS",
