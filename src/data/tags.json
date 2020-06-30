@@ -1,0 +1,26 @@
+{
+    "html": {
+        "backgroundColor": "hsl(12, 77%, 52%)"
+    },
+    "CSS": {
+        "backgroundColor": "rgb(38, 77, 228)"
+    },
+    "JavaScript": {
+        "backgroundColor": "yellow"
+    },
+    "NodeJS": {
+        "backgroundColor": "rgb(68, 136, 62)"
+    },
+    "ReactJS": {
+        "backgroundColor": "#61dafb"
+    },
+    "GatsbyJS": {
+        "backgroundColor": "rgb(102 51 153)"
+    },
+    "GraphQL": {
+        "backgroundColor": "#E10098"
+    },
+    "Other": {
+        "backgroundColor": "rgba(207,92,54,255)"
+    }
+}
