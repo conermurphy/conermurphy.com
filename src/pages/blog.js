@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
 import ContentCard from '../components/templates/contentCard';
-import LanguageIcons from '../components/templates/languageIcons';
+import TagGenerator from '../components/templates/tagGenerator';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
 import device from '../components/device';
 import SEO from '../components/seo';
@@ -88,7 +88,7 @@ const Blog = ({ data }) => {
         <LanguagesContainer>
           {allLanguages.map((language, index) => (
             <Language key={language} onClick={handleClick} active={!!activeLanguages.includes(language)} data-label={language}>
-              <LanguageIcons language={language} key={index} />
+              <TagGenerator language={language} key={index} />
             </Language>
           ))}
         </LanguagesContainer>
