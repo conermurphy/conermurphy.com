@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import CornerArt from './cornerArt';
-import LanguageIcons from './languageIcons';
+import TagGenerator from './tagGenerator';
 
 const CardLink = styled(Link)`
   margin: 1rem;
@@ -30,8 +30,6 @@ const CardContainer = styled(motion.div)`
   overflow: hidden;
   background-color: var(--secondary-color);
   z-index: 1;
-  box-shadow: 0px 2px 2px var(--drop-shadows);
-  box-shadow: 0px 2px 2px var(--drop-shadows);
   box-shadow: 0px 2px 2px var(--drop-shadows);
 `;
 
@@ -95,7 +93,7 @@ const ContentCard = ({ data }) => {
       >
         <PostInfo>
           {topLine.split(',').map((line, index) => (
-            <LanguageIcons language={line} key={index} />
+            <TagGenerator language={line} key={index} />
           ))}
         </PostInfo>
         <PostTitle>{title}</PostTitle>
@@ -116,7 +114,7 @@ const ContentCard = ({ data }) => {
       >
         <LanguagesContainer>
           {topLine.split(',').map((line, index) => (
-            <LanguageIcons language={line} key={index} />
+            <TagGenerator language={line} key={index} />
           ))}
         </LanguagesContainer>
         <PostTitle>{title}</PostTitle>
