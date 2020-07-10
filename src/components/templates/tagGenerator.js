@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
 import tagJSON from '../../data/tags.json';
 
-const StyledTag = styled.p`
+const StyledTag = styled(motion.p)`
   padding: 0.25rem 0.5rem;
   margin: 0.25rem 0.5rem;
   border-radius: 10px;
   font-weight: 600;
   background-color: ${props => (props.tagActive ? props.backgroundColor : 'inherit')};
   color: ${props => (props.tagActive ? props.color : 'inherit')};
-  border: ${props => (props.tagActive ? 'none' : props.backgroundColor)} 2px solid;
+  border: ${props => props.backgroundColor} 2px solid;
   box-shadow: 0px 2px 2px var(--drop-shadows);
+  transition: 0.2s all ease-in-out;
 `;
 
 const TagGenerator = ({ language }) => {
@@ -30,6 +32,8 @@ const TagGenerator = ({ language }) => {
       backgroundColor={languageToDisplay.backgroundColor}
       color={languageToDisplay.color}
       onClick={handleClick}
+      whileHover={{ scale: 0.95 }}
+      transition={{ duration: 0.25, ease: 'easeInOut' }}
     >
       {languageTrim}
     </StyledTag>
