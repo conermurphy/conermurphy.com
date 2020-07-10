@@ -54,8 +54,8 @@ const Blog = ({ data }) => {
   const allLanguages = [];
 
   posts.forEach(post => {
-    const { languages } = post.node.frontmatter;
-    languages.forEach(language => {
+    const { tags } = post.node.frontmatter;
+    tags.forEach(language => {
       if (!allLanguages.includes(language)) {
         allLanguages.push(language);
       }
@@ -94,7 +94,7 @@ const Blog = ({ data }) => {
         </LanguagesContainer>
         <PostContainer>
           {posts.map(({ node }) => {
-            const postLanguages = node.frontmatter.languages;
+            const postLanguages = node.frontmatter.tags;
             if (activeLanguages.some(language => postLanguages.includes(language)) || activeLanguages.length === 0) {
               const incorrectDate = `${node.frontmatter.date.split('/')[1]}/${node.frontmatter.date.split('/')[0]}/${
                 node.frontmatter.date.split('/')[2]
@@ -104,7 +104,7 @@ const Blog = ({ data }) => {
                 const contentData = {
                   internal: true,
                   link: node.fields.slug,
-                  topLine: node.frontmatter.languages,
+                  topLine: node.frontmatter.tags,
                   title: node.frontmatter.title,
                   bottomLine: `#${node.frontmatter.id} - ${node.frontmatter.date}`,
                 };
@@ -127,9 +127,9 @@ Blog.propTypes = {
           frontmatter: PropTypes.shape({
             title: PropTypes.string.isRequired,
             date: PropTypes.string.isRequired,
-            category: PropTypes.string.isRequired,
+            series: PropTypes.string.isRequired,
             description: PropTypes.string.isRequired,
-            languages: PropTypes.array.isRequired,
+            tags: PropTypes.array.isRequired,
           }),
           body: PropTypes.string.isRequired,
           timeToRead: PropTypes.number.isRequired,
@@ -151,9 +151,9 @@ export const query = graphql`
           frontmatter {
             title
             date(formatString: "DD/MM/YYYY")
-            category
+            series
             description
-            languages
+            tags
             id
           }
           body

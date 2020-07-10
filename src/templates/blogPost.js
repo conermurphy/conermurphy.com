@@ -45,7 +45,7 @@ const BlogPost = ({ data, pageContext }) => {
         <h1>{post.frontmatter.title}</h1>
         <p style={{ marginTop: 0 }}>
           {post.frontmatter.date.slice(0, 2)}/{post.frontmatter.date.slice(2, 4)}/{post.frontmatter.date.slice(4, 8)} | {post.timeToRead}{' '}
-          minute read | <b>Languages:</b> {post.frontmatter.languages.map(lan => `${lan}, `)}
+          minute read | <b>Languages:</b> {post.frontmatter.tags.map(tag => `${tag}, `)}
         </p>
         <p></p>
         <MDXProvider components={components}>
@@ -76,8 +76,8 @@ export const query = graphql`
           }
         }
         date(formatString: "DDMMYYYY")
-        category
-        languages
+        series
+        tags
         id
       }
     }
@@ -92,9 +92,9 @@ BlogPost.propTypes = {
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
-        category: PropTypes.string.isRequired,
+        series: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
-        languages: PropTypes.array.isRequired,
+        tags: PropTypes.array.isRequired,
         image: PropTypes.object,
       }),
     }),

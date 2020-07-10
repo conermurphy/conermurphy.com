@@ -381,7 +381,7 @@ const Index = ({ data }) => {
               const blogcontentData = {
                 internal: true,
                 link: node.fields.slug,
-                topLine: node.frontmatter.languages,
+                topLine: node.frontmatter.tags,
                 title: node.frontmatter.title,
                 bottomLine: `#${node.frontmatter.id} - ${node.frontmatter.date}`,
               };
@@ -469,9 +469,9 @@ Index.propTypes = {
             frontmatter: PropTypes.shape({
               title: PropTypes.string.isRequired,
               date: PropTypes.string.isRequired,
-              category: PropTypes.string.isRequired,
+              series: PropTypes.string.isRequired,
               description: PropTypes.string.isRequired,
-              languages: PropTypes.array.isRequired,
+              tags: PropTypes.array.isRequired,
               id: PropTypes.number.isRequired,
             }),
             fields: PropTypes.shape({
@@ -493,9 +493,9 @@ export const query = graphql`
           frontmatter {
             title
             date(formatString: "DD/MM/YYYY")
-            category
+            series
             description
-            languages
+            tags
             id
           }
           fields {
