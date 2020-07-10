@@ -61,7 +61,7 @@ const Blog = ({ data }) => {
   });
 
   const handleClick = e => {
-    const tagToSet = e.currentTarget.dataset.label;
+    const tagToSet = e.target.innerText;
     if (activeTags.includes(tagToSet)) {
       setActiveTags(activeTags.filter(tag => tag !== tagToSet));
     } else {
@@ -84,10 +84,8 @@ const Blog = ({ data }) => {
           </p>
         </header>
         <TagsContainer>
-          {allTags.map((tag, index) => (
-            <div key={tag} onClick={handleClick} active={!!activeTags.includes(tag)} data-label={tag}>
-              <TagGenerator language={tag} key={index} active={!!activeTags.includes(tag)} />
-            </div>
+          {allTags.map(tag => (
+            <TagGenerator handleActive={handleClick} language={tag} key={tag} active={!!activeTags.includes(tag)} data-label={tag} />
           ))}
         </TagsContainer>
         <PostContainer>
@@ -102,7 +100,7 @@ const Blog = ({ data }) => {
                 const contentData = {
                   internal: true,
                   link: node.fields.slug,
-                  topLine: node.frontmatter.tags,
+                  topLine: postTags,
                   title: node.frontmatter.title,
                   bottomLine: `#${node.frontmatter.id} - ${node.frontmatter.date}`,
                 };

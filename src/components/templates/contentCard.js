@@ -130,7 +130,7 @@ ContentCard.propTypes = {
   data: PropTypes.shape({
     internal: PropTypes.bool,
     link: PropTypes.string,
-    topLine: PropTypes.string,
+    topLine: PropTypes.array,
     title: PropTypes.string,
     bottomLine: PropTypes.string,
   }).isRequired,

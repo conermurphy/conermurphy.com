@@ -16,7 +16,7 @@ const StyledTag = styled(motion.p)`
   transition: 0.2s all ease-in-out;
 `;
 
-const TagGenerator = ({ language, active }) => {
+const TagGenerator = ({ handleActive, language, active }) => {
   const languageTrim = language.trim();
   const languageToDisplay = tagJSON[languageTrim];
 
@@ -27,6 +27,7 @@ const TagGenerator = ({ language, active }) => {
       color={languageToDisplay.color}
       whileHover={{ scale: 0.95 }}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
+      onClick={handleActive}
     >
       {languageTrim}
     </StyledTag>
