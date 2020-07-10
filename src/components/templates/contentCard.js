@@ -81,6 +81,8 @@ const cardContainerVariants = {
 const ContentCard = ({ data }) => {
   const { internal, link, topLine, title, bottomLine } = data;
 
+  console.log(topLine);
+
   return internal ? (
     <CardLink to={`${link}`}>
       <CardContainer
