@@ -24,14 +24,12 @@ const BlogContainer = styled.section`
   }
 `;
 
-const LanguagesContainer = styled.div`
+const TagsContainer = styled.div`
   display: flex;
   padding: 1rem;
   flex-direction: row;
   flex-wrap: wrap;
 `;
-
-const Language = styled.div``;
 
 const PostContainer = styled.article`
   display: grid;
@@ -48,26 +46,26 @@ const PostContainer = styled.article`
 `;
 
 const Blog = ({ data }) => {
-  const [activeLanguages, setActiveLanguages] = useState([]);
+  const [activeTags, setActiveTags] = useState([]);
   const posts = data.allMdx.edges;
   const { title } = useSiteMetadata();
-  const allLanguages = [];
+  const allTags = [];
 
   posts.forEach(post => {
     const { tags } = post.node.frontmatter;
     tags.forEach(language => {
-      if (!allLanguages.includes(language)) {
-        allLanguages.push(language);
+      if (!allTags.includes(language)) {
+        allTags.push(language);
       }
     });
   });
 
   const handleClick = e => {
-    const languageToSet = e.currentTarget.dataset.label;
-    if (activeLanguages.includes(languageToSet)) {
-      setActiveLanguages(activeLanguages.filter(language => language !== languageToSet));
+    const tagToSet = e.currentTarget.dataset.label;
+    if (activeTags.includes(tagToSet)) {
+      setActiveTags(activeTags.filter(tag => tag !== tagToSet));
     } else {
-      setActiveLanguages([...activeLanguages, languageToSet]);
+      setActiveTags([...activeTags, tagToSet]);
     }
   };
 
@@ -85,17 +83,17 @@ const Blog = ({ data }) => {
             be happy to answer them!
           </p>
         </header>
-        <LanguagesContainer>
-          {allLanguages.map((language, index) => (
-            <Language key={language} onClick={handleClick} active={!!activeLanguages.includes(language)} data-label={language}>
-              <TagGenerator language={language} key={index} active={!!activeLanguages.includes(language)} />
-            </Language>
+        <TagsContainer>
+          {allTags.map((tag, index) => (
+            <div key={tag} onClick={handleClick} active={!!activeTags.includes(tag)} data-label={tag}>
+              <TagGenerator language={tag} key={index} active={!!activeTags.includes(tag)} />
+            </div>
           ))}
-        </LanguagesContainer>
+        </TagsContainer>
         <PostContainer>
           {posts.map(({ node }) => {
-            const postLanguages = node.frontmatter.tags;
-            if (activeLanguages.some(language => postLanguages.includes(language)) || activeLanguages.length === 0) {
+            const postTags = node.frontmatter.tags;
+            if (activeTags.some(tag => postTags.includes(tag)) || activeTags.length === 0) {
               const incorrectDate = `${node.frontmatter.date.split('/')[1]}/${node.frontmatter.date.split('/')[0]}/${
                 node.frontmatter.date.split('/')[2]
               }`;
