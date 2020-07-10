@@ -6,7 +6,10 @@
             "type": "Back-End",
             "URL": "https://covid-19-graphql-api.herokuapp.com/",
             "description": "GraphQL for the COVID-19 pandemic data.",
-            "technologies": "GraphQL",
+            "technologies": [
+                "GraphQL",
+                "NodeJS"
+            ],
             "date": "29-06-2020"
         },
         {
@@ -14,7 +17,9 @@
             "type": "Front-End",
             "URL": "https://covid-19-analyser.netlify.app",
             "description": "Landing page for my COVID-19 GraphQL API.",
-            "technologies": "JavaScript",
+            "technologies": [
+                "JavaScript"
+            ],
             "date": "29-06-2020"
         },
         {
@@ -22,7 +27,9 @@
             "type": "Front-End",
             "URL": "https://conermurphy.com",
             "description": "My personal website (this site).",
-            "technologies": "GatsbyJS",
+            "technologies": [
+                "GatsbyJS"
+            ],
             "date": "11-05-2020"
         },
         {
@@ -30,7 +37,9 @@
             "type": "Website",
             "URL": "https://myrmedia.ltd/",
             "description": "Photography & Cinematography Portfolio website.",
-            "technologies": "GatsbyJS",
+            "technologies": [
+                "GatsbyJS"
+            ],
             "date": "08-03-2020"
         }
     ]
