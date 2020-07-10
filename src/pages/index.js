@@ -358,12 +358,13 @@ const Index = ({ data }) => {
           <h3 style={{ marginTop: '0' }}>Latest Projects</h3>
           <PortfolioPosts>
             {portfolioItems.map((item, index) => {
+              const bottomLine = `${item.date} | ${item.description}`;
               const portfolioContentData = {
                 internal: false,
                 link: item.URL,
                 topLine: item.technologies,
                 title: item.title,
-                bottomLine: item.description,
+                bottomLine,
               };
               return <ContentCard data={portfolioContentData} key={index} />;
             })}

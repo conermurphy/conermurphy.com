@@ -64,12 +64,13 @@ const Portfolio = ({ data }) => {
         </header>
         <PostContainer>
           {portfolio.map((item, index) => {
+            const bottomLine = `${item.date} | ${item.description}`;
             const contentData = {
               internal: false,
               link: item.URL,
               topLine: item.technologies,
               title: item.title,
-              bottomLine: item.description,
+              bottomLine,
             };
             return <ContentCard data={contentData} key={index} />;
           })}

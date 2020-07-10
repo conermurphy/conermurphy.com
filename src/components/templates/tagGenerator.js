@@ -37,6 +37,7 @@ const TagGenerator = ({ handleActive, language, active }) => {
 export default TagGenerator;
 
 TagGenerator.propTypes = {
+  handleActive: PropTypes.func,
   language: PropTypes.string.isRequired,
   active: PropTypes.bool,
 };
