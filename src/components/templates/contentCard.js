@@ -67,10 +67,6 @@ const cardContainerVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 1,
-      type: 'spring',
-    },
   },
   hidden: {
     opacity: 0,
@@ -85,11 +81,10 @@ const ContentCard = ({ data }) => {
     <CardLink to={`${link}`}>
       <CardContainer
         whileHover={{ y: -10, scale: 0.95 }}
-        transition={{ duration: 0.25, ease: 'easeInOut' }}
+        layoutTransition={{ ease: 'easeInOut', type: 'spring', damping: 100, stiffness: 500 }}
         initial="hidden"
         animate="visible"
         variants={cardContainerVariants}
-        positionTransition
       >
         <PostInfo>
           {topLine.map((line, index) => (
