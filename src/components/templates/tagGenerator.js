@@ -8,7 +8,7 @@ const StyledTag = styled.p`
   margin: 0.25rem 0.5rem;
   border-radius: 10px;
   font-weight: 600;
-  background-color: ${props => (props.tagActive ? props.backgroundColor : 'none')};
+  background-color: ${props => (props.tagActive ? props.backgroundColor : 'inherit')};
   color: ${props => (props.tagActive ? props.color : 'inherit')};
   border: ${props => (props.tagActive ? 'none' : props.backgroundColor)} 2px solid;
   box-shadow: 0px 2px 2px var(--drop-shadows);
