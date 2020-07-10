@@ -31,7 +31,7 @@ const TagGenerator = ({ language }) => {
       color={languageToDisplay.color}
       onClick={handleClick}
     >
-      #{languageTrim}
+      {languageTrim}
     </StyledTag>
   );
 };
