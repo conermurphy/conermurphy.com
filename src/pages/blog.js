@@ -99,11 +99,12 @@ const Blog = ({ data }) => {
               const incorrectDate = `${node.frontmatter.date.split('/')[1]}/${node.frontmatter.date.split('/')[0]}/${
                 node.frontmatter.date.split('/')[2]
               }`;
+
               if (new Date(incorrectDate) <= new Date()) {
                 const contentData = {
                   internal: true,
                   link: node.fields.slug,
-                  topLine: node.frontmatter.languages.join(', '),
+                  topLine: node.frontmatter.languages,
                   title: node.frontmatter.title,
                   bottomLine: `#${node.frontmatter.id} - ${node.frontmatter.date}`,
                 };

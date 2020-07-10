@@ -381,7 +381,7 @@ const Index = ({ data }) => {
               const blogcontentData = {
                 internal: true,
                 link: node.fields.slug,
-                topLine: node.frontmatter.languages.join(', '),
+                topLine: node.frontmatter.languages,
                 title: node.frontmatter.title,
                 bottomLine: `#${node.frontmatter.id} - ${node.frontmatter.date}`,
               };
