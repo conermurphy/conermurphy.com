@@ -47,7 +47,7 @@ const navItemTap = {
 const GithubEdit = () => (
   <Container>
     <ContactMethod
-      href="https://github.com/conermurphy/conermurphy.com"
+      href="https://github.com/conermurphy/conermurphy.com/tree/master/src/posts"
       aria-label="Github"
       whileHover={navItemHover}
       whileTap={navItemTap}
