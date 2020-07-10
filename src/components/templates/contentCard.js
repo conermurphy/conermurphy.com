@@ -92,7 +92,7 @@ const ContentCard = ({ data }) => {
         positionTransition
       >
         <PostInfo>
-          {topLine.split(',').map((line, index) => (
+          {topLine.map((line, index) => (
             <TagGenerator language={line} key={index} />
           ))}
         </PostInfo>
@@ -113,7 +113,7 @@ const ContentCard = ({ data }) => {
         positionTransition
       >
         <LanguagesContainer>
-          {topLine.split(',').map((line, index) => (
+          {topLine.map((line, index) => (
             <TagGenerator language={line} key={index} />
           ))}
         </LanguagesContainer>
