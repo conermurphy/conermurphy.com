@@ -10,7 +10,8 @@
                 "GraphQL",
                 "NodeJS"
             ],
-            "date": "29-06-2020"
+            "date": "29-06-2020",
+            "repo": "https://github.com/conermurphy/covid-19-graphql-api"
         },
         {
             "title": "COVID-19 Analyser",
@@ -20,7 +21,8 @@
             "technologies": [
                 "JavaScript"
             ],
-            "date": "29-06-2020"
+            "date": "29-06-2020",
+            "repo": "https://github.com/conermurphy/covid-19-analyser"
         },
         {
             "title": "Coner Murphy",
@@ -30,7 +32,8 @@
             "technologies": [
                 "GatsbyJS"
             ],
-            "date": "11-05-2020"
+            "date": "11-05-2020",
+            "repo": "https://github.com/conermurphy/conermurphy.com"
         },
         {
             "title": "MYRmedia",
@@ -40,7 +43,8 @@
             "technologies": [
                 "GatsbyJS"
             ],
-            "date": "08-03-2020"
+            "date": "08-03-2020",
+            "repo": ""
         }
     ]
 }
