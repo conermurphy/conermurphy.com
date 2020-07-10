@@ -1,26 +1,34 @@
 {
     "html": {
-        "backgroundColor": "hsl(12, 77%, 52%)"
+        "backgroundColor": "hsl(12, 77%, 52%)",
+        "color": "rgba(248,245,245,255)"
     },
     "CSS": {
-        "backgroundColor": "rgb(38, 77, 228)"
+        "backgroundColor": "rgb(38, 77, 228)",
+        "color": "rgba(248,245,245,255)"
     },
     "JavaScript": {
-        "backgroundColor": "yellow"
+        "backgroundColor": "yellow",
+        "color": "rgba(50,50,50,200)"
     },
     "NodeJS": {
-        "backgroundColor": "rgb(68, 136, 62)"
+        "backgroundColor": "rgb(68, 136, 62)",
+        "color": "rgba(248,245,245,255)"
     },
     "ReactJS": {
-        "backgroundColor": "#61dafb"
+        "backgroundColor": "#61dafb",
+        "color": "rgba(248,245,245,255)"
     },
     "GatsbyJS": {
-        "backgroundColor": "rgb(102 51 153)"
+        "backgroundColor": "rgb(102 51 153)",
+        "color": "rgba(248,245,245,255)"
     },
     "GraphQL": {
-        "backgroundColor": "#E10098"
+        "backgroundColor": "#E10098",
+        "color": "rgba(248,245,245,255)"
     },
     "Other": {
-        "backgroundColor": "rgba(207,92,54,255)"
+        "backgroundColor": "rgba(207,92,54,255)",
+        "color": "rgba(248,245,245,255)"
     }
 }

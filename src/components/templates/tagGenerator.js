@@ -9,6 +9,7 @@ const StyledTag = styled.p`
   border-radius: 10px;
   font-weight: 600;
   background-color: ${props => props.backgroundColor};
+  color: ${props => props.color};
   box-shadow: 0px 2px 2px var(--drop-shadows);
 `;
 
@@ -16,7 +17,11 @@ const TagGenerator = ({ language }) => {
   const languageTrim = language.trim();
   const languageToDisplay = tagJSON[languageTrim];
 
-  return <StyledTag backgroundColor={languageToDisplay.backgroundColor}>#{languageTrim}</StyledTag>;
+  return (
+    <StyledTag backgroundColor={languageToDisplay.backgroundColor} color={languageToDisplay.color}>
+      #{languageTrim}
+    </StyledTag>
+  );
 };
 
 export default TagGenerator;
