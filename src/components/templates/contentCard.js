@@ -24,7 +24,7 @@ const CardContainer = styled(motion.div)`
   padding-top: 1.5rem;
   width: 60vw;
   height: auto;
-  min-height: 10rem;
+  min-height: 12rem;
   max-width: 25rem;
   border-radius: 2vh;
   overflow: hidden;
