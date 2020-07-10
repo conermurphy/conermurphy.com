@@ -45,7 +45,7 @@ const BlogPost = ({ data, pageContext }) => {
         <h1>{post.frontmatter.title}</h1>
         <p style={{ marginTop: 0 }}>
           {post.frontmatter.date.slice(0, 2)}/{post.frontmatter.date.slice(2, 4)}/{post.frontmatter.date.slice(4, 8)} | {post.timeToRead}{' '}
-          minute read | <b>Languages:</b> {post.frontmatter.tags.map(tag => `${tag}, `)}
+          minute read | <b>Tags:</b> {post.frontmatter.tags.map(tag => tag).join(', ')}
         </p>
         <p></p>
         <MDXProvider components={components}>
