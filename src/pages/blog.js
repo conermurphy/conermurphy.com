@@ -88,7 +88,7 @@ const Blog = ({ data }) => {
         <LanguagesContainer>
           {allLanguages.map((language, index) => (
             <Language key={language} onClick={handleClick} active={!!activeLanguages.includes(language)} data-label={language}>
-              <TagGenerator language={language} key={index} />
+              <TagGenerator language={language} key={index} active={!!activeLanguages.includes(language)} />
             </Language>
           ))}
         </LanguagesContainer>

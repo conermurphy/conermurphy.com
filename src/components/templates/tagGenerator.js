@@ -16,22 +16,15 @@ const StyledTag = styled(motion.p)`
   transition: 0.2s all ease-in-out;
 `;
 
-const TagGenerator = ({ language }) => {
-  const [tagActive, setTagActive] = useState(false); // State to handle if tag will display as active or not.
-
+const TagGenerator = ({ language, active }) => {
   const languageTrim = language.trim();
   const languageToDisplay = tagJSON[languageTrim];
 
-  function handleClick() {
-    setTagActive(!tagActive);
-  }
-
   return (
     <StyledTag
-      tagActive={tagActive}
+      tagActive={active}
       backgroundColor={languageToDisplay.backgroundColor}
       color={languageToDisplay.color}
-      onClick={handleClick}
       whileHover={{ scale: 0.95 }}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
     >
@@ -44,4 +37,5 @@ export default TagGenerator;
 
 TagGenerator.propTypes = {
   language: PropTypes.string.isRequired,
+  active: PropTypes.bool,
 };
