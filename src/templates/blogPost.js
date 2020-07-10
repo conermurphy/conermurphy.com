@@ -36,6 +36,7 @@ const components = {
 
 const BlogPost = ({ data, pageContext }) => {
   const post = data.mdx;
+  const { filePath } = data.mdx.fields;
   const { image } = post.frontmatter;
   const imagePath = image ? image.childImageSharp.fixed.src : logo;
   return (
@@ -52,7 +53,7 @@ const BlogPost = ({ data, pageContext }) => {
           <MDXRenderer>{post.body}</MDXRenderer>
         </MDXProvider>
         <EmailSignup />
-        <GithubEdit />
+        <GithubEdit filePath={filePath} />
         <ContactBlock />
         <PostNavigation pageContext={pageContext} />
       </BlogPostContainer>
@@ -65,6 +66,9 @@ export const query = graphql`
     mdx(fields: { slug: { eq: $slug } }) {
       body
       timeToRead
+      fields {
+        filePath
+      }
       frontmatter {
         title
         description
@@ -89,6 +93,9 @@ BlogPost.propTypes = {
     mdx: PropTypes.shape({
       body: PropTypes.string.isRequired,
       timeToRead: PropTypes.number.isRequired,
+      fields: PropTypes.shape({
+        filePath: PropTypes.string.isRequired,
+      }),
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,

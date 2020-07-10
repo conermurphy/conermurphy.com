@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { FaGithub } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 import device from '../device';
 
 const Container = styled.aside`
@@ -44,10 +45,10 @@ const navItemTap = {
   ease: 'easeInOut',
 };
 
-const GithubEdit = () => (
+const GithubEdit = ({ filePath }) => (
   <Container>
     <ContactMethod
-      href="https://github.com/conermurphy/conermurphy.com/tree/master/src/posts"
+      href={`https://github.com/conermurphy/conermurphy.com/tree/master/src/posts/${filePath}/${filePath}.mdx`}
       aria-label="Github"
       whileHover={navItemHover}
       whileTap={navItemTap}
@@ -58,7 +59,7 @@ const GithubEdit = () => (
     </ContactMethod>
     <div>
       <p>
-        If you think you've found an error in something I've said or shown then I would greatly apprecicate it if you could open a pull
+        If you think you've found an error in something I've said or shown then I would greatly appreciate it if you could open a pull
         request for the changes on my GitHub Repo.
       </p>
       <p>
@@ -68,5 +69,9 @@ const GithubEdit = () => (
     </div>
   </Container>
 );
+
+GithubEdit.propTypes = {
+  filePath: PropTypes.string.isRequired,
+};
 
 export default GithubEdit;

@@ -12,6 +12,11 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       name: 'slug',
       value: node.frontmatter.slug ? `/${node.frontmatter.slug}/` : slug,
     });
+    createNodeField({
+      node,
+      name: 'filePath',
+      value: slug,
+    });
   }
 };
 
