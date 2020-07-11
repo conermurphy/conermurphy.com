@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import { FaGithub } from 'react-icons/fa';
 import CornerArt from './cornerArt';
-import TagGenerator from './tagGenerator';
 
 const CardContainer = styled(motion.div)`
   display: flex;
@@ -15,12 +14,24 @@ const CardContainer = styled(motion.div)`
   width: 80vw;
   min-height: 20vh;
   max-width: 25rem;
+  margin: 1rem;
 
   border-radius: 2vh;
   overflow: hidden;
   background-color: var(--secondary-color);
   z-index: 1;
   box-shadow: 0px 0px 10px var(--drop-shadows);
+`;
+
+const GithubLink = styled.a`
+  z-index: 2;
+
+  & > svg {
+    font-size: 1.5rem;
+    position: absolute;
+    top: 180px;
+    right: 20px;
+  }
 `;
 
 const ImgContainer = styled.div`
@@ -52,6 +63,7 @@ const CardInfo = styled.div`
 const CardFooter = styled.div`
   display: flex;
   flex-direction: column;
+  padding-top: 1rem;
 
   & > p {
     margin: 0;
@@ -62,18 +74,18 @@ const PortfolioContentCard = ({ data }) => {
   const { link, technologies, title, date, description, repo } = data;
 
   return (
-    <a href={link} style={{ margin: '1rem' }}>
-      <CardContainer>
+    <CardContainer>
+      {repo.length !== 0 ? (
+        <GithubLink href={repo} target="_blank" rel="noopener noreferrer">
+          <FaGithub />
+        </GithubLink>
+      ) : null}
+      <a href={link}>
         <ImgContainer>
           <img src="" alt="" />
         </ImgContainer>
         <CardBody>
           <CardInfo>
-            {repo.length !== 0 ? (
-              <a href={repo} target="_blank" rel="noopener noreferrer">
-                <FaGithub style={{ fontSize: '1.5rem', position: 'absolute', top: '10', right: '-20' }} />
-              </a>
-            ) : null}
             <h3>{title}</h3>
             <p>{description}</p>
           </CardInfo>
@@ -85,8 +97,8 @@ const PortfolioContentCard = ({ data }) => {
           </CardFooter>
           <CornerArt adjustments={['17.5vh', 0, 0, 0]} />
         </CardBody>
-      </CardContainer>
-    </a>
+      </a>
+    </CardContainer>
   );
 };
 
