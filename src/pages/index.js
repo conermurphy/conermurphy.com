@@ -28,9 +28,9 @@ const HomeContainer = styled.section`
   padding-top: 0;
   margin-bottom: 0;
   height: 90vh;
-  background-color: var(--secondary-color);
+  background-color: var(--home-color);
   position: relative;
-  box-shadow: 0px 2px 2px var(--drop-shadows);
+  box-shadow: 0px 2px 10px var(--drop-shadows);
   z-index: 2;
 `;
 
@@ -164,7 +164,7 @@ const ContactContainer = styled.section`
   flex-wrap: wrap;
   position: relative;
   grid-area: contact;
-  box-shadow: 0px -2px 2px var(--drop-shadows);
+  box-shadow: 0px -2px 10px var(--drop-shadows);
 
   @media ${device.laptopL} {
     flex-wrap: wrap;
