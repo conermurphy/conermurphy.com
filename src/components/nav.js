@@ -20,7 +20,7 @@ const NavContainer = styled(motion.nav)`
   box-shadow: 0px -2px 2px var(--drop-shadows);
 
   @media ${device.laptopL} {
-    box-shadow: 0px 2px 2px var(--drop-shadows);
+    box-shadow: 0px 2px 10px var(--drop-shadows);
     top: 0;
   }
 `;

@@ -9,10 +9,9 @@ const StyledTag = styled(motion.p)`
   margin: 0.25rem 0.5rem;
   border-radius: 10px;
   font-weight: 600;
-  background-color: ${props => (props.tagActive ? props.backgroundColor : 'inherit')};
-  color: ${props => (props.tagActive ? props.color : 'inherit')};
+  background-color: ${props => (props.tagActive ? props.backgroundColor : 'var(--secondary-color)')};
+  color: ${props => (props.tagActive ? props.color : 'var(--body-font-color)')};
   border: ${props => props.backgroundColor} 2px solid;
-  box-shadow: 0px 2px 2px var(--drop-shadows);
   transition: 0.2s all ease-in-out;
 `;
 

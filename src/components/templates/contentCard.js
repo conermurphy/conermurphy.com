@@ -30,7 +30,7 @@ const CardContainer = styled(motion.div)`
   overflow: hidden;
   background-color: var(--secondary-color);
   z-index: 1;
-  box-shadow: 0px 2px 2px var(--drop-shadows);
+  box-shadow: 0px 0px 10px var(--drop-shadows);
 `;
 
 const LanguagesContainer = styled.div`
