@@ -12,7 +12,7 @@
             ],
             "date": "29-06-2020",
             "repo": "https://github.com/conermurphy/covid-19-graphql-api",
-            "image": "./functions-overview-og.png"
+            "image": "../assets/portfolioImages/functions-overview-og.png"
         },
         {
             "title": "COVID-19 Analyser",
@@ -24,7 +24,7 @@
             ],
             "date": "29-06-2020",
             "repo": "https://github.com/conermurphy/covid-19-analyser",
-            "image": "./functions-overview-og.png"
+            "image": "../assets/portfolioImages/functions-overview-og.png"
         },
         {
             "title": "Coner Murphy",
@@ -36,7 +36,7 @@
             ],
             "date": "11-05-2020",
             "repo": "https://github.com/conermurphy/conermurphy.com",
-            "image": "./functions-overview-og.png"
+            "image": "../assets/portfolioImages/functions-overview-og.png"
         },
         {
             "title": "MYRmedia",
@@ -48,7 +48,7 @@
             ],
             "date": "08-03-2020",
             "repo": "",
-            "image": "./functions-overview-og.png"
+            "image": "../assets/portfolioImages/functions-overview-og.png"
         }
     ]
 }
