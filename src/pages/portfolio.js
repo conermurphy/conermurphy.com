@@ -70,6 +70,7 @@ const Portfolio = ({ data }) => {
               title: item.title,
               date: item.date,
               description: item.description,
+              repo: item.repo,
             };
             return <PortfolioContentCard data={contentData} key={index} />;
           })}
@@ -91,6 +92,7 @@ Portfolio.propTypes = {
               technologies: PropTypes.string,
               title: PropTypes.string,
               type: PropTypes.string,
+              repo: PropTypes.string,
             })
           )
         ),
@@ -110,6 +112,7 @@ export const query = graphql`
         description
         technologies
         date
+        repo
       }
     }
   }

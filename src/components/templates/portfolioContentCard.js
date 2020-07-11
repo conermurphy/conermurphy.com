@@ -37,6 +37,8 @@ const CardBody = styled.div`
 `;
 
 const CardInfo = styled.div`
+  position: relative;
+
   & > h3 {
     margin-bottom: 0;
     margin-top: 1rem;
@@ -57,7 +59,7 @@ const CardFooter = styled.div`
 `;
 
 const PortfolioContentCard = ({ data }) => {
-  const { link, technologies, title, date, description } = data;
+  const { link, technologies, title, date, description, repo } = data;
 
   return (
     <a href={link} style={{ margin: '1rem' }}>
@@ -67,6 +69,11 @@ const PortfolioContentCard = ({ data }) => {
         </ImgContainer>
         <CardBody>
           <CardInfo>
+            {repo.length !== 0 ? (
+              <a href={repo} target="_blank" rel="noopener noreferrer">
+                <FaGithub style={{ fontSize: '1.5rem', position: 'absolute', top: '10', right: '-20' }} />
+              </a>
+            ) : null}
             <h3>{title}</h3>
             <p>{description}</p>
           </CardInfo>
@@ -84,30 +91,14 @@ const PortfolioContentCard = ({ data }) => {
 };
 
 PortfolioContentCard.propTypes = {
-  data: PropTypes.shape,
+  data: PropTypes.shape({
+    link: PropTypes.string.isRequired,
+    technologies: PropTypes.array.isRequired,
+    title: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    repo: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default PortfolioContentCard;
-
-// (
-//     <CardLinkExternal href={link}>
-//       <CardContainer
-//         whileHover={{ y: -10, scale: 0.95 }}
-//         transition={{ duration: 0.25, ease: 'easeInOut' }}
-//         initial="hidden"
-//         animate="visible"
-//         variants={cardContainerVariants}
-//         positionTransition
-//       >
-//         <LanguagesContainer>
-//           {topLine.map((line, index) => (
-//             <TagGenerator language={line} key={index} />
-//           ))}
-//         </LanguagesContainer>
-//         <PostTitle>{title}</PostTitle>
-//         <PostInfo>{bottomLine}</PostInfo>
-//         <AuthorName>@MrConerMurphy</AuthorName>
-//         <CornerArt adjustments={['17.5vh', 0, 0, 0]} />
-//       </CardContainer>
-//     </CardLinkExternal>
-//   );

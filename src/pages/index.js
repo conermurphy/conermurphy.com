@@ -365,6 +365,7 @@ const Index = ({ data }) => {
                 title: item.title,
                 date: item.date,
                 description: item.description,
+                repo: item.repo,
               };
               return <PortfolioContentCard data={portfolioContentData} key={index} />;
             })}
@@ -457,6 +458,7 @@ Index.propTypes = {
               technologies: PropTypes.string,
               title: PropTypes.string,
               type: PropTypes.string,
+              repo: PropTypes.string,
             })
           )
         ),
@@ -512,6 +514,7 @@ export const query = graphql`
         date
         description
         technologies
+        repo
       }
     }
   }
