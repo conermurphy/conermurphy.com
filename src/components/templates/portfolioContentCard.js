@@ -70,13 +70,35 @@ const CardFooter = styled.div`
   }
 `;
 
+const cardContainerVariants = {
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+    },
+  },
+  hidden: {
+    opacity: 0,
+    y: 0,
+    scale: 0,
+  },
+};
+
 const PortfolioContentCard = ({ data }) => {
   const { link, technologies, title, date, description, repo, image } = data;
 
   const portfolioImg = image.childImageSharp.fluid;
 
   return (
-    <CardContainer>
+    <CardContainer
+      whileHover={{ y: -10, scale: 0.95 }}
+      layoutTransition={{ ease: 'easeInOut', type: 'spring', damping: 100, stiffness: 500 }}
+      initial="hidden"
+      animate="visible"
+      variants={cardContainerVariants}
+    >
       {repo.length !== 0 ? (
         <GithubLink href={repo} target="_blank" rel="noopener noreferrer">
           <FaGithub />
