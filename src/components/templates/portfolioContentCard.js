@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import { FaGithub } from 'react-icons/fa';
 import CornerArt from './cornerArt';
+import device from '../device';
 
 const CardContainer = styled(motion.div)`
   display: flex;
@@ -12,7 +12,6 @@ const CardContainer = styled(motion.div)`
   position: relative;
 
   width: 80vw;
-  min-height: 20vh;
   max-width: 25rem;
   margin: 1rem;
 
@@ -29,7 +28,7 @@ const GithubLink = styled.a`
   & > svg {
     font-size: 1.5rem;
     position: absolute;
-    top: 180px;
+    top: 22.5vh;
     right: 20px;
   }
 `;
