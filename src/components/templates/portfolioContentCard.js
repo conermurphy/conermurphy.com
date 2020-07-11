@@ -28,7 +28,8 @@ const GithubLink = styled.a`
   & > svg {
     font-size: 1.5rem;
     position: absolute;
-    top: 22.5vh;
+    /* top: 22.5vh; */
+    top: 2.5vh;
     right: 20px;
   }
 `;
@@ -70,7 +71,7 @@ const CardFooter = styled.div`
 `;
 
 const PortfolioContentCard = ({ data }) => {
-  const { link, technologies, title, date, description, repo } = data;
+  const { link, technologies, title, date, description, repo, image } = data;
 
   return (
     <CardContainer>
@@ -80,9 +81,9 @@ const PortfolioContentCard = ({ data }) => {
         </GithubLink>
       ) : null}
       <a href={link}>
-        <ImgContainer>
-          <img src="" alt="" />
-        </ImgContainer>
+        {/* <ImgContainer>
+          <img src={image} alt={`${title} website screenshot`} />
+        </ImgContainer> */}
         <CardBody>
           <CardInfo>
             <h3>{title}</h3>
@@ -109,6 +110,7 @@ PortfolioContentCard.propTypes = {
     date: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     repo: PropTypes.string.isRequired,
+    image: PropTypes.string,
   }).isRequired,
 };
 

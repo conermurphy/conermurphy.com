@@ -72,6 +72,7 @@ const Portfolio = ({ data }) => {
               date: item.date,
               description: item.description,
               repo: item.repo,
+              image: item.image,
             };
             return <PortfolioContentCard data={contentData} key={index} />;
           })}
@@ -94,6 +95,7 @@ Portfolio.propTypes = {
               title: PropTypes.string,
               type: PropTypes.string,
               repo: PropTypes.string,
+              image: PropTypes.string,
             })
           )
         ),

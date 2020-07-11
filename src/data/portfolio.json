@@ -11,7 +11,8 @@
                 "NodeJS"
             ],
             "date": "29-06-2020",
-            "repo": "https://github.com/conermurphy/covid-19-graphql-api"
+            "repo": "https://github.com/conermurphy/covid-19-graphql-api",
+            "image": ""
         },
         {
             "title": "COVID-19 Analyser",
@@ -22,7 +23,8 @@
                 "JavaScript"
             ],
             "date": "29-06-2020",
-            "repo": "https://github.com/conermurphy/covid-19-analyser"
+            "repo": "https://github.com/conermurphy/covid-19-analyser",
+            "image": ""
         },
         {
             "title": "Coner Murphy",
@@ -33,7 +35,8 @@
                 "GatsbyJS"
             ],
             "date": "11-05-2020",
-            "repo": "https://github.com/conermurphy/conermurphy.com"
+            "repo": "https://github.com/conermurphy/conermurphy.com",
+            "image": ""
         },
         {
             "title": "MYRmedia",
@@ -44,7 +47,8 @@
                 "GatsbyJS"
             ],
             "date": "08-03-2020",
-            "repo": ""
+            "repo": "",
+            "image": ""
         }
     ]
 }

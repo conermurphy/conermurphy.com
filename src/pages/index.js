@@ -366,6 +366,7 @@ const Index = ({ data }) => {
                 date: item.date,
                 description: item.description,
                 repo: item.repo,
+                image: item.image,
               };
               return <PortfolioContentCard data={portfolioContentData} key={index} />;
             })}
@@ -459,6 +460,7 @@ Index.propTypes = {
               title: PropTypes.string,
               type: PropTypes.string,
               repo: PropTypes.string,
+              image: PropTypes.string,
             })
           )
         ),
