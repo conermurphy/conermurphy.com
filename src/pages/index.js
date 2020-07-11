@@ -270,7 +270,7 @@ const Index = ({ data }) => {
   const portfolioContent = data.dataJson.content;
 
   const blogPosts = data.allMdx.edges;
-  const portfolioItems = portfolioContent.slice(portfolioContent.length - 2);
+  const portfolioItems = portfolioContent.sort((a, b) => new Date(a.date) - new Date(b.date)).slice(0, 2);
 
   const languagesUsed = ['GatsbyJS', 'HTML', 'CSS', 'JavaScript', 'NodeJS', 'ReactJS', 'GraphQL'];
 
