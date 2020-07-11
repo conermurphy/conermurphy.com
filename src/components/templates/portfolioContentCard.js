@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import { FaGithub } from 'react-icons/fa';
 import Img from 'gatsby-image';
+import device from '../device';
 import CornerArt from './cornerArt';
 
 const CardContainer = styled(motion.div)`
@@ -12,7 +13,7 @@ const CardContainer = styled(motion.div)`
   position: relative;
 
   width: 80vw;
-  max-width: 25rem;
+  max-width: 22rem;
   margin: 1rem;
 
   border-radius: 2vh;
@@ -27,16 +28,20 @@ const GithubLink = styled.a`
 
   & > svg {
     font-size: 1.5rem;
+    color: var(--background-color);
+    background-color: rgba(207, 92, 54, 255);
+    padding: 0.5rem;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px var(--drop-shadows);
     position: absolute;
-    top: 22.5vh;
+    top: 1rem;
     right: 20px;
   }
 `;
 
 const ImgContainer = styled.div`
   width: 80vw;
-  max-width: 25rem;
-  height: 20vh;
+  max-width: 22rem;
 `;
 
 const CardBody = styled.div`
