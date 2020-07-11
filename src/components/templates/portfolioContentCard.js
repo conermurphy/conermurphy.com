@@ -34,7 +34,9 @@ const GithubLink = styled.a`
 `;
 
 const ImgContainer = styled.div`
-  background-color: blue;
+  width: 80vw;
+  max-width: 25rem;
+  height: 20vh;
 `;
 
 const CardBody = styled.div`
