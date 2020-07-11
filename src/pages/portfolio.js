@@ -116,6 +116,13 @@ export const query = graphql`
         technologies
         date
         repo
+        image {
+          childImageSharp {
+            fluid {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
       }
     }
   }

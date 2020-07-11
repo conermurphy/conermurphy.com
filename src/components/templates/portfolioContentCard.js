@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import { FaGithub } from 'react-icons/fa';
+import Img from 'gatsby-image';
 import CornerArt from './cornerArt';
-import device from '../device';
 
 const CardContainer = styled(motion.div)`
   display: flex;
@@ -28,15 +28,13 @@ const GithubLink = styled.a`
   & > svg {
     font-size: 1.5rem;
     position: absolute;
-    /* top: 22.5vh; */
-    top: 2.5vh;
+    top: 22.5vh;
     right: 20px;
   }
 `;
 
 const ImgContainer = styled.div`
   background-color: blue;
-  height: 20vh;
 `;
 
 const CardBody = styled.div`
@@ -73,6 +71,8 @@ const CardFooter = styled.div`
 const PortfolioContentCard = ({ data }) => {
   const { link, technologies, title, date, description, repo, image } = data;
 
+  const portfolioImg = image.childImageSharp.fluid;
+
   return (
     <CardContainer>
       {repo.length !== 0 ? (
@@ -81,9 +81,9 @@ const PortfolioContentCard = ({ data }) => {
         </GithubLink>
       ) : null}
       <a href={link}>
-        {/* <ImgContainer>
-          <img src={image} alt={`${title} website screenshot`} />
-        </ImgContainer> */}
+        <ImgContainer>
+          <Img fluid={portfolioImg} alt={`${title} website screenshot`} />
+        </ImgContainer>
         <CardBody>
           <CardInfo>
             <h3>{title}</h3>
@@ -110,7 +110,7 @@ PortfolioContentCard.propTypes = {
     date: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     repo: PropTypes.string.isRequired,
-    image: PropTypes.string,
+    image: PropTypes.object,
   }).isRequired,
 };
 
