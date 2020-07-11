@@ -3,7 +3,7 @@ import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
-import ContentCard from '../components/templates/contentCard';
+import BlogContentCard from '../components/templates/blogContentCard';
 import TagGenerator from '../components/templates/tagGenerator';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
 import device from '../components/device';
@@ -98,13 +98,12 @@ const Blog = ({ data }) => {
 
               if (new Date(incorrectDate) <= new Date()) {
                 const contentData = {
-                  internal: true,
                   link: node.fields.slug,
                   topLine: postTags,
                   title: node.frontmatter.title,
                   bottomLine: `#${node.frontmatter.id} - ${node.frontmatter.date}`,
                 };
-                return <ContentCard data={contentData} key={node.id} />;
+                return <BlogContentCard data={contentData} key={node.id} />;
               }
             }
             return null;

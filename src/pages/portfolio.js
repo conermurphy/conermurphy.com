@@ -3,10 +3,10 @@ import { graphql, Link } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Layout from '../components/layout';
-import ContentCard from '../components/templates/contentCard';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
 import device from '../components/device';
 import SEO from '../components/seo';
+import PortfolioContentCard from '../components/templates/portfolioContentCard';
 
 const PortfolioContainer = styled.section`
   display: flex;
@@ -64,15 +64,14 @@ const Portfolio = ({ data }) => {
         </header>
         <PostContainer>
           {portfolio.map((item, index) => {
-            const bottomLine = `${item.date} | ${item.description}`;
             const contentData = {
-              internal: false,
               link: item.URL,
-              topLine: item.technologies,
+              technologies: item.technologies,
               title: item.title,
-              bottomLine,
+              date: item.date,
+              description: item.description,
             };
-            return <ContentCard data={contentData} key={index} />;
+            return <PortfolioContentCard data={contentData} key={index} />;
           })}
         </PostContainer>
       </PortfolioContainer>

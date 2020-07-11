@@ -7,7 +7,8 @@ import { motion } from 'framer-motion';
 import Layout from '../components/layout';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
 import CornerArt from '../components/templates/cornerArt';
-import ContentCard from '../components/templates/contentCard';
+import BlogContentCard from '../components/templates/blogContentCard';
+import PortfolioContentCard from '../components/templates/portfolioContentCard';
 import LanguageIcons from '../components/templates/languageIcons';
 import device from '../components/device';
 import SEO from '../components/seo';
@@ -358,15 +359,14 @@ const Index = ({ data }) => {
           <h3 style={{ marginTop: '0' }}>Latest Projects</h3>
           <PortfolioPosts>
             {portfolioItems.map((item, index) => {
-              const bottomLine = `${item.date} | ${item.description}`;
               const portfolioContentData = {
-                internal: false,
                 link: item.URL,
-                topLine: item.technologies,
+                technologies: item.technologies,
                 title: item.title,
-                bottomLine,
+                date: item.date,
+                description: item.description,
               };
-              return <ContentCard data={portfolioContentData} key={index} />;
+              return <PortfolioContentCard data={portfolioContentData} key={index} />;
             })}
           </PortfolioPosts>
           <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
@@ -380,13 +380,12 @@ const Index = ({ data }) => {
           <BlogPosts>
             {blogPosts.map(({ node }, index) => {
               const blogcontentData = {
-                internal: true,
                 link: node.fields.slug,
                 topLine: node.frontmatter.tags,
                 title: node.frontmatter.title,
                 bottomLine: `#${node.frontmatter.id} - ${node.frontmatter.date}`,
               };
-              return <ContentCard data={blogcontentData} key={index} />;
+              return <BlogContentCard data={blogcontentData} key={index} />;
             })}
           </BlogPosts>
           <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
