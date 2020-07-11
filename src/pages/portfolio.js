@@ -39,6 +39,7 @@ const PostContainer = styled.article`
 
 const Portfolio = ({ data }) => {
   const portfolio = data.dataJson.content;
+  const portfolioItems = portfolio.sort((a, b) => new Date(a.date) - new Date(b.date));
   const { title } = useSiteMetadata();
 
   return (
@@ -63,7 +64,7 @@ const Portfolio = ({ data }) => {
           </p>
         </header>
         <PostContainer>
-          {portfolio.map((item, index) => {
+          {portfolioItems.map((item, index) => {
             const contentData = {
               link: item.URL,
               technologies: item.technologies,
