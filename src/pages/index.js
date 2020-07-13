@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, graphql } from 'gatsby';
-import { FaTwitter, FaInstagram, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { FaTwitter, FaInstagram, FaGithub, FaLinkedin, FaEnvelope, FaAngleDown } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import Layout from '../components/layout';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
-import CornerArt from '../components/templates/cornerArt';
 import BlogContentCard from '../components/templates/blogContentCard';
 import PortfolioContentCard from '../components/templates/portfolioContentCard';
-import LanguageIcons from '../components/templates/languageIcons';
 import device from '../components/device';
 import SEO from '../components/seo';
 
 const MainContainer = styled.div`
   display: grid;
-  grid-template-areas: 'home' 'about' 'portfolio' 'blog' 'contact';
+  grid-template-areas: 'home' 'portfolio' 'blog' 'contact';
   grid-template-columns: repeat(1, 1fr);
 `;
 
@@ -25,11 +23,9 @@ const HomeContainer = styled.section`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 2rem;
   padding-top: 0;
   margin-bottom: 0;
-  height: 90vh;
-  background-color: var(--home-color);
+  background-color: var(--secondary-color);
   position: relative;
   box-shadow: 0px 2px 10px var(--drop-shadows);
   z-index: 2;
@@ -38,7 +34,9 @@ const HomeContainer = styled.section`
 const HomeContentContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  margin: 5rem 1rem;
+  align-items: center;
+  width: -webkit-fill-available;
+  margin: 1rem;
 
   @media ${device.laptopL} {
     margin: 5rem;
@@ -50,70 +48,35 @@ const HomeContentContainer = styled(motion.div)`
 `;
 
 const HomeTitle = styled(motion.h1)`
-  font-size: 2rem;
-  margin-bottom: 1rem;
-
-  @media ${device.tablet} {
-    font-size: 2.5rem;
-  }
+  text-align: center;
+  font-size: 2.5rem;
 
   @media ${device.desktop} {
     font-size: 3.5rem;
   }
 `;
 
-const HomeJobRoles = styled(motion.h2)`
-  margin: 1rem 0;
-  font-size: 1.5rem;
-  font-weight: 400;
-
-  @media ${device.tablet} {
-    font-size: 2rem;
-  }
-
-  @media ${device.desktop} {
-    font-size: 2.25rem;
-  }
+const AboutText = styled.div`
+  width: 80%;
 `;
 
 const HomeButtonContainer = styled(motion.div)`
   display: flex;
   border: 2px solid var(--header-font-color);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  margin: 1rem 0;
-  width: max-content;
+  border-radius: 10px;
+  width: auto;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
 `;
 
 const HomeButton = styled(Link)`
-  font-size: 1rem;
+  font-size: 1.5rem;
   z-index: 2;
+  padding: 1rem;
 
   @media ${device.desktop} {
     font-size: 1.25rem;
-  }
-`;
-
-const AboutContainer = styled.section`
-  grid-area: about;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  padding: 1.5rem;
-
-  & > h3 {
-    margin-top: 0;
-  }
-
-  @media ${device.tablet} {
-    align-items: flex-start;
-    width: 75vw;
-    background-color: var(--background-color);
-    margin: auto;
-  }
-
-  @media ${device.desktop} {
-    width: 50vw;
   }
 `;
 
@@ -124,6 +87,7 @@ const PortfolioContent = styled.section`
   align-items: center;
   justify-content: center;
   background-color: var(--background-color);
+  padding-top: 2rem;
 
   @media ${device.laptopL} {
     padding: 1.5rem;
@@ -139,6 +103,7 @@ const PortfolioContent = styled.section`
 
 const BlogContent = styled(PortfolioContent)`
   grid-area: blog;
+  padding-bottom: 2rem;
 `;
 
 const PortfolioPosts = styled.div`
@@ -264,26 +229,13 @@ const IconContainer = styled(motion.div)`
 `;
 
 const Index = ({ data }) => {
-  const [onDesktop, setOnDesktop] = useState();
-  const { title, description } = useSiteMetadata();
-  const listDescription = description.split(',');
+  const { title } = useSiteMetadata();
   const portfolioContent = data.dataJson.content;
 
   const blogPosts = data.allMdx.edges;
   const portfolioItems = portfolioContent.sort((a, b) => new Date(a.date) - new Date(b.date)).slice(0, 2);
 
   const languagesUsed = ['GatsbyJS', 'HTML', 'CSS', 'JavaScript', 'NodeJS', 'ReactJS', 'GraphQL'];
-
-  let screenViewportQuery = null;
-
-  if (typeof window !== 'undefined') {
-    screenViewportQuery = window.matchMedia(device.laptopL);
-    const handleViewportResize = evt => setOnDesktop(evt.matches);
-
-    screenViewportQuery.addListener(handleViewportResize);
-  }
-
-  const cornerArtAdjustments = onDesktop ? ['75vh', 0, 0, 0] : ['50vh', 0, 0, 0];
 
   const handleClick = e => {
     const destination = e.currentTarget.attributes.href.value.slice(1);
@@ -310,52 +262,41 @@ const Index = ({ data }) => {
       <MainContainer>
         <HomeContainer>
           <HomeContentContainer initial="hidden" animate="visible">
-            <HomeTitle>{title}.</HomeTitle>
-            {listDescription.map((item, index) => (
-              <HomeJobRoles key={index}>{item}.</HomeJobRoles>
-            ))}
+            <HomeTitle>{title}</HomeTitle>
+
+            <AboutText>
+              <h3>About Me</h3>
+              <p>Hey, I'm Coner a web developer from Norwich 🇬🇧.</p>
+              <p>
+                I primarily use JavaScript in my work, if you're interested in seeing some of my previous work please check out my{' '}
+                <Link to="/portfolio" style={{ fontWeight: 600 }}>
+                  Portfolio.
+                </Link>
+              </p>
+              <p>
+                I also believe in helping others become amazing developers so I release blog posts regularly, you can see my latest blog
+                post above or check out all of them on my{' '}
+                <Link to="/blog" style={{ fontWeight: 600 }}>
+                  Blog.
+                </Link>
+              </p>
+              <p>
+                I really hope you enjoy my work and if you want to get in touch with me for any reason, you can do so via the methods listed
+                in the{' '}
+                <Link to="/#contact" style={{ fontWeight: 600 }} onClick={handleClick}>
+                  Contact Section.
+                </Link>
+              </p>
+            </AboutText>
 
             <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-              <HomeButton to="/#contact" onClick={handleClick}>
-                Contact Me
+              <HomeButton to="/#portfolio" onClick={handleClick} style={{ marginTop: '0.5rem' }}>
+                <FaAngleDown />
               </HomeButton>
             </HomeButtonContainer>
           </HomeContentContainer>
-          <CornerArt adjustments={cornerArtAdjustments} />
         </HomeContainer>
-        <AboutContainer id="about">
-          <h3>About Me</h3>
-          <p>Hey, I'm Coner a web developer from Norwich 🇬🇧.</p>
-          <p>
-            I primarily use JavaScript in my work, if you're interested in seeing some of my previous work please check out my{' '}
-            <Link to="/portfolio" style={{ fontWeight: 600 }}>
-              Portfolio.
-            </Link>
-          </p>
-          <p>
-            I also believe in helping others become amazing developers so I release blog posts regularly, you can see my latest blog post
-            above or check out all of them on my{' '}
-            <Link to="/blog" style={{ fontWeight: 600 }}>
-              Blog.
-            </Link>
-          </p>
-          <p>Currently, the primary technologies I use are:</p>
-          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', marginTop: '0.5rem' }}>
-            {languagesUsed.map((line, index) => (
-              <LanguageIcons language={line} key={index} />
-            ))}
-          </div>
-          <p>But, I'm always looking to add more to this list.</p>
-          <p>
-            I really hope you enjoy my work and if you want to get in touch with me for any reason, you can do so via the methods listed in
-            the{' '}
-            <Link to="/#contact" style={{ fontWeight: 600 }} onClick={handleClick}>
-              Contact Section.
-            </Link>
-          </p>
-        </AboutContainer>
-
-        <PortfolioContent>
+        <PortfolioContent id="portfolio">
           <h3 style={{ marginTop: '0' }}>Latest Projects</h3>
           <PortfolioPosts>
             {portfolioItems.map((item, index) => {

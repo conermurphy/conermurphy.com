@@ -29,7 +29,6 @@
 
 :root {
     --background-color: rgba(20, 20, 20, 255);
-    --home-color: rgba(25, 25, 25, 255);
     --secondary-color: rgba(35,35,35,255);
     --body-font-color: rgba(248,245,245,255);
     --drop-shadows: rgba(1,1,1,1);
@@ -43,7 +42,6 @@
 
 [data-theme="light"] {
     --background-color: rgba(248,245,245,255);
-    --home-color: rgba(248,245,245,255);
     --secondary-color: rgba(253,253,253,255);
     --body-font-color: rgba(50,50,50,200);
     --header-font-color: rgba(149,55,32,255);  
