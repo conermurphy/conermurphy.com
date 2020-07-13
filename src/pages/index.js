@@ -10,6 +10,7 @@ import BlogContentCard from '../components/templates/blogContentCard';
 import PortfolioContentCard from '../components/templates/portfolioContentCard';
 import device from '../components/device';
 import SEO from '../components/seo';
+import HomeInfoCards from '../components/homeInfoCards';
 
 const MainContainer = styled.div`
   display: grid;
@@ -263,7 +264,7 @@ const Index = ({ data }) => {
         <HomeContainer>
           <HomeContentContainer initial="hidden" animate="visible">
             <HomeTitle>{title}</HomeTitle>
-
+            <HomeInfoCards />
             <AboutText>
               <h3>About Me</h3>
               <p>Hey, I'm Coner a web developer from Norwich 🇬🇧.</p>
