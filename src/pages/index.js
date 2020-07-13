@@ -30,6 +30,7 @@ const HomeContainer = styled.section`
   position: relative;
   box-shadow: 0px 2px 10px var(--drop-shadows);
   z-index: 2;
+  overflow: hidden;
 `;
 
 const HomeContentContainer = styled(motion.div)`
