@@ -4,8 +4,14 @@ import device from './device';
 import homeCards from '../data/homeCards.json';
 
 const HomeInfoCards = () => {
-  homeCards.forEach(card => console.log(card));
-  return null;
+  console.log(homeCards);
+  return (
+    <div>
+      {homeCards.map(({ title, description }, index) => (
+        <p key={index}>{title}</p>
+      ))}
+    </div>
+  );
 };
 
 export default HomeInfoCards;
