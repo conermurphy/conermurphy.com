@@ -37,15 +37,13 @@ const HomeContentContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-evenly;
   width: -webkit-fill-available;
-  margin: 1rem;
-
-  @media ${device.laptopL} {
-    margin: 5rem;
-  }
+  margin: 0rem;
+  margin-bottom: 0;
 
   @media ${device.desktop} {
-    margin: 10rem;
+    height: calc(100vh - 5vh);
   }
 `;
 
@@ -60,6 +58,7 @@ const HomeTitle = styled(motion.h1)`
 
 const AboutText = styled.div`
   width: 80%;
+  text-align: center;
 `;
 
 const HomeButtonContainer = styled(motion.div)`
@@ -70,6 +69,14 @@ const HomeButtonContainer = styled(motion.div)`
   height: 2rem;
   align-items: center;
   justify-content: center;
+`;
+
+const HomeViewMoreContainer = styled(HomeButtonContainer)`
+  margin: 2rem;
+
+  @media ${device.laptopL} {
+    margin: 5rem;
+  }
 `;
 
 const HomeButton = styled(Link)`
@@ -291,11 +298,11 @@ const Index = ({ data }) => {
               </p>
             </AboutText>
 
-            <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+            <HomeViewMoreContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
               <HomeButton to="/#portfolio" onClick={handleClick} style={{ marginTop: '0.5rem' }}>
                 <FaAngleDown />
               </HomeButton>
-            </HomeButtonContainer>
+            </HomeViewMoreContainer>
           </HomeContentContainer>
         </HomeContainer>
         <PortfolioContent id="portfolio">

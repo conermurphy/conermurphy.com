@@ -9,7 +9,7 @@ const OverallContainer = styled(motion.div)`
   display: flex;
   flex-direction: row;
   position: relative;
-  width: 70vw;
+  width: 60vw;
   height: 10rem;
 `;
 
