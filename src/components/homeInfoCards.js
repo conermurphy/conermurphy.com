@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { motion, useAnimation } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import device from './device';
 import homeCards from '../data/homeCards.json';
+import useInterval from '../hooks/useInterval';
 
 const OverallContainer = styled(motion.div)`
   display: flex;
@@ -33,32 +34,49 @@ const CardContainer = styled(motion.div)`
 `;
 
 const HomeInfoCards = () => {
-  const controls = useAnimation();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    const sequence = async () => {
-      await controls.start(i => ({
-        opacity: [0, 1, 1, 0],
-        x: [-100, 0, 0, 100],
-        transition: {
-          delay: i * 2,
-          duration: 2,
-          ease: 'easeInOut',
-          times: [0, 0.2, 0.8, 1],
-        },
-      }));
-    };
-    sequence();
-  }, [controls]);
+  const { title, content } = homeCards[currentIndex];
+
+  useInterval(() => {
+    if (currentIndex < 4) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      setCurrentIndex(0);
+    }
+  }, 3000);
+
+  const item = {
+    hidden: {
+      opacity: 0,
+    },
+    show: {
+      opacity: [0, 1, 1, 1, 1],
+      x: [-200, 0, 0, 0, 0],
+      y: [0, 0, -10, 0, 0],
+      scale: [0.9, 0.9, 1, 0.9, 0.9],
+      transition: {
+        duration: 5,
+        ease: 'easeInOut',
+        times: [0, 0.2, 0.5, 0.8, 1],
+      },
+    },
+  };
 
   return (
     <OverallContainer>
-      {homeCards.map(({ title, content }, index) => (
-        <CardContainer custom={index} animate={controls} key={index}>
+      <AnimatePresence exitBeforeEnter>
+        <CardContainer
+          variants={item}
+          initial="hidden"
+          animate="show"
+          exit={{ x: 200, opacity: 0, y: 0, scale: 0.9, transition: { duration: 1, ease: 'easeInOut' } }}
+          key={title}
+        >
           <h3>{title}</h3>
           <p>{content}</p>
         </CardContainer>
-      ))}
+      </AnimatePresence>
     </OverallContainer>
   );
 };
