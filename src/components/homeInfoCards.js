@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import device from './device';
@@ -44,35 +44,29 @@ const HomeInfoCards = () => {
     } else {
       setCurrentIndex(0);
     }
-  }, 3000);
+  }, 5000);
 
   const item = {
     hidden: {
       opacity: 0,
     },
     show: {
-      opacity: [0, 1, 1, 1, 1],
-      x: [-200, 0, 0, 0, 0],
-      y: [0, 0, -10, 0, 0],
-      scale: [0.9, 0.9, 1, 0.9, 0.9],
+      opacity: [0, 1, 1, 1, 0],
+      x: [300, 0, 0, 0, -300],
+      y: [0, 0, -5, 0, 0],
+      scale: [0.9, 0.9, 0.95, 0.9, 0.9],
       transition: {
         duration: 5,
         ease: 'easeInOut',
-        times: [0, 0.2, 0.5, 0.8, 1],
+        times: [0, 0.2, 0.4, 0.8, 1],
       },
     },
   };
 
   return (
     <OverallContainer>
-      <AnimatePresence exitBeforeEnter>
-        <CardContainer
-          variants={item}
-          initial="hidden"
-          animate="show"
-          exit={{ x: 200, opacity: 0, y: 0, scale: 0.9, transition: { duration: 1, ease: 'easeInOut' } }}
-          key={title}
-        >
+      <AnimatePresence>
+        <CardContainer variants={item} initial="hidden" animate="show" exit={{ opacity: 0, transition: { ease: 'easeInOut' } }} key={title}>
           <h3>{title}</h3>
           <p>{content}</p>
         </CardContainer>
