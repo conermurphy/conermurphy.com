@@ -28,14 +28,14 @@ const GithubLink = styled.a`
 
   & > svg {
     font-size: 1.5rem;
-    color: var(--background-color);
-    background-color: rgba(207, 92, 54, 255);
-    padding: 0.5rem;
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px var(--drop-shadows);
+    color: var(--body-font-color);
+    background-color: var(--background-color);
+    padding: 1rem;
+    border-bottom-left-radius: 10px;
+    box-shadow: 0px 0px 3px var(--drop-shadows);
     position: absolute;
-    top: 1rem;
-    right: 20px;
+    top: 0rem;
+    right: 0px;
   }
 `;
 
