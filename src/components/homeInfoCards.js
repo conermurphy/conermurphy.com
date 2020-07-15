@@ -13,7 +13,7 @@ const OverallContainer = styled(motion.div)`
   width: 100vw;
   justify-content: center;
   align-items: center;
-  height: 35vh;
+  height: 40vh;
 
   @media ${device.tablet} {
     height: 25vh;
