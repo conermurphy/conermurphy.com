@@ -72,7 +72,8 @@ const AboutText = styled.div`
     font-size: 2rem;
   }
 
-  & > p {
+  & > p,
+  a {
     font-size: 1.1rem;
   }
 `;
@@ -163,6 +164,7 @@ const ContactContainer = styled.section`
 
 const ContactContent = styled.div`
   padding: 2rem;
+  padding-bottom: 0;
   display: flex;
   flex-direction: column;
 
@@ -184,50 +186,43 @@ const ContactContent = styled.div`
   }
 
   @media ${device.desktop} {
-    margin: none;
-    width: auto;
+    margin: auto;
+    width: 60vw;
     flex: 1;
-    justify-content: flex-start;
+    justify-content: center;
     height: 25vh;
   }
 `;
 
 const ContactIconContainer = styled.div`
-  padding: 2rem;
+  padding: 1rem;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
 
   & > a {
     display: flex;
     flex-direction: row;
     align-items: center;
-
-    & > p {
-      margin: 0 1rem;
-    }
+    margin: 0 0.5rem;
   }
 
   @media ${device.tablet} {
     flex-wrap: wrap;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    height: 20vh;
+    height: 25vh;
     width: 100%;
   }
 
   @media ${device.laptopL} {
-    justify-content: space-between;
+    justify-content: center;
     margin: auto;
-    width: 75vw;
+    width: 80vw;
   }
 
   @media ${device.desktop} {
-    flex: 1;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: flex-start;
     height: 25vh;
   }
 `;
@@ -371,31 +366,26 @@ const Index = ({ data }) => {
               <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
                 <FaTwitter />
               </IconContainer>
-              <p>@MrConerMurphy</p>
             </a>
             <a href="https://www.instagram.com/mrconermurphy/" aria-label="Instagram">
               <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
                 <FaInstagram />
               </IconContainer>
-              <p>@MrConerMurphy</p>
             </a>
             <a href="https://github.com/conermurphy" aria-label="Github">
               <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
                 <FaGithub />
               </IconContainer>
-              <p>Coner Murphy</p>
             </a>
             <a href="https://www.linkedin.com/in/coner-murphy/" aria-label="Linkedin">
               <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
                 <FaLinkedin />
               </IconContainer>
-              <p>Coner Murphy</p>
             </a>
             <a href="mailto:coner@conermurphy.com" aria-label="Email">
               <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
                 <FaEnvelope />
               </IconContainer>
-              <p>coner@conermurphy.com</p>
             </a>
           </ContactIconContainer>
         </ContactContainer>
