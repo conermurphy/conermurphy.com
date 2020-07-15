@@ -20,7 +20,7 @@ const PageContentContainer = styled.main`
 
   @media ${device.laptopL} {
     margin-bottom: 0;
-    margin-top: 7vh;
+    margin-top: 5vh;
   }
 `;
 
