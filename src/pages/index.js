@@ -37,13 +37,16 @@ const HomeContentContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: -webkit-fill-available;
   margin: 0rem;
   margin-bottom: 0;
 
   @media ${device.desktop} {
     height: calc(100vh - 5vh);
+    max-height: 60rem;
+    max-width: 80rem;
+    margin: auto;
   }
 `;
 
@@ -61,8 +64,16 @@ const AboutText = styled.div`
   text-align: center;
   margin-bottom: 2.5rem;
 
-  @media ${device.tablet} {
+  @media ${device.laptopL} {
     margin-bottom: 0;
+  }
+
+  & > h3 {
+    font-size: 2rem;
+  }
+
+  & > p {
+    font-size: 1.1rem;
   }
 `;
 
@@ -71,7 +82,6 @@ const HomeButtonContainer = styled(motion.div)`
   border: 2px solid var(--header-font-color);
   border-radius: 10px;
   width: auto;
-  height: 2rem;
   align-items: center;
   justify-content: center;
 `;
@@ -108,7 +118,7 @@ const PortfolioContent = styled.section`
   }
 
   @media ${device.desktop} {
-    width: 50%;
+    max-width: 80rem;
   }
 `;
 
@@ -136,7 +146,7 @@ const BlogPosts = styled(PortfolioPosts)``;
 
 const ContactContainer = styled.section`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background-color: var(--secondary-color);
   flex-wrap: wrap;
   position: relative;
@@ -145,10 +155,6 @@ const ContactContainer = styled.section`
 
   @media ${device.laptopL} {
     flex-wrap: wrap;
-  }
-
-  @media ${device.desktop} {
-    flex-wrap: nowrap;
   }
 `;
 
@@ -186,7 +192,7 @@ const ContactContent = styled.div`
 const ContactIconContainer = styled.div`
   padding: 2rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
 
   & > a {

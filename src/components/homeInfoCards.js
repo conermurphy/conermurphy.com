@@ -18,10 +18,6 @@ const OverallContainer = styled(motion.div)`
   @media ${device.tablet} {
     height: 25vh;
   }
-
-  @media ${device.desktop} {
-    height: 10vh;
-  }
 `;
 
 const CardContainer = styled(motion.div)`
@@ -33,7 +29,7 @@ const CardContainer = styled(motion.div)`
   width: 60vw;
   max-width: 25rem;
   height: auto;
-  background-color: var(--secondary-color);
+  background-color: var(--header-font-color);
   border-radius: 10px;
   margin: auto;
   padding: 2rem;
@@ -42,11 +38,16 @@ const CardContainer = styled(motion.div)`
 
   & > h3 {
     margin-top: 0;
+    color: rgba(248, 245, 245, 255);
+  }
+
+  & > p {
+    color: rgba(248, 245, 245, 255);
   }
 
   & > svg {
     font-size: 2.5rem;
-    color: var(--header-font-color);
+    color: rgba(248, 245, 245, 255);
     margin: 1rem;
   }
 `;
@@ -78,7 +79,7 @@ const HomeInfoCards = () => {
       opacity: 0,
     },
     show: {
-      opacity: [0, 1, 1, 1, 0],
+      opacity: [0.2, 1, 1, 1, 0.2],
       x: [300, 0, 0, 0, -300],
       y: [0, 0, -5, 0, 0],
       transition: {
