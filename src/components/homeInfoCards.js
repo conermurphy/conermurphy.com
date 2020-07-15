@@ -9,7 +9,9 @@ const OverallContainer = styled(motion.div)`
   display: flex;
   flex-direction: row;
   position: relative;
-  width: 60vw;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
   height: 10rem;
 `;
 
@@ -23,7 +25,7 @@ const CardContainer = styled(motion.div)`
   height: auto;
   background-color: var(--background-color);
   border-radius: 10px;
-  margin: 0.5rem;
+  margin: auto;
   padding: 1rem;
   text-align: center;
   box-shadow: 0px 0px 5px var(--drop-shadows);
