@@ -211,15 +211,10 @@ const ContactIconContainer = styled.div`
   @media ${device.tablet} {
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    width: 100%;
-  }
-
-  @media ${device.laptopL} {
     justify-content: center;
-    margin: auto;
+    align-items: center
     width: 80vw;
+    margin: auto;
   }
 `;
 
