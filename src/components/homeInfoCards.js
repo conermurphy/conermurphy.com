@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import device from './device';
+import { FaLocationArrow, FaQuestion, FaCoffee, FaGamepad, FaKeyboard } from 'react-icons/fa';
 import homeCards from '../data/homeCards.json';
 import useInterval from '../hooks/useInterval';
+import device from './device';
 
 const OverallContainer = styled(motion.div)`
   display: flex;
@@ -12,7 +13,15 @@ const OverallContainer = styled(motion.div)`
   width: 100vw;
   justify-content: center;
   align-items: center;
-  height: 10rem;
+  height: 35vh;
+
+  @media ${device.tablet} {
+    height: 25vh;
+  }
+
+  @media ${device.desktop} {
+    height: 10vh;
+  }
 `;
 
 const CardContainer = styled(motion.div)`
@@ -22,23 +31,39 @@ const CardContainer = styled(motion.div)`
   align-items: center;
   justify-content: space-between;
   width: 60vw;
+  max-width: 25rem;
   height: auto;
-  background-color: var(--background-color);
+  background-color: var(--secondary-color);
   border-radius: 10px;
   margin: auto;
-  padding: 1rem;
+  padding: 2rem;
   text-align: center;
-  box-shadow: 0px 0px 5px var(--drop-shadows);
+  box-shadow: 0px 2px 10px var(--drop-shadows);
 
   & > h3 {
     margin-top: 0;
   }
+
+  & > svg {
+    font-size: 2.5rem;
+    color: var(--header-font-color);
+    margin: 1rem;
+  }
 `;
+
+const Icon = ({ card }) =>
+  ({
+    Location: <FaLocationArrow />,
+    Description: <FaQuestion />,
+    'Other Content': <FaKeyboard />,
+    Coffee: <FaCoffee />,
+    Hobbies: <FaGamepad />,
+  }[card]);
 
 const HomeInfoCards = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const { title, content } = homeCards[currentIndex];
+  const { logo, title, content } = homeCards[currentIndex];
 
   useInterval(() => {
     if (currentIndex < 4) {
@@ -46,7 +71,7 @@ const HomeInfoCards = () => {
     } else {
       setCurrentIndex(0);
     }
-  }, 5000);
+  }, 10000);
 
   const item = {
     hidden: {
@@ -56,9 +81,8 @@ const HomeInfoCards = () => {
       opacity: [0, 1, 1, 1, 0],
       x: [300, 0, 0, 0, -300],
       y: [0, 0, -5, 0, 0],
-      scale: [0.9, 0.9, 0.95, 0.9, 0.9],
       transition: {
-        duration: 5,
+        duration: 10,
         ease: 'easeInOut',
         times: [0, 0.2, 0.4, 0.8, 1],
       },
@@ -69,6 +93,7 @@ const HomeInfoCards = () => {
     <OverallContainer>
       <AnimatePresence>
         <CardContainer variants={item} initial="hidden" animate="show" exit={{ opacity: 0, transition: { ease: 'easeInOut' } }} key={title}>
+          <Icon card={logo} />
           <h3>{title}</h3>
           <p>{content}</p>
         </CardContainer>

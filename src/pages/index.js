@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, graphql } from 'gatsby';
-import { FaTwitter, FaInstagram, FaGithub, FaLinkedin, FaEnvelope, FaAngleDown } from 'react-icons/fa';
+import { FaTwitter, FaInstagram, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import Layout from '../components/layout';
@@ -37,7 +37,7 @@ const HomeContentContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: -webkit-fill-available;
   margin: 0rem;
   margin-bottom: 0;
@@ -51,7 +51,7 @@ const HomeTitle = styled(motion.h1)`
   text-align: center;
   font-size: 2.5rem;
 
-  @media ${device.desktop} {
+  @media ${device.tablet} {
     font-size: 3.5rem;
   }
 `;
@@ -59,6 +59,11 @@ const HomeTitle = styled(motion.h1)`
 const AboutText = styled.div`
   width: 80%;
   text-align: center;
+  margin-bottom: 2.5rem;
+
+  @media ${device.tablet} {
+    margin-bottom: 0;
+  }
 `;
 
 const HomeButtonContainer = styled(motion.div)`
@@ -72,21 +77,18 @@ const HomeButtonContainer = styled(motion.div)`
 `;
 
 const HomeViewMoreContainer = styled(HomeButtonContainer)`
-  margin: 2rem;
+  display: none;
 
   @media ${device.laptopL} {
-    margin: 5rem;
+    display: block;
+    margin: 2.5rem;
   }
 `;
 
 const HomeButton = styled(Link)`
-  font-size: 1.5rem;
+  font-size: 1rem;
   z-index: 2;
-  padding: 1rem;
-
-  @media ${device.desktop} {
-    font-size: 1.25rem;
-  }
+  margin: 1rem;
 `;
 
 const PortfolioContent = styled.section`
@@ -299,8 +301,8 @@ const Index = ({ data }) => {
             </AboutText>
 
             <HomeViewMoreContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-              <HomeButton to="/#portfolio" onClick={handleClick} style={{ marginTop: '0.5rem' }}>
-                <FaAngleDown />
+              <HomeButton to="/#portfolio" onClick={handleClick}>
+                View More...
               </HomeButton>
             </HomeViewMoreContainer>
           </HomeContentContainer>
