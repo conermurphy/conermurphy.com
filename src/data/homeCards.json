@@ -1,22 +1,22 @@
 [
     {
-        "title": "Test Title 1",
-        "content": "Test Content to show on the card"
+        "title": "What am I?",
+        "content": "Currently, I'm a hobbyist web developer focused on Front-End technology like ReactJS. But, I also dabble in other technologies & languages from time-to-time."
     },
     {
-        "title": "Test Title 2",
-        "content": "Test Content to show on the card"
+        "title": "Where am I?",
+        "content": "I currently live in 'the fine city' of Norwich in the East of England."
     },
     {
-        "title": "Test Title 3",
-        "content": "Test Content to show on the card"
+        "title": "Am I just a dev?",
+        "content": "No! I also love to do other things like blog and make tutorials to help others improve in their dev journey!"
     },
     {
-        "title": "Test Title 4",
-        "content": "Test Content to show on the card"
+        "title": "Coffee?",
+        "content": "Of course! What dev is a dev now days without being 90% coffee."
     },
     {
-        "title": "Test Title 5",
-        "content": "Test Content to show on the card"
+        "title": "Anything else you enjoy?",
+        "content": "Loads of things, to much for this card. But, I'm also a keen motorbiker and gamer when I get the time!"
     }
 ]
