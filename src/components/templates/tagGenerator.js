@@ -6,12 +6,17 @@ import tagJSON from '../../data/tags.json';
 
 const StyledTag = styled(motion.p)`
   padding: 0.25rem 0.5rem;
+  margin: 0.25rem 0.5rem;
   border-radius: 10px;
   font-weight: 600;
   background-color: ${props => (props.tagActive ? props.backgroundColor : 'var(--secondary-color)')};
   color: ${props => (props.tagActive ? props.color : 'var(--body-font-color)')};
   border: ${props => props.backgroundColor} 2px solid;
   transition: 0.2s all ease-in-out;
+
+  :first-child {
+    margin-left: 0;
+  }
 `;
 
 const TagGenerator = ({ handleActive, language, active }) => {
