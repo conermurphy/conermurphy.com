@@ -1,22 +1,27 @@
 [
     {
+        "logo": "Description",
         "title": "What am I?",
         "content": "Currently, I'm a hobbyist web developer focused on Front-End technology like ReactJS. But, I also dabble in other technologies & languages from time-to-time."
     },
     {
+        "logo": "Location",
         "title": "Where am I?",
         "content": "I currently live in 'the fine city' of Norwich in the East of England."
     },
     {
+        "logo": "Other Content",
         "title": "Am I just a dev?",
         "content": "No! I also love to do other things like blog and make tutorials to help others improve in their dev journey!"
     },
     {
+        "logo": "Coffee",
         "title": "Coffee?",
         "content": "Of course! What dev is a dev now days without being 90% coffee."
     },
     {
-        "title": "Anything else you enjoy?",
-        "content": "Loads of things, to much for this card. But, I'm also a keen motorbiker and gamer when I get the time!"
+        "logo": "Hobbies",
+        "title": "What else do I enjoy?",
+        "content": "Loads of things, too much for this card. But, I'm also a keen motorbiker and gamer when I get the time!"
     }
 ]
