@@ -79,8 +79,8 @@ const HomeInfoCards = () => {
       opacity: 0,
     },
     show: {
-      opacity: [0.2, 1, 1, 1, 0.2],
-      x: [300, 0, 0, 0, -300],
+      opacity: [0, 1, 1, 1, 0],
+      x: [800, 0, 0, 0, -800],
       y: [0, 0, -5, 0, 0],
       transition: {
         duration: 10,
