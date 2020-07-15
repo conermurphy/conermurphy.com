@@ -6,7 +6,6 @@ import tagJSON from '../../data/tags.json';
 
 const StyledTag = styled(motion.p)`
   padding: 0.25rem 0.5rem;
-  margin: 0.25rem 0.5rem;
   border-radius: 10px;
   font-weight: 600;
   background-color: ${props => (props.tagActive ? props.backgroundColor : 'var(--secondary-color)')};

@@ -14,9 +14,9 @@ const CardContainer = styled(motion.div)`
   display: flex;
   position: relative;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 2rem 0;
+  align-items: flex-start;
+  text-align: left;
+  padding: 2rem 0rem;
   padding-top: 1.5rem;
   width: 80vw;
   height: auto;
@@ -31,25 +31,17 @@ const CardContainer = styled(motion.div)`
 
 const PostInfo = styled.div`
   font-size: 0.9rem;
-  margin: 0.5rem;
+  margin: 0.5rem 2rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 `;
 
 const PostTitle = styled.h3`
-  margin: 0.5rem;
+  margin: 0.5rem 2rem;
   font-size: 1.4rem;
   width: -webkit-fill-available;
   width: -moz-available;
-`;
-
-const AuthorName = styled.p`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 0.5rem 1rem;
-  font-size: 0.75rem;
 `;
 
 const cardContainerVariants = {
@@ -83,7 +75,6 @@ const BlogContentCard = ({ data }) => {
         <PostInfo>{topLine && topLine.map((line, index) => <TagGenerator language={line} key={index} />)}</PostInfo>
         <PostTitle>{title}</PostTitle>
         <PostInfo>{bottomLine}</PostInfo>
-        <AuthorName>@MrConerMurphy</AuthorName>
         <CornerArt adjustments={['17.5vh', 0, 0, 0]} />
       </CardContainer>
     </CardLink>
