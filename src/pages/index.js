@@ -167,6 +167,7 @@ const ContactContent = styled.div`
   padding-bottom: 0;
   display: flex;
   flex-direction: column;
+  text-align: center;
 
   & > h3 {
     margin-top: 0;
@@ -212,7 +213,6 @@ const ContactIconContainer = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    height: 25vh;
     width: 100%;
   }
 
@@ -220,10 +220,6 @@ const ContactIconContainer = styled.div`
     justify-content: center;
     margin: auto;
     width: 80vw;
-  }
-
-  @media ${device.desktop} {
-    height: 25vh;
   }
 `;
 
