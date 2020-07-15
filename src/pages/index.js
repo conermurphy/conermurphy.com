@@ -114,11 +114,16 @@ const PortfolioContent = styled.section`
     padding: 1.5rem;
     width: 75vw;
     margin: auto;
-    align-items: flex-start;
+    align-items: center;
   }
 
   @media ${device.desktop} {
     max-width: 80rem;
+  }
+
+  & > h3 {
+    margin: 1rem 0;
+    font-size: 2rem;
   }
 `;
 
@@ -134,15 +139,13 @@ const PortfolioPosts = styled.div`
   justify-content: center;
 
   @media ${device.laptopL} {
-    grid-template-columns: repeat(2, 1fr);
-
-    a:first-child {
-      margin-left: 0;
-    }
+    grid-template-columns: repeat(3, 1fr);
   }
 `;
 
-const BlogPosts = styled(PortfolioPosts)``;
+const BlogPosts = styled(PortfolioPosts)`
+  margin-bottom: 2rem;
+`;
 
 const ContactContainer = styled.section`
   display: flex;
@@ -314,7 +317,7 @@ const Index = ({ data }) => {
           </HomeContentContainer>
         </HomeContainer>
         <PortfolioContent id="portfolio">
-          <h3 style={{ marginTop: '0' }}>Latest Projects</h3>
+          <h3 style={{ marginLeft: '1rem' }}>Latest Projects</h3>
           <PortfolioPosts>
             {portfolioItems.map((item, index) => {
               const portfolioContentData = {
@@ -328,15 +331,13 @@ const Index = ({ data }) => {
               };
               return <PortfolioContentCard data={portfolioContentData} key={index} />;
             })}
+            <BlogContentCard
+              data={{ link: '/portfolio', topLine: ['See More'], title: 'Want to see more posts?', bottomLine: 'Click here...' }}
+            />
           </PortfolioPosts>
-          <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-            <HomeButton to="/portfolio" style={{ fontSize: '1rem' }}>
-              View More
-            </HomeButton>
-          </HomeButtonContainer>
         </PortfolioContent>
         <BlogContent>
-          <h3 style={{ marginTop: '0' }}>Latest Blog Posts</h3>
+          <h3 style={{ marginLeft: '1rem' }}>Latest Blog Posts</h3>
           <BlogPosts>
             {blogPosts.map(({ node }, index) => {
               const blogcontentData = {
@@ -347,12 +348,10 @@ const Index = ({ data }) => {
               };
               return <BlogContentCard data={blogcontentData} key={index} />;
             })}
+            <BlogContentCard
+              data={{ link: '/blog', topLine: ['See More'], title: 'Want to see more posts?', bottomLine: 'Click here...' }}
+            />
           </BlogPosts>
-          <HomeButtonContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-            <HomeButton to="/blog" style={{ fontSize: '1rem' }}>
-              View More
-            </HomeButton>
-          </HomeButtonContainer>
         </BlogContent>
 
         <ContactContainer id="contact">

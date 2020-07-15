@@ -80,11 +80,7 @@ const BlogContentCard = ({ data }) => {
         animate="visible"
         variants={cardContainerVariants}
       >
-        <PostInfo>
-          {topLine.map((line, index) => (
-            <TagGenerator language={line} key={index} />
-          ))}
-        </PostInfo>
+        <PostInfo>{topLine && topLine.map((line, index) => <TagGenerator language={line} key={index} />)}</PostInfo>
         <PostTitle>{title}</PostTitle>
         <PostInfo>{bottomLine}</PostInfo>
         <AuthorName>@MrConerMurphy</AuthorName>

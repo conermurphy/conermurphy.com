@@ -19,7 +19,7 @@ const TagGenerator = ({ handleActive, language, active }) => {
   const languageTrim = language.trim();
   const languageToDisplay = tagJSON[languageTrim];
 
-  return (
+  return Object.keys(tagJSON).includes(languageTrim) ? (
     <StyledTag
       tagActive={active}
       backgroundColor={languageToDisplay.backgroundColor}
@@ -28,6 +28,10 @@ const TagGenerator = ({ handleActive, language, active }) => {
       transition={{ duration: 0.25, ease: 'easeInOut' }}
       onClick={handleActive}
     >
+      {languageTrim}
+    </StyledTag>
+  ) : (
+    <StyledTag color="var(--header-font-color)" whileHover={{ scale: 0.95 }} transition={{ duration: 0.25, ease: 'easeInOut' }}>
       {languageTrim}
     </StyledTag>
   );
