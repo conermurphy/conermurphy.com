@@ -212,7 +212,7 @@ const ContactIconContainer = styled.div`
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
-    align-items: center
+    align-items: center;
     width: 80vw;
     margin: auto;
   }
