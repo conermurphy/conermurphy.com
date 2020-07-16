@@ -1,13 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 import LanguageIcons from './templates/languageIcons';
+import device from './device';
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   overflow-x: scroll;
-  justify-content: center;
+  overflow-y: hidden;
+
+  @media ${device.desktop} {
+    justify-content: center;
+  }
 `;
 
 const LanguageScroller = () => {
