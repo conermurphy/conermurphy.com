@@ -15,7 +15,7 @@ import LanguageScroller from '../components/LanguageScroller';
 
 const MainContainer = styled.div`
   display: grid;
-  grid-template-areas: 'home' 'portfolio' 'blog' 'contact';
+  grid-template-areas: 'home' 'scroller' 'portfolio' 'blog' 'contact';
   grid-template-columns: repeat(1, 1fr);
 `;
 
@@ -268,7 +268,7 @@ const Index = ({ data }) => {
         <HomeContainer>
           <HomeContentContainer initial="hidden" animate="visible">
             <HomeTitle>{title}</HomeTitle>
-            <HomeInfoCards />
+            <HomeInfoCards style={{ gridArea: 'scroller' }} />
             <AboutText>
               <h3>About Me</h3>
               <p>Hey, I'm Coner a web developer from Norwich 🇬🇧.</p>
