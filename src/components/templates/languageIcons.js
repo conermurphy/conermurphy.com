@@ -10,8 +10,7 @@ const LanguageIconContainer = styled.div`
 `;
 
 const IconContainer = styled(motion.button)`
-  width: 2rem;
-  height: 2rem;
+  height: 5rem;
   -webkit-appearance: none;
   background-color: transparent;
   border: none;
@@ -21,11 +20,13 @@ const IconContainer = styled(motion.button)`
   align-items: center;
   justify-content: center;
   padding: 0;
-  margin: 0 0.5rem;
+  margin: 2rem;
 
   & > svg {
-    width: 2rem;
-    height: 2rem;
+    width: 5rem;
+    height: auto;
+    filter: ${props => (props.active ? 'grayscale(0)' : 'grayscale(1)')};
+    transition: 0.5s all ease-in-out;
 
     & > path {
       stroke: inherit; // Now this is a hack.
@@ -82,7 +83,7 @@ const LanguageIcons = ({ language }) => {
   };
 
   const variants = {
-    clicked: { scale: 1.25 },
+    clicked: { scale: 1.1 },
     notClicked: { scale: 1 },
   };
 
@@ -160,6 +161,7 @@ const LanguageIcons = ({ language }) => {
         onClick={handleTap}
         onKeyPress={handleKeyPress}
         animate={tap ? 'clicked' : 'notClicked'}
+        active={tap}
         variants={variants}
       >
         {Object.keys(languages).includes(language) ? (

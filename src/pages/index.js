@@ -11,6 +11,7 @@ import PortfolioContentCard from '../components/templates/portfolioContentCard';
 import device from '../components/device';
 import SEO from '../components/seo';
 import HomeInfoCards from '../components/homeInfoCards';
+import LanguageScroller from '../components/LanguageScroller';
 
 const MainContainer = styled.div`
   display: grid;
@@ -241,8 +242,6 @@ const Index = ({ data }) => {
   const blogPosts = data.allMdx.edges;
   const portfolioItems = portfolioContent.sort((a, b) => new Date(a.date) - new Date(b.date)).slice(0, 2);
 
-  const languagesUsed = ['GatsbyJS', 'HTML', 'CSS', 'JavaScript', 'NodeJS', 'ReactJS', 'GraphQL'];
-
   const handleClick = e => {
     const destination = e.currentTarget.attributes.href.value.slice(1);
     document
@@ -302,6 +301,7 @@ const Index = ({ data }) => {
             </HomeViewMoreContainer>
           </HomeContentContainer>
         </HomeContainer>
+        <LanguageScroller />
         <PortfolioContent id="portfolio">
           <h3 style={{ marginLeft: '1rem' }}>Latest Projects</h3>
           <PortfolioPosts>
