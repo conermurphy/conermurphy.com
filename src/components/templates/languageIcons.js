@@ -36,7 +36,7 @@ const IconContainer = styled(motion.button)`
 
 const HoveredComponentText = styled.p`
   position: absolute;
-  bottom: -25px;
+  top: 0px;
   left: 0px;
   padding: 0.5rem;
   background-color: var(--body-font-color);

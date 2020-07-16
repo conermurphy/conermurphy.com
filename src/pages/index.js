@@ -29,7 +29,6 @@ const HomeContainer = styled.section`
   margin-bottom: 0;
   background-color: var(--secondary-color);
   position: relative;
-  box-shadow: 0px 2px 10px var(--drop-shadows);
   z-index: 2;
   overflow: hidden;
 `;
@@ -156,7 +155,6 @@ const ContactContainer = styled.section`
   flex-wrap: wrap;
   position: relative;
   grid-area: contact;
-  box-shadow: 0px -2px 10px var(--drop-shadows);
 
   @media ${device.laptopL} {
     flex-wrap: wrap;

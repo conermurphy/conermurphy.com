@@ -7,6 +7,7 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   overflow-x: scroll;
+  justify-content: center;
 `;
 
 const LanguageScroller = () => {
