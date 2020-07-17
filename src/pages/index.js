@@ -134,14 +134,11 @@ const BlogContent = styled(PortfolioContent)`
 `;
 
 const PortfolioPosts = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-
-  @media ${device.laptopL} {
-    grid-template-columns: repeat(3, 1fr);
-  }
 `;
 
 const BlogPosts = styled(PortfolioPosts)`
@@ -199,6 +196,7 @@ const ContactIconContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
 
   & > a {
     display: flex;
@@ -209,9 +207,6 @@ const ContactIconContainer = styled.div`
 
   @media ${device.tablet} {
     flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
     width: 80vw;
     margin: auto;
   }

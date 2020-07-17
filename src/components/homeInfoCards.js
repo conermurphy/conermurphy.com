@@ -9,11 +9,10 @@ import device from './device';
 const OverallContainer = styled(motion.div)`
   display: flex;
   flex-direction: row;
-  position: relative;
   width: 100vw;
   justify-content: center;
   align-items: center;
-  height: 40vh;
+  height: 50vh;
 
   @media ${device.tablet} {
     height: 25vh;
@@ -21,7 +20,6 @@ const OverallContainer = styled(motion.div)`
 `;
 
 const CardContainer = styled(motion.div)`
-  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
