@@ -1,8 +1,8 @@
 [
     {
         "logo": "Description",
-        "title": "What am I?",
-        "content": "Currently, I'm a hobbyist web developer focused on Front-End technology like ReactJS. But, I also dabble in other technologies & languages from time-to-time."
+        "title": "What do I do?",
+        "content": "I'm a hobbyist web developer focused on Front-End technology like ReactJS. But, I also dabble in other technologies & languages from time-to-time."
     },
     {
         "logo": "Location",
@@ -12,7 +12,7 @@
     {
         "logo": "Other Content",
         "title": "Am I just a dev?",
-        "content": "No! I also love to do other things like blog and make tutorials to help others improve in their dev journey!"
+        "content": "No! I also love to do other things like blog and make tutorials to help others in their dev journey!"
     },
     {
         "logo": "Coffee",
@@ -22,6 +22,6 @@
     {
         "logo": "Hobbies",
         "title": "What else do I enjoy?",
-        "content": "Loads of things, too much for this card. But, I'm also a keen motorbiker and gamer when I get the time!"
+        "content": "Loads of things, I'm a keen motorbiker, gamer and movie lover when I have spare time!"
     }
 ]
