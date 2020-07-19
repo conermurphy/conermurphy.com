@@ -75,10 +75,20 @@ const HomeTitle = styled(motion.h1)`
 
   @media ${device.desktop} {
     font-size: 15rem;
+    position: relative;
     text-transform: uppercase;
     text-align: left;
     line-height: 0.75;
     margin: 5rem;
+    z-index: 3;
+
+    ::after {
+      content: 'Coner Murphy';
+      position: absolute;
+      top: -4px;
+      left: 4px;
+      color: var(--body-font-color);
+    }
   }
 `;
 
