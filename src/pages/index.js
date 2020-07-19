@@ -45,8 +45,23 @@ const HomeContentContainer = styled(motion.div)`
   @media ${device.desktop} {
     height: calc(100vh - 5vh);
     max-height: 60rem;
-    max-width: 80rem;
+    max-width: 100rem;
     margin: auto;
+    flex-direction: row;
+  }
+`;
+
+const HomeAboutSection = styled.div`
+  width: inherit;
+  max-width: 80rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media ${device.desktop} {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 50%;
   }
 `;
 
@@ -56,6 +71,15 @@ const HomeTitle = styled(motion.h1)`
 
   @media ${device.tablet} {
     font-size: 3.5rem;
+  }
+
+  @media ${device.desktop} {
+    font-size: 10rem;
+    text-transform: uppercase;
+    text-align: left;
+    line-height: 0.75;
+    flex-basis: 0;
+    flex-grow: 1;
   }
 `;
 
@@ -261,37 +285,39 @@ const Index = ({ data }) => {
         <HomeContainer>
           <HomeContentContainer initial="hidden" animate="visible">
             <HomeTitle>{title}</HomeTitle>
-            <HomeInfoCards style={{ gridArea: 'scroller' }} />
-            <AboutText>
-              <h3>About Me</h3>
-              <p>Hey, I'm Coner a web developer from Norwich 🇬🇧.</p>
-              <p>
-                I primarily use JavaScript in my work, if you're interested in seeing some of my previous work please check out my{' '}
-                <Link to="/portfolio" style={{ fontWeight: 600 }}>
-                  Portfolio.
-                </Link>
-              </p>
-              <p>
-                I also believe in helping others become amazing developers so I release blog posts regularly, you can see my latest blog
-                post above or check out all of them on my{' '}
-                <Link to="/blog" style={{ fontWeight: 600 }}>
-                  Blog.
-                </Link>
-              </p>
-              <p>
-                I really hope you enjoy my work and if you want to get in touch with me for any reason, you can do so via the methods listed
-                in the{' '}
-                <Link to="/#contact" style={{ fontWeight: 600 }} onClick={handleClick}>
-                  Contact Section.
-                </Link>
-              </p>
-            </AboutText>
+            <HomeAboutSection>
+              <HomeInfoCards style={{ gridArea: 'scroller' }} />
+              <AboutText>
+                <h3>About Me</h3>
+                <p>Hey, I'm Coner a web developer from Norwich 🇬🇧.</p>
+                <p>
+                  I primarily use JavaScript in my work, if you're interested in seeing some of my previous work please check out my{' '}
+                  <Link to="/portfolio" style={{ fontWeight: 600 }}>
+                    Portfolio.
+                  </Link>
+                </p>
+                <p>
+                  I also believe in helping others become amazing developers so I release blog posts regularly, you can see my latest blog
+                  post above or check out all of them on my{' '}
+                  <Link to="/blog" style={{ fontWeight: 600 }}>
+                    Blog.
+                  </Link>
+                </p>
+                <p>
+                  I really hope you enjoy my work and if you want to get in touch with me for any reason, you can do so via the methods
+                  listed in the{' '}
+                  <Link to="/#contact" style={{ fontWeight: 600 }} onClick={handleClick}>
+                    Contact Section.
+                  </Link>
+                </p>
+              </AboutText>
 
-            <HomeViewMoreContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-              <HomeButton to="/#portfolio" onClick={handleClick}>
-                View More...
-              </HomeButton>
-            </HomeViewMoreContainer>
+              <HomeViewMoreContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
+                <HomeButton to="/#portfolio" onClick={handleClick}>
+                  View More...
+                </HomeButton>
+              </HomeViewMoreContainer>
+            </HomeAboutSection>
           </HomeContentContainer>
         </HomeContainer>
         <LanguageScroller />

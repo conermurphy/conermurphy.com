@@ -9,7 +9,6 @@ import device from './device';
 const OverallContainer = styled(motion.div)`
   display: flex;
   flex-direction: row;
-  width: 100vw;
   justify-content: center;
   align-items: center;
   height: 50vh;
@@ -78,7 +77,7 @@ const HomeInfoCards = () => {
     },
     show: {
       opacity: [0, 1, 1, 1, 0],
-      x: [800, 0, 0, 0, -800],
+      x: [400, 0, 0, 0, -400],
       y: [0, 0, -5, 0, 0],
       transition: {
         duration: 10,
