@@ -44,10 +44,9 @@ const HomeContentContainer = styled(motion.div)`
 
   @media ${device.desktop} {
     height: calc(100vh - 5vh);
-    max-height: 60rem;
-    max-width: 100rem;
-    margin: auto;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    grid-template-rows: 100%;
   }
 `;
 
@@ -57,11 +56,12 @@ const HomeAboutSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   @media ${device.desktop} {
-    flex-basis: 0;
-    flex-grow: 1;
-    max-width: 50%;
+    height: inherit;
+    background-color: var(--background-color);
+    overflow-x: hidden;
   }
 `;
 
@@ -74,12 +74,11 @@ const HomeTitle = styled(motion.h1)`
   }
 
   @media ${device.desktop} {
-    font-size: 10rem;
+    font-size: 15rem;
     text-transform: uppercase;
     text-align: left;
     line-height: 0.75;
-    flex-basis: 0;
-    flex-grow: 1;
+    margin: 5rem;
   }
 `;
 
