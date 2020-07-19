@@ -277,21 +277,21 @@ const Index = ({ data }) => {
                 <h3>About Me</h3>
                 <p>Hey, I'm Coner a web developer from Norwich 🇬🇧.</p>
                 <p>
-                  I primarily use JavaScript in my work, if you're interested in seeing some of my previous work please check out my{' '}
+                  I primarily use JavaScript in my work but I also work with other languages, if you're interested in seeing some of my
+                  previous work please check out my{' '}
                   <Link to="/portfolio" style={{ fontWeight: 600 }}>
                     Portfolio.
                   </Link>
                 </p>
                 <p>
-                  I also believe in helping others become amazing developers so I release blog posts regularly, you can see my latest blog
-                  post above or check out all of them on my{' '}
+                  I also like helping other developers improve so I release blog posts regularly, you can see my latest blog post below or
+                  check out all of them on my{' '}
                   <Link to="/blog" style={{ fontWeight: 600 }}>
                     Blog.
                   </Link>
                 </p>
                 <p>
-                  I really hope you enjoy my work and if you want to get in touch with me for any reason, you can do so via the methods
-                  listed in the{' '}
+                  I really hope you enjoy my work and if you want to get in touch with me, you can do so via the methods listed in the{' '}
                   <Link to="/#contact" style={{ fontWeight: 600 }} onClick={handleClick}>
                     Contact Section.
                   </Link>
