@@ -300,7 +300,9 @@ const Index = ({ data }) => {
 
               <HomeViewMoreContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
                 <HomeButton to="/#portfolio" onClick={handleClick}>
-                  View More...
+                  <svg height="50px" width="50px">
+                    {/* <path d="M 0 0 L 0 40 Q 0 50 10 50 L 40 50 Q " stroke="blue" /> */}
+                  </svg>
                 </HomeButton>
               </HomeViewMoreContainer>
             </HomeAboutSection>
