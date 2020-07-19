@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, graphql } from 'gatsby';
-import { FaTwitter, FaInstagram, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import Layout from '../components/layout';
@@ -12,6 +11,7 @@ import device from '../components/device';
 import SEO from '../components/seo';
 import HomeInfoCards from '../components/homeInfoCards';
 import LanguageScroller from '../components/LanguageScroller';
+import ContactIcons from '../components/ContactIcons';
 
 const MainContainer = styled.div`
   display: grid;
@@ -50,6 +50,16 @@ const HomeContentContainer = styled(motion.div)`
   }
 `;
 
+const HomeTitleSection = styled.div`
+  @media ${device.desktop} {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 5rem;
+  }
+`;
+
 const HomeAboutSection = styled.div`
   width: inherit;
   max-width: 80rem;
@@ -79,7 +89,8 @@ const HomeTitle = styled(motion.h1)`
     text-transform: uppercase;
     text-align: left;
     line-height: 0.75;
-    margin: 5rem;
+    margin: 0;
+    margin-bottom: 2rem;
     z-index: 3;
 
     ::after {
@@ -224,43 +235,6 @@ const ContactContent = styled.div`
   }
 `;
 
-const ContactIconContainer = styled.div`
-  padding: 1rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  & > a {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 0 0.5rem;
-  }
-
-  @media ${device.tablet} {
-    flex-wrap: wrap;
-    width: 80vw;
-    margin: auto;
-  }
-`;
-
-const IconContainer = styled(motion.div)`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0.5rem 0;
-
-  & > svg {
-    height: 1rem;
-    width: 1rem;
-    border: 2px solid var(--header-font-color);
-    border-radius: 0.5rem;
-    padding: 1rem;
-  }
-`;
-
 const Index = ({ data }) => {
   const { title } = useSiteMetadata();
   const portfolioContent = data.dataJson.content;
@@ -293,7 +267,10 @@ const Index = ({ data }) => {
       <MainContainer>
         <HomeContainer>
           <HomeContentContainer initial="hidden" animate="visible">
-            <HomeTitle>{title}</HomeTitle>
+            <HomeTitleSection>
+              <HomeTitle>{title}</HomeTitle>
+              <ContactIcons />
+            </HomeTitleSection>
             <HomeAboutSection>
               <HomeInfoCards style={{ gridArea: 'scroller' }} />
               <AboutText>
@@ -380,33 +357,7 @@ const Index = ({ data }) => {
               work and would be happy to chat with you about your requirements just get in touch with me via one of the shown methods.
             </p>
           </ContactContent>
-          <ContactIconContainer>
-            <a href="https://twitter.com/MrConerMurphy" aria-label="Twitter">
-              <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-                <FaTwitter />
-              </IconContainer>
-            </a>
-            <a href="https://www.instagram.com/mrconermurphy/" aria-label="Instagram">
-              <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-                <FaInstagram />
-              </IconContainer>
-            </a>
-            <a href="https://github.com/conermurphy" aria-label="Github">
-              <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-                <FaGithub />
-              </IconContainer>
-            </a>
-            <a href="https://www.linkedin.com/in/coner-murphy/" aria-label="Linkedin">
-              <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-                <FaLinkedin />
-              </IconContainer>
-            </a>
-            <a href="mailto:coner@conermurphy.com" aria-label="Email">
-              <IconContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
-                <FaEnvelope />
-              </IconContainer>
-            </a>
-          </ContactIconContainer>
+          <ContactIcons />
         </ContactContainer>
       </MainContainer>
     </Layout>
