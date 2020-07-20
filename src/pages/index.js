@@ -124,8 +124,8 @@ const AboutText = styled.div`
 
 const HomeButtonContainer = styled(motion.div)`
   display: flex;
-  border: 2px solid var(--header-font-color);
-  border-radius: 10px;
+  /* border: 2px solid var(--header-font-color);
+  border-radius: 10px; */
   width: auto;
   align-items: center;
   justify-content: center;
@@ -144,6 +144,17 @@ const HomeButton = styled(Link)`
   font-size: 1rem;
   z-index: 2;
   margin: 1rem;
+`;
+
+const ScrollSVG = styled.svg`
+  transform: scale(1.5);
+
+  & > path {
+    fill: none;
+    stroke: black;
+    stroke-width: 1.5px;
+    stroke-linecap: round;
+  }
 `;
 
 const PortfolioContent = styled.section`
@@ -258,6 +269,16 @@ const Index = ({ data }) => {
     scale: 0.9,
   };
 
+  const scrollAnimation = {
+    y: [0, 2.5, 0],
+  };
+
+  const scrollTransition = {
+    duration: 10,
+    loop: Infinity,
+    ease: 'easeInOut',
+  };
+
   return (
     <Layout>
       <SEO
@@ -300,9 +321,23 @@ const Index = ({ data }) => {
 
               <HomeViewMoreContainer whileHover={itemHover} whileTap={itemTap} transition="easeInOut">
                 <HomeButton to="/#portfolio" onClick={handleClick}>
-                  <svg height="50px" width="50px">
-                    {/* <path d="M 0 0 L 0 40 Q 0 50 10 50 L 40 50 Q " stroke="blue" /> */}
-                  </svg>
+                  <ScrollSVG viewBox="0 0 25 50" height="50px" width="25px">
+                    <motion.path
+                      d="M 5 20
+                        L 5 30
+                        Q 5 40 12.5 40
+                        T 20 30
+                        L 20 20
+                        Q 20 10 12.5 10
+                        T 5 20"
+                    />
+                    <motion.path
+                      d="M 12.5 15
+                        L 12.5 20"
+                      transition={scrollTransition}
+                      animate={scrollAnimation}
+                    />
+                  </ScrollSVG>
                 </HomeButton>
               </HomeViewMoreContainer>
             </HomeAboutSection>
