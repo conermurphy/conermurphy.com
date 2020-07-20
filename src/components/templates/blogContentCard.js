@@ -75,7 +75,7 @@ const BlogContentCard = ({ data }) => {
         <PostInfo>{topLine && topLine.map((line, index) => <TagGenerator language={line} key={index} />)}</PostInfo>
         <PostTitle>{title}</PostTitle>
         <PostInfo>{bottomLine}</PostInfo>
-        <CornerArt adjustments={['17.5vh', 0, 0, 0]} />
+        <CornerArt adjustments={['15vh', 0, 0, 0]} />
       </CardContainer>
     </CardLink>
   );

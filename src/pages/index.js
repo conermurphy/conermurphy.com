@@ -205,14 +205,11 @@ const ContactContainer = styled.section`
   flex-wrap: wrap;
   position: relative;
   grid-area: contact;
-
-  @media ${device.laptopL} {
-    flex-wrap: wrap;
-  }
 `;
 
 const ContactContent = styled.div`
   padding: 2rem;
+  box-sizing: border-box;
   padding-bottom: 0;
   display: flex;
   flex-direction: column;

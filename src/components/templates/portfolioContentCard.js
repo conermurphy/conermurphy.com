@@ -124,7 +124,7 @@ const PortfolioContentCard = ({ data }) => {
               <b>{date}</b>
             </p>
           </CardFooter>
-          <CornerArt adjustments={['17.5vh', 0, 0, 0]} />
+          <CornerArt adjustments={['15vh', 0, 0, 0]} />
         </CardBody>
       </a>
     </CardContainer>
