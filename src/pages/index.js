@@ -113,7 +113,8 @@ const AboutText = styled.div`
   }
 
   & > h3 {
-    font-size: 2rem;
+    font-size: 2.25rem;
+    text-transform: uppercase;
   }
 
   & > p,
@@ -178,6 +179,7 @@ const PortfolioContent = styled.section`
   & > h3 {
     margin: 1rem 0;
     font-size: 2rem;
+    text-transform: uppercase;
   }
 `;
 
@@ -217,6 +219,8 @@ const ContactContent = styled.div`
 
   & > h3 {
     margin-top: 0;
+    text-transform: uppercase;
+    font-size: 2rem;
   }
 
   @media ${device.tablet} {
@@ -379,7 +383,7 @@ const Index = ({ data }) => {
 
         <ContactContainer id="contact">
           <ContactContent>
-            <h3>Let's Chat!</h3>
+            <h3>Let's Chat</h3>
             <p>
               If you have any questions about either my work or me in general I'd be happy to chat with you about them, just get in touch
               with me via one of the shown methods and I'll get back to you as soon as possible.
