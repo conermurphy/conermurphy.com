@@ -104,7 +104,7 @@ PostNavigation.propTypes = {
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
-        category: PropTypes.string.isRequired,
+        series: PropTypes.string.isRequired,
       }),
     }),
     next: PropTypes.shape({
@@ -114,7 +114,7 @@ PostNavigation.propTypes = {
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
-        category: PropTypes.string.isRequired,
+        series: PropTypes.string.isRequired,
       }),
     }),
   }),

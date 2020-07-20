@@ -26,6 +26,11 @@ const BlogPostContainer = styled.article`
   }
 `;
 
+const PostTitle = styled.h1`
+  line-height: 1;
+  margin-bottom: 2rem;
+`;
+
 /* eslint-disable */
 const components = {
   pre: props => <pre {...props} />,
@@ -43,7 +48,7 @@ const BlogPost = ({ data, pageContext }) => {
     <Layout>
       <SEO title={`${post.frontmatter.title} | Coner Murphy`} description={post.frontmatter.description} image={imagePath} />
       <BlogPostContainer>
-        <h1>{post.frontmatter.title}</h1>
+        <PostTitle title={post.frontmatter.title}>{post.frontmatter.title}</PostTitle>
         <p style={{ marginTop: 0 }}>
           {post.frontmatter.date.slice(0, 2)}/{post.frontmatter.date.slice(2, 4)}/{post.frontmatter.date.slice(4, 8)} | {post.timeToRead}{' '}
           minute read | <b>Tags:</b> {post.frontmatter.tags.map(tag => tag).join(', ')}
@@ -115,7 +120,7 @@ BlogPost.propTypes = {
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
-        category: PropTypes.string.isRequired,
+        series: PropTypes.string.isRequired,
       }),
     }),
     next: PropTypes.shape({
@@ -125,7 +130,7 @@ BlogPost.propTypes = {
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
-        category: PropTypes.string.isRequired,
+        series: PropTypes.string.isRequired,
       }),
     }),
   }).isRequired,
