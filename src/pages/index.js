@@ -78,20 +78,20 @@ const HomeAboutSection = styled.div`
 const HomeTitle = styled(motion.h1)`
   text-align: center;
   font-size: 2.5rem;
+  position: relative;
+  text-transform: uppercase;
+  z-index: 3;
 
   @media ${device.tablet} {
     font-size: 3.5rem;
   }
 
   @media ${device.desktop} {
-    font-size: 15rem;
-    position: relative;
-    text-transform: uppercase;
+    font-size: 12.5vw;
     text-align: left;
     line-height: 0.75;
     margin: 0;
     margin-bottom: 2rem;
-    z-index: 3;
 
     ::after {
       content: 'Coner Murphy';
@@ -124,8 +124,6 @@ const AboutText = styled.div`
 
 const HomeButtonContainer = styled(motion.div)`
   display: flex;
-  /* border: 2px solid var(--header-font-color);
-  border-radius: 10px; */
   width: auto;
   align-items: center;
   justify-content: center;
