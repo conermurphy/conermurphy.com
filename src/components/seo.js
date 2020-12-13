@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { useLocation } from '@reach/router';
-import { useStaticQuery, graphql } from 'gatsby';
+
+import { useSiteMetadata } from '../hooks/useSiteMetadata';
 
 const SEO = ({ title, description, image, article }) => {
   const { pathname } = useLocation();
-  const { site } = useStaticQuery(query);
+  const { site } = useSiteMetadata();
 
   const { defaultTitle, titleTemplate, defaultDescription, siteUrl, defaultImage, twitterUsername } = site.siteMetadata;
 
@@ -61,17 +62,3 @@ SEO.defaultProps = {
   image: null,
   article: false,
 };
-
-const query = graphql`
-  query SEO {
-    site {
-      siteMetadata {
-        defaultTitle: title
-        defaultDescription: description
-        siteUrl
-        defaultImage: image
-        twitterUsername
-      }
-    }
-  }
-`;

@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const LogoImg = styled.svg`
-  height: ${props => props.height};
-  fill: var(--body-font-color);
+  height: ${(props) => props.height};
+  fill: var(--white);
   transform: scale(1, -1);
 `;
 

@@ -5,13 +5,9 @@ import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
 import logo from '../../static/profileImgs/CM-Logo-2020.png';
-import Layout from '../components/layout';
-import device from '../components/device';
-// MDX Component Imports Used on each page.
-import PostNavigation from '../components/mdx/postNavigation.js';
-import ContactBlock from '../components/mdx/contactBlock.js';
-import GithubEdit from '../components/mdx/githubEdit.js';
 import SEO from '../components/seo';
+// MDX Component Imports Used on each page.
+import GithubEdit from '../components/mdx/githubEdit.js';
 import EmailSignup from '../components/mdx/emailSignup';
 
 const BlogPostContainer = styled.article`
@@ -19,11 +15,6 @@ const BlogPostContainer = styled.article`
   flex-direction: column;
   padding: 2rem;
   padding-bottom: 0;
-
-  @media ${device.desktop} {
-    width: 50%;
-    margin: auto;
-  }
 `;
 
 const PostTitle = styled.h1`
@@ -35,7 +26,7 @@ const PostTitle = styled.h1`
 const components = {
   pre: props => <pre {...props} />,
   a: props => <a style={{fontWeight: 'bold'}}{...props} />,
-  code: props => <code style={{fontFamily: 'var(--code-font)'}} {...props}/>,
+  code: props => <code style={{fontFamily: 'var(--body-font)'}} {...props}/>,
 };
 /* eslint-enable */
 
@@ -45,24 +36,22 @@ const BlogPost = ({ data, pageContext }) => {
   const { image } = post.frontmatter;
   const imagePath = image ? image.childImageSharp.fixed.src : logo;
   return (
-    <Layout>
+    <>
       <SEO title={`${post.frontmatter.title} | Coner Murphy`} description={post.frontmatter.description} image={imagePath} />
       <BlogPostContainer>
         <PostTitle title={post.frontmatter.title}>{post.frontmatter.title}</PostTitle>
         <p style={{ marginTop: 0 }}>
           {post.frontmatter.date.slice(0, 2)}/{post.frontmatter.date.slice(2, 4)}/{post.frontmatter.date.slice(4, 8)} | {post.timeToRead}{' '}
-          minute read | <b>Tags:</b> {post.frontmatter.tags.map(tag => tag).join(', ')}
+          minute read | <b>Tags:</b> {post.frontmatter.tags.map((tag) => tag).join(', ')}
         </p>
-        <p></p>
+        <p />
         <MDXProvider components={components}>
           <MDXRenderer>{post.body}</MDXRenderer>
         </MDXProvider>
         <EmailSignup />
         <GithubEdit filePath={filePath} />
-        <ContactBlock />
-        <PostNavigation pageContext={pageContext} />
       </BlogPostContainer>
-    </Layout>
+    </>
   );
 };
 

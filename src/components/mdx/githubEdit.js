@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { FaGithub } from 'react-icons/fa';
 import PropTypes from 'prop-types';
-import device from '../device';
 
 const Container = styled.aside`
   display: flex;
@@ -15,23 +14,15 @@ const Container = styled.aside`
   margin: 2rem 0 0 0;
   filter: drop-shadow(0 0 2px var(--drop-shadows));
   padding: 3rem;
-
-  @media ${device.tablet} {
-    flex-direction: row;
-  }
 `;
 
 const ContactMethod = styled(motion.a)`
   & > svg {
-    color: var(--body-font-color);
+    color: var(--grey);
     height: 5rem;
     width: 5rem;
     padding: 1rem;
     margin-right: 0;
-
-    @media ${device.tablet} {
-      margin-right: 2.5rem;
-    }
   }
 `;
 

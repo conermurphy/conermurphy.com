@@ -1,154 +1,154 @@
 @font-face {
-    font-family: 'Montserrat';
-    src: url('../assets/fonts/Montserrat-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Montserrat';
-    src: url('../assets/fonts/Montserrat-SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Inconsolata';
-    src: url('../assets/fonts/Inconsolata-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Inconsolata';
-    src: url('../assets/fonts/Inconsolata-SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-  }
+  font-family: "Montserrat";
+  src: url("../assets/fonts/Montserrat-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("../assets/fonts/Montserrat-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inconsolata";
+  src: url("../assets/fonts/Inconsolata-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inconsolata";
+  src: url("../assets/fonts/Inconsolata-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
-    --background-color: rgba(20, 20, 20, 255);
-    --secondary-color: rgba(35,35,35,255);
-    --body-font-color: rgba(248,245,245,255);
-    --drop-shadows: rgba(1,1,1,1);
-    --header-font-color: rgba(207, 92, 54,255);
-    --body-font: 'Montserrat', 'Sans-Serif';
-    --code-font: 'Inconsolata', 'Monospace';
-    --grvsc-line-highlighted-background-color: rgba(255, 255, 255, 0.2); 
-    --grvsc-line-highlighted-border-color: rgba(255, 255, 255, 0.5); 
-    --grvsc-line-highlighted-border-width: 5px;
+  --blue: rgba(44, 66, 81, 1);
+  --grey: rgba(61, 61, 61, 1);
+  --white: rgba(251, 255, 254, 1);
+  --drop-shadows: rgba(1, 1, 1, 1);
+  --header-font: "Montserrat", "Sans-Serif";
+  --body-font: "Inconsolata", "Monospace";
+  --grvsc-line-highlighted-background-color: rgba(255, 255, 255, 0.2);
+  --grvsc-line-highlighted-border-color: rgba(255, 255, 255, 0.5);
+  --grvsc-line-highlighted-border-width: 5px;
 }
 
-[data-theme="light"] {
-    --background-color: rgba(248,245,245,255);
-    --secondary-color: rgba(253,253,253,255);
-    --body-font-color: rgba(50,50,50,200);
-    --header-font-color: rgba(149,55,32,255);  
-    --drop-shadows: rgba(199,196,196,255);
-}
-
-:focus { 
-    outline: 1px solid var(--body-font-color);
+:focus {
+  outline: 1px solid var(--grey);
 }
 
 body {
-    font-size: 16px;
+  font-size: 10px;
 }
 
 * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--header-font-color) var(--background-color);
+  scrollbar-width: thin;
+  scrollbar-color: var(--blue) var(--white);
 }
 
 ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-    background-color: var(--background-color);
+  width: 5px;
+  height: 5px;
+  background-color: var(--white);
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--header-font-color);
-    border-radius: 5    px;
+  background-color: var(--blue);
+  border-radius: 5 px;
 }
-    
 
 pre {
-    white-space: 'break-spaces';
-    font-family: var(--body-font);
-    font-size: 1.1rem;
-    line-height: 1.5rem;
-    background-color: var(--background-color);
+  white-space: "break-spaces";
+  font-family: var(--grey);
+  font-size: 1.1rem;
+  line-height: 1.5rem;
+  background-color: var(--white);
 }
 
 body {
-    background-color: var(--background-color);
+  background-color: var(--white);
 }
 
-p, a, button, li, th, td, input {
-    font-family: var(--body-font);
-    color: var(--body-font-color);
-    font-size: 0.9rem;
-    font-weight: 400;
-    margin-bottom: 0;
-    line-height: 1.75;
+p,
+a,
+button,
+li,
+th,
+td,
+input {
+  font-family: var(--body-font);
+  color: var(--grey);
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-bottom: 0;
+  line-height: 1.75;
 }
 
 table {
-    padding: 1rem;
+  padding: 1rem;
 }
 
 th {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 ul {
-    margin-bottom: 0;
-    padding-left: 1rem;
+  margin-bottom: 0;
+  padding-left: 1rem;
 }
 
 hr {
-    width: 100%;
-    text-decoration: none;
-    color: var(--body-font-color);
-    opacity: 0.5;
+  width: 100%;
+  text-decoration: none;
+  color: var(--grey);
+  opacity: 0.5;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 button {
-    font-size: 0.8rem;
-    font-weight: 400;
+  font-size: 0.8rem;
+  font-weight: 400;
 }
 
-h1, h2, h3, h4, h5 {
-    font-family: var(--code-font);
-    color: var(--body-font-color);
-    font-size: 2rem;
-    font-weight: 900;
-    margin-bottom: 0rem;
-    overflow-wrap: break-word;
-    hyphens: auto;
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--header-font);
+  color: var(--grey);
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 0rem;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 h1 {
-    color: var(--header-font-color);
+  color: var(--blue);
 }
 
 h2 {
-    font-size: 1.75rem;
+  font-size: 1.75rem;
 }
 
 h3 {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
 h4 {
-    font-size: 1.25rem;
+  font-size: 1.25rem;
 }
 
 h5 {
-    font-size: 1.25rem;
+  font-size: 1.25rem;
 }

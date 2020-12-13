@@ -23,7 +23,7 @@
                 "JavaScript"
             ],
             "date": "29-06-2020",
-            "repo": "https://github.com/conermurphy/covid-19-analyser",
+            "repo": "https--code-font://github.com/conermurphy/covid-19-analyser",
             "image": "../assets/portfolioImages/covid19AnalyserPortfolio.jpg"
         },
         {

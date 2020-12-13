@@ -11,11 +11,10 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        path: `${__dirname}/src/posts`,
+        path: `${__dirname}/src/content/posts`,
         name: 'posts',
       },
     },
-    'gatsby-transformer-json',
     {
       resolve: 'gatsby-source-filesystem',
       options: {
@@ -87,15 +86,14 @@ module.exports = {
         feeds: [
           {
             serialize: ({ query: { site, allMdx } }) =>
-              allMdx.edges.map(edge =>
-                Object.assign({}, edge.node.frontmatter, {
-                  description: edge.node.description,
-                  date: edge.node.frontmatter.date,
-                  url: site.siteMetadata.url + edge.node.fields.slug,
-                  guid: site.siteMetadata.url + edge.node.fields.slug,
-                  custom_elements: [{ 'content:encoded': edge.node.html }],
-                })
-              ),
+              allMdx.edges.map((edge) => ({
+                ...edge.node.frontmatter,
+                description: edge.node.description,
+                date: edge.node.frontmatter.date,
+                url: site.siteMetadata.url + edge.node.fields.slug,
+                guid: site.siteMetadata.url + edge.node.fields.slug,
+                custom_elements: [{ 'content:encoded': edge.node.html }],
+              })),
             query: `
               {
                 allMdx {

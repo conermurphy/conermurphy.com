@@ -20,7 +20,7 @@ const SignupFormContainer = styled.form`
 
   & > h3 {
     font-size: 2rem;
-    color: var(--header-font-color);
+    color: var(--blue);
   }
 
   & > h4 {
@@ -48,9 +48,9 @@ const FormItems = styled.div`
   & > input {
     height: 2rem;
     min-width: 40%;
-    font-family: var(--body-font);
-    background-color: var(--background-color);
-    border: 2px solid var(--header-font-color);
+    font-family: var(--);
+    background-color: var(--white);
+    border: 2px solid var(--blue);
   }
 
   & > button {
@@ -58,7 +58,7 @@ const FormItems = styled.div`
     min-width: 15%;
     font-family: var(--body-font);
     font-weight: 600;
-    background-color: var(--header-font-color);
+    background-color: var(--blue);
     color: white;
   }
 `;
@@ -73,7 +73,7 @@ const awaitingRotate = keyframes`
 `;
 
 const StatusSVG = styled.svg`
-  animation: ${props => (props.status === 'awaiting' ? awaitingRotate : 'none')} 2s ease-in-out infinite;
+  animation: ${(props) => (props.status === 'awaiting' ? awaitingRotate : 'none')} 2s ease-in-out infinite;
 `;
 
 const animateHover = {
@@ -100,7 +100,7 @@ const EmailSignup = () => {
   const formID = process.env.GATSBY_CONVERTKIT_SIGNUP_FORM;
   const apiKey = process.env.GATSBY_CONVERTKIT_PUBLIC_KEY;
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const value = DOMPurify.sanitize(document.querySelector('input').value);
     setStatus('awaiting');
@@ -134,7 +134,7 @@ const EmailSignup = () => {
   return (
     <SignupFormContainer>
       <StatusSVG width="100" height="100" viewBox="0 0 100 100" status={status}>
-        <circle cx="50" cy="50" r="50" fill="var(--header-font-color)" />
+        <circle cx="50" cy="50" r="50" fill="var(--blue)" />
         {
           {
             pending: (
@@ -223,7 +223,7 @@ const EmailSignup = () => {
       }
 
       <FormItems>
-        <input type="text" placeholder="Please Enter Your Email Here..." name="email" required></input>
+        <input type="text" placeholder="Please Enter Your Email Here..." name="email" required />
         <motion.button
           type="submit"
           whileHover={buttonHover}

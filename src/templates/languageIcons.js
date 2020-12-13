@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { GrCss3, GrHtml5, GrJs, GrReactjs, GrGatsbyjs, GrGraphQl, GrNode } from 'react-icons/gr';
 import { motion } from 'framer-motion';
-import device from '../device';
 
 const LanguageIconContainer = styled.div`
   position: relative;
@@ -25,7 +24,7 @@ const IconContainer = styled(motion.button)`
   & > svg {
     width: 5rem;
     height: auto;
-    filter: ${props => (props.active ? 'grayscale(0)' : 'grayscale(1)')};
+    filter: ${(props) => (props.active ? 'grayscale(0)' : 'grayscale(1)')};
     transition: 0.5s all ease-in-out;
 
     & > path {
@@ -39,7 +38,7 @@ const HoveredComponentText = styled.p`
   top: 0px;
   left: 0px;
   padding: 0.5rem;
-  background-color: var(--body-font-color);
+  background-color: var(--grey);
   color: var(--secondary-color);
   border-radius: 0.5rem;
   font-size: 0.75rem;
@@ -48,8 +47,8 @@ const HoveredComponentText = styled.p`
 `;
 
 const LogoImg = styled.svg`
-  height: ${props => props.height};
-  fill: var(--body-font-color);
+  height: ${(props) => props.height};
+  fill: var(--grey);
   transform: scale(1, -1);
 `;
 
@@ -61,15 +60,15 @@ const LanguageIcons = ({ language }) => {
   let onDesktop = null;
 
   if (typeof window !== 'undefined') {
-    onDesktop = window.matchMedia(device.desktop).matches;
+    onDesktop = window.matchMedia("min-width('1280px')").matches;
   }
 
-  const handleKeyPress = e => {
+  const handleKeyPress = (e) => {
     setHover(!hover);
     setHoveredComponent(e.currentTarget.children[0].dataset.label);
   };
 
-  const handleHover = e => {
+  const handleHover = (e) => {
     setHover(true);
     setHoveredComponent(e.currentTarget.dataset.label);
   };
