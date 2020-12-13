@@ -12,14 +12,14 @@ module.exports = {
       resolve: 'gatsby-source-filesystem',
       options: {
         path: `${__dirname}/src/content/posts`,
-        name: 'posts',
+        name: 'blog',
       },
     },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        path: './src/data/',
-        name: 'data',
+        path: `${__dirname}/src/content/portfolio`,
+        name: 'portfolio',
       },
     },
     {
@@ -56,19 +56,19 @@ module.exports = {
         name: 'Coner Murphy',
         short_name: 'Coner Murphy',
         start_url: '/',
-        background_color: '#F8F5F5',
-        theme_color: '#F8F5F5',
+        background_color: 'rgba(251, 255, 254, 1)',
+        theme_color: 'rgba(44, 66, 81, 1)',
         lang: 'en',
         display: 'standalone',
         icon: './src/assets/logo/CM-Logo-2020.png',
       },
     },
-    {
-      resolve: 'gatsby-plugin-google-analytics',
-      options: {
-        trackingId: 'UA-167225463-1',
-      },
-    },
+    // {
+    //   resolve: 'gatsby-plugin-google-analytics',
+    //   options: {
+    //     trackingId: 'UA-167225463-1',
+    //   },
+    // },
     {
       resolve: 'gatsby-plugin-feed',
       options: {
@@ -128,7 +128,7 @@ module.exports = {
     'gatsby-transformer-sharp',
     'gatsby-plugin-styled-components',
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-offline',
+    // 'gatsby-plugin-offline',
     'gatsby-plugin-sitemap',
   ],
 };
