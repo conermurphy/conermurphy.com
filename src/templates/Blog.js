@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
-import logo from '../../static/profileImgs/CM-Logo-2020.png';
-import SEO from '../components/seo';
+import logo from '../assets/logo/CM-Logo-2020.png';
+import SEO from '../components/SEO';
 // MDX Component Imports Used on each page.
 import GithubEdit from '../components/mdx/githubEdit.js';
 import EmailSignup from '../components/mdx/emailSignup';
