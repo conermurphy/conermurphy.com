@@ -1,9 +1,11 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
-  --blue: rgba(44, 66, 81, 1);
-  --black: #2e2e2e;
-  --white: rgba(251, 255, 254, 1);
+  :root {
+    --blue: rgba(44, 66, 81, 1);
+    --black: #2e2e2e;
+    --white: rgba(251, 255, 254, 1);
+  }
 
    html {
        font-size: 10px;

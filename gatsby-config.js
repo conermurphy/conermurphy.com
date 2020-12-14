@@ -25,8 +25,8 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        path: './src/assets/portfolioImages',
-        name: 'Portfolio Images',
+        path: './src/assets/',
+        name: 'Assets',
       },
     },
     {

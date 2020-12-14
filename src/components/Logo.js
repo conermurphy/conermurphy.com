@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const LogoImg = styled.svg`
   height: ${(props) => props.height};
-  fill: var(--white);
+  fill: var(--black);
   transform: scale(1, -1);
 `;
 
