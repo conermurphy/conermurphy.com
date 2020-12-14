@@ -32,22 +32,22 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-mdx',
       options: {
-        // gatsbyRemarkPlugins: [
-        //   {
-        //     resolve: 'gatsby-remark-vscode',
-        //     options: {
-        //       theme: 'Cobalt2',
-        //       extensions: ['theme-cobalt2'],
-        //     },
-        //   },
-        //   {
-        //     resolve: 'gatsby-remark-images',
-        //     options: {
-        //       maxWidth: 1035,
-        //     },
-        //     plugins: ['gatsby-remark-copy-linked-files'],
-        //   },
-        // ],
+        gatsbyRemarkPlugins: [
+          'gatsby-remark-copy-linked-files',
+          {
+            resolve: 'gatsby-remark-vscode',
+            options: {
+              theme: 'Cobalt2',
+              extensions: ['theme-cobalt2'],
+            },
+          },
+          {
+            resolve: 'gatsby-remark-images',
+            options: {
+              maxWidth: 1035,
+            },
+          },
+        ],
       },
     },
     {
