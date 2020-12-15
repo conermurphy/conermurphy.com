@@ -4,7 +4,11 @@ const GlobalStyles = createGlobalStyle`
   :root {
     --blue: rgba(44, 66, 81, 1);
     --black: #2e2e2e;
-    --white: rgba(251, 255, 254, 1);
+    /* --white: rgba(251, 255, 254, 1); */
+    --white: #ffffff;
+    --scrollBarWidth: 12px;
+    --layoutWidth: 1080px;
+    --dropShadow: drop-shadow(5px 5px 10px rgba(1,1,1,0.1));
   }
 
    html {
@@ -17,7 +21,7 @@ const GlobalStyles = createGlobalStyle`
 
    /* Scrollbar Styles */
   body::-webkit-scrollbar {
-    width: 12px;
+    width: var(--scrollBarWidth);
   }
   html {
     scrollbar-width: thin;

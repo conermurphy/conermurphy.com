@@ -5,22 +5,21 @@ import Typography from '../styles/Typography';
 import GlobalStyles from '../styles/GlobalStyles';
 import Nav from './Nav';
 
-const ContentStyles = styled.div`
+const SiteContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background: var(--white);
-  padding: 0 5rem;
+  align-items: center;
 `;
 
 export default function Layout({ children }) {
   return (
-    <>
+    <SiteContainer>
       <Typography />
       <GlobalStyles />
-      <ContentStyles>
+      <div>
         <Nav />
         {children}
-      </ContentStyles>
-    </>
+      </div>
+    </SiteContainer>
   );
 }

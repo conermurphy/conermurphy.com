@@ -7,8 +7,8 @@ const StyledNav = styled.nav`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  background: transparent;
+  justify-content: center;
+  background-color: none;
 
   ul {
     display: grid;
@@ -21,33 +21,47 @@ const StyledNav = styled.nav`
   }
   a {
     display: block;
-    font-size: 2.5rem;
+    font-size: 2rem;
     padding: 0 1rem;
     text-decoration: none;
   }
 `;
 
+const NavContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+  // Setting the colour of the logo and nav items
+  * {
+    fill: var(--white);
+    color: var(--white);
+  }
+`;
+
 export default function Nav() {
   return (
-    <StyledNav>
+    <NavContainer>
       <Logo height="7.5rem" />
-      <ul>
-        <li>
-          <Link to="/blog">Blog</Link>
-        </li>
-        <li>
-          <Link to="/notes">Notes</Link>
-        </li>
-        <li>
-          <Link to="/portfolio">Portfolio</Link>
-        </li>
-        <li>
-          <Link to="/reads">Reads</Link>
-        </li>
-        <li>
-          <Link to="/contact">Say Hi!</Link>
-        </li>
-      </ul>
-    </StyledNav>
+      <StyledNav>
+        <ul>
+          <li>
+            <Link to="/blog">Blog</Link>
+          </li>
+          <li>
+            <Link to="/notes">Notes</Link>
+          </li>
+          <li>
+            <Link to="/portfolio">Portfolio</Link>
+          </li>
+          <li>
+            <Link to="/reads">Reads</Link>
+          </li>
+          <li>
+            <Link to="/contact">Say Hi!</Link>
+          </li>
+        </ul>
+      </StyledNav>
+    </NavContainer>
   );
 }
