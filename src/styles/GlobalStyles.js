@@ -2,17 +2,18 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   :root {
-    --blue: rgba(44, 66, 81, 1);
+    --green: #498B41;
     --black: #2e2e2e;
-    /* --white: rgba(251, 255, 254, 1); */
+    --grey: hsl(0, 0%, 93%);
     --white: #ffffff;
     --scrollBarWidth: 12px;
     --layoutWidth: 1080px;
-    --dropShadow: drop-shadow(5px 5px 10px rgba(1,1,1,0.1));
+    --dropShadow: drop-shadow(0px 2px 4px rgba(0,0,0,0.18));
   }
 
    html {
        font-size: 10px;
+       overflow-x: hidden;
    } 
 
    body {
@@ -25,13 +26,13 @@ const GlobalStyles = createGlobalStyle`
   }
   html {
     scrollbar-width: thin;
-    scrollbar-color: var(--blue) var(--white);
+    scrollbar-color: var(--green) var(--white);
   }
   body::-webkit-scrollbar-track {
     background: var(--white);
   }
   body::-webkit-scrollbar-thumb {
-    background-color: var(--blue) ;
+    background-color: var(--green) ;
     border-radius: 6px;
     border: 3px solid var(--white);
   }

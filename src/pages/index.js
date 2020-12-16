@@ -1,96 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const LandingSection = styled.section`
-  width: 1200px;
-  display: grid;
-  grid-template-columns: 50% 0.75fr;
-  gap: 5rem;
-  margin-top: 120px;
-  justify-content: space-evenly;
-
-  h1 {
-    color: var(--white);
-    font-size: 8rem;
-    text-transform: uppercase;
-    font-family: var(--body-font);
-
-    span {
-      display: table;
-      background-color: var(--white);
-      color: var(--black);
-      padding: 7.5px;
-      filter: --drop-shadow();
-      border-radius: 10px;
-    }
-  }
-
-  .contactBlock {
-    display: grid;
-    grid-template-rows: repeat(3, 0.5fr);
-    row-gap: 2.5rem;
-
-    p {
-      font-size: 3rem;
-      overflow-wrap: break-word;
-    }
-
-    button {
-      height: 5rem;
-      width: 15rem;
-      background-color: var(--blue);
-      border: none;
-      border-radius: 40px;
-      color: var(--white);
-    }
-  }
-
-  .infoBlock {
-    background-color: var(--white);
-    border-radius: 40px;
-    filter: var(--dropShadow);
-    padding: 5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-
-    img {
-      width: 5rem;
-      height: 5rem;
-      border-radius: 10px;
-      border: 5px solid var(--blue);
-    }
-
-    ul {
-      list-style: none;
-      text-align: right;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      height: 100%;
-      margin-bottom: 0;
-
-      li {
-        font-size: 2.5rem;
-      }
-    }
-  }
-`;
-
-const HeroBackground = styled.div`
-  position: absolute;
-  background-color: var(--blue);
-  width: 100vw;
-  height: 750px;
-  transform: skewY(-12.5deg);
-  transform-origin: -45% 100%;
-  top: 0;
-  overflow: hidden;
-  left: 0;
-  z-index: -1;
-  filter: var(--dropShadow);
-`;
+import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts } from 'react-icons/md';
+import { Link } from 'gatsby';
+import { ContentSection, HeroBackground, InfoBlock, LandingSection } from '../styles/HomeStyles';
 
 export default function HomePage() {
   return (
@@ -103,17 +14,59 @@ export default function HomePage() {
           </h1>
           <p>XXXXXXX XXXXXXXXXXXX XXXXXXXX</p>
           <button type="button">Say Hi!</button>
+          {/* Add in subscribe to email list field */}
         </div>
-        <div className="infoBlock">
+        <InfoBlock>
+          <div className="aboutMe">
+            <h3>About Me</h3>
+          </div>
           <img src="" alt="Selfie" />
           <ul>
-            <li>Name</li>
-            <li>Location</li>
-            <li>Languages</li>
-            <li>Social Media</li>
+            <li>
+              Coner Murphy <MdPersonPin />
+            </li>
+
+            <li>
+              Norwich, United Kingdom <MdLocationOn />
+            </li>
+            <li>
+              {/* TODO: Come back and add in a map for each language in a sub list */}
+              Languages <MdLanguage />
+            </li>
+            <li>
+              {/* TODO: Come back and add in a list of contact methods with links */}
+              Social Media <MdContacts />
+            </li>
           </ul>
-        </div>
+        </InfoBlock>
       </LandingSection>
+      <ContentSection>
+        <div className="contentTitle">
+          <h3>Blog</h3>
+          <Link to="/blog">View All</Link>
+        </div>
+        <div className="content">{/* TODO: Add in Blog Posts and create custom template for them */}</div>
+      </ContentSection>
+      <ContentSection>
+        <div className="contentTitle">
+          <h3>Notes</h3>
+          <Link to="/notes">View All</Link>
+        </div>
+        <div className="content">{/* TODO: Add in Blog Posts and create custom template for them */}</div>
+      </ContentSection>
+      <ContentSection>
+        <div className="contentTitle">
+          <h3>Portfolio</h3>
+          <Link to="/portfolio">View All</Link>
+        </div>
+        <div className="content">{/* TODO: Add in Blog Posts and create custom template for them */}</div>
+      </ContentSection>
+      <ContentSection>
+        <div className="contentTitle">
+          <h3>testimonials</h3>
+        </div>
+        <div className="content">{/* TODO: Add in Blog Posts and create custom template for them */}</div>
+      </ContentSection>
     </>
   );
 }

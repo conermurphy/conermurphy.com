@@ -20,7 +20,7 @@ const SignupFormContainer = styled.form`
 
   & > h3 {
     font-size: 2rem;
-    color: var(--blue);
+    color: var(--green);
   }
 
   & > h4 {
@@ -50,7 +50,7 @@ const FormItems = styled.div`
     min-width: 40%;
     font-family: var(--);
     background-color: var(--white);
-    border: 2px solid var(--blue);
+    border: 2px solid var(--green);
   }
 
   & > button {
@@ -58,7 +58,7 @@ const FormItems = styled.div`
     min-width: 15%;
     font-family: var(--body-font);
     font-weight: 600;
-    background-color: var(--blue);
+    background-color: var(--green);
     color: white;
   }
 `;
@@ -134,7 +134,7 @@ const EmailSignup = () => {
   return (
     <SignupFormContainer>
       <StatusSVG width="100" height="100" viewBox="0 0 100 100" status={status}>
-        <circle cx="50" cy="50" r="50" fill="var(--blue)" />
+        <circle cx="50" cy="50" r="50" fill="var(--green)" />
         {
           {
             pending: (
