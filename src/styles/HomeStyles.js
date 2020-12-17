@@ -6,8 +6,8 @@ const LandingSection = styled.section`
   grid-template-columns: 50% 0.75fr;
   gap: 5rem;
   align-items: center;
-  margin-top: 140px;
-  margin-bottom: 80px;
+  height: 500px;
+  margin-bottom: 75px;
   justify-content: space-evenly;
 
   h1 {
@@ -34,11 +34,16 @@ const LandingSection = styled.section`
     p {
       font-size: 3rem;
       overflow-wrap: break-word;
+      color: var(--white);
     }
 
     button {
       height: 5rem;
-      width: 15rem;
+      width: 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
       border: 3px solid var(--green);
       background-color: var(--white);
       border-radius: 40px;
@@ -74,7 +79,7 @@ const InfoBlock = styled.div`
     border-radius: 50%;
     border: 0.5rem solid var(--green);
     position: absolute;
-    top: 4rem;
+    top: 3rem;
     left: 2.5rem;
   }
 
@@ -108,9 +113,7 @@ const HeroBackground = styled.div`
   position: absolute;
   background-color: var(--black);
   width: 100vw;
-  height: 750px;
-  transform: skewY(-12.5deg);
-  transform-origin: -45% 100%;
+  height: 600px;
   top: 0;
   overflow: hidden;
   left: 0;

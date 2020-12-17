@@ -1,20 +1,26 @@
-import React from 'react';
-import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts } from 'react-icons/md';
+import React, { useEffect } from 'react';
+import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts, MdArrowForward } from 'react-icons/md';
 import { Link } from 'gatsby';
+import { tsParticles } from 'tsparticles';
 import { ContentSection, HeroBackground, InfoBlock, LandingSection } from '../styles/HomeStyles';
+import particlesJson from '../assets/particles';
 
 export default function HomePage() {
+  useEffect(() => {
+    tsParticles.load('particlesBackground', particlesJson);
+  }, []);
   return (
     <>
-      <HeroBackground />
+      <HeroBackground id="particlesBackground" />
       <LandingSection>
         <div className="contactBlock">
           <h1>
             Hey, <span>I'm Coner.</span>
           </h1>
           <p>XXXXXXX XXXXXXXXXXXX XXXXXXXX</p>
-          <button type="button">Say Hi!</button>
-          {/* Add in subscribe to email list field */}
+          <button type="button">
+            <MdArrowForward />
+          </button>
         </div>
         <InfoBlock>
           <div className="aboutMe">
