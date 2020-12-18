@@ -31,23 +31,22 @@ const ContentGrid = styled.div`
     border-radius: var(--borderRadius);
     filter: var(--dropShadow);
     max-height: 400px;
+    overflow-x: hidden;
   }
 
   h4 {
     display: flex;
     flex-direction: column;
+    width: 100%;
     align-items: center;
-    width: calc(min-content + 2rem);
-    line-height: 1.4;
-    margin-top: -20px;
+    /* background-color: var(--grey); */
+    border-bottom: 2px solid var(--green);
+    color: var(--black);
 
     span {
       border-radius: 5px;
       padding: 10px;
       font-size: 1.75rem;
-      width: min-content;
-      min-width: 100px;
-      background-color: var(--green);
     }
   }
 `;
