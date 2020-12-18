@@ -40,7 +40,7 @@ const HoveredComponentText = styled.p`
   padding: 0.5rem;
   background-color: var(--grey);
   color: var(--secondary-color);
-  border-radius: 0.5rem;
+  border-radius: var(--borderRadius);
   font-size: 0.75rem;
   margin: 0;
   z-index: 3;

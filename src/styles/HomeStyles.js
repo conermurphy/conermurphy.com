@@ -17,22 +17,21 @@ const LandingSection = styled.section`
     font-family: var(--body-font);
 
     span {
-      display: table;
-      background-color: var(--green);
+      display: block;
       color: var(--white);
       padding: 7.5px;
       filter: --drop-shadow();
-      border-radius: 10px;
+      border-radius: var(--borderRadius);
     }
   }
 
   .contactBlock {
     display: grid;
     grid-template-rows: repeat(3, 0.5fr);
-    row-gap: 2.5rem;
+    row-gap: 1.5rem;
 
     p {
-      font-size: 3rem;
+      font-size: 2rem;
       overflow-wrap: break-word;
       color: var(--white);
     }
@@ -46,7 +45,7 @@ const LandingSection = styled.section`
       margin: 0;
       border: 3px solid var(--green);
       background-color: var(--white);
-      border-radius: 40px;
+      border-radius: var(--borderRadius);
       color: var(--black);
     }
   }
@@ -54,7 +53,7 @@ const LandingSection = styled.section`
 
 const InfoBlock = styled.div`
   background-color: var(--white);
-  border-radius: 40px;
+  border-radius: var(--borderRadius);
   width: 25vw;
   height: 35rem;
   filter: var(--dropShadow);
@@ -67,13 +66,14 @@ const InfoBlock = styled.div`
 
   .aboutMe {
     padding: 2.5rem;
-    background-color: var(--green);
+    background-color: var(--grey);
     width: calc(100% - 5rem);
     text-align: right;
-    color: var(--white);
+    color: var(--black);
+    font-family: var(--header-font);
   }
 
-  img {
+  /* img {
     width: 8rem;
     height: 8rem;
     border-radius: 50%;
@@ -81,7 +81,7 @@ const InfoBlock = styled.div`
     position: absolute;
     top: 3rem;
     left: 2.5rem;
-  }
+  } */
 
   ul {
     list-style: none;
@@ -104,7 +104,7 @@ const InfoBlock = styled.div`
       padding: 0.75rem;
       margin: 0.25rem;
       margin-left: 1rem;
-      border-radius: 10px;
+      border-radius: 5px;
     }
   }
 `;

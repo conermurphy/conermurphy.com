@@ -17,7 +17,13 @@ export default function HomePage() {
           <h1>
             Hey, <span>I'm Coner.</span>
           </h1>
-          <p>XXXXXXX XXXXXXXXXXXX XXXXXXXX</p>
+          <div>
+            <p>
+              I'm a Web Developer and on a journey to be the best developer I can and along the way I want to help others grow by sharing my
+              lessons.
+            </p>
+            <p>If this sounds cool to you, then please stick around and consider signing up to my newsletter below! </p>
+          </div>
           <button type="button">
             <MdArrowForward />
           </button>
@@ -26,7 +32,7 @@ export default function HomePage() {
           <div className="aboutMe">
             <h3>About Me</h3>
           </div>
-          <img src="" alt="Selfie" />
+          {/* <img src="" alt="Selfie" /> */}
           <ul>
             <li>
               Coner Murphy <MdPersonPin />

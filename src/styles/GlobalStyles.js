@@ -8,7 +8,8 @@ const GlobalStyles = createGlobalStyle`
     --white: #ffffff;
     --scrollBarWidth: 12px;
     --layoutWidth: 1080px;
-    --dropShadow: drop-shadow(0px 2px 4px rgba(0,0,0,0.18));
+    --dropShadow: drop-shadow(0px 4px 6px rgba(0,0,0,0.22));
+    --borderRadius: 20px;
   }
 
    html {
@@ -36,7 +37,7 @@ const GlobalStyles = createGlobalStyle`
     border-radius: 6px;
     border: 3px solid var(--white);
   }
-  
+
 `;
 
 export default GlobalStyles;

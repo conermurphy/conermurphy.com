@@ -27,7 +27,9 @@ const ContentGrid = styled.div`
     align-items: flex-start;
     justify-content: center;
     margin: 2rem;
-    border: 1px solid var(--white);
+    background-color: var(--white);
+    border-radius: var(--borderRadius);
+    filter: var(--dropShadow);
     max-height: 400px;
   }
 
@@ -38,10 +40,10 @@ const ContentGrid = styled.div`
     width: calc(min-content + 2rem);
     line-height: 1.4;
     margin-top: -20px;
-    transform: skewY(-2deg);
 
     span {
-      padding: 4px;
+      border-radius: 5px;
+      padding: 10px;
       font-size: 1.75rem;
       width: min-content;
       min-width: 100px;
@@ -56,7 +58,7 @@ export default function Footer() {
       <ContentGrid>
         <div>
           <h4>
-            <span>@MrConerMurphy Tweets</span>
+            <span>Tweets</span>
           </h4>
         </div>
         <div>
