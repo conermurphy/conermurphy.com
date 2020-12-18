@@ -19,34 +19,19 @@ const LandingSection = styled.section`
     span {
       display: block;
       color: var(--white);
-      padding: 7.5px;
-      filter: --drop-shadow();
-      border-radius: var(--borderRadius);
     }
   }
 
   .contactBlock {
     display: grid;
     grid-template-rows: repeat(3, 0.5fr);
-    row-gap: 1.5rem;
+    row-gap: 0.25rem;
 
     p {
       font-size: 2rem;
       overflow-wrap: break-word;
       color: var(--white);
-    }
-
-    button {
-      height: 5rem;
-      width: 5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
-      border: 3px solid var(--green);
-      background-color: var(--white);
-      border-radius: var(--borderRadius);
-      color: var(--black);
+      max-width: 500px;
     }
   }
 `;
@@ -72,16 +57,6 @@ const InfoBlock = styled.div`
     color: var(--black);
     font-family: var(--header-font);
   }
-
-  /* img {
-    width: 8rem;
-    height: 8rem;
-    border-radius: 50%;
-    border: 0.5rem solid var(--green);
-    position: absolute;
-    top: 3rem;
-    left: 2.5rem;
-  } */
 
   ul {
     list-style: none;

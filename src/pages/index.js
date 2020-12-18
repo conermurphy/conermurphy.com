@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts, MdArrowForward } from 'react-icons/md';
+import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts } from 'react-icons/md';
 import { Link } from 'gatsby';
 import { tsParticles } from 'tsparticles';
 import { ContentSection, HeroBackground, InfoBlock, LandingSection } from '../styles/HomeStyles';
 import particlesJson from '../assets/particles';
+import { EmailSignup } from '../components/emailSignupForm';
 
 export default function HomePage() {
   useEffect(() => {
@@ -24,9 +25,7 @@ export default function HomePage() {
             </p>
             <p>If this sounds cool to you, then please stick around and consider signing up to my newsletter below! </p>
           </div>
-          <button type="button">
-            <MdArrowForward />
-          </button>
+          <EmailSignup />
         </div>
         <InfoBlock>
           <div className="aboutMe">
