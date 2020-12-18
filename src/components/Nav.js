@@ -24,6 +24,14 @@ const StyledNav = styled.nav`
     font-size: 2rem;
     padding: 0 1rem;
     text-decoration: none;
+
+    &:hover {
+      color: var(--green);
+    }
+
+    &[aria-current='page'] {
+      color: var(--green);
+    }
   }
 `;
 
