@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
-import DOMPurify from 'dompurify';
 
 const SignupFormContainer = styled.form`
   display: flex;
@@ -97,26 +96,12 @@ const buttonTap = {
 const EmailSignup = () => {
   const [status, setStatus] = useState('pending');
 
-  const formID = process.env.GATSBY_CONVERTKIT_SIGNUP_FORM;
-  const apiKey = process.env.GATSBY_CONVERTKIT_PUBLIC_KEY;
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const value = DOMPurify.sanitize(document.querySelector('input').value);
     setStatus('awaiting');
     setTimeout(async () => {
       try {
-        const response = await fetch(`https://api.convertkit.com/v3/forms/${formID}/subscribe`, {
-          method: 'post',
-          body: JSON.stringify({
-            email: value,
-            api_key: apiKey,
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-            charset: 'utf-8',
-          },
-        });
+        const response = await fetch(`https://api.convertkit.com/v3/forms/${formID}/subscribe`, {});
 
         const responseJSON = await response.json();
 

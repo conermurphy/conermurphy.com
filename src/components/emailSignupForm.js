@@ -1,43 +1,74 @@
 import React from 'react';
 import styled from 'styled-components';
+import useForm from '../utils/useForm';
 
-const FormGridContainer = styled.div`
-  display: flex;
-  height: 5rem;
-  align-items: center;
-  max-width: 500px;
+const FormGridContainer = styled.form`
+  --height: 5rem;
+  --padding: 0 1rem;
+
+  height: var(--height);
   background-color: var(--white);
   border-radius: 5px;
   overflow: hidden;
   filter: var(--dropShadow);
+  max-width: 500px;
 
-  button.signupButton {
-    align-self: flex-end;
+  fieldset {
+    display: flex;
+    height: var(--height);
+    border: none;
+    padding: 0;
+    width: 100%;
+  }
+
+  .signupButton {
     background-color: var(--green);
     border-color: none;
     color: var(--white);
     width: max-content;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    height: 5rem;
+    padding: var(--padding);
+    height: var(--height);
     border: none;
   }
 
-  input.emailInput {
-    flex: 1;
+  label {
+    display: flex;
+    align-items: center;
+    padding: var(--padding);
+    height: var(--height);
+    background-color: var(--grey);
+  }
+
+  .emailInput {
+    padding: var(--padding);
+    flex-grow: 1;
+    border: none;
+    height: var(--height);
   }
 `;
 
 export const EmailSignup = () => {
-  console.log('hello');
+  const { values, updateValue } = useForm({
+    email: '',
+  });
+  const { email } = values;
   return (
     <FormGridContainer>
-      <input type="email" placeholder="Enter your email here." className="emailInput" />
-      <button className="signupButton" type="button">
-        Subscribe!
-      </button>
+      <fieldset>
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          // placeholder="Enter your email here."
+          className="emailInput"
+          onChange={updateValue}
+          value={email}
+        />
+        <button className="signupButton" type="button">
+          Subscribe!
+        </button>
+      </fieldset>
     </FormGridContainer>
   );
 };
