@@ -3,6 +3,21 @@ import styled from 'styled-components';
 import useEmail from '../utils/useEmail';
 import useForm from '../utils/useForm';
 
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 500px;
+  padding: 5rem;
+  background-color: var(--white);
+  text-align: center;
+  margin: auto;
+  margin-top: -100px;
+  margin-bottom: 50px;
+  filter: var(--dropShadow);
+`;
+
 const FormGridContainer = styled.form`
   --height: 5rem;
   --padding: 0 1rem;
@@ -52,21 +67,13 @@ export const EmailSignup = () => {
   const { values, updateValue } = useForm({
     email: '',
   });
-  const { message, loading, error, submitEmail } = useEmail(values);
+  const { message, loading, error, submitEmail } = useEmail({ values });
   const { email } = values;
   return (
     <FormGridContainer onSubmit={submitEmail}>
       <fieldset disabled={loading}>
         <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          // placeholder="Enter your email here."
-          className="emailInput"
-          onChange={updateValue}
-          value={email}
-        />
+        <input type="email" name="email" id="email" className="emailInput" onChange={updateValue} value={email} />
         <button className="signupButton" type="submit" disabled={loading}>
           {loading ? 'Subscribing...' : ' Subscribe'}
         </button>
@@ -78,8 +85,10 @@ export const EmailSignup = () => {
 export default function EmailSignupForm() {
   return (
     // TODO: Add in extra design here for MDX use in blog posts
-    <div>
+    <FormContainer>
+      <h4>Like what you see?</h4>
+      <p>Please consider signing up to my newsletter using the form below.</p>
       <EmailSignup />
-    </div>
+    </FormContainer>
   );
 }
