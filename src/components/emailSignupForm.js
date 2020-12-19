@@ -16,6 +16,7 @@ const FormContainer = styled.div`
   margin-top: -100px;
   margin-bottom: 50px;
   filter: var(--dropShadow);
+  border-radius: var(--borderRadius);
 `;
 
 const FormGridContainer = styled.form`
@@ -34,6 +35,7 @@ const FormGridContainer = styled.form`
     height: var(--height);
     border: none;
     padding: 0;
+    margin: 0;
     width: 100%;
   }
 

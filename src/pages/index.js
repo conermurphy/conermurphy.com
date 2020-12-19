@@ -25,7 +25,6 @@ export default function HomePage() {
             </p>
             <p>If this sounds cool to you, then please stick around and consider signing up to my newsletter below! </p>
           </div>
-          <EmailSignup />
         </div>
         <InfoBlock>
           <div className="aboutMe">
@@ -51,7 +50,7 @@ export default function HomePage() {
           </ul>
         </InfoBlock>
       </LandingSection>
-      {/* <EmailSignupForm /> */}
+      <EmailSignupForm />
       <ContentSection>
         <div className="contentTitle">
           <h3>Blog</h3>

@@ -6,8 +6,8 @@ const LandingSection = styled.section`
   grid-template-columns: 50% 0.75fr;
   gap: 5rem;
   align-items: center;
-  height: 500px;
-  margin-bottom: 75px;
+  height: 450px;
+  margin-bottom: 100px;
   justify-content: space-evenly;
 
   h1 {
@@ -24,7 +24,7 @@ const LandingSection = styled.section`
 
   .contactBlock {
     display: grid;
-    grid-template-rows: repeat(3, 0.5fr);
+    grid-template-rows: repeat(2, 0.5fr);
     row-gap: 0.25rem;
 
     p {
@@ -88,7 +88,7 @@ const HeroBackground = styled.div`
   position: absolute;
   background-color: var(--black);
   width: 100vw;
-  height: 600px;
+  height: 650px;
   top: 0;
   overflow: hidden;
   left: 0;
