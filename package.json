@@ -11,7 +11,9 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\"",
-    "clean": "gatsby clean"
+    "clean": "gatsby clean",
+    "netlify": "netlify dev",
+    "prebuild": "netlify-lambda install"
   },
   "dependencies": {
     "@mdx-js/mdx": "^1.6.22",
@@ -35,6 +37,7 @@
     "gatsby-remark-vscode": "^3.2.0",
     "gatsby-source-filesystem": "^2.7.0",
     "gatsby-transformer-sharp": "^2.8.0",
+    "netlify-cli": "^2.69.10",
     "normalize.css": "^8.0.1",
     "prism-react-renderer": "^1.1.1",
     "prop-types": "^15.7.2",

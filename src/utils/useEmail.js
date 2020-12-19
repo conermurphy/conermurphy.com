@@ -23,6 +23,13 @@ export default function useEmail({ values }) {
       email,
     };
 
+    if (!email.length) {
+      setLoading(false);
+      setError(true);
+      setMessage('Oops! There was no email entered');
+      return;
+    }
+
     // Send the data to the serverless function on submit.
     const res = await fetch(`${serverlessBase}/emailSignup`, {
       method: 'POST',
@@ -39,7 +46,8 @@ export default function useEmail({ values }) {
     if (res.status >= 400 && res.status < 600) {
       // Oh no there was an error! Set to state to show user
       setLoading(false);
-      setError(output.message);
+      setError(true);
+      setMessage(output.message);
     } else {
       // everyting worked successfully.
       setLoading(false);
