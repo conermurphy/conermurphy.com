@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import useEmail from '../utils/useEmail';
 import useForm from '../utils/useForm';
 
 const FormGridContainer = styled.form`
@@ -51,10 +52,11 @@ export const EmailSignup = () => {
   const { values, updateValue } = useForm({
     email: '',
   });
+  const { message, loading, error, submitEmail } = useEmail(values);
   const { email } = values;
   return (
-    <FormGridContainer>
-      <fieldset>
+    <FormGridContainer onSubmit={submitEmail}>
+      <fieldset disabled={loading}>
         <label htmlFor="email">Email:</label>
         <input
           type="email"
@@ -65,8 +67,8 @@ export const EmailSignup = () => {
           onChange={updateValue}
           value={email}
         />
-        <button className="signupButton" type="button">
-          Subscribe!
+        <button className="signupButton" type="submit" disabled={loading}>
+          {loading ? 'Subscribing...' : ' Subscribe'}
         </button>
       </fieldset>
     </FormGridContainer>
