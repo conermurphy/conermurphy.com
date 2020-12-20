@@ -1,34 +1,36 @@
 {
     "html": {
         "backgroundColor": "hsl(12, 77%, 52%)",
-        "color": "rgba(248,245,245,255)"
+        "color": "var(--white)"
     },
     "CSS": {
         "backgroundColor": "rgb(38, 77, 228)",
-        "color": "rgba(248,245,245,255)"
+        "color": "var(--white)"
     },
     "JavaScript": {
-        "backgroundColor": "yellow",
-        "color": "rgba(50,50,50,200)"
+        "backgroundColor": "yellow"
     },
     "NodeJS": {
         "backgroundColor": "rgb(68, 136, 62)",
-        "color": "rgba(248,245,245,255)"
+        "color": "var(--white)"
     },
     "ReactJS": {
         "backgroundColor": "#61dafb",
-        "color": "rgba(248,245,245,255)"
+        "color": "var(--white)"
     },
     "GatsbyJS": {
-        "backgroundColor": "rgb(102 51 153)",
-        "color": "rgba(248,245,245,255)"
+        "backgroundColor": "rgb(102, 51, 153)",
+        "color": "var(--white)"
     },
     "GraphQL": {
         "backgroundColor": "#E10098",
-        "color": "rgba(248,245,245,255)"
+        "color": "var(--white)"
     },
     "Other": {
         "backgroundColor": "rgba(207,92,54,255)",
-        "color": "rgba(248,245,245,255)"
+        "color": "var(--white)"
+    },
+    "Web Development": {
+        "backgroundColor": "hsl(0, 0%, 93%)"
     }
 }

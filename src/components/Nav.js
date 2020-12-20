@@ -30,6 +30,7 @@ const StyledNav = styled.nav`
     }
 
     &[aria-current='page'] {
+      border-bottom: 2px solid var(--green);
       color: var(--green);
     }
   }

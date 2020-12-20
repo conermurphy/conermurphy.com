@@ -12,15 +12,19 @@ const SiteContainer = styled.div`
   align-items: center;
 `;
 
+const ContentContainer = styled.div`
+  width: 1200px;
+`;
+
 export default function Layout({ children }) {
   return (
     <SiteContainer>
       <Typography />
       <GlobalStyles />
-      <div>
+      <ContentContainer>
         <Nav />
         {children}
-      </div>
+      </ContentContainer>
       <Footer />
     </SiteContainer>
   );
