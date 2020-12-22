@@ -19,7 +19,6 @@ const PostContainerBody = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: var(--borderRadius);
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.22);
 
   .gatsby-image-wrapper {
@@ -32,10 +31,11 @@ const PostContainerBody = styled.div`
     grid-template-rows: auto 1fr;
     flex: 1;
     padding: 2rem;
+    padding-bottom: 1rem;
 
     .content {
       h3 {
-        font-size: 2rem;
+        font-size: 1.75rem;
         padding: 1rem 0;
       }
 
@@ -57,12 +57,11 @@ const PostContainerBody = styled.div`
   .postIdDate {
     display: flex;
     flex-direction: row;
-    padding: 1rem;
+    padding: 0 1rem;
     background-color: var(--grey);
 
     p {
       padding: 0.5rem;
-      margin: 0;
       font-size: 1.5rem;
     }
 
@@ -70,6 +69,7 @@ const PostContainerBody = styled.div`
       background-color: var(--white);
       border-radius: var(--borderRadius);
       padding: 0.5rem 1rem;
+      margin-left: 1rem;
       margin-right: 1rem;
     }
   }
@@ -77,7 +77,7 @@ const PostContainerBody = styled.div`
 
 const TagStyle = styled.p`
   margin: 0;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   font-size: 1.2rem;
   background-color: ${(props) => props.backgroundColor || ''};
   color: ${(props) => props.color || 'var(--black)'};
@@ -139,7 +139,7 @@ const PostCard = ({ post }) => {
           </div>
           <div className="content">
             <h3>{title}</h3>
-            <p>{description}</p>
+            {/* <p>{description}</p> */}
           </div>
         </div>
         <div className="postIdDate">

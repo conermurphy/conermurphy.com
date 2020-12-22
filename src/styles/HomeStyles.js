@@ -38,8 +38,7 @@ const LandingSection = styled.section`
 
 const InfoBlock = styled.div`
   background-color: var(--white);
-  border-radius: var(--borderRadius);
-  width: 25vw;
+  width: 20vw;
   height: 35rem;
   filter: var(--dropShadow);
   display: flex;

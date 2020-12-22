@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import useEmail from '../utils/useEmail';
@@ -17,7 +17,6 @@ const FormContainer = styled.div`
   margin-top: -100px;
   margin-bottom: 50px;
   filter: var(--dropShadow);
-  border-radius: var(--borderRadius);
 `;
 
 const FormGridContainer = styled.form`
@@ -48,6 +47,7 @@ const FormGridContainer = styled.form`
     width: max-content;
     padding: var(--padding);
     height: var(--height);
+    font-size: 1.75rem;
     border: none;
   }
 
@@ -56,6 +56,7 @@ const FormGridContainer = styled.form`
     align-items: center;
     padding: var(--padding);
     height: var(--height);
+    font-size: 1.75rem;
     background-color: var(--grey);
   }
 

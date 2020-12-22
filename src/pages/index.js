@@ -4,7 +4,7 @@ import { Link } from 'gatsby';
 import { tsParticles } from 'tsparticles';
 import { ContentSection, HeroBackground, InfoBlock, LandingSection } from '../styles/HomeStyles';
 import particlesJson from '../assets/particles';
-import EmailSignupForm, { EmailSignup } from '../components/emailSignupForm';
+import EmailSignupForm from '../components/emailSignupForm';
 
 export default function HomePage() {
   useEffect(() => {
