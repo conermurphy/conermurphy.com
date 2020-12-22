@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import Logo from './Logo';
+import NavThemeContext from '../context/NavThemeContext';
 
 const StyledNav = styled.nav`
   display: flex;
@@ -41,16 +42,18 @@ const NavContainer = styled.div`
   flex-direction: row;
   justify-content: space-evenly;
 
-  // Setting the colour of the logo and nav items
+  // Setting the colour of the logo and nav items based on the context theme
   * {
-    fill: var(--white);
-    color: var(--white);
+    fill: ${(props) => (props.theme === 'dark' ? 'var(--black)' : 'var(--white)')};
+    color: ${(props) => (props.theme === 'dark' ? 'var(--black)' : 'var(--white)')};
   }
 `;
 
 export default function Nav() {
+  const [theme, setTheme] = useContext(NavThemeContext);
+
   return (
-    <NavContainer>
+    <NavContainer theme={theme}>
       <Logo height="7.5rem" />
       <StyledNav>
         <ul>

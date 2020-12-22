@@ -1,15 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts } from 'react-icons/md';
 import { Link } from 'gatsby';
 import { tsParticles } from 'tsparticles';
 import { ContentSection, HeroBackground, InfoBlock, LandingSection } from '../styles/HomeStyles';
 import particlesJson from '../assets/particles';
 import EmailSignupForm from '../components/emailSignupForm';
+import useNavTheme from '../utils/useNavTheme';
 
 export default function HomePage() {
+  // Setting the nav theme for this page
+  useNavTheme('light');
+
+  // Useeffect to load in the TSparticles background on load.
   useEffect(() => {
     tsParticles.load('particlesBackground', particlesJson);
   }, []);
+
   return (
     <>
       <HeroBackground id="particlesBackground" />

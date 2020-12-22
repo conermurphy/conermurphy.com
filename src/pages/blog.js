@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Img from 'gatsby-image';
 import tagData from '../data/tags.json';
+import useNavTheme from '../utils/useNavTheme';
 
 const AllPostsContainer = styled.div`
   display: grid;
@@ -121,6 +122,7 @@ const PageIngo = styled.div`
 
 const PostCard = ({ post }) => {
   const { date, description, id, image, slug, tags, title } = post.node.frontmatter;
+  useNavTheme('dark');
   return (
     <Link to={slug}>
       <PostContainerBody>
@@ -131,7 +133,7 @@ const PostCard = ({ post }) => {
               const tagInfo = tagData[tag];
               const { backgroundColor, color } = tagInfo;
               return (
-                <TagStyle backgroundColor={backgroundColor} color={color}>
+                <TagStyle key={`PostTag-${id}-${tag}`} backgroundColor={backgroundColor} color={color}>
                   {tag}
                 </TagStyle>
               );
@@ -160,7 +162,7 @@ export default function Blog({ data }) {
       </PageIngo>
       <AllPostsContainer>
         {edges.map((post) => (
-          <PostCard post={post} />
+          <PostCard key={`blogPostCard-${post.node.frontmatter.id}`} post={post} />
         ))}
       </AllPostsContainer>
     </>
