@@ -122,7 +122,7 @@ const PageIngo = styled.div`
 
 const PostCard = ({ post }) => {
   const { date, description, id, image, slug, tags, title } = post.node.frontmatter;
-  useNavTheme('dark');
+  console.log(image);
   return (
     <Link to={slug}>
       <PostContainerBody>
@@ -155,6 +155,7 @@ const PostCard = ({ post }) => {
 
 export default function Blog({ data }) {
   const { edges } = data.posts;
+  useNavTheme('dark');
   return (
     <>
       <PageIngo>
