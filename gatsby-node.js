@@ -1,49 +1,64 @@
 const path = require('path');
 
 const { createFilePath } = require('gatsby-source-filesystem');
+const { node } = require('prop-types');
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions; // Getting the createNodeField API
+
+  // If the node being processed is an MDX node then run this code.
   if (node.internal.type === 'Mdx') {
-    // If the filepath contains 'blog' then create the slug prefixed with /blog/
-    if (node.fileAbsolutePath.includes('blog')) {
-      // Adds the new id field as the slug to the node so can be queried later on.
-      const slug = createFilePath({ node, getNode }).split('/')[2];
-      createNodeField({
-        node,
-        name: 'slug',
-        value: node.frontmatter.slug ? `/blog/${node.frontmatter.slug}/` : `/blog/${slug}/`,
-      });
-      createNodeField({
-        node,
-        name: 'filePath',
-        value: slug,
-      });
-      createNodeField({
-        node,
-        name: 'contentCategory',
-        value: 'blog',
-      });
-      return;
+    // Get the contentType from the file parent directories of each node.
+    const contentType = createFilePath({ node, getNode }).split('/')[1];
+    const noteCategory = contentType === 'notes' ? createFilePath({ node, getNode }).split('/')[2] : null;
+
+    // Generate a slug for each file based on the name of the file in the filepath for the node.
+    const fileSlug = createFilePath({ node, getNode }).split('/')[3];
+
+    // Decide the slug used for each node based on the:
+    // 1) Type of content it is.
+    // 2) If there is a slug present in the frontmatter
+    // 3) For notes only what category it belonds to.
+    let slug;
+    if (node.frontmatter.slug) {
+      if (contentType === 'blog') {
+        slug = `/${contentType}/${node.frontmatter.slug}/`;
+      }
+      if (contentType === 'notes') {
+        slug = `/${contentType}/${noteCategory}/${node.frontmatter.slug}/`;
+      }
+    } else {
+      if (contentType === 'blog') {
+        slug = `/${contentType}/${fileSlug}/`;
+      }
+      if (contentType === 'notes') {
+        slug = `/${contentType}/${noteCategory}/${fileSlug}/`;
+      }
     }
 
-    // If the filepath contains 'notes' then create the slug prefixed with /notes/
-    if (node.fileAbsolutePath.includes('notes')) {
-      const slug = createFilePath({ node, getNode }).split('/')[2];
+    // Creating extra fields for each node.
+    createNodeField({
+      node,
+      name: 'slug',
+      value: slug,
+    });
+    createNodeField({
+      node,
+      name: 'filePath',
+      value: slug,
+    });
+    createNodeField({
+      node,
+      name: 'contentCategory',
+      value: contentType,
+    });
+
+    // If the node being processed if for a 'notes' node then add the cateogry of the note into the fields of the node.
+    if (contentType === 'notes') {
       createNodeField({
         node,
-        name: 'slug',
-        value: node.frontmatter.slug ? `/notes/${node.frontmatter.slug}/` : `/notes/${slug}/`,
-      });
-      createNodeField({
-        node,
-        name: 'filePath',
-        value: slug,
-      });
-      createNodeField({
-        node,
-        name: 'contentCategory',
-        value: 'notes',
+        name: 'noteCategory',
+        value: noteCategory,
       });
     }
   }
@@ -75,12 +90,13 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
-      notes: allMdx(sort: { order: ASC, fields: frontmatter___date }, filter: { fields: { contentCategory: { eq: "blog" } } }) {
+      notes: allMdx(sort: { order: ASC, fields: frontmatter___date }, filter: { fields: { contentCategory: { eq: "notes" } } }) {
         edges {
           node {
             fields {
               slug
               contentCategory
+              noteCategory
             }
             frontmatter {
               title
@@ -106,4 +122,21 @@ exports.createPages = async ({ graphql, actions }) => {
   });
 
   // TODO: Add a createPage for every note node found in the query with the abiltiy to go back and forth between notes of the same category.
+  const noteCategories = [...new Set(notes.map(({ node: note }) => note.fields.noteCategory))];
+
+  const noteCategoryNodes = noteCategories.map((cat) => notes.filter(({ node: note }) => note.fields.noteCategory === cat));
+
+  noteCategoryNodes.forEach((noteCat) => {
+    noteCat.forEach(({ node: note }, index) => {
+      createPage({
+        path: note.fields.slug,
+        component: path.resolve('./src/templates/Notes.js'),
+        context: {
+          slug: note.fields.slug,
+          prev: index === 0 ? null : noteCat[index - 1].node,
+          next: index === noteCat.length - 1 ? null : noteCat[index + 1].node,
+        },
+      });
+    });
+  });
 };
