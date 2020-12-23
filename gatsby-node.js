@@ -27,7 +27,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       return;
     }
 
-    // If the filepath contains 'nottes' then create the slug prefixed with /notes/
+    // If the filepath contains 'notes' then create the slug prefixed with /notes/
     if (node.fileAbsolutePath.includes('notes')) {
       const slug = createFilePath({ node, getNode }).split('/')[2];
       createNodeField({
