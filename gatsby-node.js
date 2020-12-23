@@ -121,12 +121,15 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
-  // TODO: Add a createPage for every note node found in the query with the abiltiy to go back and forth between notes of the same category.
+  // Get a unique list of every note category based on the folders contained within the 'notes' folder within the 'content' folder.
   const noteCategories = [...new Set(notes.map(({ node: note }) => note.fields.noteCategory))];
 
+  // Map over each unique note category found above and return an array for that category containing all of the nodes of that category from the graphql query 'notes' completed above.
   const noteCategoryNodes = noteCategories.map((cat) => notes.filter(({ node: note }) => note.fields.noteCategory === cat));
 
+  // Loop over the completed array of sub-arrays containing all of the note category nodes found on the above line.
   noteCategoryNodes.forEach((noteCat) => {
+    // Map over each individual category array of nodes and run the 'createPage' API on it. This allows us to link to previous and next wihtin that category of notes as each category of notes is looped over seperately so they are not aware of the other categories contained within 'noteCategoryNodes'.
     noteCat.forEach(({ node: note }, index) => {
       createPage({
         path: note.fields.slug,
