@@ -1,2 +1,128 @@
 [build]
     functions = "functions/"
+
+[[redirects]]
+    from = "/javascript-array-prototype-methods-from-explained"
+    to = "/blog/javascript-array-methods-from-explained"
+    status = 301
+    force = false
+    
+[[redirects]]
+    from = "/javascript-array-methods-from-explained"
+    to = "/blog/javascript-array-methods-from-explained"
+    status = 301
+    force = false
+
+[[redirects]]
+    from = "/javascript-array-prototype-methods-isarray-explained"
+    to = "/blog/javascript-array-methods-isarray-explained"
+    status = 301
+    force = false
+
+[[redirects]]
+    from = "/javascript-array-methods-isarray-explained"
+    to = "/blog/javascript-array-methods-isarray-explained"
+    status = 301
+    force = false
+
+[[redirects]]
+    from = "/javascript-fundamentals-functions-overview"
+    to = "/blog/javascript-fundamentals-functions-overview"
+    status = 301
+    force = false
+    
+[[redirects]]
+    from = "/javascript-fundamentals-getters-setters"
+    to = "/blog/javascript-fundamentals-getters-setters"
+    status = 301
+    force = false
+    
+[[redirects]]
+    from = "/finding-updating-outdated-npm-packages"
+    to = "/blog/finding-updating-outdated-npm-packages"
+    status = 301
+    force = false
+
+[[redirects]]
+    from = "/gatsby-blog-open-graph-image"
+    to = "/blog/gatsby-blog-open-graph-image"
+    status = 301
+    force = false
+
+[[redirects]]
+    from = "/changing-vscode-menu-bar-colour"
+    to = "/blog/changing-vscode-menu-bar-colour"
+    status = 301
+    force = false
+
+[[redirects]]
+    from = "/deleting-files-node-js-promises"
+    to = "/blog/deleting-files-node-js-promises"
+    status = 301
+    force = false
+
+[[redirects]]
+    from = "/javascript-array-methods-of-explained"
+    to = "/blog/javascript-array-methods-of-explained"
+    status = 301
+    force = false
+
+[[redirects]]
+    from = "/gatsby-mdx-blog-rss-feed"
+    to = "/blog/gatsby-mdx-blog-rss-feed"
+    status = 301
+    force = false
+
+[[redirects]]
+    from = "/javascript-array-methods-prototype-concat-explained"
+    to = "/blog/javascript-array-methods-prototype-concat-explained"
+    status = 301
+    force = false
+    
+[[redirects]]
+    from = "/optimising-google-fonts-gatsby-increased-performance"
+    to = "/blog/optimising-google-fonts-gatsby-increased-performance"
+    status = 301
+    force = false
+    
+[[redirects]]
+    from = "/javascript-array-methods-prototype-copywithin-explained"
+    to = "/blog/javascript-array-methods-prototype-copywithin-explained"
+    status = 301
+    force = false
+    
+[[redirects]]
+    from = "/netlify-redirects-gatsby-website"
+    to = "/blog/netlify-redirects-gatsby-website"
+    status = 301
+    force = false
+    
+[[redirects]]
+    from = "/javascript-array-methods-prototype-entries-explained"
+    to = "/blog/javascript-array-methods-prototype-entries-explained"
+    status = 301
+    force = false
+
+[[redirects]]
+    from = "/gatsby-develop-npm-run-develop"
+    to = "/blog/gatsby-develop-npm-run-develop"
+    status = 301
+    force = false
+
+[[redirects]]
+    from = "/javascript-array-methods-prototype-every-explained"
+    to = "/blog/javascript-array-methods-prototype-every-explained"
+    status = 301
+    force = false
+
+[[redirects]]
+    from = "/javascript-array-methods-prototype-fill-explained"
+    to = "/blog/javascript-array-methods-prototype-fill-explained"
+    status = 301
+    force = false
+
+[[redirects]]
+    from = "/how-to-schedule-tweets-on-android-ios"
+    to = "/blog/how-to-schedule-tweets-on-android-ios"
+    force = false
+    status = 301
