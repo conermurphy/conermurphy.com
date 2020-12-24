@@ -7,7 +7,7 @@ const FooterBody = styled.footer`
   width: 100%;
   background-color: var(--grey);
   color: var(--white);
-  filter: var(--dropShadow);
+  filter: drop-shadow(var(--shadow));
 
   .copyright {
     background-color: var(--black);
@@ -29,7 +29,7 @@ const ContentGrid = styled.div`
     margin: 2rem;
     background-color: var(--white);
     border-radius: var(--borderRadius);
-    filter: var(--dropShadow);
+    filter: drop-shadow(var(--shadow));
     max-height: 400px;
     overflow-x: hidden;
   }

@@ -40,7 +40,7 @@ const InfoBlock = styled.div`
   background-color: var(--white);
   width: 20vw;
   height: 35rem;
-  filter: var(--dropShadow);
+  filter: drop-shadow(var(--shadow));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -92,7 +92,7 @@ const HeroBackground = styled.div`
   overflow: hidden;
   left: 0;
   z-index: -1;
-  filter: var(--dropShadow);
+  filter: drop-shadow(var(--shadow));
 `;
 
 const ContentSection = styled.section`

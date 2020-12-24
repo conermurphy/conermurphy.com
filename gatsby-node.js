@@ -76,7 +76,7 @@ exports.createPages = async ({ graphql, actions }) => {
     },
   } = await graphql(`
     query {
-      blog: allMdx(sort: { order: ASC, fields: frontmatter___date }, filter: { fields: { contentCategory: { eq: "blog" } } }) {
+      blog: allMdx(sort: { order: DESC, fields: frontmatter___date }, filter: { fields: { contentCategory: { eq: "blog" } } }) {
         edges {
           node {
             fields {
@@ -90,7 +90,7 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
-      notes: allMdx(sort: { order: ASC, fields: frontmatter___date }, filter: { fields: { contentCategory: { eq: "notes" } } }) {
+      notes: allMdx(sort: { order: DESC, fields: frontmatter___date }, filter: { fields: { contentCategory: { eq: "notes" } } }) {
         edges {
           node {
             fields {

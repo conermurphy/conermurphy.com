@@ -16,7 +16,7 @@ const FormContainer = styled.div`
   margin: auto;
   margin-top: -100px;
   margin-bottom: 50px;
-  filter: var(--dropShadow);
+  filter: drop-shadow(var(--shadow));
 `;
 
 const FormGridContainer = styled.form`
@@ -28,7 +28,7 @@ const FormGridContainer = styled.form`
   background-color: var(--white);
   border-radius: 5px;
   overflow: hidden;
-  filter: var(--dropShadow);
+  filter: drop-shadow(var(--shadow));
   max-width: 500px;
 
   fieldset {
@@ -77,7 +77,7 @@ const MessageContainer = styled.div`
   background-color: var(--white);
   border-radius: var(--borderRadius);
   padding: 1.5rem;
-  filter: var(--dropShadow);
+  filter: drop-shadow(var(--shadow));
 
   ::after {
     content: '';

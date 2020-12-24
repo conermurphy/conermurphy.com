@@ -37,7 +37,7 @@ const BlogPost = ({ data, pageContext }) => {
   const imagePath = image ? image.childImageSharp.fixed.src : logo;
   return (
     <>
-      {/* <SEO title={`${post.frontmatter.title} | Coner Murphy`} description={post.frontmatter.description} image={imagePath} /> */}
+      <SEO title={`${post.frontmatter.title} | Coner Murphy`} description={post.frontmatter.description} image={imagePath} />
       <BlogPostContainer>
         <PostTitle title={post.frontmatter.title}>{post.frontmatter.title}</PostTitle>
         <p style={{ marginTop: 0 }}>

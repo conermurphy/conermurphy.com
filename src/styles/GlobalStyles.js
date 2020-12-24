@@ -9,7 +9,7 @@ const GlobalStyles = createGlobalStyle`
     --white: #ffffff;
     --scrollBarWidth: 12px;
     --layoutWidth: 1080px;
-    --dropShadow: drop-shadow(0px 4px 6px rgba(0,0,0,0.22));
+    --shadow: 0px 4px 6px rgba(0,0,0,0.22);
     --borderRadius: 10px;
   }
 
