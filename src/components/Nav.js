@@ -23,7 +23,7 @@ const StyledNav = styled.nav`
   a {
     display: block;
     font-size: 2rem;
-    padding: 0 1rem;
+    padding: 1rem;
     text-decoration: none;
 
     &:hover {
