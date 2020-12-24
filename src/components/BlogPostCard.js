@@ -46,7 +46,7 @@ const PostContainerBody = styled.div`
       }
     }
 
-    .content {
+    & > .content {
       h3 {
         font-size: 1.75rem;
         padding: 1rem 0;
@@ -107,7 +107,11 @@ export default function BlogPostCard({ post }) {
         <Img fluid={image.childImageSharp.fluid} />
         <div className="contentContainer">
           <div className="languageIconContainer">
-            {firstMatchingLanguageTag ? <LanguageIcons language={firstMatchingLanguageTag} width="3rem" /> : <Logo height="3rem" />}
+            {firstMatchingLanguageTag ? (
+              <LanguageIcons language={firstMatchingLanguageTag} width="3rem" />
+            ) : (
+              <Logo height="3rem" link={false} />
+            )}
           </div>
           <div className="content">
             <h3>{title}</h3>

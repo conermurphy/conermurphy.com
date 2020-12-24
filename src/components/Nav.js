@@ -54,7 +54,7 @@ export default function Nav() {
 
   return (
     <NavContainer theme={theme}>
-      <Logo height="7.5rem" />
+      <Logo height="7.5rem" link />
       <StyledNav>
         <ul>
           <li>

@@ -136,6 +136,17 @@ const ContentSection = styled.section`
       font-weight: bold;
     }
   }
+
+  & > .content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 4rem;
+    padding: 5rem;
+
+    * {
+      text-decoration: none;
+    }
+  }
 `;
 
 export { ContentSection, LandingSection, InfoBlock, HeroBackground };

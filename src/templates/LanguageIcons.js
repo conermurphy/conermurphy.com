@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { GrCss3, GrHtml5, GrJs, GrReactjs, GrGatsbyjs, GrGraphQl, GrNode } from 'react-icons/gr';
-import Logo from '../components/Logo';
 
 const IconContainer = styled.div`
   & > svg {
@@ -25,7 +24,5 @@ const languages = {
 export const languageList = Object.keys(languages);
 
 export default function LanguageIcons({ language, width }) {
-  // <LanguageIconContainer>
-  return <IconContainer width={width}>{languageList.includes(language) ? languages[language.trim()] : <Logo />}</IconContainer>;
-  // </LanguageIconContainer>
+  return <IconContainer width={width}>{languages[language.trim()]}</IconContainer>;
 }

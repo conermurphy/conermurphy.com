@@ -1,13 +1,16 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts } from 'react-icons/md';
-import { Link } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import { tsParticles } from 'tsparticles';
 import { ContentSection, HeroBackground, InfoBlock, LandingSection } from '../styles/HomeStyles';
 import particlesJson from '../assets/particles';
 import EmailSignupForm from '../components/emailSignupForm';
 import useNavTheme from '../utils/useNavTheme';
+import BlogPostCard from '../components/BlogPostCard';
 
-export default function HomePage() {
+export default function HomePage({ data }) {
+  const { blog } = data;
+
   // Setting the nav theme for this page
   useNavTheme('light');
 
@@ -62,7 +65,11 @@ export default function HomePage() {
           <h3>Blog</h3>
           <Link to="/blog">View All</Link>
         </div>
-        <div className="content">{/* TODO: Add in Blog Posts and create custom template for them */}</div>
+        <div className="content">
+          {blog.edges.map((post) => (
+            <BlogPostCard key={`HomeBlogPostCard-${post.node.frontmatter.id}`} post={post} />
+          ))}
+        </div>
       </ContentSection>
       <ContentSection>
         <div className="contentTitle">
@@ -87,3 +94,28 @@ export default function HomePage() {
     </>
   );
 }
+
+export const query = graphql`
+  query HomePageContentQuery {
+    blog: allMdx(sort: { order: DESC, fields: frontmatter___date }, filter: { fields: { contentCategory: { eq: "blog" } } }, limit: 3) {
+      edges {
+        node {
+          frontmatter {
+            date(formatString: "DD/MM/YYYY")
+            slug
+            tags
+            title
+            id
+            image {
+              childImageSharp {
+                fluid(maxWidth: 400) {
+                  ...GatsbyImageSharpFluid
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;

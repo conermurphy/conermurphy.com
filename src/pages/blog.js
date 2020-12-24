@@ -68,7 +68,7 @@ export default function Blog({ data }) {
 }
 
 export const query = graphql`
-  query MyQuery {
+  query BlogPageContentQuery {
     blog: allMdx(sort: { order: DESC, fields: frontmatter___date }, filter: { fields: { contentCategory: { eq: "blog" } } }) {
       edges {
         node {
