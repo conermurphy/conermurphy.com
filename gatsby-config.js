@@ -1,4 +1,8 @@
-module.exports = {
+import dotenv from 'dotenv';
+
+dotenv.config({ path: '.env' });
+
+export default {
   siteMetadata: {
     title: 'Coner Murphy',
     description: 'Web Developer, Blogger, Content Creator',

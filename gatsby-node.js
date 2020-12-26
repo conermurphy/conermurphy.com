@@ -1,9 +1,7 @@
-const path = require('path');
+import path from 'path';
+import { createFilePath } from 'gatsby-source-filesystem';
 
-const { createFilePath } = require('gatsby-source-filesystem');
-const { node } = require('prop-types');
-
-exports.onCreateNode = ({ node, getNode, actions }) => {
+export async function onCreateNode({ node, getNode, actions }) {
   const { createNodeField } = actions; // Getting the createNodeField API
 
   // If the node being processed is an MDX node then run this code.
@@ -62,17 +60,15 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       });
     }
   }
-};
+}
 
-// Query for every node and then use the regex matches to determine which content type it is and use the correct template.
-exports.createPages = async ({ graphql, actions }) => {
+async function turnBlogPostsIntoPages({ graphql, actions }) {
   const { createPage } = actions;
 
-  // Querying for every node filtered on contentType created above and then destructured out to seperate vars to use below.
+  // 1. Query for all of the data related to blog posts.
   const {
     data: {
-      blog: { edges: blog },
-      notes: { edges: notes },
+      blog: { edges: blogPosts, totalCount: blogTotalCount },
     },
   } = await graphql(`
     query {
@@ -89,7 +85,53 @@ exports.createPages = async ({ graphql, actions }) => {
             }
           }
         }
+        totalCount
       }
+    }
+  `);
+
+  // 2. Create a page for every blog post node. (This is for indivual blog posts.)
+  blogPosts.forEach(({ node }, index) => {
+    createPage({
+      path: node.fields.slug,
+      component: path.resolve('./src/templates/Blog.js'),
+      context: {
+        slug: node.fields.slug,
+        prev: index === 0 ? null : blogPosts[index - 1].node,
+        next: index === blogPosts.length - 1 ? null : blogPosts[index + 1].node,
+      },
+    });
+  });
+
+  // 3. Creating multiple blog pages to paginate the total amount of posts over multiple pages for usability.
+  const pageSize = parseInt(process.env.GATSBY_BLOG_PAGE_SIZE); // Total number of posts on each page
+  const pageCount = Math.ceil(blogTotalCount / pageSize); // Total number of pages required.
+
+  // Loop through each page required (1 to x) and create a new blog page for each.
+  Array.from({ length: pageCount }).forEach((_, i) => {
+    createPage({
+      path: `/blog/${i + 1}`,
+      component: path.resolve('./src/pages/blog.js'),
+      // Context is passed to the page so we can skip the required amount of posts on each page.
+      context: {
+        skip: i * pageSize,
+        currentPage: i + 1,
+        pageSize,
+      },
+    });
+  });
+}
+
+async function turnNotesIntoPages({ graphql, actions }) {
+  const { createPage } = actions;
+
+  // 1. Query for all note posts.
+  const {
+    data: {
+      notes: { edges: notes, totalCount: notesTotalCount },
+    },
+  } = await graphql(`
+    query {
       notes: allMdx(sort: { order: DESC, fields: frontmatter___date }, filter: { fields: { contentCategory: { eq: "notes" } } }) {
         edges {
           node {
@@ -104,22 +146,12 @@ exports.createPages = async ({ graphql, actions }) => {
             }
           }
         }
+        totalCount
       }
     }
   `);
 
-  // Creating a page for every blog post.
-  blog.forEach(({ node }, index) => {
-    createPage({
-      path: node.fields.slug,
-      component: path.resolve('./src/templates/Blog.js'),
-      context: {
-        slug: node.fields.slug,
-        prev: index === 0 ? null : blog[index - 1].node,
-        next: index === blog.length - 1 ? null : blog[index + 1].node,
-      },
-    });
-  });
+  // 2. Create individual pages for each notes post.
 
   // Get a unique list of every note category based on the folders contained within the 'notes' folder within the 'content' folder.
   const noteCategories = [...new Set(notes.map(({ node: note }) => note.fields.noteCategory))];
@@ -142,4 +174,34 @@ exports.createPages = async ({ graphql, actions }) => {
       });
     });
   });
-};
+
+  // 3. Create multiple notes pages to paginate out the notes.
+  const pageSize = parseInt(process.env.GATSBY_NOTES_PAGE_SIZE); // Total number of posts on each page
+  const pageCount = Math.ceil(notesTotalCount / pageSize); // Total number of pages required.
+
+  console.log(`There are ${notesTotalCount} notes in total, this means we have ${pageCount} with ${pageSize} per page.`);
+
+  // Loop through each page required (1 to x) and create a new notes page for each.
+  Array.from({ length: pageCount }).forEach((_, i) => {
+    createPage({
+      path: `/notes/${i + 1}`,
+      component: path.resolve('./src/pages/notes.js'),
+      // Context is passed to the page so we can skip the required amount of posts on each page.
+      context: {
+        skip: i * pageSize,
+        currentPage: i + 1,
+        pageSize,
+      },
+    });
+  });
+}
+
+export async function createPages(params) {
+  // 2. After the creation of the nodes create pages for each custom type.
+  await Promise.all([
+    // 1. Blog Posts
+    turnBlogPostsIntoPages(params),
+    // 2. Notes Pages
+    turnNotesIntoPages(params),
+  ]);
+}

@@ -33,8 +33,10 @@ export default function Notes({ data }) {
 }
 
 export const query = graphql`
-  query NotesPageContentQuery {
+  query($skip: Int = 0, $pageSize: Int = 4) {
     notes: allMdx(
+      limit: $pageSize
+      skip: $skip
       sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
       filter: { fields: { contentCategory: { eq: "notes" } } }
     ) {

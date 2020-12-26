@@ -15,8 +15,9 @@ const AllPostsContainer = styled.div`
   }
 `;
 
-export default function Blog({ data }) {
+export default function Blog({ data, pageContext }) {
   const { edges: blogPosts } = data.blog;
+  const { currentPage, skip } = pageContext; // Used for pagination.
   useNavTheme('dark');
   return (
     <>
@@ -33,8 +34,13 @@ export default function Blog({ data }) {
 }
 
 export const query = graphql`
-  query BlogPageContentQuery {
-    blog: allMdx(sort: { order: DESC, fields: frontmatter___date }, filter: { fields: { contentCategory: { eq: "blog" } } }) {
+  query($skip: Int = 0, $pageSize: Int = 6) {
+    blog: allMdx(
+      limit: $pageSize
+      skip: $skip
+      sort: { order: DESC, fields: frontmatter___date }
+      filter: { fields: { contentCategory: { eq: "blog" } } }
+    ) {
       edges {
         node {
           fields {
