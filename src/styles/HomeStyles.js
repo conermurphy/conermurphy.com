@@ -108,4 +108,22 @@ const ContentSection = styled.section`
   }
 `;
 
-export { ContentSection, LandingSection, InfoBlock, HeroBackground };
+const NotesContentSection = styled.section`
+  & > .content {
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem 0;
+
+    & > a :last-child {
+      > div:last-child {
+        border-bottom: none;
+      }
+    }
+
+    * {
+      text-decoration: none;
+    }
+  }
+`;
+
+export { ContentSection, LandingSection, InfoBlock, HeroBackground, NotesContentSection };

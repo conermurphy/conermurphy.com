@@ -2,14 +2,15 @@ import React, { useEffect } from 'react';
 import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts } from 'react-icons/md';
 import { graphql, Link } from 'gatsby';
 import { tsParticles } from 'tsparticles';
-import { ContentSection, HeroBackground, InfoBlock, LandingSection } from '../styles/HomeStyles';
+import { ContentSection, HeroBackground, InfoBlock, LandingSection, NotesContentSection } from '../styles/HomeStyles';
 import particlesJson from '../assets/particles';
 import EmailSignupForm from '../components/emailSignupForm';
 import useNavTheme from '../utils/useNavTheme';
 import BlogPostCard from '../components/BlogPostCard';
+import NotePostCard from '../components/NotePostCard';
 
 export default function HomePage({ data }) {
-  const { blog } = data;
+  const { blog, notes } = data;
 
   // Setting the nav theme for this page
   useNavTheme('light');
@@ -71,13 +72,17 @@ export default function HomePage({ data }) {
           ))}
         </div>
       </ContentSection>
-      <ContentSection>
+      <NotesContentSection>
         <div className="headerTitleSeperator">
           <h3>Notes</h3>
           <Link to="/notes">View All</Link>
         </div>
-        <div className="content">{/* TODO: Add in Blog Posts and create custom template for them */}</div>
-      </ContentSection>
+        <div className="content">
+          {notes.edges.map((note) => (
+            <NotePostCard key={`HomeNotePostCard-${note.node.frontmatter.id}`} note={note} />
+          ))}
+        </div>
+      </NotesContentSection>
       <ContentSection>
         <div className="headerTitleSeperator">
           <h3>Portfolio</h3>
@@ -116,6 +121,27 @@ export const query = graphql`
               }
             }
           }
+        }
+      }
+    }
+    notes: allMdx(
+      limit: 3
+      sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
+      filter: { fields: { contentCategory: { eq: "notes" } } }
+    ) {
+      edges {
+        node {
+          fields {
+            slug
+            noteCategory
+          }
+          frontmatter {
+            date(formatString: "DDMMYYYY")
+            tags
+            title
+            id
+          }
+          excerpt(pruneLength: 250)
         }
       }
     }

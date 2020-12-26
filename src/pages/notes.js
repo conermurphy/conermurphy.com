@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { graphql, Link } from 'gatsby';
+import { graphql } from 'gatsby';
 import useNavTheme from '../utils/useNavTheme';
 import NotePostCard from '../components/NotePostCard';
 import Pagination from '../components/Pagination';
@@ -8,6 +8,12 @@ import Pagination from '../components/Pagination';
 const AllNotesContainer = styled.div`
   display: flex;
   flex-direction: column;
+
+  & > a :last-child {
+    > div:last-child {
+      border-bottom: none;
+    }
+  }
 
   * {
     text-decoration: none;
