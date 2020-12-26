@@ -41,6 +41,7 @@ const NavContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  margin-bottom: 2.5rem;
 
   // Setting the colour of the logo and nav items based on the context theme
   * {
