@@ -100,9 +100,11 @@ export const query = graphql`
     blog: allMdx(sort: { order: DESC, fields: frontmatter___date }, filter: { fields: { contentCategory: { eq: "blog" } } }, limit: 3) {
       edges {
         node {
+          fields {
+            slug
+          }
           frontmatter {
             date(formatString: "DD/MM/YYYY")
-            slug
             tags
             title
             id
