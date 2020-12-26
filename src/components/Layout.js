@@ -10,10 +10,12 @@ const SiteContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh;
 `;
 
 const ContentContainer = styled.div`
   width: 1200px;
+  flex-grow: 1;
 `;
 
 export default function Layout({ children }) {
