@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { graphql, Link } from 'gatsby';
 import useNavTheme from '../utils/useNavTheme';
 import NotePostCard from '../components/NotePostCard';
+import Pagination from '../components/Pagination';
 
 const AllNotesContainer = styled.div`
   display: flex;
@@ -13,8 +14,9 @@ const AllNotesContainer = styled.div`
   }
 `;
 
-export default function Notes({ data }) {
-  const { edges: notes } = data.notes;
+export default function Notes({ data, pageContext }) {
+  const { edges: notes, totalCount } = data.notes;
+  const { currentPage, skip } = pageContext;
   // Setting the nav theme for this page
   useNavTheme('dark');
 
@@ -23,11 +25,25 @@ export default function Notes({ data }) {
       <div className="headerTitleSeperator">
         <h1>Notes</h1>
       </div>
+      <Pagination
+        pageSize={parseInt(process.env.GATSBY_NOTES_PAGE_SIZE)}
+        totalCount={totalCount}
+        currentPage={currentPage || 1}
+        skip={skip}
+        base="notes"
+      />
       <AllNotesContainer>
         {notes.map((note) => (
           <NotePostCard key={`NotePostCard-${note.node.frontmatter.id}`} note={note} />
         ))}
       </AllNotesContainer>
+      <Pagination
+        pageSize={parseInt(process.env.GATSBY_NOTES_PAGE_SIZE)}
+        totalCount={totalCount}
+        currentPage={currentPage || 1}
+        skip={skip}
+        base="notes"
+      />
     </>
   );
 }
@@ -55,6 +71,7 @@ export const query = graphql`
           excerpt(pruneLength: 250)
         }
       }
+      totalCount
     }
   }
 `;

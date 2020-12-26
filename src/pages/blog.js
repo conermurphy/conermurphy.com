@@ -3,12 +3,13 @@ import React from 'react';
 import styled from 'styled-components';
 import useNavTheme from '../utils/useNavTheme';
 import BlogPostCard from '../components/BlogPostCard';
+import Pagination from '../components/Pagination';
 
 const AllPostsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 4rem;
-  padding: 5rem;
+  padding: 1rem 5rem;
 
   * {
     text-decoration: none;
@@ -16,7 +17,7 @@ const AllPostsContainer = styled.div`
 `;
 
 export default function Blog({ data, pageContext }) {
-  const { edges: blogPosts } = data.blog;
+  const { edges: blogPosts, totalCount } = data.blog;
   const { currentPage, skip } = pageContext; // Used for pagination.
   useNavTheme('dark');
   return (
@@ -24,11 +25,25 @@ export default function Blog({ data, pageContext }) {
       <div className="headerTitleSeperator">
         <h1>Blog Posts</h1>
       </div>
+      <Pagination
+        pageSize={parseInt(process.env.GATSBY_BLOG_PAGE_SIZE)}
+        totalCount={totalCount}
+        currentPage={currentPage || 1}
+        skip={skip}
+        base="blog"
+      />
       <AllPostsContainer>
         {blogPosts.map((post) => (
           <BlogPostCard key={`blogPostCard-${post.node.frontmatter.id}`} post={post} />
         ))}
       </AllPostsContainer>
+      <Pagination
+        pageSize={parseInt(process.env.GATSBY_BLOG_PAGE_SIZE)}
+        totalCount={totalCount}
+        currentPage={currentPage || 1}
+        skip={skip}
+        base="blog"
+      />
     </>
   );
 }
@@ -61,6 +76,7 @@ export const query = graphql`
           }
         }
       }
+      totalCount
     }
   }
 `;
