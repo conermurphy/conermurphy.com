@@ -15,49 +15,14 @@ const AllPostsContainer = styled.div`
   }
 `;
 
-const PageInfo = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 2rem;
-  padding-bottom: 2rem;
-  position: relative;
-
-  ::after,
-  ::before {
-    border-bottom: 2px solid var(--grey);
-    width: 100%;
-    content: '';
-    position: absolute;
-    bottom: 0;
-  }
-
-  h1 {
-    font-size: 2.5rem;
-    text-transform: uppercase;
-    font-family: var(--body-font);
-    position: relative;
-
-    ::before {
-      border-bottom: 2px solid var(--green);
-      width: 100%;
-      content: '';
-      position: absolute;
-      bottom: -2rem;
-      z-index: 2;
-    }
-  }
-`;
-
 export default function Blog({ data }) {
   const { edges: blogPosts } = data.blog;
   useNavTheme('dark');
   return (
     <>
-      <PageInfo>
+      <div className="headerTitleSeperator">
         <h1>Blog Posts</h1>
-      </PageInfo>
+      </div>
       <AllPostsContainer>
         {blogPosts.map((post) => (
           <BlogPostCard key={`blogPostCard-${post.node.frontmatter.id}`} post={post} />

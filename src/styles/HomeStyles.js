@@ -96,47 +96,6 @@ const HeroBackground = styled.div`
 `;
 
 const ContentSection = styled.section`
-  margin-bottom: 5rem;
-  .contentTitle {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 2rem;
-    padding-bottom: 2rem;
-    position: relative;
-
-    ::after,
-    ::before {
-      border-bottom: 2px solid var(--grey);
-      width: 100%;
-      content: '';
-      position: absolute;
-      bottom: 0;
-    }
-
-    h3 {
-      font-size: 2.5rem;
-      text-transform: uppercase;
-      font-family: var(--body-font);
-      position: relative;
-
-      ::before {
-        border-bottom: 2px solid var(--green);
-        width: 100%;
-        content: '';
-        position: absolute;
-        bottom: -2rem;
-        z-index: 2;
-      }
-    }
-
-    a {
-      text-decoration: none;
-      font-weight: bold;
-    }
-  }
-
   & > .content {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

@@ -61,7 +61,7 @@ export default function HomePage({ data }) {
       </LandingSection>
       <EmailSignupForm />
       <ContentSection>
-        <div className="contentTitle">
+        <div className="headerTitleSeperator">
           <h3>Blog</h3>
           <Link to="/blog">View All</Link>
         </div>
@@ -72,21 +72,21 @@ export default function HomePage({ data }) {
         </div>
       </ContentSection>
       <ContentSection>
-        <div className="contentTitle">
+        <div className="headerTitleSeperator">
           <h3>Notes</h3>
           <Link to="/notes">View All</Link>
         </div>
         <div className="content">{/* TODO: Add in Blog Posts and create custom template for them */}</div>
       </ContentSection>
       <ContentSection>
-        <div className="contentTitle">
+        <div className="headerTitleSeperator">
           <h3>Portfolio</h3>
           <Link to="/portfolio">View All</Link>
         </div>
         <div className="content">{/* TODO: Add in Blog Posts and create custom template for them */}</div>
       </ContentSection>
       <ContentSection>
-        <div className="contentTitle">
+        <div className="headerTitleSeperator">
           <h3>testimonials</h3>
         </div>
         <div className="content">{/* TODO: Add in Blog Posts and create custom template for them */}</div>
