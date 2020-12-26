@@ -2,9 +2,8 @@ import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
 import Img from 'gatsby-image';
-import tagData from '../data/tags.json';
-import LanguageIcons, { languageList } from '../templates/LanguageIcons';
-import Logo from './Logo';
+import matchingLanguageIcon from '../utils/findMatchingLanguageIcon';
+import findTagInfo from '../utils/findTagInfo';
 
 const PostContainerBody = styled.div`
   display: flex;
@@ -94,35 +93,28 @@ const TagStyle = styled.p`
 `;
 
 export default function BlogPostCard({ post }) {
-  const { date, id, image, slug, tags, title } = post.node.frontmatter;
+  const { frontmatter, fields } = post.node;
+  const { date, id, image, tags, title } = frontmatter;
+  const { slug } = fields;
 
-  // Find the index of the first matching tag in the blog posts frontmatter. If both are found then take the first one in the list.
-  const firstMatchingLanguageTagIndex = tags.map((tag) => (languageList.includes(tag) ? languageList.indexOf(tag) : null)).slice(0, 1);
-  // Accessing the language name from the array so we can pass it in to the LanguageIcons component further down to render the logo of the langauge.
-  const firstMatchingLanguageTag = languageList[firstMatchingLanguageTagIndex];
+  // Find the language tag to access below to display icon on the blog post
+  const languageIcon = matchingLanguageIcon(tags, '3rem');
 
   return (
     <Link to={slug}>
       <PostContainerBody>
         <Img fluid={image.childImageSharp.fluid} />
         <div className="contentContainer">
-          <div className="languageIconContainer">
-            {firstMatchingLanguageTag ? (
-              <LanguageIcons language={firstMatchingLanguageTag} width="3rem" />
-            ) : (
-              <Logo height="3rem" link={false} />
-            )}
-          </div>
+          <div className="languageIconContainer">{languageIcon}</div>
           <div className="content">
             <h3>{title}</h3>
           </div>
           <div className="tags">
             {tags.map((tag) => {
-              const tagInfo = tagData[tag];
-              const { backgroundColor, color } = tagInfo;
+              const { matchingTag, backgroundColor, color } = findTagInfo(tag);
               return (
-                <TagStyle key={`PostTag-${id}-${tag}`} backgroundColor={backgroundColor} color={color}>
-                  {tag}
+                <TagStyle key={`PostTag-${id}-${matchingTag}`} backgroundColor={backgroundColor} color={color}>
+                  {matchingTag}
                 </TagStyle>
               );
             })}

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { GrCss3, GrHtml5, GrJs, GrReactjs, GrGatsbyjs, GrGraphQl, GrNode } from 'react-icons/gr';
 
 const IconContainer = styled.div`
+  height: ${(props) => (props.width ? props.width : '5rem')};
   & > svg {
     width: ${(props) => (props.width ? props.width : '5rem')};
     height: auto;
