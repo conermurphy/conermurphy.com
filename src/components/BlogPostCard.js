@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Img from 'gatsby-image';
 import matchingLanguageIcon from '../utils/findMatchingLanguageIcon';
-import findTagInfo from '../utils/findTagInfo';
+import Tags from './Tags';
 
 const PostContainerBody = styled.div`
   display: flex;
@@ -59,13 +59,6 @@ const PostContainerBody = styled.div`
         margin-top: 0;
       }
     }
-
-    .tags {
-      display: flex;
-      flex-direction: row;
-      margin: 1.5rem;
-      gap: 1rem;
-    }
   }
 
   .postIdDate {
@@ -85,14 +78,6 @@ const PostContainerBody = styled.div`
   }
 `;
 
-const TagStyle = styled.p`
-  margin: 0;
-  padding: 0.75rem 1rem;
-  font-size: 1.2rem;
-  background-color: var(--white);
-  border: 1px solid var(--green);
-`;
-
 export default function BlogPostCard({ post }) {
   const { frontmatter, fields } = post.node;
   const { date, id, image, tags, title } = frontmatter;
@@ -110,16 +95,7 @@ export default function BlogPostCard({ post }) {
           <div className="content">
             <h3>{title}</h3>
           </div>
-          <div className="tags">
-            {tags.map((tag) => {
-              const { matchingTag, backgroundColor, color } = findTagInfo(tag);
-              return (
-                <TagStyle key={`PostTag-${id}-${matchingTag}`} backgroundColor={backgroundColor} color={color}>
-                  {matchingTag}
-                </TagStyle>
-              );
-            })}
-          </div>
+          <Tags frontmatter={frontmatter} />
         </div>
         <div className="postIdDate">
           <p className="id">Post: #{id}</p>

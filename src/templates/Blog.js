@@ -7,11 +7,10 @@ import PropTypes from 'prop-types';
 import Img from 'gatsby-image';
 import SEO from '../components/SEO';
 import Logo from '../assets/logo/CM-Logo-2019.svg';
-import findTagInfo from '../utils/findTagInfo';
 // MDX Component Imports Used on each page.
-import GithubEdit from '../components/mdx/githubEdit.js';
 import Components from '../components/mdx/Components';
-import EmailSignupForm from '../components/emailSignupForm';
+import Tags from '../components/Tags';
+import ClosingComponents from '../components/mdx/ClosingComponents';
 
 const BlogPostContainer = styled.article`
   display: flex;
@@ -42,28 +41,7 @@ const BlogHeader = styled.div`
 
   .postInfo {
     margin-bottom: 2.5rem;
-
-    .tags {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-    }
   }
-`;
-
-const BlogBody = styled.div`
-  .closingComponents {
-    margin: 5rem 0;
-  }
-`;
-
-const TagStyle = styled.p`
-  margin: 0;
-  padding: 0.75rem 1rem;
-  font-size: 1.2rem;
-  background-color: var(--white);
-  border: 1px solid var(--green);
 `;
 
 const BlogPost = ({ data, pageContext, path }) => {
@@ -71,9 +49,9 @@ const BlogPost = ({ data, pageContext, path }) => {
   const post = data.mdx;
   const { frontmatter, timeToRead, body, fields } = post;
   const { filePath, contentCategory, slug } = fields;
-  const { image, title, description, date, series, tags, id } = frontmatter;
+  const { image, title, description, date, series, tags, id, plainDate } = frontmatter;
 
-  // Setting image path for SEO if no image use the log.
+  // Setting image path for SEO if no image use the logo.
   const imagePath = image ? image.childImageSharp.fluid.src : Logo;
   return (
     <>
@@ -84,40 +62,31 @@ const BlogPost = ({ data, pageContext, path }) => {
           description,
           image: imagePath,
           article: true,
-          date,
+          date: plainDate,
         }}
       />
       <BlogPostContainer>
         <Img className="heroImage" fluid={image.childImageSharp.fluid} />
         <BlogHeader>
-          {/* <div className="headerTitleSeperator"> */}
           <h1 className="postTitle">{title}</h1>
-          {/* </div> */}
           <div className="postInfo">
             <p>
               {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes`} {series ? `| ${series}` : ''}
             </p>
-            <div className="tags">
-              {tags.map((tag) => {
-                const { matchingTag, backgroundColor, color } = findTagInfo(tag);
-                return (
-                  <TagStyle key={`PostTag-${id}-${matchingTag}`} backgroundColor={backgroundColor} color={color}>
-                    {matchingTag}
-                  </TagStyle>
-                );
-              })}
-            </div>
+            <Tags frontmatter={frontmatter} />
           </div>
         </BlogHeader>
-        <BlogBody>
+        <div>
           <MDXProvider components={Components}>
             <MDXRenderer>{body}</MDXRenderer>
           </MDXProvider>
-          <div className="closingComponents">
-            <EmailSignupForm />
-            <GithubEdit filePath={filePath} contentCategory={contentCategory} />
-          </div>
-        </BlogBody>
+          <ClosingComponents
+            githubLinkInfo={{
+              filePath,
+              contentCategory,
+            }}
+          />
+        </div>
       </BlogPostContainer>
     </>
   );
@@ -144,6 +113,7 @@ export const query = graphql`
           }
         }
         date(formatString: "DD/MM/YYYY")
+        plainDate: date
         series
         tags
         id

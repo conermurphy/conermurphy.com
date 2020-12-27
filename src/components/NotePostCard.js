@@ -2,59 +2,23 @@ import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
 import matchingLanguageIcon, { findMatchingLanguage } from '../utils/findMatchingLanguageIcon';
+import NoteDate from './NoteDate';
 
 const NoteContainer = styled.div`
   display: grid;
   grid-template-columns: 200px 1fr;
   align-items: center;
+  justify-content: center;
   gap: 2rem;
   padding: 2.5rem;
   border-bottom: 2px solid var(--grey);
 
   .postInfoContainer {
-    justify-self: center;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 1fr 3rem 4rem;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-  }
-
-  .dateContainer {
-    display: grid;
-    grid-template-rows: repeat(auto-fit, min-content);
-    justify-items: center;
-    align-items: center;
-    position: relative;
-    width: 5rem;
-    padding: 0;
-
-    ::after,
-    ::before {
-      display: block;
-      position: absolute;
-      width: 2.5rem;
-      height: 2.5rem;
-      content: '';
-    }
-
-    ::after {
-      top: -10px;
-      right: -10px;
-      border-top: 2px solid var(--black);
-      border-right: 2px solid var(--black);
-    }
-
-    ::before {
-      bottom: -10px;
-      left: -10px;
-      border-bottom: 2px solid var(--black);
-      border-left: 2px solid var(--black);
-    }
-
-    & > span {
-      font-size: 2.5rem;
-    }
+    gap: 2rem;
   }
 
   .languageContainer {
@@ -67,11 +31,12 @@ const NoteContainer = styled.div`
 
   .id {
     font-size: 1.5rem;
-    height: 100%;
+    width: max-content;
     font-weight: bold;
-    margin-top: 1rem;
+    margin: auto;
     background-color: var(--grey);
     padding: 0.5rem 1rem;
+    justify-self: center;
   }
 
   .noteContent {
@@ -111,10 +76,7 @@ export default function NotePostCard({ note }) {
     <Link to={slug}>
       <NoteContainer>
         <div className="postInfoContainer">
-          <p className="dateContainer">
-            <span>{date.slice(0, 4)}</span>
-            <span>{date.slice(4, 8)}</span>
-          </p>
+          <NoteDate date={date} />
           <div className="languageContainer">
             {languageIcon}
             <p>{languageTag}</p>
