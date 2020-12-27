@@ -9,13 +9,13 @@ const FormContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 500px;
+  width: 600px;
   padding: 5rem;
   background-color: var(--white);
   text-align: center;
   margin: auto;
-  margin-top: -100px;
-  margin-bottom: 50px;
+  margin-bottom: ${(props) => (props.marginRequired ? '50px' : '')};
+  margin-top: ${(props) => (props.marginRequired ? '-100px' : '')};
   filter: drop-shadow(var(--shadow));
 `;
 
@@ -143,10 +143,10 @@ export const EmailSignup = () => {
   );
 };
 
-export default function EmailSignupForm() {
+export default function EmailSignupForm({ marginRequired }) {
   return (
     // TODO: Add in extra design here for MDX use in blog posts
-    <FormContainer>
+    <FormContainer marginRequired={marginRequired}>
       <h4>Like what you see?</h4>
       <p>Please consider signing up to my newsletter using the form below.</p>
       <EmailSignup />

@@ -49,11 +49,67 @@ const Typography = createGlobalStyle`
 
   a {
     color: var(--black);
-    text-decoration-color: var(--red);
+    text-decoration-color: var(--green);
+  }
+
+  p, li, ul {
+    font-size: 1.75rem;
+    line-height: 1.4;
+    
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  ol, ul {
+    & > li {
+      padding: 0.5rem 0;
+    }
   }
 
   .center {
       text-align: center;
+  }
+
+  .headerTitleSeperator {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 2rem;
+    position: relative;
+
+    ::after,
+    ::before {
+      border-bottom: 2px solid var(--grey);
+      width: 100%;
+      content: '';
+      position: absolute;
+      bottom: 0;
+    }
+
+    & > h1, h2, h3, h4, h5, h6 {
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      font-family: var(--body-font);
+      position: relative;
+
+      ::before {
+        border-bottom: 2px solid var(--green);
+        width: 100%;
+        content: '';
+        position: absolute;
+        bottom: -2rem;
+        z-index: 2;
+      }
+    }
+    
+    a {
+      text-decoration: none;
+      font-weight: bold;
+    }
   }
 
 `;

@@ -4,52 +4,111 @@ import styled from 'styled-components';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
-import logo from '../assets/logo/CM-Logo-2020.png';
+import Img from 'gatsby-image';
 import SEO from '../components/SEO';
+import Logo from '../components/Logo';
+import findTagInfo from '../utils/findTagInfo';
 // MDX Component Imports Used on each page.
 import GithubEdit from '../components/mdx/githubEdit.js';
-import EmailSignup from '../components/mdx/emailSignup';
+import Components from '../components/mdx/Components';
+import EmailSignupForm from '../components/emailSignupForm';
 
 const BlogPostContainer = styled.article`
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  margin: auto;
   padding-bottom: 0;
+  max-width: 700px;
+
+  & > .heroImage {
+    border-radius: var(--borderRadius);
+    max-width: 1200px;
+    position: relative;
+    margin: 1rem 0;
+    margin-bottom: 2rem;
+    filter: drop-shadow(var(--shadow));
+  }
 `;
 
-const PostTitle = styled.h1`
-  line-height: 1;
-  margin-bottom: 2rem;
+const BlogHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  .postTitle {
+    font-size: 2.75rem;
+  }
+
+  .postInfo {
+    margin-bottom: 2.5rem;
+
+    .tags {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+    }
+  }
 `;
 
-/* eslint-disable */
-const components = {
-  pre: props => <pre {...props} />,
-  a: props => <a style={{fontWeight: 'bold'}}{...props} />,
-  code: props => <code style={{fontFamily: 'var(--body-font)'}} {...props}/>,
-};
-/* eslint-enable */
+const BlogBody = styled.div`
+  .closingComponents {
+    margin: 5rem 0;
+  }
+`;
+
+const TagStyle = styled.p`
+  margin: 0;
+  padding: 0.75rem 1rem;
+  font-size: 1.2rem;
+  background-color: var(--white);
+  border: 1px solid var(--green);
+`;
 
 const BlogPost = ({ data, pageContext }) => {
+  // Destructing out values to use in page.
   const post = data.mdx;
-  const { filePath } = data.mdx.fields;
-  const { image } = post.frontmatter;
-  const imagePath = image ? image.childImageSharp.fixed.src : logo;
+  const { frontmatter, timeToRead, body, fields } = post;
+  const { filePath } = fields;
+  const { image, title, description, date, series, tags, id } = frontmatter;
+
+  // Setting image path for SEO if no image use the log.
+  const imagePath = image ? image.childImageSharp.fluid : <Logo />;
   return (
     <>
-      <SEO title={`${post.frontmatter.title} | Coner Murphy`} description={post.frontmatter.description} image={imagePath} />
+      <SEO title={`${title}`} description={description} image={imagePath} />
       <BlogPostContainer>
-        <PostTitle title={post.frontmatter.title}>{post.frontmatter.title}</PostTitle>
-        <p style={{ marginTop: 0 }}>
-          {post.frontmatter.date.slice(0, 2)}/{post.frontmatter.date.slice(2, 4)}/{post.frontmatter.date.slice(4, 8)} | {post.timeToRead}{' '}
-          minute read | <b>Tags:</b> {post.frontmatter.tags.map((tag) => tag).join(', ')}
-        </p>
-        <p />
-        <MDXProvider components={components}>
-          <MDXRenderer>{post.body}</MDXRenderer>
-        </MDXProvider>
-        <EmailSignup />
-        <GithubEdit filePath={filePath} />
+        <Img className="heroImage" fluid={image.childImageSharp.fluid} />
+        <BlogHeader>
+          {/* <div className="headerTitleSeperator"> */}
+          <h1 className="postTitle">{title}</h1>
+          {/* </div> */}
+          <div className="postInfo">
+            <p>
+              {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes`} {series ? `| ${series}` : ''}
+            </p>
+            <div className="tags">
+              {tags.map((tag) => {
+                const { matchingTag, backgroundColor, color } = findTagInfo(tag);
+                return (
+                  <TagStyle key={`PostTag-${id}-${matchingTag}`} backgroundColor={backgroundColor} color={color}>
+                    {matchingTag}
+                  </TagStyle>
+                );
+              })}
+            </div>
+          </div>
+        </BlogHeader>
+        <BlogBody>
+          <MDXProvider components={Components}>
+            <MDXRenderer>{body}</MDXRenderer>
+          </MDXProvider>
+          <div className="closingComponents">
+            <EmailSignupForm />
+            <GithubEdit filePath={filePath} />
+          </div>
+        </BlogBody>
       </BlogPostContainer>
     </>
   );
@@ -68,12 +127,12 @@ export const query = graphql`
         description
         image {
           childImageSharp {
-            fixed {
-              src
+            fluid(maxWidth: 1200) {
+              ...GatsbyImageSharpFluid
             }
           }
         }
-        date(formatString: "DDMMYYYY")
+        date(formatString: "DD/MM/YYYY")
         series
         tags
         id

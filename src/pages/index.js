@@ -60,7 +60,7 @@ export default function HomePage({ data }) {
           </ul>
         </InfoBlock>
       </LandingSection>
-      <EmailSignupForm />
+      <EmailSignupForm marginRequired />
       <ContentSection>
         <div className="headerTitleSeperator">
           <h3>Blog</h3>

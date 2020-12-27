@@ -33,7 +33,6 @@ const PostContainerBody = styled.div`
       justify-content: center;
       margin-top: -5rem;
       z-index: 5;
-      margin-bottom: 1.5rem;
 
       svg {
         padding: 1rem;
@@ -46,6 +45,8 @@ const PostContainerBody = styled.div`
     }
 
     & > .content {
+      margin-top: 1.5rem;
+
       h3 {
         font-size: 1.75rem;
         padding: 1rem 0;
