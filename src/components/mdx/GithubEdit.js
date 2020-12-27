@@ -33,8 +33,18 @@ const Container = styled.aside`
   }
 `;
 
-export default function GithubEdit({ filePath, contentCategory }) {
-  const githubLink = `https://github.com/conermurphy/conermurphy.com/tree/master/src/content/${contentCategory}/${filePath}/${filePath}.mdx`;
+export default function GithubEdit({ githubLinkInfo }) {
+  const { filePath, contentCategory, noteCategory } = githubLinkInfo;
+  const base = 'https://github.com/conermurphy/conermurphy.com/tree/master/src/content/';
+
+  let githubLink;
+
+  if (contentCategory === 'notes') {
+    githubLink = `${base}${contentCategory}/${noteCategory}/${filePath}.mdx`;
+  } else {
+    githubLink = `${base}${contentCategory}/${filePath}/${filePath}.mdx`;
+  }
+
   return (
     <a href={githubLink} aria-label="Github" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
       <Container>
@@ -59,5 +69,4 @@ export default function GithubEdit({ filePath, contentCategory }) {
 
 GithubEdit.propTypes = {
   filePath: PropTypes.string.isRequired,
-  contentCategory: PropTypes.string.isRequired,
 };
