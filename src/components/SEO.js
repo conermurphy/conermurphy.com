@@ -7,9 +7,9 @@ import { useSiteMetadata } from '../utils/useSiteMetadata';
 
 const SEO = ({ title, description, image, article }) => {
   const { pathname } = useLocation();
-  const { site } = useSiteMetadata();
+  const { title: defaultTitle, description: defaultDescription, author, siteUrl, twitterUsername, image: defaultImage } = useSiteMetadata();
 
-  const { defaultTitle, titleTemplate, defaultDescription, siteUrl, defaultImage, twitterUsername } = site.siteMetadata;
+  // const { defaultTitle, titleTemplate, defaultDescription, siteUrl, defaultImage, twitterUsername } = siteMetadata;
 
   const seo = {
     title: title || defaultTitle,
@@ -19,29 +19,33 @@ const SEO = ({ title, description, image, article }) => {
   };
 
   return (
-    <Helmet title={seo.title} titleTemplate={titleTemplate}>
+    <Helmet title={seo.title} titleTemplate={`%s - ${defaultTitle}`}>
+      <html lang="en" />
+      <title>{seo.title}</title>
+
+      {/* Fav Icons */}
+      <link rel="icon" type="image/svg+xml" href="/CM-Logo-2019.svg" />
+      <link rel="alternate icon" href="/CM-Favicon.ico" />
+
+      {/* Meta Tags */}
       <meta name="description" content={seo.description} />
       <meta name="image" content={seo.image} />
-      <html lang="en" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta charSet="utf-8" />
 
+      {/* Open Graph */}
       {seo.url && <meta property="og:url" content={seo.url} />}
-
       {(article ? true : null) && <meta property="og:type" content="article" />}
+      {seo.title && <meta property="og:title" content={seo.title} key="ogtitle" />}
+      {seo.description && <meta property="og:description" content={seo.description} key="ogdesc" />}
+      <meta property="og:image" content={seo.image || '/CM-Logo-2019.svg'} />
+      <meta property="og:site_name" content={seo.title} key="ogsitename" />
 
-      {seo.title && <meta property="og:title" content={seo.title} />}
-
-      {seo.description && <meta property="og:description" content={seo.description} />}
-
-      {seo.image && <meta property="og:image" content={seo.image} />}
-
+      {/* Twitter Tags */}
       <meta name="twitter:card" content="summary_large_image" />
-
       {twitterUsername && <meta name="twitter:creator" content={twitterUsername} />}
-
       {seo.title && <meta name="twitter:title" content={seo.title} />}
-
       {seo.description && <meta name="twitter:description" content={seo.description} />}
-
       {seo.image && <meta name="twitter:image" content={seo.image} />}
     </Helmet>
   );
