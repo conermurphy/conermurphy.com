@@ -179,7 +179,7 @@ async function turnNotesIntoPages({ graphql, actions }) {
   const pageSize = parseInt(process.env.GATSBY_NOTES_PAGE_SIZE); // Total number of posts on each page
   const pageCount = Math.ceil(notesTotalCount / pageSize); // Total number of pages required.
 
-  console.log(`There are ${notesTotalCount} notes in total, this means we have ${pageCount} with ${pageSize} per page.`);
+  // console.log(`There are ${notesTotalCount} notes in total, this means we have ${pageCount} with ${pageSize} per page.`);
 
   // Loop through each page required (1 to x) and create a new notes page for each.
   Array.from({ length: pageCount }).forEach((_, i) => {
