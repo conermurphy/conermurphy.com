@@ -6,7 +6,7 @@ import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
 import Img from 'gatsby-image';
 import SEO from '../components/SEO';
-import Logo from '../components/Logo';
+import Logo from '../assets/logo/CM-Logo-2019.svg';
 import findTagInfo from '../utils/findTagInfo';
 // MDX Component Imports Used on each page.
 import GithubEdit from '../components/mdx/githubEdit.js';
@@ -70,11 +70,11 @@ const BlogPost = ({ data, pageContext }) => {
   // Destructing out values to use in page.
   const post = data.mdx;
   const { frontmatter, timeToRead, body, fields } = post;
-  const { filePath } = fields;
+  const { filePath, contentCategory } = fields;
   const { image, title, description, date, series, tags, id } = frontmatter;
 
   // Setting image path for SEO if no image use the log.
-  const imagePath = image ? image.childImageSharp.fluid : <Logo />;
+  const imagePath = image ? image.childImageSharp.fluid.src : Logo;
   return (
     <>
       <SEO title={`${title}`} description={description} image={imagePath} />
@@ -106,7 +106,7 @@ const BlogPost = ({ data, pageContext }) => {
           </MDXProvider>
           <div className="closingComponents">
             <EmailSignupForm />
-            <GithubEdit filePath={filePath} />
+            <GithubEdit filePath={filePath} contentCategory={contentCategory} />
           </div>
         </BlogBody>
       </BlogPostContainer>
@@ -121,6 +121,7 @@ export const query = graphql`
       timeToRead
       fields {
         filePath
+        contentCategory
       }
       frontmatter {
         title
@@ -168,7 +169,7 @@ BlogPost.propTypes = {
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
-        series: PropTypes.string.isRequired,
+        series: PropTypes.string,
       }),
     }),
     next: PropTypes.shape({
@@ -178,7 +179,7 @@ BlogPost.propTypes = {
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
-        series: PropTypes.string.isRequired,
+        series: PropTypes.string,
       }),
     }),
   }).isRequired,

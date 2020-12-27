@@ -33,35 +33,31 @@ const Container = styled.aside`
   }
 `;
 
-const GithubEdit = ({ filePath }) => (
-  <a
-    href={`https://github.com/conermurphy/conermurphy.com/tree/master/src/posts/${filePath}/${filePath}.mdx`}
-    aria-label="Github"
-    target="_blank"
-    rel="noopener noreferrer"
-    style={{ textDecoration: 'none' }}
-  >
-    <Container>
-      <div>
-        <p>
-          If you think you've found an error in something I've said or shown then I would greatly appreciate it if you could open a pull
-          request for the changes on my GitHub Repo.
-        </p>
-        <p>
-          All changes no matter how large or small are appreciated, I just want to help as many people as possible with the most accurate
-          information possible.
-        </p>
-        <div className="editOnGHub">
-          <FaGithub />
-          <p>Edit on Github...</p>
+export default function GithubEdit({ filePath, contentCategory }) {
+  const githubLink = `https://github.com/conermurphy/conermurphy.com/tree/master/src/content/${contentCategory}/${filePath}/${filePath}.mdx`;
+  return (
+    <a href={githubLink} aria-label="Github" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+      <Container>
+        <div>
+          <p>
+            If you think you've found an error in something I've said or shown then I would greatly appreciate it if you could open a pull
+            request for the changes on my GitHub Repo.
+          </p>
+          <p>
+            All changes no matter how large or small are appreciated, I just want to help as many people as possible with the most accurate
+            information possible.
+          </p>
+          <div className="editOnGHub">
+            <FaGithub />
+            <p>Edit on Github...</p>
+          </div>
         </div>
-      </div>
-    </Container>
-  </a>
-);
+      </Container>
+    </a>
+  );
+}
 
 GithubEdit.propTypes = {
   filePath: PropTypes.string.isRequired,
+  contentCategory: PropTypes.string.isRequired,
 };
-
-export default GithubEdit;

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import useNavTheme from '../utils/useNavTheme';
 import BlogPostCard from '../components/BlogPostCard';
 import Pagination from '../components/Pagination';
+import SEO from '../components/SEO';
 
 const AllPostsContainer = styled.div`
   display: grid;
@@ -22,6 +23,7 @@ export default function Blog({ data, pageContext }) {
   useNavTheme('dark');
   return (
     <>
+      <SEO title={`Blog - Page ${currentPage || 1}`} />
       <div className="headerTitleSeperator">
         <h1>Blog Posts</h1>
       </div>

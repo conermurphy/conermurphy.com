@@ -57,7 +57,7 @@ export default {
         theme_color: 'rgba(44, 66, 81, 1)',
         lang: 'en',
         display: 'standalone',
-        icon: './src/assets/logo/CM-Logo-2019.svg',
+        icon: 'src/assets/logo/CM-Logo-2019.svg',
       },
     },
     // {

@@ -4,6 +4,7 @@ import { graphql } from 'gatsby';
 import useNavTheme from '../utils/useNavTheme';
 import NotePostCard from '../components/NotePostCard';
 import Pagination from '../components/Pagination';
+import SEO from '../components/SEO';
 
 const AllNotesContainer = styled.div`
   display: flex;
@@ -28,6 +29,7 @@ export default function Notes({ data, pageContext }) {
 
   return (
     <>
+      <SEO title={`Notes - Page ${currentPage || 1}`} />
       <div className="headerTitleSeperator">
         <h1>Notes</h1>
       </div>

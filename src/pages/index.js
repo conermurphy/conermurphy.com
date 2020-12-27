@@ -8,6 +8,7 @@ import EmailSignupForm from '../components/emailSignupForm';
 import useNavTheme from '../utils/useNavTheme';
 import BlogPostCard from '../components/BlogPostCard';
 import NotePostCard from '../components/NotePostCard';
+import SEO from '../components/SEO';
 
 export default function HomePage({ data }) {
   const { blog, notes } = data;
@@ -22,6 +23,7 @@ export default function HomePage({ data }) {
 
   return (
     <>
+      <SEO title="Home" />
       <HeroBackground id="particlesBackground" />
       <LandingSection>
         <div className="contactBlock">
@@ -40,7 +42,6 @@ export default function HomePage({ data }) {
           <div className="aboutMe">
             <h3>About Me</h3>
           </div>
-          {/* <img src="" alt="Selfie" /> */}
           <ul>
             <li>
               Coner Murphy <MdPersonPin />

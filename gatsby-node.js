@@ -43,7 +43,7 @@ export async function onCreateNode({ node, getNode, actions }) {
     createNodeField({
       node,
       name: 'filePath',
-      value: slug,
+      value: fileSlug,
     });
     createNodeField({
       node,
