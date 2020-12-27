@@ -66,18 +66,27 @@ const TagStyle = styled.p`
   border: 1px solid var(--green);
 `;
 
-const BlogPost = ({ data, pageContext }) => {
+const BlogPost = ({ data, pageContext, path }) => {
   // Destructing out values to use in page.
   const post = data.mdx;
   const { frontmatter, timeToRead, body, fields } = post;
-  const { filePath, contentCategory } = fields;
+  const { filePath, contentCategory, slug } = fields;
   const { image, title, description, date, series, tags, id } = frontmatter;
 
   // Setting image path for SEO if no image use the log.
   const imagePath = image ? image.childImageSharp.fluid.src : Logo;
   return (
     <>
-      <SEO title={`${title}`} description={description} image={imagePath} />
+      <SEO
+        post={{
+          slug: path,
+          title,
+          description,
+          image: imagePath,
+          article: true,
+          date,
+        }}
+      />
       <BlogPostContainer>
         <Img className="heroImage" fluid={image.childImageSharp.fluid} />
         <BlogHeader>
@@ -122,6 +131,7 @@ export const query = graphql`
       fields {
         filePath
         contentCategory
+        slug
       }
       frontmatter {
         title

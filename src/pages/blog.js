@@ -17,13 +17,21 @@ const AllPostsContainer = styled.div`
   }
 `;
 
-export default function Blog({ data, pageContext }) {
+export default function Blog({ data, pageContext, path }) {
   const { edges: blogPosts, totalCount } = data.blog;
   const { currentPage, skip } = pageContext; // Used for pagination.
   useNavTheme('dark');
+
+  console.log(path);
+
   return (
     <>
-      <SEO title={`Blog - Page ${currentPage || 1}`} />
+      <SEO
+        post={{
+          slug: path,
+          title: `Blog ${currentPage ? `- Page ${currentPage}` : ''}`,
+        }}
+      />
       <div className="headerTitleSeperator">
         <h1>Blog Posts</h1>
       </div>

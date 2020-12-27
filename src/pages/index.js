@@ -10,7 +10,7 @@ import BlogPostCard from '../components/BlogPostCard';
 import NotePostCard from '../components/NotePostCard';
 import SEO from '../components/SEO';
 
-export default function HomePage({ data }) {
+export default function HomePage({ data, path }) {
   const { blog, notes } = data;
 
   // Setting the nav theme for this page
@@ -23,7 +23,12 @@ export default function HomePage({ data }) {
 
   return (
     <>
-      <SEO title="Home" />
+      <SEO
+        post={{
+          slug: path,
+          title: 'Home',
+        }}
+      />
       <HeroBackground id="particlesBackground" />
       <LandingSection>
         <div className="contactBlock">
@@ -80,7 +85,10 @@ export default function HomePage({ data }) {
         </div>
         <div className="content">
           {notes.edges.map((note) => (
-            <NotePostCard key={`HomeNotePostCard-${note.node.frontmatter.id}`} note={note} />
+            <NotePostCard
+              key={`HomeNotePostCard-${note.node.fields.noteCategory}-${note.node.frontmatter.title}-${note.node.frontmatter.id}`}
+              note={note}
+            />
           ))}
         </div>
       </NotesContentSection>

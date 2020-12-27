@@ -21,7 +21,7 @@ const AllNotesContainer = styled.div`
   }
 `;
 
-export default function Notes({ data, pageContext }) {
+export default function Notes({ data, pageContext, path }) {
   const { edges: notes, totalCount } = data.notes;
   const { currentPage, skip } = pageContext;
   // Setting the nav theme for this page
@@ -29,7 +29,12 @@ export default function Notes({ data, pageContext }) {
 
   return (
     <>
-      <SEO title={`Notes - Page ${currentPage || 1}`} />
+      <SEO
+        post={{
+          slug: path,
+          title: `Notes ${currentPage ? `- Page ${currentPage}` : ''}`,
+        }}
+      />
       <div className="headerTitleSeperator">
         <h1>Notes</h1>
       </div>
@@ -42,7 +47,10 @@ export default function Notes({ data, pageContext }) {
       />
       <AllNotesContainer>
         {notes.map((note) => (
-          <NotePostCard key={`NotePostCard-${note.node.frontmatter.id}`} note={note} />
+          <NotePostCard
+            key={`NotePostCard-${note.node.fields.noteCategory}-${note.node.frontmatter.title}-${note.node.frontmatter.id}`}
+            note={note}
+          />
         ))}
       </AllNotesContainer>
       <Pagination
