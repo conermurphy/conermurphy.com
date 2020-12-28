@@ -60,12 +60,22 @@ export default {
         icon: 'src/assets/logo/CM-Logo-2019.svg',
       },
     },
-    // {
-    //   resolve: 'gatsby-plugin-google-analytics',
-    //   options: {
-    //     trackingId: 'UA-167225463-1',
-    //   },
-    // },
+    {
+      resolve: 'gatsby-plugin-google-gtag',
+      options: {
+        trackingIds: [
+          process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID, // Google Analytics / GA
+        ],
+        gtagConfig: {
+          anonymize_ip: true,
+          cookie_prefix: 'conermurphy.com',
+        },
+        pluginConfig: {
+          // Respecting Do Not Track if set by end user.
+          respectDNT: true,
+        },
+      },
+    },
     {
       resolve: 'gatsby-plugin-feed',
       options: {
