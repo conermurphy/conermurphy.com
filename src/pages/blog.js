@@ -22,8 +22,6 @@ export default function Blog({ data, pageContext, path }) {
   const { currentPage, skip } = pageContext; // Used for pagination.
   useNavTheme('dark');
 
-  console.log(path);
-
   return (
     <>
       <SEO
