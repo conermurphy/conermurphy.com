@@ -100,6 +100,7 @@ export default function NotesPost({ data, pageContext, path }) {
               contentCategory,
               noteCategory,
             }}
+            pageContext={pageContext}
           />
         </div>
       </NoteContainer>

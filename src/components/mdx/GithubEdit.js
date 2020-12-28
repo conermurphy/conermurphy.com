@@ -68,5 +68,5 @@ export default function GithubEdit({ githubLinkInfo }) {
 }
 
 GithubEdit.propTypes = {
-  filePath: PropTypes.string.isRequired,
+  githubLinkInfo: PropTypes.object.isRequired,
 };

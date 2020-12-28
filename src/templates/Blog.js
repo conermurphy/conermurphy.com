@@ -45,6 +45,7 @@ const BlogHeader = styled.div`
 `;
 
 const BlogPost = ({ data, pageContext, path }) => {
+  console.log(pageContext);
   // Destructing out values to use in page.
   const post = data.mdx;
   const { frontmatter, timeToRead, body, fields } = post;
@@ -85,6 +86,7 @@ const BlogPost = ({ data, pageContext, path }) => {
               filePath,
               contentCategory,
             }}
+            pageContext={pageContext}
           />
         </div>
       </BlogPostContainer>
