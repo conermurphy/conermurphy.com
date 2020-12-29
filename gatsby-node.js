@@ -1,5 +1,6 @@
 import path from 'path';
 import { createFilePath } from 'gatsby-source-filesystem';
+import findTagInfo from './src/utils/findTagInfo';
 
 export async function onCreateNode({ node, getNode, actions }) {
   const { createNodeField } = actions; // Getting the createNodeField API
@@ -122,6 +123,66 @@ async function turnBlogPostsIntoPages({ graphql, actions }) {
   });
 }
 
+async function turnBlogPostTagsIntoPages({ graphql, actions }) {
+  const { createPage } = actions;
+  // Getting the blog page template.
+  const blogTemplate = path.resolve('./src/pages/blog.js');
+
+  // Querying for all of the tags
+  const {
+    data: {
+      blogPostTags: { edges: blogPostTags },
+    },
+  } = await graphql(`
+    query {
+      blogPostTags: allMdx(filter: { fields: { contentCategory: { eq: "blog" } } }) {
+        edges {
+          node {
+            frontmatter {
+              tags
+            }
+          }
+        }
+      }
+    }
+  `);
+
+  const totalArray = blogPostTags
+    .map(({ node }) =>
+      node.frontmatter.tags.map((tag) => {
+        const { matchingTag } = findTagInfo(tag);
+        return matchingTag;
+      })
+    )
+    .flat();
+
+  const uniqueTags = totalArray.filter((val, i, self) => self.indexOf(val) === i);
+
+  const pageSize = parseInt(process.env.GATSBY_BLOG_PAGE_SIZE); // Total number of posts on each page
+  // const pageCount = Math.ceil(blogTotalCount / pageSize); // Total number of pages required.
+
+  // Creating a page for every tag
+  uniqueTags.forEach((tag) => {
+    const totalNumberOfTag = totalArray.filter((t) => t === tag).length; // Find out how many tags there are in total
+    const pageCount = Math.ceil(totalNumberOfTag / pageSize); // how many pages are required to show all of that tag's posts
+
+    // Looping from 1 to x and create a new page for the amount determined above.
+    Array.from({ length: pageCount }).forEach((_, i) => {
+      createPage({
+        path: `/blog/${tag.toLowerCase()}/${i + 1}`,
+        component: blogTemplate,
+        context: {
+          skip: i * pageSize,
+          currentPage: i + 1,
+          pageSize,
+          tag,
+          tagRegex: `/${tag}/i`,
+        },
+      });
+    });
+  });
+}
+
 async function turnNotesIntoPages({ graphql, actions }) {
   const { createPage } = actions;
 
@@ -204,7 +265,9 @@ export async function createPages(params) {
   await Promise.all([
     // 1. Blog Posts
     turnBlogPostsIntoPages(params),
-    // 2. Notes Pages
+    // 2. Blog Tags Pages
+    turnBlogPostTagsIntoPages(params),
+    // Notes Pages
     turnNotesIntoPages(params),
   ]);
 }

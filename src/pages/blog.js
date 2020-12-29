@@ -5,6 +5,7 @@ import useNavTheme from '../utils/useNavTheme';
 import BlogPostCard from '../components/BlogPostCard';
 import Pagination from '../components/Pagination';
 import SEO from '../components/SEO';
+import BlogTagFilter from '../components/BlogTagFilter';
 
 const AllPostsContainer = styled.div`
   display: grid;
@@ -22,6 +23,8 @@ export default function Blog({ data, pageContext, path }) {
   const { currentPage, skip } = pageContext; // Used for pagination.
   useNavTheme('dark');
 
+  const navigateBase = path.split('/').slice(0, -1).join('/');
+
   return (
     <>
       <SEO
@@ -33,12 +36,13 @@ export default function Blog({ data, pageContext, path }) {
       <div className="headerTitleSeperator">
         <h1>Blog Posts</h1>
       </div>
+      <BlogTagFilter />
       <Pagination
         pageSize={parseInt(process.env.GATSBY_BLOG_PAGE_SIZE)}
         totalCount={totalCount}
         currentPage={currentPage || 1}
         skip={skip}
-        base="blog"
+        base={navigateBase}
       />
       <AllPostsContainer>
         {blogPosts.map((post) => (
@@ -50,19 +54,19 @@ export default function Blog({ data, pageContext, path }) {
         totalCount={totalCount}
         currentPage={currentPage || 1}
         skip={skip}
-        base="blog"
+        base={navigateBase}
       />
     </>
   );
 }
 
 export const query = graphql`
-  query($skip: Int = 0, $pageSize: Int = 6) {
+  query($skip: Int = 0, $pageSize: Int = 6, $tagRegex: String) {
     blog: allMdx(
       limit: $pageSize
       skip: $skip
       sort: { order: DESC, fields: frontmatter___date }
-      filter: { fields: { contentCategory: { eq: "blog" } } }
+      filter: { fields: { contentCategory: { eq: "blog" } }, frontmatter: { tags: { regex: $tagRegex } } }
     ) {
       edges {
         node {

@@ -56,9 +56,9 @@ export default function Navigation({ pageContext: { next, prev } }) {
   const hasPrevPage = !!prev;
 
   const prevTitle = prev !== null ? prev.frontmatter.title : '';
-  const prevLink = prev !== null ? prev.fields.slug : '';
+  const prevLink = prev !== null ? prev.fields.slug : '/';
   const nextTitle = next !== null ? next.frontmatter.title : '';
-  const nextLink = next !== null ? next.fields.slug : '';
+  const nextLink = next !== null ? next.fields.slug : '/';
 
   return (
     <NavigationContainer>

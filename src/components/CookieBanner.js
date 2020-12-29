@@ -1,3 +1,4 @@
+import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
 import getFutureDate from '../utils/getFutureDate';
@@ -97,12 +98,12 @@ export default function CookieBanner() {
           and how they impact the user experience for the end-user, I'll keep this quick and to the point.
         </p>
         <p>
-          In order to comply with EU law and GDPR regulations <a href="">(read more here)</a>, all websites must ask for the end-users
-          permissions before adding any non-essential cookies to the end-users machines, my website is no different so this is me asking you
-          for your permission, below is a quick summary of the cookies I use.
+          In order to comply with EU law and GDPR regulations <a href="https://gdpr.eu/what-is-gdpr/">(read more here)</a>, all websites
+          must ask for the end-users permissions before adding any non-essential cookies to the end-users machines, my website is no
+          different so this is me asking you for your permission, below is a quick summary of the cookies I use.
         </p>
         <p>
-          If you're interested in reading more, you can read my <a href="">Privacy Policy here.</a>
+          If you're interested in reading more, you can read my <Link to="/privacy-policy">Privacy Policy here.</Link>
         </p>
         <h3>Cookies:</h3>
         <div>

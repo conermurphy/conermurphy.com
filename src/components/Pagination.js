@@ -37,15 +37,15 @@ export default function Pagination({ pageSize, totalCount, currentPage, skip, ba
 
   return (
     <PaginationContainer>
-      <Link title="prev page" disabled={!hasPrevPage} to={`/${base}/${prevPage}`}>
+      <Link title="prev page" disabled={!hasPrevPage} to={`${base}/${prevPage}`}>
         &#8592; <span className="word">Previous</span>{' '}
       </Link>
       {Array.from({ length: totalPages }).map((_, i) => (
-        <Link key={`${base}-page-${i}`} className={currentPage === 1 && i === 0 ? 'current' : ''} to={`/${base}/${i > 0 ? i + 1 : ''}`}>
+        <Link key={`${base}-page-${i}`} className={currentPage === 1 && i === 0 ? 'current' : ''} to={`${base}/${i + 1}`}>
           {i + 1}
         </Link>
       ))}
-      <Link title="next page" disabled={!hasNextPage} to={`/${base}/${nextPage}`}>
+      <Link title="next page" disabled={!hasNextPage} to={`${base}/${nextPage}`}>
         <span className="word">Next</span> &#8594;
       </Link>
     </PaginationContainer>
