@@ -23,8 +23,6 @@ export default function Blog({ data, pageContext, path }) {
   const { currentPage, skip } = pageContext; // Used for pagination.
   useNavTheme('dark');
 
-  const navigateBase = path.split('/').slice(0, -1).join('/');
-
   return (
     <>
       <SEO
@@ -42,7 +40,7 @@ export default function Blog({ data, pageContext, path }) {
         totalCount={totalCount}
         currentPage={currentPage || 1}
         skip={skip}
-        base={navigateBase}
+        base={path}
       />
       <AllPostsContainer>
         {blogPosts.map((post) => (
@@ -54,7 +52,7 @@ export default function Blog({ data, pageContext, path }) {
         totalCount={totalCount}
         currentPage={currentPage || 1}
         skip={skip}
-        base={navigateBase}
+        base={path}
       />
     </>
   );

@@ -148,16 +148,17 @@ async function turnBlogPostTagsIntoPages({ graphql, actions }) {
     }
   `);
 
+  // Get a total array of tags used in all of the blog posts.
   const { totalArray } = countTagsInPosts(blogPostTags);
 
+  // Filter the above array down to a unique array for us to create into individual pages.
   const uniqueTags = totalArray.filter((val, i, self) => self.indexOf(val) === i);
 
   const pageSize = parseInt(process.env.GATSBY_BLOG_PAGE_SIZE); // Total number of posts on each page
-  // const pageCount = Math.ceil(blogTotalCount / pageSize); // Total number of pages required.
 
   // Creating a page for every tag
   uniqueTags.forEach((tag) => {
-    const totalNumberOfTag = totalArray.filter((t) => t === tag).length; // Find out how many tags there are in total
+    const totalNumberOfTag = totalArray.filter((t) => t === tag).length; // Find out how many posts there are in total for each tag.
     const pageCount = Math.ceil(totalNumberOfTag / pageSize); // how many pages are required to show all of that tag's posts
 
     // Looping from 1 to x and create a new page for the amount determined above.

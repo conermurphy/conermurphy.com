@@ -43,7 +43,7 @@ export default function Notes({ data, pageContext, path }) {
         totalCount={totalCount}
         currentPage={currentPage || 1}
         skip={skip}
-        base="notes"
+        base={path}
       />
       <AllNotesContainer>
         {notes.map((note) => (
@@ -58,7 +58,7 @@ export default function Notes({ data, pageContext, path }) {
         totalCount={totalCount}
         currentPage={currentPage || 1}
         skip={skip}
-        base="notes"
+        base={path}
       />
     </>
   );
