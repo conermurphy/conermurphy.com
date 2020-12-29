@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 import styled from 'styled-components';
-import findTagInfo from '../utils/findTagInfo';
+import countTagsInPosts from '../utils/countTagsInPosts';
 
 const BlogPostTagContainer = styled.div`
   display: flex;
@@ -32,32 +32,6 @@ const BlogPostTagContainer = styled.div`
   }
 `;
 
-function countTagsInPosts(tags) {
-  const counts = tags
-    .map(({ node }) =>
-      node.frontmatter.tags.map((tag) => {
-        const { matchingTag } = findTagInfo(tag);
-        return matchingTag;
-      })
-    )
-    .flat()
-    .reduce((acc, tag) => {
-      const existingTag = acc[tag];
-      if (existingTag) {
-        existingTag.count += 1;
-      } else {
-        acc[tag] = {
-          tag,
-          count: 1,
-        };
-      }
-      return acc;
-    }, {});
-
-  const sortedTags = Object.values(counts).sort((a, b) => b.count - a.count);
-  return sortedTags;
-}
-
 export default function BlogTagFilter({ activeTag }) {
   // query for all of the tags
   const {
@@ -77,7 +51,7 @@ export default function BlogTagFilter({ activeTag }) {
   `);
 
   // count the total amount of tags for every post
-  const tagsWithCounts = countTagsInPosts(tags);
+  const { sortedTags: tagsWithCounts } = countTagsInPosts(tags);
 
   return (
     <BlogPostTagContainer>

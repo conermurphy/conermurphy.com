@@ -1,6 +1,7 @@
 import path from 'path';
 import { createFilePath } from 'gatsby-source-filesystem';
 import findTagInfo from './src/utils/findTagInfo';
+import countTagsInPosts from './src/utils/countTagsInPosts';
 
 export async function onCreateNode({ node, getNode, actions }) {
   const { createNodeField } = actions; // Getting the createNodeField API
@@ -147,14 +148,7 @@ async function turnBlogPostTagsIntoPages({ graphql, actions }) {
     }
   `);
 
-  const totalArray = blogPostTags
-    .map(({ node }) =>
-      node.frontmatter.tags.map((tag) => {
-        const { matchingTag } = findTagInfo(tag);
-        return matchingTag;
-      })
-    )
-    .flat();
+  const { totalArray } = countTagsInPosts(blogPostTags);
 
   const uniqueTags = totalArray.filter((val, i, self) => self.indexOf(val) === i);
 
