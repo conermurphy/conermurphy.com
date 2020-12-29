@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import getFutureDate from '../utils/getFutureDate';
 
 const CookieBannerContainer = styled.div`
   position: fixed;
   background-color: var(--white);
   top: 100px;
-  padding: 3rem 5rem;
   max-width: 600px;
   border-radius: var(--borderRadius);
   filter: drop-shadow(var(--shadow));
@@ -13,18 +13,40 @@ const CookieBannerContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  border-top: 0.5rem solid var(--green);
+  overflow: hidden;
+
+  & > h2 {
+    font-size: 2.3rem;
+    margin: 2rem;
+    font-weight: bold;
+  }
 
   .textInformation {
     overflow-y: scroll;
     overflow-x: hidden;
     max-height: 400px;
     padding: 1rem;
-    margin: 2rem 0;
-    border: 1px solid var(--black);
+    margin: 2rem;
+    margin-top: 0;
+    -moz-box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.12);
+    -webkit-box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.12);
+    box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.12);
+
+    scrollbar-width: thin;
+    ::-webkit-scrollbar {
+      width: var(--scrollBarWidth);
+    }
   }
 
   .buttonsContainer {
-    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--grey);
+    padding: 2rem 0;
+    width: 100%;
 
     button {
       margin: 0 1rem;
@@ -32,10 +54,12 @@ const CookieBannerContainer = styled.div`
       padding: 1rem 2rem;
       border-radius: var(--borderRadius);
       font-size: 1.6rem;
+      font-weight: bold;
     }
 
     button.accept {
       background-color: var(--green);
+      color: var(--grey);
     }
 
     button.decline {
@@ -44,8 +68,10 @@ const CookieBannerContainer = styled.div`
   }
 `;
 
+const newExpiry = getFutureDate(new Date(), 30); // Cookie expres in 30 days.
+
 function onAccept() {
-  document.cookie = 'conermurphy.com_analytics=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;';
+  document.cookie = `conermurphy.com_analytics=true; expires=${newExpiry};`;
   document.cookie = 'ga-disable-G-L047KBCSG4=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
   location.reload();
 }
@@ -56,7 +82,8 @@ function onDecline() {
       document.cookie = `${cookie.split('=')[0]}=; expires=Thu, 01 Jan 1970 00:00:00 UTC`;
     }
   });
-  document.cookie = 'conermurphy.com_analytics=false; expires=Fri, 31 Dec 9999 23:59:59 GMT';
+
+  document.cookie = `conermurphy.com_analytics=false; expires=${newExpiry};`;
   location.reload();
 }
 
@@ -88,7 +115,6 @@ export default function CookieBanner() {
           </p>
         </div>
       </div>
-      <h3>Accept / Decline Cookies:</h3>
       <div className="buttonsContainer">
         <button onClick={onAccept} className="accept" type="button">
           Accept
