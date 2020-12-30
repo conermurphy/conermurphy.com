@@ -26,8 +26,13 @@ const BlogPostTagContainer = styled.div`
       border-radius: 2px;
       padding: 0 0.5rem;
     }
-    &[aria-current='page'] {
-      background-color: var(--green);
+  }
+  .active {
+    background-color: var(--green);
+    color: var(--white);
+
+    .count {
+      color: var(--black);
     }
   }
 `;
@@ -55,7 +60,7 @@ export default function BlogTagFilter({ activeTag }) {
 
   return (
     <BlogPostTagContainer>
-      <Link to="/blog">
+      <Link to="/blog" className={!activeTag ? 'active' : ''}>
         <span className="tag">All</span>
         <span className="count">{tags.length}</span>
       </Link>

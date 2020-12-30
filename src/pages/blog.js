@@ -20,21 +20,29 @@ const AllPostsContainer = styled.div`
 
 export default function Blog({ data, pageContext, path }) {
   const { edges: blogPosts, totalCount } = data.blog;
-  const { currentPage, skip } = pageContext; // Used for pagination.
+  const { currentPage, skip, tag } = pageContext; // Used for pagination.
   useNavTheme('dark');
+
+  let pageTitle;
+
+  if (tag) {
+    pageTitle = `${tag} Blog Posts ${currentPage ? `- Page ${currentPage}` : ''}`;
+  } else {
+    pageTitle = `Blog ${currentPage ? `- Page ${currentPage}` : ''}`;
+  }
 
   return (
     <>
       <SEO
         post={{
           slug: path,
-          title: `Blog ${currentPage ? `- Page ${currentPage}` : ''}`,
+          title: pageTitle,
         }}
       />
       <div className="headerTitleSeperator">
         <h1>Blog Posts</h1>
       </div>
-      <BlogTagFilter />
+      <BlogTagFilter activeTag={tag} />
       <Pagination
         pageSize={parseInt(process.env.GATSBY_BLOG_PAGE_SIZE)}
         totalCount={totalCount}
