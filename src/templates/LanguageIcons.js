@@ -9,10 +9,13 @@ const IconContainer = styled.div`
     width: ${(props) => (props.width ? props.width : '5rem')};
     height: auto;
     transition: 0.5s all ease-in-out;
+    & > path {
+      stroke: inherit; // Override hidden to remove default black and take the inline style.
+    }
   }
 `;
 
-const languages = {
+export const languages = {
   HTML: <GrHtml5 style={{ stroke: 'hsl(12, 77%, 52%)' }} data-label="HTML" aria-label="HTML Icon" />,
   CSS: <GrCss3 style={{ stroke: 'rgb(38, 77, 228)' }} data-label="CSS" aria-label="CSS Icon" />,
   JavaScript: <GrJs style={{ backgroundColor: 'yellow' }} data-label="JavaScript" aria-label="JavaScript Icon" />,

@@ -81,6 +81,24 @@ const InfoBlock = styled.div`
       border-radius: 5px;
     }
   }
+
+  .languages {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0rem;
+
+    & > li {
+      padding: 0.25rem;
+      margin: 0;
+
+      & svg {
+        margin: 0; // This is to override the styling on the svg above
+        background-color: var(--white);
+      }
+    }
+  }
 `;
 
 const HeroBackground = styled.div`

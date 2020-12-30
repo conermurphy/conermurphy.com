@@ -9,6 +9,7 @@ import useNavTheme from '../utils/useNavTheme';
 import BlogPostCard from '../components/BlogPostCard';
 import NotePostCard from '../components/NotePostCard';
 import SEO from '../components/SEO';
+import LanguageIcons, { languageList } from '../templates/LanguageIcons';
 
 export default function HomePage({ data, path }) {
   const { blog, notes } = data;
@@ -57,7 +58,17 @@ export default function HomePage({ data, path }) {
             </li>
             <li>
               {/* TODO: Come back and add in a map for each language in a sub list */}
-              Languages <MdLanguage />
+              <ul className="languages">
+                {languageList.map((lan) => {
+                  console.log(lan);
+                  return (
+                    <li>
+                      <LanguageIcons language={lan} width="2rem" />
+                    </li>
+                  );
+                })}
+              </ul>
+              <MdLanguage />
             </li>
             <li>
               {/* TODO: Come back and add in a list of contact methods with links */}
