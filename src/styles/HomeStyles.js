@@ -93,6 +93,12 @@ const InfoBlock = styled.div`
       padding: 0.25rem;
       margin: 0;
 
+      & a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
       & svg {
         margin: 0; // This is to override the styling on the svg above
         background-color: var(--white);

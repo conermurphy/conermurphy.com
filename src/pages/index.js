@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts } from 'react-icons/md';
 import { graphql, Link } from 'gatsby';
 import { tsParticles } from 'tsparticles';
+import { FaTwitter, FaLinkedin, FaEnvelope, FaInstagram } from 'react-icons/fa';
 import { ContentSection, HeroBackground, InfoBlock, LandingSection, NotesContentSection } from '../styles/HomeStyles';
 import particlesJson from '../assets/particles';
 import EmailSignupForm from '../components/emailSignupForm';
@@ -57,7 +58,6 @@ export default function HomePage({ data, path }) {
               Norwich, United Kingdom <MdLocationOn />
             </li>
             <li>
-              {/* TODO: Come back and add in a map for each language in a sub list */}
               <ul className="languages">
                 {languageList.map((lan) => {
                   console.log(lan);
@@ -72,7 +72,29 @@ export default function HomePage({ data, path }) {
             </li>
             <li>
               {/* TODO: Come back and add in a list of contact methods with links */}
-              Social Media <MdContacts />
+              <ul className="languages">
+                <li>
+                  <a href="https://twitter.com/MrConerMurphy" target="_blank" rel="noopener noreferrer">
+                    <FaTwitter />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.linkedin.com/in/coner-murphy/" target="_blank" rel="noopener noreferrer">
+                    <FaLinkedin />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://instagram.com/mrconermurphy/" target="_blank" rel="noopener noreferrer">
+                    <FaInstagram />
+                  </a>
+                </li>
+                <li>
+                  <a href="mailto:coner@conermurphy.com" target="_blank" rel="noopener noreferrer">
+                    <FaEnvelope />
+                  </a>
+                </li>
+              </ul>
+              <MdContacts />
             </li>
           </ul>
         </InfoBlock>
