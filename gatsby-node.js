@@ -112,7 +112,7 @@ async function turnBlogPostsIntoPages({ graphql, actions }) {
   // Loop through each page required (1 to x) and create a new blog page for each.
   Array.from({ length: pageCount }).forEach((_, i) => {
     createPage({
-      path: `/blog/${i + 1}`,
+      path: `/blog/${i === 0 ? '' : i + 1}`,
       component: path.resolve('./src/pages/blog.js'),
       // Context is passed to the page so we can skip the required amount of posts on each page.
       context: {
@@ -164,7 +164,7 @@ async function turnBlogPostTagsIntoPages({ graphql, actions }) {
     // Looping from 1 to x and create a new page for the amount determined above.
     Array.from({ length: pageCount }).forEach((_, i) => {
       createPage({
-        path: `/blog/${tag.toLowerCase()}/${i + 1}`,
+        path: `/blog/${tag.toLowerCase()}/${i === 0 ? '' : i + 1}`,
         component: blogTemplate,
         context: {
           skip: i * pageSize,
@@ -243,7 +243,7 @@ async function turnNotesIntoPages({ graphql, actions }) {
   // Loop through each page required (1 to x) and create a new notes page for each.
   Array.from({ length: pageCount }).forEach((_, i) => {
     createPage({
-      path: `/notes/${i + 1}`,
+      path: `/notes/${i === 0 ? '' : i + 1}`,
       component: path.resolve('./src/pages/notes.js'),
       // Context is passed to the page so we can skip the required amount of posts on each page.
       context: {

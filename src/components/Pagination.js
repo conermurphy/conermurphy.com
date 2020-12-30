@@ -29,25 +29,32 @@ const PaginationContainer = styled.div`
 `;
 
 export default function Pagination({ pageSize, totalCount, currentPage, skip, base }) {
+  const navigateBase = base.split('/').slice(0, -1).join('/');
+
   const totalPages = Math.ceil(totalCount / pageSize);
   const prevPage = currentPage - 1;
   const nextPage = currentPage + 1;
   const hasNextPage = nextPage <= totalPages;
   const hasPrevPage = prevPage >= 1;
 
-  const navigateBase = base.split('/').slice(0, -1).join('/');
+  const prevLink = prevPage === 1 ? navigateBase : `${navigateBase}/${prevPage}`;
+  const nextLink = `${navigateBase}/${nextPage}`;
 
   return (
     <PaginationContainer>
-      <Link title="prev page" disabled={!hasPrevPage} to={`${navigateBase}/${prevPage}`}>
+      <Link title="prev page" disabled={!hasPrevPage} to={prevLink}>
         &#8592; <span className="word">Previous</span>{' '}
       </Link>
       {Array.from({ length: totalPages }).map((_, i) => (
-        <Link key={`${navigateBase}-page-${i}`} className={currentPage === 1 && i === 0 ? 'current' : ''} to={`${navigateBase}/${i + 1}`}>
+        <Link
+          key={`${navigateBase}-page-${i}`}
+          className={currentPage === 1 && i === 0 ? 'current' : ''}
+          to={`${navigateBase}/${i === 0 ? '' : i + 1}`}
+        >
           {i + 1}
         </Link>
       ))}
-      <Link title="next page" disabled={!hasNextPage} to={`${navigateBase}/${nextPage}`}>
+      <Link title="next page" disabled={!hasNextPage} to={nextLink}>
         <span className="word">Next</span> &#8594;
       </Link>
     </PaginationContainer>

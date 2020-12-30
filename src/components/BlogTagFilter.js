@@ -61,7 +61,7 @@ export default function BlogTagFilter({ activeTag }) {
       </Link>
       {tagsWithCounts.map(({ tag, count }) => (
         <Link
-          to={`/blog/${tag.toLowerCase()}/1`}
+          to={`/blog/${tag.toLowerCase()}/`}
           key={`BlogPostTagFilter-${tag}-${tag.count}`}
           className={tag === activeTag ? 'active' : ''}
         >
