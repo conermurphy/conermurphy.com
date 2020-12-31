@@ -1,7 +1,7 @@
 import path from 'path';
 import { createFilePath } from 'gatsby-source-filesystem';
-import findTagInfo from './src/utils/findTagInfo';
 import countTagsInPosts from './src/utils/countTagsInPosts';
+import findTagInfo from './src/utils/findTagInfo';
 
 export async function onCreateNode({ node, getNode, actions }) {
   const { createNodeField } = actions; // Getting the createNodeField API
@@ -55,10 +55,13 @@ export async function onCreateNode({ node, getNode, actions }) {
 
     // If the node being processed if for a 'notes' node then add the cateogry of the note into the fields of the node.
     if (contentType === 'notes') {
+      // Find the matching tag for note creation using correct casing for tag
+      const { matchingTag } = findTagInfo(noteCategory);
+
       createNodeField({
         node,
         name: 'noteCategory',
-        value: noteCategory,
+        value: matchingTag,
       });
     }
   }
@@ -253,6 +256,62 @@ async function turnNotesIntoPages({ graphql, actions }) {
   });
 }
 
+async function turnNotesCategoriesIntoPages({ graphql, actions }) {
+  const { createPage } = actions;
+  // Getting the note page template.
+  const notesTemplate = path.resolve('./src/pages/notes.js');
+
+  // Querying for all of the categories
+  const {
+    data: {
+      notesCategories: { edges: notesCategories },
+    },
+  } = await graphql(`
+    query {
+      notesCategories: allMdx(filter: { fields: { contentCategory: { eq: "notes" } } }) {
+        edges {
+          node {
+            fields {
+              noteCategory
+            }
+          }
+        }
+      }
+    }
+  `);
+
+  // Get a complete list of all of the note categories
+  const totalArray = notesCategories.map(({ node }) => node.fields.noteCategory).flat();
+
+  // const countedNotesCats = count(totalArray);
+
+  // Filter complete list to unique values
+  const uniqueCats = totalArray.filter((val, i, self) => self.indexOf(val) === i);
+
+  const pageSize = parseInt(process.env.GATSBY_BLOG_PAGE_SIZE); // Total number of posts on each page
+
+  // Create a page for every unique category
+  uniqueCats.forEach((cat) => {
+    const totalNumberCat = totalArray.filter((t) => t === cat).length; // Find out how many posts there are in total for each tag.
+    const pageCount = Math.ceil(totalNumberCat / pageSize); // how many pages are required to show all of that tag's posts
+
+    // Looping from 1 to x and create a new page for the amount determined above.
+    Array.from({ length: pageCount }).forEach((_, i) => {
+      createPage({
+        path: `/notes/${cat.toLowerCase()}/${i === 0 ? '' : i + 1}`,
+        component: notesTemplate,
+        context: {
+          skip: i * pageSize,
+          currentPage: i + 1,
+          pageSize,
+          cat,
+          catRegex: `/${cat}/i`,
+        },
+      });
+    });
+  });
+}
+
 export async function createPages(params) {
   // 2. After the creation of the nodes create pages for each custom type.
   await Promise.all([
@@ -262,5 +321,7 @@ export async function createPages(params) {
     turnBlogPostTagsIntoPages(params),
     // Notes Pages
     turnNotesIntoPages(params),
+    // Turn Notes Categories into pages
+    turnNotesCategoriesIntoPages(params),
   ]);
 }

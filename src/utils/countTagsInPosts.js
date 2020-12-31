@@ -1,16 +1,7 @@
 import findTagInfo from './findTagInfo';
 
-export default function countTagsInPosts(tags) {
-  const totalArray = tags
-    .map(({ node }) =>
-      node.frontmatter.tags.map((tag) => {
-        const { matchingTag } = findTagInfo(tag);
-        return matchingTag;
-      })
-    )
-    .flat();
-
-  const counts = totalArray.reduce((acc, tag) => {
+export function count(arr) {
+  const counts = arr.reduce((acc, tag) => {
     const existingTag = acc[tag];
     if (existingTag) {
       existingTag.count += 1;
@@ -24,5 +15,20 @@ export default function countTagsInPosts(tags) {
   }, {});
 
   const sortedTags = Object.values(counts).sort((a, b) => b.count - a.count);
+  return sortedTags;
+}
+
+export default function countTagsInPosts(tags) {
+  const totalArray = tags
+    .map(({ node }) =>
+      node.frontmatter.tags.map((tag) => {
+        const { matchingTag } = findTagInfo(tag);
+        return matchingTag;
+      })
+    )
+    .flat();
+
+  const sortedTags = count(totalArray);
+
   return { totalArray, sortedTags };
 }

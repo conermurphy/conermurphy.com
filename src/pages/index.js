@@ -59,14 +59,11 @@ export default function HomePage({ data, path }) {
             </li>
             <li>
               <ul className="languages">
-                {languageList.map((lan) => {
-                  console.log(lan);
-                  return (
-                    <li>
-                      <LanguageIcons language={lan} width="2rem" />
-                    </li>
-                  );
-                })}
+                {languageList.map((lan) => (
+                  <li>
+                    <LanguageIcons language={lan} width="2rem" />
+                  </li>
+                ))}
               </ul>
               <MdLanguage />
             </li>
