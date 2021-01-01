@@ -24,15 +24,15 @@ const AllNotesContainer = styled.div`
 
 export default function Notes({ data, pageContext, path }) {
   const { edges: notes, totalCount } = data.notes;
-  const { currentPage, skip, cat } = pageContext;
+  const { currentPage, skip, tag } = pageContext;
 
   // Setting the nav theme for this page
   useNavTheme('dark');
 
   let pageTitle;
 
-  if (cat) {
-    pageTitle = `${cat} Notes ${currentPage ? `- Page ${currentPage}` : ''}`;
+  if (tag) {
+    pageTitle = `${tag} Notes ${currentPage ? `- Page ${currentPage}` : ''}`;
   } else {
     pageTitle = `Notes ${currentPage ? `- Page ${currentPage}` : ''}`;
   }
@@ -48,7 +48,7 @@ export default function Notes({ data, pageContext, path }) {
       <div className="headerTitleSeperator">
         <h1>Notes</h1>
       </div>
-      <TagFilter base="notes" activeTag={cat} />
+      <TagFilter base="notes" activeTag={tag} />
       <Pagination
         pageSize={parseInt(process.env.GATSBY_NOTES_PAGE_SIZE)}
         totalCount={totalCount}
@@ -76,12 +76,12 @@ export default function Notes({ data, pageContext, path }) {
 }
 
 export const query = graphql`
-  query($skip: Int = 0, $pageSize: Int = 6, $catRegex: String) {
+  query($skip: Int = 0, $pageSize: Int = 6, $tagRegex: String) {
     notes: allMdx(
       limit: $pageSize
       skip: $skip
       sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
-      filter: { fields: { contentCategory: { eq: "notes" }, noteCategory: { regex: $catRegex } } }
+      filter: { fields: { contentCategory: { eq: "notes" }, noteCategory: { regex: $tagRegex } } }
     ) {
       edges {
         node {

@@ -35,8 +35,6 @@ export default function countTags(type, arr) {
   // Set the total array variable depending on the page is being rendered.
   const { totalTagArray } = arrayTotaler(type, arr);
 
-  console.log(totalTagArray);
-
   const totalArray = totalTagArray
     .map((tag) => {
       const { matchingTag } = findTagInfo(tag);

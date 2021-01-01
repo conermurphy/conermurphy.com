@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import styled from 'styled-components';
-import countTags from '../utils/countTagsInPosts';
+import countTags from '../utils/countTags';
 
 const TagContainer = styled.div`
   display: flex;

@@ -1,8 +1,46 @@
 import path from 'path';
 import { createFilePath } from 'gatsby-source-filesystem';
-import countTagsInPosts, { arrayTotaler } from './src/utils/countTagsInPosts';
+import { arrayTotaler } from './src/utils/countTags';
 import findTagInfo from './src/utils/findTagInfo';
-import countTags from './src/utils/countTagsInPosts';
+
+// This is a single combined function used to create the pages for both the blog post tags and the note pages categories
+function createTagPages(base, arr, template, actions) {
+  // We take in 4 props:
+  // 1: Base - a string of what the page category being created is: blog or notes
+  // 2: Arr - This is the total query data ran in the individual functions below.
+  // 3: Template - This is the template file used to create the actual pages
+  // 4: Actions - Actions is passed in from the calling function to allow us to destructure out the createPage API to make the new pages.
+
+  const { createPage } = actions;
+  const pageSize = parseInt(process.env.GATSBY_BLOG_PAGE_SIZE); // Total number of posts on each page
+
+  // Get a total array of tags used in all of the posts and a unique version of the array.
+  const { uniqueArray, totalTagArray } = arrayTotaler(base, arr);
+
+  // Creating a page for every tag
+  uniqueArray.forEach((tag) => {
+    const totalNumberOfTag = totalTagArray.filter((t) => t === tag).length; // Find out how many posts there are in total for each tag.
+    const pageCount = Math.ceil(totalNumberOfTag / pageSize); // how many pages are required to show all of that tag's posts
+
+    // Create a base for the url path that is all lower case and changed any spaces to a -.
+    const pathBase = `/${base}/${tag.toLowerCase().replace(' ', '-')}`;
+
+    // Looping from 1 to x and create a new page for the amount determined above.
+    Array.from({ length: pageCount }).forEach((_, i) => {
+      createPage({
+        path: `${pathBase}/${i === 0 ? '' : i + 1}`,
+        component: template,
+        context: {
+          skip: i * pageSize, // how many posts to skip in the query to ensure each page shows the next content
+          currentPage: i + 1, // current page
+          pageSize, // Set in env vars to define the size of each page
+          tag, // Tag currently being used to create that page
+          tagRegex: `/${tag}/i`, // Used to query on the actual pages to show only the requested content for that tag
+        },
+      });
+    });
+  });
+}
 
 export async function onCreateNode({ node, getNode, actions }) {
   const { createNodeField } = actions; // Getting the createNodeField API
@@ -128,53 +166,6 @@ async function turnBlogPostsIntoPages({ graphql, actions }) {
   });
 }
 
-async function turnBlogPostTagsIntoPages({ graphql, actions }) {
-  const { createPage } = actions;
-  // Getting the blog page template.
-  const blogTemplate = path.resolve('./src/pages/blog.js');
-
-  // Querying for all of the tags
-  const { data } = await graphql(`
-    query {
-      blog: allMdx(filter: { fields: { contentCategory: { eq: "blog" } } }) {
-        edges {
-          node {
-            frontmatter {
-              tags
-            }
-          }
-        }
-      }
-    }
-  `);
-
-  // Get a total array of tags used in all of the blog posts and a unique version of the array.
-  const { uniqueArray, totalTagArray } = arrayTotaler('blog', data);
-
-  const pageSize = parseInt(process.env.GATSBY_BLOG_PAGE_SIZE); // Total number of posts on each page
-
-  // Creating a page for every tag
-  uniqueArray.forEach((tag) => {
-    const totalNumberOfTag = totalTagArray.filter((t) => t === tag).length; // Find out how many posts there are in total for each tag.
-    const pageCount = Math.ceil(totalNumberOfTag / pageSize); // how many pages are required to show all of that tag's posts
-
-    // Looping from 1 to x and create a new page for the amount determined above.
-    Array.from({ length: pageCount }).forEach((_, i) => {
-      createPage({
-        path: `/blog/${tag.toLowerCase().replace(' ', '-')}/${i === 0 ? '' : i + 1}`,
-        component: blogTemplate,
-        context: {
-          skip: i * pageSize,
-          currentPage: i + 1,
-          pageSize,
-          tag,
-          tagRegex: `/${tag}/i`,
-        },
-      });
-    });
-  });
-}
-
 async function turnNotesIntoPages({ graphql, actions }) {
   const { createPage } = actions;
 
@@ -250,8 +241,31 @@ async function turnNotesIntoPages({ graphql, actions }) {
   });
 }
 
+// === Below here is the functions used to create the blog post tag pages and the note post category pages ===
+
+async function turnBlogPostTagsIntoPages({ graphql, actions }) {
+  // Getting the blog page template.
+  const blogTemplate = path.resolve('./src/pages/blog.js');
+
+  // Querying for all of the tags
+  const { data } = await graphql(`
+    query {
+      blog: allMdx(filter: { fields: { contentCategory: { eq: "blog" } } }) {
+        edges {
+          node {
+            frontmatter {
+              tags
+            }
+          }
+        }
+      }
+    }
+  `);
+
+  createTagPages('blog', data, blogTemplate, actions);
+}
+
 async function turnNotesCategoriesIntoPages({ graphql, actions }) {
-  const { createPage } = actions;
   // Getting the note page template.
   const notesTemplate = path.resolve('./src/pages/notes.js');
 
@@ -270,42 +284,20 @@ async function turnNotesCategoriesIntoPages({ graphql, actions }) {
     }
   `);
 
-  // Get a total array of tags used in all of the blog posts and a unique version of the array.
-  const { uniqueArray, totalTagArray } = arrayTotaler('notes', data);
-
-  const pageSize = parseInt(process.env.GATSBY_BLOG_PAGE_SIZE); // Total number of posts on each page
-
-  // Create a page for every unique category
-  uniqueArray.forEach((cat) => {
-    const totalNumberCat = totalTagArray.filter((t) => t === cat).length; // Find out how many posts there are in total for each tag.
-    const pageCount = Math.ceil(totalNumberCat / pageSize); // how many pages are required to show all of that tag's posts
-
-    // Looping from 1 to x and create a new page for the amount determined above.
-    Array.from({ length: pageCount }).forEach((_, i) => {
-      createPage({
-        path: `/notes/${cat.toLowerCase()}/${i === 0 ? '' : i + 1}`,
-        component: notesTemplate,
-        context: {
-          skip: i * pageSize,
-          currentPage: i + 1,
-          pageSize,
-          cat,
-          catRegex: `/${cat}/i`,
-        },
-      });
-    });
-  });
+  createTagPages('notes', data, notesTemplate, actions);
 }
 
+// === End of creating blog post tag and notes category pages ===
+
 export async function createPages(params) {
-  // 2. After the creation of the nodes create pages for each custom type.
+  // After the creation of the nodes create pages for each custom type.
   await Promise.all([
-    // 1. Blog Posts
+    // Blog Posts
     turnBlogPostsIntoPages(params),
-    // 2. Blog Tags Pages
-    turnBlogPostTagsIntoPages(params),
     // Notes Pages
     turnNotesIntoPages(params),
+    // Blog Tags Pages
+    turnBlogPostTagsIntoPages(params),
     // Turn Notes Categories into pages
     turnNotesCategoriesIntoPages(params),
   ]);
