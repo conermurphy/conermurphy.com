@@ -21,12 +21,8 @@ export default function Tags({ frontmatter }) {
   return (
     <TagContainer>
       {tags.map((tag) => {
-        const { matchingTag, backgroundColor, color } = findTagInfo(tag);
-        return (
-          <TagStyle key={`PostTag-${id}-${matchingTag}`} backgroundColor={backgroundColor} color={color}>
-            {matchingTag}
-          </TagStyle>
-        );
+        const { matchingTag } = findTagInfo(tag);
+        return <TagStyle key={`PostTag-${id}-${matchingTag}`}>{matchingTag}</TagStyle>;
       })}
     </TagContainer>
   );

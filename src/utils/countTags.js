@@ -13,7 +13,7 @@ export function arrayTotaler(type, arr) {
   return { uniqueArray, totalTagArray };
 }
 
-export function count(arr) {
+function count(arr) {
   const counts = arr.reduce((acc, tag) => {
     const existingTag = acc[tag];
     if (existingTag) {
@@ -32,17 +32,18 @@ export function count(arr) {
 }
 
 export default function countTags(type, arr) {
-  // Set the total array variable depending on the page is being rendered.
+  // Get the total array of tags used from the arrayTotaler function above.
   const { totalTagArray } = arrayTotaler(type, arr);
 
-  const totalArray = totalTagArray
+  // Run each tag in the total array through the findTagInfo function to see if we have a matching tag
+  const matchedTagArray = totalTagArray
     .map((tag) => {
       const { matchingTag } = findTagInfo(tag);
       return matchingTag;
     })
     .flat();
 
-  const sortedTags = count(totalArray);
+  const sortedTags = count(matchedTagArray);
 
   return { totalTagArray, sortedTags };
 }
