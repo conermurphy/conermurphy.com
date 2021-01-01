@@ -104,6 +104,13 @@ const InfoBlock = styled.div`
         background-color: var(--white);
       }
     }
+
+    .contactIcon {
+      svg {
+        fill: var(--black);
+        margin: 0rem 0.5rem;
+      }
+    }
   }
 `;
 

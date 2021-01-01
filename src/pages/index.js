@@ -68,25 +68,24 @@ export default function HomePage({ data, path }) {
               <MdLanguage />
             </li>
             <li>
-              {/* TODO: Come back and add in a list of contact methods with links */}
               <ul className="languages">
                 <li>
-                  <a href="https://twitter.com/MrConerMurphy" target="_blank" rel="noopener noreferrer">
+                  <a href="https://twitter.com/MrConerMurphy" target="_blank" rel="noopener noreferrer" className="contactIcon">
                     <FaTwitter />
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.linkedin.com/in/coner-murphy/" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.linkedin.com/in/coner-murphy/" target="_blank" rel="noopener noreferrer" className="contactIcon">
                     <FaLinkedin />
                   </a>
                 </li>
                 <li>
-                  <a href="https://instagram.com/mrconermurphy/" target="_blank" rel="noopener noreferrer">
+                  <a href="https://instagram.com/mrconermurphy/" target="_blank" rel="noopener noreferrer" className="contactIcon">
                     <FaInstagram />
                   </a>
                 </li>
                 <li>
-                  <a href="mailto:coner@conermurphy.com" target="_blank" rel="noopener noreferrer">
+                  <a href="mailto:coner@conermurphy.com" target="_blank" rel="noopener noreferrer" className="contactIcon">
                     <FaEnvelope />
                   </a>
                 </li>

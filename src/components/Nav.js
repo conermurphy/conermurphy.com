@@ -81,9 +81,7 @@ export default function Nav({ path }) {
             </Link>
           </li>
           <li>
-            <Link to="/contact" className={currentRootPage === 'contact' ? 'active' : ''}>
-              Say Hi!
-            </Link>
+            <Link to="/">Say Hi!</Link>
           </li>
         </ul>
       </StyledNav>
