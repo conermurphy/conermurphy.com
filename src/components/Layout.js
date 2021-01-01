@@ -22,7 +22,7 @@ const ContentContainer = styled.div`
   opacity: ${(props) => (props.opacityRequired ? 0.5 : 1)};
 `;
 
-export default function Layout({ children }) {
+export default function Layout({ children, path }) {
   const analyticsAllowed = checkForAnalyticsCookie();
 
   const cookieCheckRequired = !!(analyticsAllowed === 'promptUser');
@@ -38,7 +38,7 @@ export default function Layout({ children }) {
       <GlobalStyles />
       {cookieCheckRequired && <CookieBanner />}
       <ContentContainer opacityRequired={cookieCheckRequired}>
-        <Nav />
+        <Nav path={path} />
         {children}
       </ContentContainer>
       <Footer />

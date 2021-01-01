@@ -30,7 +30,7 @@ const StyledNav = styled.nav`
       color: var(--green);
     }
 
-    &[aria-current='page'] {
+    &.active {
       border-bottom: 2px solid var(--green);
       color: var(--green);
     }
@@ -50,8 +50,10 @@ const NavContainer = styled.div`
   }
 `;
 
-export default function Nav() {
+export default function Nav({ path }) {
   const [theme, setTheme] = useContext(NavThemeContext);
+
+  const currentRootPage = path.split('/')[1]; // Used to determine what root page the user is on. e.g. blog, notes, portfolio...
 
   return (
     <NavContainer theme={theme}>
@@ -59,19 +61,29 @@ export default function Nav() {
       <StyledNav>
         <ul>
           <li>
-            <Link to="/blog">Blog</Link>
+            <Link to="/blog" className={currentRootPage === 'blog' ? 'active' : ''}>
+              Blog
+            </Link>
           </li>
           <li>
-            <Link to="/notes">Notes</Link>
+            <Link to="/notes" className={currentRootPage === 'notes' ? 'active' : ''}>
+              Notes
+            </Link>
           </li>
           <li>
-            <Link to="/portfolio">Portfolio</Link>
+            <Link to="/portfolio" className={currentRootPage === 'portfolio' ? 'active' : ''}>
+              Portfolio
+            </Link>
           </li>
           <li>
-            <Link to="/reads">Reads</Link>
+            <Link to="/reads" className={currentRootPage === 'reads' ? 'active' : ''}>
+              Reads
+            </Link>
           </li>
           <li>
-            <Link to="/contact">Say Hi!</Link>
+            <Link to="/contact" className={currentRootPage === 'contact' ? 'active' : ''}>
+              Say Hi!
+            </Link>
           </li>
         </ul>
       </StyledNav>
