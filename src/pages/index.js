@@ -134,10 +134,8 @@ export default function HomePage({ data, path }) {
         <div className="headerTitleSeperator">
           <h3>Testimonials</h3>
         </div>
-        <div className="content">
-          {testimonialData.map((testimonial) => (
-            <TestimonialCard testimonial={testimonial} />
-          ))}
+        <div className="content testimonial">
+          {testimonialData.map((testimonial, index) => (index <= 3 ? <TestimonialCard testimonial={testimonial} /> : ''))}
         </div>
       </ContentSection>
     </>

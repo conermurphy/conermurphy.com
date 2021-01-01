@@ -137,6 +137,10 @@ const ContentSection = styled.section`
       text-decoration: none;
     }
   }
+
+  & > .testimonial {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
 `;
 
 const NotesContentSection = styled.section`
