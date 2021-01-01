@@ -5,7 +5,7 @@ import useNavTheme from '../utils/useNavTheme';
 import BlogPostCard from '../components/BlogPostCard';
 import Pagination from '../components/Pagination';
 import SEO from '../components/SEO';
-import BlogTagFilter from '../components/BlogTagFilter';
+import TagFilter from '../components/TagFilter';
 
 const AllPostsContainer = styled.div`
   display: grid;
@@ -42,7 +42,7 @@ export default function Blog({ data, pageContext, path }) {
       <div className="headerTitleSeperator">
         <h1>Blog Posts</h1>
       </div>
-      <BlogTagFilter activeTag={tag} />
+      <TagFilter base="blog" activeTag={tag} />
       <Pagination
         pageSize={parseInt(process.env.GATSBY_BLOG_PAGE_SIZE)}
         totalCount={totalCount}

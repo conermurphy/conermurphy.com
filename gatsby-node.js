@@ -1,7 +1,8 @@
 import path from 'path';
 import { createFilePath } from 'gatsby-source-filesystem';
-import countTagsInPosts from './src/utils/countTagsInPosts';
+import countTagsInPosts, { arrayTotaler } from './src/utils/countTagsInPosts';
 import findTagInfo from './src/utils/findTagInfo';
+import countTags from './src/utils/countTagsInPosts';
 
 export async function onCreateNode({ node, getNode, actions }) {
   const { createNodeField } = actions; // Getting the createNodeField API
@@ -133,13 +134,9 @@ async function turnBlogPostTagsIntoPages({ graphql, actions }) {
   const blogTemplate = path.resolve('./src/pages/blog.js');
 
   // Querying for all of the tags
-  const {
-    data: {
-      blogPostTags: { edges: blogPostTags },
-    },
-  } = await graphql(`
+  const { data } = await graphql(`
     query {
-      blogPostTags: allMdx(filter: { fields: { contentCategory: { eq: "blog" } } }) {
+      blog: allMdx(filter: { fields: { contentCategory: { eq: "blog" } } }) {
         edges {
           node {
             frontmatter {
@@ -151,23 +148,20 @@ async function turnBlogPostTagsIntoPages({ graphql, actions }) {
     }
   `);
 
-  // Get a total array of tags used in all of the blog posts.
-  const { totalArray } = countTagsInPosts(blogPostTags);
-
-  // Filter the above array down to a unique array for us to create into individual pages.
-  const uniqueTags = totalArray.filter((val, i, self) => self.indexOf(val) === i);
+  // Get a total array of tags used in all of the blog posts and a unique version of the array.
+  const { uniqueArray, totalTagArray } = arrayTotaler('blog', data);
 
   const pageSize = parseInt(process.env.GATSBY_BLOG_PAGE_SIZE); // Total number of posts on each page
 
   // Creating a page for every tag
-  uniqueTags.forEach((tag) => {
-    const totalNumberOfTag = totalArray.filter((t) => t === tag).length; // Find out how many posts there are in total for each tag.
+  uniqueArray.forEach((tag) => {
+    const totalNumberOfTag = totalTagArray.filter((t) => t === tag).length; // Find out how many posts there are in total for each tag.
     const pageCount = Math.ceil(totalNumberOfTag / pageSize); // how many pages are required to show all of that tag's posts
 
     // Looping from 1 to x and create a new page for the amount determined above.
     Array.from({ length: pageCount }).forEach((_, i) => {
       createPage({
-        path: `/blog/${tag.toLowerCase()}/${i === 0 ? '' : i + 1}`,
+        path: `/blog/${tag.toLowerCase().replace(' ', '-')}/${i === 0 ? '' : i + 1}`,
         component: blogTemplate,
         context: {
           skip: i * pageSize,
@@ -262,13 +256,9 @@ async function turnNotesCategoriesIntoPages({ graphql, actions }) {
   const notesTemplate = path.resolve('./src/pages/notes.js');
 
   // Querying for all of the categories
-  const {
-    data: {
-      notesCategories: { edges: notesCategories },
-    },
-  } = await graphql(`
+  const { data } = await graphql(`
     query {
-      notesCategories: allMdx(filter: { fields: { contentCategory: { eq: "notes" } } }) {
+      notes: allMdx(filter: { fields: { contentCategory: { eq: "notes" } } }) {
         edges {
           node {
             fields {
@@ -280,19 +270,14 @@ async function turnNotesCategoriesIntoPages({ graphql, actions }) {
     }
   `);
 
-  // Get a complete list of all of the note categories
-  const totalArray = notesCategories.map(({ node }) => node.fields.noteCategory).flat();
-
-  // const countedNotesCats = count(totalArray);
-
-  // Filter complete list to unique values
-  const uniqueCats = totalArray.filter((val, i, self) => self.indexOf(val) === i);
+  // Get a total array of tags used in all of the blog posts and a unique version of the array.
+  const { uniqueArray, totalTagArray } = arrayTotaler('notes', data);
 
   const pageSize = parseInt(process.env.GATSBY_BLOG_PAGE_SIZE); // Total number of posts on each page
 
   // Create a page for every unique category
-  uniqueCats.forEach((cat) => {
-    const totalNumberCat = totalArray.filter((t) => t === cat).length; // Find out how many posts there are in total for each tag.
+  uniqueArray.forEach((cat) => {
+    const totalNumberCat = totalTagArray.filter((t) => t === cat).length; // Find out how many posts there are in total for each tag.
     const pageCount = Math.ceil(totalNumberCat / pageSize); // how many pages are required to show all of that tag's posts
 
     // Looping from 1 to x and create a new page for the amount determined above.

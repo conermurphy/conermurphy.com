@@ -5,7 +5,7 @@ import useNavTheme from '../utils/useNavTheme';
 import NotePostCard from '../components/NotePostCard';
 import Pagination from '../components/Pagination';
 import SEO from '../components/SEO';
-import NoteCategoryFilter from '../components/NoteCategoryFilter';
+import TagFilter from '../components/TagFilter';
 
 const AllNotesContainer = styled.div`
   display: flex;
@@ -25,6 +25,7 @@ const AllNotesContainer = styled.div`
 export default function Notes({ data, pageContext, path }) {
   const { edges: notes, totalCount } = data.notes;
   const { currentPage, skip, cat } = pageContext;
+
   // Setting the nav theme for this page
   useNavTheme('dark');
 
@@ -47,7 +48,7 @@ export default function Notes({ data, pageContext, path }) {
       <div className="headerTitleSeperator">
         <h1>Notes</h1>
       </div>
-      <NoteCategoryFilter activeCat={cat} />
+      <TagFilter base="notes" activeTag={cat} />
       <Pagination
         pageSize={parseInt(process.env.GATSBY_NOTES_PAGE_SIZE)}
         totalCount={totalCount}
