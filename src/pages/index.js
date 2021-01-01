@@ -11,6 +11,8 @@ import BlogPostCard from '../components/BlogPostCard';
 import NotePostCard from '../components/NotePostCard';
 import SEO from '../components/SEO';
 import LanguageIcons, { languageList } from '../templates/LanguageIcons';
+import TestimonialCard from '../components/TestimonialCard';
+import testimonialData from '../data/testimonials.json';
 
 export default function HomePage({ data, path }) {
   const { blog, notes } = data;
@@ -130,9 +132,13 @@ export default function HomePage({ data, path }) {
       </ContentSection>
       <ContentSection>
         <div className="headerTitleSeperator">
-          <h3>testimonials</h3>
+          <h3>Testimonials</h3>
         </div>
-        <div className="content">{/* TODO: Add in Blog Posts and create custom template for them */}</div>
+        <div className="content">
+          {testimonialData.map((testimonial) => (
+            <TestimonialCard testimonial={testimonial} />
+          ))}
+        </div>
       </ContentSection>
     </>
   );
