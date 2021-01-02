@@ -1,5 +1,17 @@
  [
     {
+        "title": "Mallard Republic",
+        "type": "Front-End",
+        "URL": "https://mallardrepublic.com/",
+        "description": "E-Commerce Website for clothing and accessories",
+        "tags": [
+            "GatsbyJS"
+        ],
+        "date": "2020-09-11",
+        "repo": "",
+        "image": "../assets/portfolioImages/mallardRepublicPortfolioImage.jpg"
+    },
+    {
         "title": "COVID-19 API",
         "type": "Back-End",
         "URL": "https://covid-19-graphql-api.herokuapp.com/",
@@ -38,7 +50,7 @@
     },
     {
         "title": "MYRMedia Ltd",
-        "type": "Website",
+        "type": "Front-End",
         "URL": "https://myrmedia.ltd/",
         "description": "Photography & Cinematography Portfolio.",
         "tags": [
