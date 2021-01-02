@@ -18,7 +18,7 @@
         "URL": "https://covid-19-analyser.netlify.app",
         "description": "Landing page for my COVID-19 GraphQL API.",
         "tags": [
-            "JavaScript"
+            "Next.js"
         ],
         "date": "2020-06-29",
         "repo": "https//github.com/conermurphy/covid-19-analyser",
