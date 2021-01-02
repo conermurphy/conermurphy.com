@@ -8,7 +8,7 @@ import Components from '../components/mdx/Components';
 import NoteDate from '../components/NoteDate';
 import SEO from '../components/SEO';
 import Tags from '../components/Tags';
-import Logo from '../assets/logo/CM-Logo-2019.svg';
+import Logo from '../assets/logo/CM-Logo.svg';
 import matchingLanguageIcon, { findMatchingLanguage } from '../utils/findMatchingLanguageIcon';
 
 const NoteContainer = styled.article`

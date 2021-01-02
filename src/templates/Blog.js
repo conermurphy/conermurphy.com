@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import Img from 'gatsby-image';
 import SEO from '../components/SEO';
 import findBlogSeries from '../utils/findBlogSeries';
-import Logo from '../assets/logo/CM-Logo-2019.svg';
+import Logo from '../assets/logo/CM-Logo.svg';
 // MDX Component Imports Used on each page.
 import Components from '../components/mdx/Components';
 import Tags from '../components/Tags';

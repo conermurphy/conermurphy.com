@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { useLocation } from '@reach/router';
 import { pathJoin } from '../utils/path-join';
+import Logo from '../assets/logo/CM-Logo.svg';
 
 import { useSiteMetadata } from '../utils/useSiteMetadata';
 
@@ -27,10 +28,6 @@ const SEO = ({ post }) => {
       <html lang="en" />
       <title>{seo.title}</title>
 
-      {/* Fav Icons */}
-      <link rel="icon" type="image/svg+xml" href="/CM-Logo-2019.svg" />
-      <link rel="alternate icon" href="/CM-Favicon.ico" />
-
       {/* Meta Tags */}
       <meta name="description" content={seo.description} />
       <link rel="canonical" href={canonical} />
@@ -43,7 +40,7 @@ const SEO = ({ post }) => {
       {(article ? true : null) && <meta property="og:type" content="article" />}
       {seo.title && <meta property="og:title" content={seo.title} key="ogtitle" />}
       {seo.description && <meta property="og:description" content={seo.description} key="ogdesc" />}
-      <meta property="og:image" content={seo.image || '/CM-Logo-2019.svg'} />
+      <meta property="og:image" content={seo.image || Logo} />
       <meta property="og:site_name" content={seo.title} key="ogsitename" />
       {date ? <meta property="article:published_time" content={new Date(date).toISOString()} /> : null}
 
