@@ -63,7 +63,7 @@ export default function HomePage({ data, path }) {
             <li>
               <ul className="languages">
                 {languageList.map((lan) => (
-                  <li>
+                  <li key={`HomePageLanguages-${lan}`}>
                     <LanguageIcons language={lan} width="2rem" />
                   </li>
                 ))}
@@ -145,7 +145,9 @@ export default function HomePage({ data, path }) {
           <h3>Testimonials</h3>
         </div>
         <div className="content testimonial">
-          {testimonialData.map((testimonial, index) => (index <= 3 ? <TestimonialCard testimonial={testimonial} /> : ''))}
+          {testimonialData.map((testimonial, index) =>
+            index <= 3 ? <TestimonialCard key={`HomePage-Testimony-${index}-${testimonial.company}`} testimonial={testimonial} /> : ''
+          )}
         </div>
       </ContentSection>
     </>
