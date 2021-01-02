@@ -12,6 +12,7 @@ const TestimonialContainer = styled.div`
   filter: drop-shadow(var(--shadow));
   background-color: var(--white);
   position: relative;
+  height: min-content;
 
   & ::after {
     content: '';
