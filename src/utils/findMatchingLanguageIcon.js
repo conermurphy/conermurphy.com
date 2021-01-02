@@ -3,7 +3,7 @@ import Logo from '../components/Logo';
 import LanguageIcons, { languageList } from '../templates/LanguageIcons';
 
 export function findMatchingLanguage(language) {
-  const matchingLanguage = languageList.find((lan) => lan.toLowerCase() === language.toLowerCase());
+  const matchingLanguage = languageList.find((lan) => lan.toLowerCase() === language.toLowerCase()) ?? language;
 
   return matchingLanguage;
 }
@@ -23,5 +23,7 @@ export default function matchingLanguageIcon(lan, size) {
     languageTag = findMatchingLanguage(lan);
   }
 
-  return <>{languageTag ? <LanguageIcons language={languageTag} width={size} /> : <Logo height={size} link={false} />}</>;
+  return (
+    <>{languageList.includes(languageTag) ? <LanguageIcons language={languageTag} width={size} /> : <Logo height={size} link={false} />}</>
+  );
 }

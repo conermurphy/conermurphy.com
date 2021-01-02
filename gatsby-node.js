@@ -13,7 +13,7 @@ function createTagPages(base, arr, template, actions) {
   // 4: Actions - Actions is passed in from the calling function to allow us to destructure out the createPage API to make the new pages.
 
   const { createPage } = actions;
-  const pageSize = parseInt(process.env.GATSBY_BLOG_PAGE_SIZE); // Total number of posts on each page
+  const pageSize = parseInt(process.env.GATSBY_PAGE_SIZE); // Total number of posts on each page
 
   // Get a total array of tags used in all of the posts and a unique version of the array.
   const { uniqueArray, totalTagArray } = arrayTotaler(base, arr);
@@ -149,7 +149,7 @@ async function turnBlogPostsIntoPages({ graphql, actions }) {
   });
 
   // 3. Creating multiple blog pages to paginate the total amount of posts over multiple pages for usability.
-  const pageSize = parseInt(process.env.GATSBY_BLOG_PAGE_SIZE); // Total number of posts on each page
+  const pageSize = parseInt(process.env.GATSBY_PAGE_SIZE); // Total number of posts on each page
   const pageCount = Math.ceil(blogTotalCount / pageSize); // Total number of pages required.
 
   // Loop through each page required (1 to x) and create a new blog page for each.
@@ -224,7 +224,7 @@ async function turnNotesIntoPages({ graphql, actions }) {
   });
 
   // 3. Create multiple notes pages to paginate out the notes.
-  const pageSize = parseInt(process.env.GATSBY_NOTES_PAGE_SIZE); // Total number of posts on each page
+  const pageSize = parseInt(process.env.GATSBY_PAGE_SIZE); // Total number of posts on each page
   const pageCount = Math.ceil(notesTotalCount / pageSize); // Total number of pages required.
 
   // Loop through each page required (1 to x) and create a new notes page for each.

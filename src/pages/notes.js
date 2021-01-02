@@ -50,7 +50,7 @@ export default function Notes({ data, pageContext, path }) {
       </div>
       <TagFilter base="notes" activeTag={tag} />
       <Pagination
-        pageSize={parseInt(process.env.GATSBY_NOTES_PAGE_SIZE)}
+        pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
         totalCount={totalCount}
         currentPage={currentPage || 1}
         skip={skip}
@@ -65,7 +65,7 @@ export default function Notes({ data, pageContext, path }) {
         ))}
       </AllNotesContainer>
       <Pagination
-        pageSize={parseInt(process.env.GATSBY_NOTES_PAGE_SIZE)}
+        pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
         totalCount={totalCount}
         currentPage={currentPage || 1}
         skip={skip}
@@ -92,6 +92,13 @@ export const query = graphql`
           frontmatter {
             date(formatString: "DDMMYYYY")
             tags
+            image {
+              childImageSharp {
+                fluid(maxWidth: 400) {
+                  ...GatsbyImageSharpFluid
+                }
+              }
+            }
             title
             id
           }

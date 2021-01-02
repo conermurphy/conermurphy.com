@@ -44,7 +44,7 @@ export default function Blog({ data, pageContext, path }) {
       </div>
       <TagFilter base="blog" activeTag={tag} />
       <Pagination
-        pageSize={parseInt(process.env.GATSBY_BLOG_PAGE_SIZE)}
+        pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
         totalCount={totalCount}
         currentPage={currentPage || 1}
         skip={skip}
@@ -56,7 +56,7 @@ export default function Blog({ data, pageContext, path }) {
         ))}
       </AllPostsContainer>
       <Pagination
-        pageSize={parseInt(process.env.GATSBY_BLOG_PAGE_SIZE)}
+        pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
         totalCount={totalCount}
         currentPage={currentPage || 1}
         skip={skip}

@@ -8,6 +8,7 @@ import Components from '../components/mdx/Components';
 import NoteDate from '../components/NoteDate';
 import SEO from '../components/SEO';
 import Tags from '../components/Tags';
+import Logo from '../assets/logo/CM-Logo-2019.svg';
 import matchingLanguageIcon, { findMatchingLanguage } from '../utils/findMatchingLanguageIcon';
 
 const NoteContainer = styled.article`
@@ -20,9 +21,11 @@ const NoteContainer = styled.article`
 
 const NoteHeader = styled.div`
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 0.25fr 1fr;
   align-items: center;
   justify-content: center;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--grey);
 
   .langIDContainer {
     display: flex;
@@ -57,10 +60,13 @@ export default function NotesPost({ data, pageContext, path }) {
   const { notes } = data;
   const { frontmatter, timeToRead, body, fields } = notes;
   const { filePath, contentCategory, noteCategory, slug } = fields;
-  const { title, description, date, tags, id, plainDate } = frontmatter;
+  const { title, description, date, tags, id, plainDate, image } = frontmatter;
 
   const languageIcon = matchingLanguageIcon(noteCategory, '2rem');
   const languageTag = findMatchingLanguage(noteCategory);
+
+  // Setting image path for SEO if no image use the logo.
+  const imagePath = image ? image.childImageSharp.fluid.src : Logo;
 
   return (
     <>
@@ -69,7 +75,7 @@ export default function NotesPost({ data, pageContext, path }) {
           slug: path,
           title,
           description,
-          image: languageIcon,
+          image: imagePath,
           article: true,
           date: plainDate,
         }}
@@ -87,7 +93,7 @@ export default function NotesPost({ data, pageContext, path }) {
               </div>
               <p>| {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes`}</p>
             </div>
-            <Tags frontmatter={frontmatter} />
+            <Tags tags={tags} />
           </div>
         </NoteHeader>
         <div>
@@ -127,6 +133,13 @@ export const query = graphql`
         series
         tags
         id
+        image {
+          childImageSharp {
+            fluid(maxWidth: 400) {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
       }
     }
   }

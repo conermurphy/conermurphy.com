@@ -45,7 +45,7 @@ export default function Portfolio({ data, pageContext, path }) {
       </div>
       <TagFilter base="portfolio" activeTag={tag} />
       <Pagination
-        pageSize={parseInt(process.env.GATSBY_BLOG_PAGE_SIZE)}
+        pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
         totalCount={totalCount}
         currentPage={currentPage || 1}
         skip={skip}
@@ -57,7 +57,7 @@ export default function Portfolio({ data, pageContext, path }) {
         ))}
       </AllPortfolioContainer>
       <Pagination
-        pageSize={parseInt(process.env.GATSBY_BLOG_PAGE_SIZE)}
+        pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
         totalCount={totalCount}
         currentPage={currentPage || 1}
         skip={skip}
