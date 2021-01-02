@@ -6,6 +6,7 @@ import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
 import Img from 'gatsby-image';
 import SEO from '../components/SEO';
+import findBlogSeries from '../utils/findBlogSeries';
 import Logo from '../assets/logo/CM-Logo-2019.svg';
 // MDX Component Imports Used on each page.
 import Components from '../components/mdx/Components';
@@ -71,7 +72,7 @@ const BlogPost = ({ data, pageContext, path }) => {
           <h1 className="postTitle">{title}</h1>
           <div className="postInfo">
             <p>
-              {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes`} {series ? `| ${series}` : ''}
+              {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes`} {`| ${findBlogSeries(series)}`}
             </p>
             <Tags tags={tags} />
           </div>
