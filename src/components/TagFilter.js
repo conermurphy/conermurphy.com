@@ -58,6 +58,13 @@ export default function TagFilter({ base, activeTag }) {
           }
         }
       }
+      portfolio: allPortfolio {
+        edges {
+          node {
+            tags
+          }
+        }
+      }
     }
   `);
 

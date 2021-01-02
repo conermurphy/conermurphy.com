@@ -7,6 +7,8 @@ export function arrayTotaler(type, arr) {
     totalTagArray = arr[type].edges.map(({ node }) => node.fields.noteCategory).flat();
   } else if (type === 'blog') {
     totalTagArray = arr[type].edges.map(({ node }) => node.frontmatter.tags).flat();
+  } else if (type === 'portfolio') {
+    totalTagArray = arr[type].edges.map(({ node }) => node.tags).flat();
   }
 
   // create a second array which is a unique version of the array.
