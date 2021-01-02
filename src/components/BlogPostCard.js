@@ -95,7 +95,7 @@ export default function BlogPostCard({ post }) {
           <div className="content">
             <h2>{title}</h2>
           </div>
-          <Tags tags={frontmatter.tags} />
+          <Tags tags={tags} />
         </div>
         <div className="postIdDate">
           <p className="id">Post: #{id}</p>

@@ -40,7 +40,7 @@ export default function GithubEdit({ githubLinkInfo }) {
   let githubLink;
 
   if (contentCategory === 'notes') {
-    githubLink = `${base}${contentCategory}/${noteCategory}/${filePath}.mdx`;
+    githubLink = `${base}${contentCategory}/${noteCategory}/${filePath}/${filePath}.mdx`;
   } else {
     githubLink = `${base}${contentCategory}/${filePath}/${filePath}.mdx`;
   }

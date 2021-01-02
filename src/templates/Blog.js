@@ -73,7 +73,7 @@ const BlogPost = ({ data, pageContext, path }) => {
             <p>
               {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes`} {series ? `| ${series}` : ''}
             </p>
-            <Tags frontmatter={frontmatter} />
+            <Tags tags={tags} />
           </div>
         </BlogHeader>
         <div>
