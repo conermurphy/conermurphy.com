@@ -288,10 +288,30 @@ async function turnNotesCategoriesIntoPages({ graphql, actions }) {
   createTagPages('notes', data, notesTemplate, actions);
 }
 
+async function turnPortfolioTagsIntoPages({ graphql, actions }) {
+  // Get the portfolio page template
+  const portfolioTemplate = path.resolve('./src/pages/portfolio.js');
+
+  // Query for all of the tags on the portfolio posts
+  const { data } = await graphql(`
+    query {
+      portfolio: allPortfolio {
+        edges {
+          node {
+            tags
+          }
+        }
+      }
+    }
+  `);
+
+  createTagPages('portfolio', data, portfolioTemplate, actions);
+}
+
 // === End of creating blog post tag and notes category pages ===
 
 // Sourcing the portfolio data into the graphQL API to allow us to create pages off the tags for each post.
-async function fetchPortfolioAndTurnIntoNodes({ graphql, actions, createNodeId, createContentDigest }) {
+async function fetchPortfolioAndTurnIntoNodes({ actions, createNodeId, createContentDigest }) {
   // portfolioData is imported at the top of the file.
 
   // loop over data and create a node for each one
@@ -331,5 +351,7 @@ export async function createPages(params) {
     turnBlogPostTagsIntoPages(params),
     // Turn Notes Categories into pages
     turnNotesCategoriesIntoPages(params),
+    // Turn Portfolio Tags into pages
+    turnPortfolioTagsIntoPages(params),
   ]);
 }
