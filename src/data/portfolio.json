@@ -1,54 +1,51 @@
-{
-    "title": "Portfolio",
-    "content": [
-        {
-            "title": "COVID-19 API",
-            "type": "Back-End",
-            "URL": "https://covid-19-graphql-api.herokuapp.com/",
-            "description": "GraphQL for the COVID-19 pandemic data.",
-            "technologies": [
-                "GraphQL",
-                "NodeJS"
-            ],
-            "date": "29-06-2020",
-            "repo": "https://github.com/conermurphy/covid-19-graphql-api",
-            "image": "../assets/portfolioImages/covid19APIPortfolio.jpg"
-        },
-        {
-            "title": "COVID-19 Analyser",
-            "type": "Front-End",
-            "URL": "https://covid-19-analyser.netlify.app",
-            "description": "Landing page for my COVID-19 GraphQL API.",
-            "technologies": [
-                "JavaScript"
-            ],
-            "date": "29-06-2020",
-            "repo": "https--code-font://github.com/conermurphy/covid-19-analyser",
-            "image": "../assets/portfolioImages/covid19AnalyserPortfolio.jpg"
-        },
-        {
-            "title": "Coner Murphy",
-            "type": "Front-End",
-            "URL": "https://conermurphy.com",
-            "description": "My personal website (this site).",
-            "technologies": [
-                "GatsbyJS"
-            ],
-            "date": "11-05-2020",
-            "repo": "https://github.com/conermurphy/conermurphy.com",
-            "image": "../assets/portfolioImages/cmPortfolio.jpg"
-        },
-        {
-            "title": "MYRmedia",
-            "type": "Website",
-            "URL": "https://myrmedia.ltd/",
-            "description": "Photography & Cinematography Portfolio.",
-            "technologies": [
-                "GatsbyJS"
-            ],
-            "date": "08-03-2020",
-            "repo": "",
-            "image": "../assets/portfolioImages/myrMediaPortfolio.jpg"
-        }
-    ]
-}
+ [
+    {
+        "title": "COVID-19 API",
+        "type": "Back-End",
+        "URL": "https://covid-19-graphql-api.herokuapp.com/",
+        "description": "GraphQL for the COVID-19 pandemic data.",
+        "tags": [
+            "GraphQL",
+            "NodeJS"
+        ],
+        "date": "2020-06-29",
+        "repo": "https://github.com/conermurphy/covid-19-graphql-api",
+        "image": "../assets/portfolioImages/covid19APIPortfolio.jpg"
+    },
+    {
+        "title": "COVID-19 Analyser",
+        "type": "Front-End",
+        "URL": "https://covid-19-analyser.netlify.app",
+        "description": "Landing page for my COVID-19 GraphQL API.",
+        "tags": [
+            "JavaScript"
+        ],
+        "date": "2020-06-29",
+        "repo": "https//github.com/conermurphy/covid-19-analyser",
+        "image": "../assets/portfolioImages/covid19AnalyserPortfolio.jpg"
+    },
+    {
+        "title": "Coner Murphy",
+        "type": "Front-End",
+        "URL": "https://conermurphy.com",
+        "description": "My personal website (this site).",
+        "tags": [
+            "GatsbyJS"
+        ],
+        "date": "2020-05-11",
+        "repo": "https://github.com/conermurphy/conermurphy.com",
+        "image": "../assets/portfolioImages/cmPortfolio.jpg"
+    },
+    {
+        "title": "MYRMedia Ltd",
+        "type": "Website",
+        "URL": "https://myrmedia.ltd/",
+        "description": "Photography & Cinematography Portfolio.",
+        "tags": [
+            "GatsbyJS"
+        ],
+        "date": "2020-03-08",
+        "repo": "",
+        "image": "../assets/portfolioImages/myrMediaPortfolio.jpg"
+    }
+]

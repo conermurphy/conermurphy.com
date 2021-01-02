@@ -22,7 +22,7 @@ export default {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        path: './src/assets/',
+        path: `${__dirname}/src/assets/`,
         name: 'assets',
       },
     },

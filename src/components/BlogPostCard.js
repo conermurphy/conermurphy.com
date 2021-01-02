@@ -47,7 +47,7 @@ const PostContainerBody = styled.div`
     & > .content {
       margin-top: 1.5rem;
 
-      h3 {
+      h2 {
         font-size: 1.75rem;
         padding: 1rem 0;
       }
@@ -93,9 +93,9 @@ export default function BlogPostCard({ post }) {
         <div className="contentContainer">
           <div className="languageIconContainer">{languageIcon}</div>
           <div className="content">
-            <h3>{title}</h3>
+            <h2>{title}</h2>
           </div>
-          <Tags frontmatter={frontmatter} />
+          <Tags tags={frontmatter.tags} />
         </div>
         <div className="postIdDate">
           <p className="id">Post: #{id}</p>

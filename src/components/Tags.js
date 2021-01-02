@@ -16,13 +16,12 @@ const TagStyle = styled.p`
   border: 1px solid var(--green);
 `;
 
-export default function Tags({ frontmatter }) {
-  const { tags, id } = frontmatter;
+export default function Tags({ tags }) {
   return (
     <TagContainer>
       {tags.map((tag) => {
         const { matchingTag } = findTagInfo(tag);
-        return <TagStyle key={`PostTag-${id}-${matchingTag}`}>{matchingTag}</TagStyle>;
+        return <TagStyle key={`PostTag-${matchingTag}`}>{matchingTag}</TagStyle>;
       })}
     </TagContainer>
   );

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts } from 'react-icons/md';
 import { graphql, Link } from 'gatsby';
 import { tsParticles } from 'tsparticles';
-import { FaTwitter, FaLinkedin, FaEnvelope, FaInstagram } from 'react-icons/fa';
+import { FaTwitter, FaLinkedin, FaEnvelope, FaInstagram, FaGithub } from 'react-icons/fa';
 import { ContentSection, HeroBackground, InfoBlock, LandingSection, NotesContentSection } from '../styles/HomeStyles';
 import particlesJson from '../assets/particles';
 import EmailSignupForm from '../components/emailSignupForm';
@@ -71,6 +71,11 @@ export default function HomePage({ data, path }) {
             </li>
             <li>
               <ul className="languages">
+                <li>
+                  <a href="https://github.com/conermurphy" target="_blank" rel="noopener noreferrer" className="contactIcon">
+                    <FaGithub />
+                  </a>
+                </li>
                 <li>
                   <a href="https://twitter.com/MrConerMurphy" target="_blank" rel="noopener noreferrer" className="contactIcon">
                     <FaTwitter />
