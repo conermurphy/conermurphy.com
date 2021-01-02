@@ -4,6 +4,8 @@ import { graphql } from 'gatsby';
 import useNavTheme from '../utils/useNavTheme';
 import SEO from '../components/SEO';
 import PortfolioPostCard from '../components/PortfolioPostCard';
+import TagFilter from '../components/TagFilter';
+import Pagination from '../components/Pagination';
 
 const AllPortfolioContainer = styled.div`
   display: grid;
@@ -41,18 +43,38 @@ export default function Portfolio({ data, pageContext, path }) {
       <div className="headerTitleSeperator">
         <h1>Portfolio</h1>
       </div>
+      <TagFilter base="portfolio" activeTag={tag} />
+      <Pagination
+        pageSize={parseInt(process.env.GATSBY_BLOG_PAGE_SIZE)}
+        totalCount={totalCount}
+        currentPage={currentPage || 1}
+        skip={skip}
+        base={path}
+      />
       <AllPortfolioContainer>
         {portfolioPosts.map(({ node: post }) => (
           <PortfolioPostCard key={post.id} post={post} />
         ))}
       </AllPortfolioContainer>
+      <Pagination
+        pageSize={parseInt(process.env.GATSBY_BLOG_PAGE_SIZE)}
+        totalCount={totalCount}
+        currentPage={currentPage || 1}
+        skip={skip}
+        base={path}
+      />
     </>
   );
 }
 
 export const query = graphql`
-  query {
-    portfolioNodes: allPortfolio {
+  query($skip: Int = 0, $pageSize: Int = 6, $tagRegex: String) {
+    portfolioNodes: allPortfolio(
+      limit: $pageSize
+      skip: $skip
+      sort: { order: DESC, fields: date }
+      filter: { tags: { regex: $tagRegex } }
+    ) {
       edges {
         node {
           tags
@@ -67,15 +89,6 @@ export const query = graphql`
         }
       }
       totalCount
-    }
-    portfolioImages: allFile(filter: { relativePath: { regex: "/portfolioImages/i" } }) {
-      edges {
-        node {
-          name
-          extension
-          relativePath
-        }
-      }
     }
   }
 `;

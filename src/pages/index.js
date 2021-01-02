@@ -13,9 +13,10 @@ import SEO from '../components/SEO';
 import LanguageIcons, { languageList } from '../templates/LanguageIcons';
 import TestimonialCard from '../components/TestimonialCard';
 import testimonialData from '../data/testimonials.json';
+import PortfolioPostCard from '../components/PortfolioPostCard';
 
 export default function HomePage({ data, path }) {
-  const { blog, notes } = data;
+  const { blog, notes, portfolio } = data;
 
   // Setting the nav theme for this page
   useNavTheme('light');
@@ -133,7 +134,11 @@ export default function HomePage({ data, path }) {
           <h3>Portfolio</h3>
           <Link to="/portfolio">View All</Link>
         </div>
-        <div className="content">{/* TODO: Add in Blog Posts and create custom template for them */}</div>
+        <div className="content">
+          {portfolio.edges.map(({ node: post }) => (
+            <PortfolioPostCard key={`portfolioPostCard-${post.id}`} post={post} />
+          ))}
+        </div>
       </ContentSection>
       <ContentSection>
         <div className="headerTitleSeperator">
@@ -189,6 +194,21 @@ export const query = graphql`
             id
           }
           excerpt(pruneLength: 250)
+        }
+      }
+    }
+    portfolio: allPortfolio(limit: 3, sort: { order: DESC, fields: date }) {
+      edges {
+        node {
+          tags
+          repo
+          id
+          description
+          date(formatString: "DD/MM/YYYY")
+          URL
+          type
+          title
+          image
         }
       }
     }
