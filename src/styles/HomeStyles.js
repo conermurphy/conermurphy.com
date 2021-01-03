@@ -57,7 +57,7 @@ const InfoBlock = styled.div`
     font-family: var(--header-font);
   }
 
-  ul {
+  & > ul {
     list-style: none;
     text-align: right;
     display: flex;
@@ -65,19 +65,27 @@ const InfoBlock = styled.div`
     justify-content: space-evenly;
     height: 100%;
 
-    li {
+    & > li {
       display: flex;
       align-items: center;
       justify-content: flex-end;
       font-size: 2rem;
       padding: 1rem 2.5rem;
+
+      & > svg {
+        background-color: var(--grey);
+        margin-left: 1rem;
+        align-self: flex-start;
+      }
+    }
+
+    & > .languagesContainer {
+      align-items: flex-start; // Targetting the language container individually to set to flex start to align centrally on page due to svg height being differnt
     }
 
     svg {
-      background-color: var(--grey);
       padding: 0.75rem;
-      margin: 0.25rem;
-      margin-left: 1rem;
+      margin: 0;
       border-radius: 5px;
     }
   }
@@ -97,18 +105,6 @@ const InfoBlock = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-      }
-
-      & svg {
-        margin: 0; // This is to override the styling on the svg above
-        background-color: var(--white);
-      }
-    }
-
-    .contactIcon {
-      svg {
-        fill: var(--black);
-        margin: 0rem 0.5rem;
       }
     }
   }
@@ -136,7 +132,7 @@ const ContentSection = styled.section`
     * {
       text-decoration: none;
     }
-}
+  }
 
   & > .testimonial {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

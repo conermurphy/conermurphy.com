@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts } from 'react-icons/md';
 import { graphql, Link } from 'gatsby';
 import { tsParticles } from 'tsparticles';
-import { FaTwitter, FaLinkedin, FaEnvelope, FaInstagram, FaGithub } from 'react-icons/fa';
 import { ContentSection, HeroBackground, InfoBlock, LandingSection, NotesContentSection } from '../styles/HomeStyles';
 import particlesJson from '../assets/particles';
 import EmailSignupForm from '../components/emailSignupForm';
@@ -14,6 +13,7 @@ import LanguageIcons, { languageList } from '../templates/LanguageIcons';
 import TestimonialCard from '../components/TestimonialCard';
 import testimonialData from '../data/testimonials.json';
 import PortfolioPostCard from '../components/PortfolioPostCard';
+import ContactIcons from '../components/ContactIcons';
 
 export default function HomePage({ data, path }) {
   const { blog, notes, portfolio } = data;
@@ -56,11 +56,10 @@ export default function HomePage({ data, path }) {
             <li>
               Coner Murphy <MdPersonPin />
             </li>
-
             <li>
               Norwich, United Kingdom <MdLocationOn />
             </li>
-            <li>
+            <li className="languagesContainer">
               <ul className="languages">
                 {languageList.map((lan) => (
                   <li key={`HomePageLanguages-${lan}`}>
@@ -71,33 +70,7 @@ export default function HomePage({ data, path }) {
               <MdLanguage />
             </li>
             <li>
-              <ul className="languages">
-                <li>
-                  <a href="https://github.com/conermurphy" target="_blank" rel="noopener noreferrer" className="contactIcon">
-                    <FaGithub />
-                  </a>
-                </li>
-                <li>
-                  <a href="https://twitter.com/MrConerMurphy" target="_blank" rel="noopener noreferrer" className="contactIcon">
-                    <FaTwitter />
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.linkedin.com/in/coner-murphy/" target="_blank" rel="noopener noreferrer" className="contactIcon">
-                    <FaLinkedin />
-                  </a>
-                </li>
-                <li>
-                  <a href="https://instagram.com/mrconermurphy/" target="_blank" rel="noopener noreferrer" className="contactIcon">
-                    <FaInstagram />
-                  </a>
-                </li>
-                <li>
-                  <a href="mailto:coner@conermurphy.com" target="_blank" rel="noopener noreferrer" className="contactIcon">
-                    <FaEnvelope />
-                  </a>
-                </li>
-              </ul>
+              <ContactIcons />
               <MdContacts />
             </li>
           </ul>
