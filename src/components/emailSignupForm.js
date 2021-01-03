@@ -42,6 +42,10 @@ const FormGridContainer = styled.form`
     width: 100%;
   }
 
+  .chilliIsCool {
+    display: none;
+  }
+
   .signupButton {
     background-color: var(--green);
     border-color: none;
@@ -80,6 +84,32 @@ const MessageContainer = styled.div`
   border-radius: var(--borderRadius);
   padding: 1.5rem;
   filter: drop-shadow(var(--shadow));
+
+  animation: signup-response 1s 1;
+  -webkit-animation: signup-response 1s 1;
+  animation-fill-mode: forwards;
+
+  animation-delay: 2s;
+  -webkit-animation-delay: 2s; /* Safari and Chrome */
+  -webkit-animation-fill-mode: forwards;
+
+  @keyframes signup-response {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @-webkit-keyframes signup-response {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
 
   ::after {
     content: '';
@@ -122,12 +152,14 @@ const OutcomeMessageContainer = ({ error, message }) => (
     <p>{message}</p>
   </MessageContainer>
 );
+
 export const EmailSignup = () => {
   const { values, updateValue } = useForm({
     email: '',
+    chilliIsCool: '',
   });
   const { message, loading, error, submitEmail } = useEmail({ values });
-  const { email } = values;
+  const { email, chilliIsCool } = values;
 
   return (
     <>
@@ -135,6 +167,14 @@ export const EmailSignup = () => {
         <fieldset disabled={loading}>
           <label htmlFor="email">Email:</label>
           <input type="email" name="email" id="email" className="emailInput" onChange={updateValue} value={email} />
+          <input
+            type="chilliIsCool"
+            name="chilliIsCool"
+            id="chilliIsCool"
+            value={chilliIsCool}
+            onChange={updateValue}
+            className="chilliIsCool"
+          />
           <button className="signupButton" type="submit" disabled={loading}>
             {loading ? 'Subscribing...' : ' Subscribe'}
           </button>

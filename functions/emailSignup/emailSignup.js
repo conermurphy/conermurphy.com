@@ -3,7 +3,13 @@ require('isomorphic-fetch');
 exports.handler = async (event) => {
   const body = JSON.parse(event.body);
 
-  // TODO: Insert honeypot into email signup form
+  // If the honeypot chilliIsCool has been populated then return error.
+  if (body.chilliIsCool) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ message: 'Boop beep bop zssss good bye. Error Code: A1234' }),
+    };
+  }
 
   // Checking we have data from the email input
   const requiredFields = ['email'];

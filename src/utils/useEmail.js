@@ -7,7 +7,7 @@ export default function useEmail({ values }) {
   const [error, setError] = useState();
 
   // destructuring out the values from values passed to this form.
-  const { email } = values;
+  const { email, chilliIsCool } = values;
 
   const serverlessBase = process.env.GATSBY_SERVERLESS_BASE;
 
@@ -21,6 +21,7 @@ export default function useEmail({ values }) {
     // gathering data to be submitted to the serverless function
     const body = {
       email,
+      chilliIsCool,
     };
 
     if (!email.length) {
