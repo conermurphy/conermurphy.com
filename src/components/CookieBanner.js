@@ -72,19 +72,20 @@ const CookieBannerContainer = styled.div`
 const newExpiry = getFutureDate(new Date(), 30); // Cookie expres in 30 days.
 
 function onAccept() {
-  document.cookie = `conermurphy.com_analytics=true; expires=${newExpiry};`;
-  document.cookie = 'ga-disable-G-L047KBCSG4=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+  document.cookie = `conermurphy.com_analytics=true; expires=${newExpiry}; path=/;`;
+  document.cookie = 'ga-disable-G-L047KBCSG4=false; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  window.disableStr = '';
   location.reload();
 }
 
 function onDecline() {
   document.cookie.split('; ').forEach((cookie) => {
     if (cookie.includes('conermurphy.com')) {
-      document.cookie = `${cookie.split('=')[0]}=; expires=Thu, 01 Jan 1970 00:00:00 UTC`;
+      document.cookie = `${cookie.split('=')[0]}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     }
   });
 
-  document.cookie = `conermurphy.com_analytics=false; expires=${newExpiry};`;
+  document.cookie = `conermurphy.com_analytics=false; expires=${newExpiry}; path=/;`;
   location.reload();
 }
 
