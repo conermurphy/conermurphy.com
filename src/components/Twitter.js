@@ -65,8 +65,8 @@ export default function Twitter() {
         const text = tweet.text.split('https://t.co').shift().slice(0, 100);
         const { preview_image_url } = tweet;
         return (
-          <a href={`https://twitter.com/MrConerMurphy/status/${tweet.id}`} target="_blank" rel="noopener noreferrer">
-            <IndividualTweetContainer key={tweet.id}>
+          <a key={tweet.id} href={`https://twitter.com/MrConerMurphy/status/${tweet.id}`} target="_blank" rel="noopener noreferrer">
+            <IndividualTweetContainer>
               <Media url={preview_image_url} alt={text} />
               <p>{text}...</p>
               <TweetStats>
