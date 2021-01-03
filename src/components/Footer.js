@@ -1,53 +1,64 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FaEnvelope, FaTwitter, FaLocationArrow } from 'react-icons/fa';
+import { Link } from 'gatsby';
+import { EmailSignup } from './emailSignupForm';
+import Logo from './Logo';
+import ContactIcons from './ContactIcons';
 
 const FooterBody = styled.footer`
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: var(--grey);
+  background-color: var(--black);
   color: var(--white);
-  filter: drop-shadow(var(--shadow));
-
-  .copyright {
-    background-color: var(--black);
-  }
 `;
 
 const ContentGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, 450px);
-  align-items: center;
-  justify-content: space-evenly;
+  grid-template-columns: repeat(auto-fit, minmax(450px, max-content));
+  align-items: flex-start;
+  justify-content: center;
   text-align: center;
+  margin: 5rem 0;
 
-  div {
-    display: flex;
-    flex-direction: center;
-    align-items: flex-start;
-    justify-content: center;
-    margin: 2rem;
-    background-color: var(--white);
-    border-radius: var(--borderRadius);
-    filter: drop-shadow(var(--shadow));
-    max-height: 400px;
-    overflow-x: hidden;
-  }
-
-  h4 {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+  & > div {
+    display: grid;
+    grid-template-rows: auto 2rem 1fr;
     align-items: center;
-    /* background-color: var(--grey); */
-    border-bottom: 2px solid var(--green);
-    color: var(--black);
+    justify-items: center;
+    gap: 2rem;
 
-    span {
-      border-radius: 5px;
-      padding: 10px;
-      font-size: 1.75rem;
+    & > h5 {
+      font-size: 1.9rem;
+      margin: 2rem 0;
+
+      span {
+        white-space: nowrap;
+        display: block;
+        margin: 0.5rem;
+      }
     }
+
+    .icon {
+      margin: 1rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      & > svg {
+        margin: 0;
+        font-size: 2.5rem;
+        fill: var(--white);
+      }
+    }
+  }
+`;
+
+const NavigationLinks = styled.ul`
+  * {
+    color: var(--white);
+    text-decoration: underline;
   }
 `;
 
@@ -56,19 +67,53 @@ export default function Footer() {
     <FooterBody>
       <ContentGrid>
         <div>
-          <h4>
-            <span>Tweets</span>
-          </h4>
+          <div className="icon">
+            <Logo height="3rem" />
+          </div>
+          <h5>Coner Murphy</h5>
+          <ContactIcons />
         </div>
         <div>
-          <h4>
-            <span>Blog Posts</span>
-          </h4>
+          <div className="icon">
+            <FaLocationArrow />
+          </div>
+          <h5>Navigation</h5>
+          <NavigationLinks>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/blog">Blog</Link>
+            </li>
+            <li>
+              <Link to="/notes">Notes</Link>
+            </li>
+            <li>
+              <Link to="/portfolio">Portfolio</Link>
+            </li>
+            <li>
+              <Link to="/reads">Reads</Link>
+            </li>
+            <li>
+              <Link to="/privacy-policy">Privacy Policy</Link>
+            </li>
+          </NavigationLinks>
         </div>
         <div>
-          <h4>
-            <span>Newsletter</span>
-          </h4>
+          <div className="icon">
+            <FaTwitter />
+          </div>
+          <h5>
+            Tweets:
+            <span>@MrConerMurphy</span>
+          </h5>
+        </div>
+        <div>
+          <div className="icon">
+            <FaEnvelope />
+          </div>
+          <h5>Stay up to the date with my latest content:</h5>
+          <EmailSignup />
         </div>
       </ContentGrid>
       <div className="copyright">

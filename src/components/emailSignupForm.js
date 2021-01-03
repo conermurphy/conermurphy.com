@@ -30,6 +30,8 @@ const FormGridContainer = styled.form`
   overflow: hidden;
   filter: drop-shadow(var(--shadow));
   max-width: 500px;
+  color: var(--black);
+  margin: auto;
 
   fieldset {
     display: flex;
