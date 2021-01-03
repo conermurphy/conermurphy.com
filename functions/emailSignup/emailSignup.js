@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+require('isomorphic-fetch');
 
 exports.handler = async (event) => {
   const body = JSON.parse(event.body);
