@@ -26,4 +26,7 @@ export function onClientEntry() {
   if (analyticsAllowed === 'false' || analyticsAllowed === 'promptUser') {
     gaOptout();
   }
+  if (analyticsAllowed === 'true') {
+    window.disableStr = '';
+  }
 }
