@@ -104,6 +104,16 @@ export default function HomePage({ data, path }) {
       </NotesContentSection>
       <ContentSection>
         <div className="headerTitleSeperator">
+          <h3>Testimonials</h3>
+        </div>
+        <div className="content testimonial">
+          {testimonialData.map((testimonial, index) =>
+            index <= 3 ? <TestimonialCard key={`HomePage-Testimony-${index}-${testimonial.company}`} testimonial={testimonial} /> : ''
+          )}
+        </div>
+      </ContentSection>
+      <ContentSection>
+        <div className="headerTitleSeperator">
           <h3>Portfolio</h3>
           <Link to="/portfolio">View All</Link>
         </div>
@@ -111,16 +121,6 @@ export default function HomePage({ data, path }) {
           {portfolio.edges.map(({ node: post }) => (
             <PortfolioPostCard key={`portfolioPostCard-${post.id}`} post={post} />
           ))}
-        </div>
-      </ContentSection>
-      <ContentSection>
-        <div className="headerTitleSeperator">
-          <h3>Testimonials</h3>
-        </div>
-        <div className="content testimonial">
-          {testimonialData.map((testimonial, index) =>
-            index <= 3 ? <TestimonialCard key={`HomePage-Testimony-${index}-${testimonial.company}`} testimonial={testimonial} /> : ''
-          )}
         </div>
       </ContentSection>
     </>
