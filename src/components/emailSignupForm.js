@@ -90,7 +90,7 @@ const MessageContainer = styled.div`
   animation-fill-mode: forwards;
 
   animation-delay: 2s;
-  -webkit-animation-delay: 2s; /* Safari and Chrome */
+  -webkit-animation-delay: 2s;
   -webkit-animation-fill-mode: forwards;
 
   @keyframes signup-response {
