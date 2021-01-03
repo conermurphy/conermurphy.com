@@ -46,11 +46,11 @@ const ContentGrid = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
+      fill: var(--white);
 
       & > svg {
         margin: 0;
         font-size: 2.5rem;
-        fill: var(--white);
       }
     }
   }
