@@ -5,6 +5,7 @@ import { Link } from 'gatsby';
 import { EmailSignup } from './emailSignupForm';
 import Logo from './Logo';
 import ContactIcons from './ContactIcons';
+import Twitter from './Twitter';
 
 const FooterBody = styled.footer`
   display: flex;
@@ -68,7 +69,7 @@ export default function Footer() {
       <ContentGrid>
         <div>
           <div className="icon">
-            <Logo height="3rem" />
+            <Logo height="3rem" link />
           </div>
           <h5>Coner Murphy</h5>
           <ContactIcons />
@@ -107,6 +108,7 @@ export default function Footer() {
             Tweets:
             <span>@MrConerMurphy</span>
           </h5>
+          <Twitter />
         </div>
         <div>
           <div className="icon">
