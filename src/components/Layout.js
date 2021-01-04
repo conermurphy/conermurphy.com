@@ -19,7 +19,6 @@ const SiteContainer = styled.div`
 const ContentContainer = styled.div`
   width: 1200px;
   flex-grow: 1;
-  opacity: ${(props) => (props.opacityRequired ? 0.5 : 1)};
 `;
 
 export default function Layout({ children, path }) {
@@ -37,7 +36,7 @@ export default function Layout({ children, path }) {
       <Typography />
       <GlobalStyles />
       {cookieCheckRequired && <CookieBanner />}
-      <ContentContainer opacityRequired={cookieCheckRequired}>
+      <ContentContainer>
         <Nav path={path} />
         {children}
       </ContentContainer>

@@ -5,39 +5,33 @@ import getFutureDate from '../utils/getFutureDate';
 
 const CookieBannerContainer = styled.div`
   position: fixed;
-  background-color: var(--white);
-  top: 100px;
-  max-width: 600px;
-  border-radius: var(--borderRadius);
+  background-color: var(--grey);
+  bottom: 20px;
+  right: 20px;
+  max-width: 400px;
+  border-radius: 2rem;
   filter: drop-shadow(var(--shadow));
   z-index: 999;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-top: 0.5rem solid var(--green);
-  overflow: hidden;
+  text-align: center;
+  overflow: auto;
 
   & > h2 {
     font-size: 2.3rem;
-    margin: 2rem;
+    padding: 2rem;
     font-weight: bold;
   }
 
   .textInformation {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-height: 400px;
-    padding: 1rem;
-    margin: 2rem;
+    padding: 0 1rem;
+    background-color: var(--white);
     margin-top: 0;
-    -moz-box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.12);
-    -webkit-box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.12);
-    box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.12);
 
-    scrollbar-width: thin;
-    ::-webkit-scrollbar {
-      width: var(--scrollBarWidth);
+    a {
+      font-weight: bold;
     }
   }
 
@@ -45,7 +39,8 @@ const CookieBannerContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--grey);
+
+    background-color: var(--white);
     padding: 2rem 0;
     width: 100%;
 
@@ -60,7 +55,7 @@ const CookieBannerContainer = styled.div`
 
     button.accept {
       background-color: var(--green);
-      color: var(--grey);
+      color: var(--white);
     }
 
     button.decline {
@@ -92,30 +87,12 @@ function onDecline() {
 export default function CookieBanner() {
   return (
     <CookieBannerContainer>
-      <h2>Cookies:</h2>
+      <h2>🍪 Cookies</h2>
       <div className="textInformation">
         <p>
-          I know, I know. It's another annoying cookie pop-up banner. Not wanting to get into the topic of whether these are right or wrong
-          and how they impact the user experience for the end-user, I'll keep this quick and to the point.
+          This website uses cookies for analytical purposes if you're interested in reading more about the data we use and why you, please
+          see our <Link to="/privacy-policy">Privacy Policy here.</Link>
         </p>
-        <p>
-          In order to comply with EU law and GDPR regulations <a href="https://gdpr.eu/what-is-gdpr/">(read more here)</a>, all websites
-          must ask for the end-users permissions before adding any non-essential cookies to the end-users machines, my website is no
-          different so this is me asking you for your permission, below is a quick summary of the cookies I use.
-        </p>
-        <p>
-          If you're interested in reading more, you can read my <Link to="/privacy-policy">Privacy Policy here.</Link>
-        </p>
-        <h3>Cookies:</h3>
-        <div>
-          <p>
-            <strong>Google Analytics:</strong>
-          </p>
-          <p>
-            I use Google Analytics for tracking users activities on my website to see how different pages, blog posts and notes are
-            performing. From this information I can improve future posts and notes to perform better.
-          </p>
-        </div>
       </div>
       <div className="buttonsContainer">
         <button onClick={onAccept} className="accept" type="button">
