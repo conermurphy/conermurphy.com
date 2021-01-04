@@ -13,6 +13,14 @@ const FooterBody = styled.footer`
   width: 100%;
   background-color: var(--black);
   color: var(--white);
+
+  .copyright {
+    .credits,
+    a {
+      font-size: 1.2rem;
+      color: var(--white);
+    }
+  }
 `;
 
 const ContentGrid = styled.div`
@@ -119,6 +127,12 @@ export default function Footer() {
         </div>
       </ContentGrid>
       <div className="copyright">
+        <p className="center credits">
+          Icons Used : <a href="	https://fontawesome.com/">Font Awesome</a>,{' '}
+          <a href="http://google.github.io/material-design-icons/">Material Design</a>,{' '}
+          <a href="https://github.com/grommet/grommet-icons">Grommet-Icons</a> & <a href="https://ionicons.com/">Ionicons</a> from{' '}
+          <a href="https://react-icons.github.io/react-icons">React Icons</a>
+        </p>
         <p className="center">&copy; Coner Murphy {new Date().getFullYear()}</p>
       </div>
     </FooterBody>
