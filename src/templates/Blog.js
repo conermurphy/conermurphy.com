@@ -12,6 +12,7 @@ import Logo from '../assets/logo/CM-Logo.svg';
 import Components from '../components/mdx/Components';
 import Tags from '../components/Tags';
 import ClosingComponents from '../components/mdx/ClosingComponents';
+import useNavTheme from '../utils/useNavTheme';
 
 const BlogPostContainer = styled.article`
   display: flex;
@@ -54,6 +55,10 @@ const BlogPost = ({ data, pageContext, path }) => {
 
   // Setting image path for SEO if no image use the logo.
   const imagePath = image ? image.childImageSharp.fluid.src : Logo;
+
+  // Updating the nav to show dark theme.
+  useNavTheme('dark');
+
   return (
     <>
       <SEO

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
+import { FaLink } from 'react-icons/fa';
 
 const H1 = styled.h1`
   font-size: 2.75rem;
@@ -56,17 +57,31 @@ const Pre = styled.pre`
   white-space: break-spaces;
 `;
 
-/* eslint-disable */
 const Components = {
-    h1: (props) => <H1 {...props} />,
-    h2: (props) => <H2 {...props} />,
-    h3: (props) => <H3 {...props} />,
-    h4: (props) => <H4 {...props} />,
-    pre: (props) => <Pre {...props} />,
-    a: (props) => <ALinks  {...props} />,
-    hr: (props) => <HR {...props}/>,
-    code: (props) => <Code {...props} />,
+  h1: (props) => (
+    <H1 id={props.children.replace(' ', '-').toLowerCase()}>
+      <a href={`#${props.children.replace(' ', '-').toLowerCase()}`}>{props.children}</a>
+    </H1>
+  ),
+  h2: (props) => (
+    <H2 id={props.children.replace(' ', '-').toLowerCase()}>
+      <a href={`#${props.children.replace(' ', '-').toLowerCase()}`}>{props.children}</a>
+    </H2>
+  ),
+  h3: (props) => (
+    <H3 id={props.children.replace(' ', '-').toLowerCase()}>
+      <a href={`#${props.children.replace(' ', '-').toLowerCase()}`}>{props.children}</a>
+    </H3>
+  ),
+  h4: (props) => (
+    <H4 id={props.children.replace(' ', '-').toLowerCase()}>
+      <a href={`#${props.children.replace(' ', '-').toLowerCase()}`}>{props.children}</a>
+    </H4>
+  ),
+  pre: (props) => <Pre {...props} />,
+  a: (props) => <ALinks {...props} />,
+  hr: (props) => <HR {...props} />,
+  code: (props) => <Code {...props} />,
 };
-/* eslint-enable */
 
 export default Components;

@@ -10,6 +10,7 @@ import SEO from '../components/SEO';
 import Tags from '../components/Tags';
 import Logo from '../assets/logo/CM-Logo.svg';
 import matchingLanguageIcon, { findMatchingLanguage } from '../utils/findMatchingLanguageIcon';
+import useNavTheme from '../utils/useNavTheme';
 
 const NoteContainer = styled.article`
   display: flex;
@@ -67,6 +68,9 @@ export default function NotesPost({ data, pageContext, path }) {
 
   // Setting image path for SEO if no image use the logo.
   const imagePath = image ? image.childImageSharp.fluid.src : Logo;
+
+  // Updating the nav to show dark theme.
+  useNavTheme('dark');
 
   return (
     <>
