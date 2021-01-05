@@ -13,23 +13,7 @@ import Components from '../components/mdx/Components';
 import Tags from '../components/Tags';
 import ClosingComponents from '../components/mdx/ClosingComponents';
 import useNavTheme from '../utils/useNavTheme';
-
-const BlogPostContainer = styled.article`
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  padding-bottom: 0;
-  max-width: 700px;
-
-  & > .heroImage {
-    border-radius: var(--borderRadius);
-    max-width: 1200px;
-    position: relative;
-    margin: 1rem 0;
-    margin-bottom: 2rem;
-    filter: drop-shadow(var(--shadow));
-  }
-`;
+import { PostBodyContainer, PostContainer } from '../styles/BlogNoteStyles';
 
 const BlogHeader = styled.div`
   display: flex;
@@ -71,7 +55,7 @@ const BlogPost = ({ data, pageContext, path }) => {
           date: plainDate,
         }}
       />
-      <BlogPostContainer>
+      <PostContainer>
         <Img className="heroImage" fluid={image.childImageSharp.fluid} />
         <BlogHeader>
           <h1 className="postTitle">{title}</h1>
@@ -82,7 +66,7 @@ const BlogPost = ({ data, pageContext, path }) => {
             <Tags tags={tags} />
           </div>
         </BlogHeader>
-        <div>
+        <PostBodyContainer>
           <MDXProvider components={Components}>
             <MDXRenderer>{body}</MDXRenderer>
           </MDXProvider>
@@ -93,8 +77,8 @@ const BlogPost = ({ data, pageContext, path }) => {
             }}
             pageContext={pageContext}
           />
-        </div>
-      </BlogPostContainer>
+        </PostBodyContainer>
+      </PostContainer>
     </>
   );
 };

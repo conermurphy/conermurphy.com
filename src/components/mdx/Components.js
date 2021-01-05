@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import React from 'react';
-import { FaLink } from 'react-icons/fa';
 
 const H1 = styled.h1`
   font-size: 2.75rem;

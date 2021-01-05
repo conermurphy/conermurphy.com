@@ -11,14 +11,7 @@ import Tags from '../components/Tags';
 import Logo from '../assets/logo/CM-Logo.svg';
 import matchingLanguageIcon, { findMatchingLanguage } from '../utils/findMatchingLanguageIcon';
 import useNavTheme from '../utils/useNavTheme';
-
-const NoteContainer = styled.article`
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  padding-bottom: 0;
-  max-width: 700px;
-`;
+import { PostBodyContainer, PostContainer } from '../styles/BlogNoteStyles';
 
 const NoteHeader = styled.div`
   display: grid;
@@ -84,7 +77,7 @@ export default function NotesPost({ data, pageContext, path }) {
           date: plainDate,
         }}
       />
-      <NoteContainer>
+      <PostContainer>
         <NoteHeader>
           <NoteDate date={date} />
           <div>
@@ -100,7 +93,7 @@ export default function NotesPost({ data, pageContext, path }) {
             <Tags tags={tags} />
           </div>
         </NoteHeader>
-        <div>
+        <PostBodyContainer>
           <MDXProvider components={Components}>
             <MDXRenderer>{body}</MDXRenderer>
           </MDXProvider>
@@ -112,8 +105,8 @@ export default function NotesPost({ data, pageContext, path }) {
             }}
             pageContext={pageContext}
           />
-        </div>
-      </NoteContainer>
+        </PostBodyContainer>
+      </PostContainer>
     </>
   );
 }
