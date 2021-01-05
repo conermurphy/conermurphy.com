@@ -9,6 +9,17 @@ const NavigationContainer = styled.div`
   justify-content: space-between;
   padding: 2rem 0;
 
+  @media (max-width: 850px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    & > a {
+      padding: 2rem;
+    }
+  }
+
   & > a {
     div {
       display: flex;
@@ -16,6 +27,11 @@ const NavigationContainer = styled.div`
       align-items: flex-end;
       justify-content: center;
       text-align: right;
+
+      @media (max-width: 850px) {
+        text-align: center;
+        align-items: center;
+      }
 
       & > p {
         margin: 0.5rem;
@@ -25,6 +41,11 @@ const NavigationContainer = styled.div`
     .previous {
       align-items: flex-start;
       text-align: left;
+
+      @media (max-width: 850px) {
+        text-align: center;
+        align-items: center;
+      }
     }
 
     .link {

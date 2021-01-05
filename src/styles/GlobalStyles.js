@@ -40,7 +40,13 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .grvsc-container {
-    border-radius: 0 !important; // To override the styling coming from the padding-left: NaNem;
+    border-radius: 0 !important; // To override the styling coming from the padding-left
+
+    @media (max-width: 400px) {
+      padding: 0 !important;
+      overflow-wrap: anywhere !important;
+    }
+    
   }
 
 `;

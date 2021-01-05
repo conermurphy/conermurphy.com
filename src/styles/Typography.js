@@ -45,6 +45,7 @@ const Typography = createGlobalStyle`
     font-family: Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: normal;
     margin: 0;
+    word-break: break-word;
   }
 
   a {
@@ -90,11 +91,20 @@ const Typography = createGlobalStyle`
       bottom: 0;
     }
 
+    @media (max-width: 400px) {
+      justify-content: center;
+
+      ::before, ::after {
+          display: none;
+        }
+    }
+
     & > h1, h2, h3, h4, h5, h6 {
       font-size: 2.5rem;
       text-transform: uppercase;
       font-family: var(--body-font);
       position: relative;
+
 
       ::before {
         border-bottom: 2px solid var(--green);

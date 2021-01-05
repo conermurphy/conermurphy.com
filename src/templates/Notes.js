@@ -21,6 +21,17 @@ const NoteHeader = styled.div`
   padding-bottom: 2rem;
   border-bottom: 2px solid var(--grey);
 
+  @media (max-width: 400px) {
+    grid-template-columns: 100%;
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+
+    & > div {
+      margin-top: 2rem;
+    }
+  }
+
   .langIDContainer {
     display: flex;
     flex-direction: row;

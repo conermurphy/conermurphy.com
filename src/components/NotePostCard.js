@@ -6,12 +6,23 @@ import NoteDate from './NoteDate';
 
 const NoteContainer = styled.div`
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 200px 700px;
   align-items: center;
   justify-content: center;
   gap: 2rem;
   padding: 2.5rem;
   border-bottom: 2px solid var(--grey);
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 200px 500px;
+  }
+
+  @media (max-width: 400px) {
+    grid-template-columns: 90%;
+    grid-template-rows: auto 1fr;
+    align-items: center;
+    justify-content: center;
+  }
 
   .postInfoContainer {
     display: grid;
@@ -45,6 +56,11 @@ const NoteContainer = styled.div`
     flex-direction: column;
     justify-content: space-evenly;
     height: 100%;
+
+    @media (max-width: 400px) {
+      text-align: center;
+      align-items: center;
+    }
 
     & > .noteTitle {
       font-size: 2.5rem;

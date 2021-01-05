@@ -8,8 +8,10 @@ const PostBodyContainer = styled.div`
   h5,
   h6 {
     position: relative;
+
     & > a {
       text-decoration: none;
+      width: 100%;
 
       :hover {
         text-decoration: underline;
@@ -20,6 +22,10 @@ const PostBodyContainer = styled.div`
           position: absolute;
           font-size: 1.5rem;
           bottom: 12.5px;
+
+          @media (max-width: 400px) {
+            display: none;
+          }
         }
       }
     }
@@ -32,6 +38,10 @@ const PostContainer = styled.article`
   margin: auto;
   padding-bottom: 0;
   max-width: 700px;
+
+  @media (max-width: 400px) {
+    margin: 2.5rem;
+  }
 
   & > .heroImage {
     border-radius: var(--borderRadius);

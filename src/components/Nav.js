@@ -19,6 +19,13 @@ const StyledNav = styled.nav`
     text-align: center;
     list-style: none;
     align-items: center;
+
+    @media (max-width: 400px) {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+    }
   }
   a {
     display: block;
@@ -42,6 +49,11 @@ const NavContainer = styled.div`
   flex-direction: row;
   justify-content: space-evenly;
   margin-bottom: 2.5rem;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: center;
+  }
 
   // Setting the colour of the logo and nav items based on the context theme
   * {

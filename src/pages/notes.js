@@ -10,6 +10,7 @@ import TagFilter from '../components/TagFilter';
 const AllNotesContainer = styled.div`
   display: flex;
   flex-direction: column;
+ 
 
   & > a :last-child {
     > div:last-child {

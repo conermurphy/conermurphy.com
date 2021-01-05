@@ -9,14 +9,19 @@ const FormContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 600px;
-  padding: 5rem;
+  max-width: 600px;
+  padding: 2.5rem 5rem;
   background-color: var(--white);
   text-align: center;
   margin: auto;
   margin-bottom: ${(props) => (props.marginRequired ? '50px' : '')};
   margin-top: ${(props) => (props.marginRequired ? '-100px' : '')};
   filter: drop-shadow(var(--shadow));
+
+  @media (max-width: 400px) {
+    width: min-content;
+    max-width: 225px;
+  }
 `;
 
 const FormGridContainer = styled.form`
@@ -24,14 +29,15 @@ const FormGridContainer = styled.form`
   --padding: 0 1rem;
 
   position: relative;
-  height: var(--height);
-  background-color: var(--white);
-  border-radius: 5px;
-  overflow: hidden;
+  height: auto;
   filter: drop-shadow(var(--shadow));
   max-width: 500px;
   color: var(--black);
   margin: auto;
+
+  @media (max-width: 400px) {
+    margin: 0;
+  }
 
   fieldset {
     display: flex;
@@ -39,7 +45,6 @@ const FormGridContainer = styled.form`
     border: none;
     padding: 0;
     margin: 0;
-    width: 100%;
   }
 
   .chilliIsCool {
@@ -48,10 +53,11 @@ const FormGridContainer = styled.form`
 
   .signupButton {
     background-color: var(--green);
-    border-color: none;
     color: var(--white);
     width: max-content;
     padding: var(--padding);
+    margin: 2rem;
+    margin-bottom: 1rem;
     height: var(--height);
     font-size: 1.75rem;
     border: none;
@@ -71,6 +77,10 @@ const FormGridContainer = styled.form`
     flex-grow: 1;
     border: none;
     height: var(--height);
+
+    @media (max-width: 400px) {
+      max-width: 200px;
+    }
   }
 `;
 
@@ -175,10 +185,10 @@ export const EmailSignup = () => {
             onChange={updateValue}
             className="chilliIsCool"
           />
-          <button className="signupButton" type="submit" disabled={loading}>
-            {loading ? 'Subscribing...' : ' Subscribe'}
-          </button>
         </fieldset>
+        <button className="signupButton" type="submit" disabled={loading}>
+          {loading ? 'Subscribing...' : ' Subscribe'}
+        </button>
       </FormGridContainer>
       {message ? <OutcomeMessageContainer error={error} message={message} /> : ''}
     </>

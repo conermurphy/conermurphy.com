@@ -25,7 +25,7 @@ const FooterBody = styled.footer`
 
 const ContentGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, max-content));
+  grid-template-columns: repeat(auto-fit, minmax(350px, max-content));
   align-items: flex-start;
   justify-content: center;
   text-align: center;

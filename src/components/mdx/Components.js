@@ -21,7 +21,6 @@ const H3 = styled.h3`
   font-weight: bold;
   border-bottom: 2px solid var(--green);
   padding: 1rem 0;
-  width: max-content;
 `;
 
 const H4 = styled.h4`
@@ -29,7 +28,7 @@ const H4 = styled.h4`
   text-transform: uppercase;
   font-family: var(--body-font);
   border-bottom: 2px solid var(--green);
-  width: max-content;
+
   padding: 1rem 0;
 `;
 
