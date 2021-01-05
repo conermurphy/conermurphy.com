@@ -56,25 +56,37 @@ const Pre = styled.pre`
   white-space: break-spaces;
 `;
 
+function copyToClip() {
+  navigator.clipboard.writeText(window.location);
+}
+
 const Components = {
   h1: (props) => (
     <H1 id={props.children.replace(' ', '-').toLowerCase()}>
-      <a href={`#${props.children.replace(' ', '-').toLowerCase()}`}>{props.children}</a>
+      <a href={`#${props.children.replace(' ', '-').toLowerCase()}`} onClick={() => copyToClip()}>
+        {props.children}
+      </a>
     </H1>
   ),
   h2: (props) => (
     <H2 id={props.children.replace(' ', '-').toLowerCase()}>
-      <a href={`#${props.children.replace(' ', '-').toLowerCase()}`}>{props.children}</a>
+      <a href={`#${props.children.replace(' ', '-').toLowerCase()}`} onClick={() => copyToClip()}>
+        {props.children}
+      </a>
     </H2>
   ),
   h3: (props) => (
     <H3 id={props.children.replace(' ', '-').toLowerCase()}>
-      <a href={`#${props.children.replace(' ', '-').toLowerCase()}`}>{props.children}</a>
+      <a href={`#${props.children.replace(' ', '-').toLowerCase()}`} onClick={() => copyToClip()}>
+        {props.children}
+      </a>
     </H3>
   ),
   h4: (props) => (
     <H4 id={props.children.replace(' ', '-').toLowerCase()}>
-      <a href={`#${props.children.replace(' ', '-').toLowerCase()}`}>{props.children}</a>
+      <a href={`#${props.children.replace(' ', '-').toLowerCase()}`} onClick={() => copyToClip()}>
+        {props.children}
+      </a>
     </H4>
   ),
   pre: (props) => <Pre {...props} />,
