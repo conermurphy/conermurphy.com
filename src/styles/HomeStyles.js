@@ -54,6 +54,7 @@ const LandingSection = styled.section`
 const InfoBlock = styled.div`
   background-color: var(--white);
   width: 20vw;
+  max-width: 400px;
   height: 35rem;
   filter: drop-shadow(var(--shadow));
   display: flex;
