@@ -53,6 +53,15 @@ const PortfolioPostContainer = styled.div`
         height: 2.5rem;
       }
     }
+
+    @media (max-width: 400px) {
+      grid-template-columns: 100%;
+
+      & > p,
+      svg {
+        margin: 1rem;
+      }
+    }
   }
 `;
 

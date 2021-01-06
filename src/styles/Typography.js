@@ -91,13 +91,14 @@ const Typography = createGlobalStyle`
       bottom: 0;
     }
 
+    @media (max-width: 1200px) {
+      justify-content: space-evenly;
+    }
+    
     @media (max-width: 400px) {
       justify-content: center;
-
-      ::before, ::after {
-          display: none;
-        }
     }
+
 
     & > h1, h2, h3, h4, h5, h6 {
       font-size: 2.5rem;

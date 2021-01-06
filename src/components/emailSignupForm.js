@@ -21,6 +21,8 @@ const FormContainer = styled.div`
   @media (max-width: 400px) {
     width: min-content;
     max-width: 225px;
+    margin-bottom: ${(props) => (props.marginRequired ? '50px' : '')};
+    margin-top: ${(props) => (props.marginRequired ? '-50px' : '')};
   }
 `;
 

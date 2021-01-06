@@ -9,12 +9,16 @@ import TagFilter from '../components/TagFilter';
 
 const AllPostsContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 4rem;
   padding: 1rem 4rem;
 
   * {
     text-decoration: none;
+  }
+
+  @media (max-width: 400px) {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
 `;
 

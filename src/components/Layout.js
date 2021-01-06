@@ -17,8 +17,13 @@ const SiteContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  max-width: 1200px;
+  width: 1200px;
   flex-grow: 1;
+
+  @media (max-width: 1200px) {
+    max-width: 1200px;
+    width: auto;
+  }
 `;
 
 export default function Layout({ children, path }) {

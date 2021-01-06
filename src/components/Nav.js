@@ -93,7 +93,7 @@ export default function Nav({ path }) {
             </Link>
           </li>
           <li>
-            <Link to="/">Say Hi!</Link>
+            <Link to="/#aboutMe">Say Hi!</Link>
           </li>
         </ul>
       </StyledNav>

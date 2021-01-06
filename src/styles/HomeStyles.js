@@ -1,14 +1,24 @@
 import styled from 'styled-components';
 
 const LandingSection = styled.section`
-  width: 1200px;
+  max-width: 1200px;
   display: grid;
   grid-template-columns: 50% 0.75fr;
   gap: 5rem;
   align-items: center;
-  height: 450px;
+  height: auto;
   margin-bottom: 100px;
   justify-content: space-evenly;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 50%;
+    margin-bottom: 150px;
+  }
+
+  @media (max-width: 400px) {
+    grid-template-columns: 100%;
+    height: 1000px;
+  }
 
   h1 {
     color: var(--white);
@@ -26,6 +36,11 @@ const LandingSection = styled.section`
     display: grid;
     grid-template-rows: repeat(2, 0.5fr);
     row-gap: 0.25rem;
+
+    @media (max-width: 400px) {
+      grid-template-rows: 1fr;
+      margin: 0 5rem;
+    }
 
     p {
       font-size: 2rem;
@@ -47,6 +62,16 @@ const InfoBlock = styled.div`
   align-items: flex-end;
   overflow: hidden;
   position: relative;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+    margin: auto;
+  }
+
+  @media (max-width: 400px) {
+    width: 90%;
+    margin: auto;
+  }
 
   .aboutMe {
     padding: 2.5rem;
@@ -81,6 +106,16 @@ const InfoBlock = styled.div`
 
     & > .languagesContainer {
       align-items: flex-start; // Targetting the language container individually to set to flex start to align centrally on page due to svg height being differnt
+
+      & > ul {
+        flex-wrap: wrap;
+        gap: 1rem 0;
+        justify-content: flex-end;
+      }
+
+      & > svg {
+        align-self: center;
+      }
     }
 
     svg {
@@ -120,12 +155,16 @@ const HeroBackground = styled.div`
   left: 0;
   z-index: -1;
   filter: drop-shadow(var(--shadow));
+
+  @media (max-width: 400px) {
+    height: 900px;
+  }
 `;
 
 const ContentSection = styled.section`
   & > .content {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 4rem;
     padding: 5rem;
 
@@ -134,8 +173,14 @@ const ContentSection = styled.section`
     }
   }
 
+  @media (max-width: 400px) {
+    .headerTitleSeperator {
+      justify-content: space-evenly;
+    }
+  }
+
   & > .testimonial {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     align-items: center;
   }
 `;
@@ -154,6 +199,12 @@ const NotesContentSection = styled.section`
 
     * {
       text-decoration: none;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .headerTitleSeperator {
+      justify-content: space-evenly;
     }
   }
 `;

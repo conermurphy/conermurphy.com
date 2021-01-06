@@ -11,6 +11,7 @@ const TagContainer = styled.div`
   flex-wrap: wrap;
   gap: 1rem;
   margin: 2rem;
+  /* max-width: 800px; */
 
   a {
     display: grid;

@@ -48,7 +48,7 @@ export default function HomePage({ data, path }) {
             <p>If this sounds cool to you, then please stick around and consider signing up to my newsletter below! </p>
           </div>
         </div>
-        <InfoBlock>
+        <InfoBlock id="aboutMe">
           <div className="aboutMe">
             <h3>About Me</h3>
           </div>
