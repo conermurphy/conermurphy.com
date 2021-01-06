@@ -9,7 +9,10 @@ export default function Reads() {
 
   return (
     <div>
-      <h1>Reads</h1>
+      <div className="headerTitleSeperator">
+        <h1>Reads</h1>
+      </div>
+      <p>Page coming soon!</p>
     </div>
   );
 }
