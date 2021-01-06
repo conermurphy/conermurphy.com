@@ -65,7 +65,12 @@ const NavContainer = styled.div`
 export default function Nav({ path }) {
   const [theme, setTheme] = useContext(NavThemeContext);
 
-  const currentRootPage = path.split('/')[1]; // Used to determine what root page the user is on. e.g. blog, notes, portfolio...
+  let currentRootPage;
+  if (path === undefined) {
+    currentRootPage = '';
+  } else {
+    currentRootPage = path.split('/')[1]; // Used to determine what root page the user is on. e.g. blog, notes, portfolio...
+  }
 
   return (
     <NavContainer theme={theme}>
