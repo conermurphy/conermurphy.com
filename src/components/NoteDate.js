@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const DateContainer = styled.p`
   display: grid;
@@ -47,3 +48,7 @@ export default function NoteDate({ date }) {
     </DateContainer>
   );
 }
+
+NoteDate.propTypes = {
+  date: PropTypes.string,
+};

@@ -1,6 +1,7 @@
 import { graphql } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import useNavTheme from '../utils/useNavTheme';
 import BlogPostCard from '../components/BlogPostCard';
 import Pagination from '../components/Pagination';
@@ -102,3 +103,18 @@ export const query = graphql`
     }
   }
 `;
+
+Blog.propTypes = {
+  data: PropTypes.shape({
+    blog: PropTypes.shape({
+      totalCount: PropTypes.string,
+      edges: PropTypes.array,
+    }),
+  }),
+  path: PropTypes.string,
+  pageContext: PropTypes.shape({
+    currentPage: PropTypes.number,
+    skip: PropTypes.number,
+    tag: PropTypes.string,
+  }),
+};

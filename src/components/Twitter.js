@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IoIosHeart, IoIosRepeat } from 'react-icons/io';
+import PropTypes from 'prop-types';
 
 const TweetsContainer = styled.div`
   display: flex;
@@ -48,10 +49,10 @@ function useTwitter() {
   return posts;
 }
 
-function Media({ url, alt }) {
-  if (!url) return null;
+function Media({ mediaURL, alt }) {
+  if (!mediaURL) return null;
   //   const parts = mediaURL.split('.');
-  const thumb = `${url}?name=thumb&format=jpg`;
+  const thumb = `${mediaURL}?name=thumb&format=jpg`;
   return <img src={`https://images.weserv.nl/?url=${encodeURIComponent(thumb)}&w=300&h=300&fit=inside"`} alt={alt} width="300" />;
 }
 
@@ -86,3 +87,8 @@ export default function Twitter() {
     </TweetsContainer>
   );
 }
+
+Media.propTypes = {
+  mediaURL: PropTypes.string,
+  alt: PropTypes.string,
+};

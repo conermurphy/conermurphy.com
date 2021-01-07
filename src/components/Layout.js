@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import 'normalize.css';
+import PropTypes from 'prop-types';
 import Typography from '../styles/Typography';
 import GlobalStyles from '../styles/GlobalStyles';
 import Nav from './Nav';
@@ -49,3 +50,8 @@ export default function Layout({ children, path }) {
     </SiteContainer>
   );
 }
+
+Layout.propTypes = {
+  children: PropTypes.object,
+  path: PropTypes.string,
+};

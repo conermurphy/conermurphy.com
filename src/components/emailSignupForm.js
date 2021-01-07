@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaCheck, FaTimes } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 import useEmail from '../utils/useEmail';
 import useForm from '../utils/useForm';
 
@@ -207,3 +208,12 @@ export default function EmailSignupForm({ marginRequired }) {
     </FormContainer>
   );
 }
+
+EmailSignupForm.propTypes = {
+  marginRequired: PropTypes.string,
+};
+
+OutcomeMessageContainer.propTypes = {
+  error: PropTypes.bool,
+  message: PropTypes.string,
+};

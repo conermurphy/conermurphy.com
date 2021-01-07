@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
+import PropTypes from 'prop-types';
 import Logo from './Logo';
 import NavThemeContext from '../context/NavThemeContext';
 
@@ -105,3 +106,7 @@ export default function Nav({ path }) {
     </NavContainer>
   );
 }
+
+Nav.propTypes = {
+  path: PropTypes.string,
+};

@@ -1,6 +1,7 @@
 import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import matchingLanguageIcon, { findMatchingLanguage } from '../utils/findMatchingLanguageIcon';
 import NoteDate from './NoteDate';
 
@@ -109,3 +110,20 @@ export default function NotePostCard({ note }) {
     </Link>
   );
 }
+
+NotePostCard.propTypes = {
+  note: PropTypes.shape({
+    node: PropTypes.shape({
+      frontmatter: PropTypes.shape({
+        date: PropTypes.string,
+        id: PropTypes.string,
+        title: PropTypes.string,
+      }),
+      fields: PropTypes.shape({
+        slug: PropTypes.string,
+        noteCategory: PropTypes.string,
+      }),
+      excerpt: PropTypes.string,
+    }),
+  }),
+};

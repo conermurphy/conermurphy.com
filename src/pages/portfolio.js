@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { graphql } from 'gatsby';
+import PropTypes from 'prop-types';
 import useNavTheme from '../utils/useNavTheme';
 import SEO from '../components/SEO';
 import PortfolioPostCard from '../components/PortfolioPostCard';
@@ -96,3 +97,18 @@ export const query = graphql`
     }
   }
 `;
+
+Portfolio.propTypes = {
+  data: PropTypes.shape({
+    portfolioNodes: PropTypes.shape({
+      totalCount: PropTypes.string,
+      edges: PropTypes.array,
+    }),
+  }),
+  path: PropTypes.string,
+  pageContext: PropTypes.shape({
+    currentPage: PropTypes.number,
+    skip: PropTypes.number,
+    tag: PropTypes.string,
+  }),
+};

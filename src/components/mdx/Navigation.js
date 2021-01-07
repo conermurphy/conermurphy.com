@@ -1,6 +1,7 @@
 import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const NavigationContainer = styled.div`
   display: grid;
@@ -98,3 +99,10 @@ export default function Navigation({ pageContext: { next, prev } }) {
     </NavigationContainer>
   );
 }
+
+Navigation.propTypes = {
+  pageContext: PropTypes.shape({
+    next: PropTypes.object,
+    prev: PropTypes.object,
+  }),
+};

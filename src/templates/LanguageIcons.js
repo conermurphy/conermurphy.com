@@ -30,3 +30,8 @@ export const languageList = Object.keys(languages);
 export default function LanguageIcons({ language, width }) {
   return <IconContainer width={width}>{languages[language.trim()]}</IconContainer>;
 }
+
+LanguageIcons.propTypes = {
+  language: PropTypes.string,
+  width: PropTypes.string,
+};

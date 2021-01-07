@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import countTags from '../utils/countTags';
 
 const TagContainer = styled.div`
@@ -92,3 +93,8 @@ export default function TagFilter({ base, activeTag }) {
     </TagContainer>
   );
 }
+
+TagFilter.propTypes = {
+  base: PropTypes.string,
+  activeTag: PropTypes.string,
+};

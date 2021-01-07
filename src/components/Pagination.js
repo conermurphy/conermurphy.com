@@ -1,6 +1,7 @@
 import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const PaginationContainer = styled.div`
   display: flex;
@@ -65,3 +66,11 @@ export default function Pagination({ pageSize, totalCount, currentPage, skip, ba
     </PaginationContainer>
   );
 }
+
+Pagination.propTypes = {
+  pageSize: PropTypes.number,
+  totalCount: PropTypes.number,
+  currentPage: PropTypes.number,
+  skip: PropTypes.number,
+  base: PropTypes.string,
+};

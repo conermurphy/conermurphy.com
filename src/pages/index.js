@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts } from 'react-icons/md';
 import { graphql, Link } from 'gatsby';
 import { tsParticles } from 'tsparticles';
+import PropTypes from 'prop-types';
 import { ContentSection, HeroBackground, InfoBlock, LandingSection, NotesContentSection } from '../styles/HomeStyles';
 import particlesJson from '../assets/particles';
 import EmailSignupForm from '../components/emailSignupForm';
@@ -189,3 +190,12 @@ export const query = graphql`
     }
   }
 `;
+
+HomePage.propTypes = {
+  data: PropTypes.shape({
+    blog: PropTypes.array,
+    notes: PropTypes.array,
+    portfolio: PropTypes.array,
+  }),
+  path: PropTypes.string,
+};

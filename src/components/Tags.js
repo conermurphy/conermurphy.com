@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import findTagInfo from '../utils/findTagInfo';
 
 const TagContainer = styled.div`
@@ -26,3 +27,7 @@ export default function Tags({ tags }) {
     </TagContainer>
   );
 }
+
+Tags.propTypes = {
+  tags: PropTypes.array,
+};

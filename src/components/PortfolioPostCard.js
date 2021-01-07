@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Img from 'gatsby-image';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 import Tags from './Tags';
 
 const PortfolioPostContainer = styled.div`
@@ -116,3 +117,17 @@ export default function PortfolioPostCard({ post }) {
     </PortfolioPostContainer>
   );
 }
+
+PortfolioPostCard.propTypes = {
+  post: PropTypes.shape({
+    tags: PropTypes.array,
+    repo: PropTypes.string,
+    id: PropTypes.string,
+    description: PropTypes.string,
+    date: PropTypes.string,
+    URL: PropTypes.string,
+    type: PropTypes.string,
+    title: PropTypes.string,
+    image: PropTypes.object,
+  }),
+};

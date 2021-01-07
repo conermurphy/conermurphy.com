@@ -34,8 +34,8 @@ const BlogPost = ({ data, pageContext, path }) => {
   // Destructing out values to use in page.
   const post = data.mdx;
   const { frontmatter, timeToRead, body, fields } = post;
-  const { filePath, contentCategory, slug } = fields;
-  const { image, title, description, date, series, tags, id, plainDate } = frontmatter;
+  const { filePath, contentCategory } = fields;
+  const { image, title, description, date, series, tags, plainDate } = frontmatter;
 
   // Setting image path for SEO if no image use the logo.
   const imagePath = image ? image.childImageSharp.fluid.src : Logo;
@@ -120,6 +120,7 @@ BlogPost.propTypes = {
       timeToRead: PropTypes.number.isRequired,
       fields: PropTypes.shape({
         filePath: PropTypes.string.isRequired,
+        contentCategory: PropTypes.string,
       }),
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
@@ -128,9 +129,11 @@ BlogPost.propTypes = {
         description: PropTypes.string.isRequired,
         tags: PropTypes.array.isRequired,
         image: PropTypes.object,
+        plainDate: PropTypes.string,
       }),
     }),
   }).isRequired,
+  path: PropTypes.string.isRequired,
   pageContext: PropTypes.shape({
     slug: PropTypes.string.isRequired,
     prev: PropTypes.shape({

@@ -8,7 +8,7 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-export default function () {
+export default function Page404() {
   useNavTheme('dark');
   return (
     <Container>

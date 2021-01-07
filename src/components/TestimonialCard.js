@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaQuoteLeft } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 
 const TestimonialContainer = styled.div`
   display: flex;
@@ -81,3 +82,10 @@ export default function TestimonialCard({ testimonial }) {
     </TestimonialContainer>
   );
 }
+
+TestimonialCard.propTypes = {
+  date: PropTypes.string,
+  person: PropTypes.string,
+  company: PropTypes.string,
+  testimonial: PropTypes.string,
+};

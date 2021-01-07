@@ -72,5 +72,9 @@ export default function GithubEdit({ githubLinkInfo }) {
 }
 
 GithubEdit.propTypes = {
-  githubLinkInfo: PropTypes.object.isRequired,
+  githubLinkInfo: PropTypes.shape({
+    noteCategory: PropTypes.string,
+    filePath: PropTypes.string,
+    contentCategory: PropTypes.string,
+  }),
 };

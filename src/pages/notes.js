@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { graphql } from 'gatsby';
+import PropTypes from 'prop-types';
 import useNavTheme from '../utils/useNavTheme';
 import NotePostCard from '../components/NotePostCard';
 import Pagination from '../components/Pagination';
@@ -10,7 +11,6 @@ import TagFilter from '../components/TagFilter';
 const AllNotesContainer = styled.div`
   display: flex;
   flex-direction: column;
- 
 
   & > a :last-child {
     > div:last-child {
@@ -110,3 +110,18 @@ export const query = graphql`
     }
   }
 `;
+
+Notes.propTypes = {
+  data: PropTypes.shape({
+    notes: PropTypes.shape({
+      totalCount: PropTypes.string,
+      edges: PropTypes.array,
+    }),
+  }),
+  path: PropTypes.string,
+  pageContext: PropTypes.shape({
+    currentPage: PropTypes.number,
+    skip: PropTypes.number,
+    tag: PropTypes.string,
+  }),
+};

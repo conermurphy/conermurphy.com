@@ -2,6 +2,7 @@ import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
 import Img from 'gatsby-image';
+import PropTypes from 'prop-types';
 import matchingLanguageIcon from '../utils/findMatchingLanguageIcon';
 import Tags from './Tags';
 
@@ -105,3 +106,20 @@ export default function BlogPostCard({ post }) {
     </Link>
   );
 }
+
+BlogPostCard.propTypes = {
+  post: PropTypes.shape({
+    node: PropTypes.shape({
+      frontmatter: PropTypes.shape({
+        date: PropTypes.string,
+        id: PropTypes.string,
+        image: PropTypes.array,
+        tags: PropTypes.array,
+        title: PropTypes.string,
+      }),
+      fields: PropTypes.shape({
+        slug: PropTypes.string.isRequired,
+      }),
+    }),
+  }),
+};

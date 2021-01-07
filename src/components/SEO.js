@@ -60,15 +60,21 @@ const SEO = ({ post }) => {
 export default SEO;
 
 SEO.propTypes = {
-  title: PropTypes.string,
-  description: PropTypes.string,
-  image: PropTypes.string,
-  article: PropTypes.bool,
+  post: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.string,
+    image: PropTypes.string,
+    article: PropTypes.bool,
+    slug: PropTypes.string,
+    date: PropTypes.string,
+  }),
 };
 
 SEO.defaultProps = {
-  title: null,
-  description: null,
-  image: null,
-  article: false,
+  post: PropTypes.shape({
+    title: null,
+    description: null,
+    image: null,
+    article: false,
+  }),
 };

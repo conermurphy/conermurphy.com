@@ -3,6 +3,7 @@ import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import ClosingComponents from '../components/mdx/ClosingComponents';
 import Components from '../components/mdx/Components';
 import NoteDate from '../components/NoteDate';
@@ -64,7 +65,7 @@ export default function NotesPost({ data, pageContext, path }) {
   // Destructing out values to use in page.
   const { notes } = data;
   const { frontmatter, timeToRead, body, fields } = notes;
-  const { filePath, contentCategory, noteCategory, slug } = fields;
+  const { filePath, contentCategory, noteCategory } = fields;
   const { title, description, date, tags, id, plainDate, image } = frontmatter;
 
   const languageIcon = matchingLanguageIcon(noteCategory, '2rem');
@@ -152,3 +153,50 @@ export const query = graphql`
     }
   }
 `;
+
+NotesPost.propTypes = {
+  data: PropTypes.shape({
+    notes: PropTypes.shape({
+      timeToRead: PropTypes.string,
+      body: PropTypes.string.isRequired,
+      frontmatter: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        date: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        tags: PropTypes.array.isRequired,
+        image: PropTypes.object,
+        plainDate: PropTypes.string,
+      }),
+      fields: PropTypes.shape({
+        filePath: PropTypes.string.isRequired,
+        contentCategory: PropTypes.string,
+        noteCategory: PropTypes.string,
+      }),
+    }),
+  }),
+  path: PropTypes.string.isRequired,
+  pageContext: PropTypes.shape({
+    slug: PropTypes.string.isRequired,
+    prev: PropTypes.shape({
+      fields: PropTypes.shape({
+        slug: PropTypes.string,
+      }),
+      frontmatter: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        date: PropTypes.string.isRequired,
+        series: PropTypes.string,
+      }),
+    }),
+    next: PropTypes.shape({
+      fields: PropTypes.shape({
+        slug: PropTypes.string.isRequired,
+      }),
+      frontmatter: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        date: PropTypes.string.isRequired,
+        series: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
+};
