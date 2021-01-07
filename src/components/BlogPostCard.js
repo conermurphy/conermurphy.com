@@ -112,8 +112,8 @@ BlogPostCard.propTypes = {
     node: PropTypes.shape({
       frontmatter: PropTypes.shape({
         date: PropTypes.string,
-        id: PropTypes.string,
-        image: PropTypes.array,
+        id: PropTypes.number,
+        image: PropTypes.object,
         tags: PropTypes.array,
         title: PropTypes.string,
       }),

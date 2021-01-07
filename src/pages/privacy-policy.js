@@ -141,7 +141,7 @@ export default function PrivacyPolicy() {
       <p>Should you wish to change your preference for the use of cookies on this website, you may do it via one of the above links.</p>
       <p>
         However, if you still have questions or wish to discuss a matter further you can contact me by emailing:{' '}
-        <a href="mailto:coner@conermurphy.com">coner@conermurphy.com</a>
+        <a href="mailto:privacy@conermurphy.com">privacy@conermurphy.com</a>
       </p>
     </PrivacyPolicyContainer>
   );

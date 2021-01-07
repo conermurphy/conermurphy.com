@@ -116,7 +116,7 @@ NotePostCard.propTypes = {
     node: PropTypes.shape({
       frontmatter: PropTypes.shape({
         date: PropTypes.string,
-        id: PropTypes.string,
+        id: PropTypes.number,
         title: PropTypes.string,
       }),
       fields: PropTypes.shape({

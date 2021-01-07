@@ -56,7 +56,7 @@ export default function ContactIcons() {
           </a>
         </li>
         <li>
-          <a href="mailto:coner@conermurphy.com" target="_blank" rel="noopener noreferrer" className="contactIcon">
+          <a href="mailto:hey@conermurphy.com" target="_blank" rel="noopener noreferrer" className="contactIcon">
             <FaEnvelope />
           </a>
         </li>

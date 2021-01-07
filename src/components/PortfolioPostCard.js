@@ -122,7 +122,7 @@ PortfolioPostCard.propTypes = {
   post: PropTypes.shape({
     tags: PropTypes.array,
     repo: PropTypes.string,
-    id: PropTypes.string,
+    id: PropTypes.number,
     description: PropTypes.string,
     date: PropTypes.string,
     URL: PropTypes.string,

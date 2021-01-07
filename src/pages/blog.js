@@ -107,7 +107,7 @@ export const query = graphql`
 Blog.propTypes = {
   data: PropTypes.shape({
     blog: PropTypes.shape({
-      totalCount: PropTypes.string,
+      totalCount: PropTypes.number,
       edges: PropTypes.array,
     }),
   }),
