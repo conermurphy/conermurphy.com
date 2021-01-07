@@ -14,17 +14,17 @@ const Container = styled.div`
   }
 `;
 
-export default function ClosingComponents({ githubLinkInfo, pageContext }) {
+export default function ClosingComponents({ fileAbsolutePath, pageContext }) {
   return (
     <Container>
       <EmailSignupForm />
-      <GithubEdit githubLinkInfo={githubLinkInfo} />
+      <GithubEdit postURL={fileAbsolutePath} />
       <Navigation pageContext={pageContext} />
     </Container>
   );
 }
 
 ClosingComponents.propTypes = {
-  githubLinkInfo: PropTypes.object,
+  fileAbsolutePath: PropTypes.string,
   pageContext: PropTypes.object,
 };

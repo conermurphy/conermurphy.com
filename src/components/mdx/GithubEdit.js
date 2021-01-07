@@ -37,17 +37,10 @@ const Container = styled.aside`
   }
 `;
 
-export default function GithubEdit({ githubLinkInfo }) {
-  const { filePath, contentCategory, noteCategory } = githubLinkInfo;
-  const base = 'https://github.com/conermurphy/conermurphy.com/tree/master/src/content/';
+export default function GithubEdit({ postURL }) {
+  const base = 'https://github.com/conermurphy/conermurphy.com/tree/master/src/';
 
-  let githubLink;
-
-  if (contentCategory === 'notes') {
-    githubLink = `${base}${contentCategory}/${noteCategory}/${filePath}/${filePath}.mdx`;
-  } else {
-    githubLink = `${base}${contentCategory}/${filePath}/${filePath}.mdx`;
-  }
+  const githubLink = `${base}${postURL.split('/src/')[1]}`;
 
   return (
     <a href={githubLink} aria-label="Github" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
@@ -72,9 +65,5 @@ export default function GithubEdit({ githubLinkInfo }) {
 }
 
 GithubEdit.propTypes = {
-  githubLinkInfo: PropTypes.shape({
-    noteCategory: PropTypes.string,
-    filePath: PropTypes.string,
-    contentCategory: PropTypes.string,
-  }),
+  postURL: PropTypes.string,
 };

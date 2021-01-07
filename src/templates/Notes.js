@@ -64,8 +64,8 @@ const NoteHeader = styled.div`
 export default function NotesPost({ data, pageContext, path }) {
   // Destructing out values to use in page.
   const { notes } = data;
-  const { frontmatter, timeToRead, body, fields } = notes;
-  const { filePath, contentCategory, noteCategory } = fields;
+  const { frontmatter, timeToRead, body, fields, fileAbsolutePath } = notes;
+  const { noteCategory } = fields;
   const { title, description, date, tags, id, plainDate, image } = frontmatter;
 
   const languageIcon = matchingLanguageIcon(noteCategory, '2rem');
@@ -109,14 +109,7 @@ export default function NotesPost({ data, pageContext, path }) {
           <MDXProvider components={Components}>
             <MDXRenderer>{body}</MDXRenderer>
           </MDXProvider>
-          <ClosingComponents
-            githubLinkInfo={{
-              filePath,
-              contentCategory,
-              noteCategory,
-            }}
-            pageContext={pageContext}
-          />
+          <ClosingComponents fileAbsolutePath={fileAbsolutePath} pageContext={pageContext} />
         </PostBodyContainer>
       </PostContainer>
     </>
@@ -128,6 +121,7 @@ export const query = graphql`
     notes: mdx(fields: { slug: { eq: $slug } }) {
       body
       timeToRead
+      fileAbsolutePath
       fields {
         filePath
         contentCategory
@@ -159,6 +153,7 @@ NotesPost.propTypes = {
     notes: PropTypes.shape({
       timeToRead: PropTypes.string,
       body: PropTypes.string.isRequired,
+      fileAbsolutePath: PropTypes.string,
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
@@ -169,8 +164,6 @@ NotesPost.propTypes = {
         plainDate: PropTypes.string,
       }),
       fields: PropTypes.shape({
-        filePath: PropTypes.string.isRequired,
-        contentCategory: PropTypes.string,
         noteCategory: PropTypes.string,
       }),
     }),

@@ -33,8 +33,7 @@ const BlogHeader = styled.div`
 const BlogPost = ({ data, pageContext, path }) => {
   // Destructing out values to use in page.
   const post = data.mdx;
-  const { frontmatter, timeToRead, body, fields } = post;
-  const { filePath, contentCategory } = fields;
+  const { frontmatter, timeToRead, body, fileAbsolutePath } = post;
   const { image, title, description, date, series, tags, plainDate } = frontmatter;
 
   // Setting image path for SEO if no image use the logo.
@@ -70,13 +69,7 @@ const BlogPost = ({ data, pageContext, path }) => {
           <MDXProvider components={Components}>
             <MDXRenderer>{body}</MDXRenderer>
           </MDXProvider>
-          <ClosingComponents
-            githubLinkInfo={{
-              filePath,
-              contentCategory,
-            }}
-            pageContext={pageContext}
-          />
+          <ClosingComponents fileAbsolutePath={fileAbsolutePath} pageContext={pageContext} />
         </PostBodyContainer>
       </PostContainer>
     </>
@@ -88,6 +81,7 @@ export const query = graphql`
     mdx(fields: { slug: { eq: $slug } }) {
       body
       timeToRead
+      fileAbsolutePath
       fields {
         filePath
         contentCategory
@@ -118,10 +112,7 @@ BlogPost.propTypes = {
     mdx: PropTypes.shape({
       body: PropTypes.string.isRequired,
       timeToRead: PropTypes.number.isRequired,
-      fields: PropTypes.shape({
-        filePath: PropTypes.string.isRequired,
-        contentCategory: PropTypes.string,
-      }),
+      fileAbsolutePath: PropTypes.string,
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
