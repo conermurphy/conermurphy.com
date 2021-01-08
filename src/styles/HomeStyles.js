@@ -154,8 +154,10 @@ const InfoBlock = styled.div`
 
 const WaveDivider = styled.div`
   height: auto;
+  width: 100%;
   position: absolute;
   top: 100%;
+  z-index: -1;
 
   & > svg > rect {
     fill: var(--white);
