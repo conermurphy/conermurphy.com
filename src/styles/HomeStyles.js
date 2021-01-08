@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 const LandingSection = styled.section`
   max-width: 1200px;
+  position: relative;
+
   display: grid;
   grid-template-columns: 50% 0.75fr;
   gap: 5rem;
@@ -150,19 +152,31 @@ const InfoBlock = styled.div`
   }
 `;
 
+const WaveDivider = styled.div`
+  height: auto;
+  position: absolute;
+  top: 100%;
+
+  & > svg > rect {
+    fill: var(--white);
+  }
+
+  & > svg > path {
+    fill: var(--black);
+  }
+`;
+
 const HeroBackground = styled.div`
   position: absolute;
   width: 100vw;
-  height: 650px;
+  height: 500px;
   top: 0;
-  overflow: hidden;
   left: 0;
   z-index: -1;
   background-color: var(--black);
-  filter: drop-shadow(var(--shadow));
 
   @media (max-width: 400px) {
-    height: 900px;
+    height: 1250px;
   }
 `;
 
@@ -214,4 +228,4 @@ const NotesContentSection = styled.section`
   }
 `;
 
-export { ContentSection, LandingSection, InfoBlock, HeroBackground, NotesContentSection };
+export { ContentSection, LandingSection, InfoBlock, HeroBackground, NotesContentSection, WaveDivider };

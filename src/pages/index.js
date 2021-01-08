@@ -2,7 +2,7 @@ import React from 'react';
 import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts } from 'react-icons/md';
 import { graphql, Link } from 'gatsby';
 import PropTypes from 'prop-types';
-import { ContentSection, HeroBackground, InfoBlock, LandingSection, NotesContentSection } from '../styles/HomeStyles';
+import { ContentSection, HeroBackground, InfoBlock, LandingSection, NotesContentSection, WaveDivider } from '../styles/HomeStyles';
 import EmailSignupForm from '../components/emailSignupForm';
 import useNavTheme from '../utils/useNavTheme';
 import BlogPostCard from '../components/BlogPostCard';
@@ -28,7 +28,15 @@ export default function HomePage({ data, path }) {
           title: 'Home',
         }}
       />
-      <HeroBackground id="homeBackground" />
+      <HeroBackground id="homeBackground">
+        {/* SVG Divider Code from https://stackoverflow.com/questions/17202548/wavy-shape-with-css/56012973#56012973 */}
+        <WaveDivider>
+          <svg viewBox="0 70 500 60" preserveAspectRatio="none">
+            <rect x="0" y="0" width="500" height="500" />
+            <path d="M0,100 C150,200 350,0 500,100 L500,00 L0,0 Z" />
+          </svg>
+        </WaveDivider>
+      </HeroBackground>
       <LandingSection>
         <div className="contactBlock">
           <h1>
