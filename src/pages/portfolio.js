@@ -101,7 +101,7 @@ export const query = graphql`
 Portfolio.propTypes = {
   data: PropTypes.shape({
     portfolioNodes: PropTypes.shape({
-      totalCount: PropTypes.string,
+      totalCount: PropTypes.number,
       edges: PropTypes.array,
     }),
   }),

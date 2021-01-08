@@ -151,14 +151,14 @@ export const query = graphql`
 NotesPost.propTypes = {
   data: PropTypes.shape({
     notes: PropTypes.shape({
-      timeToRead: PropTypes.string,
+      timeToRead: PropTypes.number,
       body: PropTypes.string.isRequired,
       fileAbsolutePath: PropTypes.string,
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
-        id: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
+        description: PropTypes.string,
         tags: PropTypes.array.isRequired,
         image: PropTypes.object,
         plainDate: PropTypes.string,

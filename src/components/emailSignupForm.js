@@ -55,7 +55,7 @@ const FormGridContainer = styled.form`
   }
 
   .signupButton {
-    background-color: var(--grey);
+    background-color: var(--white);
     color: var(--black);
     border: none;
     border-bottom: 2px solid var(--green);
