@@ -212,10 +212,10 @@ export default function EmailSignupForm({ marginRequired }) {
 }
 
 EmailSignupForm.propTypes = {
-  marginRequired: PropTypes.string,
+  marginRequired: PropTypes.bool,
 };
 
 OutcomeMessageContainer.propTypes = {
-  error: PropTypes.bool,
+  error: PropTypes.string,
   message: PropTypes.string,
 };

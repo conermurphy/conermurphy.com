@@ -186,9 +186,9 @@ export const query = graphql`
 
 HomePage.propTypes = {
   data: PropTypes.shape({
-    blog: PropTypes.array,
-    notes: PropTypes.array,
-    portfolio: PropTypes.array,
+    blog: PropTypes.object,
+    notes: PropTypes.object,
+    portfolio: PropTypes.object,
   }),
   path: PropTypes.string,
 };

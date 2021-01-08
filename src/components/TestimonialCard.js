@@ -87,5 +87,5 @@ TestimonialCard.propTypes = {
   date: PropTypes.string,
   person: PropTypes.string,
   company: PropTypes.string,
-  testimonial: PropTypes.string,
+  testimonial: PropTypes.object,
 };
