@@ -38,6 +38,10 @@ const ContentGrid = styled.div`
     justify-items: center;
     gap: 2rem;
 
+    & svg {
+      color: var(--white);
+    }
+
     & > h5 {
       font-size: 1.9rem;
       margin: 2rem 0;

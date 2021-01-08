@@ -103,7 +103,7 @@ export default {
               })),
             query: `
               {
-                allMdx {
+                allMdx(filter: { fields: { contentCategory: { eq: "blog" } } }) {
                   edges {
                     node {
                       frontmatter {
@@ -135,7 +135,7 @@ export default {
     'gatsby-transformer-sharp',
     'gatsby-plugin-styled-components',
     'gatsby-plugin-react-helmet',
-    // 'gatsby-plugin-offline',
+    'gatsby-plugin-offline',
     'gatsby-plugin-sitemap',
   ],
 };
