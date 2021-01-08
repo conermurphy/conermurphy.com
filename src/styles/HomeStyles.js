@@ -81,6 +81,10 @@ const InfoBlock = styled.div`
     text-align: right;
     color: var(--black);
     font-family: var(--header-font);
+
+    & > h2 {
+      font-size: 2rem;
+    }
   }
 
   & > ul {

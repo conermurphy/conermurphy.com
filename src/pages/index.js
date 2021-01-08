@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts } from 'react-icons/md';
 import { graphql, Link } from 'gatsby';
-import { tsParticles } from 'tsparticles';
 import PropTypes from 'prop-types';
 import { ContentSection, HeroBackground, InfoBlock, LandingSection, NotesContentSection } from '../styles/HomeStyles';
-import particlesJson from '../assets/particles';
 import EmailSignupForm from '../components/emailSignupForm';
 import useNavTheme from '../utils/useNavTheme';
 import BlogPostCard from '../components/BlogPostCard';
@@ -22,11 +20,6 @@ export default function HomePage({ data, path }) {
   // Setting the nav theme for this page
   useNavTheme('light');
 
-  // Useeffect to load in the TSparticles background on load.
-  useEffect(() => {
-    tsParticles.load('particlesBackground', particlesJson);
-  }, []);
-
   return (
     <>
       <SEO
@@ -35,7 +28,7 @@ export default function HomePage({ data, path }) {
           title: 'Home',
         }}
       />
-      <HeroBackground id="particlesBackground" />
+      <HeroBackground id="homeBackground" />
       <LandingSection>
         <div className="contactBlock">
           <h1>
@@ -51,7 +44,7 @@ export default function HomePage({ data, path }) {
         </div>
         <InfoBlock id="aboutMe">
           <div className="aboutMe">
-            <h3>About Me</h3>
+            <h2>About Me</h2>
           </div>
           <ul>
             <li>

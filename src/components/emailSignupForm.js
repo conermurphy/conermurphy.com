@@ -55,8 +55,9 @@ const FormGridContainer = styled.form`
   }
 
   .signupButton {
-    background-color: var(--green);
-    color: var(--white);
+    border: 2px solid var(--green);
+    background-color: var(--white);
+    color: var(--black);
     width: max-content;
     padding: var(--padding);
     margin: 2rem;
@@ -64,6 +65,7 @@ const FormGridContainer = styled.form`
     height: var(--height);
     font-size: 1.75rem;
     border: none;
+    cursor: pointer;
   }
 
   label {
@@ -202,7 +204,7 @@ export default function EmailSignupForm({ marginRequired }) {
   return (
     // TODO: Add in extra design here for MDX use in blog posts
     <FormContainer marginRequired={marginRequired}>
-      <h4>Like what you see?</h4>
+      <h3>Like what you see?</h3>
       <p>Please consider signing up to my newsletter using the form below.</p>
       <EmailSignup />
     </FormContainer>

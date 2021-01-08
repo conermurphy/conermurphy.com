@@ -39,10 +39,10 @@ const ContentGrid = styled.div`
     gap: 2rem;
 
     & svg {
-      color: var(--white);
+      fill: var(--white);
     }
 
-    & > h5 {
+    & > h3 {
       font-size: 1.9rem;
       margin: 2rem 0;
 
@@ -83,14 +83,14 @@ export default function Footer() {
           <div className="icon">
             <Logo height="3rem" link />
           </div>
-          <h5>Coner Murphy</h5>
+          <h3>Coner Murphy</h3>
           <ContactIcons />
         </div>
         <div>
           <div className="icon">
             <FaLocationArrow />
           </div>
-          <h5>Navigation</h5>
+          <h3>Navigation</h3>
           <NavigationLinks>
             <li>
               <Link to="/">Home</Link>
@@ -116,17 +116,17 @@ export default function Footer() {
           <div className="icon">
             <FaTwitter />
           </div>
-          <h5>
+          <h3>
             Tweets:
             <span>@MrConerMurphy</span>
-          </h5>
+          </h3>
           <Twitter />
         </div>
         <div>
           <div className="icon">
             <FaEnvelope />
           </div>
-          <h5>Stay up to the date with my latest content:</h5>
+          <h3>Stay up to the date with my latest content:</h3>
           <EmailSignup />
         </div>
       </ContentGrid>

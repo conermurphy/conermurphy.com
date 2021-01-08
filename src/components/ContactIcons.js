@@ -36,27 +36,57 @@ export default function ContactIcons() {
     <>
       <ContactIconsContainer>
         <li>
-          <a href="https://github.com/conermurphy" target="_blank" rel="noopener noreferrer" className="contactIcon">
+          <a
+            href="https://github.com/conermurphy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contactIcon"
+            aria-label="Link to GitHhb Profile"
+          >
             <FaGithub />
           </a>
         </li>
         <li>
-          <a href="https://twitter.com/MrConerMurphy" target="_blank" rel="noopener noreferrer" className="contactIcon">
+          <a
+            href="https://twitter.com/MrConerMurphy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contactIcon"
+            aria-label="Link to Twitter Profile"
+          >
             <FaTwitter />
           </a>
         </li>
         <li>
-          <a href="https://www.linkedin.com/in/coner-murphy/" target="_blank" rel="noopener noreferrer" className="contactIcon">
+          <a
+            href="https://www.linkedin.com/in/coner-murphy/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contactIcon"
+            aria-label="Link to LinkedIn Profile"
+          >
             <FaLinkedin />
           </a>
         </li>
         <li>
-          <a href="https://instagram.com/mrconermurphy/" target="_blank" rel="noopener noreferrer" className="contactIcon">
+          <a
+            href="https://instagram.com/mrconermurphy/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contactIcon"
+            aria-label="Link to Instagram Profile"
+          >
             <FaInstagram />
           </a>
         </li>
         <li>
-          <a href="mailto:hey@conermurphy.com" target="_blank" rel="noopener noreferrer" className="contactIcon">
+          <a
+            href="mailto:hey@conermurphy.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contactIcon"
+            aria-label="Email contact link"
+          >
             <FaEnvelope />
           </a>
         </li>

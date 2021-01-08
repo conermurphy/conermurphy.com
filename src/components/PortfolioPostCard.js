@@ -105,11 +105,11 @@ export default function PortfolioPostCard({ post }) {
       </div>
       <div className="contentFooter">
         <p>{date}</p>
-        <a href={URL}>
+        <a href={URL} aria-label={`Link to ${title}`}>
           <FaExternalLinkAlt />
         </a>
         {repo ? (
-          <a href={repo}>
+          <a href={repo} aria-label={`Link to code repository for ${title}`}>
             <FaGithub />
           </a>
         ) : undefined}

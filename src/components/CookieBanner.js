@@ -54,17 +54,17 @@ const CookieBannerContainer = styled.div`
       border: none;
       padding: 1rem 2rem;
       border-radius: var(--borderRadius);
+      background-color: var(--white);
       font-size: 1.6rem;
       font-weight: bold;
     }
 
     button.accept {
-      background-color: var(--green);
-      color: var(--white);
+      border: 2px solid var(--green);
     }
 
     button.decline {
-      background-color: var(--red);
+      border: 2px solid var(--red);
     }
   }
 `;
