@@ -55,16 +55,16 @@ const FormGridContainer = styled.form`
   }
 
   .signupButton {
-    border: 2px solid var(--green);
-    background-color: var(--white);
+    background-color: var(--grey);
     color: var(--black);
+    border: none;
+    border-bottom: 2px solid var(--green);
     width: max-content;
     padding: var(--padding);
     margin: 2rem;
     margin-bottom: 1rem;
     height: var(--height);
     font-size: 1.75rem;
-    border: none;
     cursor: pointer;
   }
 

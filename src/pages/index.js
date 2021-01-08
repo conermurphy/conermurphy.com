@@ -36,7 +36,7 @@ export default function HomePage({ data, path }) {
           </h1>
           <div>
             <p>
-              I'm a Web Developer and on a journey to be the best developer I can and along the way I want to help others grow by sharing my
+              I'm a Web Developer and on a journey to be the best developer I can and along the way I want to help others by sharing my
               lessons.
             </p>
             <p>If this sounds cool to you, then please stick around and consider signing up to my newsletter below! </p>

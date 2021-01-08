@@ -152,13 +152,13 @@ const InfoBlock = styled.div`
 
 const HeroBackground = styled.div`
   position: absolute;
-  background-color: var(--black);
   width: 100vw;
   height: 650px;
   top: 0;
   overflow: hidden;
   left: 0;
   z-index: -1;
+  background-color: var(--black);
   filter: drop-shadow(var(--shadow));
 
   @media (max-width: 400px) {
