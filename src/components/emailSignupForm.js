@@ -180,8 +180,17 @@ export const EmailSignup = () => {
     <>
       <FormGridContainer onSubmit={submitEmail}>
         <fieldset disabled={loading}>
-          <label htmlFor="email">Email:</label>
-          <input type="email" name="email" id="email" className="emailInput" onChange={updateValue} value={email} />
+          <label htmlFor="email">
+            Email:
+            <input
+              type="email"
+              name="email"
+              id={`email-${Math.random().toString(36).substring(2, 15)}`}
+              className="emailInput"
+              onChange={updateValue}
+              value={email}
+            />
+          </label>
           <input
             type="chilliIsCool"
             name="chilliIsCool"
