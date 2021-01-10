@@ -68,6 +68,17 @@ export default function TagFilter({ base, activeTag }) {
           }
         }
       }
+      reads: allReads {
+        edges {
+          node {
+            items {
+              volumeInfo {
+                categories
+              }
+            }
+          }
+        }
+      }
     }
   `);
 

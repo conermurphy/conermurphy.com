@@ -9,6 +9,8 @@ export function arrayTotaler(type, arr) {
     totalTagArray = arr[type].edges.map(({ node }) => node.frontmatter.tags).flat();
   } else if (type === 'portfolio') {
     totalTagArray = arr[type].edges.map(({ node }) => node.tags).flat();
+  } else if (type === 'reads') {
+    totalTagArray = arr[type].edges.map(({ node }) => node.items[0].volumeInfo.categories).flat();
   }
 
   // create a second array which is a unique version of the array.
@@ -47,6 +49,10 @@ export default function countTags(type, arr) {
   // Run each tag in the total array through the findTagInfo function to see if we have a matching tag, if we do have a matching tag then return it and flatten all into one array.
   const matchedTagArray = totalTagArray
     .map((tag) => {
+      // If the call to the function comes from the reads page then return the tag without checking the tags file.
+      if (type === 'reads') {
+        return tag;
+      }
       const { matchingTag } = findTagInfo(tag);
       return matchingTag;
     })

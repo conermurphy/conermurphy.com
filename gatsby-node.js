@@ -321,6 +321,7 @@ async function turnNotesCategoriesIntoPages({ graphql, actions }) {
 }
 
 async function turnPortfolioTagsIntoPages({ graphql, actions }) {
+  const { createPage } = actions;
   // Get the portfolio page template
   const portfolioTemplate = path.resolve('./src/pages/portfolio.js');
 
@@ -337,7 +338,72 @@ async function turnPortfolioTagsIntoPages({ graphql, actions }) {
     }
   `);
 
+  const { totalCount: portfolioTotalCount } = data.portfolio;
+
+  // Get the current pageSize and PageCount from the env vars.
+  const pageSize = parseInt(process.env.GATSBY_PAGE_SIZE); // Total number of posts on each page
+  const pageCount = Math.ceil(portfolioTotalCount / pageSize); // Total number of pages required.
+
+  // Loop through each page required (1 to x) and create a new blog page for each.
+  Array.from({ length: pageCount }).forEach((_, i) => {
+    createPage({
+      path: `/portfolio/${i === 0 ? '' : i + 1}`,
+      component: portfolioTemplate,
+      // Context is passed to the page so we can skip the required amount of posts on each page.
+      context: {
+        skip: i * pageSize,
+        currentPage: i + 1,
+        pageSize,
+      },
+    });
+  });
+
   createTagPages('portfolio', data, portfolioTemplate, actions);
+}
+
+async function turnReadsCategoriesIntoPages({ graphql, actions }) {
+  const { createPage } = actions;
+  // fetch template for reads page.
+  const readsTemplate = path.resolve('./src/pages/reads.js');
+
+  const { data } = await graphql(`
+    query {
+      reads: allReads {
+        edges {
+          node {
+            items {
+              volumeInfo {
+                categories
+              }
+            }
+          }
+        }
+        totalCount
+      }
+    }
+  `);
+
+  const { totalCount: readsTotalCount } = data.reads;
+
+  // Get the current pageSize and PageCount from the env vars.
+  const pageSize = parseInt(process.env.GATSBY_PAGE_SIZE); // Total number of posts on each page
+  const pageCount = Math.ceil(readsTotalCount / pageSize); // Total number of pages required.
+
+  // Loop through each page required (1 to x) and create a new blog page for each.
+  Array.from({ length: pageCount }).forEach((_, i) => {
+    createPage({
+      path: `/reads/${i === 0 ? '' : i + 1}`,
+      component: readsTemplate,
+      // Context is passed to the page so we can skip the required amount of posts on each page.
+      context: {
+        skip: i * pageSize,
+        currentPage: i + 1,
+        pageSize,
+      },
+    });
+  });
+
+  createTagPages('reads', data, readsTemplate, actions);
 }
 
 // === End of creating blog post tag and notes category pages ===
@@ -375,7 +441,7 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
 
   const apiISBNBase = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
 
-  Promise.all(
+  await Promise.all(
     readsData.map(async (read) => {
       // Destructure out values to query endpoint
       const { isbn } = read;
@@ -401,7 +467,7 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
         parentNodeId: `reads-${data.items[0].id}`,
         getCache,
         createNode,
-        createNodeId: (id) => `readsPhoto-${data.items[0].id}`,
+        createNodeId,
       });
 
       if (imageNode) {
@@ -434,5 +500,7 @@ export async function createPages(params) {
     turnNotesCategoriesIntoPages(params),
     // Turn Portfolio Tags into pages
     turnPortfolioTagsIntoPages(params),
+    // Turn Read Categories into pages.
+    turnReadsCategoriesIntoPages(params),
   ]);
 }
