@@ -61,7 +61,7 @@ function createTagPages(base, arr, template, actions) {
             currentPage: i + 1, // current page
             pageSize, // Set in env vars to define the size of each page
             tag, // Tag currently being used to create that page
-            tagRegex: `/${tag}/i`, // Used to query on the actual pages to show only the requested content for that tag
+            tagRegex: `/(${tag})/i`, // Used to query on the actual pages to show only the requested content for that tag
           },
         });
       });

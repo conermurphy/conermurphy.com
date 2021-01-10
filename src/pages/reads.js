@@ -93,12 +93,12 @@ export default function Reads({ data, pageContext, path }) {
 }
 
 export const query = graphql`
-  query($skip: Int = 0, $pageSize: Int = 6, $tagRegex: String) {
+  query($skip: Int = 0, $pageSize: Int = 6, $tag: String) {
     reads: allReads(
       limit: $pageSize
       skip: $skip
       sort: { fields: [fields___start, fields___finished], order: [DESC, ASC] }
-      filter: { items: { elemMatch: { volumeInfo: { categories: { regex: $tagRegex } } } } }
+      filter: { items: { elemMatch: { volumeInfo: { categories: { eq: $tag } } } } }
     ) {
       edges {
         node {

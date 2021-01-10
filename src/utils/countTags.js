@@ -14,7 +14,7 @@ export function arrayTotaler(type, arr) {
   }
 
   // create a second array which is a unique version of the array.
-  const uniqueArray = totalTagArray.filter((val, i, self) => self.indexOf(val) === i).filter((tag) => tag !== null);
+  const uniqueArray = totalTagArray.filter((tag) => tag !== null).filter((val, i, self) => self.indexOf(val) === i);
 
   return { uniqueArray, totalTagArray };
 }
