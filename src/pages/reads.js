@@ -8,6 +8,14 @@ import TagFilter from '../components/TagFilter';
 import SEO from '../components/SEO';
 import ReadsCard from '../components/ReadsCard';
 
+const PageContainer = styled.div`
+  @media (max-width: 400px) {
+    & > p {
+      text-align: center;
+    }
+  }
+`;
+
 const AllReadsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -39,7 +47,7 @@ export default function Reads({ data, pageContext, path }) {
   }
 
   return (
-    <>
+    <PageContainer>
       <SEO
         post={{
           slug: path,
@@ -80,7 +88,7 @@ export default function Reads({ data, pageContext, path }) {
         skip={skip}
         base={path}
       />
-    </>
+    </PageContainer>
   );
 }
 
@@ -106,8 +114,8 @@ export const query = graphql`
           }
           localFile {
             childImageSharp {
-              fluid {
-                src
+              fluid(maxWidth: 200) {
+                ...GatsbyImageSharpFluid
               }
             }
           }

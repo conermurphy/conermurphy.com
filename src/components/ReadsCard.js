@@ -1,6 +1,85 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import Img from 'gatsby-image';
+import Tags from './Tags';
+
+const ReadsCardContainer = styled.div`
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  gap: 5rem;
+  border-bottom: 2px solid var(--grey);
+  padding: 2rem 0;
+
+  @media (max-width: 400px) {
+    grid-template-columns: 100%;
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+    padding: 3rem;
+
+    & > div {
+      margin-top: 2rem;
+    }
+  }
+
+  & > .gatsby-image-wrapper {
+    width: 130px;
+  }
+
+  .titleAuthor {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+
+    & > h2 {
+      font-size: 2.5rem;
+    }
+
+    & > h3 {
+      font-size: 2rem;
+    }
+
+    @media (max-width: 400px) {
+      justify-content: center;
+    }
+  }
+
+  .description {
+    max-height: 80px;
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.5rem;
+  }
+`;
+
+const Status = styled.p`
+  background-color: ${(props) => (props.status === 'Complete' ? 'var(--green)' : 'var(--red)')};
+  color: var(--white);
+  padding: 0.5rem 1rem;
+`;
+
+const ReadMeta = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+
+  & > * {
+    margin: 0;
+  }
+
+  @media (max-width: 400px) {
+    justify-content: center;
+  }
+`;
 
 export default function ReadsCard({ read }) {
   const { items, localFile, fields } = read;
@@ -10,9 +89,33 @@ export default function ReadsCard({ read }) {
   } = items[0];
   const { status, start, finished, pageCount, rating } = fields;
   return (
-    <div>
-      <h2>{title}</h2>
-    </div>
+    <a href={infoLink} target="_blank" rel="noopener noreferrer">
+      <ReadsCardContainer>
+        <Img fluid={localFile.childImageSharp.fluid} />
+        <div>
+          <div className="titleAuthor">
+            <h2>{title}</h2>
+            <h3>
+              by{' '}
+              {authors.map((author) => (
+                <span>{author}</span>
+              ))}
+            </h3>
+          </div>
+          <p className="description">{description}</p>
+          <ReadMeta>
+            <Status status={status}>{status}</Status>
+            {start.length !== 0 ? <p>Start: {start}</p> : null}
+            {finished.length !== 0 ? <p>Finished: {finished}</p> : null}
+            <Tags tags={categories} />
+            <p title={`${rating} out of 5 stars`}>
+              {'⭐'.repeat(rating)}
+              <span style={{ filter: 'grayscale(100%)' }}>{'⭐'.repeat(5 - rating)}</span>
+            </p>
+          </ReadMeta>
+        </div>
+      </ReadsCardContainer>
+    </a>
   );
 }
 

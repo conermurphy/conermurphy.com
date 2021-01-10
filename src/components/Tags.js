@@ -22,6 +22,9 @@ export default function Tags({ tags }) {
     <TagContainer>
       {tags.map((tag) => {
         const { matchingTag } = findTagInfo(tag);
+        if (matchingTag === undefined) {
+          return <TagStyle key={`PostTag-${tag}`}>{tag}</TagStyle>;
+        }
         return <TagStyle key={`PostTag-${matchingTag}`}>{matchingTag}</TagStyle>;
       })}
     </TagContainer>
