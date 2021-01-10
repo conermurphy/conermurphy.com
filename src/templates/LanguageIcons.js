@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { GrCss3, GrHtml5, GrJs, GrReactjs, GrGatsbyjs, GrGraphQl, GrNode } from 'react-icons/gr';
+import { FaRProject } from 'react-icons/fa';
 
 const IconContainer = styled.div`
   height: ${(props) => (props.width ? props.width : '5rem')};
@@ -23,6 +24,7 @@ export const languages = {
   ReactJS: <GrReactjs style={{ color: '#61dafb' }} data-label="ReactJS" aria-label="ReactJS Icon" />,
   GatsbyJS: <GrGatsbyjs style={{ color: 'rgb(102 51 153' }} data-label="GatsbyJS" aria-label="GatsbyJS Icon" />,
   GraphQL: <GrGraphQl style={{ color: '#E10098' }} data-label="GraphQL" aria-label="GraphQL Icon" />,
+  R: <FaRProject style={{ color: '#1f63b4' }} data-label="R Project" aria-label="R Project Icon" />,
 };
 
 export const languageList = Object.keys(languages);
