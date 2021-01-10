@@ -36,6 +36,7 @@
     "gatsby-remark-vscode": "^3.2.0",
     "gatsby-source-filesystem": "^2.9.0",
     "gatsby-transformer-sharp": "^2.10.0",
+    "isomorphic-fetch": "^3.0.0",
     "netlify-cli": "^2.71.0",
     "netlify-lambda": "^2.0.2",
     "normalize.css": "^8.0.1",

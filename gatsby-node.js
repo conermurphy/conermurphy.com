@@ -1,8 +1,10 @@
 import path from 'path';
-import { createFilePath } from 'gatsby-source-filesystem';
+import { createFilePath, createRemoteFileNode } from 'gatsby-source-filesystem';
+import fetch from 'isomorphic-fetch';
 import { arrayTotaler } from './src/utils/countTags';
 import findTagInfo from './src/utils/findTagInfo';
 import portfolioData from './src/data/portfolio.json';
+import readsData from './src/data/reads.json';
 
 // This is a single combined function used to create the pages for both the blog post tags and the note pages categories
 function createTagPages(base, arr, template, actions) {
@@ -335,9 +337,48 @@ async function fetchPortfolioAndTurnIntoNodes({ actions, createNodeId, createCon
   });
 }
 
+// Fetch books info from Google Books API based on the ISBN's listed in the reads.json file inside data/
+async function fetchBooksAndTurnIntoNodes({ actions, createNodeId, createContentDigest }) {
+  // readsData is imported at the top of the file.
+
+  const apiBase = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
+
+  Promise.all(
+    readsData.map(async (isbn) => {
+      // For each read query the above endpoint.
+      const res = await fetch(`${apiBase}${isbn}`);
+      const data = await res.json();
+
+      try {
+        const node = {
+          id: createNodeId(`reads-${data.items[0].id}`),
+          parent: null,
+          children: [],
+          internal: {
+            type: 'Reads',
+            mediaType: 'application/json',
+            contentDigest: createContentDigest(data),
+          },
+        };
+
+        if (node) {
+          node.localFile___NODE = node.id;
+        }
+
+        actions.createNode({
+          ...data,
+          ...node,
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    })
+  );
+}
+
 export async function sourceNodes(params) {
   // fetch the portfolio data json file locally and turn into GraphQL nodes to allow us to create portfolio tag pages off the tag and query for all the posts on the portfolio page.
-  await Promise.all([fetchPortfolioAndTurnIntoNodes(params)]);
+  await Promise.all([fetchPortfolioAndTurnIntoNodes(params), fetchBooksAndTurnIntoNodes(params)]);
 }
 
 export async function createPages(params) {
