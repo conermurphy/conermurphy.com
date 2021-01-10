@@ -44,8 +44,8 @@
         "title": "HALO: First Strike",
         "author": "Eric Nylund",
         "pageCount": 470,
-        "start": "",
-        "finished": "",
+        "start": "06/12/20",
+        "finished": "11/12/20",
         "rating": 5,
         "status": "Complete"
     },
@@ -54,8 +54,8 @@
         "title": "HALO: Ghosts of Onyx",
         "author": "Eric Nylund",
         "pageCount": 417,
-        "start": "",
-        "finished": "",
+        "start": "12/12/20",
+        "finished": "22/12/20",
         "rating": 4,
         "status": "Complete"
     },
@@ -78,5 +78,205 @@
         "finished": "",
         "rating": 3,
         "status": "Complete"
+    },
+    {
+        "isbn": 9781473680357,
+        "title": "How To",
+        "author": "Randall Munroe",
+        "pageCount": 307,
+        "start": "28/11/20",
+        "finished": "02/12/20",
+        "rating": 5,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781612197739,
+        "title": "It's Time To Fight Dirty",
+        "author": "David Faris",
+        "pageCount": 178,
+        "start": "",
+        "finished": "",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781594746031,
+        "title": "Miss Peregrine's Home for Peculiar Children",
+        "author": "Ransom Riggs",
+        "pageCount": 358,
+        "start": "",
+        "finished": "",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9780544272996,
+        "title": "What If?",
+        "author": "Randall Munroe",
+        "pageCount": 304,
+        "start": "",
+        "finished": "",
+        "rating": 5,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781407132105,
+        "title": "Mockingjay",
+        "author": "Suzanne Collins",
+        "pageCount": 458,
+        "start": "23/10/17",
+        "finished": "25/10/17",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781407132099,
+        "title": "Catching Fire",
+        "author": "Suzanne Collins",
+        "pageCount": 472,
+        "start": "19/10/17",
+        "finished": "23/10/17",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781407132082,
+        "title": "The Hunger Games",
+        "author": "Suzanne Collins",
+        "pageCount": 458,
+        "start": "18/10/17",
+        "finished": "19/10/17",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9780330492270,
+        "title": "The Psychopath Test",
+        "author": "Jon Ronson",
+        "pageCount": 291,
+        "start": "09/08/17",
+        "finished": "14/08/17",
+        "rating": 4,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9780753555200,
+        "title": "Zero to One",
+        "author": "Peter Thiel",
+        "pageCount": 211,
+        "start": "03/08/17",
+        "finished": "08/08/17",
+        "rating": 4,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781847670830,
+        "title": "The Audacity of Hope",
+        "author": "Barack Obama",
+        "pageCount": 375,
+        "start": "10/11/17",
+        "finished": "22/11/17",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781782119258,
+        "title": "Dreams from My Father",
+        "author": "Barack Obama",
+        "pageCount": 442,
+        "start": "25/08/17",
+        "finished": "04/09/17",
+        "rating": 5,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9780571191475,
+        "title": "Lord of the Flies",
+        "author": "William Golding",
+        "pageCount": 225,
+        "start": "24/07/17",
+        "finished": "01/08/17",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9780099419785,
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "pageCount": 309,
+        "start": "14/08/17",
+        "finished": "18/08/17",
+        "rating": 4,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781784876586,
+        "title": "Down and Out in Paris and London",
+        "author": "George Orwell",
+        "pageCount": 216,
+        "start": "20/09/17",
+        "finished": "23/09/17",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9780141036137,
+        "title": "Animal Farm",
+        "author": "George Orwell",
+        "pageCount": 95,
+        "start": "02/10/17",
+        "finished": "04/10/17",
+        "rating": 4,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9780141036144,
+        "title": "Nineteen Eighty-four",
+        "author": "George Orwell",
+        "pageCount": 326,
+        "start": "08/07/17",
+        "finished": "19/07/17",
+        "rating": 5,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9780753554791,
+        "title": "Unfree Speech",
+        "author": "Joshua Wong",
+        "pageCount": 268,
+        "start": "",
+        "finished": "",
+        "rating": 4,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781250132932,
+        "title": "Our Revolution",
+        "author": "Bernie Sanders",
+        "pageCount": 452,
+        "start": "05/10/17",
+        "finished": "17/10/17",
+        "rating": 5,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9780141032726,
+        "title": "The Autobiography of Malcolm X",
+        "author": "Malcolm X",
+        "pageCount": 512,
+        "start": "26/10/17",
+        "finished": "09/11/17",
+        "rating": 5,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9780330445122,
+        "title": "Halo: Contact Harvest",
+        "author": "Joseph Staten",
+        "pageCount": 400,
+        "start": "28/12/20",
+        "finished": "",
+        "rating": 0,
+        "status": "In Progress"
     }
 ]
