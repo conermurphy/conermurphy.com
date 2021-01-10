@@ -1,1 +1,44 @@
-[9781847946249, 9780753555163, 9781982111618, 9780765328335, 9781982111656, 9781982111670]
+[
+    {
+        "isbn": 9781847946249,
+        "title": "The Power Of Habit",
+        "start": "05/09/17",
+        "finished": "07/09/17",
+        "rating": 4
+    },
+    {
+        "isbn": 9780753555163,
+        "title": "Essentialism",
+        "start": "",
+        "finished": "",
+        "rating": 5
+    },
+    {
+        "isbn": 9781982111618,
+        "title": "HALO: The Fall of Reach",
+        "start": "",
+        "finished": "",
+        "rating": 5
+    },
+    {
+        "isbn": 9780765328335,
+        "title": "Halo: The Flood",
+        "start": "",
+        "finished": "",
+        "rating": 3
+    },
+    {
+        "isbn": 9781982111656,
+        "title": "HALO: First Strike",
+        "start": "",
+        "finished": "",
+        "rating": 5
+    },
+    {
+        "isbn": 9781982111670,
+        "title": "HALO: Ghosts of Onyx",
+        "start": "",
+        "finished": "",
+        "rating": 4
+    }
+]

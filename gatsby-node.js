@@ -107,6 +107,25 @@ export async function onCreateNode({ node, getNode, actions }) {
       });
     }
   }
+  if (node.internal.type === 'Reads') {
+    // Creating extra fields for each read to implement extra data from source JSON file.
+    const { start, finished, rating } = JSON.parse(node.internal.content);
+    createNodeField({
+      node,
+      name: 'start',
+      value: start,
+    });
+    createNodeField({
+      node,
+      name: 'finished',
+      value: finished,
+    });
+    createNodeField({
+      node,
+      name: 'rating',
+      value: rating,
+    });
+  }
 }
 
 async function turnBlogPostsIntoPages({ graphql, actions }) {
@@ -339,14 +358,15 @@ async function fetchPortfolioAndTurnIntoNodes({ actions, createNodeId, createCon
 
 // Fetch books info from Google Books API based on the ISBN's listed in the reads.json file inside data/
 async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContentDigest, getCache }) {
-  const { createNode } = actions;
+  const { createNode, createNodeField } = actions;
 
   // readsData is imported at the top of the file.
 
   const apiBase = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
 
   Promise.all(
-    readsData.map(async (isbn) => {
+    readsData.map(async (read) => {
+      const { isbn, title, start, finished, rating } = read;
       // For each read query the above endpoint.
       const res = await fetch(`${apiBase}${isbn}`);
       const data = await res.json();
@@ -358,6 +378,7 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
         internal: {
           type: 'Reads',
           mediaType: 'application/json',
+          content: JSON.stringify(read),
           contentDigest: createContentDigest(data),
         },
       };
