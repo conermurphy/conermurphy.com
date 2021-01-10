@@ -6,6 +6,28 @@ import findTagInfo from './src/utils/findTagInfo';
 import portfolioData from './src/data/portfolio.json';
 import readsData from './src/data/reads.json';
 
+// This is the function called to create the main pages for each base.
+function createMainPages(actions, base, component, totalCount) {
+  const { createPage } = actions;
+  // Setting pageSize and pageCount
+  const pageSize = parseInt(process.env.GATSBY_PAGE_SIZE); // Total number of posts on each page
+  const pageCount = Math.ceil(totalCount / pageSize); // Total number of pages required.
+
+  // Loop through each page required (1 to x) and create a new blog page for each.
+  Array.from({ length: pageCount }).forEach((_, i) => {
+    createPage({
+      path: `/${base}/${i === 0 ? '' : i + 1}`,
+      component,
+      // Context is passed to the page so we can skip the required amount of posts on each page.
+      context: {
+        skip: i * pageSize,
+        currentPage: i + 1,
+        pageSize,
+      },
+    });
+  });
+}
+
 // This is a single combined function used to create the pages for both the blog post tags and the note pages categories
 function createTagPages(base, arr, template, actions) {
   // We take in 4 props:
@@ -180,23 +202,10 @@ async function turnBlogPostsIntoPages({ graphql, actions }) {
     });
   });
 
-  // 3. Creating multiple blog pages to paginate the total amount of posts over multiple pages for usability.
-  const pageSize = parseInt(process.env.GATSBY_PAGE_SIZE); // Total number of posts on each page
-  const pageCount = Math.ceil(blogTotalCount / pageSize); // Total number of pages required.
+  const blogTemplate = path.resolve('./src/pages/blog.js');
 
-  // Loop through each page required (1 to x) and create a new blog page for each.
-  Array.from({ length: pageCount }).forEach((_, i) => {
-    createPage({
-      path: `/blog/${i === 0 ? '' : i + 1}`,
-      component: path.resolve('./src/pages/blog.js'),
-      // Context is passed to the page so we can skip the required amount of posts on each page.
-      context: {
-        skip: i * pageSize,
-        currentPage: i + 1,
-        pageSize,
-      },
-    });
-  });
+  // Create the main blog pages containing the posts..
+  createMainPages(actions, 'blog', blogTemplate, blogTotalCount);
 }
 
 async function turnNotesIntoPages({ graphql, actions }) {
@@ -255,23 +264,10 @@ async function turnNotesIntoPages({ graphql, actions }) {
     });
   });
 
-  // 3. Create multiple notes pages to paginate out the notes.
-  const pageSize = parseInt(process.env.GATSBY_PAGE_SIZE); // Total number of posts on each page
-  const pageCount = Math.ceil(notesTotalCount / pageSize); // Total number of pages required.
+  const pageTemplate = path.resolve('./src/pages/notes.js');
 
-  // Loop through each page required (1 to x) and create a new notes page for each.
-  Array.from({ length: pageCount }).forEach((_, i) => {
-    createPage({
-      path: `/notes/${i === 0 ? '' : i + 1}`,
-      component: path.resolve('./src/pages/notes.js'),
-      // Context is passed to the page so we can skip the required amount of posts on each page.
-      context: {
-        skip: i * pageSize,
-        currentPage: i + 1,
-        pageSize,
-      },
-    });
-  });
+  // Create the main notes pages containing the posts..
+  createMainPages(actions, 'notes', pageTemplate, notesTotalCount);
 }
 
 // === Below here is the functions used to create the blog post tag pages and the note post category pages ===
@@ -340,23 +336,8 @@ async function turnPortfolioTagsIntoPages({ graphql, actions }) {
 
   const { totalCount: portfolioTotalCount } = data.portfolio;
 
-  // Get the current pageSize and PageCount from the env vars.
-  const pageSize = parseInt(process.env.GATSBY_PAGE_SIZE); // Total number of posts on each page
-  const pageCount = Math.ceil(portfolioTotalCount / pageSize); // Total number of pages required.
-
-  // Loop through each page required (1 to x) and create a new blog page for each.
-  Array.from({ length: pageCount }).forEach((_, i) => {
-    createPage({
-      path: `/portfolio/${i === 0 ? '' : i + 1}`,
-      component: portfolioTemplate,
-      // Context is passed to the page so we can skip the required amount of posts on each page.
-      context: {
-        skip: i * pageSize,
-        currentPage: i + 1,
-        pageSize,
-      },
-    });
-  });
+  // Create the main notes pages containing the posts..
+  createMainPages(actions, 'portfolio', portfolioTemplate, portfolioTotalCount);
 
   createTagPages('portfolio', data, portfolioTemplate, actions);
 }
@@ -385,23 +366,8 @@ async function turnReadsCategoriesIntoPages({ graphql, actions }) {
 
   const { totalCount: readsTotalCount } = data.reads;
 
-  // Get the current pageSize and PageCount from the env vars.
-  const pageSize = parseInt(process.env.GATSBY_PAGE_SIZE); // Total number of posts on each page
-  const pageCount = Math.ceil(readsTotalCount / pageSize); // Total number of pages required.
-
-  // Loop through each page required (1 to x) and create a new blog page for each.
-  Array.from({ length: pageCount }).forEach((_, i) => {
-    createPage({
-      path: `/reads/${i === 0 ? '' : i + 1}`,
-      component: readsTemplate,
-      // Context is passed to the page so we can skip the required amount of posts on each page.
-      context: {
-        skip: i * pageSize,
-        currentPage: i + 1,
-        pageSize,
-      },
-    });
-  });
+  // Create the main notes pages containing the posts..
+  createMainPages(actions, 'reads', readsTemplate, readsTotalCount);
 
   createTagPages('reads', data, readsTemplate, actions);
 }
