@@ -338,7 +338,9 @@ async function fetchPortfolioAndTurnIntoNodes({ actions, createNodeId, createCon
 }
 
 // Fetch books info from Google Books API based on the ISBN's listed in the reads.json file inside data/
-async function fetchBooksAndTurnIntoNodes({ actions, createNodeId, createContentDigest }) {
+async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContentDigest, getCache }) {
+  const { createNode } = actions;
+
   // readsData is imported at the top of the file.
 
   const apiBase = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
@@ -349,36 +351,40 @@ async function fetchBooksAndTurnIntoNodes({ actions, createNodeId, createContent
       const res = await fetch(`${apiBase}${isbn}`);
       const data = await res.json();
 
-      try {
-        const node = {
-          id: createNodeId(`reads-${data.items[0].id}`),
-          parent: null,
-          children: [],
-          internal: {
-            type: 'Reads',
-            mediaType: 'application/json',
-            contentDigest: createContentDigest(data),
-          },
-        };
+      const node = {
+        id: await createNodeId(`reads-${data.items[0].id}`),
+        parent: null,
+        children: [],
+        internal: {
+          type: 'Reads',
+          mediaType: 'application/json',
+          contentDigest: createContentDigest(data),
+        },
+      };
 
-        if (node) {
-          node.localFile___NODE = node.id;
-        }
+      const imageNode = await createRemoteFileNode({
+        url: data.items[0].volumeInfo.imageLinks.thumbnail,
+        parentNodeId: `reads-${data.items[0].id}`,
+        getCache,
+        createNode,
+        createNodeId: (id) => `readsPhoto-${data.items[0].id}`,
+      });
 
-        actions.createNode({
-          ...data,
-          ...node,
-        });
-      } catch (e) {
-        console.error(e);
+      if (imageNode) {
+        node.localFile___NODE = imageNode.id;
       }
+
+      createNode({
+        ...data,
+        ...node,
+      });
     })
   );
 }
 
 export async function sourceNodes(params) {
   // fetch the portfolio data json file locally and turn into GraphQL nodes to allow us to create portfolio tag pages off the tag and query for all the posts on the portfolio page.
-  await Promise.all([fetchPortfolioAndTurnIntoNodes(params), fetchBooksAndTurnIntoNodes(params)]);
+  await Promise.all([fetchPortfolioAndTurnIntoNodes(params), fetchReadsAndTurnIntoNodes(params)]);
 }
 
 export async function createPages(params) {
