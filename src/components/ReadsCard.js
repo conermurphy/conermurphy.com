@@ -9,7 +9,7 @@ const ReadsCardContainer = styled.div`
   grid-template-columns: 130px 1fr;
   align-items: center;
   justify-content: center;
-  justify-items: center;
+  justify-items: flex-start;
   gap: 5rem;
   border-bottom: 2px solid var(--grey);
   padding: 2rem 0;
@@ -34,7 +34,7 @@ const ReadsCardContainer = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-end;
     gap: 1rem;
 
     & > h2 {
@@ -72,7 +72,7 @@ const ReadMeta = styled.div`
   gap: 2rem;
   align-items: center;
 
-  & > * {
+  & * {
     margin: 0;
   }
 
@@ -88,6 +88,7 @@ export default function ReadsCard({ read }) {
     id,
   } = items[0];
   const { status, start, finished, pageCount, rating } = fields;
+
   return (
     <a href={infoLink} target="_blank" rel="noopener noreferrer">
       <ReadsCardContainer>
@@ -95,19 +96,14 @@ export default function ReadsCard({ read }) {
         <div>
           <div className="titleAuthor">
             <h2>{title}</h2>
-            <h3>
-              by{' '}
-              {authors.map((author) => (
-                <span>{author}</span>
-              ))}
-            </h3>
+            <h3>by {authors.map((author) => author).join(', ')}</h3>
           </div>
           <p className="description">{description}</p>
           <ReadMeta>
             <Status status={status}>{status}</Status>
             {start.length !== 0 ? <p>Start: {start}</p> : null}
             {finished.length !== 0 ? <p>Finished: {finished}</p> : null}
-            <Tags tags={categories} />
+            {categories !== null ? <Tags tags={categories} /> : null}
             <p title={`${rating} out of 5 stars`}>
               {'⭐'.repeat(rating)}
               <span style={{ filter: 'grayscale(100%)' }}>{'⭐'.repeat(5 - rating)}</span>

@@ -97,7 +97,7 @@ export const query = graphql`
     reads: allReads(
       limit: $pageSize
       skip: $skip
-      sort: { fields: fields___finished, order: DESC }
+      sort: { fields: [fields___start, fields___finished], order: [DESC, ASC] }
       filter: { items: { elemMatch: { volumeInfo: { categories: { regex: $tagRegex } } } } }
     ) {
       edges {

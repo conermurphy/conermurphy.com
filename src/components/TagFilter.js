@@ -91,16 +91,21 @@ export default function TagFilter({ base, activeTag }) {
         <span className="tag">All</span>
         <span className="count">{totalTagArray.length}</span>
       </Link>
-      {tagsWithCounts.map(({ tag, count }) => (
-        <Link
-          to={`/${base}/${tag.toLowerCase().replace(' ', '-')}/`}
-          key={`${base}-TagFilter-${tag}-${tag.count}`}
-          className={tag === activeTag ? 'active' : ''}
-        >
-          <span className="tag">{tag}</span>
-          <span className="count">{count}</span>
-        </Link>
-      ))}
+      {tagsWithCounts.map(({ tag, count }) => {
+        if (tag === null) {
+          return;
+        }
+        return (
+          <Link
+            to={`/${base}/${tag.toLowerCase().replace(' ', '-')}/`}
+            key={`${base}-TagFilter-${tag}-${tag.count}`}
+            className={tag === activeTag ? 'active' : ''}
+          >
+            <span className="tag">{tag}</span>
+            <span className="count">{count}</span>
+          </Link>
+        );
+      })}
     </TagContainer>
   );
 }

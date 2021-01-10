@@ -44,26 +44,28 @@ function createTagPages(base, arr, template, actions) {
 
   // Creating a page for every tag
   uniqueArray.forEach((tag) => {
-    const totalNumberOfTag = totalTagArray.filter((t) => t === tag).length; // Find out how many posts there are in total for each tag.
-    const pageCount = Math.ceil(totalNumberOfTag / pageSize); // how many pages are required to show all of that tag's posts
+    if (tag) {
+      const totalNumberOfTag = totalTagArray.filter((t) => t === tag).length; // Find out how many posts there are in total for each tag.
+      const pageCount = Math.ceil(totalNumberOfTag / pageSize); // how many pages are required to show all of that tag's posts
 
-    // Create a base for the url path that is all lower case and changed any spaces to a -.
-    const pathBase = `/${base}/${tag.toLowerCase().replace(' ', '-')}`;
+      // Create a base for the url path that is all lower case and changed any spaces to a -.
+      const pathBase = `/${base}/${tag.toLowerCase().replace(' ', '-')}`;
 
-    // Looping from 1 to x and create a new page for the amount determined above.
-    Array.from({ length: pageCount }).forEach((_, i) => {
-      createPage({
-        path: `${pathBase}/${i === 0 ? '' : i + 1}`,
-        component: template,
-        context: {
-          skip: i * pageSize, // how many posts to skip in the query to ensure each page shows the next content
-          currentPage: i + 1, // current page
-          pageSize, // Set in env vars to define the size of each page
-          tag, // Tag currently being used to create that page
-          tagRegex: `/${tag}/i`, // Used to query on the actual pages to show only the requested content for that tag
-        },
+      // Looping from 1 to x and create a new page for the amount determined above.
+      Array.from({ length: pageCount }).forEach((_, i) => {
+        createPage({
+          path: `${pathBase}/${i === 0 ? '' : i + 1}`,
+          component: template,
+          context: {
+            skip: i * pageSize, // how many posts to skip in the query to ensure each page shows the next content
+            currentPage: i + 1, // current page
+            pageSize, // Set in env vars to define the size of each page
+            tag, // Tag currently being used to create that page
+            tagRegex: `/${tag}/i`, // Used to query on the actual pages to show only the requested content for that tag
+          },
+        });
       });
-    });
+    }
   });
 }
 
@@ -317,7 +319,6 @@ async function turnNotesCategoriesIntoPages({ graphql, actions }) {
 }
 
 async function turnPortfolioTagsIntoPages({ graphql, actions }) {
-  const { createPage } = actions;
   // Get the portfolio page template
   const portfolioTemplate = path.resolve('./src/pages/portfolio.js');
 
@@ -343,7 +344,6 @@ async function turnPortfolioTagsIntoPages({ graphql, actions }) {
 }
 
 async function turnReadsCategoriesIntoPages({ graphql, actions }) {
-  const { createPage } = actions;
   // fetch template for reads page.
   const readsTemplate = path.resolve('./src/pages/reads.js');
 
