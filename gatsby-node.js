@@ -109,12 +109,18 @@ export async function onCreateNode({ node, getNode, actions }) {
   }
   if (node.internal.type === 'Reads') {
     // Creating extra fields for each read to implement extra data from source JSON file.
-    const { start, finished, rating } = JSON.parse(node.internal.content);
+    const { start, finished, rating, pageCount, status } = JSON.parse(node.internal.content);
+    createNodeField({
+      node,
+      name: 'pageCount',
+      value: pageCount,
+    });
     createNodeField({
       node,
       name: 'start',
       value: start,
     });
+
     createNodeField({
       node,
       name: 'finished',
@@ -124,6 +130,11 @@ export async function onCreateNode({ node, getNode, actions }) {
       node,
       name: 'rating',
       value: rating,
+    });
+    createNodeField({
+      node,
+      name: 'status',
+      value: status,
     });
   }
 }
@@ -358,17 +369,19 @@ async function fetchPortfolioAndTurnIntoNodes({ actions, createNodeId, createCon
 
 // Fetch books info from Google Books API based on the ISBN's listed in the reads.json file inside data/
 async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContentDigest, getCache }) {
-  const { createNode, createNodeField } = actions;
+  const { createNode } = actions;
 
   // readsData is imported at the top of the file.
 
-  const apiBase = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
+  const apiISBNBase = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
 
   Promise.all(
     readsData.map(async (read) => {
-      const { isbn, title, start, finished, rating } = read;
+      // Destructure out values to query endpoint
+      const { isbn } = read;
       // For each read query the above endpoint.
-      const res = await fetch(`${apiBase}${isbn}`);
+
+      const res = await fetch(`${apiISBNBase}${isbn}`);
       const data = await res.json();
 
       const node = {

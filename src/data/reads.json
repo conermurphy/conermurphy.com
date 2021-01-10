@@ -2,43 +2,81 @@
     {
         "isbn": 9781847946249,
         "title": "The Power Of Habit",
+        "author": "Charles Duhigg",
+        "pageCount": 371,
         "start": "05/09/17",
         "finished": "07/09/17",
-        "rating": 4
+        "rating": 4,
+        "status": "Complete"
     },
     {
         "isbn": 9780753555163,
         "title": "Essentialism",
+        "author": "Greg Mckeown",
+        "pageCount": 260,
         "start": "",
         "finished": "",
-        "rating": 5
+        "rating": 5,
+        "status": "Complete"
     },
     {
         "isbn": 9781982111618,
         "title": "HALO: The Fall of Reach",
+        "author": "Eric Nylund",
+        "pageCount": 447,
         "start": "",
         "finished": "",
-        "rating": 5
+        "rating": 5,
+        "status": "Complete"
     },
     {
         "isbn": 9780765328335,
         "title": "Halo: The Flood",
+        "author": "William C. Dietz",
+        "pageCount": 386,
         "start": "",
         "finished": "",
-        "rating": 3
+        "rating": 3,
+        "status": "Complete"
     },
     {
         "isbn": 9781982111656,
         "title": "HALO: First Strike",
+        "author": "Eric Nylund",
+        "pageCount": 470,
         "start": "",
         "finished": "",
-        "rating": 5
+        "rating": 5,
+        "status": "Complete"
     },
     {
         "isbn": 9781982111670,
         "title": "HALO: Ghosts of Onyx",
+        "author": "Eric Nylund",
+        "pageCount": 417,
         "start": "",
         "finished": "",
-        "rating": 4
+        "rating": 4,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9780241955185,
+        "title": "Stuff Matters",
+        "author": "Mark Miodownik",
+        "pageCount": 264,
+        "start": "21/08/17",
+        "finished": "24/08/17",
+        "rating": 4,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9780241977316,
+        "title": "Liquid",
+        "author": "Mark Miodownik",
+        "pageCount": 276,
+        "start": "",
+        "finished": "",
+        "rating": 3,
+        "status": "Complete"
     }
 ]
