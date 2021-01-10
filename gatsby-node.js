@@ -352,7 +352,7 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
       const data = await res.json();
 
       const node = {
-        id: await createNodeId(`reads-${data.items[0].id}`),
+        id: createNodeId(`reads-${data.items[0].id}`),
         parent: null,
         children: [],
         internal: {
@@ -374,7 +374,7 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
         node.localFile___NODE = imageNode.id;
       }
 
-      createNode({
+      await createNode({
         ...data,
         ...node,
       });
