@@ -270,6 +270,96 @@
         "status": "Complete"
     },
     {
+        "isbn": 9781471146732,
+        "title": "Shoe Dog",
+        "author": "Phil Knight",
+        "pageCount": 302,
+        "start": "",
+        "finished": "",
+        "rating": 4,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781848941083,
+        "title": "On Writing",
+        "author": "Stephen King",
+        "pageCount": 250,
+        "start": "",
+        "finished": "",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781781100219,
+        "title": "Harry Potter and the Philosopher's Stone",
+        "author": "J.K. Rowling",
+        "pageCount": 353,
+        "start": "",
+        "finished": "",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781781100226,
+        "title": "Harry Potter and the Chamber of Secrets",
+        "author": "J.K. Rowling",
+        "pageCount": 357,
+        "start": "",
+        "finished": "",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781781100233,
+        "title": "Harry Potter and the Prisoner of Azkaban",
+        "author": "J.K. Rowling",
+        "pageCount": 435,
+        "start": "",
+        "finished": "",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781781105672,
+        "title": "Harry Potter and the Goblet of Fire",
+        "author": "J.K. Rowling",
+        "pageCount": 734,
+        "start": "",
+        "finished": "",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781781100240,
+        "title": "Harry Potter and the Order of the Phoenix",
+        "author": "J.K. Rowling",
+        "pageCount": 901,
+        "start": "",
+        "finished": "",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781781100257,
+        "title": "Harry Potter and the Half-Blood Prince",
+        "author": "J.K. Rowling",
+        "pageCount": 672,
+        "start": "",
+        "finished": "",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781781100264,
+        "title": "Harry Potter and the Deathly Hallows",
+        "author": "J.K. Rowling",
+        "pageCount": 784,
+        "start": "",
+        "finished": "",
+        "rating": 3,
+        "status": "Complete"
+    },
+    {
         "isbn": 9780330445122,
         "title": "Halo: Contact Harvest",
         "author": "Joseph Staten",
