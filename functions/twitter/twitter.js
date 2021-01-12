@@ -1,4 +1,4 @@
-require('isomorphic-fetch');
+const fetch = require('isomorphic-fetch');
 
 const bearerToken = process.env.TWITTER_BEARER_TOKEN;
 const endPoint = process.env.TWITTER_ENDPOINT;
