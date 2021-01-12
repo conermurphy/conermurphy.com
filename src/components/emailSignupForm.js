@@ -75,6 +75,8 @@ const FormGridContainer = styled.form`
     height: var(--height);
     font-size: 1.75rem;
     background-color: var(--grey);
+    padding-right: 0;
+    gap: 1rem;
   }
 
   .emailInput {
