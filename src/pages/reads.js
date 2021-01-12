@@ -121,8 +121,8 @@ export const query = graphql`
           }
           fields {
             status
-            start
-            finished
+            start(formatString: "DD/MM/YYYY")
+            finished(formatString: "DD/MM/YYYY")
             pageCount
             rating
           }

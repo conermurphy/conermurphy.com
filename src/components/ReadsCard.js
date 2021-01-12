@@ -101,8 +101,8 @@ export default function ReadsCard({ read }) {
           <p className="description">{description}</p>
           <ReadMeta>
             <Status status={status}>{status}</Status>
-            {start.length !== 0 ? <p>Start: {start}</p> : null}
-            {finished.length !== 0 ? <p>Finished: {finished}</p> : null}
+            {start !== 'Invalid date' ? <p>Start: {start}</p> : null}
+            {finished !== 'Invalid date' ? <p>Finished: {finished}</p> : null}
             {categories !== null ? <Tags tags={categories} /> : null}
             <p title={`${rating} out of 5 stars`}>
               {'⭐'.repeat(rating)}
