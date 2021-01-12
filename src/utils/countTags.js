@@ -8,8 +8,6 @@ export function arrayTotaler(type, arr) {
   } else if (type === 'blog') {
     totalTagArray = arr.blog.edges.map(({ node }) => node.frontmatter.tags).flat();
   } else if (type === 'portfolio') {
-    console.log(type);
-    console.log(arr);
     totalTagArray = arr.portfolio.edges.map(({ node }) => node.tags).flat();
   } else if (type === 'reads') {
     totalTagArray = arr.reads.edges.map(({ node }) => node.items[0].volumeInfo.categories).flat();
