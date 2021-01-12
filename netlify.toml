@@ -1,5 +1,5 @@
 [build]
-    functions = "functions/"
+    functions = "functions"
     command = "npm run build"
 [[redirects]]
     from = "/javascript-array-prototype-methods-from-explained/"

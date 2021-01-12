@@ -112,7 +112,7 @@ export default function Footer() {
             </li>
           </NavigationLinks>
         </div>
-        <div>
+        {/* <div>
           <div className="icon">
             <FaTwitter />
           </div>
@@ -121,7 +121,7 @@ export default function Footer() {
             <span>@MrConerMurphy</span>
           </h3>
           <Twitter />
-        </div>
+        </div> */}
         <div>
           <div className="icon">
             <FaEnvelope />
