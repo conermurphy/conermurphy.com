@@ -25,8 +25,6 @@ async function getRequest() {
   // Setting query endpoint for API call.
   const queryEndPoint = `${endPoint}tweet.fields=referenced_tweets,public_metrics,entities&expansions=attachments.media_keys&media.fields=preview_image_url&max_results=${settings.count}`;
 
-  console.log(queryEndPoint);
-
   // Fetching the data from twitter and converting to JSON.
   const { data, includes } = await fetch(queryEndPoint, {
     method: 'GET',
@@ -60,7 +58,6 @@ exports.handler = async () => {
   try {
     // Get tweets and display output to page.
     const tweets = await getRequest();
-    console.log(tweets);
     return {
       statusCode: 200,
       headers: {
