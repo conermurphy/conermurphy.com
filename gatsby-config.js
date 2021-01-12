@@ -97,13 +97,13 @@ export default {
                 ...edge.node.frontmatter,
                 description: edge.node.description,
                 date: edge.node.frontmatter.date,
-                url: site.siteMetadata.url + edge.node.fields.slug,
-                guid: site.siteMetadata.url + edge.node.fields.slug,
+                url: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
                 custom_elements: [{ 'content:encoded': edge.node.html }],
               })),
             query: `
               {
-                allMdx(filter: { fields: { contentCategory: { eq: "blog" } } }) {
+                allMdx(filter: {fields: {contentCategory: {eq: "blog"}}}, sort: {fields: frontmatter___date, order: DESC}) {
                   edges {
                     node {
                       frontmatter {
