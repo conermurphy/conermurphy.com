@@ -48,8 +48,7 @@
     "react-helmet": "^6.1.0",
     "react-icons": "^4.1.0",
     "styled-components": "^5.2.1",
-    "theme-cobalt2": "^2.1.6",
-    "tsparticles": "^1.18.11"
+    "theme-cobalt2": "^2.1.6"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
