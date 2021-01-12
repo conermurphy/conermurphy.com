@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import EmailSignupForm from '../emailSignupForm';
+import EmailSignupForm from '../EmailSignupForm';
 import GithubEdit from './GithubEdit';
 import Navigation from './Navigation';
 

@@ -3,7 +3,7 @@ import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts } from 'react-icons/m
 import { graphql, Link } from 'gatsby';
 import PropTypes from 'prop-types';
 import { ContentSection, HeroBackground, InfoBlock, LandingSection, NotesContentSection, WaveDivider } from '../styles/HomeStyles';
-import EmailSignupForm from '../components/emailSignupForm';
+import EmailSignupForm from '../components/EmailSignupForm';
 import useNavTheme from '../utils/useNavTheme';
 import BlogPostCard from '../components/BlogPostCard';
 import NotePostCard from '../components/NotePostCard';

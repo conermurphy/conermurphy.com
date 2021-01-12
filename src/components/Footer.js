@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { FaEnvelope, FaTwitter, FaLocationArrow } from 'react-icons/fa';
 import { Link } from 'gatsby';
-import { EmailSignup } from './emailSignupForm';
+import { EmailSignup } from './EmailSignupForm';
 import Logo from './Logo';
 import ContactIcons from './ContactIcons';
 import Twitter from './Twitter';
