@@ -365,6 +365,16 @@
         "author": "Joseph Staten",
         "pageCount": 400,
         "start": "28/12/2020",
+        "finished": "11/01/2020",
+        "rating": 4,
+        "status": "Complete"
+    },
+    {
+        "isbn": 9781472139955,
+        "title": "Mindset",
+        "author": "Dr Carol S. Dweck",
+        "pageCount": 301,
+        "start": "12/01/2020",
         "finished": "",
         "rating": 0,
         "status": "In Progress"
