@@ -4,13 +4,13 @@ export function arrayTotaler(type, arr) {
   // Depending on the type of content passed in (blog or notes) then get the tags from the revelant place in the data and flatten them into one array.
   let totalTagArray;
   if (type === 'notes') {
-    totalTagArray = arr[type].edges.map(({ node }) => node.fields.noteCategory).flat();
+    totalTagArray = arr.notes.edges.map(({ node }) => node.fields.noteCategory).flat();
   } else if (type === 'blog') {
-    totalTagArray = arr[type].edges.map(({ node }) => node.frontmatter.tags).flat();
+    totalTagArray = arr.blog.edges.map(({ node }) => node.frontmatter.tags).flat();
   } else if (type === 'portfolio') {
-    totalTagArray = arr[type].edges.map(({ node }) => node.tags).flat();
+    totalTagArray = arr.portfolio.edges.map(({ node }) => node.tags).flat();
   } else if (type === 'reads') {
-    totalTagArray = arr[type].edges.map(({ node }) => node.items[0].volumeInfo.categories).flat();
+    totalTagArray = arr.reads.edges.map(({ node }) => node.items[0].volumeInfo.categories).flat();
   }
 
   // create a second array which is a unique version of the array.
