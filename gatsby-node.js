@@ -417,7 +417,7 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
       const data = await res.json();
 
       const node = {
-        id: createNodeId(`reads-${data.items[0].id}`),
+        id: await createNodeId(`reads-${data.items[0].id}`),
         parent: null,
         children: [],
         internal: {
