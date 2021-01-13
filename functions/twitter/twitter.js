@@ -54,21 +54,22 @@ async function getRequest() {
   return cache.tweets;
 }
 
-exports.handler = async () => {
+exports.handler = async (event, context, callback) => {
   try {
     // Get tweets and display output to page.
     const tweets = await getRequest();
-    return {
+
+    return callback(null, {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(tweets),
-    };
+    });
   } catch (e) {
-    return {
+    return callback(null, {
       statusCode: 500,
       body: e,
-    };
+    });
   }
 };
