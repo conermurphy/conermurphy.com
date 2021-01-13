@@ -55,7 +55,7 @@ const Typography = createGlobalStyle`
 
   p, li, ul {
     font-size: 1.75rem;
-    line-height: 1.4;
+    line-height: var(--lh);
     
   }
 

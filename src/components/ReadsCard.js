@@ -51,7 +51,8 @@ const ReadsCardContainer = styled.div`
   }
 
   .description {
-    max-height: 80px;
+    max-height: max-content;
+    position: relative;
     white-space: wrap;
     overflow: hidden;
     text-overflow: ellipsis;

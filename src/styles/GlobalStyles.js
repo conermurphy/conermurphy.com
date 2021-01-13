@@ -11,6 +11,7 @@ const GlobalStyles = createGlobalStyle`
     --layoutWidth: 1080px;
     --shadow: 0px 4px 6px rgba(0,0,0,0.22);
     --borderRadius: 10px;
+    --lh: 2.5rem;
   }
 
    html {

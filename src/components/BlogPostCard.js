@@ -46,7 +46,7 @@ const PostContainerBody = styled.div`
     }
 
     & > .content {
-      margin-top: 1.5rem;
+      margin: 1.5rem 0;
 
       h2 {
         font-size: 1.75rem;
