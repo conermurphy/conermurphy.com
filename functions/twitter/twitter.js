@@ -35,41 +35,34 @@ async function getRequest() {
   }).then((res) => res.json());
 
   // Mapping over the returned array of tweets and defining the source of the tweet.
-  const tweets = data.map((tweet) => {
-    const source = tweet.referenced_tweets === undefined ? 'original' : tweet.referenced_tweets[0].type;
-    const mediaKey = tweet.attachments?.media_keys[0];
-    const [media] = includes.media.filter((obj) => obj.media_key === mediaKey);
-    return { ...tweet, ...media, source };
-  });
+  // const tweets = data.map((tweet) => {
+  //   const source = tweet.referenced_tweets === undefined ? 'original' : tweet.referenced_tweets[0].type;
+  //   const mediaKey = tweet.attachments?.media_keys[0];
+  //   const [media] = includes.media.filter((obj) => obj.media_key === mediaKey);
+  //   return { ...tweet, ...media, source };
+  // });
 
-  // Filtering to remove any rts depending on the above setting.
-  const filteredTweets = !settings.include_rts ? tweets.filter(({ source }) => source !== 'retweeted') : null;
+  // // Filtering to remove any rts depending on the above setting.
+  // const filteredTweets = !settings.include_rts ? tweets.filter(({ source }) => source !== 'retweeted') : null;
 
-  // Slicing to return only 5 tweets to display on page.
-  const slicedTweets = filteredTweets.slice(0, 4);
+  // // Slicing to return only 5 tweets to display on page.
+  // const slicedTweets = filteredTweets.slice(0, 4);
 
   // Updating the cache.
-  cache.tweets = slicedTweets;
+  cache.tweets = data;
   cache.lastFetch = Date.now();
   return cache.tweets;
 }
 
-exports.handler = async (event, context, callback) => {
-  try {
-    // Get tweets and display output to page.
-    const tweets = await getRequest();
+exports.handler = async function (event, context, callback) {
+  // Get tweets and display output to page.
+  const tweets = await getRequest();
 
-    return callback(null, {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(tweets),
-    });
-  } catch (e) {
-    return callback(null, {
-      statusCode: 500,
-      body: e,
-    });
-  }
+  callback(null, {
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(tweets),
+  });
 };
