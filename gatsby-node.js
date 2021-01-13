@@ -6,6 +6,9 @@ import findTagInfo from './src/utils/findTagInfo';
 import portfolioData from './src/data/portfolio.json';
 import readsData from './src/data/reads.json';
 
+// Wesbos wait function: https://github.com/wesbos/waait/blob/master/index.js
+const wait = (amount = 0) => new Promise((resolve) => setTimeout(resolve, amount));
+
 // This is the function called to create the main pages for each base.
 function createMainPages(actions, base, component, totalCount) {
   const { createPage } = actions;
@@ -412,9 +415,39 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
       // Destructure out values to query endpoint
       const { isbn } = read;
       // For each read query the above endpoint.
+      let data;
+      // Try query endpoint of API.
+      try {
+        const res = await fetch(`${apiISBNBase}${isbn}`);
+        data = await res.json();
 
-      const res = await fetch(`${apiISBNBase}${isbn}`);
-      const data = await res.json();
+        // If Googles API returns an Error throw an error to catch and eventually retry call up to 10 times.
+        if (data.error) {
+          const { error } = data;
+          throw error;
+        }
+        // Catch the above error if data is not successfully retrieved on first fetch call.
+      } catch (e) {
+        let error;
+
+        // Retry the call 20 times before erroring out, each time delay longer by one second.
+        for (let i = 0; i < 20; i++) {
+          try {
+            console.log(`Retrying fetch: ${i} of: ${apiISBNBase}${isbn}`);
+            // Call wait function from top of the file to delay the fetch request by the amount of seconds = to the number of retries that request is. e.g. 3rd retry wait 3 secs.
+            await wait(i * 1000);
+            // Call fetch to the API.
+            const res = await fetch(`${apiISBNBase}${isbn}`);
+            data = await res.json();
+            // If data is found then exit.
+            return data;
+          } catch (err) {
+            error = err;
+          }
+        }
+        // If above 20 retries then throw an error.
+        throw error;
+      }
 
       const node = {
         id: await createNodeId(`reads-${data.items[0].id}`),
