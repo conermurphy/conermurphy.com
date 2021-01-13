@@ -19,7 +19,7 @@ const FormContainer = styled.div`
   margin-top: ${(props) => (props.marginRequired ? '-100px' : '')};
   filter: drop-shadow(var(--shadow));
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     width: min-content;
     max-width: 225px;
     margin-bottom: ${(props) => (props.marginRequired ? '50px' : '')};
@@ -38,7 +38,7 @@ const FormGridContainer = styled.form`
   color: var(--black);
   margin: auto;
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     margin: 0;
   }
 
@@ -85,7 +85,7 @@ const FormGridContainer = styled.form`
     border: none;
     height: var(--height);
 
-    @media (max-width: 400px) {
+    @media (max-width: 600px) {
       max-width: 200px;
     }
   }

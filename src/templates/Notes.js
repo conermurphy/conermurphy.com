@@ -22,7 +22,7 @@ const NoteHeader = styled.div`
   padding-bottom: 2rem;
   border-bottom: 2px solid var(--grey);
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     grid-template-columns: 100%;
     text-align: center;
     align-items: center;

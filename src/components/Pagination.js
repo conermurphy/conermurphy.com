@@ -11,7 +11,7 @@ const PaginationContainer = styled.div`
   padding: 2rem;
   flex-wrap: wrap;
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     max-width: 90%;
   }
 

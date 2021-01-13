@@ -15,7 +15,7 @@ const Container = styled.aside`
   background-color: var(--white);
   filter: drop-shadow(var(--shadow));
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     max-width: 230px;
   }
 

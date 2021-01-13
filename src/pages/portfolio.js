@@ -18,7 +18,7 @@ const AllPortfolioContainer = styled.div`
     text-decoration: none;
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
 `;

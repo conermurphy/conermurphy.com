@@ -18,7 +18,7 @@ const NoteContainer = styled.div`
     grid-template-columns: 200px 500px;
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     grid-template-columns: 90%;
     grid-template-rows: auto 1fr;
     align-items: center;
@@ -58,7 +58,7 @@ const NoteContainer = styled.div`
     justify-content: space-evenly;
     height: 100%;
 
-    @media (max-width: 400px) {
+    @media (max-width: 600px) {
       text-align: center;
       align-items: center;
     }

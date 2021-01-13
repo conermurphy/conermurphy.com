@@ -17,7 +17,7 @@ const LandingSection = styled.section`
     margin-bottom: 150px;
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     grid-template-columns: 100%;
     height: 1000px;
   }
@@ -39,7 +39,7 @@ const LandingSection = styled.section`
     grid-template-rows: repeat(2, 0.5fr);
     row-gap: 0.25rem;
 
-    @media (max-width: 400px) {
+    @media (max-width: 600px) {
       grid-template-rows: 1fr;
       margin: 0 5rem;
     }
@@ -56,7 +56,7 @@ const LandingSection = styled.section`
 const InfoBlock = styled.div`
   background-color: var(--white);
   width: 20vw;
-  max-width: 400px;
+  max-width: 600px;
   height: 35rem;
   filter: drop-shadow(var(--shadow));
   display: flex;
@@ -71,7 +71,7 @@ const InfoBlock = styled.div`
     margin: auto;
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     width: 90%;
     margin: auto;
   }
@@ -177,7 +177,7 @@ const HeroBackground = styled.div`
   z-index: -1;
   background-color: var(--black);
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     height: 1250px;
   }
 `;
@@ -194,7 +194,7 @@ const ContentSection = styled.section`
     }
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     .headerTitleSeperator {
       justify-content: space-evenly;
     }
@@ -223,7 +223,7 @@ const NotesContentSection = styled.section`
     }
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     .headerTitleSeperator {
       justify-content: space-evenly;
     }

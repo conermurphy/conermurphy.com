@@ -23,7 +23,7 @@ const PostBodyContainer = styled.div`
           font-size: 1.5rem;
           bottom: 12.5px;
 
-          @media (max-width: 400px) {
+          @media (max-width: 600px) {
             display: none;
           }
         }
@@ -39,7 +39,7 @@ const PostContainer = styled.article`
   padding-bottom: 0;
   max-width: 700px;
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     margin: 2.5rem;
   }
 

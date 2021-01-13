@@ -8,7 +8,7 @@ const CookieBannerContainer = styled.div`
   background-color: var(--grey);
   bottom: 20px;
   right: 20px;
-  max-width: 400px;
+  max-width: 600px;
   border-radius: 2rem;
   filter: drop-shadow(var(--shadow));
   z-index: 999;
@@ -19,7 +19,7 @@ const CookieBannerContainer = styled.div`
   text-align: center;
   overflow: auto;
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     max-width: 300px;
     right: 10%;
   }

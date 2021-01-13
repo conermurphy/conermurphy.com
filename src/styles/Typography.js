@@ -95,7 +95,7 @@ const Typography = createGlobalStyle`
       justify-content: space-evenly;
     }
     
-    @media (max-width: 400px) {
+    @media (max-width: 600px) {
       justify-content: center;
     }
 

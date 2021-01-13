@@ -8,7 +8,7 @@ import Navigation from './Navigation';
 const Container = styled.div`
   margin: 5rem 0;
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     margin: 0;
     margin-top: 5rem;
   }

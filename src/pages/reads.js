@@ -9,7 +9,7 @@ import SEO from '../components/SEO';
 import ReadsCard from '../components/ReadsCard';
 
 const PageContainer = styled.div`
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     & > p {
       text-align: center;
     }

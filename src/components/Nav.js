@@ -21,7 +21,7 @@ const StyledNav = styled.nav`
     list-style: none;
     align-items: center;
 
-    @media (max-width: 400px) {
+    @media (max-width: 600px) {
       display: flex;
       flex-wrap: wrap;
       align-items: center;

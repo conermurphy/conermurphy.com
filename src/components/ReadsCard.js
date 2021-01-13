@@ -14,7 +14,7 @@ const ReadsCardContainer = styled.div`
   border-bottom: 2px solid var(--grey);
   padding: 2rem 0;
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     grid-template-columns: 100%;
     text-align: center;
     align-items: center;
@@ -45,7 +45,7 @@ const ReadsCardContainer = styled.div`
       font-size: 2rem;
     }
 
-    @media (max-width: 400px) {
+    @media (max-width: 600px) {
       justify-content: center;
     }
   }
@@ -76,7 +76,7 @@ const ReadMeta = styled.div`
     margin: 0;
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     justify-content: center;
   }
 `;
