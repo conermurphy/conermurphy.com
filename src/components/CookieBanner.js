@@ -8,7 +8,7 @@ const CookieBannerContainer = styled.div`
   background-color: var(--grey);
   bottom: 20px;
   right: 20px;
-  max-width: 600px;
+  max-width: 400px;
   border-radius: 2rem;
   filter: drop-shadow(var(--shadow));
   z-index: 999;

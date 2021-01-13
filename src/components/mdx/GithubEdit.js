@@ -7,7 +7,7 @@ const Container = styled.aside`
   display: grid;
   align-items: center;
   justify-content: center;
-  max-width: 600px;
+  max-width: 400px;
   margin: auto;
   margin-top: 5rem;
   padding: 2rem 5rem;
