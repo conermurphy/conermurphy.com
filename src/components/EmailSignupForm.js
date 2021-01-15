@@ -19,11 +19,15 @@ const FormContainer = styled.div`
   margin-top: ${(props) => (props.marginRequired ? '-100px' : '')};
   filter: drop-shadow(var(--shadow));
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     width: min-content;
-    max-width: 225px;
+    max-width: 300px;
     margin-bottom: ${(props) => (props.marginRequired ? '50px' : '')};
     margin-top: ${(props) => (props.marginRequired ? '-50px' : '')};
+  }
+
+  @media (max-width: 400px) {
+    max-width: 225px;
   }
 `;
 

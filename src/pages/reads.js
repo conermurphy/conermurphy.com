@@ -12,6 +12,7 @@ const PageContainer = styled.div`
   @media (max-width: 600px) {
     & > p {
       text-align: center;
+      padding: 1rem;
     }
   }
 `;

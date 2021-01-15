@@ -19,9 +19,12 @@ const CookieBannerContainer = styled.div`
   text-align: center;
   overflow: auto;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
+    right: auto;
+  }
+
+  @media (max-width: 450px) {
     max-width: 300px;
-    right: 10%;
   }
 
   & > h2 {
