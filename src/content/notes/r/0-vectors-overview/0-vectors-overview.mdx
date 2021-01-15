@@ -1,0 +1,334 @@
+---
+title: "Vectors Overview"
+date: "2021-01-15"
+tags: ["R"]
+slug: vectors-overview
+image: ./vectors-overview.png
+id: 0
+---
+
+## Vectors
+
+A Vector in R is a one-dimensional array that can hold the following data types:
+
+- Numeric
+- Character (Strings)
+- Logical (Booleans)
+
+Simply put a vector is an easy way of storing a single dimension of data, a vector can be created with the combine function `c()`.
+
+```r
+numeric_vector <- c(1, 2, 3)
+```
+
+### Naming Vectors
+
+You can name a vector by using the `names()` function in R like so:
+
+```r
+example_vector <- c("Coner Murphy", "Web Developer")
+names(example_vector) <- c("Name", "Profession")
+```
+
+When printed out this would yield:
+
+```
+Name    Profession
+"Coner Murphy"  "Web Developer"
+```
+
+However, if you had to repeat this process over many vectors typing in each name, again and again, would get tiring quickly so instead we can store our names in a vector and use that to name our columns.
+
+Take the below example where we have temperatures for multiple cities and we had to name them all:
+
+```r
+london_weather <- c(-2, 2, 5, 10, 25)
+dublin_weather <- c(-5, 0, 2, 5, 12)
+paris_weather <- c(0, 5, 8, 14, 22)
+```
+
+If we were going to name these using the method shown above we would have to do:
+
+```r
+names(london_weather) <- c("Jan", "Feb", "Mar", "Apr", "May")
+names(dublin_weather) <- c("Jan", "Feb", "Mar", "Apr", "May")
+names(paris_weather) <- c("Jan", "Feb", "Mar", "Apr", "May")
+```
+
+This gets tiring fast, imagine if we had to do this for all 12 months and 50 different cities... No one has time for that.
+
+Instead by storing our names in their own vector, we can do something like this:
+
+```r
+months_vector <- c("Jan", "Feb", "Mar", "Apr", "May")
+names(london_weather) <- months_vector
+names(dublin_weather) <- months_vector
+names(paris_weather) <- months_vector
+```
+
+How much quicker and nicer is that!
+
+### Performing Calculations with Vectors
+
+Performing calculations on vectors is syntactically the same as performing calculations with 2 numbers in normal math but where it slightly differs with R is in how the calculations are made. In the below example is how two vectors would get summed together to produce the final result broken down to show each step.
+
+```r
+c(1,3,5) + c(2,4,6)
+c(1 + 2, 3 + 4, 5 + 6)
+c(3, 7, 11)
+```
+
+Essentially you take the same indexed value from both vectors and perform the chosen calculation on them to get a result for each pair. This then yields the same length of vector as was the input vectors.
+
+You can also perform calculations using vectors stored in variables like so:
+
+```r
+a <- c(1,3,5)
+b <- c(2,4,6)
+c <- a + b
+# c = c(3, 7, 11)
+```
+
+### Bringing it together
+
+Imagine a scenario where you are running a business with 2 storefronts and you want to see your overall profit/loss across the business for the entire week. You can do this like so:
+
+```r
+store_1_vector <- c(100, -50, 200, 10, 400)
+store_2_vector <- c(60, -20, 150, 90, 350)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+
+names(store_1_vector) <- days_vector
+names(store_2_vector) <- days_vector
+
+total_profit_loss <- store_1_vector + store_2_vector
+# total_profit_loss
+#   Monday   Tuesday Wednesday  Thursday    Friday
+#     160      -70       350      100       750
+```
+
+Okay but now what if you wanted to see the entire week in one figure to determine if you made a profit or loss for the overall week? This is where the `sum()` function comes into play.
+
+Let's take the same example from above but add in the `sum()` function to see the overall figures:
+
+```r
+store_1_vector <- c(100, -50, 200, 10, 400)
+store_2_vector <- c(60, -20, 150, 90, 350)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+
+names(store_1_vector) <- days_vector
+names(store_2_vector) <- days_vector
+
+total_store_1 <- sum(store_1_vector)
+total_store_2 <- sum(store_2_vector)
+
+total_profit_loss <- total_store_1 + total_store_2
+# total_profit_loss = 1290
+```
+
+Other than the **+** operator, you can also perform the other basic mathematical operators such as **-**, **/** and **\***.
+
+But, you can also use the comparison operators as well, so following on from our example if we wanted to compare which shop performed better we could do:
+
+```r
+store_1_better <- total_store_1 < total_store_2
+# store_1_better = False
+```
+
+### Selecting elements
+
+When it comes to selecting elements from a vector we need to keep one piece of vital information to hand, vectors are not 0-indexed like many over programming languages.
+
+For example, in JavaScript if you wanted to select the first element of an array you would do something like:
+
+```JavaScript
+const arr = [1,2,3,4,5];
+const firstElement = arr[0]
+// firstElement = 1
+```
+
+Notice how we use 0 to grab element 1 of the array in JavaScript, this is the same for many other languages but not in R. In R we would do:
+
+```r
+arr <- c(1,2,3,4,5)
+firstElement <- arr[1]
+# firstElement = 1
+```
+
+So, looking back at our example from earlier, if we wanted to say grab the total_profit_loss for Friday across both our stores we could do it like:
+
+```r
+store_1_vector <- c(100, -50, 200, 10, 400)
+store_2_vector <- c(60, -20, 150, 90, 350)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+
+names(store_1_vector) <- days_vector
+names(store_2_vector) <- days_vector
+
+total_profit_loss <- store_1_vector + store_2_vector
+
+total_profit_loss_friday <- total_profit_loss[5]
+
+print(total_profit_loss_friday)
+#   Friday
+#   750
+```
+
+Okay, this is all well and good just getting the results from Friday but what if I want to get the results from Monday as well to see the opening and closing positions of the week.
+
+No problem, here you go:
+
+```r
+store_1_vector <- c(100, -50, 200, 10, 400)
+store_2_vector <- c(60, -20, 150, 90, 350)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+
+names(store_1_vector) <- days_vector
+names(store_2_vector) <- days_vector
+
+total_profit_loss <- store_1_vector + store_2_vector
+
+total_profit_loss_monday_friday <- total_profit_loss[c(1,5)]
+
+print(total_profit_loss_monday_friday)
+# Monday Friday
+# 160   750
+```
+
+To select multiple entries from a vector we pass the entries we wish to access to the square brackets in another vector, so if you really wanted to, you could also do something like:
+
+```r {10-11}
+store_1_vector <- c(100, -50, 200, 10, 400)
+store_2_vector <- c(60, -20, 150, 90, 350)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+
+names(store_1_vector) <- days_vector
+names(store_2_vector) <- days_vector
+
+total_profit_loss <- store_1_vector + store_2_vector
+
+elements_to_fetch <- c(1,5)
+total_profit_loss_monday_friday <- total_profit_loss[elements_to_fetch]
+
+print(total_profit_loss_monday_friday)
+# Monday Friday
+# 160   750
+```
+
+This would yield the exact same result but the vector defining the elements you're fetching has been split out into its own variable.
+
+Okay, hotshot what about getting every day in the week apart from Monday?
+
+Once again, no sweat; we could do something like:
+
+```r
+store_1_vector <- c(100, -50, 200, 10, 400)
+store_2_vector <- c(60, -20, 150, 90, 350)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+
+names(store_1_vector) <- days_vector
+names(store_2_vector) <- days_vector
+
+total_profit_loss <- store_1_vector + store_2_vector
+
+total_profit_loss_exc_monday <- total_profit_loss[c(2,3,4,5)]
+
+print(total_profit_loss_exc_monday)
+# Tuesday Wednesday  Thursday    Friday
+#     -70       350       100       750
+```
+
+But, let's face it. No one wants to spend their life defining each element you want to fetch. Imagine if you had to go up to 100 that would not be fun.
+
+So, instead, R is nice and gives us a lazy way of doing it, like so:
+
+```r {10}
+store_1_vector <- c(100, -50, 200, 10, 400)
+store_2_vector <- c(60, -20, 150, 90, 350)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+
+names(store_1_vector) <- days_vector
+names(store_2_vector) <- days_vector
+
+total_profit_loss <- store_1_vector + store_2_vector
+
+total_profit_loss_exc_monday <- total_profit_loss[2:5]
+
+print(total_profit_loss_exc_monday)
+# Tuesday Wednesday  Thursday    Friday
+#     -70       350       100       750
+```
+
+This yields the exact same results but just means we only have to type in the starting element (2) and the finishing element (5), how sweet!
+
+Finally, to round up selecting elements in vectors by indexes and names, we can select values by using the name we assigned to it. For example, if we wanted to grab the value for Monday we could do:
+
+```r
+store_1_vector <- c(100, -50, 200, 10, 400)
+store_2_vector <- c(60, -20, 150, 90, 350)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+
+names(store_1_vector) <- days_vector
+names(store_2_vector) <- days_vector
+
+total_profit_loss <- store_1_vector + store_2_vector
+
+total_profit_loss_monday <- total_profit_loss[c("Monday")]
+
+print(total_profit_loss_monday)
+# Monday
+# 160
+```
+
+### Selecting elements by comparison
+
+Thinking back to our scenario as the business owner, what if you set your stores a collective target of 300 profit/day, is there a way R can show us if they hit this target for every day of the week because no-one wants to be doing manual calculations, do they?
+
+In fact, there is! Isn't this R stuff great?
+
+```r
+store_1_vector <- c(100, -50, 200, 10, 400)
+store_2_vector <- c(60, -20, 150, 90, 350)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+
+names(store_1_vector) <- days_vector
+names(store_2_vector) <- days_vector
+
+total_profit_loss <- store_1_vector + store_2_vector
+
+hit_target <- total_profit_loss > 300
+
+print(hit_target)
+#  Monday   Tuesday Wednesday  Thursday    Friday
+#   FALSE     FALSE      TRUE     FALSE      TRUE
+```
+
+What we did is checked each value in the vector against our target using the greater than operator (>) from this we then returned the boolean value the comparison yielded allowing us to see that on Wednesday and Friday we hit our target of 300, how easy was that!
+
+But, we can go one step further! By filtering our original `total_profit_loss` vector down to just show the days that we passed our target on and the profit we got that day.
+
+```r {10,11}
+store_1_vector <- c(100, -50, 200, 10, 400)
+store_2_vector <- c(60, -20, 150, 90, 350)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+
+names(store_1_vector) <- days_vector
+names(store_2_vector) <- days_vector
+
+total_profit_loss <- store_1_vector + store_2_vector
+
+hit_target <- total_profit_loss > 300
+hit_target_days <- total_profit_loss[hit_target]
+
+print(hit_target_days)
+#  Wednesday    Friday
+#     350       750
+```
+
+No sweat at all, so not only have we selected what days we hit the target, we have filtered the original vector down to show just the days we hit the target and what we got on those days.
+
+### Conclusion
+
+This was just an overview of vectors in R and how to select elements from within them. Overall, vectors are just the tip of the iceberg of R and I can't wait to get into more R. 
+
+If you have found this interesting please consider sharing it with others on social media and if you want to see more content like this please consider signing up to my newsletter below.

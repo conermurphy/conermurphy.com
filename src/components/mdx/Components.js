@@ -50,9 +50,21 @@ const Code = styled.code`
   padding: 1rem;
 `;
 
+const InlineCode = styled(Code)`
+  background-color: #193549;
+  padding: 0.5rem 1rem;
+  color: var(--white);
+  font-weight: bold;
+`;
+
 const Pre = styled.pre`
   padding: 1rem;
   white-space: break-spaces;
+`;
+
+const UL = styled.ul`
+  list-style-type: circle;
+  padding-left: 1rem;
 `;
 
 function copyToClip() {
@@ -92,7 +104,8 @@ const Components = {
   a: (props) => <ALinks {...props} />,
   hr: (props) => <HR {...props} />,
   code: (props) => <Code {...props} />,
+  inlineCode: (props) => <InlineCode {...props} />,
+  ul: (props) => <UL {...props} />,
 };
 
 export default Components;
-
