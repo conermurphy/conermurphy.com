@@ -37,7 +37,8 @@ const SEO = ({ post }) => {
 
       {/* Open Graph */}
       <meta property="og:url" content={seo.url} />
-      {article ? <meta property="og:type" content="article" /> : <meta property="og:type" content="website" />}
+      {/* {article ? <meta property="og:type" content="article" /> : <meta property="og:type" content="website" />} */}
+      <meta property="og:type" content="website" />
       <meta property="og:title" content={seo.title} key="ogtitle" />
       <meta property="og:description" content={seo.description} key="ogdesc" />
       <meta property="og:image" content={seo.image || Logo} />
