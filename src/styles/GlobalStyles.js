@@ -7,7 +7,7 @@ const GlobalStyles = createGlobalStyle`
     --black: #2e2e2e;
     --grey: hsl(0, 0%, 93%);
     --white: #ffffff;
-    --scrollBarWidth: 12px;
+    --scrollBarWidth: 6px;
     --layoutWidth: 1080px;
     --shadow: 0px 4px 6px rgba(0,0,0,0.22);
     --borderRadius: 10px;
@@ -35,9 +35,7 @@ const GlobalStyles = createGlobalStyle`
     background: var(--white);
   }
   body::-webkit-scrollbar-thumb {
-    background-color: var(--green) ;
-    border-radius: 6px;
-    border: 3px solid var(--white);
+    background-color: var(--black) ;
   }
 
   .grvsc-container {
