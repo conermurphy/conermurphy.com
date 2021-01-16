@@ -36,10 +36,10 @@ const SEO = ({ post }) => {
       <meta charSet="utf-8" />
 
       {/* Open Graph */}
-      {seo.url && <meta property="og:url" content={seo.url} />}
-      {(article ? true : null) && <meta property="og:type" content="article" />}
-      {seo.title && <meta property="og:title" content={seo.title} key="ogtitle" />}
-      {seo.description && <meta property="og:description" content={seo.description} key="ogdesc" />}
+      <meta property="og:url" content={seo.url} />
+      {article ? <meta property="og:type" content="article" /> : <meta property="og:type" content="website" />}
+      <meta property="og:title" content={seo.title} key="ogtitle" />
+      <meta property="og:description" content={seo.description} key="ogdesc" />
       <meta property="og:image" content={seo.image || Logo} />
       <meta property="og:site_name" content={seo.title} key="ogsitename" />
       {date ? <meta property="article:published_time" content={new Date(date).toISOString()} /> : null}

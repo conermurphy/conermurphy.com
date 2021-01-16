@@ -41,7 +41,8 @@ export default {
           {
             resolve: 'gatsby-remark-images',
             options: {
-              maxWidth: 1035,
+              maxWidth: 1920,
+              quality: 100,
             },
           },
         ],
