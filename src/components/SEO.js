@@ -29,29 +29,33 @@ const SEO = ({ post }) => {
       <title>{seo.title}</title>
 
       {/* Meta Tags */}
-      <meta name="description" content={seo.description} />
       <link rel="canonical" href={canonical} />
+      <meta name="description" content={seo.description} />
       <meta name="image" content={seo.image} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta name="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="generator" content="Coner Murphy on Gatsby!" />
 
       {/* Open Graph */}
       <meta property="og:url" content={seo.url} />
       {article ? <meta property="og:type" content="article" /> : <meta property="og:type" content="website" />}
-      <meta property="og:title" content={seo.title} key="ogtitle" />
-      <meta property="og:description" content={seo.description} key="ogdesc" />
-      <meta property="og:image" content={seo.image || Logo} />
-      <meta property="og:site_name" content={seo.title} key="ogsitename" />
+      <meta property="og:title" content={seo.title} />
+      <meta property="og:description" content={seo.description} />
+      <meta property="og:image" content={seo.image} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="628" />
+      <meta property="og:locale" content="en_GB" />
+      <meta property="og:site_name" content="Coner Murphy" />
       {date ? <meta property="article:published_time" content={new Date(date).toISOString()} /> : null}
 
       {/* Twitter Tags */}
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:creator" content={twitterUsername} />
-      <meta property="twitter:site" content={twitterUsername} />
-      <meta property="twitter:title" content={seo.title} />
-      <meta property="twitter:description" content={seo.description} />
-      <meta property="twitter:image" content={seo.image} />
-      <meta property="twitter:url" content={seo.url} />
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:site" content={twitterUsername} />
+      <meta name="twitter:creator" content={twitterUsername} />
+      <meta name="twitter:url" content={seo.url} />
+      <meta name="twitter:title" content={seo.title} />
+      <meta name="twitter:description" content={seo.description} />
+      <meta name="twitter:image" content={seo.image} />
     </Helmet>
   );
 };

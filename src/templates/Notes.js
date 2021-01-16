@@ -64,7 +64,7 @@ const NoteHeader = styled.div`
 export default function NotesPost({ data, pageContext, path }) {
   // Destructing out values to use in page.
   const { notes } = data;
-  const { frontmatter, timeToRead, body, fields, fileAbsolutePath } = notes;
+  const { frontmatter, timeToRead, body, fields, fileAbsolutePath, excerpt } = notes;
   const { noteCategory } = fields;
   const { title, description, date, tags, id, plainDate, image } = frontmatter;
 
@@ -83,7 +83,7 @@ export default function NotesPost({ data, pageContext, path }) {
         post={{
           slug: path,
           title,
-          description,
+          description: description === null ? excerpt : description,
           image: imagePath,
           article: true,
           date: plainDate,
@@ -122,6 +122,7 @@ export const query = graphql`
       body
       timeToRead
       fileAbsolutePath
+      excerpt
       fields {
         filePath
         contentCategory
@@ -154,6 +155,7 @@ NotesPost.propTypes = {
       timeToRead: PropTypes.number,
       body: PropTypes.string.isRequired,
       fileAbsolutePath: PropTypes.string,
+      excerpt: PropTypes.string,
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,

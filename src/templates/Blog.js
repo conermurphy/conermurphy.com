@@ -33,7 +33,7 @@ const BlogHeader = styled.div`
 const BlogPost = ({ data, pageContext, path }) => {
   // Destructing out values to use in page.
   const post = data.mdx;
-  const { frontmatter, timeToRead, body, fileAbsolutePath } = post;
+  const { frontmatter, timeToRead, body, fileAbsolutePath, excerpt } = post;
   const { image, title, description, date, series, tags, plainDate } = frontmatter;
 
   // Setting image path for SEO if no image use the logo.
@@ -48,7 +48,7 @@ const BlogPost = ({ data, pageContext, path }) => {
         post={{
           slug: path,
           title,
-          description,
+          description: description === null ? excerpt : description,
           image: imagePath,
           article: true,
           date: plainDate,
@@ -82,6 +82,7 @@ export const query = graphql`
       body
       timeToRead
       fileAbsolutePath
+      excerpt
       fields {
         filePath
         contentCategory
@@ -113,6 +114,7 @@ BlogPost.propTypes = {
       body: PropTypes.string.isRequired,
       timeToRead: PropTypes.number.isRequired,
       fileAbsolutePath: PropTypes.string,
+      excerpt: PropTypes.string,
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
