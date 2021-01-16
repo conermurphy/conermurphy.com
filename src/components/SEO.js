@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { useLocation } from '@reach/router';
 import { pathJoin } from '../utils/path-join';
-import Logo from '../assets/logo/CM-Logo.svg';
 
 import { useSiteMetadata } from '../utils/useSiteMetadata';
 
@@ -11,8 +10,6 @@ const SEO = ({ post }) => {
   const { title, description, image, slug, article, date } = post;
   const { pathname } = useLocation();
   const { title: defaultTitle, description: defaultDescription, author, siteUrl, twitterUsername, image: defaultImage } = useSiteMetadata();
-
-  // const { defaultTitle, titleTemplate, defaultDescription, siteUrl, defaultImage, twitterUsername } = siteMetadata;
 
   const seo = {
     title: title || defaultTitle,
@@ -49,7 +46,7 @@ const SEO = ({ post }) => {
       {date ? <meta property="article:published_time" content={new Date(date).toISOString()} /> : null}
 
       {/* Twitter Tags */}
-      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content={twitterUsername} />
       <meta name="twitter:creator" content={twitterUsername} />
       <meta name="twitter:url" content={seo.url} />
