@@ -66,7 +66,7 @@ export default function NotesPost({ data, pageContext, path }) {
   const { notes } = data;
   const { frontmatter, timeToRead, body, fields, fileAbsolutePath, excerpt } = notes;
   const { noteCategory } = fields;
-  const { title, description, date, tags, id, plainDate, image } = frontmatter;
+  const { title, date, tags, id, plainDate, image } = frontmatter;
 
   const languageIcon = matchingLanguageIcon(noteCategory, '2rem');
   const languageTag = findMatchingLanguage(noteCategory);
@@ -83,7 +83,7 @@ export default function NotesPost({ data, pageContext, path }) {
         post={{
           slug: path,
           title,
-          description: description === null ? excerpt : description,
+          description: excerpt,
           image: imagePath,
           article: true,
           date: plainDate,
