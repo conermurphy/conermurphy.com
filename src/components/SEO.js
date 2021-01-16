@@ -33,7 +33,7 @@ const SEO = ({ post }) => {
       <link rel="canonical" href={canonical} />
       <meta name="image" content={seo.image} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta content="text/html; charset=UTF-8" name="Content-Type" />
+      <meta name="Content-Type" content="text/html; charset=UTF-8" />
 
       {/* Open Graph */}
       <meta property="og:url" content={seo.url} />
