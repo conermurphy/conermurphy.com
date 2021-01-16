@@ -32,19 +32,14 @@ export default function Layout({ children, path }) {
 
   const cookieCheckRequired = !!(analyticsAllowed === 'promptUser');
 
-  // This is here to fix the cookie popup rendering issue, not going to lie it's a hack...
-  if (typeof window === 'undefined') {
-    return <></>;
-  }
-
   return (
     <SiteContainer>
       <Typography />
       <GlobalStyles />
-      {cookieCheckRequired && <CookieBanner />}
       <ContentContainer>
         <Nav path={path} />
         {children}
+        {cookieCheckRequired && <CookieBanner />}
       </ContentContainer>
       <Footer />
     </SiteContainer>
