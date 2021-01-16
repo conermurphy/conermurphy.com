@@ -37,8 +37,7 @@ const SEO = ({ post }) => {
 
       {/* Open Graph */}
       <meta property="og:url" content={seo.url} />
-      {/* {article ? <meta property="og:type" content="article" /> : <meta property="og:type" content="website" />} */}
-      <meta property="og:type" content="website" />
+      {article ? <meta property="og:type" content="article" /> : <meta property="og:type" content="website" />}
       <meta property="og:title" content={seo.title} key="ogtitle" />
       <meta property="og:description" content={seo.description} key="ogdesc" />
       <meta property="og:image" content={seo.image || Logo} />
@@ -46,13 +45,13 @@ const SEO = ({ post }) => {
       {date ? <meta property="article:published_time" content={new Date(date).toISOString()} /> : null}
 
       {/* Twitter Tags */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:creator" content={twitterUsername} />
-      <meta name="twitter:site" content={twitterUsername} />
-      <meta name="twitter:title" content={seo.title} />
-      <meta name="twitter:description" content={seo.description} />
-      <meta name="twitter:image" content={seo.image} />
-      <meta name="twitter:url" content={seo.url} />
+      <meta property="twitter:card" content="summary_large_image" />
+      <meta property="twitter:creator" content={twitterUsername} />
+      <meta property="twitter:site" content={twitterUsername} />
+      <meta property="twitter:title" content={seo.title} />
+      <meta property="twitter:description" content={seo.description} />
+      <meta property="twitter:image" content={seo.image} />
+      <meta property="twitter:url" content={seo.url} />
     </Helmet>
   );
 };
