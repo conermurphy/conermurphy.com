@@ -48,10 +48,9 @@ const SEO = ({ post }) => {
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:creator" content={twitterUsername} />
       <meta name="twitter:site" content={twitterUsername} />
-      {seo.title && <meta name="twitter:title" content={seo.title} />}
-      {seo.description && <meta name="twitter:description" content={seo.description} />}
-      {seo.image && <meta name="twitter:image" content={seo.image} />}
-
+      <meta name="twitter:title" content={seo.title} />
+      <meta name="twitter:description" content={seo.description} />
+      <meta name="twitter:image" content={seo.image} />
       <meta name="twitter:url" content={seo.url} />
     </Helmet>
   );
