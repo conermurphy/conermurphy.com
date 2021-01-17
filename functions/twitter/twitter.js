@@ -47,7 +47,7 @@ async function getRequest() {
   const filteredTweets = !settings.include_rts ? tweets.filter(({ source }) => source !== 'retweeted') : null;
 
   // // Slicing to return only 5 tweets to display on page.
-  const slicedTweets = filteredTweets.slice(0, 4);
+  const slicedTweets = filteredTweets.slice(0, 4).reverse();
 
   // Updating the cache.
   cache.tweets = slicedTweets;
