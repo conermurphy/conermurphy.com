@@ -3,15 +3,15 @@ title: "Adding Open Graph and Twitter Meta Tags to a GatsbyJS Website"
 date: "2021-01-17"
 tags: ["GatsbyJS"]
 slug: adding-open-graph-twitter-meta-tags-gatsbyjs
-image: ../18-Schedule-Tweets-Android-IOS/how-to-schedule-tweets-on-android-ios.png
+image: 
 id: 19
 ---
 
-Recently I have been sharing more of my work and articles over on my Twitter account (side note, I highly recommened [checking it out.](https://twitter.com/MrConerMurphy)) Anyway, as anyone using Twitter will tell you, tweets with a visual aspect to them tend to perform better than ones that are purely text so naturally this meant I wanted to implement [Twitter Cards](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards) for my website. So, in this post I wanted to give a quick tutorial on how to add Open Graph and Twitter meta tags to a GatsbyJS website to allow for Twitter to create Twitter Cards off the back of any link being shared on the platform.
+Recently I have been sharing more of my work and posts over on my Twitter account (side note, I highly recommened [checking it out.](https://twitter.com/MrConerMurphy)) Anyway, as anyone using Twitter will tell you, tweets with a visual aspect to them tend to perform better than ones that are purely text; so naturally this meant I wanted to implement [Twitter Cards.](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards) So, in this post I wanted to give a quick tutorial on how to add Open Graph and Twitter meta tags to a GatsbyJS website to allow for Twitter to create Twitter Cards off the back of any link being shared on the platform.
 
-## Implementing Twitter Cards
+## Twitter Cards
 
-To implement Twitter Cards for the links on your blog or website you just need to drop a few meta tags into the header of your pages. For Twitter specifically if you want to use images in your cards you'll need something like the below:
+To allow for Twitter Cards to be created off the links on your website you need to drop a few meta tags into the head of your pages. Below are the meta tags I've added to the pages on my website to facilitate this.
 
 ```JavaScript
 <meta name="twitter:card" content="summary_large_image" />
@@ -25,7 +25,7 @@ To implement Twitter Cards for the links on your blog or website you just need t
 
 _The above is an excerpt from my SEO component which can be fully viewed [here.](https://github.com/conermurphy/conermurphy.com/blob/master/src/components/SEO.js)_
 
-That's the general guide for all websites but for GatsbyJS in particular there are various ways you can implement these tags onto your pages.
+That's how you do it but how do you implement it GatsbyJS in particular there are various ways you can implement these tags onto your pages.
 
 I won't cover them all here but I'll give a brief overview of how I choose to implement them on my website.
 
