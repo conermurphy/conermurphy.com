@@ -1,0 +1,171 @@
+---
+title: "Adding Open Graph and Twitter Meta Tags to a GatsbyJS Website"
+date: "2021-01-17"
+tags: ["GatsbyJS"]
+slug: adding-open-graph-twitter-meta-tags-gatsbyjs
+image: ../18-Schedule-Tweets-Android-IOS/how-to-schedule-tweets-on-android-ios.png
+id: 19
+---
+
+Recently I have been sharing more of my work and articles over on my Twitter account (side note, I highly recommened [checking it out.](https://twitter.com/MrConerMurphy)) Anyway, as anyone using Twitter will tell you, tweets with a visual aspect to them tend to perform better than ones that are purely text so naturally this meant I wanted to implement [Twitter Cards](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards) for my website. So, in this post I wanted to give a quick tutorial on how to add Open Graph and Twitter meta tags to a GatsbyJS website to allow for Twitter to create Twitter Cards off the back of any link being shared on the platform.
+
+## Implementing Twitter Cards
+
+To implement Twitter Cards for the links on your blog or website you just need to drop a few meta tags into the header of your pages. For Twitter specifically if you want to use images in your cards you'll need something like the below:
+
+```JavaScript
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={twitterUsername} />
+<meta name="twitter:creator" content={twitterUsername} />
+<meta name="twitter:url" content={seo.url} />
+<meta name="twitter:title" content={seo.title} />
+<meta name="twitter:description" content={seo.description} />
+<meta name="twitter:image" content={seo.image} />
+```
+
+_The above is an excerpt from my SEO component which can be fully viewed [here.](https://github.com/conermurphy/conermurphy.com/blob/master/src/components/SEO.js)_
+
+That's the general guide for all websites but for GatsbyJS in particular there are various ways you can implement these tags onto your pages.
+
+I won't cover them all here but I'll give a brief overview of how I choose to implement them on my website.
+
+### The SEO Component
+
+As per [GatsbyJS's own documentation](https://www.gatsbyjs.com/docs/add-seo-component/) I choose to go for the SEO component method of implementing all of the SEO related info onto my website.
+
+Essentially this is a component that you place on every page and this ensures all the correct meta tags and info is loaded onto the page when it is statically generated.
+
+For example, on my blog page the component looks like this:
+
+```JavaScript
+<SEO post={{
+    slug: path,
+    title: pageTitle,
+}}
+/>
+```
+
+Now, this is great for an individual one-off page like the blog page or a home page but a big part of my website is generated content like the notes pages and blog post, to ensure each of those pages get the meta tags loaded, we need to add the SEO component to the template pages like so:
+
+```JavaScript
+<SEO post={{
+    slug: path,
+    title,
+    description: description === '' ? excerpt : description,
+    image: imagePath,
+    article: true,
+    date: plainDate,
+}}
+/>
+```
+
+As you can see for the generated content there is alot more props passed to the SEO component, this is all information to tailor the meta tags spefically to that piece of content rather than relying on defaults I've set in the SEO component.
+
+For the sake of brevity I won't go through my entire SEO component setup in this post but I will give a quick overview of how the above code snippets feed into my SEO component and how that then produces my Twitter cards. (However, if you are interested in digging deeper into my SEO component setup you can [see the full file here.](https://github.com/conermurphy/conermurphy.com/blob/master/src/components/SEO.js))
+
+My SEO component can be broken down into 3 segements:
+
+1. Data imports
+2. The SEO object
+3. Meta tags
+
+Let's go through each one to see how they work along with how they work together.
+
+#### Data imports
+
+To start with I bring in data from the SEO component on each page (the one shown above), the pathname from useLocation() and a bunch of default values from my Gatsby-Config.js file via a custom hook useSiteMetadata().
+
+```JavaScript
+const { title, description, image, slug, article, date } = post;
+const { pathname } = useLocation();
+const { title: defaultTitle, description: defaultDescription, author, siteUrl, twitterUsername, image: defaultImage } = useSiteMetadata();
+```
+
+I destructure out all the values so they're easier to work with and in the case of the default data from the hook, I rename any conflicts to be prefixed with 'default'.
+
+This then allows me to build my SEO object.
+
+#### The SEO object
+
+The SEO object is just an object with various properties relating to different pieces of information I need for meta tags, the main reason for this object is to decide if I need to use the values from the page that passed the props or the default values.
+
+```JavaScript
+const seo = {
+    title: title || defaultTitle,
+    description: description || defaultDescription,
+    image: `${siteUrl}${image || defaultImage}`,
+    url: `${siteUrl}${pathname}`,
+  };
+
+const canonical = pathJoin(siteUrl, slug);
+```
+
+The first thing I check is if there is a value being passed in from the calling page before falling back to the defaults. This is why standalone pages like the Blog page and the Home page have less information being passed than the generated pages because on the standalone pages the default values are correct where on the generated pages I want to use information specific to that page.
+
+Finally, although not within the SEO object itself I create a canonical link to use for the canonical meta tag.
+
+#### Meta tags
+
+My site's meta tags are broken up to 3 sections:
+
+- Generic tags
+- Open Graph tags
+- Twitter specific tags
+
+##### Generic tags
+
+In this section I set meta tags which aren't related to Open Graph or Twitter, some of these do however act as fallback values for Open Graph / Twitter should their specific tags fail for some reason.
+
+```JavaScript
+<html lang="en" />
+<title>{seo.title}</title>
+
+{/* Meta Tags */}
+<link rel="canonical" href={canonical} />
+<meta name="description" content={seo.description} />
+<meta name="image" content={seo.image} />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="Coner Murphy on Gatsby!" />
+```
+
+##### Open Graph Tags
+
+In the second section I set the meta tags that are spefically for Open Graph:
+
+```JavaScript
+{/* Open Graph */}
+<meta property="og:url" content={seo.url} />
+{article ? <meta property="og:type" content="article" /> : <meta property="og:type" content="website" />}
+<meta property="og:title" content={seo.title} />
+<meta property="og:description" content={seo.description} />
+<meta property="og:image" content={seo.image} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="628" />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:site_name" content="Coner Murphy" />
+{date ? <meta property="article:published_time" content={new Date(date).toISOString()} /> : null}
+```
+
+The interesting ones here are the 'type' and 'published_time' meta tags as they are dependent on the values being passed in. This allows me to show all generated content from my notes posts and blog posts as an 'article' and everything else as a 'website', also if it is an article then I can set the published date and time.
+
+##### Twitter Tags
+
+Finally, I have a bunch of tags specifically geared towards Twitter and this is what creates the Twitter Cards for links from my website.
+
+```JavaScript
+{/* Twitter Tags */}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={twitterUsername} />
+<meta name="twitter:creator" content={twitterUsername} />
+<meta name="twitter:url" content={seo.url} />
+<meta name="twitter:title" content={seo.title} />
+<meta name="twitter:description" content={seo.description} />
+<meta name="twitter:image" content={seo.image} />
+```
+
+You get a few different types of Twitter Cards, you can [check them out here.](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards) I personally choose to go for the 'summary_large_image' card to show my featured image as big as possible on the site.
+
+I may go in and change this however to also be dependent on if the calling page is an article or not. This way if the link is for a blog post I can show a large image but if the link is for a normal page I can use the normal summary card which has a smaller image on it.
+
+Overall, my SEO componet works by taking in the data from the calling page and the defaults from gatsby-config file. Then checking if any fields were missing from the calling pages passed data and if so filling the gaps with the defaults. Then finally, passing the data to the meta tags to be added to the page.
