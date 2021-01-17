@@ -131,7 +131,11 @@ export default function HomePage({ data, path }) {
 
 export const query = graphql`
   query HomePageContentQuery {
-    blog: allMdx(sort: { order: DESC, fields: frontmatter___date }, filter: { fields: { contentCategory: { eq: "blog" } } }, limit: 3) {
+    blog: allMdx(
+      sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
+      filter: { fields: { contentCategory: { eq: "blog" } } }
+      limit: 3
+    ) {
       edges {
         node {
           fields {

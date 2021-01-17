@@ -76,7 +76,7 @@ export const query = graphql`
     blog: allMdx(
       limit: $pageSize
       skip: $skip
-      sort: { order: DESC, fields: frontmatter___date }
+      sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
       filter: { fields: { contentCategory: { eq: "blog" } }, frontmatter: { tags: { regex: $tagRegex } } }
     ) {
       edges {
