@@ -46,7 +46,7 @@ const SEO = ({ post }) => {
       {date ? <meta property="article:published_time" content={new Date(date).toISOString()} /> : null}
 
       {/* Twitter Tags */}
-      <meta name="twitter:card" content="summary_large_image" />
+      {article ? <meta name="twitter:card" content="summary_large_image" /> : <meta name="twitter:card" content="summary" />}
       <meta name="twitter:site" content={twitterUsername} />
       <meta name="twitter:creator" content={twitterUsername} />
       <meta name="twitter:url" content={seo.url} />
