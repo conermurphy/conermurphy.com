@@ -24,11 +24,24 @@ const H3 = styled.h3`
 `;
 
 const H4 = styled.h4`
-  font-size: 2rem;
+  font-size: 1.75rem;
   text-transform: uppercase;
   font-family: var(--body-font);
   border-bottom: 2px solid var(--green);
+  padding: 1rem 0;
+`;
 
+const H5 = styled.h5`
+  font-size: 1.75rem;
+  text-transform: uppercase;
+  font-family: var(--body-font);
+  padding: 1rem 0;
+`;
+
+const H6 = styled.h6`
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-family: var(--body-font);
   padding: 1rem 0;
 `;
 
@@ -99,6 +112,20 @@ const Components = {
         {props.children}
       </a>
     </H4>
+  ),
+  h5: (props) => (
+    <H5 id={props.children.replace(' ', '-').toLowerCase()}>
+      <a href={`#${props.children.replace(' ', '-').toLowerCase()}`} onClick={() => copyToClip()}>
+        {props.children}
+      </a>
+    </H5>
+  ),
+  h6: (props) => (
+    <H6 id={props.children.replace(' ', '-').toLowerCase()}>
+      <a href={`#${props.children.replace(' ', '-').toLowerCase()}`} onClick={() => copyToClip()}>
+        {props.children}
+      </a>
+    </H6>
   ),
   pre: (props) => <Pre {...props} />,
   a: (props) => <ALinks {...props} />,
