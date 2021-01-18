@@ -6,7 +6,7 @@ const H1 = styled.h1`
 `;
 
 const H2 = styled.h2`
-  font-size: 2rem;
+  font-size: 2.25rem;
   text-transform: uppercase;
   font-family: var(--body-font);
   border-bottom: 2px solid var(--green);
