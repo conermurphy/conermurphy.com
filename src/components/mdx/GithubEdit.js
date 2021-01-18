@@ -7,13 +7,17 @@ const Container = styled.aside`
   display: grid;
   align-items: center;
   justify-content: center;
-  max-width: 400px;
+  max-width: 600px;
   margin: auto;
   margin-top: 5rem;
   padding: 2rem 5rem;
   border-left: 2px solid var(--green);
   background-color: var(--white);
   filter: drop-shadow(var(--shadow));
+
+  @media (max-width: 800px) {
+    max-width: 400px;
+  }
 
   @media (max-width: 600px) {
     max-width: 230px;

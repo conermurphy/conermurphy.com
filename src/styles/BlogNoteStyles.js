@@ -39,7 +39,7 @@ const PostContainer = styled.article`
   padding-bottom: 0;
   max-width: 700px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     margin: 2.5rem;
   }
 
