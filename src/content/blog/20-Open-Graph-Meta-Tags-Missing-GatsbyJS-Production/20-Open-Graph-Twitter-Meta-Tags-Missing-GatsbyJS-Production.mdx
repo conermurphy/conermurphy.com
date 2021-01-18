@@ -1,0 +1,54 @@
+---
+title: "Open Graph & Twitter Meta Tags Missing from GatsbyJS Website in Production"
+date: "2021-01-18"
+tags: ["GatsbyJS"]
+slug: open-graph-twitter-meta-tags-missing-gatsbyjs-production
+image: ./20-Open-Graph-Twitter-Meta-Tags-Missing-GatsbyJS-Production.png
+id: 20
+---
+
+Recently when trying to get Twitter Cards working on my website I realised that the Meta Tags for Open Graph and Twitter was not being added to my GatsbyJS website when built and served in production.
+
+After some extensive Googling to try and resolve the issue without much success, I started playing around with the meta tags in my [SEO file](https://github.com/conermurphy/conermurphy.com/blob/4c33549d62f65e88ee75f4af44e43675b34c4b9e/src/components/SEO.js) and soon decided they weren't the issue as they had the same configuration as other websites that had working Twitter Cards. So, I was stumped to what my problem was.
+
+One element that confused things further for me was that all the required meta tags where present when you inspected the HTML of the website in the browser but then I came across [this post](https://twittercommunity.com/t/card-error-unable-to-render-or-no-image-read-this-first/62736) which suggested trying to emulate how the Twitterbot will crawl your website for the required information and see if all of the meta tags where present then rather than looking at it as an actual user would.
+
+If you want to try this yourself, use the following command in your terminal and replace the URL with the page you wish to crawl:
+
+```
+curl -v -A Twitterbot <url>
+```
+
+This should return the HTML for your page, allowing you to inspect it and see if the meta tags required are present, in my case they were not.
+
+BINGO! I had found the issue preventing Twitter from seeing the required meta tags but that's only half the battle. All I had to do now is fix it...
+
+## The Solution
+
+As a quick side note if you are facing this issue and want a quicker feedback loop then pushing the repo, waiting for the site to rebuild and then running the curl command above. What you can do is build your website using `Gatsby Build` and then checking the `index.html` file inside of your public folder. If this file includes all the required meta tags then you should be good to go.
+
+Anyway onto fixing the problem.
+
+The reason I could see the meta tags when inspecting the website but the Twitterbot couldn't when crawling it is because the meta tags where being added in by JavaScript on runtime rather than being included in the static version of the website on build and as the Twitterbot fetches the version from the server and doesn't execute the JavaScript like a browser would on runtime, the meta tags weren't being added into the page.
+
+What further added to my confusion was that the file injecting the meta tags (my SEO component which you can [learn about implementing here.](https://conermurphy.com/blog/adding-open-graph-twitter-meta-tags-gatsbyjs)) wasn't causing any errors and was adding the meta tags on run time so the issue had to be somewhere else in my code.
+
+After some digging about in my code for a bit I came across a hacked solution to a problem I faced for another aspect of my website in the past, the Cookie Banner.
+
+When I was implementing the Cookie Banner for my website I had this constant issue of it not rendering properly when running `Gatsby Build` but it being fine in `Gatsby Develop` so what I did was add the below code to my `Layout.js`:
+
+```JavaScript
+if (typeof window === 'undefined') {
+    return <></>;
+  }
+```
+
+Now, at the time I added that code it fixed my Cookie Banner issue which was brilliant but what I didn't see at the time was the unintended side-effects caused by this change, as the `Layout.js` file wrapped every page in my website, these 3 lines of code caused my website to not render fully server-side and instead moved the blue of rendering to the runtime.
+
+After removing this code and finding a proper solution to my Cookie Banner issue, my meta tags started showing up again in the build version of my website and my Twitter Cards were working again.
+
+## Summary
+
+If you're having issues with your meta tags not being included in your statically built files in production then make sure you're definitely rendering out all the pages and not shortcircuiting the server rendering as I did above.
+
+Also, on a side note for myself; avoid doing hacky fixes as you never know what problems it will cause down the road!
