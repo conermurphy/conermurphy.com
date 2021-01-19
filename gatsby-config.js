@@ -9,7 +9,7 @@ export default {
     author: 'Coner Murphy',
     siteUrl: 'https://conermurphy.com',
     twitterUsername: '@MrConerMurphy',
-    image: '/Logo.svg',
+    image: '/Logo.png',
   },
   plugins: [
     {
@@ -58,7 +58,7 @@ export default {
         theme_color: '#498B41',
         lang: 'en',
         display: 'standalone',
-        icon: './src/assets/images/Favicon.svg',
+        icon: './src/assets/images/Logo.svg',
       },
     },
     {
