@@ -9,7 +9,6 @@ import Components from '../components/mdx/Components';
 import NoteDate from '../components/NoteDate';
 import SEO from '../components/SEO';
 import Tags from '../components/Tags';
-import Logo from '../assets/logo/CM-Logo.svg';
 import matchingLanguageIcon, { findMatchingLanguage } from '../utils/findMatchingLanguageIcon';
 import useNavTheme from '../utils/useNavTheme';
 import { PostBodyContainer, PostContainer } from '../styles/BlogNoteStyles';
@@ -72,7 +71,7 @@ export default function NotesPost({ data, pageContext, path }) {
   const languageTag = findMatchingLanguage(noteCategory);
 
   // Setting image path for SEO if no image use the logo.
-  const imagePath = image ? image.childImageSharp.fluid.src : Logo;
+  const imagePath = image ? image.childImageSharp.fluid.src : '/Logo.svg';
 
   // Updating the nav to show dark theme.
   useNavTheme('dark');

@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import Img from 'gatsby-image';
 import SEO from '../components/SEO';
 import findBlogSeries from '../utils/findBlogSeries';
-import Logo from '../assets/logo/CM-Logo.svg';
 // MDX Component Imports Used on each page.
 import Components from '../components/mdx/Components';
 import Tags from '../components/Tags';
@@ -37,7 +36,7 @@ const BlogPost = ({ data, pageContext, path }) => {
   const { image, title, description, date, series, tags, plainDate } = frontmatter;
 
   // Setting image path for SEO if no image use the logo.
-  const imagePath = image ? image.childImageSharp.fluid.src : Logo;
+  const imagePath = image ? image.childImageSharp.fluid.src : '/Logo.svg';
 
   // Updating the nav to show dark theme.
   useNavTheme('dark');
