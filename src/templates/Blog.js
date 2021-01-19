@@ -59,7 +59,8 @@ const BlogPost = ({ data, pageContext, path }) => {
           <h1 className="postTitle">{title}</h1>
           <div className="postInfo">
             <p>
-              {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes`} {`| ${findBlogSeries(series)}`}
+              {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes`}{' '}
+              {series !== null ? `| ${findBlogSeries(series)}` : ''}
             </p>
             <Tags tags={tags} />
           </div>
@@ -117,8 +118,8 @@ BlogPost.propTypes = {
       frontmatter: PropTypes.shape({
         title: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
-        series: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
+        series: PropTypes.string,
+        description: PropTypes.string,
         tags: PropTypes.array.isRequired,
         image: PropTypes.object,
         plainDate: PropTypes.string,
