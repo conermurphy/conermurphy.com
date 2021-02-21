@@ -81,6 +81,17 @@ export default function HomePage({ data, path }) {
       <EmailSignupForm marginRequired />
       <ContentSection>
         <div className="headerTitleSeperator">
+          <h3>Portfolio</h3>
+          <Link to="/portfolio">View All</Link>
+        </div>
+        <div className="content">
+          {portfolio.edges.map(({ node: post }) => (
+            <PortfolioPostCard key={`portfolioPostCard-${post.id}`} post={post} />
+          ))}
+        </div>
+      </ContentSection>
+      <ContentSection>
+        <div className="headerTitleSeperator">
           <h3>Blog</h3>
           <Link to="/blog">View All</Link>
         </div>
@@ -112,17 +123,6 @@ export default function HomePage({ data, path }) {
           {testimonialData.map((testimonial, index) =>
             index <= 3 ? <TestimonialCard key={`HomePage-Testimony-${index}-${testimonial.company}`} testimonial={testimonial} /> : ''
           )}
-        </div>
-      </ContentSection>
-      <ContentSection>
-        <div className="headerTitleSeperator">
-          <h3>Portfolio</h3>
-          <Link to="/portfolio">View All</Link>
-        </div>
-        <div className="content">
-          {portfolio.edges.map(({ node: post }) => (
-            <PortfolioPostCard key={`portfolioPostCard-${post.id}`} post={post} />
-          ))}
         </div>
       </ContentSection>
     </>
