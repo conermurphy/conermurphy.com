@@ -77,12 +77,12 @@ export default function Notes({ data, pageContext, path }) {
 }
 
 export const query = graphql`
-  query($skip: Int = 0, $pageSize: Int = 6, $tagRegex: String) {
+  query($skip: Int = 0, $pageSize: Int = 6, $tag: String) {
     notes: allMdx(
       limit: $pageSize
       skip: $skip
       sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
-      filter: { fields: { contentCategory: { eq: "notes" }, noteCategory: { regex: $tagRegex } } }
+      filter: { fields: { contentCategory: { eq: "notes" }, noteCategory: { eq: $tag } } }
     ) {
       edges {
         node {

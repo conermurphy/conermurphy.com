@@ -72,12 +72,12 @@ export default function Blog({ data, pageContext, path }) {
 }
 
 export const query = graphql`
-  query($skip: Int = 0, $pageSize: Int = 6, $tagRegex: String) {
+  query($skip: Int = 0, $pageSize: Int = 6, $tag: String) {
     blog: allMdx(
       limit: $pageSize
       skip: $skip
       sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
-      filter: { fields: { contentCategory: { eq: "blog" } }, frontmatter: { tags: { regex: $tagRegex } } }
+      filter: { fields: { contentCategory: { eq: "blog" } }, frontmatter: { tags: { eq: $tag } } }
     ) {
       edges {
         node {
