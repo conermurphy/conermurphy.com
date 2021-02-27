@@ -5,7 +5,7 @@ const LandingSection = styled.section`
   position: relative;
 
   display: grid;
-  grid-template-columns: 50% 0.75fr;
+  grid-template-columns: 50% 0.5fr;
   gap: 5rem;
   align-items: center;
   height: auto;
@@ -56,7 +56,7 @@ const LandingSection = styled.section`
 const InfoBlock = styled.div`
   background-color: var(--white);
   width: 20vw;
-  max-width: 400px;
+  min-width: 400px;
   height: 35rem;
   filter: drop-shadow(var(--shadow));
   display: flex;
@@ -176,6 +176,10 @@ const HeroBackground = styled.div`
   left: 0;
   z-index: -1;
   background-color: var(--black);
+
+  @media (max-width: 900px) {
+    height: 600px;
+  }
 
   @media (max-width: 600px) {
     height: 1250px;
