@@ -1,63 +1,50 @@
-const fetch = require('isomorphic-fetch');
+const { TwitterClient } = require('twitter-api-client');
 
-const bearerToken = process.env.TWITTER_BEARER_TOKEN;
-const endPoint = process.env.TWITTER_ENDPOINT;
+const apiKey = process.env.TWITTER_API_KEY;
+const apiSecret = process.env.TWITTER_API_SECRET;
+const accessToken = process.env.TWITTER_ACCESS_TOKEN;
+const accessTokenSecret = process.env.TWITTER_ACCESS_TOKEN_SECRET;
 
-// Defining cache incase of quick re-requests to avoid spamming twitter API.
+const twitterClient = new TwitterClient({
+  apiKey,
+  apiSecret,
+  accessToken,
+  accessTokenSecret,
+});
+
 const cache = {
   lastFetch: 0,
   tweets: [],
 };
 
-// Definfing settings for API request
-const settings = {
-  include_rts: false,
-  count: 100, // Maximum amount allowed in one request is 100, beyond requires pagination.
-};
-
-async function getRequest() {
+async function fetchData() {
+  // 0: Check if we can use cached tweets
   const timeSinceLastFetch = Date.now() - cache.lastFetch;
   if (timeSinceLastFetch <= 300000) {
     // less 5 mins, serve up cache
     return cache.tweets;
   }
 
-  // Setting query endpoint for API call.
-  const queryEndPoint = `${endPoint}tweet.fields=referenced_tweets,public_metrics,entities&expansions=attachments.media_keys&media.fields=preview_image_url&max_results=${settings.count}`;
-
-  // Fetching the data from twitter and converting to JSON.
-  const { data, includes } = await fetch(queryEndPoint, {
-    method: 'GET',
-    headers: {
-      authorization: `Bearer ${bearerToken}`,
-      'Content-Type': 'application/json',
-    },
-  }).then((res) => res.json());
-
-  // Mapping over the returned array of tweets and defining the source of the tweet.
-  const tweets = data.map((tweet) => {
-    const source = tweet.referenced_tweets === undefined ? 'original' : tweet.referenced_tweets[0].type;
-
-    const mediaKey = tweet.attachments && tweet.attachments.media_keys[0];
-    const media = includes.media.filter((obj) => obj.media_key === mediaKey)[0];
-    return { ...tweet, ...media, source };
+  // 1: Fetch Tweets
+  const data = await twitterClient.tweets.statusesUserTimeline({
+    screen_name: 'MrConerMurphy',
+    count: 200,
+    include_rts: false,
+    exclude_replies: true,
+    trim_user: true,
+    tweet_mode: 'extended',
   });
 
-  // // Filtering to remove any rts depending on the above setting.
-  const filteredTweets = !settings.include_rts ? tweets.filter(({ source }) => source !== 'retweeted') : null;
-
-  // // Slicing to return only 5 tweets to display on page.
-  const slicedTweets = filteredTweets.slice(0, 4).reverse();
-
-  // Updating the cache.
-  cache.tweets = slicedTweets;
+  // 2: Setting data to cache
+  cache.tweets = data.slice(0, 3);
   cache.lastFetch = Date.now();
+
   return cache.tweets;
 }
 
 exports.handler = async function (event, context, callback) {
   // Get tweets and display output to page.
-  const tweets = await getRequest();
+  const tweets = await fetchData();
 
   callback(null, {
     statusCode: 200,
