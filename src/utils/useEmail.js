@@ -24,6 +24,7 @@ export default function useEmail({ values }) {
       chilliIsCool,
     };
 
+    // Checking there was an email entered.
     if (!email.length) {
       setLoading(false);
       setError(true);
