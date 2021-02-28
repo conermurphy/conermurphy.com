@@ -35,12 +35,12 @@ const TweetStats = styled.div`
   }
 `;
 
-const url = '/.netlify/functions/twitter';
+const serverlessUrl = '/.netlify/functions/twitter';
 
 function useTwitter() {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    fetch(url)
+    fetch(serverlessUrl)
       .then((res) => res.json())
       .then((data) => {
         setPosts(data);
@@ -49,11 +49,18 @@ function useTwitter() {
   return posts;
 }
 
-function Media({ mediaURL, alt }) {
-  if (!mediaURL) return null;
-  //   const parts = mediaURL.split('.');
-  const thumb = `${mediaURL}?name=thumb&format=jpg`;
-  return <img src={`https://images.weserv.nl/?url=${encodeURIComponent(thumb)}&w=300&h=300&fit=inside"`} alt={alt} width="300" />;
+function Media({ media, alt }) {
+  if (!media) return null;
+  const url = media[0].media_url;
+  return (
+    <img
+      src={`https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=200&fit=inside`}
+      alt={alt}
+      width="200"
+      height="auto"
+      style={{ fontSize: 0 }}
+    />
+  );
 }
 
 export default function Twitter() {
@@ -63,21 +70,22 @@ export default function Twitter() {
     <TweetsContainer>
       {tweets.length === 0 && <p>brb getting some good tweets...</p>}
       {tweets.map((tweet) => {
-        const text = tweet.text.split('https://t.co').shift().slice(0, 100);
-        const { preview_image_url } = tweet;
+        const text = tweet.full_text.split('https://t.co').shift().slice(0, 100);
+        const { media } = tweet.entities;
+        const { retweet_count, favorite_count } = tweet;
         return (
           <a key={tweet.id} href={`https://twitter.com/MrConerMurphy/status/${tweet.id}`} target="_blank" rel="noopener noreferrer">
             <IndividualTweetContainer>
-              <Media url={preview_image_url} alt={text} />
+              <Media media={media} alt={text} />
               <p>{text}...</p>
               <TweetStats>
-                <span title={`${tweet.public_metrics.retweet_count} Retweets`}>
+                <span title={`${retweet_count} Retweets`}>
                   <IoIosRepeat />
-                  {tweet.public_metrics.retweet_count}
+                  {retweet_count}
                 </span>
-                <span title={`${tweet.public_metrics.like_count} Hearts`}>
+                <span title={`${favorite_count} Hearts`}>
                   <IoIosHeart className="heart" />
-                  {tweet.public_metrics.like_count}
+                  {favorite_count}
                 </span>
               </TweetStats>
             </IndividualTweetContainer>
@@ -89,6 +97,6 @@ export default function Twitter() {
 }
 
 Media.propTypes = {
-  mediaURL: PropTypes.string,
+  media: PropTypes.array,
   alt: PropTypes.string,
 };
