@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import { promises as fs } from 'fs';
 
 const tweetsEndpoint = 'https://api.twitter.com/2/users';
 const userEndpoint = 'https://api.twitter.com/2/users/by?usernames=';
@@ -25,38 +26,63 @@ async function fetchUserId(bearerToken) {
   return { id, name, username };
 }
 
-async function fetchTweets(id, bearerToken) {
-  // Params for fetching data from twitter
-  const params = {
-    exclude: 'retweets',
-    'tweet.fields': 'public_metrics, conversation_id, in_reply_to_user_id, author_id',
-    max_results: 10,
-  };
-
-  // Transforming parameters into one string
-  const stringParams = Object.entries(params)
+// Function used to combine parameters into one string ready to be sent to API.
+function stringifyParams(params) {
+  return Object.entries(params)
     .map(([key, vals]) => {
       // Remove all spaces
       const transformedVals = vals.toString().replace(/ /g, '');
       return `${key}=${transformedVals}`;
     })
     .join('&');
+}
 
-  // 1: Create endpoint for tweets lookup
-  const endpoint = `${tweetsEndpoint}/${id}/tweets?${stringParams}`;
+async function fetchTweets(id, bearerToken) {
+  // Params for fetching data from twitter initially
+  const params = {
+    exclude: 'retweets',
+    'tweet.fields': 'public_metrics, conversation_id, in_reply_to_user_id, author_id, created_at',
+    max_results: 100,
+  };
 
-  // 2: Lookup data from twitter endpoint
-  const res = await fetch(endpoint, {
-    method: 'GET',
-    headers: {
-      'User-Agent': 'v2FullArchiveJS',
-      authorization: `Bearer ${bearerToken}`,
-    },
+  const tweets = [];
+  let fetchedAllData = false;
+
+  do {
+    try {
+      // Transforming parameters into one string
+      const stringParams = stringifyParams(params);
+
+      // 1: Create endpoint for tweets lookup
+      const endpoint = `${tweetsEndpoint}/${id}/tweets?${stringParams}`;
+
+      const { data, meta } = await fetch(endpoint, {
+        method: 'GET',
+        headers: {
+          'User-Agent': 'v2FullArchiveJS',
+          authorization: `Bearer ${bearerToken}`,
+        },
+      }).then((res) => res.json());
+
+      tweets.push(data);
+      if (!meta.next_token) {
+        fetchedAllData = true;
+      } else {
+        params.pagination_token = meta.next_token;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  } while (fetchedAllData === false);
+
+  return tweets;
+}
+
+async function writeFiles(data) {
+  await fs.writeFile('./src/data/tweets.json', JSON.stringify(data), (err) => {
+    if (err) throw err;
+    console.log('data written to file');
   });
-
-  const data = await res.json();
-
-  return data;
 }
 
 export default async function fetchThreads(bearerToken) {
@@ -64,7 +90,8 @@ export default async function fetchThreads(bearerToken) {
   const { id } = await fetchUserId(bearerToken);
 
   // 1: Fetch Tweets using ID
-  const { data } = await fetchTweets(id, bearerToken);
+  const tweets = await fetchTweets(id, bearerToken);
 
-  data.forEach((tweet, i) => console.log(`${i}-${tweet.id}`));
+  // 2: Write info to files
+  await writeFiles(tweets);
 }
