@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { promises as fs } from 'fs';
+import twitterInfo from '../data/tweets.json';
 
 const tweetsEndpoint = 'https://api.twitter.com/2/users';
 const userEndpoint = 'https://api.twitter.com/2/users/by?usernames=';
@@ -43,7 +44,9 @@ async function fetchTweets(id, bearerToken) {
     exclude: 'retweets',
     'tweet.fields': 'public_metrics, conversation_id, in_reply_to_user_id, author_id, created_at',
     max_results: 100,
+    start_time: twitterInfo.meta.lastFetchedData,
   };
+
   const tweets = [];
   let fetchedAllData = false;
   // While fetchedAllData is false then fetch the next page of data from twitter.
@@ -79,46 +82,43 @@ async function fetchTweets(id, bearerToken) {
 }
 
 async function summariseConversationData(tweets) {
-  return new Promise((res, rej) => {
-    try {
-      // Get an array of counted conversation IDs in the dataset
-      const convoIds = tweets
-        // 1: map over the data and return all of the conversation Ids into one array
-        .map((tweet) => {
-          // 1a: Check if the tweet was sent by me and is the first tweet in a conversation OR was in reply to myself.
-          if (
-            (tweet.conversation_id !== tweet.id && tweet.author_id !== '1249718482436055044') ||
-            tweet.in_reply_to_user_id !== tweet.author_id
-          ) {
-            return;
-          }
-          return tweet.conversation_id;
-        })
-        // 2: filter the array to remove undefined values
-        .filter((conId) => conId !== undefined)
-        // 3: Create a new array containing an object for each conversation ID and how many times it occured in the array.
-        .reduce((acc, conversation) => {
-          const existingconversation = acc[conversation];
-          if (existingconversation) {
-            existingconversation.numberOfTweets += 1;
-          } else {
-            acc[conversation] = {
-              conversation,
-              numberOfTweets: 1,
-            };
-          }
-          return acc;
-        }, {});
+  try {
+    // Get an array of counted conversation IDs in the dataset
+    const convoIds = tweets
+      // 1: map over the data and return all of the conversation Ids into one array
+      .map((tweet) => {
+        // 1a: Check if the tweet was sent by me and is the first tweet in a conversation OR was in reply to myself.
+        if (
+          (tweet.conversation_id !== tweet.id && tweet.author_id !== '1249718482436055044') ||
+          tweet.in_reply_to_user_id !== tweet.author_id
+        ) {
+          return;
+        }
+        return tweet.conversation_id;
+      })
+      // 2: filter the array to remove undefined values
+      .filter((conId) => conId !== undefined)
+      // 3: Create a new array containing an object for each conversation ID and how many times it occured in the array.
+      .reduce((acc, conversation) => {
+        const existingconversation = acc[conversation];
+        if (existingconversation) {
+          existingconversation.numberOfTweets += 1;
+        } else {
+          acc[conversation] = {
+            conversation,
+            numberOfTweets: 1,
+          };
+        }
+        return acc;
+      }, {});
 
-      // Fitler on numberOfTweets to remove any conversationIds less than 2 occurences
-      const filteredData = Object.values(convoIds).filter((cId) => cId.numberOfTweets > 2);
+    // Fitler on numberOfTweets to remove any conversationIds less than 2 occurences
+    const filteredData = Object.values(convoIds).filter((cId) => cId.numberOfTweets > 2);
 
-      res(filteredData);
-    } catch (e) {
-      console.error(e);
-      rej(e);
-    }
-  });
+    return filteredData;
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 async function populateTweetData(tweets, convoData) {
@@ -153,12 +153,45 @@ async function populateTweetData(tweets, convoData) {
     convo.tweetIds = tweetIds;
     convo.date = convoTweets[0].created_at;
     convo.meta = {};
-    convo.meta.twitterMetrics = metricData;
+    convo.meta.metrics = metricData;
     return convo;
   });
 
-  // Return the populated object
+  // 5: Return the populated object
   return populatedData;
+}
+
+async function addingMetaDataAndDataWrapper(tweets) {
+  // 1: Create base layout of the final object
+  const finalObj = {
+    meta: {
+      lastFetchedData: new Date(),
+      numberOfThreads: tweets.length,
+      numberofTweets: 0,
+      totalMetrics: {
+        retweet_count: 0,
+        reply_count: 0,
+        like_count: 0,
+        quote_count: 0,
+      },
+    },
+    threads: tweets,
+  };
+
+  // 2: Populate Meta Data
+  tweets.forEach((tweet) => {
+    const { retweet_count, reply_count, like_count, quote_count } = tweet.meta.metrics;
+    // 2a: Add the number of tweetIDs in each thread to the total
+    finalObj.meta.numberofTweets += tweet.tweetIds.length;
+    // 2b: Summing the metrics up for each thread into the finalObj
+    finalObj.meta.totalMetrics.retweet_count += retweet_count;
+    finalObj.meta.totalMetrics.reply_count += reply_count;
+    finalObj.meta.totalMetrics.like_count += like_count;
+    finalObj.meta.totalMetrics.quote_count += quote_count;
+  });
+
+  // 3: Return the final object
+  return finalObj;
 }
 
 // Function for writing tweets.json file out
@@ -176,15 +209,20 @@ export default async function fetchThreads(bearerToken) {
   // 1: Fetch Tweets using ID
   const [tweets] = await fetchTweets(id, bearerToken);
 
-  // 2: Order and summarise data
-  const summarisedConversationData = await summariseConversationData(tweets);
+  if (tweets !== undefined) {
+    // 2: Order and summarise data
+    const summarisedConversationData = await summariseConversationData(tweets);
 
-  // 3: Populate other conversation details such as: TweetIds, date, metrics data
-  const populatedTweetData = await populateTweetData(tweets, summarisedConversationData);
+    // 3: Populate other conversation details such as: TweetIds, date, metrics data
+    const populatedTweetData = await populateTweetData(tweets, summarisedConversationData);
 
-  // 4: Sort the dates of each tweet to ensure they're in the correct order of publication.
-  const sortedTweetData = populatedTweetData.sort((a, b) => new Date(a.date) - new Date(b.date));
+    // 4: Sort the dates of each tweet to ensure they're in the correct order of publication.
+    const sortedTweetData = populatedTweetData.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  // 5: Write info to files
-  await writeFiles(sortedTweetData);
+    // 5: Making the final object and adding in meta data.
+    const finalObj = await addingMetaDataAndDataWrapper(sortedTweetData);
+
+    // 6: Write info to file
+    await writeFiles(finalObj);
+  }
 }
