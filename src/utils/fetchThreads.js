@@ -39,15 +39,24 @@ function stringifyParams(params) {
 }
 
 async function fetchTweets(id, bearerToken) {
-  // Params for fetching data from twitter initially
-  const params = {
-    exclude: 'retweets',
-    'tweet.fields': 'public_metrics, conversation_id, in_reply_to_user_id, author_id, created_at',
-    max_results: 100,
-    start_time: twitterInfo.meta.lastFetchedData,
-  };
+  let params;
+  // Params for fetching data from twitter initially based on if last fetched date is populated.
+  if (twitterInfo.meta.lastFetchedData === '') {
+    params = {
+      exclude: 'retweets',
+      'tweet.fields': 'public_metrics, conversation_id, in_reply_to_user_id, author_id, created_at',
+      max_results: 100,
+    };
+  } else {
+    params = {
+      exclude: 'retweets',
+      'tweet.fields': 'public_metrics, conversation_id, in_reply_to_user_id, author_id, created_at',
+      max_results: 100,
+      start_time: twitterInfo.meta.lastFetchedData,
+    };
+  }
 
-  const tweets = [];
+  let tweets = [];
   let fetchedAllData = false;
   // While fetchedAllData is false then fetch the next page of data from twitter.
   // do {
@@ -65,7 +74,7 @@ async function fetchTweets(id, bearerToken) {
       },
     }).then((res) => res.json());
     // Push the tweets to the array defined above.
-    tweets.push(data);
+    tweets = data;
     // If the returned data from twitter does not have a next token in the meta object then set fetchAllData to true and break the loop.
     if (!meta.next_token) {
       fetchedAllData = true;
@@ -89,12 +98,11 @@ async function summariseConversationData(tweets) {
       .map((tweet) => {
         // 1a: Check if the tweet was sent by me and is the first tweet in a conversation OR was in reply to myself.
         if (
-          (tweet.conversation_id !== tweet.id && tweet.author_id !== '1249718482436055044') ||
-          tweet.in_reply_to_user_id !== tweet.author_id
+          (tweet.conversation_id === tweet.id && tweet.author_id === '1249718482436055044') ||
+          tweet.in_reply_to_user_id === tweet.author_id
         ) {
-          return;
+          return tweet.conversation_id;
         }
-        return tweet.conversation_id;
       })
       // 2: filter the array to remove undefined values
       .filter((conId) => conId !== undefined)
@@ -162,10 +170,11 @@ async function populateTweetData(tweets, convoData) {
 }
 
 async function addingMetaDataAndDataWrapper(tweets) {
+  const currentDate = new Date();
   // 1: Create base layout of the final object
   const finalObj = {
     meta: {
-      lastFetchedData: new Date(),
+      lastFetchedData: `${currentDate.toISOString().split('.')[0]}Z`,
       numberOfThreads: tweets.length,
       numberofTweets: 0,
       totalMetrics: {
@@ -203,12 +212,15 @@ async function writeFiles(data) {
 }
 
 export default async function fetchThreads(bearerToken) {
+  let objToWriteToFile;
+
   // 0: Fetch User ID to lookup tweets off
   const { id } = await fetchUserId(bearerToken);
 
   // 1: Fetch Tweets using ID
-  const [tweets] = await fetchTweets(id, bearerToken);
+  const tweets = await fetchTweets(id, bearerToken);
 
+  // If the fetch to twitter in step 1 returns no tweets it will be undefined, if it does return data run the below.
   if (tweets !== undefined) {
     // 2: Order and summarise data
     const summarisedConversationData = await summariseConversationData(tweets);
@@ -222,7 +234,16 @@ export default async function fetchThreads(bearerToken) {
     // 5: Making the final object and adding in meta data.
     const finalObj = await addingMetaDataAndDataWrapper(sortedTweetData);
 
-    // 6: Write info to file
-    await writeFiles(finalObj);
+    // 6: set object to write to file
+    objToWriteToFile = finalObj;
+  } else {
+    // If no data is returned and it's undefined, update the last fetch data and re-write the file.
+    const existingFile = twitterInfo;
+    const currentDate = new Date();
+    existingFile.meta.lastFetchedData = `${currentDate.toISOString().split('.')[0]}Z`;
+    objToWriteToFile = existingFile;
   }
+
+  // 7: Write object out to the file
+  await writeFiles(objToWriteToFile);
 }

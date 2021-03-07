@@ -485,9 +485,17 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
   );
 }
 
+async function fetchTwitterThreadsAndTurnIntoNodes(params) {
+  await fetchThreads(bearerToken);
+}
+
 export async function sourceNodes(params) {
   // fetch the portfolio data json file locally and turn into GraphQL nodes to allow us to create portfolio tag pages off the tag and query for all the posts on the portfolio page.
-  await Promise.all([fetchPortfolioAndTurnIntoNodes(params), fetchReadsAndTurnIntoNodes(params), fetchThreads(bearerToken)]);
+  await Promise.all([
+    fetchPortfolioAndTurnIntoNodes(params),
+    fetchReadsAndTurnIntoNodes(params),
+    fetchTwitterThreadsAndTurnIntoNodes(params),
+  ]);
 }
 
 export async function createPages(params) {
