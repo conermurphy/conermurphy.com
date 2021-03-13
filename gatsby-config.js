@@ -70,10 +70,13 @@ export default {
         gtagConfig: {
           anonymize_ip: true,
           cookie_prefix: 'conermurphy.com',
+          allow_ad_personalization_signals: false,
+          cookie_expires: 0,
         },
         pluginConfig: {
           // Respecting Do Not Track if set by end user.
           respectDNT: true,
+          head: false,
         },
       },
     },
