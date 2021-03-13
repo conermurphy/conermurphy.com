@@ -76,7 +76,6 @@ export default {
         pluginConfig: {
           // Respecting Do Not Track if set by end user.
           respectDNT: true,
-          head: false,
         },
       },
     },
