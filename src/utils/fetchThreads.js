@@ -151,18 +151,24 @@ async function populateTweetData(tweets, convoData, includes) {
     // 1: Find all tweets in that conversation
     const convoTweets = tweets.filter((item) => item.conversation_id === convo.conversation);
 
-    // 2: Return all tweet IDs, media_keys and position in thread within that conversation and reverse to put them in the correct order as Twitters API does last tweet first.
-    const preMediaTweetIds = convoTweets
+    // 2: Return all tweet IDs, date, text, media_keys and position in thread within that conversation and reverse to put them in the correct order as Twitters API does last tweet first.
+    const preMediaTweets = convoTweets
       .map((item, i) => {
         if (item.attachments !== undefined) {
-          return { id: item.id, media: item.attachments.media_keys, position: convoTweets.length + 1 - (i + 1) };
+          return {
+            id: item.id,
+            media: item.attachments.media_keys,
+            text: item.text,
+            date: item.created_at,
+            position: convoTweets.length + 1 - (i + 1),
+          };
         }
-        return { id: item.id, position: convoTweets.length + 1 - (i + 1) };
+        return { id: item.id, text: item.text, date: item.created_at, position: convoTweets.length + 1 - (i + 1) };
       })
       .reverse();
 
     // 2a: Populate media URL links from includes data for downloading in the future
-    const finalTweetIds = preMediaTweetIds.map((tweet) => {
+    const finalTweets = preMediaTweets.map((tweet) => {
       if (tweet.media !== undefined) {
         const mediaObjects = tweet.media.map((tweetMedia) => media.filter(({ media_key }) => media_key === tweetMedia)).flat();
         const newTweetObj = { ...tweet, media: mediaObjects };
@@ -192,7 +198,7 @@ async function populateTweetData(tweets, convoData, includes) {
 
     // 4: Setting the info to the convo object before returning
     convo.slug = threadSlug;
-    convo.tweetIds = finalTweetIds;
+    convo.tweets = finalTweets;
     convo.date = convoTweets[0].created_at;
     convo.meta = {};
     convo.meta.metrics = metricData;
@@ -225,8 +231,8 @@ async function addingMetaDataAndDataWrapper(tweets) {
   // 2: Populate Meta Data
   tweets.forEach((tweet) => {
     const { retweet_count, reply_count, like_count, quote_count } = tweet.meta.metrics;
-    // 2a: Add the number of tweetIDs in each thread to the total
-    finalObj.meta.numberofTweets += tweet.tweetIds.length;
+    // 2a: Add the number of tweets in each thread to the total
+    finalObj.meta.numberofTweets += tweet.tweets.length;
     // 2b: Summing the metrics up for each thread into the finalObj
     finalObj.meta.totalMetrics.retweet_count += retweet_count;
     finalObj.meta.totalMetrics.reply_count += reply_count;
@@ -263,7 +269,7 @@ export default async function fetchThreads(bearerToken) {
     // 2: Order and summarise data
     const summarisedConversationData = await summariseConversationData(tweets);
 
-    // 3: Populate other conversation details such as: TweetIds, date, metrics data and media_info
+    // 3: Populate other conversation details such as: Tweets, date, metrics data and media_info
     const populatedTweetData = await populateTweetData(tweets, summarisedConversationData, includes);
 
     // 4: Sort the dates of each tweet to ensure they're in the correct order of publication.
@@ -274,9 +280,6 @@ export default async function fetchThreads(bearerToken) {
 
     // 6: set object to write to file
     objToWriteToFile = finalObj;
-
-    // 6a: Write entire tweets object out for temporary use on downloading tweets and creating files
-    await writeFiles(entireData, './src/data/tweets.json');
   } else {
     // If no data is returned and it's undefined, update the last fetch data and re-write the file.
     const existingFile = threadsInfo;
