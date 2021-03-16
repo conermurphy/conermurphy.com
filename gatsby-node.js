@@ -453,34 +453,38 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
         throw error;
       }
 
-      const node = {
-        id: await createNodeId(`reads-${data.items[0].id}`),
-        parent: null,
-        children: [],
-        internal: {
-          type: 'Reads',
-          mediaType: 'application/json',
-          content: JSON.stringify(read),
-          contentDigest: createContentDigest(data),
-        },
-      };
+      try {
+        const node = {
+          id: await createNodeId(`reads-${data.items[0].id}`),
+          parent: null,
+          children: [],
+          internal: {
+            type: 'Reads',
+            mediaType: 'application/json',
+            content: JSON.stringify(read),
+            contentDigest: createContentDigest(data),
+          },
+        };
 
-      const imageNode = await createRemoteFileNode({
-        url: data.items[0].volumeInfo.imageLinks.thumbnail,
-        parentNodeId: `reads-${data.items[0].id}`,
-        getCache,
-        createNode,
-        createNodeId,
-      });
+        const imageNode = await createRemoteFileNode({
+          url: data.items[0].volumeInfo.imageLinks.thumbnail,
+          parentNodeId: `reads-${data.items[0].id}`,
+          getCache,
+          createNode,
+          createNodeId,
+        });
 
-      if (imageNode) {
-        node.localFile___NODE = imageNode.id;
+        if (imageNode) {
+          node.localFile___NODE = imageNode.id;
+        }
+
+        await createNode({
+          ...data,
+          ...node,
+        });
+      } catch (e) {
+        console.error(`There was an error on ${isbn}, error: ${e}`);
       }
-
-      await createNode({
-        ...data,
-        ...node,
-      });
     })
   );
 }

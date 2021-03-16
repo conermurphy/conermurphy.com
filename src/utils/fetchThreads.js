@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { promises as fs } from 'fs';
-import twitterInfo from '../data/tweets.json';
+import threadsInfo from '../data/threads.json';
 
 const tweetsEndpoint = 'https://api.twitter.com/2/users';
 const userEndpoint = 'https://api.twitter.com/2/users/by?usernames=';
@@ -41,7 +41,7 @@ function stringifyParams(params) {
 async function fetchTweets(id, bearerToken) {
   let params;
   // Params for fetching data from twitter initially based on if last fetched date is populated.
-  if (twitterInfo.meta.lastFetchedData === '') {
+  if (threadsInfo.meta.lastFetchedData === '') {
     params = {
       exclude: 'retweets',
       'tweet.fields': 'public_metrics, conversation_id, in_reply_to_user_id, author_id, created_at',
@@ -52,7 +52,7 @@ async function fetchTweets(id, bearerToken) {
       exclude: 'retweets',
       'tweet.fields': 'public_metrics, conversation_id, in_reply_to_user_id, author_id, created_at',
       max_results: 100,
-      start_time: twitterInfo.meta.lastFetchedData,
+      start_time: threadsInfo.meta.lastFetchedData,
     };
   }
 
@@ -203,9 +203,9 @@ async function addingMetaDataAndDataWrapper(tweets) {
   return finalObj;
 }
 
-// Function for writing tweets.json file out
+// Function for writing threads.json file out
 async function writeFiles(data) {
-  await fs.writeFile('./src/data/tweets.json', JSON.stringify(data), (err) => {
+  await fs.writeFile('./src/data/threads.json', JSON.stringify(data), (err) => {
     if (err) throw err;
     console.log('data written to file');
   });
@@ -238,7 +238,7 @@ export default async function fetchThreads(bearerToken) {
     objToWriteToFile = finalObj;
   } else {
     // If no data is returned and it's undefined, update the last fetch data and re-write the file.
-    const existingFile = twitterInfo;
+    const existingFile = threadsInfo;
     const currentDate = new Date();
     existingFile.meta.lastFetchedData = `${currentDate.toISOString().split('.')[0]}Z`;
     objToWriteToFile = existingFile;
