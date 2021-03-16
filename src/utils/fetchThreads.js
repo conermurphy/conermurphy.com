@@ -200,6 +200,7 @@ async function populateTweetData(tweets, convoData, includes) {
     convo.slug = threadSlug;
     convo.tweets = finalTweets;
     convo.date = convoTweets[0].created_at;
+    convo.tag = '';
     convo.meta = {};
     convo.meta.metrics = metricData;
     return convo;

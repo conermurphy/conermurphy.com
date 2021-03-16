@@ -20,7 +20,7 @@ async function tweetsDownloader(threadsInf) {
   // 1: Loop over threads
   threads.forEach(async (thread) => {
     // 1a: Destructure out thread properties
-    const { slug, conversation, tweets, position: threadPosition, numberOfTweets, date: threadDate, meta } = thread;
+    const { slug, conversation, tweets, position: threadPosition, numberOfTweets, date: threadDate, meta, tag } = thread;
 
     // 2: Check if thread has been downloaded or not.
     const threadExists = existingThreads.includes(slug);
@@ -36,7 +36,23 @@ async function tweetsDownloader(threadsInf) {
     const threadFolderPath = `./src/content/threads/${threadPosition}-${slug}`;
     await fs.mkdir(threadFolderPath, { recursive: true });
 
-    // 4: Create a summary MDX document for the entire thread.
+    // 4: Create a summary MDX document for the entire thread and write it out to the parent folder directory
+    const summaryContent = `---
+conversationId: ${conversation}
+position: ${threadPosition}
+date: ${threadDate}
+tag: ${tag}
+slug: ${slug}
+tweets: [${tweets.map((tweet) => `${tweet.id}`)}]
+numberOfTweets: ${numberOfTweets}
+retweetCount: ${meta.metrics.retweet_count}
+likeCount: ${meta.metrics.like_count}
+---
+`;
+
+    await fs.writeFile(`${threadFolderPath}/${slug}.mdx`, summaryContent, {
+      encoding: 'utf-8',
+    });
 
     // 5: Create a sub-folder for each tweet in the thread
     tweets.forEach(async (tweet) => {
