@@ -49,6 +49,8 @@ async function fetchTweets(id, bearerToken) {
       exclude: 'retweets',
       'tweet.fields': 'public_metrics, conversation_id, in_reply_to_user_id, author_id, created_at',
       max_results: 100,
+      expansions: 'attachments.media_keys',
+      'media.fields': 'media_key, type, url',
     };
   } else {
     params = {
@@ -56,10 +58,12 @@ async function fetchTweets(id, bearerToken) {
       'tweet.fields': 'public_metrics, conversation_id, in_reply_to_user_id, author_id, created_at',
       max_results: 100,
       start_time: threadsInfo.meta.lastFetchedData,
+      expansions: 'attachments.media_keys',
+      'media.fields': 'media_key, type, url',
     };
   }
 
-  let tweets = [];
+  const entireData = [];
   let fetchedAllData = false;
   // While fetchedAllData is false then fetch the next page of data from twitter.
   // do {
@@ -69,7 +73,7 @@ async function fetchTweets(id, bearerToken) {
     // 1: Create endpoint for tweets lookup
     const endpoint = `${tweetsEndpoint}/${id}/tweets?${stringParams}`;
     // Perform intital query to Twitter and convert to JSON.
-    const { data, meta } = await fetch(endpoint, {
+    const { data, meta, includes } = await fetch(endpoint, {
       method: 'GET',
       headers: {
         'User-Agent': 'v2FullArchiveJS',
@@ -77,7 +81,7 @@ async function fetchTweets(id, bearerToken) {
       },
     }).then((res) => res.json());
     // Push the tweets to the array defined above.
-    tweets = data;
+    entireData.push({ data, meta, includes });
     // If the returned data from twitter does not have a next token in the meta object then set fetchAllData to true and break the loop.
     if (!meta.next_token) {
       fetchedAllData = true;
@@ -90,7 +94,7 @@ async function fetchTweets(id, bearerToken) {
   }
   // } while (fetchedAllData === false);
 
-  return tweets;
+  return entireData;
 }
 
 // --- Summarise the data recieved from Twitter ---
@@ -134,7 +138,10 @@ async function summariseConversationData(tweets) {
 }
 
 // --- Populate the extra info stored in the threads object ---
-async function populateTweetData(tweets, convoData) {
+async function populateTweetData(tweets, convoData, includes) {
+  // Destructure out media array from includes object created by Twitter.
+  const { media } = includes;
+
   // Loop over each conversation and populate the required info
   const populatedData = convoData.map((convo) => {
     // 0: Create slug for the conversation
@@ -144,8 +151,17 @@ async function populateTweetData(tweets, convoData) {
     // 1: Find all tweets in that conversation
     const convoTweets = tweets.filter((item) => item.conversation_id === convo.conversation);
 
-    // 2: Return all tweet IDs within that conversation and reverse to put them in the correct order as Twitters API does last tweet first.
-    const tweetIds = convoTweets.map((item) => item.id).reverse();
+    // 2: Return all tweet IDs, media_keys and position in thread within that conversation and reverse to put them in the correct order as Twitters API does last tweet first.
+    const tweetIds = convoTweets
+      .map((item, i) => {
+        if (item.attachments !== undefined) {
+          return { id: item.id, media_keys: item.attachments.media_keys, media: [], position: convoTweets.length + 1 - (i + 1) };
+        }
+        return { id: item.id, position: convoTweets.length + 1 - (i + 1) };
+      })
+      .reverse();
+
+    // 2a: Populate media URL links from includes data for downloading in the future
 
     // 3: Populate the meta info for the conversation.
     // Reduce of each conversation tweet found above to combine each metric section on each tweet.
@@ -215,8 +231,8 @@ async function addingMetaDataAndDataWrapper(tweets) {
 }
 
 // --- Write threads.json out ---
-async function writeFiles(data) {
-  await fs.writeFile('./src/data/threads.json', JSON.stringify(data), (err) => {
+async function writeFiles(data, filePath) {
+  await fs.writeFile(filePath, JSON.stringify(data), (err) => {
     if (err) throw err;
     console.log('data written to file');
   });
@@ -229,16 +245,18 @@ export default async function fetchThreads(bearerToken) {
   // 0: Fetch User ID to lookup tweets off
   const { id } = await fetchUserId(bearerToken);
 
-  // 1: Fetch Tweets using ID
-  const tweets = await fetchTweets(id, bearerToken);
+  // 1: Fetch Data using ID
+  const [entireData] = await fetchTweets(id, bearerToken);
+  // 1a: Destructure out individual values for use in functions below
+  const { data: tweets, includes } = entireData;
 
   // If the fetch to twitter in step 1 returns no tweets it will be undefined, if it does return data run the below.
   if (tweets !== undefined) {
     // 2: Order and summarise data
     const summarisedConversationData = await summariseConversationData(tweets);
 
-    // 3: Populate other conversation details such as: TweetIds, date, metrics data
-    const populatedTweetData = await populateTweetData(tweets, summarisedConversationData);
+    // 3: Populate other conversation details such as: TweetIds, date, metrics data and media_info
+    const populatedTweetData = await populateTweetData(tweets, summarisedConversationData, includes);
 
     // 4: Sort the dates of each tweet to ensure they're in the correct order of publication.
     const sortedTweetData = populatedTweetData.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -248,6 +266,9 @@ export default async function fetchThreads(bearerToken) {
 
     // 6: set object to write to file
     objToWriteToFile = finalObj;
+
+    // 6a: Write entire tweets object out for temporary use on downloading tweets and creating files
+    await writeFiles(entireData, './src/data/tweets.json');
   } else {
     // If no data is returned and it's undefined, update the last fetch data and re-write the file.
     const existingFile = threadsInfo;
@@ -259,5 +280,5 @@ export default async function fetchThreads(bearerToken) {
   }
 
   // 7: Write object out to the file
-  await writeFiles(objToWriteToFile);
+  await writeFiles(objToWriteToFile, './src/data/threads.json');
 }
