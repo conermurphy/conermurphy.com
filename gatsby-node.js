@@ -6,6 +6,7 @@ import findTagInfo from './src/utils/findTagInfo';
 import portfolioData from './src/data/portfolio.json';
 import readsData from './src/data/reads.json';
 import fetchThreads from './src/utils/fetchThreads';
+import downloadThreads from './src/utils/downloadThreads';
 
 // Bringing in twitter api info
 const bearerToken = process.env.TWITTER_BEARER_TOKEN;
@@ -490,7 +491,8 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
 }
 
 async function fetchTwitterThreadsAndTurnIntoNodes(params) {
-  await fetchThreads(bearerToken);
+  // await fetchThreads(bearerToken);
+  await downloadThreads(bearerToken);
 }
 
 export async function sourceNodes(params) {

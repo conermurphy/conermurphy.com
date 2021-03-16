@@ -1,10 +1,12 @@
 import fetch from 'isomorphic-fetch';
 import { promises as fs } from 'fs';
+import getSlug from 'speakingurl';
 import threadsInfo from '../data/threads.json';
 
 const tweetsEndpoint = 'https://api.twitter.com/2/users';
 const userEndpoint = 'https://api.twitter.com/2/users/by?usernames=';
 
+// --- Get User ID from Twitter ---
 async function fetchUserId(bearerToken) {
   // 1: Define parameters for username
   const params = {
@@ -38,6 +40,7 @@ function stringifyParams(params) {
     .join('&');
 }
 
+// --- Download Tweets from Twitter ---
 async function fetchTweets(id, bearerToken) {
   let params;
   // Params for fetching data from twitter initially based on if last fetched date is populated.
@@ -90,6 +93,7 @@ async function fetchTweets(id, bearerToken) {
   return tweets;
 }
 
+// --- Summarise the data recieved from Twitter ---
 async function summariseConversationData(tweets) {
   try {
     // Get an array of counted conversation IDs in the dataset
@@ -129,9 +133,14 @@ async function summariseConversationData(tweets) {
   }
 }
 
+// --- Populate the extra info stored in the threads object ---
 async function populateTweetData(tweets, convoData) {
   // Loop over each conversation and populate the required info
   const populatedData = convoData.map((convo) => {
+    // 0: Create slug for the conversation
+    const firstTweetInConvo = tweets.filter((item) => item.id === convo.conversation);
+    const threadSlug = getSlug(firstTweetInConvo[0].text.split(/\r?\n/)[0]);
+
     // 1: Find all tweets in that conversation
     const convoTweets = tweets.filter((item) => item.conversation_id === convo.conversation);
 
@@ -158,6 +167,7 @@ async function populateTweetData(tweets, convoData) {
     metricData.reply_count -= convo.numberOfTweets - 1;
 
     // 4: Setting the info to the convo object before returning
+    convo.slug = threadSlug;
     convo.tweetIds = tweetIds;
     convo.date = convoTweets[0].created_at;
     convo.meta = {};
@@ -169,6 +179,7 @@ async function populateTweetData(tweets, convoData) {
   return populatedData;
 }
 
+// --- Add Meta Data to the file ---
 async function addingMetaDataAndDataWrapper(tweets) {
   const currentDate = new Date();
   // 1: Create base layout of the final object
@@ -203,7 +214,7 @@ async function addingMetaDataAndDataWrapper(tweets) {
   return finalObj;
 }
 
-// Function for writing threads.json file out
+// --- Write threads.json out ---
 async function writeFiles(data) {
   await fs.writeFile('./src/data/threads.json', JSON.stringify(data), (err) => {
     if (err) throw err;
@@ -211,6 +222,7 @@ async function writeFiles(data) {
   });
 }
 
+// --- Wrapper Function ---
 export default async function fetchThreads(bearerToken) {
   let objToWriteToFile;
 
@@ -240,7 +252,9 @@ export default async function fetchThreads(bearerToken) {
     // If no data is returned and it's undefined, update the last fetch data and re-write the file.
     const existingFile = threadsInfo;
     const currentDate = new Date();
-    existingFile.meta.lastFetchedData = `${currentDate.toISOString().split('.')[0]}Z`;
+    const updatedDate = `${currentDate.toISOString().split('.')[0]}Z`;
+    existingFile.meta.lastFetchedData = updatedDate;
+    console.log(`No new tweets found, updating last fetched date/time to ${updatedDate}`);
     objToWriteToFile = existingFile;
   }
 
