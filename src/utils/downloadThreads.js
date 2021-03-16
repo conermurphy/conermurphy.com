@@ -11,7 +11,7 @@ function getThreadFolderNames() {
 }
 
 // --- Download Tweets ---
-async function tweetsDownloader(bearer, threadsInf) {
+async function tweetsDownloader(threadsInf) {
   // 0: Get list of folders contained within threads folder already to see if thread exists
   const existingThreads = getThreadFolderNames();
   // 0b: Destructure threads out of threadsInf
@@ -20,7 +20,7 @@ async function tweetsDownloader(bearer, threadsInf) {
   // 1: Loop over threads
   threads.map(async (thread) => {
     // 1a: Destructure out thread properties
-    const { slug, conversation, tweetIds } = thread;
+    const { slug, conversation, tweets } = thread;
     // 2: Check if thread has been downloaded or not.
     const threadExists = existingThreads.includes(slug);
 
@@ -38,10 +38,10 @@ async function tweetsDownloader(bearer, threadsInf) {
 }
 
 // --- Wrapper Function for downloading threads ---
-export default async function downloadThreads(bearerToken) {
+export default async function downloadThreads() {
   // 0: Loop Over threads.json:
   //    -> Check if already downloaded and skip if exists
   //    -> Create a new folder for missing ones
   //    -> Download and populate info
-  await tweetsDownloader(bearerToken, threadsInfo);
+  await tweetsDownloader(threadsInfo);
 }

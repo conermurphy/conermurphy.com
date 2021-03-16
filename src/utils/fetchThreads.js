@@ -158,12 +158,12 @@ async function populateTweetData(tweets, convoData, includes) {
           return {
             id: item.id,
             media: item.attachments.media_keys,
-            text: item.text,
+            text: item.text.split('https://t.co')[0],
             date: item.created_at,
             position: convoTweets.length + 1 - (i + 1),
           };
         }
-        return { id: item.id, text: item.text, date: item.created_at, position: convoTweets.length + 1 - (i + 1) };
+        return { id: item.id, text: item.text.split('https://t.co')[0], date: item.created_at, position: convoTweets.length + 1 - (i + 1) };
       })
       .reverse();
 
@@ -272,8 +272,13 @@ export default async function fetchThreads(bearerToken) {
     // 3: Populate other conversation details such as: Tweets, date, metrics data and media_info
     const populatedTweetData = await populateTweetData(tweets, summarisedConversationData, includes);
 
-    // 4: Sort the dates of each tweet to ensure they're in the correct order of publication.
-    const sortedTweetData = populatedTweetData.sort((a, b) => new Date(b.date) - new Date(a.date));
+    // 4: Sort the dates of each tweet to ensure they're in the correct order of publication and add a position number to it for numbering.
+    const sortedTweetData = populatedTweetData
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .map((thread, i) => ({
+        ...thread,
+        position: i + 1,
+      }));
 
     // 5: Making the final object and adding in meta data.
     const finalObj = await addingMetaDataAndDataWrapper(sortedTweetData);
