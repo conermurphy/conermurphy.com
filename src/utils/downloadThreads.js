@@ -1,4 +1,6 @@
 import { readdirSync, promises as fs } from 'fs';
+import fetch from 'isomorphic-fetch';
+import FileType from 'file-type';
 import threadsInfo from '../data/threads.json';
 
 // --- Get an array of folder names existing within threads content folder.
@@ -8,6 +10,21 @@ function getThreadFolderNames() {
     .filter((dirent) => dirent.isDirectory())
     .map((dirent) => dirent.name);
   return getDirectories;
+}
+
+// --- Function to get name to call image, last bit before extension and after last /
+function getImageName(path) {
+  return path.split('/').pop();
+}
+
+// --- Function to download media from Twitter ---
+async function downloadMedia(remotePath, localPath) {
+  console.log(`Downloading ${remotePath} to ${localPath}`);
+  const data = await fetch(remotePath).then((res) => res.buffer());
+  const { ext = 'png' } = await FileType.fromBuffer(data);
+  const fileName = getImageName(remotePath);
+  const [, extension] = fileName.split('.');
+  await fs.writeFile(`${localPath}/${fileName}${extension ? '' : `.${ext}`}`, data);
 }
 
 // --- Download Tweets ---
@@ -59,9 +76,33 @@ likeCount: ${meta.metrics.like_count}
       const { id, media = null, date: tweetDate, text, position: tweetPosition } = tweet;
       const tweetFolderPath = `${threadFolderPath}/tweet-${tweetPosition}`;
       await fs.mkdir(tweetFolderPath, { recursive: true });
-    });
 
-    // 6: Create an MDX document for each tweet in their respecitve folder and download any media required to be linked in the document.
+      // 6: Create an MDX document for each tweet in their respecitve folder and download any media required to be linked in the document.
+      // 6a: Downloading media
+      if (media !== null) {
+        await Promise.all(
+          media.map(async (item) => {
+            if (['photo', 'video'].some((el) => item.type.includes(el))) {
+              await downloadMedia(item.url, tweetFolderPath);
+            }
+          })
+        );
+      }
+      // 6b: Writing individual tweet MDX files
+      const tweetContent = `---
+id: ${id}
+position: ${tweetPosition}
+date: ${tweetDate}
+conversationId: ${conversation}
+media: [${media !== null ? media.map((m) => `./${getImageName(m.url)}`) : ''}]
+---
+${text.trim()}
+`;
+
+      await fs.writeFile(`${tweetFolderPath}/tweet-${tweetPosition}.mdx`, tweetContent, {
+        encoding: 'utf-8',
+      });
+    });
   });
 }
 
