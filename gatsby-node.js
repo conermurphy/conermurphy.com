@@ -491,8 +491,8 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
 }
 
 async function fetchTwitterThreadsAndTurnIntoNodes(params) {
-  await fetchThreads(bearerToken);
-  // await downloadThreads();
+  // await fetchThreads(bearerToken);
+  await downloadThreads();
 }
 
 export async function sourceNodes(params) {

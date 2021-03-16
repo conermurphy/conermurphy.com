@@ -160,10 +160,10 @@ async function populateTweetData(tweets, convoData, includes) {
             media: item.attachments.media_keys,
             text: item.text.split('https://t.co')[0],
             date: item.created_at,
-            position: convoTweets.length + 1 - (i + 1),
+            position: convoTweets.length - i,
           };
         }
-        return { id: item.id, text: item.text.split('https://t.co')[0], date: item.created_at, position: convoTweets.length + 1 - (i + 1) };
+        return { id: item.id, text: item.text.split('https://t.co')[0], date: item.created_at, position: convoTweets.length - i };
       })
       .reverse();
 
@@ -277,7 +277,7 @@ export default async function fetchThreads(bearerToken) {
       .sort((a, b) => new Date(b.date) - new Date(a.date))
       .map((thread, i) => ({
         ...thread,
-        position: i + 1,
+        position: i,
       }));
 
     // 5: Making the final object and adding in meta data.
