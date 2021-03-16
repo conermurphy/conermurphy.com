@@ -152,16 +152,24 @@ async function populateTweetData(tweets, convoData, includes) {
     const convoTweets = tweets.filter((item) => item.conversation_id === convo.conversation);
 
     // 2: Return all tweet IDs, media_keys and position in thread within that conversation and reverse to put them in the correct order as Twitters API does last tweet first.
-    const tweetIds = convoTweets
+    const preMediaTweetIds = convoTweets
       .map((item, i) => {
         if (item.attachments !== undefined) {
-          return { id: item.id, media_keys: item.attachments.media_keys, media: [], position: convoTweets.length + 1 - (i + 1) };
+          return { id: item.id, media: item.attachments.media_keys, position: convoTweets.length + 1 - (i + 1) };
         }
         return { id: item.id, position: convoTweets.length + 1 - (i + 1) };
       })
       .reverse();
 
     // 2a: Populate media URL links from includes data for downloading in the future
+    const finalTweetIds = preMediaTweetIds.map((tweet) => {
+      if (tweet.media !== undefined) {
+        const mediaObjects = tweet.media.map((tweetMedia) => media.filter(({ media_key }) => media_key === tweetMedia)).flat();
+        const newTweetObj = { ...tweet, media: mediaObjects };
+        return newTweetObj;
+      }
+      return tweet;
+    });
 
     // 3: Populate the meta info for the conversation.
     // Reduce of each conversation tweet found above to combine each metric section on each tweet.
@@ -184,7 +192,7 @@ async function populateTweetData(tweets, convoData, includes) {
 
     // 4: Setting the info to the convo object before returning
     convo.slug = threadSlug;
-    convo.tweetIds = tweetIds;
+    convo.tweetIds = finalTweetIds;
     convo.date = convoTweets[0].created_at;
     convo.meta = {};
     convo.meta.metrics = metricData;
