@@ -163,6 +163,7 @@ async function populateTweetData(tweets, convoData, includes = {}) {
             id: item.id,
             media: item.attachments.media_keys,
             text: item.text.split('https://t.co')[0],
+            type: 'tweet',
             date: item.created_at,
             position: convoTweets.length + 1 - (i + 1),
           };
@@ -208,6 +209,7 @@ async function populateTweetData(tweets, convoData, includes = {}) {
     convo.tags = '';
     convo.meta = {};
     convo.meta.metrics = metricData;
+    convo.type = 'thread';
     return convo;
   });
 

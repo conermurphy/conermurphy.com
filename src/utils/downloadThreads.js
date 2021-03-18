@@ -37,14 +37,25 @@ async function tweetsDownloader(threadsInf) {
   // 1: Loop over threads
   threads.forEach(async (thread) => {
     // 1a: Destructure out thread properties
-    const { slug, title, conversation, tweets, position: threadPosition, numberOfTweets, date: threadDate, meta, tag } = thread;
+    const {
+      slug,
+      title,
+      type: threadType = 'thread',
+      conversation,
+      tweets,
+      position: threadPosition,
+      numberOfTweets,
+      date: threadDate,
+      meta,
+      tags = [],
+    } = thread;
 
     // 2: Check if thread has been downloaded or not.
-    const threadExists = existingThreads.includes(slug);
+    const threadExists = existingThreads.some((existingThread) => existingThread.includes(slug));
 
     // 2a: If the existing folders contains the current thread slug then return
     if (threadExists) {
-      console.log(`The thread with the slug: ${slug} already exists`);
+      console.log(`The thread with the slug: ${slug} already exists, skipping thread.`);
       return;
     }
 
@@ -59,7 +70,8 @@ conversationId: ${conversation}
 title: "${title.trim()}"
 position: ${threadPosition}
 date: ${threadDate}
-tag: ${tag}
+tags: ${tags}
+type: ${threadType}
 slug: ${slug}
 tweets: [${tweets.map((tweet) => `${tweet.id}`)}]
 numberOfTweets: ${numberOfTweets}
@@ -74,7 +86,7 @@ likeCount: ${meta.metrics.like_count}
 
     // 5: Create a sub-folder for each tweet in the thread
     tweets.forEach(async (tweet) => {
-      const { id, media = null, date: tweetDate, text, position: tweetPosition } = tweet;
+      const { id, media = null, date: tweetDate, type: tweetType = 'tweet', text, position: tweetPosition } = tweet;
       const tweetFolderPath = `${threadFolderPath}/tweet-${tweetPosition}`;
       await fs.mkdir(tweetFolderPath, { recursive: true });
 
@@ -94,6 +106,7 @@ likeCount: ${meta.metrics.like_count}
 id: ${id}
 position: ${tweetPosition}
 date: ${tweetDate}
+type: ${tweetType}
 conversationId: ${conversation}
 media: [${media !== null ? media.map((m) => `./${getImageName(m.url)}`) : ''}]
 ---

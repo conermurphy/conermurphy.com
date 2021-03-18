@@ -81,7 +81,7 @@ export async function onCreateNode({ node, getNode, actions }) {
   const { createNodeField } = actions; // Getting the createNodeField API
 
   // If the node being processed is an MDX node then run this code.
-  if (node.internal.type === 'Mdx') {
+  if (node.internal.type === 'Mdx' && node.frontmatter.type !== 'tweet') {
     // Get the contentType from the file parent directories of each node.
     const contentType = createFilePath({ node, getNode }).split('/')[1];
     const noteCategory = contentType === 'notes' ? createFilePath({ node, getNode }).split('/')[2] : null;
@@ -95,14 +95,14 @@ export async function onCreateNode({ node, getNode, actions }) {
     // 3) For notes only what category it belonds to.
     let slug;
     if (node.frontmatter.slug) {
-      if (contentType === 'blog') {
+      if (contentType === 'blog' || contentType === 'threads') {
         slug = `/${contentType}/${node.frontmatter.slug}/`;
       }
       if (contentType === 'notes') {
         slug = `/${contentType}/${noteCategory}/${node.frontmatter.slug}/`;
       }
     } else {
-      if (contentType === 'blog') {
+      if (contentType === 'blog' || contentType === 'threads') {
         slug = `/${contentType}/${fileSlug}/`;
       }
       if (contentType === 'notes') {
@@ -218,6 +218,7 @@ async function turnBlogPostsIntoPages({ graphql, actions }) {
   createMainPages(actions, 'blog', blogTemplate, blogTotalCount);
 }
 
+// Turn all Notes into post pages
 async function turnNotesIntoPages({ graphql, actions }) {
   const { createPage } = actions;
 
@@ -280,6 +281,54 @@ async function turnNotesIntoPages({ graphql, actions }) {
   createMainPages(actions, 'notes', pageTemplate, notesTotalCount);
 }
 
+// Function to turn Twitter Threads into pages.
+async function turnTwitterThreadsIntoPages({ graphql, actions }) {
+  const { createPage } = actions;
+
+  // 0: Fetch the template for the threads page.
+  const threadsTemplate = path.resolve('./src/pages/threads.js');
+
+  // 1: Query for all Twitter Thread Conversations
+  const {
+    data: {
+      threads: { edges: threads, totalCount: threadsTotalCount },
+    },
+  } = await graphql(`
+    query {
+      threads: allMdx(sort: { order: ASC, fields: frontmatter___date }, filter: { fields: { contentCategory: { eq: "threads" } } }) {
+        edges {
+          node {
+            fields {
+              slug
+              contentCategory
+            }
+            frontmatter {
+              title
+              date(formatString: "DD/MM/YYYY HH:mm")
+            }
+          }
+        }
+        totalCount
+      }
+    }
+  `);
+  // 2: Create an individual post page for every Twitter Thread.
+  // threads.forEach(({ node }, index) => {
+  //   createPage({
+  //     path: node.fields.slug,
+  //     component: path.resolve('./src/templates/Threads.js'),
+  //     context: {
+  //       slug: node.fields.slug,
+  //       prev: index === 0 ? null : threads[index - 1].node,
+  //       next: index === threads.length - 1 ? null : threads[index + 1].node,
+  //     },
+  //   });
+  // });
+
+  // 3: Create the actual thread pages, paginated.\
+  createMainPages(actions, 'threads', threadsTemplate, threadsTotalCount);
+}
+
 // === Below here is the functions used to create the blog post tag pages and the note post category pages ===
 
 async function turnBlogPostTagsIntoPages({ graphql, actions }) {
@@ -324,6 +373,29 @@ async function turnNotesCategoriesIntoPages({ graphql, actions }) {
   `);
 
   createTagPages('notes', data, notesTemplate, actions);
+}
+
+// Turn Twitter Threads Tags into Pages.
+async function turnThreadsTagsIntoPages({ graphql, actions }) {
+  // Getting the note page template.
+  const threadsTemplate = path.resolve('./src/pages/threads.js');
+
+  // Querying for all of the categories
+  const { data } = await graphql(`
+    query {
+      threads: allMdx(filter: { fields: { contentCategory: { eq: "threads" } } }) {
+        edges {
+          node {
+            frontmatter {
+              tags
+            }
+          }
+        }
+      }
+    }
+  `);
+
+  createTagPages('threads', data, threadsTemplate, actions);
 }
 
 async function turnPortfolioTagsIntoPages({ graphql, actions }) {
@@ -380,7 +452,7 @@ async function turnReadsCategoriesIntoPages({ graphql, actions }) {
   createTagPages('reads', data, readsTemplate, actions);
 }
 
-// === End of creating blog post tag and notes category pages ===
+// === End of creating pages / posts ===
 
 // Sourcing the portfolio data into the graphQL API to allow us to create pages off the tags for each post.
 async function fetchPortfolioAndTurnIntoNodes({ actions, createNodeId, createContentDigest }) {
@@ -490,18 +562,15 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
   );
 }
 
-async function fetchTwitterThreadsAndTurnIntoNodes(params) {
+// Function to fetch Twitter Threads and create MDX files for them.
+async function fetchTwitterThreads(params) {
   await fetchThreads(bearerToken);
   await downloadThreads();
 }
 
 export async function sourceNodes(params) {
   // fetch the portfolio data json file locally and turn into GraphQL nodes to allow us to create portfolio tag pages off the tag and query for all the posts on the portfolio page.
-  await Promise.all([
-    fetchPortfolioAndTurnIntoNodes(params),
-    fetchReadsAndTurnIntoNodes(params),
-    fetchTwitterThreadsAndTurnIntoNodes(params),
-  ]);
+  await Promise.all([fetchPortfolioAndTurnIntoNodes(params), fetchReadsAndTurnIntoNodes(params), fetchTwitterThreads(params)]);
 }
 
 export async function createPages(params) {
@@ -511,10 +580,14 @@ export async function createPages(params) {
     turnBlogPostsIntoPages(params),
     // Notes Pages
     turnNotesIntoPages(params),
+    // Turn sourced Twitter Threads into pages.
+    turnTwitterThreadsIntoPages(params),
     // Blog Tags Pages
     turnBlogPostTagsIntoPages(params),
     // Turn Notes Categories into pages
     turnNotesCategoriesIntoPages(params),
+    // Turn Twitter Threads Tags Into Pages
+    turnThreadsTagsIntoPages(params),
     // Turn Portfolio Tags into pages
     turnPortfolioTagsIntoPages(params),
     // Turn Read Categories into pages.
