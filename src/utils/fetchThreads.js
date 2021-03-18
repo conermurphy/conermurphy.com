@@ -133,12 +133,15 @@ async function summariseConversationData(tweets) {
 
     return filteredData;
   } catch (e) {
+    if (tweets === undefined) {
+      return undefined;
+    }
     console.error(e);
   }
 }
 
 // --- Populate the extra info stored in the threads object ---
-async function populateTweetData(tweets, convoData, includes) {
+async function populateTweetData(tweets, convoData, includes = {}) {
   // Destructure out media array from includes object created by Twitter.
   const { media } = includes;
 
@@ -147,6 +150,7 @@ async function populateTweetData(tweets, convoData, includes) {
     // 0: Create slug for the conversation
     const firstTweetInConvo = tweets.filter((item) => item.id === convo.conversation);
     const threadSlug = getSlug(firstTweetInConvo[0].text.split(/\r?\n/)[0]);
+    const threadTitle = firstTweetInConvo[0].text.split(/\n/)[0];
 
     // 1: Find all tweets in that conversation
     const convoTweets = tweets.filter((item) => item.conversation_id === convo.conversation);
@@ -198,6 +202,7 @@ async function populateTweetData(tweets, convoData, includes) {
 
     // 4: Setting the info to the convo object before returning
     convo.slug = threadSlug;
+    convo.title = threadTitle;
     convo.tweets = finalTweets;
     convo.date = convoTweets[0].created_at;
     convo.tag = '';
@@ -256,6 +261,8 @@ async function writeFiles(data, filePath) {
 // --- Wrapper Function ---
 export default async function fetchThreads(bearerToken) {
   let objToWriteToFile;
+  const currentDate = new Date();
+  const updatedDate = `${currentDate.toISOString().split('.')[0]}Z`;
 
   // 0: Fetch User ID to lookup tweets off
   const { id } = await fetchUserId(bearerToken);
@@ -265,11 +272,11 @@ export default async function fetchThreads(bearerToken) {
   // 1a: Destructure out individual values for use in functions below
   const { data: tweets, includes } = entireData;
 
-  // If the fetch to twitter in step 1 returns no tweets it will be undefined, if it does return data run the below.
-  if (tweets !== undefined) {
-    // 2: Order and summarise data
-    const summarisedConversationData = await summariseConversationData(tweets);
+  // 2: Order and summarise data
+  const summarisedConversationData = await summariseConversationData(tweets);
 
+  // Check if there are conversations in the latest fetched data if so run the below code.
+  if (tweets !== undefined && Object.keys(summarisedConversationData).length !== 0) {
     // 3: Populate other conversation details such as: Tweets, date, metrics data and media_info
     const populatedTweetData = await populateTweetData(tweets, summarisedConversationData, includes);
 
@@ -285,14 +292,17 @@ export default async function fetchThreads(bearerToken) {
     const finalObj = await addingMetaDataAndDataWrapper(sortedTweetData);
 
     // 6: set object to write to file
+    console.log(
+      `${
+        Object.keys(summarisedConversationData).length
+      } new threads found, updating last fetched date/time to ${updatedDate} and rewriting file.`
+    );
     objToWriteToFile = finalObj;
   } else {
     // If no data is returned and it's undefined, update the last fetch data and re-write the file.
     const existingFile = threadsInfo;
-    const currentDate = new Date();
-    const updatedDate = `${currentDate.toISOString().split('.')[0]}Z`;
     existingFile.meta.lastFetchedData = updatedDate;
-    console.log(`No new tweets found, updating last fetched date/time to ${updatedDate}`);
+    console.log(`No new threads found, updating last fetched date/time to ${updatedDate}`);
     objToWriteToFile = existingFile;
   }
 

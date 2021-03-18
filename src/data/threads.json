@@ -1,6 +1,6 @@
 {
     "meta": {
-        "lastFetchedData": "2021-03-16T15:00:03Z",
+        "lastFetchedData": "2021-03-18T06:58:28Z",
         "numberOfThreads": 1,
         "numberofTweets": 6,
         "totalMetrics": {
@@ -15,7 +15,7 @@
             "conversation": "1368551099846770689",
             "numberOfTweets": 6,
             "slug": "js-looping-over-arrays",
-            "tag": "JavaScript",
+            "title": "🟡 JS: Looping over Arrays 🟡 ",
             "tweets": [
                 {
                     "id": "1368551099846770689",
@@ -90,6 +90,7 @@
                 }
             ],
             "date": "2021-03-07T13:16:24.000Z",
+            "tag": "",
             "meta": {
                 "metrics": {
                     "retweet_count": 6,
