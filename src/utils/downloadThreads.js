@@ -37,7 +37,7 @@ async function tweetsDownloader(threadsInf) {
   // 1: Loop over threads
   threads.forEach(async (thread) => {
     // 1a: Destructure out thread properties
-    const { slug, conversation, tweets, position: threadPosition, numberOfTweets, date: threadDate, meta, tag } = thread;
+    const { slug, title, conversation, tweets, position: threadPosition, numberOfTweets, date: threadDate, meta, tag } = thread;
 
     // 2: Check if thread has been downloaded or not.
     const threadExists = existingThreads.includes(slug);
@@ -56,6 +56,7 @@ async function tweetsDownloader(threadsInf) {
     // 4: Create a summary MDX document for the entire thread and write it out to the parent folder directory
     const summaryContent = `---
 conversationId: ${conversation}
+title: "${title.trim()}"
 position: ${threadPosition}
 date: ${threadDate}
 tag: ${tag}
