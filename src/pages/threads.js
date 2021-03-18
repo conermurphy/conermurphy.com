@@ -46,27 +46,27 @@ export default function Threads({ data, pageContext, path }) {
       />
       <div className="headerTitleSeperator">
         <h1>Twitter Threads</h1>
-        <TagFilter base="threads" activeTag={tag} />
-        <Pagination
-          pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
-          totalCount={totalCount}
-          currentPage={currentPage || 1}
-          skip={skip}
-          base={path}
-        />
-        <AllPostsContainer>
-          {twitterThreads.map((thread) => (
-            <ThreadsPostCard key={`threadsPostCard-${thread.node.frontmatter.conversationId}`} thread={thread} />
-          ))}
-        </AllPostsContainer>
-        <Pagination
-          pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
-          totalCount={totalCount}
-          currentPage={currentPage || 1}
-          skip={skip}
-          base={path}
-        />
       </div>
+      <TagFilter base="threads" activeTag={tag} />
+      <Pagination
+        pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
+        totalCount={totalCount}
+        currentPage={currentPage || 1}
+        skip={skip}
+        base={path}
+      />
+      <AllPostsContainer>
+        {twitterThreads.map((thread) => (
+          <ThreadsPostCard key={`threadsPostCard-${thread.node.frontmatter.conversationId}`} thread={thread} />
+        ))}
+      </AllPostsContainer>
+      <Pagination
+        pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
+        totalCount={totalCount}
+        currentPage={currentPage || 1}
+        skip={skip}
+        base={path}
+      />
     </>
   );
 }
@@ -92,6 +92,7 @@ export const query = graphql`
             numberOfTweets
             retweetCount
             likeCount
+            position
           }
         }
       }

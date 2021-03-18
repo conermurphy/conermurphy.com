@@ -5,10 +5,9 @@ import { GrCss3, GrHtml5, GrJs, GrReactjs, GrGatsbyjs, GrGraphQl, GrNode } from 
 import { FaRProject } from 'react-icons/fa';
 
 const IconContainer = styled.div`
-  height: ${(props) => (props.width ? props.width : '5rem')};
   & > svg {
     width: ${(props) => (props.width ? props.width : '5rem')};
-    height: auto;
+    height: ${(props) => (props.width ? props.width : '5rem')};
     transition: 0.5s all ease-in-out;
     & > path {
       stroke: inherit; // Override hidden to remove default black and take the inline style.
@@ -30,7 +29,11 @@ export const languages = {
 export const languageList = Object.keys(languages);
 
 export default function LanguageIcons({ language, width }) {
-  return <IconContainer width={width}>{languages[language.trim()]}</IconContainer>;
+  return (
+    <IconContainer width={width} height={width}>
+      {languages[language.trim()]}
+    </IconContainer>
+  );
 }
 
 LanguageIcons.propTypes = {
