@@ -313,17 +313,17 @@ async function turnTwitterThreadsIntoPages({ graphql, actions }) {
     }
   `);
   // 2: Create an individual post page for every Twitter Thread.
-  // threads.forEach(({ node }, index) => {
-  //   createPage({
-  //     path: node.fields.slug,
-  //     component: path.resolve('./src/templates/Threads.js'),
-  //     context: {
-  //       slug: node.fields.slug,
-  //       prev: index === 0 ? null : threads[index - 1].node,
-  //       next: index === threads.length - 1 ? null : threads[index + 1].node,
-  //     },
-  //   });
-  // });
+  threads.forEach(({ node }, index) => {
+    createPage({
+      path: node.fields.slug,
+      component: path.resolve('./src/templates/Threads.js'),
+      context: {
+        slug: node.fields.slug,
+        prev: index === 0 ? null : threads[index - 1].node,
+        next: index === threads.length - 1 ? null : threads[index + 1].node,
+      },
+    });
+  });
 
   // 3: Create the actual thread pages, paginated.\
   createMainPages(actions, 'threads', threadsTemplate, threadsTotalCount);
