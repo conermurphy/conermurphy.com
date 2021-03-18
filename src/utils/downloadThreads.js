@@ -103,7 +103,7 @@ likeCount: ${meta.metrics.like_count}
       }
       // 6b: Writing individual tweet MDX files
       const tweetContent = `---
-id: ${id}
+tweetId: ${id}
 position: ${tweetPosition}
 date: ${tweetDate}
 type: ${tweetType}
@@ -113,6 +113,7 @@ media: [${media !== null ? media.map((m) => `./${getImageName(m.url)}`) : ''}]
 ${text.trim()}
 `;
 
+      console.log(`Writing file for tweet ${tweetPosition}`);
       await fs.writeFile(`${tweetFolderPath}/tweet-${tweetPosition}.mdx`, tweetContent, {
         encoding: 'utf-8',
       });

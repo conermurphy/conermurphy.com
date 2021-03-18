@@ -6,6 +6,7 @@ import SEO from '../components/SEO';
 import Tags from '../components/Tags';
 import Navigation from '../components/mdx/Navigation';
 import useNavTheme from '../utils/useNavTheme';
+import TwitterThreadItem from '../components/TwitterThreadItem';
 
 const ThreadContainer = styled.div`
   .threadHeader {
@@ -46,6 +47,11 @@ const ThreadContainer = styled.div`
       }
     }
   }
+
+  .threadBody {
+    border-left: 1rem solid var(--grey);
+    margin: 2.5rem 5rem;
+  }
 `;
 
 const TwitterThread = ({ data, pageContext, path }) => {
@@ -81,7 +87,7 @@ const TwitterThread = ({ data, pageContext, path }) => {
         </div>
         <article className="threadBody">
           {tweets.map((tweet) => (
-            <p>{tweet}</p>
+            <TwitterThreadItem tweet={tweet} key={`Twitter-Thread-Tweet-${tweet}`} />
           ))}
         </article>
       </ThreadContainer>
