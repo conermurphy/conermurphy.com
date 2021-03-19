@@ -6,6 +6,7 @@ import { EmailSignup } from './EmailSignupForm';
 import Logo from './Logo';
 import ContactIcons from './ContactIcons';
 import Twitter from './Twitter';
+import HireMeBlock from './HireMeBlock';
 
 const FooterBody = styled.footer`
   display: flex;
@@ -43,8 +44,7 @@ const ContentGrid = styled.div`
     }
 
     & > h3 {
-      font-size: 1.9rem;
-      margin: 2rem 0;
+      font-size: 2rem;
 
       span {
         white-space: nowrap;
@@ -84,6 +84,7 @@ export default function Footer() {
             <Logo height="3rem" link />
           </div>
           <h3>Coner Murphy</h3>
+          <HireMeBlock available layout="column" />
           <ContactIcons />
         </div>
         <div>
@@ -126,7 +127,7 @@ export default function Footer() {
           <div className="icon">
             <FaEnvelope />
           </div>
-          <h3>Stay up to the date with my latest content:</h3>
+          <h3>Stay up to date</h3>
           <EmailSignup />
         </div>
       </ContentGrid>

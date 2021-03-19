@@ -13,6 +13,7 @@ import TestimonialCard from '../components/TestimonialCard';
 import testimonialData from '../data/testimonials.json';
 import PortfolioPostCard from '../components/PortfolioPostCard';
 import ContactIcons from '../components/ContactIcons';
+import HireMeBlock from '../components/HireMeBlock';
 
 export default function HomePage({ data, path }) {
   const { blog, notes, portfolio } = data;
@@ -44,11 +45,20 @@ export default function HomePage({ data, path }) {
           </h1>
           <div>
             <p>
-              I'm a Web Developer and on a journey to be the best developer I can and along the way I want to help others by sharing my
-              lessons.
+              A Freelance Web Developer from the UK 🇬🇧, when I'm not developing I write content for my{' '}
+              <Link to="/blog" style={{ color: 'var(--white)' }}>
+                blog
+              </Link>{' '}
+              and{' '}
+              <a href="https://twitter.com/MrConerMurphy" style={{ color: 'var(--white)' }}>
+                Twitter.
+              </a>
             </p>
-            <p>If this sounds cool to you, then please stick around and consider signing up to my newsletter below! </p>
+            <p>My other passions include: Gaming 🎮, Reading 📚, Motorbikes 🏍️, Coffee ☕ and Music 🎧. </p>
+            <p>If this sounds cool, please stick around and consider signing up to my newsletter. </p>
+            <HireMeBlock available layout="row" />
           </div>
+          <div />
         </div>
         <InfoBlock id="aboutMe">
           <div className="aboutMe">
