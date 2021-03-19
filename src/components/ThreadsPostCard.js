@@ -22,9 +22,10 @@ const ThreadContainer = styled.div`
     align-items: center;
     justify-items: center;
     text-align: center;
+    gap: 2rem;
 
     .threadTitle {
-      font-size: 1.75rem;
+      font-size: 1.8rem;
       padding: 1rem 0;
     }
 
@@ -36,12 +37,7 @@ const ThreadContainer = styled.div`
       z-index: 5;
 
       svg {
-        padding: 1rem;
-        border-radius: var(--borderRadius);
-        background-color: var(--white);
-        -moz-box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.12);
-        -webkit-box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.12);
-        box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.12);
+        padding: 0;
       }
     }
   }
@@ -78,7 +74,7 @@ export default function ThreadPostCard({ thread }) {
   const { slug } = fields;
 
   // Find the language tag to access below to display icon
-  const languageIcon = matchingLanguageIcon(tags, '4rem');
+  const languageIcon = matchingLanguageIcon(tags, '3.5rem');
 
   return (
     <Link to={slug}>

@@ -5,7 +5,9 @@ import { GrCss3, GrHtml5, GrJs, GrReactjs, GrGatsbyjs, GrGraphQl, GrNode } from 
 import { FaRProject } from 'react-icons/fa';
 
 const IconContainer = styled.div`
-  height: 35px;
+  display: flex;
+  align-items: center;
+  height: ${(props) => (props.width ? `calc(${props.width} + 0.75rem)` : 'calc(2rem + 0.75rem)')};
 
   & > svg {
     width: ${(props) => (props.width ? props.width : '5rem')};
