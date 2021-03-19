@@ -66,14 +66,14 @@ async function tweetsDownloader(threadsInf) {
 
     // 4: Create a summary MDX document for the entire thread and write it out to the parent folder directory
     const summaryContent = `---
-conversationId: ${conversation}
+conversationId: "${conversation}"
 title: "${title.trim()}"
 position: ${threadPosition}
 date: ${threadDate}
 tags: ${tags}
 type: ${threadType}
 slug: ${slug}
-tweets: [${tweets.map((tweet) => `${tweet.id}`)}]
+tweets: [${tweets.map((tweet) => `"${tweet.id}"`)}]
 numberOfTweets: ${numberOfTweets}
 retweetCount: ${meta.metrics.retweet_count}
 likeCount: ${meta.metrics.like_count}
@@ -103,11 +103,11 @@ likeCount: ${meta.metrics.like_count}
       }
       // 6b: Writing individual tweet MDX files
       const tweetContent = `---
-tweetId: ${id}
+tweetId: "${id}"
 position: ${tweetPosition}
 date: ${tweetDate}
 type: ${tweetType}
-conversationId: ${conversation}
+conversationId: "${conversation}"
 media: [${media !== null ? media.map((m) => `./${getImageName(m.url)}`) : ''}]
 ---
 ${text.trim()}

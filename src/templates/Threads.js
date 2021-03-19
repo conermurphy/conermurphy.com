@@ -49,7 +49,7 @@ const ThreadContainer = styled.div`
   }
 
   .threadBody {
-    border-left: 1rem solid var(--grey);
+    border-left: 5px solid var(--grey);
     margin: 2.5rem 5rem;
   }
 `;
@@ -57,6 +57,8 @@ const ThreadContainer = styled.div`
 const TwitterThread = ({ data, pageContext, path }) => {
   const { frontmatter } = data.mdx;
   const { title, date, plainDate, tags, conversationId, likeCount, retweetCount, numberOfTweets, tweets } = frontmatter;
+
+  console.log(tweets);
 
   // Updating the nav to show dark theme.
   useNavTheme('dark');
