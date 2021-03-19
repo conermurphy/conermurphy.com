@@ -56,10 +56,10 @@ export default function HomePage({ data, path }) {
           </div>
           <ul>
             <li>
-              Coner Murphy <MdPersonPin />
+              Coner Murphy <MdPersonPin className="categoryIcon" />
             </li>
             <li>
-              Norwich, United Kingdom <MdLocationOn />
+              Norwich, United Kingdom <MdLocationOn className="categoryIcon" />
             </li>
             <li className="languagesContainer">
               <ul className="languages">
@@ -69,11 +69,11 @@ export default function HomePage({ data, path }) {
                   </li>
                 ))}
               </ul>
-              <MdLanguage />
+              <MdLanguage className="categoryIcon" />
             </li>
             <li>
               <ContactIcons />
-              <MdContacts />
+              <MdContacts className="categoryIcon" />
             </li>
           </ul>
         </InfoBlock>

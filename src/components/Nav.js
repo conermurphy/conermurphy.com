@@ -14,7 +14,7 @@ const StyledNav = styled.nav`
 
   ul {
     display: grid;
-    grid-template-columns: repeat(5, auto);
+    grid-template-columns: repeat(6, auto);
     margin: 0;
     padding: 0;
     text-align: center;
