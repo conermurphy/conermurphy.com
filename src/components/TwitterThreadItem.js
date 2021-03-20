@@ -13,7 +13,7 @@ const TweetContainer = styled.div`
   border-radius: var(--borderRadius);
   box-shadow: var(--shadow);
   overflow: hidden;
-  width: 550px;
+  max-width: 550px;
 
   .tweetBody {
     padding: 2rem;

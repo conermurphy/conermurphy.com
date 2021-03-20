@@ -16,6 +16,7 @@ const ThreadContainer = styled.div`
     align-items: center;
     justify-content: center;
     border-bottom: 5px dashed var(--grey);
+    margin: 2.5rem;
 
     .title {
       font-size: 2.25rem;
@@ -50,10 +51,30 @@ const ThreadContainer = styled.div`
   }
 
   .threadBody {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
+  }
+
+  .chartContainer {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    border-top: 2px dashed var(--grey);
+    height: auto;
+    width: 70vw;
+    max-width: var(--layoutWidth);
+
+    .chartTitle {
+      font-size: 2rem;
+      text-align: center;
+      margin: 2rem;
+    }
   }
 `;
 
@@ -69,6 +90,7 @@ function ThreadStatsChart({ data: threadData }) {
 
       // Setting base object for chart options.
       const chartOptions = {
+        maintainAspectRatio: true,
         legend: {
           display: false,
           labels: {},
@@ -146,14 +168,13 @@ const TwitterThread = ({ data, pageContext, path }) => {
         <div className="threadHeader">
           <h2 className="title">{title}</h2>
           <p className="author">
-            Tweet By <a href="https://twitter.com/MrConerMurphy">@MrConerMurphy</a>
+            Thread By <a href="https://twitter.com/MrConerMurphy">@MrConerMurphy</a>
           </p>
           <div className="threadMetaInfo">
             <p className="date">{date}</p>
             <p className="numberOfTweets">{numberOfTweets} Tweets</p>
           </div>
           <Tags tags={tags} />
-          <ThreadStatsChart data={chartData} />
           <Navigation pageContext={pageContext} />
         </div>
         <article className="threadBody">
@@ -161,6 +182,10 @@ const TwitterThread = ({ data, pageContext, path }) => {
             <TwitterThreadItem tweet={tweet} key={`Twitter-Thread-Tweet-${tweet}`} />
           ))}
         </article>
+        <div className="chartContainer">
+          <h3 className="chartTitle">{title} Analytics:</h3>
+          <ThreadStatsChart data={chartData} />
+        </div>
       </ThreadContainer>
     </>
   );
