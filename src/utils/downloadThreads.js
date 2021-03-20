@@ -70,13 +70,16 @@ conversationId: "${conversation}"
 title: "${title.trim()}"
 position: ${threadPosition}
 date: ${threadDate}
-tags: ${tags}
+tags: 
+  ${tags.map((x) => `- ${x}`).join('\n')}
 type: ${threadType}
 slug: ${slug}
 tweets: [${tweets.map((tweet) => `"${tweet.id}"`)}]
 numberOfTweets: ${numberOfTweets}
 retweetCount: ${meta.metrics.retweet_count}
 likeCount: ${meta.metrics.like_count}
+replyCount: ${meta.metrics.reply_count}
+quoteCount: ${meta.metrics.quote_count}
 ---
 `;
 
@@ -90,6 +93,9 @@ likeCount: ${meta.metrics.like_count}
       const tweetFolderPath = `${threadFolderPath}/tweet-${tweetPosition}`;
       await fs.mkdir(tweetFolderPath, { recursive: true });
 
+      const images = [];
+      const videos = [];
+
       // 6: Create an MDX document for each tweet in their respecitve folder and download any media required to be linked in the document.
       // 6a: Downloading media
       if (media !== null) {
@@ -97,10 +103,19 @@ likeCount: ${meta.metrics.like_count}
           media.map(async (item) => {
             if (['photo', 'video'].some((el) => item.type.includes(el))) {
               await downloadMedia(item.url, tweetFolderPath);
+              if (item.type === 'photo') {
+                images.push(getImageName(item.url));
+              }
+              if (item.type === 'video') {
+                videos.push(getImageName(item.url));
+              }
             }
           })
         );
       }
+
+      const updatedText = text.replace(/(-)\1+|\B#\w\w+/gi, '').trim();
+
       // 6b: Writing individual tweet MDX files
       const tweetContent = `---
 tweetId: "${id}"
@@ -108,9 +123,12 @@ position: ${tweetPosition}
 date: ${tweetDate}
 type: ${tweetType}
 conversationId: "${conversation}"
-media: [${media !== null ? media.map((m) => `./${getImageName(m.url)}`) : ''}]
+images: 
+  ${images.map((x) => `- ${x}`).join('\n')}
+videos: 
+  ${videos.map((x) => `- ${x}`).join('\n')}
 ---
-${text.trim()}
+${updatedText}
 `;
 
       console.log(`Writing file for tweet ${tweetPosition}`);

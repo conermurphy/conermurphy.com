@@ -3,15 +3,21 @@ import styled from 'styled-components';
 import { graphql, useStaticQuery } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
+import Img from 'gatsby-image';
 import Components from './mdx/Components';
 
 const TweetContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 2.5rem;
-  padding: 1rem 2.5rem;
-  border: 2px solid var(--grey);
   border-radius: var(--borderRadius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  width: 550px;
+
+  .tweetBody {
+    padding: 2rem;
+  }
 
   .tweetFooter {
     display: flex;
@@ -19,7 +25,13 @@ const TweetContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     height: 5rem;
+    padding: 0.5rem 2rem;
     font-size: 1.5rem;
+    background-color: var(--grey);
+
+    .position {
+      font-size: 1.6rem;
+    }
 
     .viewTweet {
       background-color: #1da1f2;
@@ -44,12 +56,13 @@ export default function TwitterThreadItem({ tweet }) {
               position
               tweetId
               date(formatString: "DD/MM/YYYY HH:mm")
-              media {
-                childrenImageSharp {
-                  fluid(maxWidth: 800) {
+              images {
+                childImageSharp {
+                  fluid(maxWidth: 1200, quality: 100) {
                     ...GatsbyImageSharpFluid
                   }
                 }
+                id
               }
             }
             body
@@ -65,17 +78,18 @@ export default function TwitterThreadItem({ tweet }) {
 
   // 3: Destructure values out from required tweet
   const { body, frontmatter } = tweetToDispaly.node;
-  const { position, tweetId, date, media } = frontmatter;
-
-  console.log(tweet);
+  const { position, tweetId, date, images } = frontmatter;
 
   return (
     <TweetContainer>
-      <MDXProvider components={Components}>
-        <MDXRenderer>{body}</MDXRenderer>
-      </MDXProvider>
+      {images && images.map((image) => <Img key={image.id} fluid={image.childImageSharp.fluid} />)}
+      <div className="tweetBody">
+        <MDXProvider components={Components}>
+          <MDXRenderer>{body}</MDXRenderer>
+        </MDXProvider>
+      </div>
       <div className="tweetFooter">
-        <p className="date">{date}</p>
+        <p className="position">Tweet {position}</p>
         <a className="viewTweet" target="_blank" rel="noopener noreferrer" href={`https://twitter.com/MrConerMurphy/status/${tweetId}`}>
           View On Twitter
         </a>
