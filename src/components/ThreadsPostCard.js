@@ -2,7 +2,8 @@ import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { IoIosHeart, IoIosRepeat } from 'react-icons/io';
+import { IoIosCalendar, IoIosHeart, IoIosRepeat } from 'react-icons/io';
+import { FaTwitter } from 'react-icons/fa';
 import matchingLanguageIcon from '../utils/findMatchingLanguageIcon';
 import Tags from './Tags';
 
@@ -16,7 +17,6 @@ const ThreadContainer = styled.div`
   .contentContainer {
     display: grid;
     grid-template-rows: 0.75fr 1fr auto;
-    flex: 1;
     padding: 2rem;
     margin: 2rem;
     align-items: center;
@@ -25,8 +25,7 @@ const ThreadContainer = styled.div`
     gap: 2rem;
 
     .threadTitle {
-      font-size: 1.8rem;
-      padding: 1rem 0;
+      font-size: 1.9rem;
     }
 
     .languageIconContainer {
@@ -44,26 +43,26 @@ const ThreadContainer = styled.div`
 
   .statsContainer {
     display: grid;
-    grid-template-columns: repeat(2, 50%);
+    grid-template-columns: 50% 50%;
+    padding: 2rem;
+    gap: 1rem;
     align-items: center;
     justify-items: center;
-    border-top: 0.25rem solid var(--grey);
-    padding: 1rem;
+    background-color: var(--grey);
 
-    p,
     span {
       display: flex;
-      align-items: center;
-      font-size: 1.5rem;
-      height: 100%;
-      margin: 0.5rem 0;
       flex-direction: row;
-      font-weight: bold;
+      align-items: center;
       justify-content: center;
-    }
+      gap: 1rem;
+      height: 100%;
+      font-size: 1.7rem;
+      padding: 1rem;
 
-    & > span {
-      font-size: 2rem;
+      & > svg {
+        font-size: 2rem;
+      }
     }
   }
 `;
@@ -74,7 +73,7 @@ export default function ThreadPostCard({ thread }) {
   const { slug } = fields;
 
   // Find the language tag to access below to display icon
-  const languageIcon = matchingLanguageIcon(tags, '3.5rem');
+  const languageIcon = matchingLanguageIcon(tags, '5rem');
 
   return (
     <Link to={slug}>
@@ -85,8 +84,14 @@ export default function ThreadPostCard({ thread }) {
           <Tags tags={tags} />
         </div>
         <div className="statsContainer">
-          <p className="threadLength">{numberOfTweets} Tweets</p>
-          <p className="date">{date}</p>
+          <span className="date" title={`Thread Published on ${date}`}>
+            <IoIosCalendar />
+            {date}
+          </span>
+          <span className="threadLength" title={`${numberOfTweets} Tweets`}>
+            <FaTwitter />
+            {numberOfTweets}
+          </span>
           <span className="likes" title={`${likeCount} Likes`}>
             <IoIosHeart />
             {likeCount}

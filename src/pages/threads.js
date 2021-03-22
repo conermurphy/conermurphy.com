@@ -85,7 +85,7 @@ export const query = graphql`
             slug
           }
           frontmatter {
-            date(formatString: "DD/MM/YYYY HH:mm")
+            date(formatString: "DD/MM/YYYY")
             tags
             conversationId
             title
