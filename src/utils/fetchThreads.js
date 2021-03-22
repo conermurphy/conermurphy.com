@@ -47,7 +47,7 @@ async function fetchTweets(id, bearerToken) {
   if (threadsInfo.meta.lastFetchedData === '') {
     params = {
       exclude: 'retweets',
-      'tweet.fields': 'public_metrics, conversation_id, in_reply_to_user_id, author_id, created_at',
+      'tweet.fields': 'public_metrics, conversation_id, in_reply_to_user_id, author_id, created_at, entities',
       max_results: 100,
       expansions: 'attachments.media_keys',
       'media.fields': 'media_key, type, url',
@@ -55,7 +55,7 @@ async function fetchTweets(id, bearerToken) {
   } else {
     params = {
       exclude: 'retweets',
-      'tweet.fields': 'public_metrics, conversation_id, in_reply_to_user_id, author_id, created_at',
+      'tweet.fields': 'public_metrics, conversation_id, in_reply_to_user_id, author_id, created_at, entities',
       max_results: 100,
       start_time: threadsInfo.meta.lastFetchedData,
       expansions: 'attachments.media_keys',
@@ -157,26 +157,16 @@ async function populateTweetData(tweets, convoData, includes = {}) {
 
     // 2: Return all tweet IDs, date, text, media_keys and position in thread within that conversation and reverse to put them in the correct order as Twitters API does last tweet first.
     const preMediaTweets = convoTweets
-      .map((item, i) => {
-        if (item.attachments !== undefined) {
-          return {
-            id: item.id,
-            media: item.attachments.media_keys,
-            text: item.text.split('https://t.co')[0],
-            type: 'tweet',
-            date: item.created_at,
-            position: convoTweets.length + 1 - (i + 1),
-            links: item.text.split('https://t.co').flat(),
-          };
-        }
-        return {
-          id: item.id,
-          text: item.text.split('https://t.co')[0],
-          links: item.text.split('https://t.co').flat(),
-          date: item.created_at,
-          position: convoTweets.length + 1 - (i + 1),
-        };
-      })
+      .map((item, i) => ({
+        id: item.id,
+        media: item.attachments && item.attachments.media_keys,
+        text: item.text.replace(/https?:.*(?=\s)/gi, ''),
+        type: 'tweet',
+        date: item.created_at,
+        position: convoTweets.length + 1 - (i + 1),
+        links:
+          item.entities && item.entities.urls && item.entities.urls.map((url) => url.expanded_url).filter((url) => !url.includes(item.id)),
+      }))
       .reverse();
 
     // 2a: Populate media URL links from includes data for downloading in the future

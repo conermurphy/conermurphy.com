@@ -19,7 +19,7 @@ function getImageName(path) {
 
 // --- Function to download media from Twitter ---
 async function downloadMedia(remotePath, localPath) {
-  console.log(`Downloading ${remotePath} to ${localPath}`);
+  // console.log(`Downloading ${remotePath} to ${localPath}`);
   const data = await fetch(remotePath).then((res) => res.buffer());
   const { ext = 'png' } = await FileType.fromBuffer(data);
   const fileName = getImageName(remotePath);
@@ -89,7 +89,7 @@ quoteCount: ${meta.metrics.quote_count}
 
     // 5: Create a sub-folder for each tweet in the thread
     tweets.forEach(async (tweet) => {
-      const { id, media = null, date: tweetDate, type: tweetType = 'tweet', text, position: tweetPosition } = tweet;
+      const { id, media = null, date: tweetDate, links, type: tweetType = 'tweet', text, position: tweetPosition } = tweet;
       const tweetFolderPath = `${threadFolderPath}/tweet-${tweetPosition}`;
       await fs.mkdir(tweetFolderPath, { recursive: true });
 
@@ -114,8 +114,6 @@ quoteCount: ${meta.metrics.quote_count}
         );
       }
 
-      const updatedText = text.replace(/(-)\1+|\B#\w\w+/gi, '').trim();
-
       // 6b: Writing individual tweet MDX files
       const tweetContent = `---
 tweetId: "${id}"
@@ -128,11 +126,12 @@ images:
 videos:
   ${videos.map((x) => `- ${x}`).join('\n  ')}
 links:
+  ${links !== undefined ? links.map((x) => `- ${x}`).join('\n  ') : []}
 ---
-${updatedText}
+${text}
 `;
 
-      console.log(`Writing file for tweet ${tweetPosition}`);
+      // console.log(`Writing file for tweet ${tweetPosition}`);
       await fs.writeFile(`${tweetFolderPath}/tweet-${tweetPosition}.mdx`, tweetContent, {
         encoding: 'utf-8',
       });
