@@ -123,10 +123,11 @@ position: ${tweetPosition}
 date: ${tweetDate}
 type: ${tweetType}
 conversationId: "${conversation}"
-images: 
-  ${images.map((x) => `- ${x}`).join('\n')}
-videos: 
-  ${videos.map((x) => `- ${x}`).join('\n')}
+images:
+  ${images.map((x) => `- ${x}`).join('\n  ')}
+videos:
+  ${videos.map((x) => `- ${x}`).join('\n  ')}
+links:
 ---
 ${updatedText}
 `;

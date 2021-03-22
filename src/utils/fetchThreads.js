@@ -166,9 +166,16 @@ async function populateTweetData(tweets, convoData, includes = {}) {
             type: 'tweet',
             date: item.created_at,
             position: convoTweets.length + 1 - (i + 1),
+            links: item.text.split('https://t.co').flat(),
           };
         }
-        return { id: item.id, text: item.text.split('https://t.co')[0], date: item.created_at, position: convoTweets.length + 1 - (i + 1) };
+        return {
+          id: item.id,
+          text: item.text.split('https://t.co')[0],
+          links: item.text.split('https://t.co').flat(),
+          date: item.created_at,
+          position: convoTweets.length + 1 - (i + 1),
+        };
       })
       .reverse();
 
