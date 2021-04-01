@@ -66,33 +66,33 @@ async function fetchTweets(id, bearerToken) {
   const entireData = [];
   let fetchedAllData = false;
   // While fetchedAllData is false then fetch the next page of data from twitter.
-  // do {
-  try {
-    // Transforming parameters into one string
-    const stringParams = stringifyParams(params);
-    // 1: Create endpoint for tweets lookup
-    const endpoint = `${tweetsEndpoint}/${id}/tweets?${stringParams}`;
-    // Perform intital query to Twitter and convert to JSON.
-    const { data, meta, includes } = await fetch(endpoint, {
-      method: 'GET',
-      headers: {
-        'User-Agent': 'v2FullArchiveJS',
-        authorization: `Bearer ${bearerToken}`,
-      },
-    }).then((res) => res.json());
-    // Push the tweets to the array defined above.
-    entireData.push({ data, meta, includes });
-    // If the returned data from twitter does not have a next token in the meta object then set fetchAllData to true and break the loop.
-    if (!meta.next_token) {
-      fetchedAllData = true;
-    } else {
-      // Otherwise continue fetching the next page.
-      params.pagination_token = meta.next_token;
+  do {
+    try {
+      // Transforming parameters into one string
+      const stringParams = stringifyParams(params);
+      // 1: Create endpoint for tweets lookup
+      const endpoint = `${tweetsEndpoint}/${id}/tweets?${stringParams}`;
+      // Perform intital query to Twitter and convert to JSON.
+      const { data, meta, includes } = await fetch(endpoint, {
+        method: 'GET',
+        headers: {
+          'User-Agent': 'v2FullArchiveJS',
+          authorization: `Bearer ${bearerToken}`,
+        },
+      }).then((res) => res.json());
+      // Push the tweets to the array defined above.
+      entireData.push({ data, meta, includes });
+      // If the returned data from twitter does not have a next token in the meta object then set fetchAllData to true and break the loop.
+      if (!meta.next_token) {
+        fetchedAllData = true;
+      } else {
+        // Otherwise continue fetching the next page.
+        params.pagination_token = meta.next_token;
+      }
+    } catch (e) {
+      console.error(e);
     }
-  } catch (e) {
-    console.error(e);
-  }
-  // } while (fetchedAllData === false);
+  } while (fetchedAllData === false);
 
   return entireData;
 }
@@ -151,6 +151,9 @@ async function populateTweetData(tweets, convoData, includes = {}) {
     const firstTweetInConvo = tweets.filter((item) => item.id === convo.conversation);
     const threadSlug = getSlug(firstTweetInConvo[0].text.split(/\r?\n/)[0]);
     const threadTitle = firstTweetInConvo[0].text.split(/\n/)[0];
+
+    console.log(threadSlug);
+    console.log(`Found new thread to download: ${threadTitle}`);
 
     // 1: Find all tweets in that conversation
     const convoTweets = tweets.filter((item) => item.conversation_id === convo.conversation);
@@ -215,22 +218,22 @@ async function populateTweetData(tweets, convoData, includes = {}) {
 }
 
 // --- Add Meta Data to the file ---
-async function addingMetaDataAndDataWrapper(tweets) {
+async function addingMetaDataAndDataWrapper(existingFile, tweets) {
   const currentDate = new Date();
   // 1: Create base layout of the final object
   const finalObj = {
     meta: {
       lastFetchedData: `${currentDate.toISOString().split('.')[0]}Z`,
-      numberOfThreads: tweets.length,
-      numberofTweets: 0,
+      numberOfThreads: existingFile.meta.numberOfThreads + tweets.length,
+      numberofTweets: existingFile.meta.numberOfTweets ? existingFile.meta.numberOfTweets : 0,
       totalMetrics: {
-        retweet_count: 0,
-        reply_count: 0,
-        like_count: 0,
-        quote_count: 0,
+        retweet_count: existingFile.meta.totalMetrics.retweet_count,
+        reply_count: existingFile.meta.totalMetrics.reply_count,
+        like_count: existingFile.meta.totalMetrics.like_count,
+        quote_count: existingFile.meta.totalMetrics.quote_count,
       },
     },
-    threads: tweets,
+    threads: existingFile.threads.length === 0 ? tweets : existingFile.threads.concat(tweets),
   };
 
   // 2: Populate Meta Data
@@ -260,6 +263,7 @@ async function writeFiles(data, filePath) {
 // --- Wrapper Function ---
 export default async function fetchThreads(bearerToken) {
   let objToWriteToFile;
+  const existingFile = threadsInfo;
   const currentDate = new Date();
   const updatedDate = `${currentDate.toISOString().split('.')[0]}Z`;
 
@@ -288,7 +292,7 @@ export default async function fetchThreads(bearerToken) {
       }));
 
     // 5: Making the final object and adding in meta data.
-    const finalObj = await addingMetaDataAndDataWrapper(sortedTweetData);
+    const finalObj = await addingMetaDataAndDataWrapper(existingFile, sortedTweetData);
 
     // 6: set object to write to file
     console.log(
@@ -299,7 +303,6 @@ export default async function fetchThreads(bearerToken) {
     objToWriteToFile = finalObj;
   } else {
     // If no data is returned and it's undefined, update the last fetch data and re-write the file.
-    const existingFile = threadsInfo;
     existingFile.meta.lastFetchedData = updatedDate;
     console.log(`No new threads found, updating last fetched date/time to ${updatedDate}`);
     objToWriteToFile = existingFile;
