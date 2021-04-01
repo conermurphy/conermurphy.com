@@ -64,6 +64,7 @@ export default function TwitterThreadItem({ tweet }) {
                 }
                 id
               }
+              links
             }
             body
           }
@@ -78,7 +79,9 @@ export default function TwitterThreadItem({ tweet }) {
 
   // 3: Destructure values out from required tweet
   const { body, frontmatter } = tweetToDispaly.node;
-  const { position, tweetId, date, images } = frontmatter;
+  const { position, tweetId, date, images, links } = frontmatter;
+
+  console.log(links);
 
   return (
     <TweetContainer>
@@ -87,6 +90,15 @@ export default function TwitterThreadItem({ tweet }) {
         <MDXProvider components={Components}>
           <MDXRenderer>{body}</MDXRenderer>
         </MDXProvider>
+        {!!links && (
+          <ul>
+            {links.map((link) => (
+              <li>
+                <a href={link}>{link}</a>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       <div className="tweetFooter">
         <p className="position">Tweet {position}</p>

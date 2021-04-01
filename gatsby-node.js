@@ -563,14 +563,14 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
 }
 
 // Function to fetch Twitter Threads and create MDX files for them.
-async function fetchTwitterThreads(params) {
-  await fetchThreads(bearerToken);
-  await downloadThreads();
+async function fetchTwitterThreads() {
+  const threadInfo = await fetchThreads(bearerToken);
+  await downloadThreads(threadInfo);
 }
 
 export async function sourceNodes(params) {
   // fetch the portfolio data json file locally and turn into GraphQL nodes to allow us to create portfolio tag pages off the tag and query for all the posts on the portfolio page.
-  await Promise.all([fetchPortfolioAndTurnIntoNodes(params), fetchReadsAndTurnIntoNodes(params), fetchTwitterThreads(params)]);
+  await Promise.all([fetchPortfolioAndTurnIntoNodes(params), fetchReadsAndTurnIntoNodes(params), fetchTwitterThreads()]);
 }
 
 export async function createPages(params) {

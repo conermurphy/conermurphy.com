@@ -6,6 +6,10 @@ import threadsInfo from '../data/threads.json';
 const tweetsEndpoint = 'https://api.twitter.com/2/users';
 const userEndpoint = 'https://api.twitter.com/2/users/by?usernames=';
 
+const expression = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gim;
+const linkRegex = new RegExp(expression);
+const hyphonRegex = new RegExp(/(--)/g);
+
 // --- Get User ID from Twitter ---
 async function fetchUserId(bearerToken) {
   // 1: Define parameters for username
@@ -163,7 +167,7 @@ async function populateTweetData(tweets, convoData, includes = {}) {
       .map((item, i) => ({
         id: item.id,
         media: item.attachments && item.attachments.media_keys,
-        text: item.text.replace(/https?:.*(?=\s)/gi, ''),
+        text: item.text.replace(linkRegex, '').replace(hyphonRegex, ''),
         type: 'tweet',
         date: item.created_at,
         position: convoTweets.length + 1 - (i + 1),
@@ -310,4 +314,5 @@ export default async function fetchThreads(bearerToken) {
 
   // 7: Write object out to the file
   await writeFiles(objToWriteToFile, './src/data/threads.json');
+  return objToWriteToFile;
 }
