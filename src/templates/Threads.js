@@ -10,6 +10,7 @@ import useNavTheme from '../utils/useNavTheme';
 import TwitterThreadItem from '../components/TwitterThreadItem';
 
 const ThreadContainer = styled.div`
+  padding-bottom: 5rem;
   .threadHeader {
     display: flex;
     flex-direction: column;
