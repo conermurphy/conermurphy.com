@@ -44,7 +44,7 @@ async function tweetsDownloader(threadsInf) {
 
       // 2a: If the existing folders contains the current thread slug then return
       if (threadExists) {
-        console.log(`The thread with the slug: ${slug} already exists, skipping thread.`);
+        // console.log(`The thread with the slug: ${slug} already exists, skipping thread.`);
         return;
       }
 

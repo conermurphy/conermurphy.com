@@ -17,7 +17,6 @@ const ThreadContainer = styled.div`
   .contentContainer {
     display: grid;
     grid-template-rows: 0.75fr 1fr auto;
-    padding: 2rem;
     margin: 2rem;
     align-items: center;
     justify-items: center;
@@ -42,27 +41,26 @@ const ThreadContainer = styled.div`
   }
 
   .statsContainer {
-    display: grid;
-    grid-template-columns: 50% 50%;
+    display: flex;
     padding: 2rem;
     gap: 1rem;
     align-items: center;
-    justify-items: center;
+    justify-content: center;
     background-color: var(--grey);
+  }
 
-    span {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      height: 100%;
-      font-size: 1.7rem;
-      padding: 1rem;
+  span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    height: 100%;
+    font-size: 1.7rem;
+    padding: 1rem;
 
-      & > svg {
-        font-size: 2rem;
-      }
+    & > svg {
+      font-size: 2rem;
     }
   }
 `;
@@ -82,12 +80,12 @@ export default function ThreadPostCard({ thread }) {
           <div className="languageIconContainer">{languageIcon}</div>
           <h2 className="threadTitle">{title}</h2>
           <Tags tags={tags} />
-        </div>
-        <div className="statsContainer">
           <span className="date" title={`Thread Published on ${date}`}>
             <IoIosCalendar />
             {date}
           </span>
+        </div>
+        <div className="statsContainer">
           <span className="threadLength" title={`${numberOfTweets} Tweets`}>
             <FaTwitter />
             {numberOfTweets}
