@@ -101,7 +101,6 @@ export default function TagFilter({ base, activeTag }) {
         <span className="count">{totalTagArray.length}</span>
       </Link>
       {tagsWithCounts.map(({ tag, count }) => {
-        console.log(tagsWithCounts);
         if (tag === null) {
           return;
         }

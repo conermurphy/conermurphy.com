@@ -111,7 +111,7 @@ async function summariseConversationData(tweets) {
         // 1a: Check if the tweet was sent by me and is the first tweet in a conversation OR was in reply to myself.
         if (
           (tweet.conversation_id === tweet.id && tweet.author_id === '1249718482436055044') ||
-          tweet.in_reply_to_user_id === tweet.author_id
+          tweet.in_reply_to_user_id === '1249718482436055044'
         ) {
           return tweet.conversation_id;
         }
@@ -146,6 +146,7 @@ async function summariseConversationData(tweets) {
 
 // --- Populate the extra info stored in the threads object ---
 async function populateTweetData(tweets, convoData, includes = {}) {
+  const threadSlugs = [];
   // Destructure out media array from includes object created by Twitter.
   const { media } = includes;
 
@@ -156,7 +157,12 @@ async function populateTweetData(tweets, convoData, includes = {}) {
     const threadSlug = getSlug(firstTweetInConvo[0].text.split(/\r?\n/)[0]);
     const threadTitle = firstTweetInConvo[0].text.split(/\n/)[0];
 
-    console.log(threadSlug);
+    // Check if the slug has already been included, if so return out to remove it.
+    if (threadSlugs.includes(threadSlug)) {
+      return;
+    }
+    threadSlugs.push(threadSlug);
+  
     console.log(`Found new thread to download: ${threadTitle}`);
 
     // 1: Find all tweets in that conversation
@@ -217,8 +223,10 @@ async function populateTweetData(tweets, convoData, includes = {}) {
     return convo;
   });
 
+  const finalTweetData = populatedData.filter((data) => !!data);
+
   // 5: Return the populated object
-  return populatedData;
+  return finalTweetData;
 }
 
 // --- Add Meta Data to the file ---
@@ -260,7 +268,6 @@ async function addingMetaDataAndDataWrapper(existingFile, tweets) {
 async function writeFiles(data, filePath) {
   await fs.writeFile(filePath, JSON.stringify(data), (err) => {
     if (err) throw err;
-    console.log('data written to file');
   });
 }
 
@@ -288,21 +295,14 @@ export default async function fetchThreads(bearerToken) {
     const populatedTweetData = await populateTweetData(tweets, summarisedConversationData, includes);
 
     // 4: Sort the dates of each tweet to ensure they're in the correct order of publication and add a position number to it for numbering.
-    const sortedTweetData = populatedTweetData
-      .sort((a, b) => new Date(b.date) - new Date(a.date))
-      .map((thread, i) => ({
-        ...thread,
-        position: i + 1,
-      }));
+    const sortedTweetData = populatedTweetData.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     // 5: Making the final object and adding in meta data.
     const finalObj = await addingMetaDataAndDataWrapper(existingFile, sortedTweetData);
 
     // 6: set object to write to file
     console.log(
-      `${
-        Object.keys(summarisedConversationData).length
-      } new threads found, updating last fetched date/time to ${updatedDate} and rewriting file.`
+      `${Object.keys(populatedTweetData).length} new threads found, updating last fetched date/time to ${updatedDate} and rewriting file.`
     );
     objToWriteToFile = finalObj;
   } else {

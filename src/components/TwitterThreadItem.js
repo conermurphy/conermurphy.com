@@ -81,8 +81,6 @@ export default function TwitterThreadItem({ tweet }) {
   const { body, frontmatter } = tweetToDispaly.node;
   const { position, tweetId, date, images, links } = frontmatter;
 
-  console.log(links);
-
   return (
     <TweetContainer>
       {images && images.map((image) => <Img key={image.id} fluid={image.childImageSharp.fluid} />)}
