@@ -67,7 +67,7 @@ const ThreadContainer = styled.div`
 
 export default function ThreadPostCard({ thread }) {
   const { frontmatter, fields } = thread.node;
-  const { title, date, position, tags, numberOfTweets, retweetCount, likeCount } = frontmatter;
+  const { title, date, tags, numberOfTweets, retweetCount, likeCount } = frontmatter;
   const { slug } = fields;
 
   // Find the language tag to access below to display icon
@@ -104,4 +104,20 @@ export default function ThreadPostCard({ thread }) {
   );
 }
 
-ThreadPostCard.propTypes = {};
+ThreadPostCard.propTypes = {
+  thread: PropTypes.shape({
+    node: PropTypes.shape({
+      frontmatter: PropTypes.shape({
+        title: PropTypes.string,
+        date: PropTypes.string,
+        tags: PropTypes.array,
+        numberOfTweets: PropTypes.number,
+        retweetCount: PropTypes.number,
+        likeCount: PropTypes.number,
+      }),
+      fields: PropTypes.shape({
+        slug: PropTypes.string,
+      })
+    })
+  })
+};

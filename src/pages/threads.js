@@ -92,7 +92,6 @@ export const query = graphql`
             numberOfTweets
             retweetCount
             likeCount
-            position
           }
         }
       }
@@ -101,4 +100,17 @@ export const query = graphql`
   }
 `;
 
-Threads.propTypes = {};
+Threads.propTypes = {
+  data: PropTypes.shape({
+    threads: PropTypes.shape({
+      edges: PropTypes.array,
+      totalCount: PropTypes.number,
+    }),
+  }),
+  pageContext: PropTypes.shape({
+    currentPage: PropTypes.string,
+    skip: PropTypes.number,
+    tag: PropTypes.string,
+  }),
+  path: PropTypes.string,
+};

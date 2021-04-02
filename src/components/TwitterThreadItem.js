@@ -4,6 +4,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import Img from 'gatsby-image';
+import PropTypes from 'prop-types';
 import Components from './mdx/Components';
 
 const TweetContainer = styled.div`
@@ -111,7 +112,7 @@ export default function TwitterThreadItem({ tweet }) {
         {!!links && (
           <ul>
             {links.map((link) => (
-              <li>
+              <li key={`TwitterThreadLink:${link}`}>
                 <a href={link}>{link}</a>
               </li>
             ))}
@@ -127,3 +128,7 @@ export default function TwitterThreadItem({ tweet }) {
     </TweetContainer>
   );
 }
+
+TwitterThreadItem.propTypes = {
+  tweet: PropTypes.string,
+};
