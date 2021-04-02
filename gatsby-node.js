@@ -449,6 +449,11 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
         throw error;
       }
 
+      if (data.items === undefined) {
+        console.log(`${isbn} is undefined, skipping`);
+        return;
+      }
+
       const node = {
         id: await createNodeId(`reads-${data.items[0].id}`),
         parent: null,
