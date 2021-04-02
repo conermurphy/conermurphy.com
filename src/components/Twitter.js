@@ -73,8 +73,9 @@ export default function Twitter() {
         const text = tweet.full_text.split('https://t.co').shift().slice(0, 100);
         const { media } = tweet.entities;
         const { retweet_count, favorite_count } = tweet;
+        const tweetID = `${tweet.id}`;
         return (
-          <a key={tweet.id} href={`https://twitter.com/MrConerMurphy/status/${tweet.id}`} target="_blank" rel="noopener noreferrer">
+          <a key={tweet.id} href={`https://twitter.com/MrConerMurphy/status/${tweetID}`} target="_blank" rel="noopener noreferrer">
             <IndividualTweetContainer>
               <Media media={media} alt={text} />
               <p>{text}...</p>
