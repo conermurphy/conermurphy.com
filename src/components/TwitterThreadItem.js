@@ -15,6 +15,15 @@ const TweetContainer = styled.div`
   overflow: hidden;
   max-width: 550px;
 
+  .imagesContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+    & > .gatsby-image-wrapper {
+      max-height: 300px;
+    }
+  }
+
   .tweetBody {
     padding: 2rem;
   }
@@ -83,7 +92,18 @@ export default function TwitterThreadItem({ tweet }) {
 
   return (
     <TweetContainer>
-      {images && images.map((image) => <Img key={image.id} fluid={image.childImageSharp.fluid} />)}
+      <div className="imagesContainer">
+        {images &&
+          images.map((image) => (
+            <Img
+              key={image.id}
+              fluid={image.childImageSharp.fluid}
+              imgStyle={{
+                objectFit: 'contain',
+              }}
+            />
+          ))}
+      </div>
       <div className="tweetBody">
         <MDXProvider components={Components}>
           <MDXRenderer>{body}</MDXRenderer>
