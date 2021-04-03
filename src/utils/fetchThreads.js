@@ -67,8 +67,12 @@ async function fetchTweets(id, bearerToken) {
     };
   }
 
-  const entireData = [];
   let fetchedAllData = false;
+  const entireData = {
+    data: [],
+    includes: [],
+  };
+
   // While fetchedAllData is false then fetch the next page of data from twitter.
   do {
     try {
@@ -84,8 +88,11 @@ async function fetchTweets(id, bearerToken) {
           authorization: `Bearer ${bearerToken}`,
         },
       }).then((res) => res.json());
-      // Push the tweets to the array defined above.
-      entireData.push({ data, meta, includes });
+
+      // Spread the new data into the original array's data.
+      entireData.data = [...entireData.data, ...data];
+      entireData.includes = [...entireData.includes, ...includes.media];
+
       // If the returned data from twitter does not have a next token in the meta object then set fetchAllData to true and break the loop.
       if (meta.next_token === undefined) {
         fetchedAllData = true;
@@ -145,10 +152,8 @@ async function summariseConversationData(tweets) {
 }
 
 // --- Populate the extra info stored in the threads object ---
-async function populateTweetData(tweets, convoData, includes = {}) {
+async function populateTweetData(tweets, convoData, includes = []) {
   const threadSlugs = [];
-  // Destructure out media array from includes object created by Twitter.
-  const { media } = includes;
 
   // Loop over each conversation and populate the required info
   const populatedData = convoData.map((convo) => {
@@ -185,7 +190,7 @@ async function populateTweetData(tweets, convoData, includes = {}) {
     // 2a: Populate media URL links from includes data for downloading in the future
     const finalTweets = preMediaTweets.map((tweet) => {
       if (tweet.media !== undefined) {
-        const mediaObjects = tweet.media.map((tweetMedia) => media.filter(({ media_key }) => media_key === tweetMedia)).flat();
+        const mediaObjects = tweet.media.map((tweetMedia) => includes.filter(({ media_key }) => media_key === tweetMedia)).flat();
         const newTweetObj = { ...tweet, media: mediaObjects };
         return newTweetObj;
       }
@@ -236,31 +241,12 @@ async function addingMetaDataAndDataWrapper(existingFile, tweets) {
   const finalObj = {
     meta: {
       lastFetchedData: `${currentDate.toISOString().split('.')[0]}Z`,
-      numberOfThreads: existingFile.meta.numberOfThreads + tweets.length,
-      numberofTweets: existingFile.meta.numberOfTweets ? existingFile.meta.numberOfTweets : 0,
-      totalMetrics: {
-        retweet_count: existingFile.meta.totalMetrics.retweet_count,
-        reply_count: existingFile.meta.totalMetrics.reply_count,
-        like_count: existingFile.meta.totalMetrics.like_count,
-        quote_count: existingFile.meta.totalMetrics.quote_count,
-      },
+      numberOfThreads: tweets.length,
     },
-    threads: existingFile.threads.length === 0 ? tweets : existingFile.threads.concat(tweets),
+    threads: tweets,
   };
 
-  // 2: Populate Meta Data
-  tweets.forEach((tweet) => {
-    const { retweet_count, reply_count, like_count, quote_count } = tweet.meta.metrics;
-    // 2a: Add the number of tweets in each thread to the total
-    finalObj.meta.numberofTweets += tweet.tweets.length;
-    // 2b: Summing the metrics up for each thread into the finalObj
-    finalObj.meta.totalMetrics.retweet_count += retweet_count;
-    finalObj.meta.totalMetrics.reply_count += reply_count;
-    finalObj.meta.totalMetrics.like_count += like_count;
-    finalObj.meta.totalMetrics.quote_count += quote_count;
-  });
-
-  // 3: Return the final object
+  // 2: Return the final object
   return finalObj;
 }
 
@@ -286,24 +272,8 @@ export default async function fetchThreads(bearerToken) {
 
   // 1b: Merge all Twiiter API Objects into one object to destructure below.
   if (entireData.data !== undefined) {
-    const reducedData = entireData.reduce((acc, cur) => {
-      const { data, includes: curIncludes, meta } = cur;
-
-      if (acc.data === undefined) {
-        acc.data = [];
-        acc.includes = {};
-        acc.meta = {};
-      }
-
-      acc.data = [...acc.data, ...data];
-      acc.includes = { ...acc.includes, ...curIncludes };
-      acc.meta = { ...acc.meta, ...meta };
-
-      return acc;
-    }, {});
-
     // 1a: Destructure out individual values for use in functions below
-    const { data: tweets, includes } = reducedData;
+    const { data: tweets, includes } = entireData;
 
     // 2: Order and summarise data
     const summarisedConversationData = await summariseConversationData(tweets);
