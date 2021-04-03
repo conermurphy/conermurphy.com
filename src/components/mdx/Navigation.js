@@ -9,6 +9,7 @@ const NavigationContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 2rem 0;
+  width: 100%;
 
   @media (max-width: 850px) {
     display: flex;

@@ -118,18 +118,22 @@ const InfoBlock = styled.div`
         flex-wrap: wrap;
         gap: 1rem 0;
         justify-content: flex-end;
+
+        & > li > div > svg {
+          padding: 0;
+          margin: 0.75rem;
+        }
       }
 
       & > svg {
         align-self: center;
       }
     }
+  }
 
-    svg {
-      padding: 0.75rem;
-      margin: 0;
-      border-radius: 5px;
-    }
+  .categoryIcon {
+    padding: 0.75rem;
+    border-radius: 5px;
   }
 
   .languages {
@@ -140,7 +144,6 @@ const InfoBlock = styled.div`
     gap: 0rem;
 
     & > li {
-      padding: 0.25rem;
       margin: 0;
 
       & a {

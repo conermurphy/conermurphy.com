@@ -61,6 +61,15 @@ export default function TagFilter({ base, activeTag }) {
           }
         }
       }
+      threads: allMdx(filter: { fields: { contentCategory: { eq: "threads" } } }) {
+        edges {
+          node {
+            frontmatter {
+              tags
+            }
+          }
+        }
+      }
       portfolio: allPortfolio {
         edges {
           node {

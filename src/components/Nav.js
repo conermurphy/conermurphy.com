@@ -14,7 +14,7 @@ const StyledNav = styled.nav`
 
   ul {
     display: grid;
-    grid-template-columns: repeat(5, auto);
+    grid-template-columns: repeat(6, auto);
     margin: 0;
     padding: 0;
     text-align: center;
@@ -86,6 +86,11 @@ export default function Nav({ path }) {
           <li>
             <Link to="/notes" className={currentRootPage === 'notes' ? 'active' : ''}>
               Notes
+            </Link>
+          </li>
+          <li>
+            <Link to="/threads" className={currentRootPage === 'threads' ? 'active' : ''}>
+              Threads
             </Link>
           </li>
           <li>
