@@ -110,7 +110,12 @@ export default function TwitterThreadItem({ tweet }) {
           <MDXRenderer>{body}</MDXRenderer>
         </MDXProvider>
         {!!links && (
-          <ul>
+          <p style={{ paddingBottom: 0, marginBottom: 0 }}>
+            <b>Links:</b>
+          </p>
+        )}
+        {!!links && (
+          <ul style={{ paddingTop: 0, marginTop: 0 }}>
             {links.map((link) => (
               <li key={`TwitterThreadLink:${link}`}>
                 <a href={link}>{link}</a>
