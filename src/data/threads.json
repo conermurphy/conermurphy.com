@@ -1,14 +1,1 @@
-{
-    "meta": {
-        "lastFetchedData": "2021-02-01T06:47:07Z",
-        "numberOfThreads": 0,
-        "numberofTweets": 0,
-        "totalMetrics": {
-            "retweet_count": 0,
-            "reply_count": 0,
-            "like_count": 0,
-            "quote_count": 0
-        }
-    },
-    "threads": []
-}
+{"meta":{"lastFetchedData":"2021-04-03T09:01:50Z","numberOfThreads":0},"threads":[]}

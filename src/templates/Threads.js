@@ -107,7 +107,7 @@ function ThreadStatsChart({ data: threadData }) {
       // Merging all of the data into one array
       const data = Object.values(threadData).flat();
       // Creating an array equal to the length of the data array and filling with the same background colour.
-      const backgroundColor = Array.from({ length: data.length }).map((_, i) => '#1da1f2');
+      const backgroundColor = Array.from({ length: data.length }).map((_, i) => '#498B41');
 
       // Setting the properties onto the chart.
       const chartData = {

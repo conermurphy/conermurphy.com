@@ -89,9 +89,11 @@ async function fetchTweets(id, bearerToken) {
         },
       }).then((res) => res.json());
 
-      // Spread the new data into the original array's data.
-      entireData.data = [...entireData.data, ...data];
-      entireData.includes = [...entireData.includes, ...includes.media];
+      // Spread the new data into the original array's data, check if data exists first.
+      if (data !== undefined) {
+        entireData.data = [...entireData.data, ...data];
+        entireData.includes = [...entireData.includes, ...includes.media];
+      }
 
       // If the returned data from twitter does not have a next token in the meta object then set fetchAllData to true and break the loop.
       if (meta.next_token === undefined) {
