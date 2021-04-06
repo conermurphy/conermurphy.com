@@ -375,6 +375,16 @@
         "author": "Dr Carol S. Dweck",
         "pageCount": 301,
         "start": "2021-01-12",
+        "finished": "2021-04-05",
+        "rating": 4,
+        "status": "Complete"
+    },
+    {
+        "isbn":  9781541672505,
+        "title": "The Art of Logic in an Illogical World",
+        "author": "Eugenia Cheng",
+        "pageCount": 304,
+        "start": "2021-04-05",
         "finished": "",
         "rating": 0,
         "status": "In Progress"
