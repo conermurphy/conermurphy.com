@@ -564,8 +564,8 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
 
 // Function to fetch Twitter Threads and create MDX files for them.
 async function fetchTwitterThreads() {
-  const threadInfo = await fetchThreads(bearerToken);
-  await downloadThreads(threadInfo);
+  // const threadInfo = await fetchThreads(bearerToken);
+  // await downloadThreads(threadInfo);
 }
 
 export async function sourceNodes(params) {
