@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-// import 'normalize.css';
+import 'normalize.css';
 import PropTypes from 'prop-types';
 import Typography from '../styles/Typography';
 import GlobalStyles from '../styles/GlobalStyles';
