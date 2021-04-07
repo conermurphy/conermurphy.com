@@ -1,7 +1,7 @@
 import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
-import Img from 'gatsby-image';
+import { GatsbyImage } from 'gatsby-plugin-image';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import Tags from './Tags';
@@ -75,9 +75,7 @@ export default function PortfolioPostCard({ post }) {
           node {
             name
             childImageSharp {
-              fluid(maxWidth: 800) {
-                ...GatsbyImageSharpFluid
-              }
+              gatsbyImageData(layout: FULL_WIDTH)
             }
           }
         }
@@ -98,7 +96,7 @@ export default function PortfolioPostCard({ post }) {
   // Returning the post card template.
   return (
     <PortfolioPostContainer>
-      <Img fluid={imageToDisplay.fluid} />
+      <GatsbyImage image={imageToDisplay.childImageSharp.gatsbyImageData} />
       <div className="contentContainer">
         <h2>{title}</h2>
         <Tags tags={tags} />

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
-import Img from 'gatsby-image';
+import { GatsbyImage } from 'gatsby-plugin-image';
 import SEO from '../components/SEO';
 import findBlogSeries from '../utils/findBlogSeries';
 // MDX Component Imports Used on each page.
@@ -54,7 +54,7 @@ const BlogPost = ({ data, pageContext, path }) => {
         }}
       />
       <PostContainer>
-        <Img className="heroImage" fluid={image.childImageSharp.fluid} />
+        <GatsbyImage className="heroImage" image={image.childImageSharp.gatsbyImageData} />
         <BlogHeader>
           <h1 className="postTitle">{title}</h1>
           <div className="postInfo">
@@ -93,9 +93,7 @@ export const query = graphql`
         description
         image {
           childImageSharp {
-            fluid(maxWidth: 1920, quality: 100, pngQuality: 100) {
-              ...GatsbyImageSharpFluid
-            }
+            gatsbyImageData(layout: FULL_WIDTH)
           }
         }
         date(formatString: "DD/MM/YYYY")
