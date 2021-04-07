@@ -126,3 +126,15 @@
     to = "/blog/how-to-schedule-tweets-on-android-ios/"
     force = false
     status = 301
+
+[[redirects]]
+    from = "/Javascript-Fundamentals-Getters-Setters/"
+    to = "/blog/javascript-fundamentals-getters-setters/"
+    force = false
+    status = 301
+    
+[[redirects]]
+    from = "/JavaScript-Fundamentals-Functions-Overview/"
+    to = "/blog/javascript-fundamentals-functions-overview/"
+    force = false
+    status = 301
