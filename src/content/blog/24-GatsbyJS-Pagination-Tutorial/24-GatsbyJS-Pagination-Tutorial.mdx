@@ -278,14 +278,164 @@ We are passing a series of arguments to the `createPage` action, these are:
 - path: The url the page will be created for.
 - component: This is the file that will be used to template out the page being built.
 - context: An object containing data to be passed to the page.
-  - skip: We pass this to tell the page how many posts to skip.
-  - currentPage: Tells the page what page it currently is.
+  - skip: We pass this to tell the page how many posts to skip by multipling the current index of the item we are on by the page size. So page 1 would be: `0 * 6 = 0` and for page 2 it would be: `1 * 6 = 6`. This ensures we skip the correct number of posts for each page.
+  - currentPage: Tells the page what page it currently is which we will use for navigation later on.
   - pageSize: The size of the page we defined.
 
 The `currentPage` context data will make more sense in the final section of this blog post when we look at creating pagination controls to move between the new pages we have created. But, now let's look at the amendments we need to make to the blog page file which will consume the `skip` and `pageSize` context we have passed.
 
 ## Amending the Page file
 
-## Adding Pagination Controls
+Now, we have the `gatsby-node.js` file setup and ready to create all of the pages for us. We just need to amend the page file that normally lists all of the posts for us.
+
+### Updating the GraphQL Query
+
+First, we need to update the GraphQL query that runs in the blog page, you should already have something that looks like this:
+
+```js
+export const query = graphql`
+  query {
+    blog: allMdx(
+      sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
+      filter: { fields: { contentCategory: { eq: "blog" } } }
+    ) {
+      edges {
+        node {
+          fields {
+            slug
+          }
+          frontmatter {
+            date(formatString: "DD/MM/YYYY")
+            tags
+            title
+            id
+            image {
+              childImageSharp {
+                fluid(maxWidth: 400) {
+                  ...GatsbyImageSharpFluid
+                }
+              }
+            }
+          }
+        }
+      }
+      totalCount
+    }
+  }
+`;
+```
+
+The important part to note in this query that we are just fetching all of the blog posts, there is no constraints on the query other than a simple filter I've done to select all of the blog content.
+
+Now, let's look at what we need to add in.
+
+Remember when we edited the `gatsby-node.js` file we passed a few pieces of context down to the page? Most notably the skip value and pageSize. Well because we passed them as context to the page we have them available to us to use in GraphQL as variables.
+
+Let's take a look at the amended query and then we'll break them down:
+
+```js
+export const query = graphql`
+  query($skip: Int = 0, $pageSize: Int = 6 ) {
+    blog: allMdx(
+      limit: $pageSize
+      skip: $skip
+      sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
+      filter: { fields: { contentCategory: { eq: "blog" } } }
+    ) {
+      edges {
+        node {
+          fields {
+            slug
+          }
+          frontmatter {
+            date(formatString: "DD/MM/YYYY")
+            tags
+            title
+            id
+            image {
+              childImageSharp {
+                fluid(maxWidth: 400) {
+                  ...GatsbyImageSharpFluid
+                }
+              }
+            }
+          }
+        }
+      }
+      totalCount
+    }
+  }
+`;
+```
+
+As you can see in the top line of the query we have added in the two variables we passed as context, let's look at this line in more depth:
+
+```GraphQL
+query($skip: Int = 0, $pageSize: Int = 6 ) {
+```
+
+In case you're unfamilar with the GraphQL syntax, here's a quick overview of what is happening above.
+
+- $skip: This is the name of the variable
+- Int: This is the type of the data the variable is
+- = 0: This is the default value of the variable should none be provided by context.
+
+So, in this line we are taking in two variables which are both Integers (Ints) and giving them a default value. 
+
+Now, let's take a look where they are used in the query:
+
+```GraphQL
+query($skip: Int = 0, $pageSize: Int = 6 ) {
+    blog: allMdx(
+      limit: $pageSize
+      skip: $skip
+      sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
+      filter: { fields: { contentCategory: { eq: "blog" } } }
+    )
+    # Rest of the query goes here...
+}
+```
+
+As you can see we have added in the `skip` and `pageSize` variables into the query to the `skip` and `limit` properties of the query.
+
+If we were to translate this to the actual values of page 1, it would look like this:
+
+```GraphQL
+query($skip: Int = 0, $pageSize: Int = 6 ) {
+    blog: allMdx(
+      limit: 6
+      skip: 0
+      sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
+      filter: { fields: { contentCategory: { eq: "blog" } } }
+    )
+    # Rest of the query goes here...
+}
+```
+
+This is because we want to limit the results to 6 values and we are skipping 0 because we are on the first page. If we were to look at page 2 as an example, we can start to see how it works.
+
+```GraphQL
+query($skip: Int = 0, $pageSize: Int = 6 ) {
+    blog: allMdx(
+      limit: 6
+      skip: 6
+      sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
+      filter: { fields: { contentCategory: { eq: "blog" } } }
+    )
+    # Rest of the query goes here...
+}
+```
+
+The only things that's changed is the skip value. Now, instead of skipping 0 value, we skip the first 6 and returning a max of 6 values starting from item 7 in the query. 
+
+This is repeated for every page we generate in `gatsby-node.js` until we have covered all of the posts.
+
+*An important thing to note is that if you want your first page to show the latest blog post you need to use the `sort` property in the GraphQL query to ensure the first item is the latest one. See my example above for how to sort using the frontmatter___date field.*
+
+## Pagination Controls
+
+### Creating the Pagination Component
+
+### Adding to the page file
 
 ## Summing Up
