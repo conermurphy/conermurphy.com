@@ -1,0 +1,291 @@
+---
+title: "How to create paginated pages on GatsbyJS."
+date: "2021-04-10"
+tags: ["GatsbyJS"]
+slug: gatsbyjs-pagination-tutorial
+image: ../23-Five-Ways-Improve-Your-Writing-Developer/Five-Ways-Improve-Your-Writing-Developer.png
+id: 24
+---
+
+Welcome back to the blog! In this post we are going to be looking at how to implement pagination on pages like a blog in GatsbyJS. By the end of this post, you will be able to create as many pages as required to house all of your content based on a simple input of X per page.
+
+Before we get started, I just want to preface that this post was written using GatsbyJS V2 and not the newest GatsbyJS V3. I'm in the process of moving my website over to V3 and once it's complete I will update this post with any required changes. If you're interested in the migration journey, [GatsbyJS has a page on it here.](https://www.gatsbyjs.com/docs/reference/release-notes/migrating-from-v2-to-v3/)
+
+### What are we creating?
+
+Below is a screenshot from my live website [conermurphy.com](). What we will be adding is the functionality to specify I want X blog posts per page and then Gatsby will automatically create the rest for us. For the purpose of this tutorial I will use a blog as an example, but this logic can apply to any page in a website. For example, I also use it with my notes on the blog.
+
+What we will finish with is the below URL structure:
+
+- yourURL.com/blog/ <- Posts 19-24
+- yourURL.com/blog/1 <- Posts 13-18
+- yourURL.com/blog/2 <- Posts 7-12
+- yourURL.com/blog/3 <- Posts 1-6
+
+Check it out:
+
+```
+Insert image of blog here.
+```
+
+## Prerequisites
+
+So, what do you need to have done already before working through this tutorial?
+
+As long as you have a currently working blog with some posts on it you will be good to go. For the purposes of this tutorial I won't be convering how to set up sourcing content into Gatsby or actually creating the individual blog posts using a Template file. But, if you are interested in these tutorials please let me know.
+
+As long as you currently have a single page that has all your posts on it like below, you'll be good to go. 😃
+
+```
+Insert image of single page with all blog posts on.
+```
+
+## gatsby-node
+
+Right, with all that out the way, let's get down to actually writing some code.
+
+To start with, you should already have your blog posts being sourced into Gatsby in the `gatbsy-node.js` file and being displayed as one long list.
+
+If you have your individual blog post page generation already set up you should have a hook into the `createPages` API already. If not that's okay, here's quick overview.
+
+### createPages
+
+`createPages` is an API of Gatsby Node that allows you to create pages dynamically, it happens after the initial sourcing and tranformation of nodes and the GraphQL schema is created. [Read more about it here.](https://www.gatsbyjs.com/docs/reference/config-files/gatsby-node/#createPages)
+
+_In the following examples of code from my website, I use ES6 Modules in my gatsby-node file, these aren't enabled by default. [You can follow a tutorial I did on Twitter for to set these up.]()_
+
+To start with setting up the `createPages` API and the subsequent generation of the paginated blog pages, we need to add in the below code.
+
+```js
+export async function createPages(params) {
+  await Promise.all([turnBlogPostsIntoPages(params)]);
+}
+```
+
+This allows us to hook into the `createPages` API. The `Promise.all` isn't strictly necessary, you could add all of the code directly into this one function. But, for readibility I seperate out all of the individual generations into their own function which returns a promise we can await on.
+
+To illustrate this point, here is a direct copy from my current website:
+
+```js
+export async function createPages(params) {
+  // After the creation of the nodes create pages for each custom type.
+  await Promise.all([
+    // Blog Posts
+    turnBlogPostsIntoPages(params),
+    // Notes Pages
+    turnNotesIntoPages(params),
+    // Turn sourced Twitter Threads into pages.
+    turnTwitterThreadsIntoPages(params),
+    // Blog Tags Pages
+    turnBlogPostTagsIntoPages(params),
+    // Turn Notes Categories into pages
+    turnNotesCategoriesIntoPages(params),
+    // Turn Twitter Threads Tags Into Pages
+    turnThreadsTagsIntoPages(params),
+    // Turn Portfolio Tags into pages
+    turnPortfolioTagsIntoPages(params),
+    // Turn Read Categories into pages.
+    turnReadsCategoriesIntoPages(params),
+  ]);
+}
+```
+
+If I was to put all of these functions directly into the `createPages` function, the function would be nearly 300 lines long which defintely isn't good for readibility.
+
+Anyway, back on topic. The next thing we need to do is create our `turnBlogPostsIntoPages` function that we declared above.
+
+So, anywhere above in the file this `createPages` function add in a new function like so:
+
+```js
+async function turnBlogPostsIntoPages({ graphql, actions }) {
+  const { createPage } = actions;
+}
+
+export async function createPages(params) {
+  await Promise.all([turnBlogPostsIntoPages(params)]);
+}
+```
+
+Now, we have a function that gets called when the `createPages` API is run. Let's dive deeper into function and start making it do something useful.
+
+```js
+async function turnBlogPostsIntoPages({ graphql, actions }) {
+  // 0: Destructuring out the action createPage which is used to create the pages.
+  const { createPage } = actions;
+
+  // 1: Query for all of blog post data. Most importantly the totalCount which we will use later on.
+  const {
+    data: {
+      blog: { edges: blogPosts, totalCount: blogTotalCount },
+    },
+  } = await graphql(`
+    query {
+      blog: allMdx(filter: { fields: { contentCategory: { eq: "blog" } } }) {
+        edges {
+          node {
+            fields {
+              slug
+              contentCategory
+            }
+            frontmatter {
+              title
+              date(formatString: "DD/MM/YYYY")
+            }
+          }
+        }
+        totalCount
+      }
+    }
+  `);
+
+  // 2: Create a page for every blog post node. (This is for indivual blog posts.)
+  blogPosts.forEach(({ node }, index) => {
+    createPage({
+      path: node.fields.slug,
+      component: path.resolve("./src/templates/Blog.js"),
+      context: {
+        slug: node.fields.slug,
+        prev: index === 0 ? null : blogPosts[index - 1].node,
+        next: index === blogPosts.length - 1 ? null : blogPosts[index + 1].node,
+      },
+    });
+  });
+
+  // 3: Create the main blog pages containing the posts..
+  const blogTemplate = path.resolve("./src/pages/blog.js");
+
+  const pageSize = 6; // Total number of posts on each page
+  const pageCount = Math.ceil(blogTotalCount / pageSize); // Total number of pages required.
+
+  // Loop through each page required (1 to x) and create a new blog page for each.
+  Array.from({ length: pageCount }).forEach((_, i) => {
+    createPage({
+      path: `/blog/${i === 0 ? "" : i + 1}`,
+      blogTemplate,
+      // Context is passed to the page so we can skip the required amount of posts on each page.
+      context: {
+        skip: i * pageSize,
+        currentPage: i + 1,
+        pageSize,
+      },
+    });
+  });
+}
+```
+
+If you have already completed the setup of an initial blog on GatsbyJS you may already have some code that resembles something like this. Let's break down each step and see what's going on.
+
+0. This is where we destructure out the createPage action, this is used to actually create the pages from the information we provide it.
+1. We query for all of the information related to the blog posts that was sourced in GraphQL. Most importantly the `totalCount` number as this will be used to work out how many pages we need later on.
+2. This is where the individual blog posts are created using the createPage action we destructured above.
+3. This is the step we are interested in for this tutorial. This is where we create the paginated blog posts. Let's break this down in more detail below.
+
+### Breaking down the pagination
+
+Here's the code we are particulary interested for this tutorial:
+
+```js
+const blogTemplate = path.resolve("./src/pages/blog.js");
+
+const pageSize = 6; // Total number of posts on each page
+const pageCount = Math.ceil(blogTotalCount / pageSize); // Total number of pages required.
+
+// Loop through each page required (1 to x) and create a new blog page for each.
+Array.from({ length: pageCount }).forEach((_, i) => {
+  createPage({
+    path: `/blog/${i === 0 ? "" : i + 1}`,
+    blogTemplate,
+    // Context is passed to the page so we can skip the required amount of posts on each page.
+    context: {
+      skip: i * pageSize,
+      currentPage: i + 1,
+      pageSize,
+    },
+  });
+});
+```
+
+Let's check out what's going on here.
+
+```js
+const blogTemplate = path.resolve("./src/pages/blog.js");
+```
+
+First, we import the template file which we will be using to create all of the paginated pages. This is the actual blog page in your `pages` directory, not the template file you use for creating the individual blog posts that is normally within the `templates` directory.
+
+```js
+const pageSize = 6; // Total number of posts on each page
+const pageCount = Math.ceil(blogTotalCount / pageSize); // Total number of pages required.
+```
+
+Following this, we create 2 more variables that will control the page size and how many pages we need. This is done by manually setting the `pageSize` variable to the amount of posts we want on each page. Then we use this variable to work out how many pages we need.
+
+We work this out by taking the totalnumber of posts which we got in our graphQL query above and dividing it by the page size we just defined. By rounding up this result it tells us how many pages we require.
+
+Then we get to the juicy part:
+
+```js
+// Loop through each page required (1 to x) and create a new blog page for each.
+Array.from({ length: pageCount }).forEach((_, i) => {
+  createPage({
+    path: `/blog/${i === 0 ? "" : i + 1}`,
+    blogTemplate,
+    // Context is passed to the page so we can skip the required amount of posts on each page.
+    context: {
+      skip: i * pageSize,
+      currentPage: i + 1,
+      pageSize,
+    },
+  });
+});
+```
+
+What's going on here?
+
+The most important part of this is what happens on line one, it's the part that actually enables us to create multiple blog pages.
+
+```js
+Array.from({ length: pageCount }).forEach((_, i) => {});
+```
+
+We already have a variable telling us how many pages we need `pageCount` but for this to be actually any use to us, we need to be able to loop through all the numbers leading to this point and create an individual page for each one.
+
+This is where the above line comes in. We use `Array.from({ length: pageCount })` to create an array with the length of the amount of pages we need to create. Yes the array items will be blank but that doesn't matter because we are only interested in the indexes.
+
+To get access to the indexes we chain onto the `Array.from()` with a `.forEach((_, i) => {})` like shown above. Because we are only interested in the indexes of the items we are looping through we can skip the first argument to forEach which represents the actual item (in this case it will be blank) we are currently on in the array. This let's us get access to the second argument which represents the index of the current item in the array.
+
+Now, we are able to loop through an array of variable length defined in the `pageCount` variable we have the basis of creating our blog pages. Now we just need to do the actual creation.
+
+Which we can do with the following code:
+
+```js
+createPage({
+  path: `/blog/${i === 0 ? "" : i + 1}`,
+  component: blogTemplate,
+  // Context is passed to the page so we can skip the required amount of posts on each page.
+  context: {
+    skip: i * pageSize,
+    currentPage: i + 1,
+    pageSize,
+  },
+});
+```
+
+Let's breakdown what's going on here.
+
+We are passing a series of arguments to the `createPage` action, these are:
+
+- path: The url the page will be created for.
+- component: This is the file that will be used to template out the page being built.
+- context: An object containing data to be passed to the page.
+  - skip: We pass this to tell the page how many posts to skip.
+  - currentPage: Tells the page what page it currently is.
+  - pageSize: The size of the page we defined.
+
+The `currentPage` context data will make more sense in the final section of this blog post when we look at creating pagination controls to move between the new pages we have created. But, now let's look at the amendments we need to make to the blog page file which will consume the `skip` and `pageSize` context we have passed.
+
+## Amending the Page file
+
+## Adding Pagination Controls
+
+## Summing Up
