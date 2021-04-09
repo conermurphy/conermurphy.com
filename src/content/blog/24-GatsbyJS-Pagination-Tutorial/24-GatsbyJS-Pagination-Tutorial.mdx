@@ -36,6 +36,8 @@ As long as you have a currently working blog with some posts on it you will be g
 
 As long as you currently have a single page that has all your posts on it like below, you'll be good to go. 😃
 
+If you are looking to set up your blog for the first time, [LogRocket has a great tutorial here.](https://blog.logrocket.com/creating-a-gatsby-blog-from-scratch/)
+
 ```
 Insert image of single page with all blog posts on.
 ```
@@ -296,7 +298,10 @@ First, we need to update the GraphQL query that runs in the blog page, you shoul
 export const query = graphql`
   query {
     blog: allMdx(
-      sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
+      sort: {
+        order: [DESC, DESC]
+        fields: [frontmatter___date, frontmatter___id]
+      }
       filter: { fields: { contentCategory: { eq: "blog" } } }
     ) {
       edges {
@@ -335,11 +340,14 @@ Let's take a look at the amended query and then we'll break them down:
 
 ```js
 export const query = graphql`
-  query($skip: Int = 0, $pageSize: Int = 6 ) {
+  query($skip: Int = 0, $pageSize: Int = 6) {
     blog: allMdx(
       limit: $pageSize
       skip: $skip
-      sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
+      sort: {
+        order: [DESC, DESC]
+        fields: [frontmatter___date, frontmatter___id]
+      }
       filter: { fields: { contentCategory: { eq: "blog" } } }
     ) {
       edges {
@@ -370,7 +378,7 @@ export const query = graphql`
 
 As you can see in the top line of the query we have added in the two variables we passed as context, let's look at this line in more depth:
 
-```GraphQL
+```js
 query($skip: Int = 0, $pageSize: Int = 6 ) {
 ```
 
@@ -380,11 +388,11 @@ In case you're unfamilar with the GraphQL syntax, here's a quick overview of wha
 - Int: This is the type of the data the variable is
 - = 0: This is the default value of the variable should none be provided by context.
 
-So, in this line we are taking in two variables which are both Integers (Ints) and giving them a default value. 
+So, in this line we are taking in two variables which are both Integers (Ints) and giving them a default value.
 
 Now, let's take a look where they are used in the query:
 
-```GraphQL
+```js
 query($skip: Int = 0, $pageSize: Int = 6 ) {
     blog: allMdx(
       limit: $pageSize
@@ -392,7 +400,7 @@ query($skip: Int = 0, $pageSize: Int = 6 ) {
       sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
       filter: { fields: { contentCategory: { eq: "blog" } } }
     )
-    # Rest of the query goes here...
+    // Rest of the query goes here...
 }
 ```
 
@@ -400,7 +408,7 @@ As you can see we have added in the `skip` and `pageSize` variables into the que
 
 If we were to translate this to the actual values of page 1, it would look like this:
 
-```GraphQL
+```js
 query($skip: Int = 0, $pageSize: Int = 6 ) {
     blog: allMdx(
       limit: 6
@@ -408,13 +416,13 @@ query($skip: Int = 0, $pageSize: Int = 6 ) {
       sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
       filter: { fields: { contentCategory: { eq: "blog" } } }
     )
-    # Rest of the query goes here...
+    // Rest of the query goes here...
 }
 ```
 
 This is because we want to limit the results to 6 values and we are skipping 0 because we are on the first page. If we were to look at page 2 as an example, we can start to see how it works.
 
-```GraphQL
+```js
 query($skip: Int = 0, $pageSize: Int = 6 ) {
     blog: allMdx(
       limit: 6
@@ -422,20 +430,233 @@ query($skip: Int = 0, $pageSize: Int = 6 ) {
       sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
       filter: { fields: { contentCategory: { eq: "blog" } } }
     )
-    # Rest of the query goes here...
+    // Rest of the query goes here...
 }
 ```
 
-The only things that's changed is the skip value. Now, instead of skipping 0 value, we skip the first 6 and returning a max of 6 values starting from item 7 in the query. 
+The only things that's changed is the skip value. Now, instead of skipping 0 value, we skip the first 6 and returning a max of 6 values starting from item 7 in the query.
 
 This is repeated for every page we generate in `gatsby-node.js` until we have covered all of the posts.
 
-*An important thing to note is that if you want your first page to show the latest blog post you need to use the `sort` property in the GraphQL query to ensure the first item is the latest one. See my example above for how to sort using the frontmatter___date field.*
+_An important thing to note is that if you want your first page to show the latest blog post you need to use the `sort` property in the GraphQL query to ensure the first item is the latest one. See my example above for how to sort using the frontmatter\_\_\_date field._
 
 ## Pagination Controls
 
+It's great having our posts paginated out over several pages. But, if the only way we have to move between them is changing the URL we're going to have issues.
+
+This is where adding pagination controls comes in, we're going to add a couple of dedicated buttons that allow next and previous movement on pages. We will also add in a list of pages in the middle of the buttons so you can skip pages if you wish.
+
 ### Creating the Pagination Component
+
+Before we can set about implementing it into our blog page, we need to actually create our `Pagination` component. Let's take a look at the code now.
+
+```js
+export default function Pagination({ pageSize, totalCount, currentPage }) {
+  const totalPages = Math.ceil(totalCount / pageSize);
+  const prevPage = currentPage - 1;
+  const nextPage = currentPage + 1;
+  const hasNextPage = nextPage <= totalPages;
+  const hasPrevPage = prevPage >= 1;
+
+  const prevLink = prevPage === 1 ? "blog" : `blog/${prevPage}`;
+  const nextLink = `blog/${nextPage}`;
+
+  return (
+    <div>
+      <Link title="prev page" disabled={!hasPrevPage} to={prevLink}>
+        &#8592; <span className="word">Previous</span>{" "}
+      </Link>
+      {Array.from({ length: totalPages }).map((_, i) => (
+        <Link
+          key={`blog-page-${i}`}
+          className={currentPage === 1 && i === 0 ? "current" : ""}
+          to={`blog/${i === 0 ? "" : i + 1}`}
+        >
+          {i + 1}
+        </Link>
+      ))}
+      <Link title="next page" disabled={!hasNextPage} to={nextLink}>
+        <span className="word">Next</span> &#8594;
+      </Link>
+    </div>
+  );
+}
+```
+
+Overall, the code isn't to complex, we have a couple of `Link` elements from Gatsby coupled with another one of `Array.from()` specials from earlier. This time though instead of using a `.forEach()` we use a `.map()` because we want to return the elements to display.
+
+Let's break this down into 3 segments.
+
+#### Creating the links
+
+The first section we are going to take a look at is the code that generates the links for us based on the props we pass in. Here's the code:
+
+```js
+export default function Pagination({
+  pageSize,
+  totalCount,
+  currentPage,
+  skip,
+}) {
+  const totalPages = Math.ceil(totalCount / pageSize);
+  const prevPage = currentPage - 1;
+  const nextPage = currentPage + 1;
+  const hasNextPage = nextPage <= totalPages;
+  const hasPrevPage = prevPage >= 1;
+
+  const prevLink = prevPage === 1 ? "blog" : `blog/${prevPage}`;
+  const nextLink = `blog/${nextPage}`;
+
+  // ... Rest of the component here
+```
+
+So, what are we doing here?
+
+First we pass in a series of props:
+
+1. pageSize: The amount of posts we want on each page.
+2. totalCount: The total amount of blog pages there are from the GraphQL query on the blog page
+3. currentPage: This comes from the context we added in `gatsby-node.js`, it is destructured out in the blog page and then passed down to this component.
+
+After this we create a series of variables that will be used to determine if there is another page to navigate to and what the URL would be for that page.
+
+1. totalPages: Int: The total amount of pages required
+2. prevPage: Int: Works out the index of the previous page based off the current one.
+3. nextPage: Int: Works out the index of the next page based off the current one.
+4. hasNextPage: Bool: Checks if the `nextPage` variable has an index value higher smaller than or equal to the `totalPages`.
+5. hasPrevPage: Bool: Checks if the `prevPage` variable is greater than or equal to one.
+
+These 5 variables are then used throughout the rest of the component to decide whether elements should be displayed or not but we'll come to that in a second. First we need to create the next and previous links which are our final two variables.
+
+1. prevLink: Str: Checks if the `prevPage` variable is equal to one, if so set the variable to `'blog'` which will redirect you to the main blog page. If not, set the variable to `blog/${prevPage}`.
+2. nextLink: Str: This is just set to `blog/${nextPage}`. This can be done because we have a seperate variable controlling whether there is a another page after or not.
+
+Now we've convered all of the variables required to create the elements, let's look at making them.
+
+#### Next and Previous buttons
+
+The code for the previous and next buttons is actually quite similar with just a few word changes so I'm just going to break one of them down so we can understand how it works but here is both of them:
+
+```js
+<Link title="prev page" disabled={!hasPrevPage} to={prevLink}>
+  &#8592; <span className="word">Previous</span>{' '}
+</Link>
+
+<Link title="next page" disabled={!hasNextPage} to={nextLink}>
+  <span className="word">Next</span> &#8594;
+</Link>
+```
+
+The general structure of the links is a Gatsby `Link` element wrapping a `span` declaring what the button does to the user. Let's check out what we do with them:
+
+1. title: Str: We set a title attribute on the element to declare to the user what each link does.
+2. disabled: Bool: This is where the two boolean variables `hasPrevPage` and `hasNextPage` come in from earlier. If the boolean says that the next or previous page is outside the available pages it will be false and disable the link here. This is then styled by CSS to lower the opacity and prevent the user clicking on them. Check below for this code.
+3. to: Str: This is the destination we want the element to navigate to if clicked.
+
+This breaks down the functionality of the links, the last part is adding the text elements in to label them up on screen. For this we just use a `span` wrapping the revelant word and a next / previous arrow depending on the button.
+
+CSS Code to disable the link:
+
+```CSS
+&[disabled] {
+      pointer-events: none;
+      text-decoration: line-through;
+      color: var(--black);
+      opacity: 0.5;
+    }
+```
+
+#### Adding all the pages
+
+We're almost there with the pagination component, just need to add in the links for each page between the previous and next buttons.
+
+Here's the code for adding in the page links:
+
+```js
+{
+  Array.from({ length: totalPages }).map((_, i) => (
+    <Link
+      key={`blog-page-${i}`}
+      className={currentPage === 1 && i === 0 ? "current" : ""}
+      to={`blog/${i === 0 ? "" : i + 1}`}
+    >
+      {i + 1}
+    </Link>
+  ));
+}
+```
+
+It's based off a similar principle to what we used in the past for generating each page in `gatsby-node.js`. However, instead of using a `.forEach()` to loop over each index, we use a `.map()` so we can return the `Link` element.
+
+Let's break down what's happening in this code block:
+
+1. We create an array with the length equal to `totalPages` and then map over each index.
+2. We create a `Link` element and pass 3 props to it:
+3. key: Str: Standard key prop required by React when returning elements from a map.
+4. className: Str: Used to add the 'current' class to the element if we are on that page to allow for styling to distinguish it.
+5. to: Str: The destination we want the link to navigate to.
+6. Finally, we add the text inside the `Link` which is the index plus 1 to negate the 0-indexing of JavaScript arrays.
+
+Here is the CSS for the current element styling we added:
+
+```css
+&[aria-current],
+&.current {
+  color: var(--green);
+  font-weight: 600;
+  border-bottom: 2px solid var(--green);
+}
+```
 
 ### Adding to the page file
 
+We have now created the pagination component, it's time to add it to our blog page file like so:
+
+```js
+return (
+  <>
+    <Pagination
+      pageSize={6}
+      totalCount={totalCount}
+      currentPage={currentPage || 1}
+    />
+    <AllPostsContainer>
+      {blogPosts.map((post) => (
+        <BlogPostCard
+          key={`blogPostCard-${post.node.frontmatter.id}`}
+          post={post}
+        />
+      ))}
+    </AllPostsContainer>
+    <Pagination
+      pageSize={6}
+      totalCount={totalCount}
+      currentPage={currentPage || 1}
+    />
+  </>
+);
+```
+
+As we have split the entire pagination component, it's now just a matter of passing in the required props:
+
+1. pageSize: Int: The total number of posts on each page
+2. totalCount: Int: The total number of posts from the GraphQL query.
+3. currentPage: Int: The index of the current page taken from context, if not 1.
+
+We should now be setup and ready to rock and roll.
+
 ## Summing Up
+
+If everything has gone to plan you should now having something that resembles this in functionality:
+
+```
+insert picture of final pagination and blog page
+```
+
+I didn't include the CSS in this article apart from one or two sections to try and keep the length of the post down as it's already a long one. But, if you are interested all of the CSS I use is available on the [Github for my website.](https://github.com/conermurphy/conermurphy.com)
+
+One thing I didn't include in this post but do recommened is storing your `pageSize` variable in a `.env` file and importing it into Gatsby using `parseInt(process.env.GATSBY_PAGE_SIZE)}` for example. This means that should you ever want to change the amount of posts per page you only need to change it in one place rather than multiple.
+
+I hope you found this post helpful if you did I would greatly appreciate you sharing it with others on Social Media so they can benefit from it to. If you have any feedback I would love to hear it, you can [reach me over on Twitter.](https://twitter.com/MrConerMurphy)
+
+Thanks for reading. 😃

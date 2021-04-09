@@ -48,25 +48,13 @@ export default function Blog({ data, pageContext, path }) {
         <h1>Blog Posts</h1>
       </div>
       <TagFilter base="blog" activeTag={tag} />
-      <Pagination
-        pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
-        totalCount={totalCount}
-        currentPage={currentPage || 1}
-        skip={skip}
-        base={path}
-      />
+      <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
       <AllPostsContainer>
         {blogPosts.map((post) => (
           <BlogPostCard key={`blogPostCard-${post.node.frontmatter.id}`} post={post} />
         ))}
       </AllPostsContainer>
-      <Pagination
-        pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
-        totalCount={totalCount}
-        currentPage={currentPage || 1}
-        skip={skip}
-        base={path}
-      />
+      <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
     </>
   );
 }
