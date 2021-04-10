@@ -7,13 +7,15 @@ image: ./GatsbyJS-Pagination-Tutorial.png
 id: 24
 ---
 
-Welcome back to the blog! In this post we are going to be looking at how to implement pagination on pages like a blog in GatsbyJS. By the end of this post, you will be able to create as many pages as required to house all of your content based on a simple input of X per page.
+Welcome back to the blog! In this post, we are going to be looking at how to add pagination to pages on a GatsbyJS website. By the end of this post:
 
-Before we get started, I just want to preface that this post was written using GatsbyJS V2 and not the newest GatsbyJS V3. I'm in the process of moving my website over to V3 and once it's complete I will update this post with any required changes. If you're interested in the migration journey, [GatsbyJS has a page on it here.](https://www.gatsbyjs.com/docs/reference/release-notes/migrating-from-v2-to-v3/)
+1. Your website will be able to create pages as required to house all your content.
+2. The number of pages being determined by the number of posts we want per page.
+3. Finally, we add controls to navigate between pages with the ability to skip to a certain page.
 
-### What are we creating?
+### What Are We Creating?
 
-Below is a screenshot from my live website [conermurphy.com](). What we will be adding is the functionality to specify I want X blog posts per page and then Gatsby will automatically create the rest for us. For the purpose of this tutorial I will use a blog as an example, but this logic can apply to any page in a website. For example, I also use it with my notes on the blog.
+Below is a screenshot from my live website [conermurphy.com](). Today, we will be covering the functionality that allows us to specify I want X posts per page and then have Gatsby create the pages for us. For the purposes of this tutorial, I will use a blog as an example, but this logic can apply to any page on a website. For example, I also use it with my notes on the blog.
 
 What we will finish with is the below URL structure:
 
@@ -24,39 +26,33 @@ What we will finish with is the below URL structure:
 
 Check it out:
 
-```
-Insert image of blog here.
-```
+![Blog Page of conermurphy.com](./Conermurphy-Blog-Page.png)
 
 ## Prerequisites
 
 So, what do you need to have done already before working through this tutorial?
 
-As long as you have a currently working blog with some posts on it you will be good to go. For the purposes of this tutorial I won't be convering how to set up sourcing content into Gatsby or actually creating the individual blog posts using a Template file. But, if you are interested in these tutorials please let me know.
+As long as you have a working blog with some posts on it you will be good to go. For the purposes of this tutorial, I won't be covering how to set up sourcing content into Gatsby. Or, how to create the individual blog posts using a Template file. But, if you are interested in these tutorials please let me know.
 
-As long as you currently have a single page that has all your posts on it like below, you'll be good to go. 😃
+As long as you currently have a single page that has all your posts on it, you'll be good to go. 😃
 
 If you are looking to set up your blog for the first time, [LogRocket has a great tutorial here.](https://blog.logrocket.com/creating-a-gatsby-blog-from-scratch/)
-
-```
-Insert image of single page with all blog posts on.
-```
 
 ## gatsby-node
 
 Right, with all that out the way, let's get down to actually writing some code.
 
-To start with, you should already have your blog posts being sourced into Gatsby in the `gatbsy-node.js` file and being displayed as one long list.
+As mentioned above we should already have our posts sourced into Gatsby in the gatsby-node.js. Following this, they should display as one long list.
 
-If you have your individual blog post page generation already set up you should have a hook into the `createPages` API already. If not that's okay, here's quick overview.
+If your individual post page generation is already set up you should have a hook into the createPages API. If not that's okay, here's a quick overview.
 
 ### createPages
 
-`createPages` is an API of Gatsby Node that allows you to create pages dynamically, it happens after the initial sourcing and tranformation of nodes and the GraphQL schema is created. [Read more about it here.](https://www.gatsbyjs.com/docs/reference/config-files/gatsby-node/#createPages)
+`createPages` is an API of Gatsby Node that allows you to create pages dynamically. This API runs after the sourcing and transformation of nodes and the creation of the GraphQL schema is complete. [Read more about it here.](https://www.gatsbyjs.com/docs/reference/config-files/gatsby-node/#createPages)
 
-_In the following examples of code from my website, I use ES6 Modules in my gatsby-node file, these aren't enabled by default. [You can follow a tutorial I did on Twitter for to set these up.]()_
+_In the following examples of code, I use ES6 Modules in my gatsby-node file, these aren't enabled by default. [You can follow a tutorial I did on Twitter to set these up.]()_
 
-To start with setting up the `createPages` API and the subsequent generation of the paginated blog pages, we need to add in the below code.
+To start setting up the `createPages` API and the generation of the paginated pages, we need to add in the below code.
 
 ```js
 export async function createPages(params) {
@@ -64,7 +60,7 @@ export async function createPages(params) {
 }
 ```
 
-This allows us to hook into the `createPages` API. The `Promise.all` isn't strictly necessary, you could add all of the code directly into this one function. But, for readibility I seperate out all of the individual generations into their own function which returns a promise we can await on.
+This allows us to hook into the createPages API. The Promise.all isn't necessary, you could add all the code into this one function. But, for readability, I separated out the individual generations into their own functions.
 
 To illustrate this point, here is a direct copy from my current website:
 
@@ -92,11 +88,11 @@ export async function createPages(params) {
 }
 ```
 
-If I was to put all of these functions directly into the `createPages` function, the function would be nearly 300 lines long which defintely isn't good for readibility.
+If I put all these functions into the `createPages` function, the function would be over 300 lines long. This definitely isn't good for our readability.
 
-Anyway, back on topic. The next thing we need to do is create our `turnBlogPostsIntoPages` function that we declared above.
+Anyway, back on topic. Next, we need to do is create the `turnBlogPostsIntoPages` function that we declared.
 
-So, anywhere above in the file this `createPages` function add in a new function like so:
+So, anywhere above this `createPages` function add in a new function like so:
 
 ```js
 async function turnBlogPostsIntoPages({ graphql, actions }) {
@@ -108,7 +104,7 @@ export async function createPages(params) {
 }
 ```
 
-Now, we have a function that gets called when the `createPages` API is run. Let's dive deeper into function and start making it do something useful.
+Now, we have a function that gets called when the `createPages` API runs. Let's dive deeper into this function and start making it do something useful.
 
 ```js
 async function turnBlogPostsIntoPages({ graphql, actions }) {
@@ -175,16 +171,16 @@ async function turnBlogPostsIntoPages({ graphql, actions }) {
 }
 ```
 
-If you have already completed the setup of an initial blog on GatsbyJS you may already have some code that resembles something like this. Let's break down each step and see what's going on.
+If you have completed the setup of a blog on GatsbyJS you may already have some code that resembles this. Let's break down each step and see what's going on.
 
-0. This is where we destructure out the createPage action, this is used to actually create the pages from the information we provide it.
-1. We query for all of the information related to the blog posts that was sourced in GraphQL. Most importantly the `totalCount` number as this will be used to work out how many pages we need later on.
+0. This is where we destructure out the createPage action. This is used to actually create the pages from the information we provide.
+1. We query for all the information related to the posts sourced in GraphQL. Most importantly the `totalCount` number, as this is used to work out how many pages we need later on.
 2. This is where the individual blog posts are created using the createPage action we destructured above.
 3. This is the step we are interested in for this tutorial. This is where we create the paginated blog posts. Let's break this down in more detail below.
 
-### Breaking down the pagination
+### Breaking Down the Pagination
 
-Here's the code we are particulary interested for this tutorial:
+Here's the code we are particularly interested in for this tutorial:
 
 ```js
 const blogTemplate = path.resolve("./src/pages/blog.js");
@@ -213,16 +209,16 @@ Let's check out what's going on here.
 const blogTemplate = path.resolve("./src/pages/blog.js");
 ```
 
-First, we import the template file which we will be using to create all of the paginated pages. This is the actual blog page in your `pages` directory, not the template file you use for creating the individual blog posts that is normally within the `templates` directory.
+First, we import the template file which we will be using to create all the paginated pages. Note that this is the actual blog page in your pages directory. Not the file used for creating individual posts located within the templates folder.
 
 ```js
 const pageSize = 6; // Total number of posts on each page
 const pageCount = Math.ceil(blogTotalCount / pageSize); // Total number of pages required.
 ```
 
-Following this, we create 2 more variables that will control the page size and how many pages we need. This is done by manually setting the `pageSize` variable to the amount of posts we want on each page. Then we use this variable to work out how many pages we need.
+Following this, we create two more variables that will control the page size and how many pages we need. This is achieved by setting the `pageSize` variable to the number of posts we want on each page. Then we use this variable to work out how many pages we need.
 
-We work this out by taking the totalnumber of posts which we got in our graphQL query above and dividing it by the page size we just defined. By rounding up this result it tells us how many pages we require.
+We achieve this by taking the `totalnumber` from our graphQL query and dividing it by the page size. By rounding up this result it tells us how many pages we need.
 
 Then we get to the juicy part:
 
@@ -244,19 +240,19 @@ Array.from({ length: pageCount }).forEach((_, i) => {
 
 What's going on here?
 
-The most important part of this is what happens on line one, it's the part that actually enables us to create multiple blog pages.
+The most important part of this is what happens on line 1. This is the part that enables us to create multiple blog pages.
 
 ```js
 Array.from({ length: pageCount }).forEach((_, i) => {});
 ```
 
-We already have a variable telling us how many pages we need `pageCount` but for this to be actually any use to us, we need to be able to loop through all the numbers leading to this point and create an individual page for each one.
+We have a variable telling us how many pages we need (`pageCount`). But, for this to be of any use to us, we need to be able to loop through all the numbers leading to this point. This would allow us to create an individual page for each number.
 
-This is where the above line comes in. We use `Array.from({ length: pageCount })` to create an array with the length of the amount of pages we need to create. Yes the array items will be blank but that doesn't matter because we are only interested in the indexes.
+This is where the above line comes in. We use `Array.from({ length: pageCount })` to create an array with the length of the number of pages we need to create. Yes, the array items will be blank but that doesn't matter because we are only interested in the indexes.
 
-To get access to the indexes we chain onto the `Array.from()` with a `.forEach((_, i) => {})` like shown above. Because we are only interested in the indexes of the items we are looping through we can skip the first argument to forEach which represents the actual item (in this case it will be blank) we are currently on in the array. This let's us get access to the second argument which represents the index of the current item in the array.
+To get access to the indexes we chain onto the `Array.from()` with a `.forEach((_, i) => {})` like shown above. Because we are only interested in the indexes, we can skip the first argument to forEach. This would represent the actual item (blank) for the index we are currently on in the array. This then allows us access to the second argument which represents the index of the current item.
 
-Now, we are able to loop through an array of variable length defined in the `pageCount` variable we have the basis of creating our blog pages. Now we just need to do the actual creation.
+Now, we are able to loop through an array of variable length to allow us to create the required number of pages. Now we need to do the actual creation.
 
 Which we can do with the following code:
 
@@ -273,26 +269,26 @@ createPage({
 });
 ```
 
-Let's breakdown what's going on here.
+Let's break down what's going on here.
 
 We are passing a series of arguments to the `createPage` action, these are:
 
-- path: The url the page will be created for.
-- component: This is the file that will be used to template out the page being built.
-- context: An object containing data to be passed to the page.
-  - skip: We pass this to tell the page how many posts to skip by multipling the current index of the item we are on by the page size. So page 1 would be: `0 * 6 = 0` and for page 2 it would be: `1 * 6 = 6`. This ensures we skip the correct number of posts for each page.
-  - currentPage: Tells the page what page it currently is which we will use for navigation later on.
-  - pageSize: The size of the page we defined.
+- path: The URL the page will be created for.
+- component: This is the file that will be used to template out the page.
+- context: An object containing data passed to the page.
+- skip: We pass this to tell the page how many posts to skip in the GraphQL query. We work this out by multiplying the current index of the item we are on by the page size. So page 1 would be: `0 * 6 = 0` and for page 2 it would be: `1 * 6 = 6`. This ensures we skip the correct number of posts for each page.
+- currentPage: Tells the page what page it currently is which we will use for navigation later on.
+- pageSize: The size of the page we defined.
 
-The `currentPage` context data will make more sense in the final section of this blog post when we look at creating pagination controls to move between the new pages we have created. But, now let's look at the amendments we need to make to the blog page file which will consume the `skip` and `pageSize` context we have passed.
+The `currentPage` context data will make more sense in the final section of this blog post. This is when we will look at creating pagination controls to move between the pages we have created. But, now let's look at the changes we need to make to the page file so it can consume the `skip` and `pageSize` context we passed.
 
-## Amending the Page file
+## Amending the Page File
 
-Now, we have the `gatsby-node.js` file setup and ready to create all of the pages for us. We just need to amend the page file that normally lists all of the posts for us.
+Now, we have the `gatsby-node.js` file setup and ready to create all the pages for us. We need to amend the page file that lists all the posts for us.
 
 ### Updating the GraphQL Query
 
-First, we need to update the GraphQL query that runs in the blog page, you should already have something that looks like this:
+First, we need to update the GraphQL query that runs on the page. You should already have something that looks like this:
 
 ```js
 export const query = graphql`
@@ -330,11 +326,11 @@ export const query = graphql`
 `;
 ```
 
-The important part to note in this query that we are just fetching all of the blog posts, there is no constraints on the query other than a simple filter I've done to select all of the blog content.
+The important part to note in this query is that we are fetching all the blog posts. At this point, there are no constraints on the query other than a filter I've done to select all the blog content.
 
 Now, let's look at what we need to add in.
 
-Remember when we edited the `gatsby-node.js` file we passed a few pieces of context down to the page? Most notably the skip value and pageSize. Well because we passed them as context to the page we have them available to us to use in GraphQL as variables.
+Remember when we edited the `gatsby-node.js` file we passed a few pieces of context down to the page? Most notably the `skip` value and `pageSize`. Well because we passed them as context to the page we have them available to us to use in GraphQL as variables.
 
 Let's take a look at the amended query and then we'll break them down:
 
@@ -376,21 +372,21 @@ export const query = graphql`
 `;
 ```
 
-As you can see in the top line of the query we have added in the two variables we passed as context, let's look at this line in more depth:
+As you can see in the top line of the query we added the two variables we passed as context. Let's look at this line in more depth:
 
 ```js
 query($skip: Int = 0, $pageSize: Int = 6 ) {
 ```
 
-In case you're unfamilar with the GraphQL syntax, here's a quick overview of what is happening above.
+If you're unfamiliar with GraphQL syntax. Below is a quick overview of what is happening.
 
 - $skip: This is the name of the variable
-- Int: This is the type of the data the variable is
-- = 0: This is the default value of the variable should none be provided by context.
+- Int: This is the type of data the variable is
+- = 0: This is the default value of the variable.
 
-So, in this line we are taking in two variables which are both Integers (Ints) and giving them a default value.
+So, in this line, we are taking in two variables which are both Integers (Ints) and giving them a default value.
 
-Now, let's take a look where they are used in the query:
+Now, let's take a look at where they're used in the query:
 
 ```js
 query($skip: Int = 0, $pageSize: Int = 6 ) {
@@ -404,7 +400,7 @@ query($skip: Int = 0, $pageSize: Int = 6 ) {
 }
 ```
 
-As you can see we have added in the `skip` and `pageSize` variables into the query to the `skip` and `limit` properties of the query.
+As you can see we have added the `skip` and `pageSize` variables. They are passed to the `skip` and `limit` properties of the query.
 
 If we were to translate this to the actual values of page 1, it would look like this:
 
@@ -434,21 +430,21 @@ query($skip: Int = 0, $pageSize: Int = 6 ) {
 }
 ```
 
-The only things that's changed is the skip value. Now, instead of skipping 0 value, we skip the first 6 and returning a max of 6 values starting from item 7 in the query.
+The only thing that has changed is the skip value. Now, instead of skipping 0 values, we skip the first 6. Then we return a max of 6 values starting from item 7 in the dataset.
 
-This is repeated for every page we generate in `gatsby-node.js` until we have covered all of the posts.
+This is repeated for every page we generate until we have covered all the posts.
 
-_An important thing to note is that if you want your first page to show the latest blog post you need to use the `sort` property in the GraphQL query to ensure the first item is the latest one. See my example above for how to sort using the frontmatter\_\_\_date field._
+_If you want your first page to show the latest post you need to use the `sort` property in the query. See my example above for how to sort using the frontmatter\_\_\_date field._
 
 ## Pagination Controls
 
-It's great having our posts paginated out over several pages. But, if the only way we have to move between them is changing the URL we're going to have issues.
+It's great having our posts paginated out over several pages. But, if the only way we have to move between them is by changing the URL we're going to have issues.
 
-This is where adding pagination controls comes in, we're going to add a couple of dedicated buttons that allow next and previous movement on pages. We will also add in a list of pages in the middle of the buttons so you can skip pages if you wish.
+This is where adding pagination controls will help us. We're going to add a couple of dedicated buttons that allow next and previous movement on pages. We will also add a list of pages in the middle of the buttons so you can skip pages if you wish.
 
 ### Creating the Pagination Component
 
-Before we can set about implementing it into our blog page, we need to actually create our `Pagination` component. Let's take a look at the code now.
+Before we can implement this into our page we first need to create our `Pagination` component. Let's take a look at the code now.
 
 ```js
 export default function Pagination({ pageSize, totalCount, currentPage }) {
@@ -483,11 +479,11 @@ export default function Pagination({ pageSize, totalCount, currentPage }) {
 }
 ```
 
-Overall, the code isn't to complex, we have a couple of `Link` elements from Gatsby coupled with another one of `Array.from()` specials from earlier. This time though instead of using a `.forEach()` we use a `.map()` because we want to return the elements to display.
+The code isn't too complex, we have a couple of `Link` elements from Gatsby. Then another one of `Array.from()` specials from earlier. This time though instead of using a `.forEach()` we use a `.map()` because we want to return the elements.
 
 Let's break this down into 3 segments.
 
-#### Creating the links
+#### Creating the Links
 
 The first section we are going to take a look at is the code that generates the links for us based on the props we pass in. Here's the code:
 
@@ -512,30 +508,30 @@ export default function Pagination({
 
 So, what are we doing here?
 
-First we pass in a series of props:
+First, we pass in a series of props:
 
-1. pageSize: The amount of posts we want on each page.
+1. pageSize: The number of posts we want on each page.
 2. totalCount: The total amount of blog pages there are from the GraphQL query on the blog page
-3. currentPage: This comes from the context we added in `gatsby-node.js`, it is destructured out in the blog page and then passed down to this component.
+3. currentPage: This comes from the context we added in `gatsby-node.js`. It is destructured out on the page and then passed down to the component.
 
-After this we create a series of variables that will be used to determine if there is another page to navigate to and what the URL would be for that page.
+After this, we create a series of variables that will are used to determine if there is another page to navigate to. And, if so what the URL is.
 
 1. totalPages: Int: The total amount of pages required
-2. prevPage: Int: Works out the index of the previous page based off the current one.
-3. nextPage: Int: Works out the index of the next page based off the current one.
-4. hasNextPage: Bool: Checks if the `nextPage` variable has an index value higher smaller than or equal to the `totalPages`.
+2. prevPage: Int: Works out the index of the previous page based on the current one.
+3. nextPage: Int: Works out the index of the next page based on the current one.
+4. hasNextPage: Bool: Checks if `nextPage` is smaller than or equal to `totalPages`.
 5. hasPrevPage: Bool: Checks if the `prevPage` variable is greater than or equal to one.
 
-These 5 variables are then used throughout the rest of the component to decide whether elements should be displayed or not but we'll come to that in a second. First we need to create the next and previous links which are our final two variables.
+These 5 variables are used throughout the component to decide whether elements should be displayed or not. But, we will come to that in a second. First, we need to create the next and previous links which are our final two variables.
 
-1. prevLink: Str: Checks if the `prevPage` variable is equal to one, if so set the variable to `'blog'` which will redirect you to the main blog page. If not, set the variable to `blog/${prevPage}`.
-2. nextLink: Str: This is just set to `blog/${nextPage}`. This can be done because we have a seperate variable controlling whether there is a another page after or not.
+1. prevLink: Str: Checks if the `prevPage` variable is equal to one. If so set the variable to `'blog'` which will redirect you to the main blog page. If not, set the variable to `blog/${prevPage}`.
+2. nextLink: Str: This is set to `blog/${nextPage}`. This is done because we have a separate variable controlling whether there is another page or not.
 
-Now we've convered all of the variables required to create the elements, let's look at making them.
+Now we've covered all the variables required to create the elements, let's look at making them.
 
-#### Next and Previous buttons
+#### Next and Previous Buttons
 
-The code for the previous and next buttons is actually quite similar with just a few word changes so I'm just going to break one of them down so we can understand how it works but here is both of them:
+The code for the previous and next buttons is actually similar with a few word changes. For this reason, I'm only going to break one of them down so we can understand how they both work. First let's look at the complete code:
 
 ```js
 <Link title="prev page" disabled={!hasPrevPage} to={prevLink}>
@@ -547,13 +543,13 @@ The code for the previous and next buttons is actually quite similar with just a
 </Link>
 ```
 
-The general structure of the links is a Gatsby `Link` element wrapping a `span` declaring what the button does to the user. Let's check out what we do with them:
+The structure of the links is a Gatsby `Link` element wrapping a `span` describing what the button does. Let's check out what we do with them:
 
 1. title: Str: We set a title attribute on the element to declare to the user what each link does.
-2. disabled: Bool: This is where the two boolean variables `hasPrevPage` and `hasNextPage` come in from earlier. If the boolean says that the next or previous page is outside the available pages it will be false and disable the link here. This is then styled by CSS to lower the opacity and prevent the user clicking on them. Check below for this code.
+2. disabled: Bool: This is where the two variables `hasPrevPage` and `hasNextPage` come in. If the variable says that the next or previous page is outside the available pages it will disable the link. This is then styled by CSS to lower the opacity and prevent the user from clicking on them. Check below for this code.
 3. to: Str: This is the destination we want the element to navigate to if clicked.
 
-This breaks down the functionality of the links, the last part is adding the text elements in to label them up on screen. For this we just use a `span` wrapping the revelant word and a next / previous arrow depending on the button.
+This covers the functionality, the last part is adding the text elements to label them up on the screen. For this, we use a `span` wrapping the relevant word and a next/previous arrow depending on the button.
 
 CSS Code to disable the link:
 
@@ -566,9 +562,9 @@ CSS Code to disable the link:
     }
 ```
 
-#### Adding all the pages
+#### Adding All the Pages
 
-We're almost there with the pagination component, just need to add in the links for each page between the previous and next buttons.
+We're almost there with the pagination component. We just need to add in the links for each page between the previous and next buttons.
 
 Here's the code for adding in the page links:
 
@@ -586,14 +582,14 @@ Here's the code for adding in the page links:
 }
 ```
 
-It's based off a similar principle to what we used in the past for generating each page in `gatsby-node.js`. However, instead of using a `.forEach()` to loop over each index, we use a `.map()` so we can return the `Link` element.
+It's based on a similar principle to what we used in the past for generating each page in `gatsby-node.js`. However, instead of using a `.forEach()` to loop over each index, we use a `.map()` so we can return the `Link` element.
 
 Let's break down what's happening in this code block:
 
 1. We create an array with the length equal to `totalPages` and then map over each index.
 2. We create a `Link` element and pass 3 props to it:
 3. key: Str: Standard key prop required by React when returning elements from a map.
-4. className: Str: Used to add the 'current' class to the element if we are on that page to allow for styling to distinguish it.
+4. className: Str: Used to add the 'current' class to the element if we are on that page to allow for styling.
 5. to: Str: The destination we want the link to navigate to.
 6. Finally, we add the text inside the `Link` which is the index plus 1 to negate the 0-indexing of JavaScript arrays.
 
@@ -608,7 +604,7 @@ Here is the CSS for the current element styling we added:
 }
 ```
 
-### Adding to the page file
+### Adding to the Page File
 
 We have now created the pagination component, it's time to add it to our blog page file like so:
 
@@ -637,26 +633,24 @@ return (
 );
 ```
 
-As we have split the entire pagination component, it's now just a matter of passing in the required props:
+As we have split the entire pagination component, it's now a matter of passing in the required props:
 
 1. pageSize: Int: The total number of posts on each page
 2. totalCount: Int: The total number of posts from the GraphQL query.
 3. currentPage: Int: The index of the current page taken from context, if not 1.
 
-We should now be setup and ready to rock and roll.
+We should now be set up and ready to rock and roll.
 
 ## Summing Up
 
-If everything has gone to plan you should now having something that resembles this in functionality:
+If everything went to plan you should have something that resembles this for functionality:
 
-```
-insert picture of final pagination and blog page
-```
+![Blog Page of conermurphy.com](./Conermurphy-Blog-Page.png)
 
-I didn't include the CSS in this article apart from one or two sections to try and keep the length of the post down as it's already a long one. But, if you are interested all of the CSS I use is available on the [Github for my website.](https://github.com/conermurphy/conermurphy.com)
+I didn't include the CSS in this article apart from one or two sections to try and keep the length of the post down. But, if you're interested in all the CSS it is available on the [Github for my website.](https://github.com/conermurphy/conermurphy.com)
 
-One thing I didn't include in this post but do recommened is storing your `pageSize` variable in a `.env` file and importing it into Gatsby using `parseInt(process.env.GATSBY_PAGE_SIZE)}` for example. This means that should you ever want to change the amount of posts per page you only need to change it in one place rather than multiple.
+One thing I didn't include in this post but do recommend is storing your `pageSize` variable in a `.env` file. Then you can import it into Gatsby using `parseInt(process.env.GATSBY_PAGE_SIZE)}`. This means that should you ever want to change the number of posts per page you only need to change it in one place.
 
-I hope you found this post helpful if you did I would greatly appreciate you sharing it with others on Social Media so they can benefit from it to. If you have any feedback I would love to hear it, you can [reach me over on Twitter.](https://twitter.com/MrConerMurphy)
+I hope you found this post helpful if you did I would greatly appreciate you sharing it with others on Social Media so they can benefit from it too. If you have any feedback I would love to hear it, you can [reach me over on Twitter.](https://twitter.com/MrConerMurphy)
 
 Thanks for reading. 😃
