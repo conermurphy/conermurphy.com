@@ -79,61 +79,61 @@ export default {
         },
       },
     },
-    // {
-    //   resolve: 'gatsby-plugin-feed',
-    //   options: {
-    //     query: `
-    //       {
-    //       site {
-    //         siteMetadata {
-    //           title
-    //           description
-    //           siteUrl
-    //         }
-    //       }
-    //     }
-    //     `,
-    //     feeds: [
-    //       {
-    //         serialize: ({ query: { site, allMdx } }) =>
-    //           allMdx.edges.map((edge) => ({
-    //             ...edge.node.frontmatter,
-    //             description: edge.node.description,
-    //             date: edge.node.frontmatter.date,
-    //             url: site.siteMetadata.siteUrl + edge.node.fields.slug,
-    //             guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
-    //             custom_elements: [{ 'content:encoded': edge.node.html }],
-    //           })),
-    //         query: `
-    //           {
-    //             allMdx(filter: {fields: {contentCategory: {eq: "blog"}}}, sort: {fields: frontmatter___date, order: DESC}) {
-    //               edges {
-    //                 node {
-    //                   frontmatter {
-    //                     title
-    //                     date
-    //                     description
-    //                   }
-    //                   html
-    //                   fields {
-    //                     slug
-    //                   }
-    //                 }
-    //               }
-    //             }
-    //           }
-    //         `,
-    //         output: '/rss.xml',
-    //         title: 'conermurphy.com RSS Feed',
-    //         // optional configuration to insert feed reference in pages:
-    //         // if `string` is used, it will be used to create RegExp and then test if pathname of
-    //         // current page satisfied this regular expression;
-    //         // if not provided or `undefined`, all pages will have feed reference inserted
-    //         match: '^/blog/',
-    //       },
-    //     ],
-    //   },
-    // },
+    {
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        query: `
+          {
+          site {
+            siteMetadata {
+              title
+              description
+              siteUrl
+            }
+          }
+        }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { site, allMdx } }) =>
+              allMdx.edges.map((edge) => ({
+                ...edge.node.frontmatter,
+                description: edge.node.description,
+                date: edge.node.frontmatter.date,
+                url: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                custom_elements: [{ 'content:encoded': edge.node.html }],
+              })),
+            query: `
+              {
+                allMdx(filter: {fields: {contentCategory: {eq: "blog"}}}, sort: {fields: frontmatter___date, order: DESC}) {
+                  edges {
+                    node {
+                      frontmatter {
+                        title
+                        date
+                        description
+                      }
+                      html
+                      fields {
+                        slug
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+            output: '/rss.xml',
+            title: 'conermurphy.com RSS Feed',
+            // optional configuration to insert feed reference in pages:
+            // if `string` is used, it will be used to create RegExp and then test if pathname of
+            // current page satisfied this regular expression;
+            // if not provided or `undefined`, all pages will have feed reference inserted
+            match: '^/blog/',
+          },
+        ],
+      },
+    },
     'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',
     'gatsby-plugin-styled-components',
