@@ -80,6 +80,13 @@ const UL = styled.ul`
   padding-left: 1rem;
 `;
 
+const CustomIMG = styled.img`
+  width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: fill-available;
+`;
+
 function copyToClip() {
   navigator.clipboard.writeText(window.location);
 }
@@ -133,6 +140,7 @@ const Components = {
   code: (props) => <Code {...props} />,
   inlineCode: (props) => <InlineCode {...props} />,
   ul: (props) => <UL {...props} />,
+  img: (props) => <CustomIMG {...props} />,
 };
 
 export default Components;
