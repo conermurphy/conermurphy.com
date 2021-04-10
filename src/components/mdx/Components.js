@@ -68,6 +68,7 @@ const InlineCode = styled(Code)`
   padding: 0.5rem 1rem;
   color: var(--white);
   font-weight: bold;
+  white-space: nowrap;
 `;
 
 const Pre = styled.pre`
