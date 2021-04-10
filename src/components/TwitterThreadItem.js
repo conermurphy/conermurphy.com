@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { graphql, useStaticQuery } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
-import Img from 'gatsby-image';
+import { GatsbyImage } from 'gatsby-plugin-image';
 import PropTypes from 'prop-types';
 import Components from './mdx/Components';
 
@@ -68,9 +68,7 @@ export default function TwitterThreadItem({ tweet }) {
               date(formatString: "DD/MM/YYYY HH:mm")
               images {
                 childImageSharp {
-                  fluid(maxWidth: 1200, quality: 100) {
-                    ...GatsbyImageSharpFluid
-                  }
+                  gatsbyImageData(layout: FULL_WIDTH)
                 }
                 id
               }
@@ -94,16 +92,7 @@ export default function TwitterThreadItem({ tweet }) {
   return (
     <TweetContainer>
       <div className="imagesContainer">
-        {images &&
-          images.map((image) => (
-            <Img
-              key={image.id}
-              fluid={image.childImageSharp.fluid}
-              imgStyle={{
-                objectFit: 'contain',
-              }}
-            />
-          ))}
+        {images && images.map((image) => <GatsbyImage image={image.childImageSharp.gatsbyImageData} />)}
       </div>
       <div className="tweetBody">
         <MDXProvider components={Components}>

@@ -5,11 +5,6 @@ import { arrayTotaler } from './src/utils/countTags';
 import findTagInfo from './src/utils/findTagInfo';
 import portfolioData from './src/data/portfolio.json';
 import readsData from './src/data/reads.json';
-import fetchThreads from './src/utils/fetchThreads';
-import downloadThreads from './src/utils/downloadThreads';
-
-// Bringing in twitter api info
-const bearerToken = process.env.TWITTER_BEARER_TOKEN;
 
 // Wesbos wait function: https://github.com/wesbos/waait/blob/master/index.js
 const wait = (amount = 0) => new Promise((resolve) => setTimeout(resolve, amount));
@@ -562,15 +557,9 @@ async function fetchReadsAndTurnIntoNodes({ actions, createNodeId, createContent
   );
 }
 
-// Function to fetch Twitter Threads and create MDX files for them.
-async function fetchTwitterThreads() {
-  // const threadInfo = await fetchThreads(bearerToken);
-  // await downloadThreads(threadInfo);
-}
-
 export async function sourceNodes(params) {
   // fetch the portfolio data json file locally and turn into GraphQL nodes to allow us to create portfolio tag pages off the tag and query for all the posts on the portfolio page.
-  await Promise.all([fetchPortfolioAndTurnIntoNodes(params), fetchReadsAndTurnIntoNodes(params), fetchTwitterThreads()]);
+  await Promise.all([fetchPortfolioAndTurnIntoNodes(params), fetchReadsAndTurnIntoNodes(params)]);
 }
 
 export async function createPages(params) {

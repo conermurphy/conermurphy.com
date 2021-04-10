@@ -1,7 +1,7 @@
 import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
-import Img from 'gatsby-image';
+import { GatsbyImage } from 'gatsby-plugin-image';
 import PropTypes from 'prop-types';
 import matchingLanguageIcon from '../utils/findMatchingLanguageIcon';
 import Tags from './Tags';
@@ -90,7 +90,7 @@ export default function BlogPostCard({ post }) {
   return (
     <Link to={slug}>
       <PostContainerBody>
-        <Img fluid={image.childImageSharp.fluid} />
+        <GatsbyImage image={image.childImageSharp.gatsbyImageData} />
         <div className="contentContainer">
           <div className="languageIconContainer">{languageIcon}</div>
           <div className="content">

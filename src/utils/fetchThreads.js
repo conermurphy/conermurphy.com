@@ -17,8 +17,10 @@ async function fetchUserId(bearerToken) {
     usernames: 'MrConerMurphy',
   };
 
+  const fetchURL = `${userEndpoint}${params.usernames}`;
+
   // 2: Fetch info from Twitter API
-  const res = await fetch(`${userEndpoint}${params.usernames}`, {
+  const res = await fetch(fetchURL, {
     method: 'GET',
     headers: {
       'User-Agent': 'v2UserLookupJS',

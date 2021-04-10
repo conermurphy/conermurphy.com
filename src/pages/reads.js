@@ -115,9 +115,7 @@ export const query = graphql`
           }
           localFile {
             childImageSharp {
-              fluid(maxWidth: 200) {
-                ...GatsbyImageSharpFluid
-              }
+              gatsbyImageData(layout: FULL_WIDTH)
             }
           }
           fields {

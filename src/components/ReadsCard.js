@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Img from 'gatsby-image';
+import { GatsbyImage } from 'gatsby-plugin-image';
 import Tags from './Tags';
 
 const ReadsCardContainer = styled.div`
@@ -93,7 +93,7 @@ export default function ReadsCard({ read }) {
   return (
     <a href={infoLink} target="_blank" rel="noopener noreferrer">
       <ReadsCardContainer>
-        <Img fluid={localFile.childImageSharp.fluid} />
+        <GatsbyImage image={localFile.childImageSharp.gatsbyImageData} />
         <div>
           <div className="titleAuthor">
             <h2>{title}</h2>
