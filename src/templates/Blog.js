@@ -36,7 +36,7 @@ const BlogPost = ({ data, pageContext, path }) => {
   const { image, title, description, date, series, tags, plainDate } = frontmatter;
 
   // Setting image path for SEO if no image use the logo.
-  const imagePath = image ? image.childImageSharp.fluid.src : '/Logo.svg';
+  const imagePath = image ? image.childImageSharp.gatsbyImageData.images.fallback.src : '/Logo.svg';
 
   // Updating the nav to show dark theme.
   useNavTheme('dark');

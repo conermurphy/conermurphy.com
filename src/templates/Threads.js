@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Chart from 'chart.js';
 import SEO from '../components/SEO';
 import Tags from '../components/Tags';
 import Navigation from '../components/mdx/Navigation';
@@ -79,81 +78,12 @@ const ThreadContainer = styled.div`
   }
 `;
 
-function ThreadStatsChart({ data: threadData }) {
-  const chartRef = useRef(null);
-  useEffect(() => {
-    // Check if window is undefined or not to prevent build issues
-    if (typeof window !== 'undefined' && threadData) {
-      // If the chart is not undefined, upon re-render destroy the old chart.
-      if (typeof window.threadStatsChart !== 'undefined') {
-        window.threadStatsChart.destroy();
-      }
-
-      // Setting base object for chart options.
-      const chartOptions = {
-        maintainAspectRatio: true,
-        legend: {
-          display: false,
-          labels: {},
-        },
-      };
-
-      // Create properties for the chart to be set below.
-      // Creating an array of labels by flattening the keys of the data.
-      const labels = Object.keys(threadData)
-        .flat()
-        // Capatilising the first letter of the sentence, removing the 'Count' word and appending (s)
-        .map((label) => `${label.charAt(0).toUpperCase() + label.slice(1).split('Count')[0]}(s)`);
-      // Merging all of the data into one array
-      const data = Object.values(threadData).flat();
-      // Creating an array equal to the length of the data array and filling with the same background colour.
-      const backgroundColor = Array.from({ length: data.length }).map((_, i) => '#498B41');
-
-      // Setting the properties onto the chart.
-      const chartData = {
-        labels,
-        datasets: [
-          {
-            data,
-            backgroundColor,
-          },
-        ],
-      };
-
-      // Creating the chart.
-      window.threadStatsChart = new Chart(chartRef.current, {
-        type: 'bar',
-        data: chartData,
-        options: chartOptions,
-      });
-      if (typeof window.threadStatsChart !== 'undefined') {
-        window.threadStatsChart.update();
-      }
-    }
-  }, []);
-  return <canvas ref={chartRef} />;
-}
-
 const TwitterThread = ({ data, pageContext, path }) => {
   const { frontmatter } = data.mdx;
-  const {
-    title,
-    date,
-    plainDate,
-    tags,
-    conversationId,
-    likeCount,
-    replyCount,
-    quoteCount,
-    retweetCount,
-    numberOfTweets,
-    tweets,
-  } = frontmatter;
+  const { title, date, plainDate, tags, numberOfTweets, tweets } = frontmatter;
 
   // Updating the nav to show dark theme.
   useNavTheme('dark');
-
-  const chartData = { likeCount, replyCount, quoteCount, retweetCount };
 
   return (
     <>
@@ -183,10 +113,6 @@ const TwitterThread = ({ data, pageContext, path }) => {
             <TwitterThreadItem tweet={tweet} key={`Twitter-Thread-Tweet-${tweet}`} />
           ))}
         </article>
-        <div className="chartContainer">
-          <h3 className="chartTitle">{title} Analytics:</h3>
-          <ThreadStatsChart data={chartData} />
-        </div>
       </ThreadContainer>
     </>
   );
@@ -218,3 +144,20 @@ export const query = graphql`
 `;
 
 export default TwitterThread;
+
+TwitterThread.propTypes = {
+  data: PropTypes.shape({
+    mdx: PropTypes.shape({
+      frontmatter: PropTypes.shape({
+        title: PropTypes.string,
+        date: PropTypes.string,
+        plainDate: PropTypes.string,
+        tags: PropTypes.array,
+        numberOfTweets: PropTypes.number,
+        tweets: PropTypes.array,
+      }),
+    }),
+  }),
+  pageContext: PropTypes.object,
+  path: PropTypes.string,
+};

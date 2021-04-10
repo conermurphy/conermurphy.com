@@ -8,9 +8,6 @@ import readsData from './src/data/reads.json';
 import fetchThreads from './src/utils/fetchThreads';
 import downloadThreads from './src/utils/downloadThreads';
 
-// Bringing in twitter api info
-const bearerToken = process.env.TWITTER_BEARER_TOKEN;
-
 // Wesbos wait function: https://github.com/wesbos/waait/blob/master/index.js
 const wait = (amount = 0) => new Promise((resolve) => setTimeout(resolve, amount));
 

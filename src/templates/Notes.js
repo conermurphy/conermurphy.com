@@ -71,7 +71,7 @@ export default function NotesPost({ data, pageContext, path }) {
   const languageTag = findMatchingLanguage(noteCategory);
 
   // Setting image path for SEO if no image use the logo.
-  const imagePath = image ? image.childImageSharp.fluid.src : '/Logo.svg';
+  const imagePath = image ? image.childImageSharp.gatsbyImageData.images.fallback.src : '/Logo.svg';
 
   // Updating the nav to show dark theme.
   useNavTheme('dark');

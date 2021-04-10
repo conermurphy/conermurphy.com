@@ -96,7 +96,7 @@ export default function PortfolioPostCard({ post }) {
   // Returning the post card template.
   return (
     <PortfolioPostContainer>
-      <GatsbyImage image={imageToDisplay.childImageSharp.gatsbyImageData} />
+      <GatsbyImage image={imageToDisplay.gatsbyImageData} />
       <div className="contentContainer">
         <h2>{title}</h2>
         <Tags tags={tags} />
