@@ -1,17 +1,17 @@
 ---
 title: "How to Install Multiple NodeJS Versions Using NVM."
-date: "2021-04-14"
+date: "2021-04-12"
 tags: ["NodeJS"]
 slug: installing-mutliple-nodejs-versions-nvm
 image: ./Installing-Mutliple-NodeJS-Versions-NVM.png
 id: 25
 ---
 
-While upgrading my website I also wanted to upgrade the NodeJS version. The current one I was using was having its support removed.
+Recently, while I was updating my website I also wanted to upgrade the NodeJS version. Having explored this path in the past I knew it could be painful.
 
-This led me down the journey of finding out how to upgrade NodeJS. There seemed to be many ways you can tackle this problem. But the best method I found is using [NVM or Node Version Manager.](https://github.com/nvm-sh/nvm)
+So on I went down the journey of upgrading NodeJS. I found there is multiple ways of tackling this problem. But, the best method I found is [NVM or Node Version Manager.](https://github.com/nvm-sh/nvm)
 
-In this post, we'll look at using NVM to install multiple NodeJS versions and to switch between them at the drop of a hat.
+In this post, we'll look at using NVM to install multiple NodeJS versions and how to switch between them at the drop of a hat.
 
 ## Installing NVM
 
@@ -25,18 +25,18 @@ wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
 After running this script, you should notice the NVM repository has been copied into a `~/.nvm` folder. Following this, the below code should now be added to your current terminal profile.
 
-For example, I use ZSH for my terminal which is located in the directory `~/.zshrc`. After installing NVM I would find the below code copied into that file.
+For example, I use ZSH for my terminal which is located in `~/.zshrc`. After installing NVM I should find the below code copied into that file.
 
 ```bash
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 ```
 
-That's it! NVM should now be installed on your machine.
+If everything went smoothly, NVM should now be installed!
 
 ## Using NVM
 
-Using NVM is simple, let's take a look at some of the most common commands you'll use in it:
+Using NVM is simple, let's take a look at some of the most common commands you'll use:
 
 ### Installing a New NodeJS Version
 
@@ -48,13 +48,13 @@ To get the latest version you can run:
 nvm install node # "node" is an alias for the latest version
 ```
 
-Or, if you have a particular version in mind that you want to install:
+Or, if you have a particular version in mind:
 
 ```bash
 nvm install 14.8.0 # or 10.10.0, 8.9.1, etc
 ```
 
-_NOTE: The first version you install becomes the default that new shell windows will use._
+_NOTE: The first version you install becomes the default that new shell windows use._
 
 ### Checking Installed NodeJS Versions
 
@@ -90,7 +90,7 @@ nvm uninstall 14.8.0 # or 10.10.0, 8.9.1, etc
 
 ## Troubleshooting
 
-If you were like me and run into the error nvm: command not found every time you try to run one of these commands. Or, you have another issue you can check out the troubleshooting section on the [NVM Github Repo.](https://github.com/nvm-sh/nvm#additional-notes)
+If you were like me and run into the error `nvm: command not found` every time you try to run one of these commands. Or, you have another issue you can check out the troubleshooting section on the [NVM GitHub Repo.](https://github.com/nvm-sh/nvm#additional-notes)
 
 Unfortunately, my issue wasn't on the troubleshooting section so I had to do some digging. Here's how I solved it.
 
@@ -101,7 +101,7 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 ```
 
-After I opened my `~/.zshrc` file and dropped in that code at the bottom NVM started to work. If you're getting the `nvm: command not found` error try the troubleshooting guide first. If that doesn't help, check it was installed correctly.
+After I opened my `~/.zshrc` file and dropped in that code at the bottom, NVM started to work. If you're getting the `nvm: command not found` error try the troubleshooting guide first. If that doesn't help, check it was installed correctly.
 
 If neither of these work I would recommend opening an issue on GitHub for some support.
 
