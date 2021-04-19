@@ -1,0 +1,195 @@
+---
+title: "Creating Linked Blog Post Headers using MDX on GatsbyJS."
+date: "2021-04-21"
+tags: ["GatsbyJS"]
+slug: blog-post-linked-headers-mdx-gatsbyjs
+image: ./Blog-Post-Linked-Headers-MDX-GatsbyJS.png
+id: 27
+---
+
+MDX is a great way to blog if you're a developer. I've been using it on my [personal website](conermurphy.com/) for a few years now and have had very little reason to switch from it.
+
+One of it's biggest pros is how flexible you can be with it. If you want to add some new fields in or change the way it displays you can easily do it from your sites code.
+
+Today, we're going to be looking at how to create linkable headers for every blog post on a GatsbyJS website using MDX.
+
+If you're not entirely sure what I'm on about. Here is an example:
+
+![Linkable Headers Example](./Linkable-Headers.gif)
+
+As you can see when I hover over the header, it becomes underlined with a link icon appearing. Also, in the bottom left of the screen you can see the URL it will link to appear.
+
+This is what we're going to create today.
+
+## Prerequistes
+
+Most importantly you need to have a blog already setup on GatsbyJS using MDX. If you have a GatsbyJS blog already but haven't converted it over to MDX, you can check out the [MDX plugin page here.](https://www.gatsbyjs.com/plugins/gatsby-plugin-mdx/)
+
+If you already have all your blog posts being generated using MDX then you're ready to get started.
+
+## Basic Setup
+
+One of the reasons I love using GatsbyJS for a blog is because we just need to define one template file and all our blog posts will be generated using it. This makes adding in linked headers a breeze because we only need to set it up for one file.
+
+For this to work, we need to ensure our MDX is being generated using a list of custom components. To do this create a seperate file with all of the components that you need to use in. Below is an excerpt from mine. If you want to view the whole file, you can on [my GitHub repo here.](https://github.com/conermurphy/conermurphy.com/blob/master/src/components/mdx/Components.js)
+
+```js
+import styled from "styled-components";
+import React from "react";
+
+const H1 = styled.h1`
+  font-size: 2.75rem;
+`;
+
+const Components = {
+  h1: (props) => <H1>{props.children}</H1>,
+};
+```
+
+For the sake of brevity, I've only included the H1 tag as an example but you will need to expand this out to include all of the header tags and any others you want to generate with custom functionality or styling.
+
+Once, we have this basic file laid out, we just need to intregreate it into our blog psot template file like so:
+
+```js
+import { MDXRenderer } from "gatsby-plugin-mdx";
+import { MDXProvider } from "@mdx-js/react";
+import Components from "../components/mdx/Components";
+
+<MDXProvider components={Components}>
+  <MDXRenderer>{body}</MDXRenderer>
+</MDXProvider>;
+```
+
+By passing the components file we created to the `MDXProvider` it will use these components when rendering out the body of the post.
+
+## Adding the linked headers
+
+Adding the linked headers functionality is as simple as amending the components file we just talked about.
+
+Here is an updated version with the functionality added.
+
+```js{8-10, 14-20}
+import styled from "styled-components";
+import React from "react";
+
+const H1 = styled.h1`
+  font-size: 2.75rem;
+`;
+
+function copyToClip() {
+  navigator.clipboard.writeText(window.location);
+}
+
+const Components = {
+  h1: (props) => (
+    <H1 id={props.children.replace(" ", "-").toLowerCase()}>
+      <a
+        href={`#${props.children.replace(" ", "-").toLowerCase()}`}
+        onClick={() => copyToClip()}
+      >
+        {props.children}
+      </a>
+    </H1>
+  ),
+};
+```
+
+Let's cover what's happening here.
+
+When MDX renders the body data using the custom components it passes each instance of the H1 tag to the custom H1 component to be rendered. This allow us to retrieve the text by using `props.children`. We use this to create our URLs and IDs to link to.
+
+For example, let's look at this section title:
+
+```
+Original header text: Adding the linked headers
+URL/ID version: adding-the-linked-headers
+```
+
+By adding this text to the ID of the element we can link to it with `a` tag.
+
+To create the link, we wrap the text of the element in an `a` tag with a href equal to the link we created earlier but with a # preceding it to indicate we want to link to a id on the page and not an actual page.
+
+So, right now with all of the above sorted we would have a `H1` element on the page containing an `a` tag linking to the parent `H1` tag.
+
+This is all well and good but we're missing out the best part. When someone clicks on the link we want it to copy to their clipboard so they can easily share it.
+
+### Clipboard functionality
+
+To add the clipboard functionality we need a simple `onClick` handler pointing to the below function:
+
+```js
+function copyToClip() {
+  navigator.clipboard.writeText(window.location);
+}
+
+<a
+  href={`#${props.children.replace(" ", "-").toLowerCase()}`}
+  onClick={() => copyToClip()}
+>
+  {props.children}
+</a>;
+```
+
+So, now when someone clicks on the `a` tag inside of the `H1` tag they have the corresponding URL copied to their clipboard.
+
+## styling
+
+All the functionality is now complete. The final thing we need to look at is the styling.
+
+To indicate to the user, that the link is clickable when they hover on it we want to underline the link and add a 🔗 emoji next to the link.
+
+To achieve this, create a seperate component like so:
+
+```js
+const PostBodyContainer = styled.div`
+  & > h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    position: relative;
+
+    & > a {
+      text-decoration: none;
+      width: 100%;
+
+      :hover {
+        text-decoration: underline;
+
+        & ::before {
+          content: "🔗";
+          transform: translateX(-2rem);
+          position: absolute;
+          font-size: 1.5rem;
+          bottom: 12.5px;
+
+          @media (max-width: 600px) {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+`;
+```
+
+We then wrap the MDX componets in this new component, like so:
+
+```js
+<PostBodyContainer>
+  <MDXProvider components={Components}>
+    <MDXRenderer>{body}</MDXRenderer>
+  </MDXProvider>
+</PostBodyContainer>
+```
+
+Thanks to the `::before` psuedo element we used in the CSS, when someone hovers over the link they get the emoji appearing to the left of it and an underlined link.
+
+## Summing up
+
+Following this tutorial, you should now have a custom linable headers set-up on a GatsbyJS blog using MDX. If you have any questions or have any issues I would be happy to help. Just reach out to me over on [Twitter](https://twitter.com/MrConerMurphy) and I'll get back to you as soon as possible.
+
+If you found this post helpful, please consider sharing it so others can find it helpful to. If you want to see more content like this, please consider following me on Twitter where I regularly post threads and other posts.
+
+Thanks for reading. 😃
