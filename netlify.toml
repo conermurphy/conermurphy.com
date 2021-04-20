@@ -138,3 +138,39 @@
     to = "/blog/javascript-fundamentals-functions-overview/"
     force = false
     status = 301
+
+[[redirects]]
+    from = "/reads"
+    to = "/"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "/notes"
+    to = "/blog"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/notes/javascript/prototypal-inheritance/"
+    to = "/blog/prototypal-inheritance-overview"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/notes/javascript/higher-order-functions/"
+    to = "/blog/javascript-higher-order-functions-overview"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/notes/javascript/first-class-functions/"
+    to = "/blog/javascript-first-class-functions-overview"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/notes/r/vectors-overview/"
+    to = "/blog/r-vectors-overview"
+    force = false
+    status = 301

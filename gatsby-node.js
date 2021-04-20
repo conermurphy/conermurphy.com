@@ -4,7 +4,6 @@ import fetch from 'isomorphic-fetch';
 import { arrayTotaler } from './src/utils/countTags';
 import findTagInfo from './src/utils/findTagInfo';
 import portfolioData from './src/data/portfolio.json';
-import readsData from './src/data/reads.json';
 
 // Wesbos wait function: https://github.com/wesbos/waait/blob/master/index.js
 const wait = (amount = 0) => new Promise((resolve) => setTimeout(resolve, amount));
