@@ -6,7 +6,6 @@ import useNavTheme from '../utils/useNavTheme';
 import Pagination from '../components/Pagination';
 import SEO from '../components/SEO';
 import ThreadsPostCard from '../components/ThreadsPostCard';
-import TagFilter from '../components/TagFilter';
 
 const AllPostsContainer = styled.div`
   display: grid;

@@ -1,8 +1,6 @@
 import path from 'path';
 import { createFilePath, createRemoteFileNode } from 'gatsby-source-filesystem';
 import fetch from 'isomorphic-fetch';
-import { arrayTotaler } from './src/utils/countTags';
-import findTagInfo from './src/utils/findTagInfo';
 import portfolioData from './src/data/portfolio.json';
 
 // Wesbos wait function: https://github.com/wesbos/waait/blob/master/index.js

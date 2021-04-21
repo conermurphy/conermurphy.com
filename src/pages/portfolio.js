@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import useNavTheme from '../utils/useNavTheme';
 import SEO from '../components/SEO';
 import PortfolioPostCard from '../components/PortfolioPostCard';
-import TagFilter from '../components/TagFilter';
 import Pagination from '../components/Pagination';
 
 const AllPortfolioContainer = styled.div`
