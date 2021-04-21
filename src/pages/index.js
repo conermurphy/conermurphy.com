@@ -6,9 +6,7 @@ import { ContentSection, HeroBackground, InfoBlock, LandingSection, NotesContent
 import EmailSignupForm from '../components/EmailSignupForm';
 import useNavTheme from '../utils/useNavTheme';
 import BlogPostCard from '../components/BlogPostCard';
-import NotePostCard from '../components/NotePostCard';
 import SEO from '../components/SEO';
-import LanguageIcons, { languageList } from '../templates/LanguageIcons';
 import TestimonialCard from '../components/TestimonialCard';
 import testimonialData from '../data/testimonials.json';
 import PortfolioPostCard from '../components/PortfolioPostCard';
