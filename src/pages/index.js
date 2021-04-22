@@ -1,8 +1,8 @@
 import React from 'react';
-import { MdPersonPin, MdLocationOn, MdLanguage, MdContacts } from 'react-icons/md';
+import { MdPersonPin, MdLocationOn, MdContacts } from 'react-icons/md';
 import { graphql, Link } from 'gatsby';
 import PropTypes from 'prop-types';
-import { ContentSection, HeroBackground, InfoBlock, LandingSection, NotesContentSection, WaveDivider } from '../styles/HomeStyles';
+import { ContentSection, HeroBackground, InfoBlock, LandingSection, WaveDivider } from '../styles/HomeStyles';
 import EmailSignupForm from '../components/EmailSignupForm';
 import useNavTheme from '../utils/useNavTheme';
 import BlogPostCard from '../components/BlogPostCard';
@@ -14,7 +14,7 @@ import ContactIcons from '../components/ContactIcons';
 import HireMeBlock from '../components/HireMeBlock';
 
 export default function HomePage({ data, path }) {
-  const { blog, notes, portfolio } = data;
+  const { blog, portfolio } = data;
 
   // Setting the nav theme for this page
   useNavTheme('light');
@@ -69,16 +69,6 @@ export default function HomePage({ data, path }) {
             <li>
               Norwich, United Kingdom <MdLocationOn className="categoryIcon" />
             </li>
-            <li className="languagesContainer">
-              <ul className="languages">
-                {languageList.map((lan) => (
-                  <li key={`HomePageLanguages-${lan}`}>
-                    <LanguageIcons language={lan} width="2rem" />
-                  </li>
-                ))}
-              </ul>
-              <MdLanguage className="categoryIcon" />
-            </li>
             <li>
               <ContactIcons />
               <MdContacts className="categoryIcon" />
@@ -109,20 +99,6 @@ export default function HomePage({ data, path }) {
           ))}
         </div>
       </ContentSection>
-      <NotesContentSection>
-        <div className="headerTitleSeperator">
-          <h3>Notes</h3>
-          <Link to="/notes">View All</Link>
-        </div>
-        <div className="content">
-          {notes.edges.map((note) => (
-            <NotePostCard
-              key={`HomeNotePostCard-${note.node.fields.noteCategory}-${note.node.frontmatter.title}-${note.node.frontmatter.id}`}
-              note={note}
-            />
-          ))}
-        </div>
-      </NotesContentSection>
       <ContentSection>
         <div className="headerTitleSeperator">
           <h3>Testimonials</h3>
@@ -139,11 +115,7 @@ export default function HomePage({ data, path }) {
 
 export const query = graphql`
   query HomePageContentQuery {
-    blog: allMdx(
-      sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
-      filter: { fields: { contentCategory: { eq: "blog" } } }
-      limit: 3
-    ) {
+    blog: allMdx(sort: { order: [DESC], fields: [frontmatter___date] }, filter: { fields: { contentCategory: { eq: "blog" } } }, limit: 3) {
       edges {
         node {
           fields {
@@ -153,34 +125,12 @@ export const query = graphql`
             date(formatString: "DD/MM/YYYY")
             tags
             title
-            id
             image {
               childImageSharp {
                 gatsbyImageData(layout: FULL_WIDTH)
               }
             }
           }
-        }
-      }
-    }
-    notes: allMdx(
-      limit: 3
-      sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
-      filter: { fields: { contentCategory: { eq: "notes" } } }
-    ) {
-      edges {
-        node {
-          fields {
-            slug
-            noteCategory
-          }
-          frontmatter {
-            date(formatString: "DDMMYYYY")
-            tags
-            title
-            id
-          }
-          excerpt(pruneLength: 250)
         }
       }
     }
@@ -205,7 +155,6 @@ export const query = graphql`
 HomePage.propTypes = {
   data: PropTypes.shape({
     blog: PropTypes.object,
-    notes: PropTypes.object,
     portfolio: PropTypes.object,
   }),
   path: PropTypes.string,

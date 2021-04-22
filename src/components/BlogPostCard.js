@@ -3,8 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import PropTypes from 'prop-types';
-import matchingLanguageIcon from '../utils/findMatchingLanguageIcon';
-import Tags from './Tags';
 
 const PostContainerBody = styled.div`
   display: flex;
@@ -84,19 +82,14 @@ export default function BlogPostCard({ post }) {
   const { date, id, image, tags, title } = frontmatter;
   const { slug } = fields;
 
-  // Find the language tag to access below to display icon on the blog post
-  const languageIcon = matchingLanguageIcon(tags, '3rem');
-
   return (
     <Link to={slug}>
       <PostContainerBody>
         <GatsbyImage image={image.childImageSharp.gatsbyImageData} />
         <div className="contentContainer">
-          <div className="languageIconContainer">{languageIcon}</div>
           <div className="content">
             <h2>{title}</h2>
           </div>
-          <Tags tags={tags} />
         </div>
         <div className="postIdDate">
           <p className="id">Post: #{id}</p>

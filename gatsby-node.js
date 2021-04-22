@@ -77,7 +77,7 @@ async function turnBlogPostsIntoPages({ graphql, actions }) {
     query {
       blog: allMdx(
         sort: { order: ASC, fields: frontmatter___date }
-        filter: { fields: { contentCategory: { eq: "blog" }, published: { eq: true } } }
+        filter: { fields: { contentCategory: { eq: "blog" } }, frontmatter: { published: { eq: true } } }
       ) {
         edges {
           node {
@@ -87,6 +87,7 @@ async function turnBlogPostsIntoPages({ graphql, actions }) {
             }
             frontmatter {
               title
+              published
               date(formatString: "DD/MM/YYYY")
             }
           }

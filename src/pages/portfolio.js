@@ -47,7 +47,6 @@ export default function Portfolio({ data, pageContext, path }) {
       <div className="headerTitleSeperator">
         <h1>Portfolio</h1>
       </div>
-      <TagFilter base="portfolio" activeTag={tag} />
       <Pagination
         pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
         totalCount={totalCount}

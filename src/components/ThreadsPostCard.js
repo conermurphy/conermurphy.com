@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { IoIosCalendar, IoIosHeart, IoIosRepeat } from 'react-icons/io';
 import { FaTwitter } from 'react-icons/fa';
-import matchingLanguageIcon from '../utils/findMatchingLanguageIcon';
-import Tags from './Tags';
 
 const ThreadContainer = styled.div`
   display: flex;
@@ -70,16 +68,11 @@ export default function ThreadPostCard({ thread }) {
   const { title, date, tags, numberOfTweets, retweetCount, likeCount } = frontmatter;
   const { slug } = fields;
 
-  // Find the language tag to access below to display icon
-  const languageIcon = matchingLanguageIcon(tags, '5rem');
-
   return (
     <Link to={slug}>
       <ThreadContainer>
         <div className="contentContainer">
-          <div className="languageIconContainer">{languageIcon}</div>
           <h2 className="threadTitle">{title}</h2>
-          <Tags tags={tags} />
           <span className="date" title={`Thread Published on ${date}`}>
             <IoIosCalendar />
             {date}
@@ -117,7 +110,7 @@ ThreadPostCard.propTypes = {
       }),
       fields: PropTypes.shape({
         slug: PropTypes.string,
-      })
-    })
-  })
+      }),
+    }),
+  }),
 };

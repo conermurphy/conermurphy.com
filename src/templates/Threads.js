@@ -3,7 +3,6 @@ import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import SEO from '../components/SEO';
-import Tags from '../components/Tags';
 import Navigation from '../components/mdx/Navigation';
 import useNavTheme from '../utils/useNavTheme';
 import TwitterThreadItem from '../components/TwitterThreadItem';
@@ -105,7 +104,6 @@ const TwitterThread = ({ data, pageContext, path }) => {
             <p className="date">{date}</p>
             <p className="numberOfTweets">{numberOfTweets} Tweets</p>
           </div>
-          <Tags tags={tags} />
           <Navigation pageContext={pageContext} />
         </div>
         <article className="threadBody">

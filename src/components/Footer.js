@@ -5,7 +5,6 @@ import { Link } from 'gatsby';
 import { EmailSignup } from './EmailSignupForm';
 import Logo from './Logo';
 import ContactIcons from './ContactIcons';
-import Twitter from './Twitter';
 import HireMeBlock from './HireMeBlock';
 
 const FooterBody = styled.footer`
@@ -112,16 +111,6 @@ export default function Footer() {
               <Link to="/privacy-policy">Privacy Policy</Link>
             </li>
           </NavigationLinks>
-        </div>
-        <div>
-          <div className="icon">
-            <FaTwitter />
-          </div>
-          <h3>
-            Tweets:
-            <span>@MrConerMurphy</span>
-          </h3>
-          <Twitter />
         </div>
         <div>
           <div className="icon">

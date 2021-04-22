@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import PropTypes from 'prop-types';
-import Tags from './Tags';
 
 const PortfolioPostContainer = styled.div`
   display: flex;
@@ -99,7 +98,6 @@ export default function PortfolioPostCard({ post }) {
       <GatsbyImage image={imageToDisplay.gatsbyImageData} />
       <div className="contentContainer">
         <h2>{title}</h2>
-        <Tags tags={tags} />
       </div>
       <div className="contentFooter">
         <p>{date}</p>

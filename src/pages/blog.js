@@ -46,7 +46,6 @@ export default function Blog({ data, pageContext, path }) {
       <div className="headerTitleSeperator">
         <h1>Blog Posts</h1>
       </div>
-      <TagFilter base="blog" activeTag={tag} />
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
       <AllPostsContainer>
         {blogPosts.map((post) => (
@@ -59,12 +58,12 @@ export default function Blog({ data, pageContext, path }) {
 }
 
 export const query = graphql`
-  query($skip: Int = 0, $pageSize: Int = 6, $tag: String) {
+  query($skip: Int = 0, $pageSize: Int = 6) {
     blog: allMdx(
       limit: $pageSize
       skip: $skip
-      sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
-      filter: { fields: { contentCategory: { eq: "blog" } }, frontmatter: { tags: { eq: $tag } } }
+      sort: { order: [DESC], fields: [frontmatter___date] }
+      filter: { fields: { contentCategory: { eq: "blog" } }, frontmatter: { published: { eq: true } } }
     ) {
       edges {
         node {
@@ -75,7 +74,6 @@ export const query = graphql`
             date(formatString: "DD/MM/YYYY")
             tags
             title
-            id
             image {
               childImageSharp {
                 gatsbyImageData(layout: FULL_WIDTH)

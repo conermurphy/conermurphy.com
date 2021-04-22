@@ -6,10 +6,8 @@ import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import SEO from '../components/SEO';
-import findBlogSeries from '../utils/findBlogSeries';
 // MDX Component Imports Used on each page.
 import Components from '../components/mdx/Components';
-import Tags from '../components/Tags';
 import ClosingComponents from '../components/mdx/ClosingComponents';
 import useNavTheme from '../utils/useNavTheme';
 import { PostBodyContainer, PostContainer } from '../styles/BlogNoteStyles';
@@ -33,7 +31,7 @@ const BlogPost = ({ data, pageContext, path }) => {
   // Destructing out values to use in page.
   const post = data.mdx;
   const { frontmatter, timeToRead, body, fileAbsolutePath, excerpt } = post;
-  const { image, title, description, date, series, tags, plainDate } = frontmatter;
+  const { image, title, description, date, tags, plainDate } = frontmatter;
 
   // Setting image path for SEO if no image use the logo.
   const imagePath = image ? image.childImageSharp.gatsbyImageData.images.fallback.src : '/Logo.svg';
@@ -60,9 +58,7 @@ const BlogPost = ({ data, pageContext, path }) => {
           <div className="postInfo">
             <p>
               {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes`}{' '}
-              {series !== null ? `| ${findBlogSeries(series)}` : ''}
             </p>
-            <Tags tags={tags} />
           </div>
         </BlogHeader>
         <PostBodyContainer>
@@ -98,9 +94,7 @@ export const query = graphql`
         }
         date(formatString: "DD/MM/YYYY")
         plainDate: date
-        series
         tags
-        id
       }
     }
   }
