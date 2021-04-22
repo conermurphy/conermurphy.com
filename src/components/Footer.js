@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaEnvelope, FaTwitter, FaLocationArrow } from 'react-icons/fa';
+import { FaEnvelope, FaLocationArrow } from 'react-icons/fa';
 import { Link } from 'gatsby';
 import { EmailSignup } from './EmailSignupForm';
-import Logo from './Logo';
 import ContactIcons from './ContactIcons';
 import HireMeBlock from './HireMeBlock';
 
@@ -79,9 +78,6 @@ export default function Footer() {
     <FooterBody>
       <ContentGrid>
         <div>
-          <div className="icon">
-            <Logo height="3rem" link />
-          </div>
           <h3>Coner Murphy</h3>
           <HireMeBlock available layout="column" />
           <ContactIcons />

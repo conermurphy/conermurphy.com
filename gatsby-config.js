@@ -58,7 +58,7 @@ export default {
         theme_color: '#498B41',
         lang: 'en',
         display: 'standalone',
-        icon: './src/assets/images/Logo.svg',
+        icon: './static/Logo.png',
       },
     },
     {

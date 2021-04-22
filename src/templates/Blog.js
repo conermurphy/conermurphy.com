@@ -31,10 +31,10 @@ const BlogPost = ({ data, pageContext, path }) => {
   // Destructing out values to use in page.
   const post = data.mdx;
   const { frontmatter, timeToRead, body, fileAbsolutePath, excerpt } = post;
-  const { image, title, description, date, tags, plainDate } = frontmatter;
+  const { image, title, description, date, plainDate } = frontmatter;
 
   // Setting image path for SEO if no image use the logo.
-  const imagePath = image ? image.childImageSharp.gatsbyImageData.images.fallback.src : '/Logo.svg';
+  const imagePath = image ? image.childImageSharp.gatsbyImageData.images.fallback.src : '/Logo.png';
 
   // Updating the nav to show dark theme.
   useNavTheme('dark');

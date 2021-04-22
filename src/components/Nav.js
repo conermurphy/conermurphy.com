@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import PropTypes from 'prop-types';
-import Logo from './Logo';
 import NavThemeContext from '../context/NavThemeContext';
 
 const StyledNav = styled.nav`
@@ -75,7 +74,6 @@ export default function Nav({ path }) {
 
   return (
     <NavContainer theme={theme}>
-      <Logo height="7.5rem" link />
       <StyledNav>
         <ul>
           <li>
