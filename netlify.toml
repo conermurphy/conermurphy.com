@@ -149,7 +149,7 @@
     from = "/notes"
     to = "/blog"
     force = false
-    status = 301
+    status = 410
 
 [[redirects]]
     from = "/notes/javascript/prototypal-inheritance/"
@@ -174,3 +174,63 @@
     to = "/blog/r-vectors-overview"
     force = false
     status = 301
+
+[[redirects]]
+    from = "blog/javascript"
+    to = "/blog"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "blog/javascript/2"
+    to = "/blog"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "blog/gatsbyjs"
+    to = "/blog"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "blog/gatsbyjs/2"
+    to = "/blog"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "blog/other"
+    to = "/blog"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "blog/blogging"
+    to = "/blog"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "blog/nodejs"
+    to = "/blog"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "blog/web-development"
+    to = "/blog"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "notes/javascript"
+    to = "/blog"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "notes/r"
+    to = "/blog"
+    force = false
+    status = 410
