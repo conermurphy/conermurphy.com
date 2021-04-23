@@ -1,51 +1,57 @@
 import { createGlobalStyle } from 'styled-components';
 
-import montserratNormal from '../assets/fonts/Montserrat-Regular.woff2';
-import montserratSemiBold from '../assets/fonts/Montserrat-SemiBold.woff2';
-import inconsolataRegular from '../assets/fonts/Inconsolata-Regular.woff2';
-import inconsolataSemiBold from '../assets/fonts/Inconsolata-SemiBold.woff2';
+import jostLight from '../assets/fonts/Jost-Light.woff2';
+import jostRegular from '../assets/fonts/Jost-Regular.woff2';
+import jostMedium from '../assets/fonts/Jost-Medium.woff2';
+import openSansLight from '../assets/fonts/Open-Sans-Light.woff2';
+import openSansSemiBold from '../assets/fonts/Open-Sans-Semi-Bold.woff2';
 
 const Typography = createGlobalStyle`
     @font-face {
-    font-family: "Montserrat";
-    src: url(${montserratNormal}) format("woff2");
+    font-family: "Jost";
+    src: url(${jostLight}) format("woff2");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
     }
-    /* @font-face {
-    font-family: "Montserrat";
-    src: url(${montserratSemiBold}) format("woff2");
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-    } */
     @font-face {
-    font-family: "Inconsolata";
-    src: url(${inconsolataRegular}) format("woff2");
+    font-family: "Jost";
+    src: url(${jostRegular}) format("woff2");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
     }
-    /* @font-face {
-    font-family: "Inconsolata";
-    src: url(${inconsolataSemiBold}) format("woff2");
+    @font-face {
+    font-family: "Jost";
+    src: url(${jostMedium}) format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    }
+    @font-face {
+    font-family: "Open Sans";
+    src: url(${openSansLight}) format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+    }
+    @font-face {
+    font-family: "Open Sans";
+    src: url(${openSansSemiBold}) format("woff2");
     font-weight: 600;
     font-style: normal;
     font-display: swap;
-    } */
+    }
 
     html {
-    font-family: Inconsolata, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: 400;
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    font-weight: 300;
     color: var(--black);
   }
 
   h1,h2,h3,h4,h5,h6 {
-    font-family: Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: normal;
-    margin: 0;
-    word-break: break-word;
+    font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    font-weight: 500;
   }
 
   a {
@@ -72,55 +78,6 @@ const Typography = createGlobalStyle`
 
   .center {
       text-align: center;
-  }
-
-  .headerTitleSeperator {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 2rem;
-    position: relative;
-
-    ::after,
-    ::before {
-      border-bottom: 2px solid var(--grey);
-      width: 100%;
-      content: '';
-      position: absolute;
-      bottom: 0;
-    }
-
-    @media (max-width: 1200px) {
-      justify-content: space-evenly;
-    }
-    
-    @media (max-width: 600px) {
-      justify-content: center;
-    }
-
-
-    & > h1, h2, h3, h4, h5, h6 {
-      font-size: 2.5rem;
-      text-transform: uppercase;
-      font-family: var(--body-font);
-      position: relative;
-
-
-      ::before {
-        border-bottom: 2px solid var(--green);
-        width: 100%;
-        content: '';
-        position: absolute;
-        bottom: -2rem;
-        z-index: 2;
-      }
-    }
-    
-    a {
-      text-decoration: none;
-      font-weight: bold;
-    }
   }
 
 `;

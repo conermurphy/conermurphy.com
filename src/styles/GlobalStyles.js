@@ -2,16 +2,23 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   :root {
-    --green: #498B41;
+    /* --green: #498B41;
     --red: #ED6E78;
     --black: #2e2e2e;
     --grey: hsl(0, 0%, 93%);
-    --white: #ffffff;
+    --white: #ffffff; */
+    --primaryBg: #FFFFFF;
+    --secondaryBg: #F9F9FB;
+    --accent: #4E66A6;
+    --primaryText: #000000;
+    --accentText: #FAFAFC;
+    --shadow: 0px 2px 4px rgba(0,0,0,0.25);
     --scrollBarWidth: 6px;
-    --layoutWidth: 1080px;
-    --shadow: 0px 4px 6px rgba(0,0,0,0.22);
-    --borderRadius: 10px;
     --lh: 2.5rem;
+
+/* 
+    --layoutWidth: 1080px;
+    --borderRadius: 10px; */
   }
 
    html {
