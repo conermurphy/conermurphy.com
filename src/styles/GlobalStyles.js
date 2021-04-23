@@ -15,10 +15,7 @@ const GlobalStyles = createGlobalStyle`
     --shadow: 0px 2px 4px rgba(0,0,0,0.25);
     --scrollBarWidth: 6px;
     --lh: 2.5rem;
-
-/* 
-    --layoutWidth: 1080px;
-    --borderRadius: 10px; */
+    --borderRadius: 1rem;
   }
 
    html {
