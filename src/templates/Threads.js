@@ -56,25 +56,6 @@ const ThreadContainer = styled.div`
     justify-content: center;
     align-items: flex-start;
   }
-
-  .chartContainer {
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    border-top: 2px dashed var(--grey);
-    height: auto;
-    width: 70vw;
-    max-width: var(--layoutWidth);
-
-    .chartTitle {
-      font-size: 2rem;
-      text-align: center;
-      margin: 2rem;
-    }
-  }
 `;
 
 const TwitterThread = ({ data, pageContext, path }) => {
