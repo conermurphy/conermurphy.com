@@ -44,7 +44,7 @@ export default function Blog({ data, pageContext, path }) {
         }}
       />
       <div className="headerTitleSeperator">
-        <h1>Blog Posts</h1>
+        <h1>Blog</h1>
       </div>
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
       <AllPostsContainer>
