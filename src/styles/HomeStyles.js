@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 
 const LandingSection = styled.section`
-  max-width: 1200px;
   position: relative;
-
   display: grid;
   grid-template-columns: 50% 0.5fr;
   gap: 5rem;
@@ -155,40 +153,6 @@ const InfoBlock = styled.div`
   }
 `;
 
-const WaveDivider = styled.div`
-  height: auto;
-  width: 100%;
-  position: absolute;
-  top: 100%;
-  z-index: -1;
-
-  & > svg > rect {
-    fill: var(--white);
-  }
-
-  & > svg > path {
-    fill: var(--black);
-  }
-`;
-
-const HeroBackground = styled.div`
-  position: absolute;
-  width: 100vw;
-  height: 500px;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  background-color: var(--black);
-
-  @media (max-width: 900px) {
-    height: 600px;
-  }
-
-  @media (max-width: 600px) {
-    height: 1250px;
-  }
-`;
-
 const ContentSection = styled.section`
   & > .content {
     display: grid;
@@ -213,28 +177,4 @@ const ContentSection = styled.section`
   }
 `;
 
-const NotesContentSection = styled.section`
-  & > .content {
-    display: flex;
-    flex-direction: column;
-    padding: 2.5rem 0;
-
-    & > a :last-child {
-      > div:last-child {
-        border-bottom: none;
-      }
-    }
-
-    * {
-      text-decoration: none;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .headerTitleSeperator {
-      justify-content: space-evenly;
-    }
-  }
-`;
-
-export { ContentSection, LandingSection, InfoBlock, HeroBackground, NotesContentSection, WaveDivider };
+export { ContentSection, LandingSection, InfoBlock };

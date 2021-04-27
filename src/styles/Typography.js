@@ -10,7 +10,7 @@ const Typography = createGlobalStyle`
     @font-face {
     font-family: "Jost";
     src: url(${jostLight}) format("woff2");
-    font-weight: 400;
+    font-weight: 300;
     font-style: normal;
     font-display: swap;
     }
@@ -49,10 +49,50 @@ const Typography = createGlobalStyle`
     color: var(--black);
   }
 
+  /* Header Styles */
+
   h1,h2,h3,h4,h5,h6 {
+    letter-spacing: 0.5px;
+    color: var(--headerText);
+  }
+
+  h1,h2,h3 {
     font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     font-weight: 500;
   }
+
+  h4,h5,h6 {
+    font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+  }
+
+  h1 {
+    font-size: 7rem;
+  } 
+  h2 {
+    font-size: 5.5rem;
+  } 
+  h3 {
+    font-size: 3rem;
+  } 
+  h4 {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    font-weight: 300;
+    font-size: 3rem;
+    color: var(--primaryText);
+    margin-top: 2rem;
+  }
+
+  .sectionTitle {
+    margin: 1rem;
+    margin-top: 0;
+  }
+
+  /* Individual element Styles */
 
   a {
     color: var(--black);
@@ -60,7 +100,7 @@ const Typography = createGlobalStyle`
   }
 
   p, li, ul {
-    font-size: 1.75rem;
+    font-size: 1.6rem;
     line-height: var(--lh);
     
   }

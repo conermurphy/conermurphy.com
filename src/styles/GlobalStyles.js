@@ -2,15 +2,11 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   :root {
-    /* --green: #498B41;
-    --red: #ED6E78;
-    --black: #2e2e2e;
-    --grey: hsl(0, 0%, 93%);
-    --white: #ffffff; */
     --primaryBg: #FFFFFF;
     --secondaryBg: #F9F9FB;
     --accent: #4E66A6;
     --primaryText: #000000;
+    --headerText: #323B49;
     --accentText: #FAFAFC;
     --shadow: 0px 2px 4px rgba(0,0,0,0.25);
     --scrollBarWidth: 6px;

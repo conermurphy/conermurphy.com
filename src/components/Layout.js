@@ -15,15 +15,7 @@ const SiteContainer = styled.div`
   position: relative;
 `;
 
-const ContentContainer = styled.div`
-  width: 1200px;
-  flex-grow: 1;
-
-  @media (max-width: 1200px) {
-    max-width: 1200px;
-    width: auto;
-  }
-`;
+const ContentContainer = styled.div``;
 
 export default function Layout({ children, path }) {
   return (
