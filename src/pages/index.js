@@ -2,16 +2,12 @@ import React from 'react';
 import { MdPersonPin, MdLocationOn, MdContacts } from 'react-icons/md';
 import { graphql, Link } from 'gatsby';
 import PropTypes from 'prop-types';
-import { ContentSection, HeroBackground, InfoBlock, LandingSection, WaveDivider } from '../styles/HomeStyles';
-import EmailSignupForm from '../components/EmailSignupForm';
+import { HeroBackground, InfoBlock, LandingSection } from '../styles/HomeStyles';
 import useNavTheme from '../utils/useNavTheme';
-import BlogPostCard from '../components/BlogPostCard';
 import SEO from '../components/SEO';
-import TestimonialCard from '../components/TestimonialCard';
-import testimonialData from '../data/testimonials.json';
-import PortfolioPostCard from '../components/PortfolioPostCard';
 import ContactIcons from '../components/ContactIcons';
 import HireMeBlock from '../components/HireMeBlock';
+import { ServiceSection } from '../components/Services';
 
 export default function HomePage({ data, path }) {
   const { blog, portfolio } = data;
@@ -27,15 +23,6 @@ export default function HomePage({ data, path }) {
           title: 'Home',
         }}
       />
-      <HeroBackground id="homeBackground">
-        {/* SVG Divider Code from https://stackoverflow.com/questions/17202548/wavy-shape-with-css/56012973#56012973 */}
-        <WaveDivider>
-          <svg viewBox="0 70 500 60" preserveAspectRatio="none">
-            <rect x="0" y="0" width="500" height="500" />
-            <path d="M0,100 C150,200 350,0 500,100 L500,00 L0,0 Z" />
-          </svg>
-        </WaveDivider>
-      </HeroBackground>
       <LandingSection>
         <div className="contactBlock">
           <h1>
@@ -76,39 +63,7 @@ export default function HomePage({ data, path }) {
           </ul>
         </InfoBlock>
       </LandingSection>
-      <EmailSignupForm marginRequired />
-      <ContentSection>
-        <div className="headerTitleSeperator">
-          <h3>Portfolio</h3>
-          <Link to="/portfolio">View All</Link>
-        </div>
-        <div className="content">
-          {portfolio.edges.map(({ node: post }) => (
-            <PortfolioPostCard key={`portfolioPostCard-${post.id}`} post={post} />
-          ))}
-        </div>
-      </ContentSection>
-      <ContentSection>
-        <div className="headerTitleSeperator">
-          <h3>Blog</h3>
-          <Link to="/blog">View All</Link>
-        </div>
-        <div className="content">
-          {blog.edges.map((post) => (
-            <BlogPostCard key={`HomeBlogPostCard-${post.node.frontmatter.id}`} post={post} />
-          ))}
-        </div>
-      </ContentSection>
-      <ContentSection>
-        <div className="headerTitleSeperator">
-          <h3>Testimonials</h3>
-        </div>
-        <div className="content testimonial">
-          {testimonialData.map((testimonial, index) =>
-            index <= 3 ? <TestimonialCard key={`HomePage-Testimony-${index}-${testimonial.company}`} testimonial={testimonial} /> : ''
-          )}
-        </div>
-      </ContentSection>
+      <ServiceSection />
     </>
   );
 }
