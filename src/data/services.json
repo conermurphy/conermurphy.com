@@ -1,0 +1,32 @@
+[
+    {
+        "title": "Bespoke Developement",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ultrices bibendum felis, nec porttitor velit vestibulum nec. Suspendisse fermentum, urna quis aliquet elementum, eros arcu ornare libero, id ullamcorper velit felis quis leo. Curabitur maximus turpis odio, vel mollis justo accumsan sit amet.",
+        "icon": "laptop"
+    },
+    {
+        "title": "User-Focused Design",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ultrices bibendum felis, nec porttitor velit vestibulum nec. Suspendisse fermentum, urna quis aliquet elementum, eros arcu ornare libero, id ullamcorper velit felis quis leo. Curabitur maximus turpis odio, vel mollis justo accumsan sit amet.",
+        "icon": "laptop"
+    },
+    {
+        "title": "SEO & Marketing",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ultrices bibendum felis, nec porttitor velit vestibulum nec. Suspendisse fermentum, urna quis aliquet elementum, eros arcu ornare libero, id ullamcorper velit felis quis leo. Curabitur maximus turpis odio, vel mollis justo accumsan sit amet.",
+        "icon": "laptop"
+    },
+    {
+        "title": "Future Ready",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ultrices bibendum felis, nec porttitor velit vestibulum nec. Suspendisse fermentum, urna quis aliquet elementum, eros arcu ornare libero, id ullamcorper velit felis quis leo. Curabitur maximus turpis odio, vel mollis justo accumsan sit amet.",
+        "icon": "laptop"
+    },
+    {
+        "title": "Feedback Driven Development",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ultrices bibendum felis, nec porttitor velit vestibulum nec. Suspendisse fermentum, urna quis aliquet elementum, eros arcu ornare libero, id ullamcorper velit felis quis leo. Curabitur maximus turpis odio, vel mollis justo accumsan sit amet.",
+        "icon": "laptop"
+    },
+    {
+        "title": "Ongoing Support",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ultrices bibendum felis, nec porttitor velit vestibulum nec. Suspendisse fermentum, urna quis aliquet elementum, eros arcu ornare libero, id ullamcorper velit felis quis leo. Curabitur maximus turpis odio, vel mollis justo accumsan sit amet.",
+        "icon": "laptop"
+    }
+]
