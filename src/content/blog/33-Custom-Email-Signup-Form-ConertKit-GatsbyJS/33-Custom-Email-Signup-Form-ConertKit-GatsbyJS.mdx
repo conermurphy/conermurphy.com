@@ -11,7 +11,7 @@ description: ""
 
 Welcome back to my blog.
 
-We all know the benefits that building a following online can bring. One of the most powerful tools for someone looking to build a following online is an email newsletter.
+We all know the benefits that building a following online can bring. And, one of the most powerful tools for someone looking to build a following online is an email newsletter.
 
 But, just having a newsletter isn't enough, we also need a way for people to sign up to it with minimal effort.
 
@@ -34,36 +34,35 @@ Here's a look at the code:
 
 ```JS
 export const EmailSignup = () => {
-	const { values, updateValue } = useForm({
-		email: '',
-	});
+  const { values, updateValue } = useForm({
+    email: ''
+  });
+  const { message, loading, error, submitEmail } = useEmail({ values });
+  const { email } = values;
 
-	const { message, loading, error, submitEmail } = useEmail({ values });
-	const { email } = values;
-
-	return (
-		<>
-			<FormGridContainer onSubmit={submitEmail}>
-				<fieldset disabled={loading}>
-					<label htmlFor="email">
-						Email:
-							<input
-							type="email"
-							name="email"
-							id={`email-${Math.random().toString(36).substring(2, 15)}`}
-							className="emailInput"
-							onChange={updateValue}
-							value={email}
-						/>
-					</label>
-				</fieldset>
-				<button className="signupButton" type="submit" disabled={loading}>
-					{loading ? 'Subscribing...' : ' Subscribe'}
-				</button>
-			</FormGridContainer>
-			{message ? <OutcomeMessageContainer error={error} message={message} /> : ''}
-		</>
-	);
+  return (
+    <>
+      <FormGridContainer onSubmit={submitEmail}>
+        <fieldset disabled={loading}>
+          <label htmlFor="email">
+            Email:
+            <input
+              type="email"
+              name="email"
+              id={`email-${Math.random().toString(36).substring(2, 15)}`}
+              className="emailInput"
+              onChange={updateValue}
+              value={email}
+            />
+          </label>
+        </fieldset>
+        <button className="signupButton" type="submit" disabled={loading}>
+          {loading ? 'Subscribing...' : ' Subscribe'}
+        </button>
+      </FormGridContainer>
+      {message ? <OutcomeMessageContainer error={error} message={message} /> : ''}
+    </>
+  );
 };
 ```
 
@@ -90,7 +89,7 @@ Now, let's look at the first helper function: `useForm`.
 
 `useForm` is a small helper function to aid in the recording and displaying of information in the form.
 
-It expands to include new values if required, all we need to do is pass in new defaults.
+It expands to include new values if required so all we need to do is pass in new defaults.
 
 This is important because we want an easy way to access the data to pass to the next helper function `useEmail`.
 
@@ -139,7 +138,7 @@ const { values, updateValue } = useForm({
 const { email } = values;
 ```
 
-First, we destructure out the `values` and the `updateValue` function that we returned. Then we destructure out the individual values on the next line.
+First, we destructure out the `values` and the `updateValue` function that we returned. Then we destructure out the individual values beneath that.
 
 When calling the hook we have to provide some default values for the hook to set to state.
 
@@ -151,14 +150,13 @@ Then on the input element in the form, we pass the `updateValue` function as the
 
 ```js
 <input
-	  type="email"
-	  name="email"
-	  id={`email-${Math.random().toString(36).substring(2, 15)}`}
-	  className="emailInput"
-	  onChange={updateValue}
-	  value={email}
-	/>
-</label>
+  type="email"
+  name="email"
+  id={`email-${Math.random().toString(36).substring(2, 15)}`}
+  className="emailInput"
+  onChange={updateValue}
+  value={email}
+/>
 ```
 
 How does it know what index to update you may be asking?
@@ -178,7 +176,7 @@ function updateValue(e) {
 }
 ```
 
-Here you can see that we destructure out the value we want to set to state from the event with `e.target`. Then when we set to state we get the `name` of the input from `e.target` again to be the key.
+Here you can see that we destructure out the `value` we want to set to state from the event with `e.target`. Then when we set the state we get the `name` of the input from `e.target` again to be the key.
 
 Looking at the above code, the name of the input element is `email`.
 This will update the state with the key `email` with the value from the target element.
@@ -190,7 +188,7 @@ To summarise:
 
 ## useEmail
 
-Let's take a look at the next helper function next.
+Let's take a look at the next helper function.
 
 Here's the entire code which we will break down in a second:
 
@@ -262,7 +260,7 @@ export default function useEmail({ values }) {
 }
 ```
 
-It's a bit of a long one but it breaks down into logical chunks. Here's what I mean:
+It's a bit of a long one but it breaks down into logical chunks:
 
 1. We create some state with default values, destructure values from the props and get the serverless base from our `.env`
 
@@ -282,7 +280,7 @@ export default function useEmail({ values }) {
 }
 ```
 
-At this point the function hasn't called, so we create the state has accordingly:
+At this point the function hasn't been called, so we create the state accordingly:
 
 ```
 loading -> false -> Not waiting on anything as not called
@@ -429,14 +427,14 @@ return {
 };
 ```
 
-This gives us access to all the state we defined in the function which allows us to display it. It also gives us access to the `submitEmail` function we defined.
+This gives us access to all the state we defined as well the `submitEmail` function we defined.
 
 ### Using it in the Component
 
 Back in the main component, we destructure out the values from the `useEmail` function like so:
 
 ```js
-const { message, loading, error, submitEmail } \= useEmail({ values });
+const { message, loading, error, submitEmail } = useEmail({ values });
 ```
 
 We consume the destructured values in the following places:
@@ -610,7 +608,7 @@ The 2 main places for a short-circuit to happen would be `useEmail` and the serv
 
 I have been running a setup very similar to this on my website now for a few months and haven't had any issues. I like having all the functions separated into their own files as I do think it improves the readability.
 
-The one thing we could add to improve this setup would be a Honeypot to capture any robots trying to fill in the form. But, I plan on covering this in a separate post where I can go more in-depth on them.
+The one thing we could add to improve this setup would be a Honeypot to capture any robots trying to fill in the form. But, I plan on covering this in a separate post where I can go more in-depth.
 
 I didn't include any styling in this post for brevity, but if you're interested you can [see it all on my GitHub here.](https://github.com/conermurphy/conermurphy.com)
 
