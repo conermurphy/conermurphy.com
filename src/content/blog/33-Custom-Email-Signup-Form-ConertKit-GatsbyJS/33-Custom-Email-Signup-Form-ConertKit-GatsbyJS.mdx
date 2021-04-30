@@ -11,7 +11,11 @@ description: ""
 
 Welcome back to my blog.
 
-We all know the benefits that building a following online can bring and one of the most powerful tools of someone looking to build a following online is an email newsletter. But, just having a newsletter isn't enough, we also need a way for people to sign up to it with minimal effort. That's why in this post, I'm going to show you how I built a custom email newsletter signup form for ConvertKit on my GatsbyJS website. Let's do this. 
+We all know the benefits that building a following online can bring. One of the most powerful tools for someone looking to build a following online is an email newsletter.
+
+But, just having a newsletter isn't enough, we also need a way for people to sign up to it with minimal effort.
+
+That's why in this post, I'm going to show you how I built a custom email newsletter signup form for ConvertKit on my GatsbyJS website. Let's do this.
 
 There are 4 parts to building a custom subscriber form, these are:
 
@@ -24,7 +28,7 @@ Let's cover each one individually and see how the data flows between them.
 
 ## The Signup Component
 
-Because we are just building an email signup form the only inputs we need is an text input for the email and a submit button.
+Because we are just building an email signup form the only inputs we need is a text input for the email and a submit button.
 
 Here's a look at the code:
 
@@ -63,11 +67,11 @@ export const EmailSignup = () => {
 };
 ```
 
-In the first part of the code, we handle passing data to and receiving back from the 2 helper functions that we will create `useForm` and `useEmail`.
+In the first part, we handle passing the data to and from the 2 helper functions that we will create: `useForm` and `useEmail`.
 
-Then for the rest of the component we just handle displaying the data back to the user in the form and creating elements for them to interact with.
+Then for the rest of the component, we handle displaying the data back to the user in the form and creating elements for them to interact with.
 
-The only other part to note is at the bottom of the code we mention another component `OutcomeMessageContainer` this is just a styled-component which looks like this:
+The only other part to note is at the bottom of the code. The component `OutcomeMessageContainer` is a styled-component that looks like this:
 
 ```js
 const OutcomeMessageContainer = ({ error, message }) => (
@@ -78,17 +82,17 @@ const OutcomeMessageContainer = ({ error, message }) => (
 );
 ```
 
-As you can see we just pass in 2 props, the error if there is one and the message returned back from the serverless function and then display this to the user.
+As you can see we pass in 2 props, the error if there is one and the message returned back from the serverless function. we then display these to the user.
 
 Now, let's look at the first helper function: `useForm`.
 
 ## useForm
 
-`useForm` is a small helper function to aid in the recording and displaying of information in a form as the user types in it.
+`useForm` is a small helper function to aid in the recording and displaying of information in the form.
 
-It can automatically expand to include new values if required.
+It expands to include new values if required, all we need to do is pass in new defaults.
 
-This is important because we want an easy way to access the typed information to pass to the next helper function `useEmail`.
+This is important because we want an easy way to access the data to pass to the next helper function `useEmail`.
 
 Here's the code for `useForm`.
 
@@ -113,11 +117,11 @@ export default function useForm(defaults) {
 }
 ```
 
-Essentially, it boils down to a `setState` hook and a function to set the state.
+Essentially, it boils down to a `useState` hook and a function to set the state.
 
-The state it sets is an object containing the current values and any added ones if the index value didn't exist before.
+The state it sets is an object containing the current values and any added ones.
 
-For example, in our case the object set to state would look like:
+For example, in our case the object set to the state would look like:
 
 ```js
 {
@@ -125,7 +129,7 @@ For example, in our case the object set to state would look like:
 }
 ```
 
-If we then look back at our original component where we consume this function you can see how we use it:
+If we then look back at our original component where we consume this hook you can see how we use it:
 
 ```js
 const { values, updateValue } = useForm({
@@ -135,11 +139,13 @@ const { values, updateValue } = useForm({
 const { email } = values;
 ```
 
-In the first line, we destructure out the `values` and the `updateValue` function that we defined in the helper. Then we destructure out the values we need on the second line.
+First, we destructure out the `values` and the `updateValue` function that we returned. Then we destructure out the individual values on the next line.
 
-In the next line we pass in default values to the hook. We do this because otherwise when we access the `email` value it won't exist causing an error. So to prevent this we create all of the required state on load with a default value.
+When calling the hook we have to provide some default values for the hook to set to state.
 
-We then update this state later on.
+We do this because otherwise when we access the `email` value on page load, it won't exist causing an error. To prevent this we create all the required state on load with a default value.
+
+We then update this state as required.
 
 Then on the input element in the form, we pass the `updateValue` function as the `onChange` handler like so:
 
@@ -172,9 +178,10 @@ function updateValue(e) {
 }
 ```
 
-Here you can see that we destructure out the value we want to set to state from the event with `e.target`. Then to access the index to set to state we get the `name` of the input from `e.target` again. Looking at the above code, the name of the input element is `email`.
+Here you can see that we destructure out the value we want to set to state from the event with `e.target`. Then when we set to state we get the `name` of the input from `e.target` again to be the key.
 
-In turn this will set to state or in this case update the state with the index `email` with the value from the target element.
+Looking at the above code, the name of the input element is `email`.
+This will update the state with the key `email` with the value from the target element.
 
 To summarise:
 
@@ -257,7 +264,7 @@ export default function useEmail({ values }) {
 
 It's a bit of a long one but it breaks down into logical chunks. Here's what I mean:
 
-1. We create some state with default values, destructure out values from the passed props and get the serverless base from our `.env`
+1. We create some state with default values, destructure values from the props and get the serverless base from our `.env`
 
 ```js
 export default function useEmail({ values }) {
@@ -275,23 +282,23 @@ export default function useEmail({ values }) {
 }
 ```
 
-Because at this point the function hasn't been submitted, the state has been created accordingly so:
+At this point the function hasn't called, so we create the state has accordingly:
 
 ```
-loading -> false -> Not waiting on anything yet as not submitted
-message -> "" -> Not been given any info so blank by default
-error -> <EMPTY> -> No error has been generated as not been submitted.
+loading -> false -> Not waiting on anything as not called
+message -> "" -> No info returned so blank by default
+error -> <EMPTY> -> No error has been generated as not called.
 ```
 
-Then we destructure out the value we're interested in from the props `email`. This will be passed to the body of the submission in a moment.
+Then we destructure out the value we're interested in from the props `email`. This will be passed to the body of the submission request in a moment.
 
 Then we get the serverless base from the `.env` file.
 
-[Learn more about Serverless Netlify Functions](https://docs.netlify.com/functions/overview/)
+[Learn more about Serverless Netlify Functions.](https://docs.netlify.com/functions/overview/)
 
 ### Defining the submitEmail function
 
-Now, we're going to look at out `submitEmail` function, this is what will be called when the submit button is pressed on the form. (We'll come back to this in a moment.)
+Now, we're going to look at our `submitEmail` function, this is what will be called when the form is submitted. (We'll come back to this in a moment.)
 
 ```js
 async function submitEmail(e) {
@@ -340,9 +347,9 @@ async function submitEmail(e) {
 }
 ```
 
-Once again, let's break this done into it's steps.
+Once again, let's break this down into steps.
 
-1. First we prevent the default behaviour of the form and update the state values we defined earlier on.
+1. First we prevent the default behaviour of the form and update the state values we defined earlier on to show we're waiting on the request.
 
 ```js
 // Prevent default function of the form submit and set state to defaults for each new submit.
@@ -352,7 +359,7 @@ setError(null);
 setMessage(null);
 ```
 
-2. We then create the body of the request we're going to submit by using the values we destructured out from the props earlier.
+2. We create the body of the request we're going to submit by using the values from earlier.
 
 ```js
 // gathering data to be submitted to the serverless function
@@ -361,7 +368,7 @@ const body = {
 };
 ```
 
-3. Before submitting the form, we check the email length if greater than 0 or is truthy. If it isn't then we update the state to be an error, pass a custom error message and return the function.
+3. Before submitting the form, we check if the email length is greater than 0 or is truthy. If it isn't then we update the state to be an error, pass a custom error message and return the function.
 
 ```js
 // Checking there was an email entered.
@@ -373,7 +380,7 @@ if (!email.length) {
 }
 ```
 
-4. If the email is truthy, then we progress with the submission and do a `POST` request to the serverless function with the `body` we created.
+4. If the email value is truthy, then we progress with the submission and do a `POST` request to the serverless function with the `body` we created.
 
 ```js
 // Send the data to the serverless function on submit.
@@ -386,14 +393,14 @@ const res = await fetch(`${serverlessBase}/emailSignup`, {
 });
 ```
 
-5. Then we await the reply from the serverless function and once received convert it to text and parse it with `JSON.parse`.
+5. We await the reply from the serverless function, once received we convert it to text and parse it with `JSON.parse`.
 
 ```js
 // Waiting for the output of the serverless function and storing into the output var.
 const output = JSON.parse(await res.text());
 ```
 
-6. Then we get to final part of the submit function, check if the request was successful or not and set the state accordingly.
+6. Then we get to the final part of the submit function. We check if the request was successful or not and set the state accordingly.
 
 ```js
 // check if successful or if was an error
@@ -422,7 +429,7 @@ return {
 };
 ```
 
-This gives us access to all of the state we defined in the function so we can display it in the component as well as the `submitEmail` function we defined.
+This gives us access to all the state we defined in the function which allows us to display it. It also gives us access to the `submitEmail` function we defined.
 
 ### Using it in the Component
 
@@ -448,7 +455,7 @@ We consume the destructured values in the following places:
 </button>
 ```
 
-3. Using the display component from earlier to show the message to the user and whether there has been an error or not.
+3. We use the display component from earlier to show the message to the user and whether there has been an error or not.
 
 ```js
 {
@@ -460,7 +467,7 @@ Now we just need to look at the serverless function.
 
 ## The Serverless Function
 
-Let's now take a look at how we're going to use the information from the previous `useEmail` function in our serverless function to actually submit the request to ConvertKit.
+Let's now take a look at how we're going to use the information from `useEmail` in our serverless function to submit the request to ConvertKit.
 
 But, before you can do this you'll need to get yourself an API key and create a form on ConvertKit. If you want to [read more about their API, click here.](https://developers.convertkit.com/)
 
@@ -516,15 +523,15 @@ exports.handler = async (event) => {
 };
 ```
 
-Let's walk through this again like we did with the other functions:
+Let's walk through this again as we did with the other functions:
 
-1. Parse the JSON body that was sent to us from `useEmail`.
+1. Parse the JSON body that was sent from `useEmail`.
 
 ```js
 const body = JSON.parse(event.body);
 ```
 
-2. Check we have filled in the required fields, if not return an error saying it was missed.
+2. Check we have filled the required fields, if not return an error saying they were missed.
 
 ```js
 // Checking we have data from the email input
@@ -573,13 +580,13 @@ return {
 };
 ```
 
-Overall, this is quite a simple flow because we did a lot of heavy lifting in the `useEmail` function we walked through previously.
+This is a smaller function because we did a lot of heavy lifting in the `useEmail` function.
 
 As long as the required fields are populated we shouldn't have any issues with the request going through.
 
 ## The Flow
 
-To round up this post and tie together all of the components we've gone through, let's look at the overall flow of data that happens if everything goes okay:
+To round up this post and tie together all of the steps we've gone through, let's look at the flow of data:
 
 ```
 Email Form Component
@@ -595,15 +602,17 @@ Serverless Function -> Submit to ConverKit
 Email Form Component -> Display the success message
 ```
 
-There's a fair amount going on between several files but the flow isn't too complicated. Obviously, if stuff goes wrong then the flow can be short-circuited in different places.
+There's a fair amount going on between several files but the flow isn't too complicated. Obviously, if stuff goes wrong then the flow can be short-circuited.
 
-The main 2 places for a short-circuit to happen would be the `useEmail` function and the serverless function.
+The 2 main places for a short-circuit to happen would be `useEmail` and the serverless function.
 
 ## Summing Up
 
-I have been running a setup very similar to this on my website now for a few months and haven't had any issues. I like having all of the functions separated into their own files as I do think it improves the readability.
+I have been running a setup very similar to this on my website now for a few months and haven't had any issues. I like having all the functions separated into their own files as I do think it improves the readability.
 
-The one thing we could add to improve this setup would be a Honeypot to capture any robots trying to fill in the form. But, I plan on covering this in a separate post.
+The one thing we could add to improve this setup would be a Honeypot to capture any robots trying to fill in the form. But, I plan on covering this in a separate post where I can go more in-depth on them.
+
+I didn't include any styling in this post for brevity, but if you're interested you can [see it all on my GitHub here.](https://github.com/conermurphy/conermurphy.com)
 
 What do you think of this setup? Let me know over on [Twitter.](https://twitter.com/MrConerMurphy)
 
