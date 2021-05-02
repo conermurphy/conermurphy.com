@@ -23,8 +23,8 @@ const ServiceSectionContainer = styled.section`
   .ServiceCardsContainer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    align-items: center;
-    gap: 4rem;
+    align-items: flex-start;
+    gap: 4rem 6rem;
     padding-top: 2rem;
   }
 `;
@@ -33,7 +33,7 @@ const ServiceCardContainer = styled.div`
   background-color: var(--primaryBg);
   filter: drop-shadow(var(--shadow));
   border-radius: var(--borderRadius);
-  padding: 2.5rem;
+  padding: 3rem;
 
   .serviceCardTitle {
     display: flex;
