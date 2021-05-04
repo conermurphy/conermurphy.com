@@ -36,11 +36,11 @@ background-color: blue;
 background: url(images/bg.gif) no-repeat left top;
 ```
 
-You might expect, in this case that the `background-color` would still be blue but because the second deceleration takes priority and it doesn't define a value for `background-color` it defaults it back to the initial value which is `transparent`.
+You might expect, in this case that the `background-color` would still be blue but because the second declaration takes priority and it doesn't define a value for `background-color` it defaults it back to the initial value which is `transparent`.
 
 ### Only individual properties values can inherit.
 
-Missing values in a shorthand deceleration are replaced by their initial or default value as described above. This makes it impossible to allow inheritance of individual properties by omitting them in a deceleration.
+Missing values in a shorthand declaration are replaced by their initial or default value as described above. This makes it impossible to allow inheritance of individual properties by omitting them in a declaration.
 
 The keyword `inherit` can only be applied to a property in whole, not on a per-value basis. So if you do want to inherit a value, then you need to use the longhand property and specify `inherit`.
 
