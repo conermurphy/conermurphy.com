@@ -48,6 +48,10 @@ const Typography = createGlobalStyle`
     word-break: break-word;
   }
 
+  code span {
+    color: var(--white);
+  }
+
   a {
     color: var(--black);
     text-decoration-color: var(--green);
