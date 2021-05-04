@@ -61,7 +61,7 @@ margin-left: inherit;
 
 Shorthand CSS properties will try to not force a specific order on the properties they represent. This works great for properties that use different value types as the order has no importance. An example of this would be the `background` property or the `animation` property, we can specify values for those properties in any order.
 
-However, this doesn't work when the properties replaced can have identical values. For example: `margin`, `padding`, `border-style` and `border-radius`. In these cases we need to pay attention to the order and how we define them. Let's take a look at that now.
+However, this doesn't work when the properties replaced can have identical values. For example: `margin`, `padding`, `border-style` and `border-radius`. In these cases, we need to pay attention to the order and how we define them. Let's take a look at that now.
 
 #### Edges of a box
 
@@ -149,18 +149,18 @@ margin: 10px 5px 10px 5px;
 
 With these shorthand properties you can specify any number of values from 1-to-4, please see above for how the different numbers are applied to the element.
 
-## The universal shorthand property
+## The Universal Shorthand Property
 
 CSS provides a universal shorthand property [`all`](https://developer.mozilla.org/en-US/docs/Web/CSS/all), this applies it's value to every property in the document.
 
 The `all` property is designed to change the properties inheritance model to one of:
 
-1. **Inherit** - Sets the property value to be the same as the parent's
-2. **Initial** - Sets the property value to be initial value of that property
+1. **inherit** - Sets the property value to be the same as the parent's
+2. **initial** - Sets the property value to be initial value of that property
 3. **unset** - Resets the property to it's natural value. This could be `inherit` if it naturally inherits, otherwise it will be `initial`.
 
 _There is a 4th value coming: [**revert**](https://developer.mozilla.org/en-US/docs/Web/CSS/revert) but it has limited support right now._
 
-## Read More
+## Read More / Sources
 
 [Read more on MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Shorthand_properties)
