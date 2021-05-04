@@ -47,14 +47,14 @@ const BlogPost = ({ data, pageContext, path }) => {
         post={{
           slug: path,
           title,
-          description: description === null ? excerpt : description,
+          description: description === null || description === '' ? excerpt : description,
           image: imagePath,
           article: true,
           date: plainDate,
         }}
       />
       <PostContainer>
-        <GatsbyImage className="heroImage" image={image.childImageSharp.gatsbyImageData} alt={title}/>
+        <GatsbyImage className="heroImage" image={image.childImageSharp.gatsbyImageData} alt={title} />
         <BlogHeader>
           <h1 className="postTitle">{title}</h1>
           <div className="postInfo">
