@@ -50,9 +50,6 @@ const NavigationContainer = styled.div`
       }
     }
 
-    .link {
-      font-weight: bold;
-    }
   }
 
   & > * {

@@ -7,6 +7,7 @@ const Container = styled.p`
   flex-direction: ${(props) => (props.layout === 'column' ? 'column' : 'row')};
   flex-wrap: wrap;
   align-items: center;
+  color: var(--white);
   gap: 1rem;
 `;
 
@@ -14,7 +15,7 @@ const StatusContainer = styled.span`
   padding: 0.75rem 1.25rem;
   border-radius: 5px;
   background-color: ${(props) => (props.available ? 'var(--green)' : 'var(--red)')};
-  font-weight: bold;
+  color: var(--white);
 `;
 
 export default function HireMeBlock({ available, layout }) {

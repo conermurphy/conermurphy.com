@@ -107,7 +107,7 @@ export default function HomePage({ data, path }) {
         </div>
         <div className="content">
           {blog.edges.map((post) => (
-            <BlogPostCard key={`HomeBlogPostCard-${post.node.frontmatter.id}`} post={post} />
+            <BlogPostCard key={`HomeBlogPostCard-${post.node.frontmatter.title}`} post={post} />
           ))}
         </div>
       </ContentSection>

@@ -50,7 +50,6 @@ const TweetContainer = styled.div`
       padding: 0.75rem 1rem;
       border-radius: calc(var(--borderRadius) / 2);
       text-decoration: none;
-      font-weight: bold;
     }
   }
 `;

@@ -19,7 +19,6 @@ const PrivacyPolicyContainer = styled.div`
     margin: 0;
     padding: 0;
     text-decoration: underline;
-    font-weight: bold;
     cursor: pointer;
   }
 `;

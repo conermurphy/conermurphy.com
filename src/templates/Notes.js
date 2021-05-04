@@ -49,7 +49,6 @@ const NoteHeader = styled.div`
 
   .id {
     font-size: 1.5rem;
-    font-weight: bold;
     background-color: var(--grey);
     padding: 0.5rem 1rem;
     justify-self: center;

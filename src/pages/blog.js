@@ -51,7 +51,7 @@ export default function Blog({ data, pageContext, path }) {
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
       <AllPostsContainer>
         {blogPosts.map((post) => (
-          <BlogPostCard key={`blogPostCard-${post.node.frontmatter.id}`} post={post} />
+          <BlogPostCard key={`blogPostCard-${post.node.frontmatter.title}`} post={post} />
         ))}
       </AllPostsContainer>
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />

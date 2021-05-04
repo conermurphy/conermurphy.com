@@ -11,11 +11,11 @@ description: ""
 
 ## What are they?
 
-CSS Animations are a way of animating elements in CSS without any external libraries or the use JS.
+CSS Animations are a way of animating elements in CSS without any external libraries or the use of JS.
 
 CSS Animations contain 2 parts:
 
-1. A style describing the animation 
+1. A style describing the animation
 2. A set of keyframes that state the start and end properties of the animation.
 
 ## Defining Animations
@@ -26,12 +26,12 @@ Syntax using from/to:
 
 ```css
 @keyframes <ANIMATION NAME> {
-	from {
-		color: #000000;
-	}
-	to {
-		color: #ffffff;
-	}
+  from {
+    color: #000000;
+  }
+  to {
+    color: #ffffff;
+  }
 }
 ```
 
@@ -39,41 +39,41 @@ Syntax using percentages:
 
 ```css
 @keyframes <ANIMATION NAME> {
-	0% {
-		color: #000000;
-	}
-	50% {
-		color: rgb(255,0,0);
-	}
-	100% {
-		color: #ffffff;
-	}
+  0% {
+    color: #000000;
+  }
+  50% {
+    color: rgb(255, 0, 0);
+  }
+  100% {
+    color: #ffffff;
+  }
 }
 ```
 
 By using percentages we can add more points into the animation, compared to the from/to method where we can only define the start and stop points.
 
-You can also mix and match from/to and percentages like so:
+You can also mix and match from/to and percentages as well:
 
 ```css
 @keyframes <ANIMATION NAME> {
-	from {
-		color: #000000;
-	}
-	60% {
-		color: rgb(200,0,0);
-	}
-	to {
-		color: #ffffff;
-	}
+  from {
+    color: #000000;
+  }
+  60% {
+    color: rgb(200, 0, 0);
+  }
+  to {
+    color: #ffffff;
+  }
 }
 ```
 
 ## Animation Properties
 
-There are 8 animation properties that we can use to contorl and configure the animation. 
+There are 8 animation properties that we can use to contorl and configure the animation.
 
-**Animation properties do not control the style of the animation! That happens with the [[Keyframes]]**
+**Animation properties do not control the style of the animation! That happens with Keyframes**
 
 1. [animation-name](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-name)
 2. [animation-duration](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-duration)
@@ -90,16 +90,18 @@ There are 8 animation properties that we can use to contorl and configure the an
 Specifies the name of the @keyframes animation that will be given to the element.
 
 **Example:**
+
 ```css
-animation-name: <ANIMATION_NAME>
+animation-name: ANIMATION_NAME;
 ```
 
 ### animation-duration
 
-**Description:** 
+**Description:**
 Allows for control of the length of the animation to complete one cycle of the animation. Time given in either Seconds(s) or Milliseconds(ms).
 
 **Example:**
+
 ```css
 animation-duration: 1s;
 animation-duration: 500ms;
@@ -111,10 +113,11 @@ animation-duration: 500ms;
 Controls how the animation progresses through the keyframes by establishing accerelations curve.
 
 **Example:**
+
 ```css
 animation-timing-function: linear;
 animation-timing-function: ease-in-out;
-animation-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);
+animation-timing-function: cubic-bezier(0.1, 0.7, 1, 0.1);
 ```
 
 ### animation-delay
@@ -123,6 +126,7 @@ animation-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);
 Controls the delay between the element loading and the animation starting. Controlled in either Seconds(s) or Milliseconds(ms).
 
 **Example:**
+
 ```css
 animation-delay: 1s;
 animation-delay: 500ms;
@@ -134,6 +138,7 @@ animation-delay: 500ms;
 Controls how many times the animation will repeat for. If given as `infinite` then the animation will repeat forever.
 
 **Example:**
+
 ```css
 animation-iteration-count: 5;
 ```
@@ -144,6 +149,7 @@ animation-iteration-count: 5;
 Controls the direction of the animation, starting at 0% to 100% (normal) or 100% to 0% (reverse). Or, if set to alternate will change on each completion of the animation.
 
 **Example:**
+
 ```css
 animation-direction: normal;
 animation-direction: alternate;
@@ -159,6 +165,7 @@ If set to `forwards` then the animation will persist the final animation styling
 If set to `backwards` then the animation will revert back to the styling prior to the animation.
 
 **Example:**
+
 ```css
 animation-fill-mode: none;
 animation-fill-mode: forwards;
@@ -170,6 +177,7 @@ animation-fill-mode: forwards;
 Allows for playing and pausing of an animation.
 
 **Example:**
+
 ```css
 animation-play-state: running;
 animation-play-state: paused;

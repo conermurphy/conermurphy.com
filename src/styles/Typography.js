@@ -35,14 +35,14 @@ const Typography = createGlobalStyle`
     font-display: swap;
     } */
 
-    html {
-    font-family: Inconsolata, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    html, p, strong, a, li, ol, ul, code, span {
+    font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 400;
     color: var(--black);
   }
 
   h1,h2,h3,h4,h5,h6 {
-    font-family: Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: normal;
     margin: 0;
     word-break: break-word;
@@ -103,7 +103,6 @@ const Typography = createGlobalStyle`
     & > h1, h2, h3, h4, h5, h6 {
       font-size: 2.5rem;
       text-transform: uppercase;
-      font-family: var(--body-font);
       position: relative;
 
 
@@ -119,7 +118,6 @@ const Typography = createGlobalStyle`
     
     a {
       text-decoration: none;
-      font-weight: bold;
     }
   }
 

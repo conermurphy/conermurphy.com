@@ -61,7 +61,6 @@ const TestimonialContainer = styled.div`
       align-items: center;
       font-size: 1.5rem;
       height: 100%;
-      font-weight: bold;
       margin: 0;
     }
   }

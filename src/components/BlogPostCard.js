@@ -74,7 +74,6 @@ const PostContainerBody = styled.div`
       align-items: center;
       font-size: 1.5rem;
       height: 100%;
-      font-weight: bold;
     }
   }
 `;
@@ -90,7 +89,7 @@ export default function BlogPostCard({ post }) {
   return (
     <Link to={slug}>
       <PostContainerBody>
-        <GatsbyImage image={image.childImageSharp.gatsbyImageData} />
+        <GatsbyImage image={image.childImageSharp.gatsbyImageData} alt={title} />
         <div className="contentContainer">
           <div className="languageIconContainer">{languageIcon}</div>
           <div className="content">

@@ -45,7 +45,6 @@ const NoteContainer = styled.div`
   .id {
     font-size: 1.5rem;
     width: max-content;
-    font-weight: bold;
     margin: auto;
     background-color: var(--grey);
     padding: 0.5rem 1rem;

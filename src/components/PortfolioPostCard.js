@@ -41,7 +41,6 @@ const PortfolioPostContainer = styled.div`
     padding: 1rem;
 
     & > p {
-      font-weight: bold;
       font-size: 1.5rem;
     }
 
@@ -96,7 +95,7 @@ export default function PortfolioPostCard({ post }) {
   // Returning the post card template.
   return (
     <PortfolioPostContainer>
-      <GatsbyImage image={imageToDisplay.gatsbyImageData} />
+      <GatsbyImage image={imageToDisplay.gatsbyImageData} alt={title} />
       <div className="contentContainer">
         <h2>{title}</h2>
         <Tags tags={tags} />
