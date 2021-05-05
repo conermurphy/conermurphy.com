@@ -7,12 +7,10 @@ const ServiceSectionContainer = styled.section`
   background-color: var(--secondaryBg);
   width: 100vw;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding: 7rem;
-
-  & > div {
-    max-width: 1400px;
-    width: 100%;
 
     & > h2,
     h3 {
@@ -26,6 +24,7 @@ const ServiceSectionContainer = styled.section`
     align-items: flex-start;
     gap: 4rem 6rem;
     padding-top: 2rem;
+    max-width: var(--maxWidth);
   }
 `;
 
@@ -79,14 +78,12 @@ function ServiceCard({ service: { title, description, icon } }) {
 export function ServiceSection() {
   return (
     <ServiceSectionContainer>
-      <div>
-        <h2 className="sectionTitle">Services</h2>
-        <h3 className="subtitle">It's more than just a website...</h3>
-        <div className="ServiceCardsContainer">
-          {Services.map((service) => (
-            <ServiceCard service={service} key={service.title} />
-          ))}
-        </div>
+      <h2 className="sectionTitle">Services</h2>
+      <h3 className="subtitle">It's more than just a website...</h3>
+      <div className="ServiceCardsContainer">
+        {Services.map((service) => (
+          <ServiceCard service={service} key={service.title} />
+        ))}
       </div>
     </ServiceSectionContainer>
   );
