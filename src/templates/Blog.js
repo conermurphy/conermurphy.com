@@ -9,7 +9,6 @@ import SEO from '../components/SEO';
 // MDX Component Imports Used on each page.
 import Components from '../components/mdx/Components';
 import ClosingComponents from '../components/mdx/ClosingComponents';
-import useNavTheme from '../utils/useNavTheme';
 import { PostBodyContainer, PostContainer } from '../styles/BlogNoteStyles';
 
 const BlogHeader = styled.div`
@@ -36,8 +35,6 @@ const BlogPost = ({ data, pageContext, path }) => {
   // Setting image path for SEO if no image use the logo.
   const imagePath = image ? image.childImageSharp.gatsbyImageData.images.fallback.src : '/Logo.png';
 
-  // Updating the nav to show dark theme.
-  useNavTheme('dark');
 
   return (
     <>

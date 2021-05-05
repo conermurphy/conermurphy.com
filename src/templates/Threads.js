@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import SEO from '../components/SEO';
 import Navigation from '../components/mdx/Navigation';
-import useNavTheme from '../utils/useNavTheme';
 import TwitterThreadItem from '../components/TwitterThreadItem';
 
 const ThreadContainer = styled.div`
@@ -61,9 +60,6 @@ const ThreadContainer = styled.div`
 const TwitterThread = ({ data, pageContext, path }) => {
   const { frontmatter } = data.mdx;
   const { title, date, plainDate, tags, numberOfTweets, tweets } = frontmatter;
-
-  // Updating the nav to show dark theme.
-  useNavTheme('dark');
 
   return (
     <>
