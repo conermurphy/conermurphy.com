@@ -1,9 +1,7 @@
 import { graphql } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import useNavTheme from '../utils/useNavTheme';
-import BlogPostCard from '../components/BlogPostCard';
+import { BlogPostCard } from '../components/BlogPostCard';
 import Pagination from '../components/Pagination';
 import SEO from '../components/SEO';
 
@@ -24,8 +22,7 @@ const AllPostsContainer = styled.div`
 
 export default function Blog({ data, pageContext, path }) {
   const { edges: blogPosts, totalCount } = data.blog;
-  const { currentPage, skip, tag } = pageContext; // Used for pagination.
-  useNavTheme('dark');
+  const { currentPage, tag } = pageContext; // Used for pagination.
 
   let pageTitle;
 
@@ -48,9 +45,10 @@ export default function Blog({ data, pageContext, path }) {
       </div>
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
       <AllPostsContainer>
-        {blogPosts.map((post) => (
-          <BlogPostCard key={`blogPostCard-${post.node.frontmatter.id}`} post={post} />
-        ))}
+        {blogPosts.map(({ node }) => {
+          console.log(node);
+          return <BlogPostCard key={`blogPostCard-${node.frontmatter.title}`} post={node} />;
+        })}
       </AllPostsContainer>
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
     </>
@@ -60,10 +58,10 @@ export default function Blog({ data, pageContext, path }) {
 export const query = graphql`
   query($skip: Int = 0, $pageSize: Int = 6) {
     blog: allMdx(
-      limit: $pageSize
       skip: $skip
-      sort: { order: [DESC], fields: [frontmatter___date] }
-      filter: { fields: { contentCategory: { eq: "blog" } }, frontmatter: { published: { eq: true } } }
+      limit: $pageSize
+      sort: { order: DESC, fields: frontmatter___date }
+      filter: { frontmatter: { published: { eq: true } } }
     ) {
       edges {
         node {
@@ -71,7 +69,8 @@ export const query = graphql`
             slug
           }
           frontmatter {
-            date(formatString: "DD/MM/YYYY")
+            date(formatString: "MMM Do YYYY")
+            description
             tags
             title
             image {
@@ -80,24 +79,13 @@ export const query = graphql`
               }
             }
           }
+          fields {
+            slug
+          }
+          excerpt
         }
       }
       totalCount
     }
   }
 `;
-
-Blog.propTypes = {
-  data: PropTypes.shape({
-    blog: PropTypes.shape({
-      totalCount: PropTypes.number,
-      edges: PropTypes.array,
-    }),
-  }),
-  path: PropTypes.string,
-  pageContext: PropTypes.shape({
-    currentPage: PropTypes.number,
-    skip: PropTypes.number,
-    tag: PropTypes.string,
-  }),
-};

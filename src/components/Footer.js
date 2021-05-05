@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { graphql, useStaticQuery } from 'gatsby';
 import { EmailSignup } from './EmailSignup';
 import ContactIcons from './ContactIcons';
 import { HireMe } from './HireMe';
 import { AuthorCard } from './Nav';
-import { LatestPost } from './LatestPost';
+import { BlogPostCard } from './BlogPostCard';
 
 const FooterBody = styled.footer`
   display: flex;
@@ -49,6 +50,35 @@ const PostFooterContainer = styled.div`
 `;
 
 function FooterContent() {
+  const data = useStaticQuery(graphql`
+    query {
+      latestPost: allMdx(
+        limit: 1
+        sort: { fields: frontmatter___date, order: DESC }
+        filter: { frontmatter: { published: { eq: true } } }
+      ) {
+        edges {
+          node {
+            frontmatter {
+              date(formatString: "MMM Do YYYY")
+              description
+              title
+              image {
+                childImageSharp {
+                  gatsbyImageData(layout: FULL_WIDTH)
+                }
+              }
+            }
+            fields {
+              slug
+            }
+            excerpt
+          }
+        }
+      }
+    }
+  `);
+
   return (
     <FooterContentContainer>
       <div className="info">
@@ -61,7 +91,7 @@ function FooterContent() {
       </div>
       <div className="latestPost">
         <h3>Latest Post:</h3>
-        <LatestPost />
+        <BlogPostCard post={data.latestPost.edges[0].node} />
       </div>
     </FooterContentContainer>
   );
