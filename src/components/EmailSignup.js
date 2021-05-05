@@ -1,57 +1,54 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaCheck, FaTimes } from 'react-icons/fa';
-import PropTypes from 'prop-types';
 import useEmail from '../utils/useEmail';
 import useForm from '../utils/useForm';
 
 const FormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-width: 600px;
-  padding: 2.5rem 5rem;
-  background-color: var(--white);
-  text-align: center;
-  margin: auto;
-  margin-bottom: ${(props) => (props.marginRequired ? '50px' : '')};
-  margin-top: ${(props) => (props.marginRequired ? '-100px' : '')};
-  filter: drop-shadow(var(--shadow));
-
-  @media (max-width: 800px) {
-    width: min-content;
-    max-width: 300px;
-    margin-bottom: ${(props) => (props.marginRequired ? '50px' : '')};
-    margin-top: ${(props) => (props.marginRequired ? '-50px' : '')};
-  }
-
-  @media (max-width: 400px) {
-    max-width: 225px;
-  }
+  position: relative;
 `;
 
 const FormGridContainer = styled.form`
-  --height: 5rem;
-  --padding: 0 1rem;
+  --height: 6rem;
 
-  position: relative;
-  height: auto;
-  filter: drop-shadow(var(--shadow));
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  height: var(--height);
   max-width: 500px;
-  color: var(--black);
-  margin: auto;
 
-  @media (max-width: 600px) {
-    margin: 0;
-  }
+  color: var(--primaryText);
+
+  box-shadow: var(--shadow);
+  border-radius: var(--borderRadius);
+  overflow: hidden;
 
   fieldset {
     display: flex;
-    height: var(--height);
-    border: none;
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+
     padding: 0;
-    margin: 0;
+    padding-left: 1rem;
+    border: none;
+    height: var(--height);
+
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-grow: 1;
+
+      input {
+        width: 100%;
+        height: var(--height);
+        border: 0;
+      }
+    }
   }
 
   .chilliIsCool {
@@ -59,52 +56,31 @@ const FormGridContainer = styled.form`
   }
 
   .signupButton {
-    background-color: var(--white);
-    color: var(--black);
+    background-color: var(--secondaryBg);
+    color: var(--primaryText);
+    font-weight: bold;
     border: none;
-    border-bottom: 2px solid var(--green);
-    width: max-content;
     padding: var(--padding);
-    margin: 2rem;
-    margin-bottom: 1rem;
-    height: var(--height);
-    font-size: 1.75rem;
     cursor: pointer;
-  }
-
-  label {
-    display: flex;
-    align-items: center;
-    padding: var(--padding);
+    padding: 0 3rem;
+    align-self: flex-end;
     height: var(--height);
-    font-size: 1.75rem;
-    background-color: var(--grey);
-    padding-right: 0;
-    gap: 1rem;
-  }
-
-  .emailInput {
-    padding: var(--padding);
-    flex-grow: 1;
-    border: none;
-    height: var(--height);
-
-    @media (max-width: 600px) {
-      max-width: 200px;
-    }
   }
 `;
 
 const MessageContainer = styled.div`
   position: absolute;
+
   display: flex;
-  bottom: -30px;
   align-items: center;
   justify-content: center;
-  background-color: var(--white);
+  background-color: var(--secondaryBg);
   border-radius: var(--borderRadius);
-  padding: 1.5rem;
+  padding: 0.5rem;
   filter: drop-shadow(var(--shadow));
+
+  right: 10%;
+  top: 75px;
 
   animation: signup-response 1s 1;
   -webkit-animation: signup-response 1s 1;
@@ -138,7 +114,7 @@ const MessageContainer = styled.div`
     height: 0;
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
-    border-bottom: 15px solid var(--white);
+    border-bottom: 15px solid var(--secondaryBg);
     position: absolute;
     top: -15px;
   }
@@ -150,11 +126,8 @@ const MessageContainer = styled.div`
 
   svg {
     fill: var(--green);
-    border: 2px solid var(--green);
-    border-radius: 50%;
-    padding: 0.5rem;
-    margin: 0 1rem;
-    margin-left: 0.5rem;
+    padding: 1rem;
+    margin: 0 0.5rem;
   }
 
   svg[data-error] {
@@ -183,7 +156,7 @@ export const EmailSignup = () => {
   const { email, chilliIsCool } = values;
 
   return (
-    <>
+    <FormContainer>
       <FormGridContainer onSubmit={submitEmail}>
         <fieldset disabled={loading}>
           <label htmlFor="email">
@@ -192,6 +165,7 @@ export const EmailSignup = () => {
               type="email"
               name="email"
               id={`email-${Math.random().toString(36).substring(2, 15)}`}
+              placeholder="Please enter your email..."
               className="emailInput"
               onChange={updateValue}
               value={email}
@@ -211,26 +185,6 @@ export const EmailSignup = () => {
         </button>
       </FormGridContainer>
       {message ? <OutcomeMessageContainer error={error} message={message} /> : ''}
-    </>
-  );
-};
-
-export default function EmailSignupForm({ marginRequired }) {
-  return (
-    // TODO: Add in extra design here for MDX use in blog posts
-    <FormContainer marginRequired={marginRequired}>
-      <h3>Like what you see?</h3>
-      <p>Please consider signing up to my newsletter using the form below.</p>
-      <EmailSignup />
     </FormContainer>
   );
-}
-
-EmailSignupForm.propTypes = {
-  marginRequired: PropTypes.bool,
-};
-
-OutcomeMessageContainer.propTypes = {
-  error: PropTypes.string,
-  message: PropTypes.string,
 };
