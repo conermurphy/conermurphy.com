@@ -1,130 +1,91 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaEnvelope, FaLocationArrow } from 'react-icons/fa';
-import { Link } from 'gatsby';
-import { EmailSignup } from './EmailSignupForm';
+import { EmailSignup } from './EmailSignup';
 import ContactIcons from './ContactIcons';
-import HireMeBlock from './HireMeBlock';
+import { HireMe } from './HireMe';
+import { AuthorCard } from './Nav';
+import { LatestPost } from './LatestPost';
 
 const FooterBody = styled.footer`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  background-color: var(--black);
-  color: var(--white);
-
-  .copyright {
-    .credits,
-    a {
-      font-size: 1.2rem;
-      color: var(--white);
-    }
-  }
+  width: 100vw;
+  max-width: var(--maxWidth);
 `;
 
-const ContentGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, max-content));
+const FooterContentContainer = styled.div`
+  display: flex;
+  flex-direction: row;
   align-items: flex-start;
-  justify-content: center;
-  text-align: center;
-  margin: 5rem 0;
+  justify-content: space-evenly;
 
   & > div {
-    display: grid;
-    grid-template-rows: auto 2rem 1fr;
-    align-items: center;
-    justify-items: center;
-    gap: 2rem;
+    margin: 5rem 0;
+  }
 
-    & svg {
-      fill: var(--white);
-    }
-
+  .latestPost {
     & > h3 {
-      font-size: 2rem;
-
-      span {
-        white-space: nowrap;
-        display: block;
-        margin: 0.5rem;
-      }
+      margin-top: 0;
     }
+  }
 
-    .icon {
-      margin: 1rem 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      & > svg {
-        margin: 0;
-        font-size: 2.5rem;
-        fill: var(--white);
-      }
+  .info {
+    h3 {
+      font-size: 2.5rem;
     }
   }
 `;
 
-const NavigationLinks = styled.ul`
-  * {
-    color: var(--white);
-    text-decoration: underline;
+const PostFooterContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(50, 59, 73, 0.5);
+
+  & > * {
+    font-size: 1.4rem;
   }
 `;
 
-export default function Footer() {
+function FooterContent() {
+  return (
+    <FooterContentContainer>
+      <div className="info">
+        <AuthorCard />
+        <p>Some Random Text that I will need to populate with something at some point.</p>
+        <HireMe available />
+        <ContactIcons />
+        <h4>Sign Up For My Newsletter:</h4>
+        <EmailSignup />
+      </div>
+      <div className="latestPost">
+        <h3>Latest Post:</h3>
+        <LatestPost />
+      </div>
+    </FooterContentContainer>
+  );
+}
+
+function PostFooter() {
+  return (
+    <PostFooterContainer>
+      <p>&copy; Coner Murphy {new Date().getFullYear()}</p>
+      <p className="credits">
+        Icons Used : <a href="	https://fontawesome.com/">Font Awesome</a>,{' '}
+        <a href="http://google.github.io/material-design-icons/">Material Design</a>,{' '}
+        <a href="https://github.com/grommet/grommet-icons">Grommet-Icons</a> & <a href="https://ionicons.com/">Ionicons</a> from{' '}
+        <a href="https://react-icons.github.io/react-icons">React Icons</a>
+      </p>
+    </PostFooterContainer>
+  );
+}
+
+export function Footer() {
   return (
     <FooterBody>
-      <ContentGrid>
-        <div>
-          <h3>Coner Murphy</h3>
-          <HireMeBlock available layout="column" />
-          <ContactIcons />
-        </div>
-        <div>
-          <div className="icon">
-            <FaLocationArrow />
-          </div>
-          <h3>Navigation</h3>
-          <NavigationLinks>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/blog">Blog</Link>
-            </li>
-            <li>
-              <Link to="/notes">Notes</Link>
-            </li>
-            <li>
-              <Link to="/portfolio">Portfolio</Link>
-            </li>
-            <li>
-              <Link to="/reads">Reads</Link>
-            </li>
-            <li>
-              <Link to="/privacy-policy">Privacy Policy</Link>
-            </li>
-          </NavigationLinks>
-        </div>
-        <div>
-          <div className="icon">
-            <FaEnvelope />
-          </div>
-          <h3>Stay up to date</h3>
-          <EmailSignup />
-        </div>
-      </ContentGrid>
-      <div className="copyright">
-        <p className="center credits">
-          Icons Used : <a href="	https://fontawesome.com/">Font Awesome</a>,{' '}
-          <a href="http://google.github.io/material-design-icons/">Material Design</a>,{' '}
-          <a href="https://github.com/grommet/grommet-icons">Grommet-Icons</a> & <a href="https://ionicons.com/">Ionicons</a> from{' '}
-          <a href="https://react-icons.github.io/react-icons">React Icons</a>
-        </p>
-        <p className="center">&copy; Coner Murphy {new Date().getFullYear()}</p>
-      </div>
+      <FooterContent />
+      <PostFooter />
     </FooterBody>
   );
 }
