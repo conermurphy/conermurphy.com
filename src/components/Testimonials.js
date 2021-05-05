@@ -39,7 +39,7 @@ const TestimonialCardContainer = styled.div`
   max-width: 500px;
 
   background-color: var(--primaryBg);
-  padding: 2.5rem;
+  padding: 3rem;
 
   border-radius: var(--borderRadius);
 
