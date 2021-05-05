@@ -1,18 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaTwitter, FaLinkedin, FaEnvelope, FaInstagram, FaGithub } from 'react-icons/fa';
+import { FaTwitterSquare, FaLinkedin, FaEnvelopeSquare, FaInstagramSquare, FaGithubSquare, FaFacebookSquare } from 'react-icons/fa';
 
 const ContactIconsContainer = styled.ul`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: center;
-  gap: 0rem;
+  gap: 1rem;
 
   & > li {
-    padding: 0.25rem;
-    margin: 0;
-
     & a {
       display: flex;
       align-items: center;
@@ -22,11 +18,9 @@ const ContactIconsContainer = styled.ul`
 
   .contactIcon {
     & > svg {
-      padding: 0.75rem;
-      border-radius: 5px;
+      font-size: 3.5rem;
       background-color: var(--white);
-      fill: var(--black);
-      margin: 0rem 0.5rem;
+      fill: var(--accent);
     }
   }
 `;
@@ -43,7 +37,7 @@ export default function ContactIcons() {
             className="contactIcon"
             aria-label="Link to GitHhb Profile"
           >
-            <FaGithub />
+            <FaGithubSquare style={{ fill: '#211F1F' }} />
           </a>
         </li>
         <li>
@@ -54,7 +48,7 @@ export default function ContactIcons() {
             className="contactIcon"
             aria-label="Link to Twitter Profile"
           >
-            <FaTwitter />
+            <FaTwitterSquare style={{ fill: '#08a0e9' }} />
           </a>
         </li>
         <li>
@@ -65,7 +59,7 @@ export default function ContactIcons() {
             className="contactIcon"
             aria-label="Link to LinkedIn Profile"
           >
-            <FaLinkedin />
+            <FaLinkedin style={{ fill: '#0077B5' }} />
           </a>
         </li>
         <li>
@@ -76,7 +70,18 @@ export default function ContactIcons() {
             className="contactIcon"
             aria-label="Link to Instagram Profile"
           >
-            <FaInstagram />
+            <FaInstagramSquare style={{ fill: '#515BD4' }} />
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.facebook.com/MrConerMurphy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contactIcon"
+            aria-label="Link to Facebook Page"
+          >
+            <FaFacebookSquare style={{ fill: '#3B5998' }} />
           </a>
         </li>
         <li>
@@ -87,7 +92,7 @@ export default function ContactIcons() {
             className="contactIcon"
             aria-label="Email contact link"
           >
-            <FaEnvelope />
+            <FaEnvelopeSquare />
           </a>
         </li>
       </ContactIconsContainer>
