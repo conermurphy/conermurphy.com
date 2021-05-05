@@ -8,7 +8,7 @@ const GlobalStyles = createGlobalStyle`
     --primaryText: #000000;
     --headerText: #323B49;
     --accentText: #FAFAFC;
-    --shadow: 0px 2px 4px rgba(0,0,0,0.25);
+    --shadow: 0px 2px 4px rgba(0,0,0,0.10);
     --scrollBarWidth: 6px;
     --lh: 2.5rem;
     --borderRadius: 1rem;
@@ -26,6 +26,18 @@ const GlobalStyles = createGlobalStyle`
 
    .postLinks {
      text-decoration: none;
+   }
+
+   .callToAction {
+    background-color: var(--accent);
+    padding: 1rem 1.5rem;
+    color: var(--primaryBg);
+    border-radius: var(--borderRadius);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    font-weight: 600;
    }
 
    /* Scrollbar Styles */
