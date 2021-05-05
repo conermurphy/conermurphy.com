@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import { GatsbyImage } from 'gatsby-plugin-image';
+import { FaUserAlt } from 'react-icons/fa';
 import NavThemeContext from '../context/NavThemeContext';
 import { useSiteMetadata } from '../utils/useSiteMetadata';
 
@@ -9,38 +9,25 @@ const StyledNav = styled.nav`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  background-color: none;
 
   ul {
-    display: grid;
-    grid-template-columns: repeat(6, auto);
+    display: flex;
+    gap: 2rem;
     margin: 0;
     padding: 0;
     text-align: center;
-    list-style: none;
     align-items: center;
 
-    @media (max-width: 600px) {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
+    & > li {
+      display: inline-block;
     }
   }
+
   a {
-    display: block;
-    font-size: 2rem;
-    padding: 1rem;
     text-decoration: none;
 
-    &:hover {
-      color: var(--green);
-    }
-
     &.active {
-      border-bottom: 2px solid var(--green);
-      color: var(--green);
+      border-bottom: 2px solid var(--accent);
     }
   }
 `;
@@ -49,18 +36,10 @@ const NavContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  padding: 1.25rem;
   margin-bottom: 2.5rem;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  // Setting the colour of the logo and nav items based on the context theme
-  * {
-    fill: ${(props) => (props.theme === 'dark' ? 'var(--black)' : 'var(--white)')};
-    color: ${(props) => (props.theme === 'dark' ? 'var(--black)' : 'var(--white)')};
-  }
+  background-color: var(--secondaryBg);
+  box-shadow: var(--shadow);
 `;
 
 const AuthorCardContainer = styled.div`
@@ -71,7 +50,7 @@ const AuthorCardContainer = styled.div`
 
   gap: 1.5rem;
 
-  & > img {
+  & img {
     width: 50px;
   }
 
@@ -85,7 +64,9 @@ export function AuthorCard() {
 
   return (
     <AuthorCardContainer>
-      <img src={image} alt="Site Logo" />
+      <Link to="/">
+        <img src={image} alt="Site Logo" />
+      </Link>
       <h3>{title}</h3>
     </AuthorCardContainer>
   );
@@ -107,18 +88,23 @@ export default function Nav({ path }) {
       <StyledNav>
         <ul>
           <li>
+            <Link to="/about-me" className={currentRootPage === 'about-me' ? 'active' : ''}>
+              About Me
+            </Link>
+          </li>
+          <li>
             <Link to="/blog" className={currentRootPage === 'blog' ? 'active' : ''}>
               Blog
             </Link>
           </li>
           <li>
-            <Link to="/threads" className={currentRootPage === 'threads' ? 'active' : ''}>
-              Threads
+            <Link to="/portfolio" className={currentRootPage === 'portfolio' ? 'active' : ''}>
+              Portfolio
             </Link>
           </li>
           <li>
-            <Link to="/portfolio" className={currentRootPage === 'portfolio' ? 'active' : ''}>
-              Portfolio
+            <Link to="/contact-me" className="callToAction">
+              <FaUserAlt /> Hire Me
             </Link>
           </li>
         </ul>
