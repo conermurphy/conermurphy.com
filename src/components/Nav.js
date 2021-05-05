@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import PropTypes from 'prop-types';
+import { GatsbyImage } from 'gatsby-plugin-image';
 import NavThemeContext from '../context/NavThemeContext';
+import { useSiteMetadata } from '../utils/useSiteMetadata';
 
 const StyledNav = styled.nav`
   display: flex;
@@ -62,6 +63,34 @@ const NavContainer = styled.div`
   }
 `;
 
+const AuthorCardContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  gap: 1.5rem;
+
+  & > img {
+    width: 50px;
+  }
+
+  & > h3 {
+    font-size: 2rem;
+  }
+`;
+
+export function AuthorCard() {
+  const { title, image } = useSiteMetadata();
+
+  return (
+    <AuthorCardContainer>
+      <img src={image} alt="Site Logo" />
+      <h3>{title}</h3>
+    </AuthorCardContainer>
+  );
+}
+
 export default function Nav({ path }) {
   const [theme, setTheme] = useContext(NavThemeContext);
 
@@ -74,16 +103,12 @@ export default function Nav({ path }) {
 
   return (
     <NavContainer theme={theme}>
+      <AuthorCard />
       <StyledNav>
         <ul>
           <li>
             <Link to="/blog" className={currentRootPage === 'blog' ? 'active' : ''}>
               Blog
-            </Link>
-          </li>
-          <li>
-            <Link to="/notes" className={currentRootPage === 'notes' ? 'active' : ''}>
-              Notes
             </Link>
           </li>
           <li>
@@ -96,20 +121,8 @@ export default function Nav({ path }) {
               Portfolio
             </Link>
           </li>
-          <li>
-            <Link to="/reads" className={currentRootPage === 'reads' ? 'active' : ''}>
-              Reads
-            </Link>
-          </li>
-          <li>
-            <Link to="/#aboutMe">Say Hi!</Link>
-          </li>
         </ul>
       </StyledNav>
     </NavContainer>
   );
 }
-
-Nav.propTypes = {
-  path: PropTypes.string,
-};
