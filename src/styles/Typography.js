@@ -111,7 +111,7 @@ const Typography = createGlobalStyle`
     text-decoration-color: var(--green);
   }
 
-  p, li, ul, span, button, label {
+  p, li, ul, span, button, label, a {
     font-size: 1.6rem;
     line-height: var(--lh);
     
