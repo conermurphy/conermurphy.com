@@ -19,6 +19,8 @@ const FooterContentContainer = styled.div`
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin: 2rem;
 
   & > div {
     margin: 5rem 0;
@@ -42,6 +44,9 @@ const PostFooterContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 1rem;
+
   border-top: 1px solid rgba(50, 59, 73, 0.5);
 
   & > * {

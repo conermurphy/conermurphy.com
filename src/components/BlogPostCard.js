@@ -1,4 +1,4 @@
-import { graphql, useStaticQuery, Link } from 'gatsby';
+import { Link } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import React from 'react';
 import styled from 'styled-components';
@@ -12,9 +12,14 @@ const LatestPostContainer = styled.div`
   }
 
   .published {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     margin: 0.5rem 0;
     font-weight: 300;
+    opacity: 0.75;
+  }
+
+  .title {
+    line-height: 3.2rem;
   }
 `;
 

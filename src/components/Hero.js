@@ -9,6 +9,7 @@ const HeroContainer = styled.div`
   justify-content: center;
   margin: 5rem 0;
   gap: 2.5rem;
+  text-align: center;
 
   & > h2 {
     font-size: 2.5rem;

@@ -7,16 +7,18 @@ const TestimonialSectionContainer = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10rem;
+  flex-wrap: wrap;
+  gap: 0 10rem;
 
   width: 100vw;
 
-  padding: 7rem;
+  padding: 5rem 0;
 
   background-color: var(--secondaryBg);
 
-  .sectionTitles {
-    max-width: 800px;
+  .sectionTitle {
+    max-width: 700px;
+    margin: 2rem;
   }
 
   .TestimonialCardsContainer {
@@ -35,8 +37,9 @@ const TestimonialCardContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  justify-self: center;
 
-  max-width: 500px;
+  width: clamp(300px, 20vw, 400px);
 
   background-color: var(--primaryBg);
   padding: 3rem;
@@ -92,7 +95,7 @@ export function TestimonialCard({ testimonial }) {
 export function Testimonials() {
   return (
     <TestimonialSectionContainer>
-      <div className="sectionTitles">
+      <div className="sectionTitle">
         <h2 className="title">What People Have Been Saying...</h2>
         <h3 className="subtitle">
           It’s not just about building amazing websites. It’s about fostering a great relationship and understanding your businesses needs.

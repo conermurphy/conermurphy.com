@@ -10,21 +10,22 @@ const ServiceSectionContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 7rem;
+  flex-wrap: wrap;
+  padding-top: 5rem;
 
-    & > h2,
-    h3 {
-      text-align: center;
-    }
+  & > h2,
+  h3 {
+    text-align: center;
   }
 
   .ServiceCardsContainer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     align-items: flex-start;
-    gap: 4rem 6rem;
+    gap: clamp(1rem, 2vw, 2rem);
     padding-top: 2rem;
-    max-width: var(--maxWidth);
+
+    width: clamp(300px, 100vw, var(--maxWidth));
   }
 `;
 
@@ -33,6 +34,7 @@ const ServiceCardContainer = styled.div`
   filter: drop-shadow(var(--shadow));
   border-radius: var(--borderRadius);
   padding: 3rem;
+  margin: 1rem;
 
   .serviceCardTitle {
     display: flex;
