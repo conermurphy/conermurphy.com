@@ -1,18 +1,12 @@
 import React from 'react';
-import { MdPersonPin, MdLocationOn, MdContacts } from 'react-icons/md';
 import { graphql, Link } from 'gatsby';
-import PropTypes from 'prop-types';
-import { InfoBlock, LandingSection } from '../styles/HomeStyles';
+import { LandingSection } from '../styles/HomeStyles';
 import useNavTheme from '../utils/useNavTheme';
 import SEO from '../components/SEO';
-import ContactIcons from '../components/ContactIcons';
-import HireMeBlock from '../components/HireMeBlock';
 import { ServiceSection } from '../components/Services';
 import { Testimonials } from '../components/Testimonials';
 
-export default function HomePage({ data, path }) {
-  const { blog, portfolio } = data;
-
+export default function HomePage({ path }) {
   // Setting the nav theme for this page
   useNavTheme('light');
 
@@ -42,27 +36,9 @@ export default function HomePage({ data, path }) {
             </p>
             <p>My other passions include: Gaming 🎮, Reading 📚, Motorbikes 🏍️, Coffee ☕ and Music 🎧. </p>
             <p>If this sounds cool, please stick around and consider signing up to my newsletter. </p>
-            <HireMeBlock available layout="row" />
           </div>
           <div />
         </div>
-        <InfoBlock id="aboutMe">
-          <div className="aboutMe">
-            <h2>About Me</h2>
-          </div>
-          <ul>
-            <li>
-              Coner Murphy <MdPersonPin className="categoryIcon" />
-            </li>
-            <li>
-              Norwich, United Kingdom <MdLocationOn className="categoryIcon" />
-            </li>
-            <li>
-              <ContactIcons />
-              <MdContacts className="categoryIcon" />
-            </li>
-          </ul>
-        </InfoBlock>
       </LandingSection>
       <ServiceSection />
       <Testimonials />
@@ -108,11 +84,3 @@ export const query = graphql`
     }
   }
 `;
-
-HomePage.propTypes = {
-  data: PropTypes.shape({
-    blog: PropTypes.object,
-    portfolio: PropTypes.object,
-  }),
-  path: PropTypes.string,
-};
