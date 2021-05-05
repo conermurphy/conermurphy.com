@@ -100,8 +100,8 @@ const Typography = createGlobalStyle`
     margin-top: 2rem;
   }
 
-  .sectionTitle {
-    margin: 1rem;
+  .title {
+    margin-bottom: 1rem;
     margin-top: 0;
   }
 
