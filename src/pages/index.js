@@ -2,12 +2,13 @@ import React from 'react';
 import { MdPersonPin, MdLocationOn, MdContacts } from 'react-icons/md';
 import { graphql, Link } from 'gatsby';
 import PropTypes from 'prop-types';
-import { HeroBackground, InfoBlock, LandingSection } from '../styles/HomeStyles';
+import { InfoBlock, LandingSection } from '../styles/HomeStyles';
 import useNavTheme from '../utils/useNavTheme';
 import SEO from '../components/SEO';
 import ContactIcons from '../components/ContactIcons';
 import HireMeBlock from '../components/HireMeBlock';
 import { ServiceSection } from '../components/Services';
+import { Testimonials } from '../components/Testimonials';
 
 export default function HomePage({ data, path }) {
   const { blog, portfolio } = data;
@@ -64,6 +65,7 @@ export default function HomePage({ data, path }) {
         </InfoBlock>
       </LandingSection>
       <ServiceSection />
+      <Testimonials />
     </>
   );
 }
