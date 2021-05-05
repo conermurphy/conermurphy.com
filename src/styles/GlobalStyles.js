@@ -12,6 +12,7 @@ const GlobalStyles = createGlobalStyle`
     --scrollBarWidth: 6px;
     --lh: 2.5rem;
     --borderRadius: 1rem;
+    --maxWidth: 1400px;
   }
 
    html {
