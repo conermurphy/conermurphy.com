@@ -78,7 +78,7 @@ function ServiceCard({ service: { title, description, icon } }) {
 export function ServiceSection() {
   return (
     <ServiceSectionContainer>
-      <h2 className="sectionTitle">Services</h2>
+      <h2 className="title">Services</h2>
       <h3 className="subtitle">It's more than just a website...</h3>
       <div className="ServiceCardsContainer">
         {Services.map((service) => (
