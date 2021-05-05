@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { graphql } from 'gatsby';
 import PropTypes from 'prop-types';
-import useNavTheme from '../utils/useNavTheme';
 import SEO from '../components/SEO';
 import PortfolioPostCard from '../components/PortfolioPostCard';
 import Pagination from '../components/Pagination';
@@ -25,8 +24,6 @@ const AllPortfolioContainer = styled.div`
 export default function Portfolio({ data, pageContext, path }) {
   const { edges: portfolioPosts, totalCount } = data.portfolioNodes;
   const { currentPage, skip, tag } = pageContext;
-  // Setting the nav theme for this page
-  useNavTheme('dark');
 
   let pageTitle;
 

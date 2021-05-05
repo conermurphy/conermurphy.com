@@ -2,7 +2,6 @@ import { graphql } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import useNavTheme from '../utils/useNavTheme';
 import Pagination from '../components/Pagination';
 import SEO from '../components/SEO';
 import ThreadsPostCard from '../components/ThreadsPostCard';
@@ -25,8 +24,6 @@ const AllPostsContainer = styled.div`
 export default function Threads({ data, pageContext, path }) {
   const { edges: twitterThreads, totalCount } = data.threads;
   const { currentPage, skip, tag } = pageContext; // Used for pagination.
-
-  useNavTheme('dark');
 
   let pageTitle;
 

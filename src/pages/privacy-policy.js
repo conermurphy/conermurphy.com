@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import useNavTheme from '../utils/useNavTheme';
 
 const PrivacyPolicyContainer = styled.div`
   display: flex;
@@ -25,7 +24,6 @@ const PrivacyPolicyContainer = styled.div`
 `;
 
 export default function PrivacyPolicy() {
-  useNavTheme('dark');
   if (typeof window !== 'undefined') {
     return (
       <PrivacyPolicyContainer>

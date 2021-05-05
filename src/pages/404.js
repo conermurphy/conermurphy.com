@@ -1,7 +1,6 @@
 import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
-import useNavTheme from '../utils/useNavTheme';
 
 const Container = styled.div`
   display: flex;
@@ -9,7 +8,6 @@ const Container = styled.div`
 `;
 
 export default function Page404() {
-  useNavTheme('dark');
   return (
     <Container>
       <div className="headerTitleSeperator">
