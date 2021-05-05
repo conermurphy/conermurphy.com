@@ -24,6 +24,10 @@ const GlobalStyles = createGlobalStyle`
        font-size: 2rem;
    }
 
+   .postLinks {
+     text-decoration: none;
+   }
+
    /* Scrollbar Styles */
   body::-webkit-scrollbar {
     width: var(--scrollBarWidth);

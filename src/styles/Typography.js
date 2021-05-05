@@ -54,13 +54,13 @@ const Typography = createGlobalStyle`
     html {
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     font-weight: 300;
-    color: var(--black);
+    color: var(--primaryText);
   }
 
   /* Header Styles */
 
   h1,h2,h3,h4,h5,h6 {
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     color: var(--headerText);
   }
 
@@ -75,16 +75,16 @@ const Typography = createGlobalStyle`
   }
 
   h1 {
-    font-size: 7rem;
+    font-size: 6rem;
   } 
   h2 {
-    font-size: 5.5rem;
+    font-size: 4.5rem;
   } 
   h3 {
-    font-size: 3rem;
+    font-size: 2.5rem;
   } 
   h4 {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 
   code {
@@ -95,7 +95,6 @@ const Typography = createGlobalStyle`
   .subtitle {
     font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     font-weight: 300;
-    font-size: 3rem;
     color: var(--primaryText);
     margin-top: 2rem;
   }
@@ -112,7 +111,7 @@ const Typography = createGlobalStyle`
     text-decoration-color: var(--green);
   }
 
-  p, li, ul {
+  p, li, ul, span, button, label {
     font-size: 1.6rem;
     line-height: var(--lh);
     
