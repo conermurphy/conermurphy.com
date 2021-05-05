@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import EmailSignupForm from '../EmailSignupForm';
+import { EmailSignup } from '../EmailSignup';
 import GithubEdit from './GithubEdit';
 import Navigation from './Navigation';
 
@@ -17,7 +17,7 @@ const Container = styled.div`
 export default function ClosingComponents({ fileAbsolutePath, pageContext }) {
   return (
     <Container>
-      <EmailSignupForm />
+      <EmailSignup />
       <GithubEdit postURL={fileAbsolutePath} />
       <Navigation pageContext={pageContext} />
     </Container>
