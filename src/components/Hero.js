@@ -14,7 +14,7 @@ const HeroContainer = styled.div`
   & > h2 {
     font-size: 2.5rem;
     margin-top: 0;
-    max-width: 400px;
+    max-width: 500px;
   }
 `;
 
@@ -23,11 +23,11 @@ export function Hero({ content }) {
 
   const internalLink = CTA && CTALink.slice(0, 1) === '/';
 
-  return (
+  return CTA !== '' ? (
     <HeroContainer>
       {title && <h1 className="title">{title}</h1>}
       {subtitle && <h2 className="subtitle">{subtitle}</h2>}
-      {CTA && internalLink ? (
+      {internalLink ? (
         <Link className="callToAction" to={CTALink}>
           {CTA}
         </Link>
@@ -36,6 +36,11 @@ export function Hero({ content }) {
           {CTA}
         </a>
       )}
+    </HeroContainer>
+  ) : (
+    <HeroContainer>
+      {title && <h1 className="title">{title}</h1>}
+      {subtitle && <h2 className="subtitle">{subtitle}</h2>}
     </HeroContainer>
   );
 }
