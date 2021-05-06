@@ -12,7 +12,7 @@ const StyledNav = styled.nav`
 
   ul {
     display: flex;
-    gap: 2rem;
+    gap: 5rem;
     margin: 0;
     padding: 0;
     text-align: center;
@@ -20,6 +20,10 @@ const StyledNav = styled.nav`
 
     & > li {
       display: inline-block;
+
+      & > a:not(.callToAction) {
+        padding-bottom: 1rem;
+      }
     }
   }
 
@@ -35,11 +39,22 @@ const StyledNav = styled.nav`
 const NavContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+
   padding: 1.25rem;
   margin-bottom: 2.5rem;
   background-color: var(--secondaryBg);
   box-shadow: var(--shadow);
+
+  & > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: clamp(600px, 90vw, var(--maxWidth));
+  }
 `;
 
 const AuthorCardContainer = styled.div`
@@ -84,31 +99,33 @@ export default function Nav({ path }) {
 
   return (
     <NavContainer theme={theme}>
-      <AuthorCard />
-      <StyledNav>
-        <ul>
-          <li>
-            <Link to="/about-me" className={currentRootPage === 'about-me' ? 'active' : ''}>
-              About Me
-            </Link>
-          </li>
-          <li>
-            <Link to="/blog" className={currentRootPage === 'blog' ? 'active' : ''}>
-              Blog
-            </Link>
-          </li>
-          <li>
-            <Link to="/portfolio" className={currentRootPage === 'portfolio' ? 'active' : ''}>
-              Portfolio
-            </Link>
-          </li>
-          <li>
-            <Link to="/contact-me" className="callToAction">
-              <FaUserAlt /> Hire Me
-            </Link>
-          </li>
-        </ul>
-      </StyledNav>
+      <div>
+        <AuthorCard />
+        <StyledNav>
+          <ul>
+            <li>
+              <Link to="/about-me" className={currentRootPage === 'about-me' ? 'active' : ''}>
+                About Me
+              </Link>
+            </li>
+            <li>
+              <Link to="/blog" className={currentRootPage === 'blog' ? 'active' : ''}>
+                Blog
+              </Link>
+            </li>
+            <li>
+              <Link to="/portfolio" className={currentRootPage === 'portfolio' ? 'active' : ''}>
+                Portfolio
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact-me" className="callToAction">
+                <FaUserAlt /> Hire Me
+              </Link>
+            </li>
+          </ul>
+        </StyledNav>
+      </div>
     </NavContainer>
   );
 }
