@@ -55,12 +55,12 @@ const Typography = createGlobalStyle`
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     font-weight: 300;
     color: var(--primaryText);
+    letter-spacing: 0.5px;
   }
 
   /* Header Styles */
 
   h1,h2,h3,h4,h5,h6 {
-    letter-spacing: 1px;
     color: var(--headerText);
   }
 
