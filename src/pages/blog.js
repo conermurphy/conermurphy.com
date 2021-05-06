@@ -1,7 +1,7 @@
 import { graphql } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
-import { BlogPostCard, HeroPostCard } from '../components/BlogPostCard';
+import { BlogPostCard, HeroPostCard } from '../components/PostCards';
 import { Hero } from '../components/Hero';
 import Pagination from '../components/Pagination';
 import SEO from '../components/SEO';
@@ -30,7 +30,7 @@ export default function Blog({ data, pageContext, path }) {
     edges: [latestPost],
   } = data.latestPost;
 
-  const { currentPage, tag } = pageContext; // Used for pagination.
+  const { currentPage } = pageContext; // Used for pagination.
 
   const heroContent = {
     title: 'Blog',
@@ -39,13 +39,7 @@ export default function Blog({ data, pageContext, path }) {
     CTALink: '',
   };
 
-  let pageTitle;
-
-  if (tag) {
-    pageTitle = `${tag} Blog Posts ${currentPage ? `- Page ${currentPage}` : ''}`;
-  } else {
-    pageTitle = `Blog ${currentPage ? `- Page ${currentPage}` : ''}`;
-  }
+  const pageTitle = `Blog ${currentPage ? `- Page ${currentPage}` : ''}`;
 
   return (
     <>
