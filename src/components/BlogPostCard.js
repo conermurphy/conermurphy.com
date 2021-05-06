@@ -24,14 +24,19 @@ const BlogPostContainer = styled.div`
 `;
 
 const HeroPostContainer = styled.div`
-  display: grid;
-  grid-template-columns: 700px 400px;
-  align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
   justify-content: center;
-  max-width: var(--maxWidth);
+  flex-wrap: wrap;
+  gap: 2rem;
+
+  & > div {
+    width: clamp(300px, 20vw, 400px);
+  }
 
   .gatsby-image-wrapper {
-    max-width: 700px;
+    width: clamp(300px, 40vw, 700px);
     border-radius: var(--borderRadius);
   }
 
@@ -44,6 +49,10 @@ const HeroPostContainer = styled.div`
 
   .title {
     line-height: 3.2rem;
+  }
+
+  .readMore {
+    font-weight: 600;
   }
 `;
 
@@ -62,6 +71,7 @@ export function HeroPostCard({ post }) {
           <p className="published">Published on {date}</p>
           <h3 className="title">{title}</h3>
           {description !== '' ? <p>{description}</p> : <p>{excerpt}</p>}
+          <p className="readMore">Read more...</p>
         </div>
       </HeroPostContainer>
     </Link>

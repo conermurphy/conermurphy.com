@@ -12,7 +12,6 @@ const AllPostsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 2rem 0;
   width: 100vw;
 
   & > div {
@@ -73,7 +72,7 @@ export default function Blog({ data, pageContext, path }) {
 }
 
 export const query = graphql`
-  query($skip: Int = 1, $pageSize: Int = 4) {
+  query($skip: Int = 1, $pageSize: Int = 8) {
     blog: allMdx(
       skip: $skip
       limit: $pageSize
