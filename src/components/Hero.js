@@ -14,6 +14,7 @@ const HeroContainer = styled.div`
   & > h2 {
     font-size: 2.5rem;
     margin-top: 0;
+    max-width: 400px;
   }
 
   & > .callToAction {
