@@ -234,3 +234,9 @@
     to = "/blog"
     force = false
     status = 410
+
+[[redirects]]
+    from = "/portfolio"
+    to = "/projects"
+    force = false
+    status = 301
