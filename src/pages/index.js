@@ -4,6 +4,7 @@ import SEO from '../components/SEO';
 import { ServiceSection } from '../components/Services';
 import { Testimonials } from '../components/Testimonials';
 import { Hero } from '../components/Hero';
+import { CallToAction } from '../components/CallToAction';
 
 export default function HomePage({ path }) {
   const heroContent = {
@@ -23,6 +24,7 @@ export default function HomePage({ path }) {
       />
       <Hero content={heroContent} />
       <ServiceSection />
+      <CallToAction />
       <Testimonials />
     </>
   );
