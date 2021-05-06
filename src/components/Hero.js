@@ -14,7 +14,7 @@ const HeroContainer = styled.div`
   & > h2 {
     font-size: 2.5rem;
     margin-top: 0;
-    max-width: 500px;
+    max-width: 550px;
   }
 `;
 
