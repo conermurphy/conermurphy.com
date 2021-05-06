@@ -38,6 +38,7 @@ const GlobalStyles = createGlobalStyle`
     gap: 1rem;
     text-decoration: none;
     font-weight: 600;
+    filter: drop-shadow(var(--shadow));
    }
 
    /* Scrollbar Styles */
