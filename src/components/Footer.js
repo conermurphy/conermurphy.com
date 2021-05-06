@@ -5,7 +5,7 @@ import { EmailSignup } from './EmailSignup';
 import ContactIcons from './ContactIcons';
 import { HireMe } from './HireMe';
 import { AuthorCard } from './Nav';
-import { BlogPostCard } from './BlogPostCard';
+import { BlogPostCard } from './PostCards';
 
 const FooterBody = styled.footer`
   display: flex;
