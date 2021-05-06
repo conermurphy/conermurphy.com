@@ -8,28 +8,32 @@ const PaginationContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  margin: 5rem;
   flex-wrap: wrap;
+  gap: 1rem;
 
-  @media (max-width: 600px) {
-    max-width: 90%;
+  .nextPrevButton {
+    background-color: var(--accent);
+    color: var(--primaryBg);
   }
 
   & > * {
     padding: 1rem 2rem;
     text-decoration: none;
+    border-radius: var(--borderRadius);
+    font-weight: 600;
+    background-color: var(--secondaryBg);
 
     &[aria-current],
     &.current {
-      color: var(--green);
-      font-weight: 600;
-      border-bottom: 2px solid var(--green);
+      background-color: var(--accent);
+      color: var(--primaryBg);
     }
     &[disabled] {
       pointer-events: none;
-      text-decoration: line-through;
-      color: var(--black);
       opacity: 0.5;
+      color: var(--primaryText);
+      background-color: var(--secondaryBg);
     }
   }
 `;
@@ -48,7 +52,7 @@ export default function Pagination({ pageSize, totalCount, currentPage, skip, ba
 
   return (
     <PaginationContainer>
-      <Link title="prev page" disabled={!hasPrevPage} to={prevLink}>
+      <Link title="prev page" disabled={!hasPrevPage} to={prevLink} className="nextPrevButton">
         &#8592; <span className="word">Previous</span>{' '}
       </Link>
       {Array.from({ length: totalPages }).map((_, i) => (
@@ -60,7 +64,7 @@ export default function Pagination({ pageSize, totalCount, currentPage, skip, ba
           {i + 1}
         </Link>
       ))}
-      <Link title="next page" disabled={!hasNextPage} to={nextLink}>
+      <Link title="next page" disabled={!hasNextPage} to={nextLink} className="nextPrevButton">
         <span className="word">Next</span> &#8594;
       </Link>
     </PaginationContainer>
