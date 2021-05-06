@@ -98,8 +98,7 @@ export function Testimonials() {
       <div className="sectionTitle">
         <h2 className="title">What People Have Been Saying...</h2>
         <h3 className="subtitle">
-          It’s not just about building amazing websites. It’s about fostering a great relationship and understanding your businesses needs.
-          Here’s what People Have Been Saying...
+          It’s not just about building amazing websites. It’s about fostering great relationships and understanding your businesses needs...
         </h3>
       </div>
       <div className="TestimonialCardsContainer">
