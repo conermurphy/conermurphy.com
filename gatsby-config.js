@@ -11,19 +11,16 @@ export default {
     twitterUsername: '@MrConerMurphy',
     image: '/Logo.png',
   },
+  flags: {
+    FAST_DEV: true,
+    PARALLEL_SOURCING: true,
+  },
   plugins: [
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         path: `${__dirname}/src/content/`,
         name: 'content',
-      },
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        path: `${__dirname}/src/assets/`,
-        name: 'assets',
       },
     },
     {

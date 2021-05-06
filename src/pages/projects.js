@@ -1,0 +1,99 @@
+import React from 'react';
+import styled from 'styled-components';
+import { graphql } from 'gatsby';
+import SEO from '../components/SEO';
+import Pagination from '../components/Pagination';
+import { ProjectCard } from '../components/PostCards';
+import { Hero } from '../components/Hero';
+import { Testimonials } from '../components/Testimonials';
+
+const AllProjectsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5rem;
+  margin: 5rem 0;
+`;
+
+export default function Projects({ data, pageContext, path }) {
+  const { edges: projectPosts, totalCount } = data.projects;
+  const { currentPage, skip } = pageContext;
+
+  const heroContent = {
+    title: 'Projects',
+    subtitle: '',
+    CTA: '',
+    CTALink: '',
+  };
+
+  const pageTitle = `Projects ${currentPage ? `- Page ${currentPage}` : ''}`;
+
+  return (
+    <>
+      <SEO
+        post={{
+          slug: path,
+          title: pageTitle,
+        }}
+      />
+      <Hero content={heroContent} />
+      {totalCount > 8 ? (
+        <Pagination
+          pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
+          totalCount={totalCount}
+          currentPage={currentPage || 1}
+          skip={skip}
+          base={path}
+        />
+      ) : null}
+      <AllProjectsContainer>
+        {projectPosts.map(({ node }) => (
+          <ProjectCard key={node.id} project={node} />
+        ))}
+      </AllProjectsContainer>
+      {totalCount > 8 ? (
+        <Pagination
+          pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
+          totalCount={totalCount}
+          currentPage={currentPage || 1}
+          skip={skip}
+          base={path}
+        />
+      ) : null}
+      <Testimonials />
+    </>
+  );
+}
+
+export const query = graphql`
+  query($skip: Int = 0, $pageSize: Int = 8) {
+    projects: allMdx(
+      limit: $pageSize
+      skip: $skip
+      filter: { fields: { contentCategory: { eq: "projects" } } }
+      sort: { fields: frontmatter___date, order: DESC }
+    ) {
+      edges {
+        node {
+          id
+          frontmatter {
+            title
+            tags
+            slug
+            description
+            repo
+            URL
+            date(formatString: "MMM Do YYYY")
+            image {
+              childImageSharp {
+                gatsbyImageData
+              }
+            }
+          }
+        }
+      }
+      totalCount
+    }
+  }
+`;

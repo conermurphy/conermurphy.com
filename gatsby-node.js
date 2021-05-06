@@ -1,6 +1,5 @@
 import path from 'path';
 import { createFilePath } from 'gatsby-source-filesystem';
-import portfolioData from './src/data/portfolio.json';
 
 // This is the function called to create the main pages for each base.
 function createMainPages(actions, base, component, totalCount) {
@@ -165,36 +164,6 @@ async function turnTwitterThreadsIntoPages({ graphql, actions }) {
 }
 
 // === End of creating pages / posts ===
-
-// Sourcing the portfolio data into the graphQL API to allow us to create pages off the tags for each post.
-async function fetchPortfolioAndTurnIntoNodes({ actions, createNodeId, createContentDigest }) {
-  // portfolioData is imported at the top of the file.
-
-  // loop over data and create a node for each one
-  portfolioData.forEach((post) => {
-    // create the nodeMedta data for each post
-    const postMeta = {
-      id: createNodeId(`portfolioPost-${post.title}`),
-      parent: null,
-      children: [],
-      internal: {
-        type: 'Portfolio',
-        mediaType: 'application/json',
-        contentDigest: createContentDigest(post),
-      },
-    };
-    // actually creating the node.
-    actions.createNode({
-      ...post,
-      ...postMeta,
-    });
-  });
-}
-
-export async function sourceNodes(params) {
-  // fetch the portfolio data json file locally and turn into GraphQL nodes to allow us to create portfolio tag pages off the tag and query for all the posts on the portfolio page.
-  await Promise.all([fetchPortfolioAndTurnIntoNodes(params)]);
-}
 
 export async function createPages(params) {
   // After the creation of the nodes create pages for each custom type.
