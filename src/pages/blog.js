@@ -1,28 +1,44 @@
 import { graphql } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
-import { BlogPostCard } from '../components/BlogPostCard';
+import { BlogPostCard, HeroPostCard } from '../components/BlogPostCard';
+import { Hero } from '../components/Hero';
 import Pagination from '../components/Pagination';
 import SEO from '../components/SEO';
+import { Testimonials } from '../components/Testimonials';
 
 const AllPostsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 4rem;
-  padding: 1rem 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0;
+  width: 100vw;
 
-  * {
-    text-decoration: none;
-  }
-
-  @media (max-width: 600px) {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  & > div {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    align-items: flex-start;
+    justify-items: center;
+    width: clamp(400px, 90vw, 900px);
+    gap: 4rem 2rem;
   }
 `;
 
 export default function Blog({ data, pageContext, path }) {
   const { edges: blogPosts, totalCount } = data.blog;
+  const {
+    edges: [latestPost],
+  } = data.latestPost;
+
   const { currentPage, tag } = pageContext; // Used for pagination.
+
+  const heroContent = {
+    title: 'Blog',
+    subtitle: 'Here is where you’ll find all my blog posts. I cover everything from tutorials to content creation and more.',
+    CTA: '',
+    CTALink: '',
+  };
 
   let pageTitle;
 
@@ -40,23 +56,24 @@ export default function Blog({ data, pageContext, path }) {
           title: pageTitle,
         }}
       />
-      <div className="headerTitleSeperator">
-        <h1>Blog</h1>
-      </div>
+      <Hero content={heroContent} />
+      <HeroPostCard post={latestPost.node} />
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
       <AllPostsContainer>
-        {blogPosts.map(({ node }) => {
-          console.log(node);
-          return <BlogPostCard key={`blogPostCard-${node.frontmatter.title}`} post={node} />;
-        })}
+        <div>
+          {blogPosts.map(({ node }) => (
+            <BlogPostCard key={`blogPostCard-${node.frontmatter.title}`} post={node} />
+          ))}
+        </div>
       </AllPostsContainer>
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
+      <Testimonials />
     </>
   );
 }
 
 export const query = graphql`
-  query($skip: Int = 0, $pageSize: Int = 6) {
+  query($skip: Int = 1, $pageSize: Int = 4) {
     blog: allMdx(
       skip: $skip
       limit: $pageSize
@@ -86,6 +103,26 @@ export const query = graphql`
         }
       }
       totalCount
+    }
+    latestPost: allMdx(limit: 1, sort: { fields: frontmatter___date, order: DESC }, filter: { frontmatter: { published: { eq: true } } }) {
+      edges {
+        node {
+          frontmatter {
+            date(formatString: "MMM Do YYYY")
+            description
+            title
+            image {
+              childImageSharp {
+                gatsbyImageData(layout: FULL_WIDTH)
+              }
+            }
+          }
+          fields {
+            slug
+          }
+          excerpt
+        }
+      }
     }
   }
 `;
