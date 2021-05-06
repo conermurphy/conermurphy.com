@@ -29,23 +29,3 @@ export default function HomePage({ path }) {
     </>
   );
 }
-
-export const query = graphql`
-  query HomePageContentQuery {
-    portfolio: allPortfolio(limit: 3, sort: { order: DESC, fields: date }) {
-      edges {
-        node {
-          tags
-          repo
-          id
-          description
-          date(formatString: "DD/MM/YYYY")
-          URL
-          type
-          title
-          image
-        }
-      }
-    }
-  }
-`;
