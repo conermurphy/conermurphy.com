@@ -94,7 +94,7 @@ export default function Nav({ path }) {
   if (path === undefined) {
     currentRootPage = '';
   } else {
-    currentRootPage = path.split('/')[1]; // Used to determine what root page the user is on. e.g. blog, notes, portfolio...
+    currentRootPage = path.split('/')[1]; // Used to determine what root page the user is on. e.g. blog, notes, projects...
   }
 
   return (
@@ -114,8 +114,8 @@ export default function Nav({ path }) {
               </Link>
             </li>
             <li>
-              <Link to="/portfolio" className={currentRootPage === 'portfolio' ? 'active' : ''}>
-                Portfolio
+              <Link to="/projects" className={currentRootPage === 'projects' ? 'active' : ''}>
+                Projects
               </Link>
             </li>
             <li>
