@@ -16,10 +16,6 @@ const HeroContainer = styled.div`
     margin-top: 0;
     max-width: 400px;
   }
-
-  & > .callToAction {
-    padding: 1.5rem 5rem;
-  }
 `;
 
 export function Hero({ content }) {

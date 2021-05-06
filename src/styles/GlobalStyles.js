@@ -30,7 +30,7 @@ const GlobalStyles = createGlobalStyle`
 
    .callToAction {
     background-color: var(--accent);
-    padding: 1rem 1.5rem;
+    padding: 1.5rem 5rem;
     color: var(--primaryBg);
     border-radius: var(--borderRadius);
     display: flex;
