@@ -1,3 +1,4 @@
+import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -30,9 +31,9 @@ export function CallToAction() {
       <div>
         <h2 className="title">Got Questions?</h2>
         <h3 className="subtitle">Let’s book some time together to cover all your questions and concerns.</h3>
-        <a href="/contact-me" className="callToAction">
+        <Link to="/contact-me" className="callToAction">
           Book A Call.
-        </a>
+        </Link>
       </div>
     </CTAContainer>
   );
