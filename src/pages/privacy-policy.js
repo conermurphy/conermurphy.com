@@ -54,7 +54,7 @@ export default function PrivacyPolicy() {
         <h2>Introduction</h2>
         <p>
           Hi, welcome to my website. I'm Coner and this website (conermurphy.com) is my portfolio and blog for all of the content I create
-          and share with the world. This ranges from things like blog posts and notes to my portfolio of work including both personal
+          and share with the world. This ranges from things like blog posts and notes to my projects of work including both personal
           projects and projects from previous clients.
         </p>
         <h2>Information Collected</h2>
