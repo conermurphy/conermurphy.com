@@ -11,7 +11,7 @@ const ServiceSectionContainer = styled.section`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  padding-top: 5rem;
+  padding: 5rem 0;
 
   & > h2,
   h3 {
