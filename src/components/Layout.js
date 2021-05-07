@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import 'normalize.css';
+import { motion } from 'framer-motion';
 import Typography from '../styles/Typography';
 import GlobalStyles from '../styles/GlobalStyles';
 import Nav from './Nav';
@@ -14,17 +15,25 @@ const SiteContainer = styled.div`
   position: relative;
 `;
 
-const ContentContainer = styled.div``;
-
 export default function Layout({ children, path }) {
   return (
     <SiteContainer>
       <Typography />
       <GlobalStyles />
-      <ContentContainer>
-        <Nav path={path} />
+      <Nav path={path} />
+      <motion.main
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{
+          type: 'spring',
+          mass: 0.35,
+          stiffness: 75,
+          duration: 0.5,
+        }}
+      >
         {children}
-      </ContentContainer>
+      </motion.main>
       <Footer />
     </SiteContainer>
   );

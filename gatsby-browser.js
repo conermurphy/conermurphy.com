@@ -1,9 +1,14 @@
+import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 import Layout from './src/components/Layout';
 import { NavThemeProvider } from './src/context/NavThemeContext';
 
 export function wrapPageElement({ element, props }) {
-  return <Layout {...props}>{element}</Layout>;
+  return (
+    <AnimatePresence exitBeforeEnter>
+      <Layout {...props}>{element}</Layout>
+    </AnimatePresence>
+  );
 }
 
 export function wrapRootElement({ element }) {
