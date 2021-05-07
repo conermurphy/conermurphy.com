@@ -8,7 +8,7 @@ import SEO from '../components/SEO';
 // MDX Component Imports Used on each page.
 import Components from '../components/mdx/Components';
 import ClosingComponents from '../components/mdx/ClosingComponents';
-import { PostBodyContainer, PostContainer, BlogHeader } from '../styles/BlogNoteStyles';
+import { PostBodyContainer, PostContainer, BlogHeader } from '../styles/BlogPostStyles';
 import { Sidebar } from '../components/mdx/Sidebar';
 
 const BlogPost = ({ data, pageContext, path, location }) => {
