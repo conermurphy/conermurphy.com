@@ -19,12 +19,21 @@ const TweetContainer = styled.div`
 
   border: 1px solid rgba(0, 0, 0, 0.1);
 
+  margin: 0 1rem;
+
   overflow: hidden;
 
   .imagesContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+
     max-width: 550px;
     max-height: 300px;
     overflow: hidden;
+    filter: drop-shadow(var(--shadow));
+    border-radius: var(--borderRadius);
   }
 
   .tweetHeader {
@@ -90,6 +99,11 @@ const TwitterAuthorContainer = styled.div`
   .author {
     font-weight: bold;
   }
+`;
+
+const CustomGatsbyImage = styled(GatsbyImage)`
+  width: ${(props) => (props.imageCount === 1 ? 'clamp(300px, 60vw, 550px)' : '150px')};
+  height: ${(props) => (props.imageCount === 1 ? '300px' : '150px')};
 `;
 
 function TwitterAuthor() {
@@ -175,7 +189,7 @@ export default function TwitterThreadItem({ tweet }) {
           </ul>
         )}
         <div className="imagesContainer">
-          {images && images.map((image) => <GatsbyImage image={image.childImageSharp.gatsbyImageData} imageCount={images.length} />)}
+          {images && images.map((image) => <CustomGatsbyImage image={image.childImageSharp.gatsbyImageData} imageCount={images.length} />)}
         </div>
       </div>
       <div className="tweetFooter">
