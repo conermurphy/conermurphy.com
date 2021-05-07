@@ -282,3 +282,51 @@
     to = "/threads/post-cross-posting"
     force = false
     status = 301
+
+[[redirects]]
+    from = "/threads/javascript"
+    to = "/threads"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/javascript/2"
+    to = "/threads"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/gatsbyjs"
+    to = "/threads"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/blogging"
+    to = "/threads"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/other"
+    to = "/threads"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/r"
+    to = "/threads"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/graphql"
+    to = "/threads"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/nodejs"
+    to = "/threads"
+    force = false
+    status = 301
