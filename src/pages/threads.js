@@ -32,7 +32,7 @@ export default function Threads({ data, pageContext, path }) {
 
   const heroContent = {
     title: 'Twitter Threads',
-    subtitle: 'I publish a lot of free content over at my Twitter. Here are all of my threads.',
+    subtitle: 'I publish a lot of free content over on Twitter. Here are all of my threads.',
     CTA: 'Follow me on Twitter',
     CTALink: 'https://twitter.com/MrConerMurphy',
   };
