@@ -1,48 +1,55 @@
 import styled from 'styled-components';
 import React from 'react';
 
-const H1 = styled.h1`
-  font-size: 2.75rem;
-`;
+const H1 = styled.h1``;
 
 const H2 = styled.h2`
-  font-size: 2.25rem;
-  text-transform: uppercase;
-  font-family: var(--body-font);
-  border-bottom: 2px solid var(--green);
   padding: 1rem 0;
   font-weight: bold;
+  margin: 0;
+  font-size: 3.5rem;
+  font-family: 'Open Sans';
+
+  & > a {
+    font-size: inherit;
+  }
 `;
 
 const H3 = styled.h3`
-  font-size: 2rem;
-  text-transform: uppercase;
-  font-family: var(--body-font);
   font-weight: bold;
-  border-bottom: 2px solid var(--green);
   padding: 1rem 0;
+  font-family: 'Open Sans';
+
+  & > a {
+    font-size: inherit;
+  }
 `;
 
 const H4 = styled.h4`
-  font-size: 1.75rem;
-  text-transform: uppercase;
-  font-family: var(--body-font);
-  border-bottom: 2px solid var(--green);
   padding: 1rem 0;
+  font-family: 'Open Sans';
+
+  & > a {
+    font-size: inherit;
+  }
 `;
 
 const H5 = styled.h5`
-  font-size: 1.75rem;
-  text-transform: uppercase;
-  font-family: var(--body-font);
   padding: 1rem 0;
+  font-family: 'Open Sans';
+
+  & > a {
+    font-size: inherit;
+  }
 `;
 
 const H6 = styled.h6`
-  font-size: 1.5rem;
-  text-transform: uppercase;
-  font-family: var(--body-font);
   padding: 1rem 0;
+  font-family: 'Open Sans';
+
+  & > a {
+    font-size: inherit;
+  }
 `;
 
 const ALinks = styled.a`
@@ -58,7 +65,8 @@ const HR = styled.hr`
 `;
 
 const Code = styled.code`
-  font-family: var(--body-font);
+  font-family: 'Inconsolata';
+  font-weight: 400;
   font-size: 1.3rem;
   padding: 1rem;
 `;
@@ -66,9 +74,10 @@ const Code = styled.code`
 const InlineCode = styled(Code)`
   background-color: #193549;
   padding: 0.5rem 1rem;
-  color: var(--white);
-  font-weight: bold;
+  color: var(--accentText);
   white-space: nowrap;
+  font-family: 'Inconsolata';
+  font-weight: 400;
 `;
 
 const Pre = styled.pre`

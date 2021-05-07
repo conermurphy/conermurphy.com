@@ -1,47 +1,11 @@
 import styled from 'styled-components';
 
-const PostBodyContainer = styled.div`
-  & > h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    position: relative;
-
-    & > a {
-      text-decoration: none;
-      width: 100%;
-
-      :hover {
-        text-decoration: underline;
-
-        & ::before {
-          content: '🔗';
-          transform: translateX(-2rem);
-          position: absolute;
-          font-size: 1.5rem;
-          bottom: 12.5px;
-
-          @media (max-width: 600px) {
-            display: none;
-          }
-        }
-      }
-    }
-  }
-`;
-
 const PostContainer = styled.article`
   display: flex;
   flex-direction: column;
   margin: auto;
   padding-bottom: 0;
-  max-width: 700px;
-
-  @media (max-width: 800px) {
-    margin: 2.5rem;
-  }
+  width: clamp(300px, 60vw, 1200px);
 
   & > .heroImage {
     border-radius: var(--borderRadius);
@@ -53,4 +17,78 @@ const PostContainer = styled.article`
   }
 `;
 
-export { PostContainer, PostBodyContainer };
+const PostBodyContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  .content {
+    max-width: 900px;
+  }
+
+  & > h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    position: relative;
+
+    /* This is for the link emoji next to the headers on hover */
+    & > a {
+      text-decoration: none;
+      width: 100%;
+
+      :hover {
+        text-decoration: underline;
+
+        & ::before {
+          content: '🔗';
+          transform: translateX(-2.5rem);
+          position: absolute;
+          font-size: 1.6rem;
+          bottom: 12.5px;
+
+          @media (max-width: 600px) {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+`;
+
+const BlogHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  width: clamp(300px, 60vw, 800px);
+
+  .postTitle {
+    font-size: 4.5rem;
+    text-align: center;
+    margin: 1rem;
+  }
+
+  .tagContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    & > .tag {
+      padding: 1.25rem 2rem;
+      background-color: var(--accent);
+      filter: drop-shadow(var(--shadow));
+      border-radius: var(--borderRadius);
+      color: var(--accentText);
+      font-weight: bold;
+      font-size: 1.4rem;
+    }
+  }
+`;
+
+export { PostContainer, PostBodyContainer, BlogHeader };

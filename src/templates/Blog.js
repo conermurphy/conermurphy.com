@@ -9,32 +9,16 @@ import SEO from '../components/SEO';
 // MDX Component Imports Used on each page.
 import Components from '../components/mdx/Components';
 import ClosingComponents from '../components/mdx/ClosingComponents';
-import { PostBodyContainer, PostContainer } from '../styles/BlogNoteStyles';
-
-const BlogHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-
-  .postTitle {
-    font-size: 2.75rem;
-  }
-
-  .postInfo {
-    margin-bottom: 2.5rem;
-  }
-`;
+import { PostBodyContainer, PostContainer, BlogHeader } from '../styles/BlogNoteStyles';
 
 const BlogPost = ({ data, pageContext, path }) => {
   // Destructing out values to use in page.
   const post = data.mdx;
   const { frontmatter, timeToRead, body, fileAbsolutePath, excerpt } = post;
-  const { image, title, description, date, plainDate } = frontmatter;
+  const { image, title, description, date, plainDate, tags } = frontmatter;
 
   // Setting image path for SEO if no image use the logo.
   const imagePath = image ? image.childImageSharp.gatsbyImageData.images.fallback.src : '/Logo.png';
-
 
   return (
     <>
@@ -49,20 +33,30 @@ const BlogPost = ({ data, pageContext, path }) => {
         }}
       />
       <PostContainer>
-        <GatsbyImage className="heroImage" image={image.childImageSharp.gatsbyImageData} />
         <BlogHeader>
+          <p>
+            {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes`}{' '}
+          </p>
           <h1 className="postTitle">{title}</h1>
-          <div className="postInfo">
-            <p>
-              {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes`}{' '}
-            </p>
+          <div className="tagContainer">
+            {tags.map((tag) => (
+              <p className="tag" key={tag}>
+                {tag}
+              </p>
+            ))}
           </div>
         </BlogHeader>
+        <GatsbyImage className="heroImage" image={image.childImageSharp.gatsbyImageData} />
         <PostBodyContainer>
-          <MDXProvider components={Components}>
-            <MDXRenderer>{body}</MDXRenderer>
-          </MDXProvider>
-          <ClosingComponents fileAbsolutePath={fileAbsolutePath} pageContext={pageContext} />
+          <div className="sidebar">
+            <p>Sidebar</p>
+          </div>
+          <div className="content">
+            <MDXProvider components={Components}>
+              <MDXRenderer>{body}</MDXRenderer>
+            </MDXProvider>
+            <ClosingComponents fileAbsolutePath={fileAbsolutePath} pageContext={pageContext} />
+          </div>
         </PostBodyContainer>
       </PostContainer>
     </>
@@ -89,7 +83,7 @@ export const query = graphql`
             gatsbyImageData(layout: FULL_WIDTH)
           }
         }
-        date(formatString: "DD/MM/YYYY")
+        date(formatString: "MMM Do YYYY")
         plainDate: date
         tags
       }
