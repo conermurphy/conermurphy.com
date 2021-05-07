@@ -54,9 +54,10 @@ export default function Blog({ data, pageContext, path }) {
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
       <AllPostsContainer>
         <div>
-          {blogPosts.map(({ node }) => (
-            <BlogPostCard key={`blogPostCard-${node.frontmatter.title}`} post={node} />
-          ))}
+          {blogPosts.map(({ node }) => {
+            if (node.frontmatter.published === false) return null;
+            return <BlogPostCard key={`blogPostCard-${node.frontmatter.title}`} post={node} />;
+          })}
         </div>
       </AllPostsContainer>
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
