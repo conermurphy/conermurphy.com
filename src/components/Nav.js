@@ -114,6 +114,11 @@ export default function Nav({ path }) {
               </Link>
             </li>
             <li>
+              <Link to="/threads" className={currentRootPage === 'threads' ? 'active' : ''}>
+                Threads
+              </Link>
+            </li>
+            <li>
               <Link to="/projects" className={currentRootPage === 'projects' ? 'active' : ''}>
                 Projects
               </Link>
