@@ -63,17 +63,26 @@ export function ProjectCard({ project }) {
 
   // 2: Return the card
   return (
-    <a href={URL} className="postLinks">
-      <HeroPostContainer>
-        <GatsbyImage image={image.childImageSharp.gatsbyImageData} alt={title} />
-        <div>
-          <p className="published">Published on {date}</p>
-          <h3 className="title">{title}</h3>
-          <p>{description}</p>
-          <p className="readMore">Check it out...</p>
-        </div>
-      </HeroPostContainer>
-    </a>
+    <HeroPostContainer>
+      <GatsbyImage image={image.childImageSharp.gatsbyImageData} alt={title} />
+      <div>
+        <p className="published">Published on {date}</p>
+        <h3 className="title">{title}</h3>
+        <p>{description}</p>
+        <p className="readMore">
+          <a href={URL} className="postLinks" target="_blank" rel="noopener noreferrer">
+            Check out the website here...
+          </a>
+        </p>
+        {repo && (
+          <p className="readMore">
+            <a href={repo} className="postLinks" target="_blank" rel="noopener noreferrer">
+              Check out the code repository here...
+            </a>
+          </p>
+        )}
+      </div>
+    </HeroPostContainer>
   );
 }
 
