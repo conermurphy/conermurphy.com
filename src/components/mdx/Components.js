@@ -95,6 +95,7 @@ const CustomIMG = styled.img`
   width: -moz-available;
   width: -webkit-fill-available;
   width: fill-available;
+  margin: 2rem 0;
 `;
 
 function copyToClip() {
