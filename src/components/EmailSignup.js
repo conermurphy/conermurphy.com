@@ -128,14 +128,14 @@ const MessageContainer = styled.div`
   }
 
   svg {
-    fill: var(--green);
+    fill: #89a98c;
     padding: 1rem;
     margin: 0 0.5rem;
   }
 
   svg[data-error] {
-    fill: var(--red);
-    border: 2px solid var(--red);
+    fill: #e95d70;
+    border: 2px solid #e95d70;
   }
 
   p {
