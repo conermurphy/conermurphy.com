@@ -17,7 +17,7 @@ const FormGridContainer = styled.form`
   justify-content: space-between;
 
   height: var(--height);
-  max-width: 500px;
+  width: clamp(300px, 30vw, 500px);
 
   color: var(--primaryText);
 
@@ -32,9 +32,10 @@ const FormGridContainer = styled.form`
     flex-grow: 1;
 
     padding: 0;
-    padding-left: 1rem;
     border: none;
     height: var(--height);
+    background-color: var(--accent);
+    color: var(--accentText);
 
     label {
       display: flex;
@@ -42,11 +43,13 @@ const FormGridContainer = styled.form`
       justify-content: center;
       gap: 1rem;
       flex-grow: 1;
+      padding-left: 1.5rem;
 
       input {
         width: 100%;
         height: var(--height);
         border: 0;
+        padding-left: 1rem;
       }
     }
   }
@@ -56,8 +59,8 @@ const FormGridContainer = styled.form`
   }
 
   .signupButton {
-    background-color: var(--secondaryBg);
-    color: var(--primaryText);
+    background-color: var(--accent);
+    color: var(--accentText);
     font-weight: bold;
     border: none;
     padding: var(--padding);
