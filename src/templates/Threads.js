@@ -1,7 +1,6 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import SEO from '../components/SEO';
 import Navigation from '../components/mdx/Navigation';
 import TwitterThreadItem from '../components/TwitterThreadItem';
@@ -50,7 +49,7 @@ const ThreadContainer = styled.div`
 
   .threadBody {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
@@ -119,20 +118,3 @@ export const query = graphql`
 `;
 
 export default TwitterThread;
-
-TwitterThread.propTypes = {
-  data: PropTypes.shape({
-    mdx: PropTypes.shape({
-      frontmatter: PropTypes.shape({
-        title: PropTypes.string,
-        date: PropTypes.string,
-        plainDate: PropTypes.string,
-        tags: PropTypes.array,
-        numberOfTweets: PropTypes.number,
-        tweets: PropTypes.array,
-      }),
-    }),
-  }),
-  pageContext: PropTypes.object,
-  path: PropTypes.string,
-};

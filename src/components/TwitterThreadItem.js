@@ -4,7 +4,6 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import { GatsbyImage } from 'gatsby-plugin-image';
-import PropTypes from 'prop-types';
 import Components from './mdx/Components';
 
 const TweetContainer = styled.div`
@@ -87,7 +86,7 @@ export default function TwitterThreadItem({ tweet }) {
 
   // 3: Destructure values out from required tweet
   const { body, frontmatter } = tweetToDispaly.node;
-  const { position, tweetId, date, images, links } = frontmatter;
+  const { position, tweetId, images, links } = frontmatter;
 
   return (
     <TweetContainer>
@@ -122,7 +121,3 @@ export default function TwitterThreadItem({ tweet }) {
     </TweetContainer>
   );
 }
-
-TwitterThreadItem.propTypes = {
-  tweet: PropTypes.string,
-};
