@@ -4,57 +4,115 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import { GatsbyImage } from 'gatsby-plugin-image';
+import { FaTwitter } from 'react-icons/fa';
 import Components from './mdx/Components';
+import { useSiteMetadata } from '../utils/useSiteMetadata';
 
 const TweetContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 2.5rem;
+
+  max-width: 600px;
+
   border-radius: var(--borderRadius);
-  box-shadow: var(--shadow);
+  background-color: var(--primaryBg);
+
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
   overflow: hidden;
-  max-width: 550px;
 
   .imagesContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    max-width: 550px;
+    max-height: 300px;
+    overflow: hidden;
+  }
 
-    & > .gatsby-image-wrapper {
-      max-height: 300px;
-    }
+  .tweetHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem;
+    margin-bottom: 0;
   }
 
   .tweetBody {
-    padding: 2rem;
+    margin: 2rem;
+    & > p {
+      margin: 1rem 0;
+    }
+  }
+
+  /* For Twitter Logo */
+  .twitterLogo {
+    color: #08a0e9;
+    width: 3rem;
+    height: 3rem;
   }
 
   .tweetFooter {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    height: 5rem;
-    padding: 0.5rem 2rem;
-    font-size: 1.5rem;
-    background-color: var(--grey);
+    justify-content: space-between;
+    padding: 0 2rem;
 
-    .position {
-      font-size: 1.6rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+    & > p {
+      margin: 1rem;
+      padding: 1rem 0;
+      font-size: 1.4rem;
     }
 
-    .viewTweet {
-      background-color: #1da1f2;
-      color: var(--white);
+    & > .copyTweetLink {
       border: none;
-      padding: 0.75rem 1rem;
-      border-radius: calc(var(--borderRadius) / 2);
-      text-decoration: none;
-      font-weight: bold;
+      background-color: var(--primaryBg);
+      cursor: pointer;
     }
   }
 `;
 
+const TwitterAuthorContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+
+  & > img {
+    width: 5rem;
+  }
+
+  & > div > p {
+    margin: 0;
+  }
+
+  .author {
+    font-weight: bold;
+  }
+`;
+
+function TwitterAuthor() {
+  const { title, image, twitterUsername } = useSiteMetadata();
+  return (
+    <a href="https://twitter.com/MrConerMurphy" className="postLinks" target="_blank" rel="noopener noreferrer">
+      <TwitterAuthorContainer>
+        <img src={image} alt={title} />
+        <div>
+          <p className="author">{title}</p>
+          <p>{twitterUsername}</p>
+        </div>
+      </TwitterAuthorContainer>
+    </a>
+  );
+}
+
 export default function TwitterThreadItem({ tweet }) {
+  // Function to copy link to tweet on Twitter to clipboard
+  function handleClick(link) {
+    navigator.clipboard.writeText(link);
+  }
+
   // 1: Querying for all tweets in all threads as unable to pass variables to static queries.
   const data = useStaticQuery(graphql`
     query {
@@ -86,12 +144,17 @@ export default function TwitterThreadItem({ tweet }) {
 
   // 3: Destructure values out from required tweet
   const { body, frontmatter } = tweetToDispaly.node;
-  const { position, tweetId, images, links } = frontmatter;
+  const { tweetId, images, links, date } = frontmatter;
+
+  const tweetLink = `https://twitter.com/MrConerMurphy/status/${tweetId}`;
 
   return (
     <TweetContainer>
-      <div className="imagesContainer">
-        {images && images.map((image) => <GatsbyImage image={image.childImageSharp.gatsbyImageData} />)}
+      <div className="tweetHeader">
+        <TwitterAuthor />
+        <a href={tweetLink} target="_blank" rel="noopener noreferrer">
+          <FaTwitter className="twitterLogo" />
+        </a>
       </div>
       <div className="tweetBody">
         <MDXProvider components={Components}>
@@ -99,7 +162,7 @@ export default function TwitterThreadItem({ tweet }) {
         </MDXProvider>
         {!!links && (
           <p style={{ paddingBottom: 0, marginBottom: 0 }}>
-            <b>Links:</b>
+            <b>🔗 Links in this Tweet:</b>
           </p>
         )}
         {!!links && (
@@ -111,12 +174,15 @@ export default function TwitterThreadItem({ tweet }) {
             ))}
           </ul>
         )}
+        <div className="imagesContainer">
+          {images && images.map((image) => <GatsbyImage image={image.childImageSharp.gatsbyImageData} imageCount={images.length} />)}
+        </div>
       </div>
       <div className="tweetFooter">
-        <p className="position">Tweet {position}</p>
-        <a className="viewTweet" target="_blank" rel="noopener noreferrer" href={`https://twitter.com/MrConerMurphy/status/${tweetId}`}>
-          View On Twitter
-        </a>
+        <p>{date}</p>
+        <button type="button" className="copyTweetLink" onClick={() => handleClick(tweetLink)}>
+          🔗 Copy the link to this tweet
+        </button>
       </div>
     </TweetContainer>
   );

@@ -53,12 +53,13 @@ const ThreadContainer = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
+    gap: 2rem;
   }
 `;
 
 const TwitterThread = ({ data, pageContext, path }) => {
   const { frontmatter } = data.mdx;
-  const { title, date, plainDate, tags, numberOfTweets, tweets } = frontmatter;
+  const { title, date, plainDate, tweets } = frontmatter;
 
   return (
     <>
@@ -76,17 +77,13 @@ const TwitterThread = ({ data, pageContext, path }) => {
           <p className="author">
             Thread By <a href="https://twitter.com/MrConerMurphy">@MrConerMurphy</a>
           </p>
-          <div className="threadMetaInfo">
-            <p className="date">{date}</p>
-            <p className="numberOfTweets">{numberOfTweets} Tweets</p>
-          </div>
-          <Navigation pageContext={pageContext} />
         </div>
         <article className="threadBody">
           {tweets.map((tweet) => (
             <TwitterThreadItem tweet={tweet} key={`Twitter-Thread-Tweet-${tweet}`} />
           ))}
         </article>
+        <Navigation pageContext={pageContext} />
       </ThreadContainer>
     </>
   );
