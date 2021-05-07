@@ -14,7 +14,7 @@ const PaginationContainer = styled.div`
 
   .nextPrevButton {
     background-color: var(--accent);
-    color: var(--primaryBg);
+    color: var(--accentText);
   }
 
   & > * {
@@ -27,7 +27,7 @@ const PaginationContainer = styled.div`
     &[aria-current],
     &.current {
       background-color: var(--accent);
-      color: var(--primaryBg);
+      color: var(--accentText);
     }
     &[disabled] {
       pointer-events: none;

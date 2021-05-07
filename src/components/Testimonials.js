@@ -59,7 +59,7 @@ const TestimonialIconContainer = styled.div`
   left: -2rem;
 
   background-color: var(--accent);
-  color: var(--primaryBg);
+  color: var(--accentText);
 
   border-radius: 0.5rem;
   padding: 1rem;

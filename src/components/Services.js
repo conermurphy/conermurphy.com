@@ -49,7 +49,7 @@ const ServiceCardContainer = styled.div`
 
     & > svg {
       background-color: var(--accent);
-      color: var(--primaryBg);
+      color: var(--accentText);
       padding: 1rem;
       border-radius: calc(var(--borderRadius) / 2);
     }
