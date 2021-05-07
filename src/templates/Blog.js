@@ -1,6 +1,5 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import styled from 'styled-components';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
@@ -10,8 +9,9 @@ import SEO from '../components/SEO';
 import Components from '../components/mdx/Components';
 import ClosingComponents from '../components/mdx/ClosingComponents';
 import { PostBodyContainer, PostContainer, BlogHeader } from '../styles/BlogNoteStyles';
+import { Sidebar } from '../components/mdx/Sidebar';
 
-const BlogPost = ({ data, pageContext, path }) => {
+const BlogPost = ({ data, pageContext, path, location }) => {
   // Destructing out values to use in page.
   const post = data.mdx;
   const { frontmatter, timeToRead, body, fileAbsolutePath, excerpt } = post;
@@ -19,6 +19,13 @@ const BlogPost = ({ data, pageContext, path }) => {
 
   // Setting image path for SEO if no image use the logo.
   const imagePath = image ? image.childImageSharp.gatsbyImageData.images.fallback.src : '/Logo.png';
+
+  const postData = {
+    title,
+    url: location.href,
+    twitterHande: 'MrConerMurphy',
+    tags,
+  };
 
   return (
     <>
@@ -35,7 +42,7 @@ const BlogPost = ({ data, pageContext, path }) => {
       <PostContainer>
         <BlogHeader>
           <p>
-            {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes`}{' '}
+            {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes Read`}{' '}
           </p>
           <h1 className="postTitle">{title}</h1>
           <div className="tagContainer">
@@ -48,9 +55,7 @@ const BlogPost = ({ data, pageContext, path }) => {
         </BlogHeader>
         <GatsbyImage className="heroImage" image={image.childImageSharp.gatsbyImageData} />
         <PostBodyContainer>
-          <div className="sidebar">
-            <p>Sidebar</p>
-          </div>
+          <Sidebar data={postData} />
           <div className="content">
             <MDXProvider components={Components}>
               <MDXRenderer>{body}</MDXRenderer>

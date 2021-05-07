@@ -5,7 +5,7 @@ const PostContainer = styled.article`
   flex-direction: column;
   margin: auto;
   padding-bottom: 0;
-  width: clamp(300px, 60vw, 1200px);
+  width: clamp(300px, 60vw, 1000px);
 
   & > .heroImage {
     border-radius: var(--borderRadius);
@@ -23,7 +23,7 @@ const PostBodyContainer = styled.div`
   justify-content: center;
 
   .content {
-    max-width: 900px;
+    max-width: 700px;
   }
 
   & > h1,
