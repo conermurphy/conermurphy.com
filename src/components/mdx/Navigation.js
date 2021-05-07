@@ -1,75 +1,28 @@
 import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const NavigationContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 50%);
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem 0;
-  width: 100%;
-
-  @media (max-width: 850px) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    & > a {
-      padding: 2rem;
-    }
-  }
-
-  & > a {
-    div {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      justify-content: center;
-      text-align: right;
-
-      @media (max-width: 850px) {
-        text-align: center;
-        align-items: center;
-      }
-
-      & > p {
-        margin: 0.5rem;
-      }
-    }
-
-    .previous {
-      align-items: flex-start;
-      text-align: left;
-
-      @media (max-width: 850px) {
-        text-align: center;
-        align-items: center;
-      }
-    }
-
-    .link {
-      font-weight: bold;
-    }
-  }
+  margin-top: 5rem;
 
   & > * {
-    padding: 0rem 2rem;
+    padding: 0 2rem;
     text-decoration: none;
+    background-color: var(--accent);
+    color: var(--accentText);
+    border-radius: var(--borderRadius);
+    filter: drop-shadow(var(--shadow));
+    font-weight: bold;
 
-    &[aria-current],
-    &.current {
-      color: var(--green);
-      font-weight: 600;
-      border-bottom: 2px solid var(--green);
-    }
     &[disabled] {
       pointer-events: none;
-      text-decoration: line-through;
-      color: var(--black);
       opacity: 0.5;
+      color: var(--primaryText);
+      background-color: var(--secondaryBg);
     }
   }
 `;
@@ -78,32 +31,21 @@ export default function Navigation({ pageContext: { next, prev } }) {
   const hasNextPage = !!next;
   const hasPrevPage = !!prev;
 
-  const prevTitle = prev !== null ? prev.frontmatter.title : '';
   const prevLink = prev !== null ? prev.fields.slug : '/';
-  const nextTitle = next !== null ? next.frontmatter.title : '';
   const nextLink = next !== null ? next.fields.slug : '/';
 
   return (
     <NavigationContainer>
       <Link title="Previous Page" disabled={!hasPrevPage} to={prevLink}>
         <div className="previous">
-          <p className="link">&#8592; Previous</p>
-          <p>{prevTitle}</p>
+          <p className="link">&#8592; Previous Post</p>
         </div>
       </Link>
       <Link title="Next Page" disabled={!hasNextPage} to={nextLink}>
         <div className="next">
-          <p className="link">Next &#8594; </p>
-          <p>{nextTitle}</p>
+          <p className="link">Next Post &#8594; </p>
         </div>
       </Link>
     </NavigationContainer>
   );
 }
-
-Navigation.propTypes = {
-  pageContext: PropTypes.shape({
-    next: PropTypes.object,
-    prev: PropTypes.object,
-  }),
-};
