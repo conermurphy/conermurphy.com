@@ -49,7 +49,7 @@ const PostFooterContainer = styled.div`
 
   border-top: 1px solid rgba(50, 59, 73, 0.5);
 
-  & > * {
+  & * {
     font-size: 1.4rem;
   }
 `;
