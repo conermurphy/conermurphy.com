@@ -1,9 +1,10 @@
+import { motion } from 'framer-motion';
 import { Link } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import React from 'react';
 import styled from 'styled-components';
 
-const BlogPostContainer = styled.div`
+const BlogPostContainer = styled(motion.div)`
   max-width: 400px;
 
   .gatsby-image-wrapper {
@@ -23,7 +24,7 @@ const BlogPostContainer = styled.div`
   }
 `;
 
-const HeroPostContainer = styled.div`
+const HeroPostContainer = styled(motion.div)`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -63,7 +64,7 @@ export function ProjectCard({ project }) {
 
   // 2: Return the card
   return (
-    <HeroPostContainer>
+    <HeroPostContainer whileHover={{ scale: 1.025 }}>
       <GatsbyImage image={image.childImageSharp.gatsbyImageData} alt={title} />
       <div>
         <p className="published">Published on {date}</p>
@@ -95,7 +96,7 @@ export function HeroPostCard({ post }) {
   // 2: Return the card
   return (
     <Link to={slug} className="postLinks">
-      <HeroPostContainer>
+      <HeroPostContainer whileHover={{ scale: 1.025 }} whileTap={{ scale: 0.975 }}>
         <GatsbyImage image={image.childImageSharp.gatsbyImageData} alt={title} />
         <div>
           <p className="published">Published on {date}</p>
@@ -116,7 +117,7 @@ export function BlogPostCard({ post }) {
 
   // 2: Return the card
   return (
-    <BlogPostContainer>
+    <BlogPostContainer whileHover={{ scale: 1.025 }} whileTap={{ scale: 0.975 }}>
       <Link to={slug} className="postLinks">
         <GatsbyImage image={image.childImageSharp.gatsbyImageData} alt={title} />
         <p className="published">Published on {date}</p>

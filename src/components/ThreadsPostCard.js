@@ -2,9 +2,9 @@ import { graphql, Link, useStaticQuery } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
 import { GatsbyImage } from 'gatsby-plugin-image';
-import { number } from 'prop-types';
+import { motion } from 'framer-motion';
 
-const ThreadContainer = styled.div`
+const ThreadContainer = styled(motion.div)`
   max-width: 400px;
 
   .gatsby-image-wrapper {
@@ -67,7 +67,7 @@ export default function ThreadPostCard({ thread }) {
   const { images } = frontmatter;
 
   return (
-    <ThreadContainer>
+    <ThreadContainer whileHover={{ scale: 1.025 }} whileTap={{ scale: 0.975 }}>
       <Link to={slug} className="postLinks">
         {images && <GatsbyImage image={images[0].childImageSharp.gatsbyImageData} />}
         <p className="published">Published on {date}</p>

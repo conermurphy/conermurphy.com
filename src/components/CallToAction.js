@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
@@ -26,14 +27,16 @@ const CTAContainer = styled.div`
 `;
 
 export function CallToAction() {
+  const MotionLink = motion(Link);
+
   return (
     <CTAContainer>
       <div>
         <h2 className="title">Got Questions?</h2>
         <h3 className="subtitle">Let’s book some time together to cover all your questions and concerns.</h3>
-        <Link to="/contact-me" className="callToAction">
+        <MotionLink to="/contact-me" className="callToAction" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           Book A Call.
-        </Link>
+        </MotionLink>
       </div>
     </CTAContainer>
   );

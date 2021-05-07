@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaTwitterSquare, FaLinkedin, FaEnvelopeSquare, FaInstagramSquare, FaGithubSquare, FaFacebookSquare } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const ContactIconsContainer = styled.ul`
   display: flex;
@@ -29,7 +30,7 @@ export default function ContactIcons() {
   return (
     <>
       <ContactIconsContainer>
-        <li>
+        <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <a
             href="https://github.com/conermurphy"
             target="_blank"
@@ -39,8 +40,8 @@ export default function ContactIcons() {
           >
             <FaGithubSquare style={{ fill: '#211F1F' }} />
           </a>
-        </li>
-        <li>
+        </motion.li>
+        <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <a
             href="https://twitter.com/MrConerMurphy"
             target="_blank"
@@ -50,8 +51,8 @@ export default function ContactIcons() {
           >
             <FaTwitterSquare style={{ fill: '#08a0e9' }} />
           </a>
-        </li>
-        <li>
+        </motion.li>
+        <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <a
             href="https://www.linkedin.com/in/coner-murphy/"
             target="_blank"
@@ -61,8 +62,8 @@ export default function ContactIcons() {
           >
             <FaLinkedin style={{ fill: '#0077B5' }} />
           </a>
-        </li>
-        <li>
+        </motion.li>
+        <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <a
             href="https://instagram.com/mrconermurphy/"
             target="_blank"
@@ -72,8 +73,8 @@ export default function ContactIcons() {
           >
             <FaInstagramSquare style={{ fill: '#515BD4' }} />
           </a>
-        </li>
-        <li>
+        </motion.li>
+        <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <a
             href="https://www.facebook.com/MrConerMurphy"
             target="_blank"
@@ -83,8 +84,8 @@ export default function ContactIcons() {
           >
             <FaFacebookSquare style={{ fill: '#3B5998' }} />
           </a>
-        </li>
-        <li>
+        </motion.li>
+        <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <a
             href="mailto:hey@conermurphy.com"
             target="_blank"
@@ -94,7 +95,7 @@ export default function ContactIcons() {
           >
             <FaEnvelopeSquare />
           </a>
-        </li>
+        </motion.li>
       </ContactIconsContainer>
     </>
   );

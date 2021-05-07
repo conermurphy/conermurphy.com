@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaLaptopCode } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import Services from '../data/services.json';
 
 const ServiceSectionContainer = styled.section`
@@ -29,7 +30,7 @@ const ServiceSectionContainer = styled.section`
   }
 `;
 
-const ServiceCardContainer = styled.div`
+const ServiceCardContainer = styled(motion.div)`
   background-color: var(--primaryBg);
   filter: drop-shadow(var(--shadow));
   border-radius: var(--borderRadius);
@@ -67,7 +68,7 @@ function ServiceCard({ service: { title, description, icon } }) {
   }
 
   return (
-    <ServiceCardContainer>
+    <ServiceCardContainer whileHover={{ scale: 1.025 }}>
       <div className="serviceCardTitle">
         {displayIcon}
         <h4>{title}</h4>

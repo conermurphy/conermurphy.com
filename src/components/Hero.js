@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
@@ -23,18 +24,20 @@ export function Hero({ content }) {
 
   const internalLink = CTA && CTALink.slice(0, 1) === '/';
 
+  const MotionLink = motion(Link);
+
   return CTA !== '' ? (
     <HeroContainer>
       {title && <h1 className="title">{title}</h1>}
       {subtitle && <h2 className="subtitle">{subtitle}</h2>}
       {internalLink ? (
-        <Link className="callToAction" to={CTALink}>
+        <MotionLink className="callToAction" to={CTALink} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           {CTA}
-        </Link>
+        </MotionLink>
       ) : (
-        <a className="callToAction" href={CTALink}>
+        <motion.a className="callToAction" href={CTALink} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           {CTA}
-        </a>
+        </motion.a>
       )}
     </HeroContainer>
   ) : (

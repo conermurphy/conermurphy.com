@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import { FaUserAlt } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import NavThemeContext from '../context/NavThemeContext';
 import { useSiteMetadata } from '../utils/useSiteMetadata';
 
@@ -103,31 +104,31 @@ export default function Nav({ path }) {
         <AuthorCard />
         <StyledNav>
           <ul>
-            <li>
+            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link to="/about-me" className={currentRootPage === 'about-me' ? 'active' : ''}>
                 About Me
               </Link>
-            </li>
-            <li>
+            </motion.li>
+            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link to="/blog" className={currentRootPage === 'blog' ? 'active' : ''}>
                 Blog
               </Link>
-            </li>
-            <li>
+            </motion.li>
+            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link to="/threads" className={currentRootPage === 'threads' ? 'active' : ''}>
                 Threads
               </Link>
-            </li>
-            <li>
+            </motion.li>
+            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link to="/projects" className={currentRootPage === 'projects' ? 'active' : ''}>
                 Projects
               </Link>
-            </li>
-            <li>
+            </motion.li>
+            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link to="/contact-me" className="callToAction">
                 <FaUserAlt /> Hire Me
               </Link>
-            </li>
+            </motion.li>
           </ul>
         </StyledNav>
       </div>

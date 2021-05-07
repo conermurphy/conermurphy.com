@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaCheck, FaTimes } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import useEmail from '../utils/useEmail';
 import useForm from '../utils/useForm';
 
@@ -183,9 +184,9 @@ export const EmailSignup = () => {
             className="chilliIsCool"
           />
         </fieldset>
-        <button className="signupButton" type="submit" disabled={loading}>
+        <motion.button className="signupButton" type="submit" disabled={loading} whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.05 }}>
           {loading ? 'Subscribing...' : ' Subscribe'}
-        </button>
+        </motion.button>
       </FormGridContainer>
       {message ? <OutcomeMessageContainer error={error} message={message} /> : ''}
     </FormContainer>

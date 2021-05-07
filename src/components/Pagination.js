@@ -2,6 +2,7 @@ import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
 
 const PaginationContainer = styled.div`
   display: flex;
@@ -50,23 +51,41 @@ export default function Pagination({ pageSize, totalCount, currentPage, skip, ba
   const prevLink = prevPage === 1 ? navigateBase : `${navigateBase}/${prevPage}`;
   const nextLink = `${navigateBase}/${nextPage}`;
 
+  const MotionLink = motion(Link);
+
   return (
     <PaginationContainer>
-      <Link title="prev page" disabled={!hasPrevPage} to={prevLink} className="nextPrevButton">
+      <MotionLink
+        title="prev page"
+        disabled={!hasPrevPage}
+        to={prevLink}
+        className="nextPrevButton"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
         &#8592; <span className="word">Previous</span>{' '}
-      </Link>
+      </MotionLink>
       {Array.from({ length: totalPages }).map((_, i) => (
-        <Link
+        <MotionLink
           key={`${navigateBase}-page-${i}`}
           className={currentPage === 1 && i === 0 ? 'current' : ''}
           to={`${navigateBase}/${i === 0 ? '' : i + 1}`}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           {i + 1}
-        </Link>
+        </MotionLink>
       ))}
-      <Link title="next page" disabled={!hasNextPage} to={nextLink} className="nextPrevButton">
+      <MotionLink
+        title="next page"
+        disabled={!hasNextPage}
+        to={nextLink}
+        className="nextPrevButton"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
         <span className="word">Next</span> &#8594;
-      </Link>
+      </MotionLink>
     </PaginationContainer>
   );
 }

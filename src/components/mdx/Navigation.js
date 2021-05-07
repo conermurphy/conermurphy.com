@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
@@ -34,18 +35,20 @@ export default function Navigation({ pageContext: { next, prev } }) {
   const prevLink = prev !== null ? prev.fields.slug : '/';
   const nextLink = next !== null ? next.fields.slug : '/';
 
+  const MotionLink = motion(Link);
+
   return (
     <NavigationContainer>
-      <Link title="Previous Page" disabled={!hasPrevPage} to={prevLink}>
+      <MotionLink title="Previous Page" disabled={!hasPrevPage} to={prevLink} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
         <div className="previous">
           <p className="link">&#8592; Previous Post</p>
         </div>
-      </Link>
-      <Link title="Next Page" disabled={!hasNextPage} to={nextLink}>
+      </MotionLink>
+      <MotionLink title="Next Page" disabled={!hasNextPage} to={nextLink} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
         <div className="next">
           <p className="link">Next Post &#8594; </p>
         </div>
-      </Link>
+      </MotionLink>
     </NavigationContainer>
   );
 }
