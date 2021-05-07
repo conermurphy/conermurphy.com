@@ -5,7 +5,7 @@ const GlobalStyles = createGlobalStyle`
     --primaryBg: #FFFFFF;
     --secondaryBg: #F9F9FB;
     --accent: #4E66A6;
-    --primaryText: #000000;
+    --primaryText: #0e0e0e;
     --headerText: #323B49;
     --accentText: #FAFAFC;
     --shadow: 0px 2px 4px rgba(0,0,0,0.10);
@@ -31,7 +31,7 @@ const GlobalStyles = createGlobalStyle`
    .callToAction {
     background-color: var(--accent);
     padding: 1.5rem 5rem;
-    color: var(--primaryBg);
+    color: var(--accentText);
     border-radius: var(--borderRadius);
     display: flex;
     align-items: center;
