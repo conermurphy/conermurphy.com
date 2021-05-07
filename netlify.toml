@@ -264,3 +264,21 @@
     to = "/projects"
     force = false
     status = 301
+
+[[redirects]]
+    from = "/threads/book-recommendations"
+    to = "/threads"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "/threads/feedhive-impressions"
+    to = "/threads"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "/threads/blog-posts-cross-posting"
+    to = "/threads/post-cross-posting"
+    force = false
+    status = 301
