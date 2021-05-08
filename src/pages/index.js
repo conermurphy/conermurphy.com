@@ -1,5 +1,4 @@
 import React from 'react';
-import { graphql } from 'gatsby';
 import SEO from '../components/SEO';
 import { ServiceSection } from '../components/Services';
 import { Testimonials } from '../components/Testimonials';
