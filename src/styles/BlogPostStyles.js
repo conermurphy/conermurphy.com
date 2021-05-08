@@ -34,6 +34,7 @@ const PostBodyContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  gap: 2rem;
 
   .content {
     max-width: 700px;
