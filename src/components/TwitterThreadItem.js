@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { graphql, useStaticQuery } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import { FaTwitter } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import Components from './mdx/Components';
 import { useSiteMetadata } from '../utils/useSiteMetadata';
 
@@ -104,6 +105,36 @@ const TwitterAuthorContainer = styled.div`
 const CustomGatsbyImage = styled(GatsbyImage)`
   width: ${(props) => (props.imageCount === 1 ? 'clamp(300px, 60vw, 550px)' : '150px')};
   height: ${(props) => (props.imageCount === 1 ? '300px' : '150px')};
+  cursor: pointer;
+`;
+
+const LightBoxImageWrapper = styled.div`
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  top: 0;
+  left: 0;
+
+  & > .background {
+    filter: blur(3px);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: var(--primaryBg);
+    opacity: 95%;
+  }
+
+  & .imageContainer > .gatsby-image-wrapper {
+    width: 60vw;
+    height: clamp(300px, 75vh, 700px);
+    border-radius: var(--borderRadius);
+    filter: drop-shadow(var(--shadow));
+    cursor: pointer;
+  }
 `;
 
 function TwitterAuthor() {
@@ -122,9 +153,44 @@ function TwitterAuthor() {
 }
 
 export default function TwitterThreadItem({ tweet }) {
+  const [lightBoxImage, setLightBoxImage] = useState();
+  const [lightBoxImageOpen, setLightBoxImageOpen] = useState(false);
   // Function to copy link to tweet on Twitter to clipboard
   function handleClick(link) {
     navigator.clipboard.writeText(link);
+  }
+
+  // Handle Opening image in a light box
+  function handleImageClick(img) {
+    if (!lightBoxImageOpen) {
+      setLightBoxImage(img);
+      setLightBoxImageOpen(true);
+      return;
+    }
+    setLightBoxImage(null);
+    setLightBoxImageOpen(false);
+  }
+
+  function LightBoxImageContainer() {
+    return lightBoxImageOpen ? (
+      <LightBoxImageWrapper>
+        <div className="background" />
+        <motion.div
+          className="imageContainer"
+          onClick={() => handleImageClick()}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            type: 'spring',
+            mass: 0.5,
+            stiffness: 75,
+            duration: 0.3,
+          }}
+        >
+          <GatsbyImage image={lightBoxImage.childImageSharp.gatsbyImageData} objectFit="contain" />
+        </motion.div>
+      </LightBoxImageWrapper>
+    ) : null;
   }
 
   // 1: Querying for all tweets in all threads as unable to pass variables to static queries.
@@ -164,6 +230,7 @@ export default function TwitterThreadItem({ tweet }) {
 
   return (
     <TweetContainer>
+      <LightBoxImageContainer />
       <div className="tweetHeader">
         <TwitterAuthor />
         <a href={tweetLink} target="_blank" rel="noopener noreferrer">
@@ -189,7 +256,12 @@ export default function TwitterThreadItem({ tweet }) {
           </ul>
         )}
         <div className="imagesContainer">
-          {images && images.map((image) => <CustomGatsbyImage image={image.childImageSharp.gatsbyImageData} imageCount={images.length} />)}
+          {images &&
+            images.map((image, i) => (
+              <div onClick={() => handleImageClick(image)} key={`${tweetId}-${i}`}>
+                <CustomGatsbyImage image={image.childImageSharp.gatsbyImageData} imageCount={images.length} alt={body.slice(0, 50)} />
+              </div>
+            ))}
         </div>
       </div>
       <div className="tweetFooter">
