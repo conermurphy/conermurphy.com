@@ -23,9 +23,9 @@ export default function Layout({ children, path }) {
       <Nav path={path} />
       <motion.main
         key={path}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
         transition={{
           type: 'spring',
           mass: 0.35,

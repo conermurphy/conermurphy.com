@@ -6,23 +6,20 @@ const PostContainer = styled.article`
   margin: auto;
   padding-bottom: 0;
   width: clamp(300px, 60vw, 1000px);
-  position: relative;
 
   & > .heroImage {
     border-radius: var(--borderRadius);
     max-width: 1200px;
-    position: relative;
     margin: 1rem 0;
     margin-bottom: 2rem;
     filter: drop-shadow(var(--shadow));
   }
 
-  .progress-icon {
+  .progress-bar {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 120px;
-    height: 120px;
+    top: 0px;
+    left: 0px;
+    z-index: 999;
 
     & > path {
       stroke: var(--accent);
