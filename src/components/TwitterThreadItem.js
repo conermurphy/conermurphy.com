@@ -129,9 +129,8 @@ const LightBoxImageWrapper = styled.div`
   }
 
   & .imageContainer > .gatsby-image-wrapper {
-    width: 60vw;
+    width: clamp(300px, 60vw, 1200px);
     height: clamp(300px, 75vh, 700px);
-    border-radius: var(--borderRadius);
     filter: drop-shadow(var(--shadow));
     cursor: pointer;
   }
