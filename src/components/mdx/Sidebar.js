@@ -12,8 +12,10 @@ import {
 } from 'react-share';
 
 const SideBarContainer = styled.aside`
-  margin: 1.6rem 0;
-  margin-right: 5rem;
+  padding: 1.6rem 0;
+  position: sticky;
+  top: 0;
+  height: min-content;
 `;
 
 const SocialIconsContainer = styled.div`
