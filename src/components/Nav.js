@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import { FaUserAlt } from 'react-icons/fa';
+import { FaUserAlt, FaPalette } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import NavThemeContext from '../context/NavThemeContext';
 import { useSiteMetadata } from '../utils/useSiteMetadata';
+import NavThemeContext from '../context/NavThemeContext';
 
 const StyledNav = styled.nav`
   display: flex;
@@ -89,7 +89,7 @@ export function AuthorCard() {
 }
 
 export default function Nav({ path }) {
-  const [theme, setTheme] = useContext(NavThemeContext);
+  const [isThemeDark, toggleThemeDark] = useContext(NavThemeContext);
 
   let currentRootPage;
   if (path === undefined) {
@@ -99,7 +99,7 @@ export default function Nav({ path }) {
   }
 
   return (
-    <NavContainer theme={theme}>
+    <NavContainer>
       <div>
         <AuthorCard />
         <StyledNav>
@@ -130,6 +130,9 @@ export default function Nav({ path }) {
               </Link>
             </motion.li>
           </ul>
+          <button type="button" onClick={() => toggleThemeDark()}>
+            <FaPalette />
+          </button>
         </StyledNav>
       </div>
     </NavContainer>

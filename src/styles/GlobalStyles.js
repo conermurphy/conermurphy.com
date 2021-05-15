@@ -2,18 +2,19 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   :root {
-    --primaryBg: #FFFFFF;
-    --secondaryBg: #F9F9FB;
-    --accent: #4E66A6;
-    --primaryText: #0e0e0e;
-    --headerText: #323B49;
-    --accentText: #FAFAFC;
-    --shadow: 0px 2px 4px rgba(0,0,0,0.10);
-    --scrollBarWidth: 6px;
-    --lh: 2.5rem;
-    --borderRadius: 1rem;
-    --maxWidth: 1400px;
+    --primaryBg: ${({ theme }) => theme.primaryBg};
+    --secondaryBg: ${({ theme }) => theme.secondaryBg};
+    --accent: ${({ theme }) => theme.accent};
+    --primaryText: ${({ theme }) => theme.primaryText};
+    --headerText: ${({ theme }) => theme.headerText};
+    --accentText: ${({ theme }) => theme.accentText};
+    --shadow: ${({ theme }) => theme.shadow};
+    --scrollBarWidth: ${({ theme }) => theme.scrollBarWidth};
+    --lh: ${({ theme }) => theme.lh};
+    --borderRadius: ${({ theme }) => theme.borderRadius};
+    --maxWidth: ${({ theme }) => theme.maxWidth};
   }
+
 
    html {
        font-size: 10px;
