@@ -94,7 +94,7 @@ export function TestimonialCard({ testimonial }) {
 
 export function Testimonials() {
   return (
-    <TestimonialSectionContainer>
+    <TestimonialSectionContainer id="testimonials">
       <div className="sectionTitle">
         <h2 className="title">What People Have Been Saying...</h2>
         <h3 className="subtitle">
