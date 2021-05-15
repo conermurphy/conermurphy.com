@@ -10,8 +10,7 @@ import { BlogPostCard } from './PostCards';
 const FooterBody = styled.footer`
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  max-width: var(--maxWidth);
+  width: clamp(300px, 100vw, var(--maxWidth));
 `;
 
 const FooterContentContainer = styled.div`
