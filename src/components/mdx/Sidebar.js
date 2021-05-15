@@ -13,6 +13,7 @@ import {
 
 const SideBarContainer = styled.aside`
   padding: 1.6rem 0;
+  padding-bottom: 0;
   position: sticky;
   top: 0;
   height: min-content;
