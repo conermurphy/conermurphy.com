@@ -7,10 +7,12 @@ import { GatsbyImage } from 'gatsby-plugin-image';
 import SEO from '../components/SEO';
 // MDX Component Imports Used on each page.
 import Components from '../components/mdx/Components';
-import ClosingComponents from '../components/mdx/ClosingComponents';
 import { PostBodyContainer, PostContainer, BlogHeader } from '../styles/BlogPostStyles';
 import { Sidebar } from '../components/mdx/Sidebar';
 import { ProgressBar } from '../components/mdx/ProgressBar';
+import { EmailSignupForm } from '../components/mdx/EmailSignupForm';
+import GithubEdit from '../components/mdx/GithubEdit';
+import Navigation from '../components/mdx/Navigation';
 
 const BlogPost = ({ data, pageContext, path, location }) => {
   // Destructing out values to use in page.
@@ -62,7 +64,9 @@ const BlogPost = ({ data, pageContext, path, location }) => {
             <MDXProvider components={Components}>
               <MDXRenderer>{body}</MDXRenderer>
             </MDXProvider>
-            <ClosingComponents fileAbsolutePath={fileAbsolutePath} pageContext={pageContext} />
+            <EmailSignupForm />
+            <GithubEdit postURL={fileAbsolutePath} />
+            <Navigation pageContext={pageContext} />
           </div>
         </PostBodyContainer>
       </PostContainer>

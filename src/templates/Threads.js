@@ -5,6 +5,7 @@ import SEO from '../components/SEO';
 import Navigation from '../components/mdx/Navigation';
 import TwitterThreadItem from '../components/TwitterThreadItem';
 import { ProgressBar } from '../components/mdx/ProgressBar';
+import { EmailSignupForm } from '../components/mdx/EmailSignupForm';
 
 const ThreadContainer = styled.div`
   padding-bottom: 5rem;
@@ -53,7 +54,7 @@ const ThreadContainer = styled.div`
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     gap: 2rem;
   }
 `;
@@ -85,6 +86,7 @@ const TwitterThread = ({ data, pageContext, path }) => {
             <TwitterThreadItem tweet={tweet} key={`Twitter-Thread-Tweet-${tweet}`} />
           ))}
         </article>
+        <EmailSignupForm />
         <Navigation pageContext={pageContext} />
       </ThreadContainer>
     </>
