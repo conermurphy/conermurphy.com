@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import SEO from '../components/SEO';
 import Navigation from '../components/mdx/Navigation';
 import TwitterThreadItem from '../components/TwitterThreadItem';
+import { ProgressBar } from '../components/mdx/ProgressBar';
 
 const ThreadContainer = styled.div`
   padding-bottom: 5rem;
@@ -71,6 +72,7 @@ const TwitterThread = ({ data, pageContext, path }) => {
           date: plainDate,
         }}
       />
+      <ProgressBar />
       <ThreadContainer>
         <div className="threadHeader">
           <h2 className="title">{title}</h2>
@@ -90,7 +92,7 @@ const TwitterThread = ({ data, pageContext, path }) => {
 };
 
 export const query = graphql`
-  query($slug: String!) {
+  query ($slug: String!) {
     mdx(fields: { slug: { eq: $slug } }) {
       fields {
         filePath

@@ -4,24 +4,19 @@ import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
 import { GatsbyImage } from 'gatsby-plugin-image';
-import { motion, useSpring, useTransform, useViewportScroll } from 'framer-motion';
 import SEO from '../components/SEO';
 // MDX Component Imports Used on each page.
 import Components from '../components/mdx/Components';
 import ClosingComponents from '../components/mdx/ClosingComponents';
 import { PostBodyContainer, PostContainer, BlogHeader } from '../styles/BlogPostStyles';
 import { Sidebar } from '../components/mdx/Sidebar';
+import { ProgressBar } from '../components/mdx/ProgressBar';
 
 const BlogPost = ({ data, pageContext, path, location }) => {
   // Destructing out values to use in page.
   const post = data.mdx;
   const { frontmatter, timeToRead, body, fileAbsolutePath, excerpt } = post;
   const { image, title, description, date, plainDate, tags } = frontmatter;
-
-  // Variables and state for animating scroll
-  const { scrollYProgress } = useViewportScroll();
-  const yRange = useTransform(scrollYProgress, [0, 0.9], [0, 1]);
-  const pathLength = useSpring(yRange, { stiffness: 400, damping: 90 });
 
   // Setting image path for SEO if no image use the logo.
   const imagePath = image ? image.childImageSharp.gatsbyImageData.images.fallback.src : '/Logo.png';
@@ -46,15 +41,7 @@ const BlogPost = ({ data, pageContext, path, location }) => {
         }}
       />
       <PostContainer>
-        <svg className="progress-bar" viewBox="0 0 100 1">
-          <motion.path
-            fill="none"
-            d="M 0,0 L 100,0"
-            style={{
-              pathLength,
-            }}
-          />
-        </svg>
+        <ProgressBar />
         <BlogHeader>
           <p>
             {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes Read`}{' '}
@@ -84,7 +71,7 @@ const BlogPost = ({ data, pageContext, path, location }) => {
 };
 
 export const query = graphql`
-  query($slug: String!) {
+  query ($slug: String!) {
     mdx(fields: { slug: { eq: $slug } }) {
       body
       timeToRead

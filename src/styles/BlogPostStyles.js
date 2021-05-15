@@ -14,17 +14,6 @@ const PostContainer = styled.article`
     margin-bottom: 2rem;
     filter: drop-shadow(var(--shadow));
   }
-
-  .progress-bar {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    z-index: 999;
-
-    & > path {
-      stroke: var(--accent);
-    }
-  }
 `;
 
 const PostBodyContainer = styled.div`
