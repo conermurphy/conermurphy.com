@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import 'normalize.css';
 import { motion } from 'framer-motion';
@@ -8,6 +8,8 @@ import Nav from './Nav';
 import { Footer } from './Footer';
 import { lightTheme, darkTheme } from '../styles/Themes';
 import ThemeContext from '../context/ThemeContext';
+import { MobileNavBar } from './MobileNav';
+import UseMobileChecker from '../utils/useMobileChecker';
 
 const SiteContainer = styled.div`
   display: flex;
@@ -18,6 +20,7 @@ const SiteContainer = styled.div`
 `;
 
 export default function Layout({ children, path }) {
+  const [isMobile] = UseMobileChecker();
   const [isThemeDark, toggleThemeDark, componentMounted] = useContext(ThemeContext);
 
   if (!componentMounted) {
@@ -31,7 +34,7 @@ export default function Layout({ children, path }) {
       <SiteContainer>
         <Typography />
         <GlobalStyles />
-        <Nav path={path} />
+        {isMobile ? <MobileNavBar path={path} /> : <Nav path={path} />}
         <motion.main
           key={`${path}-Main`}
           initial={{ opacity: 0 }}
