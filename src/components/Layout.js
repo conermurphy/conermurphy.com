@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import 'normalize.css';
 import { motion } from 'framer-motion';
@@ -19,7 +19,7 @@ const SiteContainer = styled.div`
   position: relative;
 `;
 
-const MobileMenuOpenContainer = styled.div`
+const MobileMenuOpenContainer = styled(motion.div)`
   width: 100%;
   background-color: var(--secondaryBg);
   display: flex;
@@ -46,7 +46,7 @@ const MobileMenuOpenContainer = styled.div`
 
 export default function Layout({ children, path }) {
   const [isMobile] = UseMobileChecker();
-  const [isMobileMenuOpen, setMobileMenuOpen] = useState(true);
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isThemeDark, toggleThemeDark, componentMounted] = useContext(ThemeContext);
 
   if (!componentMounted) {
@@ -57,7 +57,17 @@ export default function Layout({ children, path }) {
 
   return isMobile && isMobileMenuOpen ? (
     <CustomThemeProvider theme={isThemeDark ? darkTheme : lightTheme}>
-      <MobileMenuOpenContainer>
+      <MobileMenuOpenContainer
+        key={`${path}-MobileMenuContainer`}
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 100 }}
+        transition={{
+          type: 'tween',
+          duration: 0.5,
+          ease: 'easeInOut',
+        }}
+      >
         <Typography />
         <GlobalStyles />
         <MobileNav path={path} setMobileMenuOpen={setMobileMenuOpen} />

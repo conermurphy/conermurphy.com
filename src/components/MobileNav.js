@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import { Link } from 'gatsby';
 import { FaUserAlt, FaHome, FaPalette, FaKeyboard, FaTwitter, FaAlignJustify, FaBoxes } from 'react-icons/fa';
 import { MdChatBubble } from 'react-icons/md';
