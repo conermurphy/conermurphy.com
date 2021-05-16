@@ -4,7 +4,7 @@ import { Link } from 'gatsby';
 import { FaUserAlt, FaPalette } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useSiteMetadata } from '../utils/useSiteMetadata';
-import NavThemeContext from '../context/NavThemeContext';
+import ThemeContext from '../context/ThemeContext';
 
 const StyledNav = styled.nav`
   display: flex;
@@ -89,7 +89,7 @@ export function AuthorCard() {
 }
 
 export default function Nav({ path }) {
-  const [isThemeDark, toggleThemeDark] = useContext(NavThemeContext);
+  const [isThemeDark, toggleThemeDark] = useContext(ThemeContext);
 
   let currentRootPage;
   if (path === undefined) {

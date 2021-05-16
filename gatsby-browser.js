@@ -1,7 +1,7 @@
 import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 import Layout from './src/components/Layout';
-import { NavThemeProvider } from './src/context/NavThemeContext';
+import { ThemeProvider } from './src/context/ThemeContext';
 
 export function wrapPageElement({ element, props }) {
   return (
@@ -12,5 +12,5 @@ export function wrapPageElement({ element, props }) {
 }
 
 export function wrapRootElement({ element }) {
-  return <NavThemeProvider>{element}</NavThemeProvider>;
+  return <ThemeProvider>{element}</ThemeProvider>;
 }

@@ -7,7 +7,7 @@ import GlobalStyles from '../styles/GlobalStyles';
 import Nav from './Nav';
 import { Footer } from './Footer';
 import { lightTheme, darkTheme } from '../styles/Themes';
-import NavThemeContext from '../context/NavThemeContext';
+import ThemeContext from '../context/ThemeContext';
 
 const SiteContainer = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ const SiteContainer = styled.div`
 `;
 
 export default function Layout({ children, path }) {
-  const [isThemeDark, toggleThemeDark, componentMounted] = useContext(NavThemeContext);
+  const [isThemeDark, toggleThemeDark, componentMounted] = useContext(ThemeContext);
 
   if (!componentMounted) {
     return <div />;

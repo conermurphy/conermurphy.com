@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-const NavThemeContext = React.createContext();
+const ThemeContext = React.createContext();
 
-export function NavThemeProvider({ children }) {
+export function ThemeProvider({ children }) {
   const [isThemeDark, setIsThemeDark] = useState(false);
   const [componentMounted, setComponentMounted] = useState(false);
 
@@ -29,7 +29,7 @@ export function NavThemeProvider({ children }) {
     setComponentMounted(true);
   }, []);
 
-  return <NavThemeContext.Provider value={[isThemeDark, toggleThemeDark, componentMounted]}>{children}</NavThemeContext.Provider>;
+  return <ThemeContext.Provider value={[isThemeDark, toggleThemeDark, componentMounted]}>{children}</ThemeContext.Provider>;
 }
 
-export default NavThemeContext;
+export default ThemeContext;
