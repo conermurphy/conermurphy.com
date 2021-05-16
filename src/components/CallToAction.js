@@ -35,7 +35,7 @@ export function CallToAction() {
         <h2 className="title">Got Questions?</h2>
         <h3 className="subtitle">Let’s book some time together to cover all your questions and concerns.</h3>
         <MotionLink to="/contact-me" className="callToAction" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          Book A Call.
+          Let's Book A Call.
         </MotionLink>
       </div>
     </CTAContainer>
