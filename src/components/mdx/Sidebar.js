@@ -17,6 +17,10 @@ const SideBarContainer = styled.aside`
   position: sticky;
   top: 0;
   height: min-content;
+
+  @media (max-width: 800px) {
+    position: relative;
+  }
 `;
 
 const SocialIconsContainer = styled.div`
@@ -24,6 +28,11 @@ const SocialIconsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 999;
+
+  @media (max-width: 800px) {
+    flex-direction: row;
+  }
 
   & svg {
     border-radius: var(--borderRadius);

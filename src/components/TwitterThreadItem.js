@@ -13,14 +13,12 @@ const TweetContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  max-width: 600px;
+  width: clamp(300px, 80vw, 700px);
 
   border-radius: var(--borderRadius);
   background-color: var(--secondaryBg);
 
   border: 1px solid rgba(0, 0, 0, 0.1);
-
-  margin: 0 1rem;
 
   overflow: hidden;
 
@@ -30,7 +28,7 @@ const TweetContainer = styled.div`
     align-items: center;
     flex-wrap: wrap;
 
-    max-width: 550px;
+    max-width: 700px;
     max-height: 300px;
     overflow: hidden;
     filter: drop-shadow(var(--shadow));
@@ -104,8 +102,8 @@ const TwitterAuthorContainer = styled.div`
 `;
 
 const CustomGatsbyImage = styled(GatsbyImage)`
-  width: ${(props) => (props.imageCount === 1 ? 'clamp(300px, 60vw, 550px)' : '150px')};
-  height: ${(props) => (props.imageCount === 1 ? '300px' : '150px')};
+  width: ${(props) => (props.imageCount === 1 ? 'clamp(300px, 80vw, 700px)' : '150px')};
+  height: ${(props) => (props.imageCount === 1 ? 'auto' : '150px')};
   cursor: pointer;
 `;
 

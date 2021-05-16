@@ -5,7 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const BlogPostContainer = styled(motion.div)`
-  max-width: 400px;
+  width: clamp(300px, 80vw, 400px);
 
   .gatsby-image-wrapper {
     max-width: 400px;

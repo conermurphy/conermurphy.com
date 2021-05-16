@@ -5,10 +5,10 @@ import { GatsbyImage } from 'gatsby-plugin-image';
 import { motion } from 'framer-motion';
 
 const ThreadContainer = styled(motion.div)`
-  max-width: 400px;
+  width: clamp(300px, 80vw, 400px);
 
   .gatsby-image-wrapper {
-    width: 400px;
+    max-width: 400px;
     border-radius: var(--borderRadius);
   }
 

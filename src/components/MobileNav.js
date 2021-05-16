@@ -11,7 +11,7 @@ const MobileNavBarContainer = styled.nav`
 
   z-index: 999;
 
-  padding: 1rem 2rem;
+  padding: 0.75rem 1.5rem;
   margin: 0;
   width: auto;
   background-color: var(--accent);

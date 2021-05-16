@@ -9,6 +9,8 @@ import { EmailSignupForm } from '../components/mdx/EmailSignupForm';
 
 const ThreadContainer = styled.div`
   padding-bottom: 5rem;
+  width: clamp(300px, 80vw, 700px);
+
   .threadHeader {
     display: flex;
     flex-direction: column;
@@ -21,6 +23,7 @@ const ThreadContainer = styled.div`
       font-size: 2.25rem;
       margin-bottom: 0;
       padding-bottom: 0;
+      text-align: center;
     }
 
     .author {
@@ -56,6 +59,7 @@ const ThreadContainer = styled.div`
     justify-content: center;
     align-items: center;
     gap: 2rem;
+    margin: auto;
   }
 `;
 

@@ -32,8 +32,18 @@ const FooterContentContainer = styled.div`
   }
 
   .info {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+
     h3 {
       font-size: 2.5rem;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .info {
+      align-items: center;
     }
   }
 `;
