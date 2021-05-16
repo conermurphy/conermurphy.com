@@ -19,11 +19,15 @@ const TestimonialSectionContainer = styled.section`
   .sectionTitle {
     max-width: 700px;
     margin: 2rem;
+
+    @media (max-width: 1240px) {
+      text-align: center;
+    }
   }
 
   .TestimonialCardsContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 50vw, 400px), 1fr));
     align-items: center;
     justify-content: center;
     gap: 5rem;
@@ -39,7 +43,7 @@ const TestimonialCardContainer = styled.div`
   align-items: flex-start;
   justify-self: center;
 
-  width: clamp(300px, 20vw, 400px);
+  width: clamp(250px, 50vw, 400px);
 
   background-color: var(--primaryBg);
   padding: 3rem;

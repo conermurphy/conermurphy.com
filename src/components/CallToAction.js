@@ -19,7 +19,7 @@ const CTAContainer = styled.div`
     align-items: center;
     justify-content: center;
     background-color: var(--primaryBg);
-    width: clamp(300px, 30vw, 600px);
+    width: clamp(200px, 30vw, 600px);
     padding: 3rem 6rem;
     border-radius: var(--borderRadius);
     filter: drop-shadow(var(--shadow));

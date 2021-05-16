@@ -21,7 +21,7 @@ const ServiceSectionContainer = styled.section`
 
   .ServiceCardsContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(clamp(300px, 50vw, 400px), 1fr));
     align-items: flex-start;
     gap: clamp(1rem, 2vw, 2rem);
     padding-top: 2rem;
