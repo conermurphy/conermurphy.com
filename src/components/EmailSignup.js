@@ -21,8 +21,8 @@ const FormGridContainer = styled.form`
   width: clamp(300px, 30vw, 500px);
 
   color: var(--primaryText);
+  border: 1px solid var(--accent);
 
-  box-shadow: var(--shadow);
   border-radius: var(--borderRadius);
   overflow: hidden;
 
@@ -32,6 +32,7 @@ const FormGridContainer = styled.form`
     align-items: center;
     flex-grow: 1;
 
+    margin: 0;
     padding: 0;
     border: none;
     height: var(--height);
