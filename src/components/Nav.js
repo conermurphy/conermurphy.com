@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import { FaUserAlt, FaPalette } from 'react-icons/fa';
+import { FaPalette } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { MdChatBubble } from 'react-icons/md';
 import { useSiteMetadata } from '../utils/useSiteMetadata';
 import ThemeContext from '../context/ThemeContext';
 
@@ -11,13 +12,6 @@ const StyledNav = styled.nav`
   flex-direction: row;
   align-items: center;
   gap: 2rem;
-
-  .darkModeToggle {
-    border: none;
-    background-color: transparent;
-    color: var(--primaryText);
-    font-size: 2rem;
-  }
 
   ul {
     display: flex;
@@ -83,10 +77,17 @@ const AuthorCardContainer = styled.div`
   }
 `;
 
-export function AuthorCard() {
+export function AuthorCard({ closeMenu }) {
   const { title, image } = useSiteMetadata();
 
-  return (
+  return closeMenu ? (
+    <AuthorCardContainer>
+      <Link to="/" onClick={() => closeMenu()}>
+        <img src={image} alt="Site Logo" />
+      </Link>
+      <h3>{title}</h3>
+    </AuthorCardContainer>
+  ) : (
     <AuthorCardContainer>
       <Link to="/">
         <img src={image} alt="Site Logo" />
@@ -134,7 +135,7 @@ export default function Nav({ path }) {
             </motion.li>
             <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link to="/contact-me" className="callToAction">
-                <FaUserAlt /> Hire Me
+                <MdChatBubble /> Hire Me
               </Link>
             </motion.li>
           </ul>

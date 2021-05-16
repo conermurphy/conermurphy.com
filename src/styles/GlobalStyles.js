@@ -43,6 +43,14 @@ const GlobalStyles = createGlobalStyle`
     filter: drop-shadow(var(--shadow));
    }
 
+   .darkModeToggle {
+    border: none;
+    background-color: transparent;
+    color: var(--primaryText);
+    font-size: 2rem;
+    cursor: pointer;
+  }
+
    /* Scrollbar Styles */
   body::-webkit-scrollbar {
     width: var(--scrollBarWidth);
