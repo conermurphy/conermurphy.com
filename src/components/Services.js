@@ -6,7 +6,7 @@ import Services from '../data/services.json';
 
 const ServiceSectionContainer = styled.section`
   background-color: var(--secondaryBg);
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;

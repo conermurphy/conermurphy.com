@@ -10,7 +10,7 @@ const TestimonialSectionContainer = styled.section`
   flex-wrap: wrap;
   gap: 0 10rem;
 
-  width: 100%;
+  width: 100vw;
 
   padding: 5rem 0;
 

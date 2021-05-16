@@ -36,6 +36,13 @@ const MobileMenuOpenContainer = styled(motion.div)`
     align-self: center;
 
     & > button {
+      display: flex;
+      flex-direction: column;
+      align-content: ;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+
       border: none;
       background-color: var(--primaryBg);
       border-radius: var(--borderRadius);
