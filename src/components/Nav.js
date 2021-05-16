@@ -10,6 +10,14 @@ const StyledNav = styled.nav`
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 2rem;
+
+  .darkModeToggle {
+    border: none;
+    background-color: transparent;
+    color: var(--primaryText);
+    font-size: 2rem;
+  }
 
   ul {
     display: flex;
@@ -130,9 +138,15 @@ export default function Nav({ path }) {
               </Link>
             </motion.li>
           </ul>
-          <button type="button" onClick={() => toggleThemeDark()}>
+          <motion.button
+            type="button"
+            onClick={() => toggleThemeDark()}
+            className="darkModeToggle"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <FaPalette />
-          </button>
+          </motion.button>
         </StyledNav>
       </div>
     </NavContainer>

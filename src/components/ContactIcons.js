@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaTwitterSquare, FaLinkedin, FaEnvelopeSquare, FaInstagramSquare, FaGithubSquare, FaFacebookSquare } from 'react-icons/fa';
+import { FaTwitter, FaLinkedin, FaEnvelope, FaInstagram, FaGithub, FaFacebook } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 const ContactIconsContainer = styled.ul`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 1.5rem;
 
   & > li {
     & a {
@@ -19,9 +19,9 @@ const ContactIconsContainer = styled.ul`
 
   .contactIcon {
     & > svg {
-      font-size: 3.5rem;
-      background-color: var(--white);
-      fill: var(--accent);
+      font-size: 2.5rem;
+      fill: var(--headerText);
+      overflow: hidden;
     }
   }
 `;
@@ -38,7 +38,7 @@ export default function ContactIcons() {
             className="contactIcon"
             aria-label="Link to GitHhb Profile"
           >
-            <FaGithubSquare style={{ fill: '#211F1F' }} />
+            <FaGithub />
           </a>
         </motion.li>
         <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
@@ -49,7 +49,7 @@ export default function ContactIcons() {
             className="contactIcon"
             aria-label="Link to Twitter Profile"
           >
-            <FaTwitterSquare style={{ fill: '#08a0e9' }} />
+            <FaTwitter />
           </a>
         </motion.li>
         <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
@@ -60,7 +60,7 @@ export default function ContactIcons() {
             className="contactIcon"
             aria-label="Link to LinkedIn Profile"
           >
-            <FaLinkedin style={{ fill: '#0077B5' }} />
+            <FaLinkedin />
           </a>
         </motion.li>
         <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
@@ -71,7 +71,7 @@ export default function ContactIcons() {
             className="contactIcon"
             aria-label="Link to Instagram Profile"
           >
-            <FaInstagramSquare style={{ fill: '#515BD4' }} />
+            <FaInstagram />
           </a>
         </motion.li>
         <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
@@ -82,7 +82,7 @@ export default function ContactIcons() {
             className="contactIcon"
             aria-label="Link to Facebook Page"
           >
-            <FaFacebookSquare style={{ fill: '#3B5998' }} />
+            <FaFacebook />
           </a>
         </motion.li>
         <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
@@ -93,7 +93,7 @@ export default function ContactIcons() {
             className="contactIcon"
             aria-label="Email contact link"
           >
-            <FaEnvelopeSquare />
+            <FaEnvelope />
           </a>
         </motion.li>
       </ContactIconsContainer>

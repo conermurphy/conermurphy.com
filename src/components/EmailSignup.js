@@ -51,6 +51,8 @@ const FormGridContainer = styled.form`
         height: var(--height);
         border: 0;
         padding-left: 1rem;
+        background-color: var(--primaryBg);
+        color: var(--primaryText);
       }
     }
   }

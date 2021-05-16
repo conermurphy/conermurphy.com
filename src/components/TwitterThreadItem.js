@@ -16,7 +16,7 @@ const TweetContainer = styled.div`
   max-width: 600px;
 
   border-radius: var(--borderRadius);
-  background-color: var(--primaryBg);
+  background-color: var(--secondaryBg);
 
   border: 1px solid rgba(0, 0, 0, 0.1);
 
@@ -77,8 +77,9 @@ const TweetContainer = styled.div`
 
     & > .copyTweetLink {
       border: none;
-      background-color: var(--primaryBg);
+      background-color: var(--secondaryBg);
       cursor: pointer;
+      color: var(--primaryText);
     }
   }
 `;

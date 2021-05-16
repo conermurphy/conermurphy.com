@@ -24,28 +24,29 @@ export default function Layout({ children, path }) {
     return <div />;
   }
 
+  const CustomThemeProvider = motion(ThemeProvider);
+
   return (
-    <ThemeProvider theme={isThemeDark ? darkTheme : lightTheme}>
+    <CustomThemeProvider theme={isThemeDark ? darkTheme : lightTheme}>
       <SiteContainer>
         <Typography />
         <GlobalStyles />
         <Nav path={path} />
         <motion.main
-          key={path}
+          key={`${path}-Main`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{
-            type: 'spring',
-            mass: 0.35,
-            stiffness: 75,
-            duration: 0.3,
+            type: 'tween',
+            duration: 0.5,
+            ease: 'easeInOut',
           }}
         >
           {children}
         </motion.main>
         <Footer />
       </SiteContainer>
-    </ThemeProvider>
+    </CustomThemeProvider>
   );
 }

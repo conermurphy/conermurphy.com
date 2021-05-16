@@ -23,6 +23,7 @@ const GlobalStyles = createGlobalStyle`
 
    body {
        font-size: 2rem;
+       background-color: var(--primaryBg);
    }
 
    .postLinks {
