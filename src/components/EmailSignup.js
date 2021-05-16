@@ -10,49 +10,43 @@ const FormContainer = styled.div`
 `;
 
 const FormGridContainer = styled.form`
-  --height: 6rem;
-
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-
-  height: var(--height);
+  justify-content: ${(props) => (props.center ? 'center' : 'flex-start')};
+  gap: 1rem;
   width: clamp(300px, 30vw, 500px);
-
   color: var(--primaryText);
-  border: 1px solid var(--accent);
-
-  border-radius: var(--borderRadius);
-  overflow: hidden;
 
   fieldset {
     display: flex;
     flex-direction: row;
     align-items: center;
-    flex-grow: 1;
-
-    margin: 0;
     padding: 0;
+    margin: 0;
     border: none;
-    height: var(--height);
-    background-color: var(--accent);
     color: var(--accentText);
 
     label {
+      border-radius: var(--borderRadius);
+      filter: drop-shadow(var(--shadow));
+      background-color: var(--secondaryBg);
+      color: var(--primaryText);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 1rem;
-      flex-grow: 1;
-      padding-left: 1.5rem;
+      padding: 0 0 0 1rem;
+      overflow: hidden;
+      font-weight: bold;
 
       input {
         width: 100%;
-        height: var(--height);
+        height: 3rem;
         border: 0;
-        padding-left: 1rem;
-        background-color: var(--primaryBg);
+        padding: 1rem;
+        background-color: var(--secondaryBg);
         color: var(--primaryText);
       }
     }
@@ -63,15 +57,14 @@ const FormGridContainer = styled.form`
   }
 
   .signupButton {
-    background-color: var(--accent);
     color: var(--accentText);
     font-weight: bold;
     border: none;
-    padding: var(--padding);
+    padding: 1rem;
+    background-color: var(--accent);
+    border-radius: var(--borderRadius);
+    filter: drop-shadow(var(--shadow));
     cursor: pointer;
-    padding: 0 3rem;
-    align-self: flex-end;
-    height: var(--height);
   }
 `;
 
@@ -154,7 +147,7 @@ const OutcomeMessageContainer = ({ error, message }) => (
   </MessageContainer>
 );
 
-export const EmailSignup = () => {
+export const EmailSignup = ({ center }) => {
   const { values, updateValue } = useForm({
     email: '',
     chilliIsCool: '',
@@ -164,7 +157,7 @@ export const EmailSignup = () => {
 
   return (
     <FormContainer>
-      <FormGridContainer onSubmit={submitEmail}>
+      <FormGridContainer onSubmit={submitEmail} center={center}>
         <fieldset disabled={loading}>
           <label htmlFor="email">
             Email:

@@ -114,7 +114,6 @@ const Typography = createGlobalStyle`
   p, li, ul, span, button, label, a {
     font-size: 1.6rem;
     line-height: var(--lh);
-    color: var(--primaryText)
     
   }
 

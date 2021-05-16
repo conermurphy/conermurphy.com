@@ -38,7 +38,7 @@ export function EmailSignupForm() {
         <p>Want to get weekly notifications of my posts and more exclusive content?</p>
         <p>Please consider signing up to my email newsletter.</p>
       </div>
-      <EmailSignup />
+      <EmailSignup center />
     </EmailSignupContainer>
   );
 }

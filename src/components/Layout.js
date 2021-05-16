@@ -38,7 +38,6 @@ const MobileMenuOpenContainer = styled(motion.div)`
     & > button {
       display: flex;
       flex-direction: column;
-      align-content: ;
       align-items: center;
       justify-content: center;
       max-width: 100%;
