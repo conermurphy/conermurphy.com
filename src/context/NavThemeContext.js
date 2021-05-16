@@ -6,30 +6,26 @@ export function NavThemeProvider({ children }) {
   const [isThemeDark, setIsThemeDark] = useState(false);
   const [componentMounted, setComponentMounted] = useState(false);
 
+  function setIsDarkMode(isDark) {
+    window.localStorage.setItem('theme', isDark);
+    setIsThemeDark(isDark);
+  }
+
   const toggleThemeDark = () => {
-    if (isThemeDark) {
-      window.localStorage.setItem('theme', 'light');
-      setIsThemeDark(false);
-    } else {
-      window.localStorage.setItem('theme', 'dark');
-      setIsThemeDark(true);
-    }
+    setIsDarkMode(!isThemeDark);
   };
 
   useEffect(() => {
-    const localTheme = window.localStorage.getItem('theme');
+    const localTheme = window.localStorage.getItem('theme') === 'true';
 
-    if (localTheme) {
-      if (localTheme === 'light') {
-        setIsThemeDark(false);
-      }
-      if (localTheme === 'dark') {
-        setIsThemeDark(true);
-      }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && localTheme === null) {
+      setIsDarkMode(true);
+    } else if (localTheme !== null) {
+      setIsDarkMode(localTheme);
     } else {
-      setIsThemeDark(false);
-      window.localStorage.setItem('theme', 'light');
+      setIsDarkMode(false);
     }
+
     setComponentMounted(true);
   }, []);
 

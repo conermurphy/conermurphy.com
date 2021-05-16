@@ -18,7 +18,11 @@ const SiteContainer = styled.div`
 `;
 
 export default function Layout({ children, path }) {
-  const [isThemeDark, toggleThemeDark] = useContext(NavThemeContext);
+  const [isThemeDark, toggleThemeDark, componentMounted] = useContext(NavThemeContext);
+
+  if (!componentMounted) {
+    return <div />;
+  }
 
   return (
     <ThemeProvider theme={isThemeDark ? darkTheme : lightTheme}>
