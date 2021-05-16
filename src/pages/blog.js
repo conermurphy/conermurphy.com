@@ -12,14 +12,14 @@ const AllPostsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100vw;
+  width: 100%;
 
   & > div {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     align-items: flex-start;
     justify-items: center;
-    width: clamp(400px, 90vw, 900px);
+    width: clamp(400px, 80vw, 850px);
     gap: 4rem 2rem;
   }
 `;
@@ -67,7 +67,7 @@ export default function Blog({ data, pageContext, path }) {
 }
 
 export const query = graphql`
-  query($skip: Int = 1, $pageSize: Int = 8) {
+  query ($skip: Int = 1, $pageSize: Int = 8) {
     blog: allMdx(
       skip: $skip
       limit: $pageSize

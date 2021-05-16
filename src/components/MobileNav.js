@@ -16,7 +16,7 @@ const MobileNavBarContainer = styled.nav`
   padding: 0.75rem 1.5rem;
   margin: 0;
   width: auto;
-  background-color: var(--accent);
+  background-color: var(--secondaryBg);
   border-radius: var(--borderRadius);
 
   & > ul {
@@ -24,7 +24,7 @@ const MobileNavBarContainer = styled.nav`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: clamp(2rem, 1vw, 4rem);
+    gap: clamp(2rem, 5vw, 5rem);
 
     margin: 0;
 

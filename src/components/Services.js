@@ -6,7 +6,7 @@ import Services from '../data/services.json';
 
 const ServiceSectionContainer = styled.section`
   background-color: var(--secondaryBg);
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,7 +26,7 @@ const ServiceSectionContainer = styled.section`
     gap: clamp(1rem, 2vw, 2rem);
     padding-top: 2rem;
 
-    width: clamp(300px, 100vw, var(--maxWidth));
+    width: clamp(300px, 80vw, var(--maxWidth));
   }
 `;
 

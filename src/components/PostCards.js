@@ -33,11 +33,11 @@ const HeroPostContainer = styled(motion.div)`
   gap: 2rem;
 
   & > div {
-    width: clamp(300px, 20vw, 400px);
+    width: clamp(300px, 80vw, 400px);
   }
 
   .gatsby-image-wrapper {
-    width: clamp(300px, 40vw, 700px);
+    width: clamp(300px, 60vw, 700px);
     border-radius: var(--borderRadius);
     filter: drop-shadow(var(--shadow));
   }

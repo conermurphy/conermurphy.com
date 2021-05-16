@@ -9,7 +9,7 @@ const CTAContainer = styled.div`
   align-items: center;
   justify-content: center;
   background-color: var(--secondaryBg);
-  width: 100vw;
+  width: 100%;
   padding: 2.5rem 0;
   text-align: center;
 

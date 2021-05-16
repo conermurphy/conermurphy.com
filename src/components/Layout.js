@@ -30,12 +30,17 @@ const MobileMenuOpenContainer = styled.div`
   overflow: hidden;
 
   & > main {
-    background-color: var(--primaryBg);
-    align-self: center;
-    border-radius: var(--borderRadius);
-    filter: drop-shadow(var(--shadow));
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     max-width: 80vw;
+    align-self: center;
+
+    & > button {
+      border: none;
+      background-color: var(--primaryBg);
+      border-radius: var(--borderRadius);
+      filter: drop-shadow(var(--shadow));
+    }
   }
 `;
 
@@ -56,7 +61,11 @@ export default function Layout({ children, path }) {
         <Typography />
         <GlobalStyles />
         <MobileNav path={path} setMobileMenuOpen={setMobileMenuOpen} />
-        <main>{children}</main>
+        <main>
+          <button type="button" onClick={() => setMobileMenuOpen(false)}>
+            {children}
+          </button>
+        </main>
       </MobileMenuOpenContainer>
     </CustomThemeProvider>
   ) : (
