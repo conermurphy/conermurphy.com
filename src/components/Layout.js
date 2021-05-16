@@ -46,6 +46,10 @@ const MobileMenuOpenContainer = styled(motion.div)`
       background-color: var(--primaryBg);
       border-radius: var(--borderRadius);
       filter: drop-shadow(var(--shadow));
+
+      & > * {
+        line-height: initial;
+      }
     }
   }
 `;

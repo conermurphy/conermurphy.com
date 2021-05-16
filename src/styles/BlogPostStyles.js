@@ -23,7 +23,7 @@ const PostBodyContainer = styled.div`
   gap: 2rem;
 
   .content {
-    max-width: clamp(300px, 80vw, 700px);
+    max-width: clamp(300px, 60vw, 700px);
   }
 
   & > h1,
@@ -57,7 +57,7 @@ const PostBodyContainer = styled.div`
     }
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: 1200px) {
     flex-direction: column;
     align-items: center;
   }

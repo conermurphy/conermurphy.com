@@ -18,7 +18,7 @@ const SideBarContainer = styled.aside`
   top: 0;
   height: min-content;
 
-  @media (max-width: 800px) {
+  @media (max-width: 1200px) {
     position: relative;
   }
 `;
@@ -30,7 +30,7 @@ const SocialIconsContainer = styled.div`
   justify-content: center;
   z-index: 999;
 
-  @media (max-width: 800px) {
+  @media (max-width: 1200px) {
     flex-direction: row;
   }
 
