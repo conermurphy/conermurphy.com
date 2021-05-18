@@ -169,7 +169,7 @@ export default function TwitterThreadItem({ tweet }) {
     setLightBoxImageOpen(false);
   }
 
-  function LightBoxImageContainer() {
+  function LightBoxImageContainer({ title }) {
     return lightBoxImageOpen ? (
       <LightBoxImageWrapper>
         <div className="background" />
@@ -185,7 +185,7 @@ export default function TwitterThreadItem({ tweet }) {
             duration: 0.3,
           }}
         >
-          <GatsbyImage image={lightBoxImage.childImageSharp.gatsbyImageData} objectFit="contain" />
+          <GatsbyImage image={lightBoxImage.childImageSharp.gatsbyImageData} objectFit="contain" alt={title} />
         </motion.div>
       </LightBoxImageWrapper>
     ) : null;
@@ -228,7 +228,7 @@ export default function TwitterThreadItem({ tweet }) {
 
   return (
     <TweetContainer>
-      <LightBoxImageContainer />
+      <LightBoxImageContainer title={title} />
       <div className="tweetHeader">
         <TwitterAuthor />
         <a href={tweetLink} target="_blank" rel="noopener noreferrer">

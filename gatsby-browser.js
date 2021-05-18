@@ -5,7 +5,7 @@ import { ThemeProvider } from './src/context/ThemeContext';
 
 export function wrapPageElement({ element, props }) {
   return (
-    <AnimatePresence exitBeforeEnter>
+    <AnimatePresence exitBeforeEnter initial={false}>
       <Layout {...props}>{element}</Layout>
     </AnimatePresence>
   );

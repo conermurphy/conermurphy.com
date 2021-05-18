@@ -18,10 +18,6 @@ const SEO = ({ post }) => {
     url: `${siteUrl}${pathname}`,
   };
 
-  console.log(canonical);
-
-  // const canonical = pathJoin(siteUrl, slug);
-
   return (
     <Helmet title={seo.title} titleTemplate={`%s - ${defaultTitle}`}>
       <html lang="en" />

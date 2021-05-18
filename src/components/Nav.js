@@ -68,8 +68,9 @@ const AuthorCardContainer = styled.div`
 
   gap: 1.5rem;
 
-  & img {
+  & > a > img {
     width: 50px;
+    height: 50px;
   }
 
   & > h3 {
@@ -145,6 +146,7 @@ export default function Nav({ path }) {
             className="darkModeToggle"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            aria-label="Toggle Dark Mode"
           >
             <FaPalette />
           </motion.button>

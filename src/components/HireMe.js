@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StatusContainer = styled.p`
-  color: var(--accent);
+  color: var(--primaryText);
   font-weight: bold;
 `;
 

@@ -69,7 +69,7 @@ export default function ThreadPostCard({ thread }) {
   return (
     <ThreadContainer whileHover={{ scale: 1.025 }} whileTap={{ scale: 0.975 }}>
       <Link to={slug} className="postLinks">
-        {images && <GatsbyImage image={images[0].childImageSharp.gatsbyImageData} />}
+        {images && <GatsbyImage image={images[0].childImageSharp.gatsbyImageData} alt={title} />}
         <p className="published">Published on {date}</p>
         <h3 className="title">{title}</h3>
         <p>{excerpt.slice(title.length)}</p>

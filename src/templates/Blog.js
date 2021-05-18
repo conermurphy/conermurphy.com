@@ -58,7 +58,7 @@ const BlogPost = ({ data, pageContext, path, location }) => {
             ))}
           </div>
         </BlogHeader>
-        <GatsbyImage className="heroImage" image={image.childImageSharp.gatsbyImageData} />
+        <GatsbyImage className="heroImage" image={image.childImageSharp.gatsbyImageData} alt={title} />
         <PostBodyContainer>
           <Sidebar data={postData} />
           <div className="content">
