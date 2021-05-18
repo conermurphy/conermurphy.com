@@ -74,10 +74,7 @@ async function turnBlogPostsIntoPages({ graphql, actions }) {
     },
   } = await graphql(`
     query {
-      blog: allMdx(
-        sort: { order: ASC, fields: frontmatter___date }
-        filter: { fields: { contentCategory: { eq: "blog" } }, frontmatter: { published: { eq: true } } }
-      ) {
+      blog: allMdx(sort: { order: ASC, fields: frontmatter___date }, filter: { fields: { contentCategory: { eq: "blog" } } }) {
         edges {
           node {
             fields {

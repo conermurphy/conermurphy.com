@@ -5,7 +5,7 @@ dotenv.config({ path: '.env' });
 export default {
   siteMetadata: {
     title: 'Coner Murphy',
-    description: 'Web Developer, Blogger, Content Creator',
+    description: 'Web Developer & Content Creator',
     author: 'Coner Murphy',
     siteUrl: 'https://conermurphy.com',
     twitterUsername: '@MrConerMurphy',

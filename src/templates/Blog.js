@@ -18,7 +18,7 @@ const BlogPost = ({ data, pageContext, path, location }) => {
   // Destructing out values to use in page.
   const post = data.mdx;
   const { frontmatter, timeToRead, body, fileAbsolutePath, excerpt } = post;
-  const { image, title, description, date, plainDate, tags } = frontmatter;
+  const { image, title, description, date, plainDate, tags, canonical_url } = frontmatter;
 
   // Setting image path for SEO if no image use the logo.
   const imagePath = image ? image.childImageSharp.gatsbyImageData.images.fallback.src : '/Logo.png';
@@ -40,6 +40,7 @@ const BlogPost = ({ data, pageContext, path, location }) => {
           image: imagePath,
           article: true,
           date: plainDate,
+          canonical: canonical_url,
         }}
       />
       <PostContainer>
@@ -88,6 +89,7 @@ export const query = graphql`
       }
       frontmatter {
         title
+        canonical_url
         description
         image {
           childImageSharp {
