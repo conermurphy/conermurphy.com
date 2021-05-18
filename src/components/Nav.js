@@ -134,7 +134,7 @@ export default function Nav({ path }) {
               </Link>
             </motion.li>
             <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link to="/contact-me" className="callToAction">
+              <Link to="/contact" className="callToAction">
                 <MdChatBubble /> Hire Me
               </Link>
             </motion.li>

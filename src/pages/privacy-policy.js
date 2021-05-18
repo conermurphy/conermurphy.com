@@ -5,9 +5,9 @@ const PrivacyPolicyContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 5rem;
+  width: clamp(300px, 80vw, var(--maxWidth));
 
   & > h2 {
-    border-top: 2px solid var(--grey);
     padding-top: 1rem;
   }
 
@@ -27,7 +27,7 @@ export default function PrivacyPolicy() {
   if (typeof window !== 'undefined') {
     return (
       <PrivacyPolicyContainer>
-        <div className="headerTitleSeperator">
+        <div>
           <h1>Privacy Policy</h1>
         </div>
         <p>

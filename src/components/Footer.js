@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { graphql, useStaticQuery } from 'gatsby';
+import { graphql, Link, useStaticQuery } from 'gatsby';
 import { EmailSignup } from './EmailSignup';
 import ContactIcons from './ContactIcons';
 import { HireMe } from './HireMe';
@@ -38,6 +38,10 @@ const FooterContentContainer = styled.div`
 
     h3 {
       font-size: 2.5rem;
+    }
+
+    & > ul {
+      margin: 0;
     }
   }
 
@@ -102,6 +106,30 @@ function FooterContent() {
         <ContactIcons />
         <h4>Sign Up For My Newsletter:</h4>
         <EmailSignup />
+        <h4>Pages:</h4>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about-me">About Me</Link>
+          </li>
+          <li>
+            <Link to="/blog">Blog</Link>
+          </li>
+          <li>
+            <Link to="/threads">Threads</Link>
+          </li>
+          <li>
+            <Link to="/projects">Projects</Link>
+          </li>
+          <li>
+            <Link to="/privacy-policy">Privacy Policy</Link>
+          </li>
+          <li>
+            <Link to="/contact">Contact Me</Link>
+          </li>
+        </ul>
       </div>
       <div className="latestPost">
         <h3>Latest Post:</h3>

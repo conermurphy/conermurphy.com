@@ -10,7 +10,7 @@ export default function HomePage({ path }) {
     title: 'Hi, I’m Coner.',
     subtitle: 'I Help Businesses Grow by Developing Astounding Websites.',
     CTA: 'Ready To Grow?',
-    CTALink: '/contact-me',
+    CTALink: '/contact',
   };
 
   return (

@@ -147,7 +147,7 @@ export function MobileNav({ path, setMobileMenuOpen }) {
             </Link>
           </li>
           <li>
-            <Link to="/contact-me" className="callToAction" onClick={() => handleClick()}>
+            <Link to="/contact" className="callToAction" onClick={() => handleClick()}>
               <MdChatBubble /> Hire Me
             </Link>
           </li>
