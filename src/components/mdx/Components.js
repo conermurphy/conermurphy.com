@@ -38,8 +38,7 @@ const H6 = styled.h6`
   padding: 1rem 0;
 `;
 
-const ALinks = styled.a`
-`;
+const ALinks = styled.a``;
 
 const HR = styled.hr`
   width: 25%;
@@ -73,9 +72,6 @@ const UL = styled.ul`
 
 const CustomIMG = styled.img`
   width: 100%;
-  width: -moz-available;
-  width: -webkit-fill-available;
-  width: fill-available;
 `;
 
 function copyToClip() {
