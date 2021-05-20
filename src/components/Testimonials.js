@@ -85,12 +85,10 @@ export function TestimonialCard({ testimonial }) {
   const { person, company, testimonial: text } = testimonial;
   return (
     <TestimonialCardContainer>
-      <div>
-        <h4 className="title">
-          {person} | {company}
-        </h4>
-        <p className="text">{text}</p>
-      </div>
+      <h4 className="title">
+        {person} | {company}
+      </h4>
+      <p className="text">{text}</p>
       <TestimonialIcon />
     </TestimonialCardContainer>
   );

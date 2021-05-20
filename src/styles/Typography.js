@@ -103,7 +103,7 @@ const Typography = createGlobalStyle`
   .title {
     margin-bottom: 1rem;
     margin-top: 0;
-    width: clamp(300px, 30vw, 500px);
+    width: clamp(300px, 30vw, 450px);
   }
 
   /* Individual element Styles */
