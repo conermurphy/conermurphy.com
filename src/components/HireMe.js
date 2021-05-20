@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const StatusContainer = styled.p`
   color: var(--primaryText);
   font-weight: bold;
+  margin-top: 0;
 `;
 
 export function HireMe({ available }) {

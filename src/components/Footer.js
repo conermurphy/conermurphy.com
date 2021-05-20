@@ -41,8 +41,10 @@ const FooterContentContainer = styled.div`
       font-size: 2.5rem;
     }
 
-    & > ul {
-      margin: 0;
+    h4 {
+      margin-top: 5rem;
+      margin-bottom: 0.5rem;
+      font-size: 2.25rem;
     }
   }
 `;
@@ -100,9 +102,10 @@ function FooterContent() {
         <HireMe available />
         <ContactIcons />
         <h4>Sign Up For My Newsletter:</h4>
+        <p>I publish a weekly newsletter keeping you up-to-date with everything I'm currently working on.</p>
         <EmailSignup />
         <h4>Pages:</h4>
-        <ul>
+        <ul className="nav">
           <li>
             <Link to="/">Home</Link>
           </li>

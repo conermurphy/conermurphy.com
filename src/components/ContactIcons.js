@@ -8,6 +8,7 @@ const ContactIconsContainer = styled.ul`
   flex-direction: row;
   align-items: flex-start;
   gap: 1.5rem;
+  margin: 0;
 
   & > li {
     & a {
