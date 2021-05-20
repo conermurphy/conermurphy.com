@@ -5,10 +5,11 @@ import { FaUserAlt, FaHome, FaPalette, FaKeyboard, FaTwitter, FaAlignJustify, Fa
 import { MdChatBubble } from 'react-icons/md';
 import ThemeContext from '../context/ThemeContext';
 import { AuthorCard } from './Nav';
+import ContactIcons from './ContactIcons';
 
 const MobileNavBarContainer = styled.nav`
   position: fixed;
-  bottom: 10px;
+  bottom: 2rem;
 
   z-index: 999;
 
@@ -17,13 +18,14 @@ const MobileNavBarContainer = styled.nav`
   width: auto;
   background-color: var(--secondaryBg);
   border-radius: var(--borderRadius);
+  filter: drop-shadow(var(--shadow));
 
   & > ul {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: clamp(2rem, 5vw, 5rem);
+    gap: clamp(2rem, 6vw, 5rem);
 
     margin: 0;
 
@@ -37,11 +39,13 @@ const MobileNavBarContainer = styled.nav`
 
       font-size: clamp(1.2rem, 2vw, 1.6rem);
       text-decoration: none;
+      font-weight: bold;
+      font-size: 1.3rem;
       background-color: transparent;
       border: none;
       color: var(--primaryText);
 
-      opacity: 0.75;
+      opacity: 0.6;
 
       & > svg {
         font-size: clamp(1.6rem, 2vw, 2rem);
@@ -61,6 +65,7 @@ const MobileNavContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  height: 100vh;
   justify-content: center;
   margin: 5rem 0;
   width: clamp(300px, 80vw, 1200px);
@@ -69,13 +74,13 @@ const MobileNavContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 100%;
+    width: clamp(200px, 80vw, 400px);
   }
 
   & > nav > ul {
     display: flex;
     flex-direction: column;
-    gap: 3.5rem;
+    gap: 2.5rem;
 
     & > li > a {
       text-decoration: none;
@@ -86,10 +91,7 @@ const MobileNavContainer = styled.div`
       gap: 2rem;
       width: max-content;
       font-weight: bold;
-
-      &:not(.callToAction) {
-        padding-bottom: 0.5rem;
-      }
+      padding-bottom: 0.5rem;
 
       &.active {
         border-bottom: 3px solid var(--accent);
@@ -147,9 +149,12 @@ export function MobileNav({ path, setMobileMenuOpen }) {
             </Link>
           </li>
           <li>
-            <Link to="/contact" className="callToAction" onClick={() => handleClick()}>
+            <Link to="/contact" onClick={() => handleClick()}>
               <MdChatBubble /> Hire Me
             </Link>
+          </li>
+          <li>
+            <ContactIcons />
           </li>
         </ul>
       </nav>

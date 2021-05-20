@@ -97,11 +97,13 @@ const Typography = createGlobalStyle`
     font-weight: 300;
     color: var(--primaryText);
     margin-top: 2rem;
+    width: clamp(300px, 30vw, 500px);
   }
 
   .title {
     margin-bottom: 1rem;
     margin-top: 0;
+    width: clamp(300px, 30vw, 500px);
   }
 
   /* Individual element Styles */

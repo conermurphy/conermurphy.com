@@ -37,7 +37,7 @@ const HeroPostContainer = styled(motion.div)`
   }
 
   .gatsby-image-wrapper {
-    width: clamp(300px, 60vw, 700px);
+    width: clamp(330px, 60vw, 700px);
     border-radius: var(--borderRadius);
     filter: drop-shadow(var(--shadow));
   }

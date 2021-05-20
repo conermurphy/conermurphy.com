@@ -1,7 +1,6 @@
 import { graphql } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Pagination from '../components/Pagination';
 import SEO from '../components/SEO';
 import ThreadsPostCard from '../components/ThreadsPostCard';
@@ -99,18 +98,3 @@ export const query = graphql`
     }
   }
 `;
-
-Threads.propTypes = {
-  data: PropTypes.shape({
-    threads: PropTypes.shape({
-      edges: PropTypes.array,
-      totalCount: PropTypes.number,
-    }),
-  }),
-  pageContext: PropTypes.shape({
-    currentPage: PropTypes.string,
-    skip: PropTypes.number,
-    tag: PropTypes.string,
-  }),
-  path: PropTypes.string,
-};

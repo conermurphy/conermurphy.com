@@ -164,7 +164,7 @@ export const EmailSignup = ({ center }) => {
             <input
               type="email"
               name="email"
-              id={`email-${Math.random().toString(36).substring(2, 15)}`}
+              id="email"
               placeholder="Please enter your email..."
               className="emailInput"
               onChange={updateValue}

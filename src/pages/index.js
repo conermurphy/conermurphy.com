@@ -8,7 +8,7 @@ import { CallToAction } from '../components/CallToAction';
 export default function HomePage({ path }) {
   const heroContent = {
     title: 'Hi, I’m Coner.',
-    subtitle: 'I Help Businesses Grow by Developing Astounding Websites.',
+    subtitle: 'I Help Businesses Grow by Developing Astounding User-Focused Websites.',
     CTA: 'Ready To Grow?',
     CTALink: '/contact',
   };

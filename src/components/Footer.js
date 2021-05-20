@@ -34,7 +34,8 @@ const FooterContentContainer = styled.div`
   .info {
     display: flex;
     flex-direction: column;
-    max-width: 400px;
+    width: clamp(300px, 80vw, 400px);
+    margin-bottom: 0;
 
     h3 {
       font-size: 2.5rem;
@@ -42,12 +43,6 @@ const FooterContentContainer = styled.div`
 
     & > ul {
       margin: 0;
-    }
-  }
-
-  @media (max-width: 1200px) {
-    .info {
-      align-items: center;
     }
   }
 `;
