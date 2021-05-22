@@ -3,6 +3,7 @@ import { Link } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import React from 'react';
 import styled from 'styled-components';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 
 const BlogPostContainer = styled(motion.div)`
   width: clamp(300px, 80vw, 400px);
@@ -53,8 +54,27 @@ const HeroPostContainer = styled(motion.div)`
     line-height: 3.2rem;
   }
 
+  .linkContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
   .readMore {
     font-weight: 600;
+
+    & > a {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+    }
+  }
+
+  .codeRepoLink {
+    border-left: 1px solid var(--primaryText);
+    padding-left: 2rem;
   }
 `;
 
@@ -70,18 +90,23 @@ export function ProjectCard({ project }) {
         <p className="published">Published on {date}</p>
         <h3 className="title">{title}</h3>
         <p>{description}</p>
-        <p className="readMore">
-          <a href={URL} className="postLinks" target="_blank" rel="noopener noreferrer">
-            Check out the website here...
-          </a>
-        </p>
-        {repo && (
+        <div className="linkContainer">
           <p className="readMore">
-            <a href={repo} className="postLinks" target="_blank" rel="noopener noreferrer">
-              Check out the code repository here...
+            <a href={URL} className="postLinks" target="_blank" rel="noopener noreferrer">
+              <FaExternalLinkAlt />
+              Website
             </a>
           </p>
-        )}
+
+          {repo && (
+            <p className="readMore codeRepoLink">
+              <a href={repo} className="postLinks" target="_blank" rel="noopener noreferrer">
+                <FaExternalLinkAlt />
+                Code Repository
+              </a>
+            </p>
+          )}
+        </div>
       </div>
     </HeroPostContainer>
   );
