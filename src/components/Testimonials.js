@@ -51,6 +51,11 @@ const TestimonialCardContainer = styled.div`
   border-radius: var(--borderRadius);
 
   filter: drop-shadow(var(--shadow));
+
+  & > a {
+    text-decoration: none;
+    font-weight: bold;
+  }
 `;
 
 const TestimonialIconContainer = styled.div`
@@ -82,13 +87,16 @@ function TestimonialIcon() {
 }
 
 export function TestimonialCard({ testimonial }) {
-  const { person, company, testimonial: text } = testimonial;
+  const { person, company, testimonial: text, website } = testimonial;
   return (
     <TestimonialCardContainer>
       <h4 className="title">
         {person} | {company}
       </h4>
       <p className="text">{text}</p>
+      <a href={website} target="_blank" rel="noopener noreferrer">
+        Visit their website.
+      </a>
       <TestimonialIcon />
     </TestimonialCardContainer>
   );
