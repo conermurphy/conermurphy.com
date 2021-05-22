@@ -98,7 +98,10 @@ function FooterContent() {
     <FooterContentContainer>
       <div className="info">
         <AuthorCard />
-        <p>Some Random Text that I will need to populate with something at some point.</p>
+        <p>
+          I want to help your business grow by giving you a brand new website that your users will love to use. Are you ready to grow your
+          business? If so, let's get a meeting in the diary and get started.
+        </p>
         <HireMe available />
         <ContactIcons />
         <h4>Sign Up For My Newsletter:</h4>
