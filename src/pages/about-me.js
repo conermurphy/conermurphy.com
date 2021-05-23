@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { GatsbyImage } from 'gatsby-plugin-image';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import SEO from '../components/SEO';
 
 const ContentContainer = styled.div`
@@ -10,29 +10,41 @@ const ContentContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: clamp(300px, 80vw, var(--maxWidth));
+  gap: 5rem;
+  margin-bottom: 5rem;
 
   .sectionContainer {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 5rem;
 
     .gatsby-image-wrapper {
-      height: 350px;
+      width: 300px;
       border-radius: var(--borderRadius);
       filter: drop-shadow(var(--shadow));
       object-position: top;
     }
 
     .textContainer {
-      width: clamp(300px, 60vw, 600px);
+      width: clamp(300px, 60vw, 700px);
+
+      & > h2 {
+        margin-top: 0;
+      }
+
+      & > p > a {
+        font-weight: bold;
+        text-decoration: none;
+      }
     }
   }
 `;
 
 export default function AboutMe({ data, path }) {
-  const { portraitImage, pcImage } = data;
+  const { portraitImage, pcImage, projects } = data;
 
   return (
     <>
@@ -42,10 +54,10 @@ export default function AboutMe({ data, path }) {
           title: 'About Me',
         }}
       />
-      <h1>Hi 👋, I'm Coner Murphy.</h1>
       <ContentContainer>
+        <h1>Hi 👋, I'm Coner Murphy.</h1>
         <div className="sectionContainer">
-          <GatsbyImage image={portraitImage.childImageSharp.gatsbyImageData} alt="PC Build In Progress." />
+          <GatsbyImage image={portraitImage.childImageSharp.gatsbyImageData} alt="Portrait of Coner Murphy." />
           <div className="textContainer">
             <p>
               I'm a Freelance Website Developer from the UK. I specialise in building beautiful and easy-to-use websites for businesses and
@@ -67,7 +79,7 @@ export default function AboutMe({ data, path }) {
         </div>
         <div className="sectionContainer">
           <div className="textContainer">
-            <h2>How I got here.</h2>
+            <h2>My Journey</h2>
             <p>
               For as long as I can remember, I've loved technology. From a young age, I've always wanted to know how something works. And as
               I got older, this natural curiosity grew with me.
@@ -85,7 +97,7 @@ export default function AboutMe({ data, path }) {
           <GatsbyImage image={pcImage.childImageSharp.gatsbyImageData} alt="PC Build In Progress." />
         </div>
         <div className="sectionContainer">
-          <GatsbyImage image={pcImage.childImageSharp.gatsbyImageData} alt="PC Build In Progress." />
+          <GatsbyImage image={projects.childImageSharp.gatsbyImageData} alt="Previous Projects" />
           <div className="textContainer">
             <h2>How I can help you.</h2>
             <p>I want to help you and your business achieve your goals by making you a website that your users will adore.</p>
@@ -102,10 +114,12 @@ export default function AboutMe({ data, path }) {
               business and take it from an idea to a finished product.
             </p>
             <p>
-              No matter the project, I'm here to help you make it a reality. If you've got any questions or want to get started, let's get a
-              meeting in the diary.
+              No matter the project, I'm here to help you make it a reality. If you've got any questions or want to get started,{' '}
+              <Link to="/contact">let's get a meeting in the diary.</Link>
             </p>
-            <p>If you're not quite sure if you're ready, you can check out all the services I offer here.</p>
+            <p>
+              If you're not quite sure if you're ready, you can <Link to="/#services">check out all the services I offer here.</Link>
+            </p>
           </div>
         </div>
       </ContentContainer>
@@ -122,7 +136,12 @@ export const query = graphql`
     }
     portraitImage: file(name: { eq: "portraitImage" }) {
       childImageSharp {
-        gatsbyImageData(height: 350, placeholder: BLURRED)
+        gatsbyImageData(width: 300, placeholder: BLURRED)
+      }
+    }
+    projects: file(name: { eq: "aboutMeProjects" }) {
+      childImageSharp {
+        gatsbyImageData(width: 300, placeholder: BLURRED)
       }
     }
   }
