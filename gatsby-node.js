@@ -1,7 +1,7 @@
 import path from 'path';
 import { createFilePath } from 'gatsby-source-filesystem';
 import embeddedTweets from './src/data/embeddedTweets.json';
-import { downloadTweet } from './src/utils/downloadTweets';
+import { downloadTweets } from './src/utils/downloadTweets';
 
 // This is the function called to create the main pages for each base.
 function createMainPages(actions, base, component, totalCount) {
@@ -168,7 +168,7 @@ async function fetchTweetsToEmbed({ actions, createNodeId, createContentDigest }
   const { createNode } = actions;
 
   // Map of tweets to embed and await their download if required.
-  await downloadTweet(embeddedTweets);
+  await downloadTweets(embeddedTweets);
 }
 
 export async function sourceNodes(params) {
