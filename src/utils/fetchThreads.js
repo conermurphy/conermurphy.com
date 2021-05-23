@@ -1,8 +1,7 @@
 import fetch from 'isomorphic-fetch';
-import { promises as fs } from 'fs';
 import getSlug from 'speakingurl';
 import threadsInfo from '../data/threads.json';
-import { stringifyParams } from './stringifyParams';
+import { writeJSONFiles } from './downloadTweetsHelperFunctions';
 
 const tweetsEndpoint = 'https://api.twitter.com/2/users';
 const userEndpoint = 'https://api.twitter.com/2/users/by?usernames=';
@@ -245,13 +244,6 @@ async function addingMetaDataAndDataWrapper(existingFile, tweets) {
   return finalObj;
 }
 
-// --- Write threads.json out ---
-async function writeFiles(data, filePath) {
-  await fs.writeFile(filePath, JSON.stringify(data), (err) => {
-    if (err) throw err;
-  });
-}
-
 // --- Wrapper Function ---
 export default async function fetchThreads(bearerToken) {
   let objToWriteToFile;
@@ -297,13 +289,13 @@ export default async function fetchThreads(bearerToken) {
     }
 
     // 7: Write object out to the file
-    await writeFiles(objToWriteToFile, './src/data/threads.json');
+    await writeJSONFiles(objToWriteToFile, './src/data/threads.json');
     return objToWriteToFile;
   }
   // If no data is returned and it's undefined, update the last fetch data and re-write the file.
   existingFile.meta.lastFetchedData = updatedDate;
   console.log(`No new data found, updating last fetched date/time to ${updatedDate}`);
   objToWriteToFile = existingFile;
-  await writeFiles(objToWriteToFile, './src/data/threads.json');
+  await writeJSONFiles(objToWriteToFile, './src/data/threads.json');
   return objToWriteToFile;
 }

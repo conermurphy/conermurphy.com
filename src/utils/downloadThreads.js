@@ -1,29 +1,5 @@
 import { promises as fs } from 'fs';
-import fetch from 'isomorphic-fetch';
-import FileType from 'file-type';
-import { getFolderNames } from './getFolderNames';
-
-// --- Function to get name to call image, last bit before extension and after last /
-function getImageName(path) {
-  return path.split('/').pop();
-}
-
-// --- Write threads.json out ---
-async function writeFiles(data, filePath) {
-  await fs.writeFile(filePath, JSON.stringify(data), (err) => {
-    if (err) throw err;
-  });
-}
-
-// --- Function to download media from Twitter ---
-async function downloadMedia(remotePath, localPath) {
-  // console.log(`Downloading ${remotePath} to ${localPath}`);
-  const data = await fetch(remotePath).then((res) => res.buffer());
-  const { ext = 'png' } = await FileType.fromBuffer(data);
-  const fileName = getImageName(remotePath);
-  const [, extension] = fileName.split('.');
-  await fs.writeFile(`${localPath}/${fileName}${extension ? '' : `.${ext}`}`, data);
-}
+import { downloadMedia, getImageName, getFolderNames, writeJSONFiles, writeMDXFiles } from './downloadTweetsHelperFunctions';
 
 // --- Download Tweets ---
 async function tweetsDownloader(threadsInf) {
@@ -83,9 +59,7 @@ quoteCount: ${meta.metrics.quote_count}
 ---
 `;
 
-        await fs.writeFile(`${threadFolderPath}/${slug}.mdx`, summaryContent, {
-          encoding: 'utf-8',
-        });
+        await writeMDXFiles(summaryContent, `${threadFolderPath}/${slug}.mdx`);
 
         // 5: Create a sub-folder for each tweet in the thread
         await Promise.all(
@@ -132,10 +106,7 @@ links:
 ${text}
 `;
 
-            // console.log(`Writing file for tweet ${tweetPosition}`);
-            await fs.writeFile(`${tweetFolderPath}/tweet-${tweetPosition}.mdx`, tweetContent, {
-              encoding: 'utf-8',
-            });
+            await writeMDXFiles(tweetContent, `${tweetFolderPath}/tweet-${tweetPosition}.mdx`);
           })
         );
       })
@@ -151,7 +122,7 @@ ${text}
     },
     threads: [],
   };
-  await writeFiles(finalObj, './src/data/threads.json');
+  await writeJSONFiles(finalObj, './src/data/threads.json');
 }
 
 // --- Wrapper Function for downloading threads ---
