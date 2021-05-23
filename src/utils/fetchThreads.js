@@ -2,11 +2,13 @@ import fetch from 'isomorphic-fetch';
 import { promises as fs } from 'fs';
 import getSlug from 'speakingurl';
 import threadsInfo from '../data/threads.json';
+import { stringifyParams } from './stringifyParams';
 
 const tweetsEndpoint = 'https://api.twitter.com/2/users';
 const userEndpoint = 'https://api.twitter.com/2/users/by?usernames=';
 
-const expression = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gim;
+const expression =
+  /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gim;
 const linkRegex = new RegExp(expression);
 const hyphonRegex = new RegExp(/(--)/g);
 
@@ -33,17 +35,6 @@ async function fetchUserId(bearerToken) {
   const { id, name, username } = data[0];
 
   return { id, name, username };
-}
-
-// Function used to combine parameters into one string ready to be sent to API.
-function stringifyParams(params) {
-  return Object.entries(params)
-    .map(([key, vals]) => {
-      // Remove all spaces
-      const transformedVals = vals.toString().replace(/ /g, '');
-      return `${key}=${transformedVals}`;
-    })
-    .join('&');
 }
 
 // --- Download Tweets from Twitter ---

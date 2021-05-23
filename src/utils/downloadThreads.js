@@ -1,15 +1,7 @@
-import { readdirSync, promises as fs } from 'fs';
+import { promises as fs } from 'fs';
 import fetch from 'isomorphic-fetch';
 import FileType from 'file-type';
-
-// --- Get an array of folder names existing within threads content folder.
-function getThreadFolderNames() {
-  const source = './src/content/threads';
-  const getDirectories = readdirSync(source, { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => dirent.name);
-  return getDirectories;
-}
+import { getFolderNames } from './getFolderNames';
 
 // --- Function to get name to call image, last bit before extension and after last /
 function getImageName(path) {
@@ -36,7 +28,8 @@ async function downloadMedia(remotePath, localPath) {
 // --- Download Tweets ---
 async function tweetsDownloader(threadsInf) {
   // 0: Get list of folders contained within threads folder already to see if thread exists
-  const existingThreads = getThreadFolderNames();
+  const source = './src/content/threads';
+  const existingThreads = getFolderNames(source);
   // 0b: Destructure threads out of threadsInf
   const { threads, meta } = threadsInf;
 

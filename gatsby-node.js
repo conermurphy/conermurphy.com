@@ -1,5 +1,7 @@
 import path from 'path';
 import { createFilePath } from 'gatsby-source-filesystem';
+import embeddedTweets from './src/data/embeddedTweets.json';
+import { downloadTweet } from './src/utils/downloadTweets';
 
 // This is the function called to create the main pages for each base.
 function createMainPages(actions, base, component, totalCount) {
@@ -161,6 +163,20 @@ async function turnTwitterThreadsIntoPages({ graphql, actions }) {
 }
 
 // === End of creating pages / posts ===
+
+async function fetchTweetsToEmbed({ actions, createNodeId, createContentDigest }) {
+  const { createNode } = actions;
+
+  // Map of tweets to embed and await their download if required.
+  await downloadTweet(embeddedTweets);
+}
+
+export async function sourceNodes(params) {
+  await Promise.all([
+    // Fetch Tweets To Embed
+    fetchTweetsToEmbed(params),
+  ]);
+}
 
 export async function createPages(params) {
   // After the creation of the nodes create pages for each custom type.
