@@ -10,7 +10,10 @@ import { BlogPostCard } from './PostCards';
 const FooterBody = styled.footer`
   display: flex;
   flex-direction: column;
-  width: clamp(300px, 100vw, var(--maxWidth));
+  align-items: center;
+
+  width: 100vw;
+  background-color: var(--secondaryBg);
 `;
 
 const FooterContentContainer = styled.div`
@@ -20,6 +23,7 @@ const FooterContentContainer = styled.div`
   justify-content: space-evenly;
   flex-wrap: wrap;
   margin: 2rem;
+  width: clamp(300px, 100vw, var(--maxWidth));
 
   & > div {
     margin: 5rem 0;

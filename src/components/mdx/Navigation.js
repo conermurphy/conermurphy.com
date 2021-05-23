@@ -8,7 +8,7 @@ const NavigationContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-top: 5rem;
+  margin: 5rem 0;
 
   & > * {
     padding: 0 2rem;

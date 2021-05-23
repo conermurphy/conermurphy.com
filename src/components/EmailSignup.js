@@ -31,7 +31,7 @@ const FormGridContainer = styled.form`
     label {
       border-radius: var(--borderRadius);
       filter: drop-shadow(var(--shadow));
-      background-color: var(--secondaryBg);
+      background-color: var(--primaryBg);
       color: var(--primaryText);
       display: flex;
       align-items: center;
@@ -46,7 +46,7 @@ const FormGridContainer = styled.form`
         height: 3rem;
         border: 0;
         padding: 1rem;
-        background-color: var(--secondaryBg);
+        background-color: var(--primaryBg);
         color: var(--primaryText);
       }
     }
