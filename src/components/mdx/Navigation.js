@@ -14,16 +14,22 @@ const NavigationContainer = styled.div`
     padding: 0 2rem;
     text-decoration: none;
     background-color: var(--accent);
-    color: var(--accentText);
     border-radius: var(--borderRadius);
     filter: drop-shadow(var(--shadow));
     font-weight: bold;
 
+    & > div > p {
+      color: var(--accentText);
+    }
+
     &[disabled] {
       pointer-events: none;
       opacity: 0.5;
-      color: var(--primaryText);
       background-color: var(--secondaryBg);
+
+      & > div > p {
+        color: var(--primaryText);
+      }
     }
   }
 `;

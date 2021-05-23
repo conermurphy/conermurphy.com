@@ -3,7 +3,7 @@ import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import SEO from '../components/SEO';
 import Navigation from '../components/mdx/Navigation';
-import TwitterThreadItem from '../components/TwitterThreadItem';
+import Tweet from '../components/mdx/Tweet';
 import { ProgressBar } from '../components/mdx/ProgressBar';
 import { EmailSignupForm } from '../components/mdx/EmailSignupForm';
 
@@ -87,7 +87,7 @@ const TwitterThread = ({ data, pageContext, path }) => {
         </div>
         <article className="threadBody">
           {tweets.map((tweet) => (
-            <TwitterThreadItem tweet={tweet} key={`Twitter-Thread-Tweet-${tweet}`} />
+            <Tweet tweet={tweet} key={`Twitter-Thread-Tweet-${tweet}`} />
           ))}
         </article>
         <EmailSignupForm />

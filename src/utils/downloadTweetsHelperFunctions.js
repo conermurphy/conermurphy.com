@@ -1,4 +1,4 @@
-import { readdirSync, promises as fs } from 'fs';
+import { promises as fs, readdirSync } from 'fs';
 import FileType from 'file-type';
 import fetch from 'isomorphic-fetch';
 
@@ -38,21 +38,6 @@ export function getFolderNames(source) {
     .map((dirent) => dirent.name);
   return getDirectories;
 }
-
-// helper function from https://stackoverflow.com/questions/29855098/is-there-a-built-in-javascript-function-similar-to-os-path-join
-
-export const pathJoin = (...args) => {
-  const joined = args
-    .map((part, i) => {
-      if (i === 0) {
-        return part.trim().replace(/[\/]*$/g, '');
-      }
-      return part.trim().replace(/(^[\/]*|[\/]*$)/g, '');
-    })
-    .filter((x) => x.length)
-    .join('/');
-  return joined;
-};
 
 // Function used to combine parameters into one string ready to be sent to API.
 export function stringifyParams(params) {

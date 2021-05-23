@@ -6,8 +6,7 @@ import { MDXProvider } from '@mdx-js/react';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import { FaTwitter } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import Components from './mdx/Components';
-import { useSiteMetadata } from '../utils/useSiteMetadata';
+import Components from './Components';
 
 const TweetContainer = styled.div`
   display: flex;
@@ -28,7 +27,7 @@ const TweetContainer = styled.div`
     align-items: center;
     flex-wrap: wrap;
 
-    max-width: 700px;
+    max-width: 660px;
     max-height: 300px;
     overflow: hidden;
     filter: drop-shadow(var(--shadow));
@@ -88,8 +87,9 @@ const TwitterAuthorContainer = styled.div`
   align-items: center;
   gap: 1rem;
 
-  & > img {
+  & > .authorImage {
     width: 5rem;
+    border-radius: var(--borderRadius);
   }
 
   & > div > p {
@@ -102,7 +102,7 @@ const TwitterAuthorContainer = styled.div`
 `;
 
 const CustomGatsbyImage = styled(GatsbyImage)`
-  width: ${(props) => (props.imageCount === 1 ? 'clamp(300px, 80vw, 700px)' : '150px')};
+  width: ${(props) => (props.imageCount === 1 ? 'clamp(300px, 80vw, 660px)' : '150px')};
   height: ${(props) => (props.imageCount === 1 ? 'auto' : '150px')};
   cursor: pointer;
 `;
@@ -135,22 +135,23 @@ const LightBoxImageWrapper = styled.div`
   }
 `;
 
-function TwitterAuthor() {
-  const { title, image, twitterUsername } = useSiteMetadata();
+function TwitterAuthor({ author }) {
+  const { name, username, image } = author.frontmatter;
+
   return (
-    <a href="https://twitter.com/MrConerMurphy" className="postLinks" target="_blank" rel="noopener noreferrer">
+    <a href={`https://twitter.com/${username}`} className="postLinks" target="_blank" rel="noopener noreferrer">
       <TwitterAuthorContainer>
-        <img src={image} alt={title} />
+        <GatsbyImage image={image.childImageSharp.gatsbyImageData} objectFit="contain" alt={name} className="authorImage" />
         <div>
-          <p className="author">{title}</p>
-          <p>{twitterUsername}</p>
+          <p className="author">{name}</p>
+          <p>{username}</p>
         </div>
       </TwitterAuthorContainer>
     </a>
   );
 }
 
-export default function TwitterThreadItem({ tweet }) {
+export default function Tweet({ tweet }) {
   const [lightBoxImage, setLightBoxImage] = useState();
   const [lightBoxImageOpen, setLightBoxImageOpen] = useState(false);
   // Function to copy link to tweet on Twitter to clipboard
@@ -194,12 +195,13 @@ export default function TwitterThreadItem({ tweet }) {
   // 1: Querying for all tweets in all threads as unable to pass variables to static queries.
   const data = useStaticQuery(graphql`
     query {
-      allMdx(filter: { frontmatter: { type: { eq: "tweet" } } }) {
+      tweets: allMdx(filter: { frontmatter: { type: { eq: "tweet" } } }) {
         edges {
           node {
             frontmatter {
               position
               tweetId
+              authorId
               date(formatString: "DD/MM/YYYY HH:mm")
               images {
                 childImageSharp {
@@ -213,24 +215,49 @@ export default function TwitterThreadItem({ tweet }) {
           }
         }
       }
+      authors: allMdx(filter: { frontmatter: { type: { eq: "author" } } }) {
+        edges {
+          node {
+            frontmatter {
+              authorId
+              name
+              username
+              image {
+                childImageSharp {
+                  gatsbyImageData(layout: FULL_WIDTH)
+                }
+                id
+              }
+            }
+          }
+        }
+      }
     }
   `);
 
-  // 2: Finding the required tweet from all of the tweets.
-  const allTweets = data.allMdx.edges;
+  // 2a: Finding the required tweet from all of the tweets.
+  const allTweets = data.tweets.edges;
   const [tweetToDispaly] = allTweets.filter(({ node }) => node.frontmatter.tweetId === tweet);
 
-  // 3: Destructure values out from required tweet
+  // 2b: Destructure values out from required tweet
   const { body, frontmatter } = tweetToDispaly.node;
-  const { tweetId, images, links, date } = frontmatter;
+  const { tweetId, images, links, date, authorId } = frontmatter;
 
-  const tweetLink = `https://twitter.com/MrConerMurphy/status/${tweetId}`;
+  // 3a: Finding the required author from all of the authors.
+  const author = authorId !== null ? authorId : '1249718482436055044';
+  const allAuthors = data.authors.edges;
+  const [authorToDisplay] = allAuthors.filter(({ node }) => node.frontmatter.authorId === author);
+
+  // 3b: Destructure values out from required author
+  const { username } = authorToDisplay.node;
+
+  const tweetLink = `https://twitter.com/${username}/status/${tweetId}`;
 
   return (
     <TweetContainer>
-      <LightBoxImageContainer title={title} />
+      <LightBoxImageContainer title={body.slice(0, 20)} />
       <div className="tweetHeader">
-        <TwitterAuthor />
+        <TwitterAuthor author={authorToDisplay.node} />
         <a href={tweetLink} target="_blank" rel="noopener noreferrer">
           <FaTwitter className="twitterLogo" />
         </a>

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
+import Tweet from './Tweet';
 
 const H1 = styled.h1``;
 
@@ -152,6 +153,7 @@ const Components = {
   inlineCode: (props) => <InlineCode {...props} />,
   ul: (props) => <UL {...props} />,
   img: (props) => <CustomIMG {...props} />,
+  Tweet: (props) => <Tweet {...props} />,
 };
 
 export default Components;

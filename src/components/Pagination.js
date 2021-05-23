@@ -16,6 +16,10 @@ const PaginationContainer = styled.div`
   .nextPrevButton {
     background-color: var(--accent);
     color: var(--accentText);
+
+    & > span {
+      color: var(--accentText);
+    }
   }
 
   & > * {
@@ -33,8 +37,11 @@ const PaginationContainer = styled.div`
     &[disabled] {
       pointer-events: none;
       opacity: 0.5;
-      color: var(--primaryText);
       background-color: var(--secondaryBg);
+
+      & > span {
+        color: var(--primaryText);
+      }
     }
   }
 `;

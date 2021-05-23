@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { useLocation } from '@reach/router';
-import { pathJoin } from '../utils/path-join';
-
 import { useSiteMetadata } from '../utils/useSiteMetadata';
+import { pathJoin } from '../utils/pathJoin';
 
 const SEO = ({ post }) => {
   const { title, description, image, slug, article, date, canonical } = post;
