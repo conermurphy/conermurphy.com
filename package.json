@@ -9,7 +9,7 @@
     "develop": "cross-env NODE_OPTIONS=\"-r esm\" gatsby develop",
     "start": "cross-env NODE_OPTIONS=\"-r esm\" npm run develop",
     "serve": "cross-env NODE_OPTIONS=\"-r esm\" gatsby serve",
-    "scrape": "cross-env NODE_OPTIONS=\"-r esm\" node scrape-threads.js",
+    "scrapeThreads": "cross-env NODE_OPTIONS=\"-r esm\" node scrape-threads.js",
     "clean": "gatsby clean",
     "netlify": "netlify dev",
     "prebuild": "netlify-lambda install"
