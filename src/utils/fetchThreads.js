@@ -112,7 +112,7 @@ async function summariseConversationData(tweets) {
         // 1a: Check if the tweet was sent by me and is the first tweet in a conversation OR was in reply to myself.
         if (
           (tweet.conversation_id === tweet.id && tweet.author_id === '1249718482436055044') ||
-          tweet.in_reply_to_user_id === '1249718482436055044'
+          (tweet.in_reply_to_user_id === '1249718482436055044' && tweet.author_id === '1249718482436055044')
         ) {
           return tweet.conversation_id;
         }
