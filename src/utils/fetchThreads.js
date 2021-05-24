@@ -9,6 +9,7 @@ const userEndpoint = 'https://api.twitter.com/2/users/by?usernames=';
 const expression = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gim;
 const linkRegex = new RegExp(expression);
 const hyphonRegex = new RegExp(/(--)/g);
+const linkEmojiRegex = new RegExp(/(🔗)/g);
 
 // --- Get User ID from Twitter ---
 async function fetchUserId(bearerToken) {
@@ -171,7 +172,7 @@ async function populateTweetData(tweets, convoData, includes = []) {
       .map((item, i) => ({
         id: item.id,
         media: item.attachments && item.attachments.media_keys,
-        text: item.text.replace(linkRegex, '').replace(hyphonRegex, ''),
+        text: item.text.replace(linkRegex, '').replace(hyphonRegex, '').replace(linkEmojiRegex, ''),
         type: 'tweet',
         date: item.created_at,
         position: convoTweets.length + 1 - (i + 1),

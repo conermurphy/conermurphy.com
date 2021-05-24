@@ -164,17 +164,10 @@ async function turnTwitterThreadsIntoPages({ graphql, actions }) {
 
 // === End of creating pages / posts ===
 
-async function fetchTweetsToEmbed({ actions, createNodeId, createContentDigest }) {
-  const { createNode } = actions;
-
-  // Map of tweets to embed and await their download if required.
-  await downloadTweets(embeddedTweets);
-}
-
 export async function sourceNodes(params) {
   await Promise.all([
     // Fetch Tweets To Embed
-    fetchTweetsToEmbed(params),
+    downloadTweets(params),
   ]);
 }
 
