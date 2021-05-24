@@ -80,7 +80,7 @@ export const query = graphql`
   query {
     logo: file(name: { eq: "Logo" }) {
       childImageSharp {
-        gatsbyImageData(height: 500, placeholder: BLURRED)
+        gatsbyImageData(width: 150, placeholder: BLURRED)
       }
     }
   }

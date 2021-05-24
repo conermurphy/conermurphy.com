@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { Link } from 'gatsby';
+import { graphql, Link, useStaticQuery } from 'gatsby';
 import { FaPalette } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { MdChatBubble } from 'react-icons/md';
+import { GatsbyImage } from 'gatsby-plugin-image';
 import { useSiteMetadata } from '../utils/useSiteMetadata';
 import ThemeContext from '../context/ThemeContext';
 
@@ -64,11 +65,11 @@ const AuthorCardContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
 
   gap: 1.5rem;
 
-  & > a > img {
+  & > a > .gatsby-image-wrapper {
     width: 50px;
     height: 50px;
   }
@@ -79,19 +80,31 @@ const AuthorCardContainer = styled.div`
 `;
 
 export function AuthorCard({ closeMenu }) {
-  const { title, image } = useSiteMetadata();
+  const { title } = useSiteMetadata();
+
+  const data = useStaticQuery(graphql`
+    query {
+      logo: file(name: { eq: "Logo" }) {
+        childImageSharp {
+          gatsbyImageData(width: 50, placeholder: BLURRED)
+        }
+      }
+    }
+  `);
+
+  const { logo } = data;
 
   return closeMenu ? (
     <AuthorCardContainer>
       <Link to="/" onClick={() => closeMenu()}>
-        <img src={image} alt="Site Logo" />
+        <GatsbyImage image={logo.childImageSharp.gatsbyImageData} alt="Logo" />
       </Link>
       <h3>{title}</h3>
     </AuthorCardContainer>
   ) : (
     <AuthorCardContainer>
       <Link to="/">
-        <img src={image} alt="Site Logo" />
+        <GatsbyImage image={logo.childImageSharp.gatsbyImageData} alt="Logo" />
       </Link>
       <h3>{title}</h3>
     </AuthorCardContainer>
