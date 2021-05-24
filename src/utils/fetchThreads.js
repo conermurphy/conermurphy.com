@@ -1,13 +1,12 @@
 import fetch from 'isomorphic-fetch';
 import getSlug from 'speakingurl';
 import threadsInfo from '../data/threads.json';
-import { writeJSONFiles } from './downloadTweetsHelperFunctions';
+import { stringifyParams, writeJSONFiles } from './downloadTweetsHelperFunctions';
 
 const tweetsEndpoint = 'https://api.twitter.com/2/users';
 const userEndpoint = 'https://api.twitter.com/2/users/by?usernames=';
 
-const expression =
-  /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gim;
+const expression = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gim;
 const linkRegex = new RegExp(expression);
 const hyphonRegex = new RegExp(/(--)/g);
 

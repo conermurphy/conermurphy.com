@@ -23,6 +23,10 @@ const ThreadContainer = styled(motion.div)`
     line-height: 3.2rem;
   }
 
+  .threadTitle {
+    max-width: 400px;
+  }
+
   .readMore {
     font-weight: 600;
   }
@@ -71,7 +75,7 @@ export default function ThreadPostCard({ thread }) {
       <Link to={slug} className="postLinks">
         {images && <GatsbyImage image={images[0].childImageSharp.gatsbyImageData} alt={title} />}
         <p className="published">Published on {date}</p>
-        <h3 className="title">{title}</h3>
+        <h3 className="title threadTitle">{title}</h3>
         <p>{excerpt.slice(title.length)}</p>
         <p className="readMore">Click here to read more...</p>
       </Link>

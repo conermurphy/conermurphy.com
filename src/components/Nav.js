@@ -65,7 +65,7 @@ const AuthorCardContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
   gap: 1.5rem;
 
