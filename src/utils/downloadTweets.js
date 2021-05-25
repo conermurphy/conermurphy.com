@@ -2,6 +2,7 @@ import fetch from 'isomorphic-fetch';
 import { promises as fs } from 'fs';
 import dotenv from 'dotenv';
 import { downloadMedia, stringifyParams, getImageName, getFolderNames, writeMDXFiles } from './downloadTweetsHelperFunctions';
+import embeddedTweets from '../data/embeddedTweets.json';
 
 dotenv.config({ path: '.env' });
 
@@ -195,10 +196,10 @@ async function downloadAuthors(includes) {
 
 // === Authors End ===
 
-export async function downloadTweets(tweets) {
+export async function downloadTweets() {
   const existingTweets = getFolderNames(tweetsFolderPath);
 
-  const tweetsToDownload = tweets.filter((tweet) => !existingTweets.includes(tweet));
+  const tweetsToDownload = embeddedTweets.filter((tweet) => !existingTweets.includes(tweet));
 
   if (tweetsToDownload.length !== 0) {
     const { data, includes } = await fetchTweets(tweetsToDownload);
