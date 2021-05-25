@@ -99,6 +99,13 @@ const CustomIMG = styled.img`
   margin: 2rem 0;
 `;
 
+const CustomBlockQuote = styled.blockquote`
+  border-left: 5px solid var(--accent);
+  background-color: var(--secondaryBg);
+  padding: 0.25rem 2rem;
+  margin: 0;
+`;
+
 function copyToClip() {
   navigator.clipboard.writeText(window.location);
 }
@@ -154,6 +161,7 @@ const Components = {
   ul: (props) => <UL {...props} />,
   img: (props) => <CustomIMG {...props} />,
   Tweet: (props) => <Tweet {...props} />,
+  blockquote: (props) => <CustomBlockQuote {...props} />,
 };
 
 export default Components;
