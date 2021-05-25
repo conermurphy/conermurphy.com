@@ -55,7 +55,7 @@ export default function Blog({ data, pageContext, path }) {
       <AllPostsContainer>
         <div>
           {blogPosts.map(({ node }) => {
-            if (node.frontmatter.published === false) return null;
+            if (!node.frontmatter.published) return null;
             return <BlogPostCard key={`blogPostCard-${node.frontmatter.title}`} post={node} />;
           })}
         </div>
@@ -72,7 +72,7 @@ export const query = graphql`
       skip: $skip
       limit: $pageSize
       sort: { order: DESC, fields: frontmatter___date }
-      filter: { frontmatter: { published: { eq: true } } }
+      filter: { fields: { contentCategory: { eq: "blog" } } }
     ) {
       edges {
         node {
@@ -83,6 +83,7 @@ export const query = graphql`
             date(formatString: "MMM Do YYYY")
             description
             tags
+            published
             title
             image {
               childImageSharp {
