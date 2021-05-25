@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import Tweet from './Tweet';
+import { ImageText } from './ImageText';
 
 const H1 = styled.h1``;
 
@@ -161,6 +162,7 @@ const Components = {
   ul: (props) => <UL {...props} />,
   img: (props) => <CustomIMG {...props} />,
   Tweet: (props) => <Tweet {...props} />,
+  ImageText: (props) => <ImageText {...props} />,
   blockquote: (props) => <CustomBlockQuote {...props} />,
 };
 
