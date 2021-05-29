@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
-import { promises as fs } from 'fs';
 import getSlug from 'speakingurl';
 import threadsInfo from '../data/threads.json';
+import { stringifyParams, writeJSONFiles } from './downloadTweetsHelperFunctions';
 
 const tweetsEndpoint = 'https://api.twitter.com/2/users';
 const userEndpoint = 'https://api.twitter.com/2/users/by?usernames=';
@@ -9,6 +9,7 @@ const userEndpoint = 'https://api.twitter.com/2/users/by?usernames=';
 const expression = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gim;
 const linkRegex = new RegExp(expression);
 const hyphonRegex = new RegExp(/(--)/g);
+const linkEmojiRegex = new RegExp(/(🔗)/g);
 
 // --- Get User ID from Twitter ---
 async function fetchUserId(bearerToken) {
@@ -33,17 +34,6 @@ async function fetchUserId(bearerToken) {
   const { id, name, username } = data[0];
 
   return { id, name, username };
-}
-
-// Function used to combine parameters into one string ready to be sent to API.
-function stringifyParams(params) {
-  return Object.entries(params)
-    .map(([key, vals]) => {
-      // Remove all spaces
-      const transformedVals = vals.toString().replace(/ /g, '');
-      return `${key}=${transformedVals}`;
-    })
-    .join('&');
 }
 
 // --- Download Tweets from Twitter ---
@@ -122,7 +112,7 @@ async function summariseConversationData(tweets) {
         // 1a: Check if the tweet was sent by me and is the first tweet in a conversation OR was in reply to myself.
         if (
           (tweet.conversation_id === tweet.id && tweet.author_id === '1249718482436055044') ||
-          tweet.in_reply_to_user_id === '1249718482436055044'
+          (tweet.in_reply_to_user_id === '1249718482436055044' && tweet.author_id === '1249718482436055044')
         ) {
           return tweet.conversation_id;
         }
@@ -182,7 +172,7 @@ async function populateTweetData(tweets, convoData, includes = []) {
       .map((item, i) => ({
         id: item.id,
         media: item.attachments && item.attachments.media_keys,
-        text: item.text.replace(linkRegex, '').replace(hyphonRegex, ''),
+        text: item.text.replace(linkRegex, '').replace(hyphonRegex, '').replace(linkEmojiRegex, ''),
         type: 'tweet',
         date: item.created_at,
         position: convoTweets.length + 1 - (i + 1),
@@ -254,13 +244,6 @@ async function addingMetaDataAndDataWrapper(existingFile, tweets) {
   return finalObj;
 }
 
-// --- Write threads.json out ---
-async function writeFiles(data, filePath) {
-  await fs.writeFile(filePath, JSON.stringify(data), (err) => {
-    if (err) throw err;
-  });
-}
-
 // --- Wrapper Function ---
 export default async function fetchThreads(bearerToken) {
   let objToWriteToFile;
@@ -306,13 +289,13 @@ export default async function fetchThreads(bearerToken) {
     }
 
     // 7: Write object out to the file
-    await writeFiles(objToWriteToFile, './src/data/threads.json');
+    await writeJSONFiles(objToWriteToFile, './src/data/threads.json');
     return objToWriteToFile;
   }
   // If no data is returned and it's undefined, update the last fetch data and re-write the file.
   existingFile.meta.lastFetchedData = updatedDate;
   console.log(`No new data found, updating last fetched date/time to ${updatedDate}`);
   objToWriteToFile = existingFile;
-  await writeFiles(objToWriteToFile, './src/data/threads.json');
+  await writeJSONFiles(objToWriteToFile, './src/data/threads.json');
   return objToWriteToFile;
 }

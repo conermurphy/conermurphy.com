@@ -1,18 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaTwitter, FaLinkedin, FaEnvelope, FaInstagram, FaGithub } from 'react-icons/fa';
+import { FaTwitter, FaLinkedin, FaEnvelope, FaInstagram, FaGithub, FaFacebook } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const ContactIconsContainer = styled.ul`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: center;
-  gap: 0rem;
+  gap: 1.5rem;
+  margin: 0;
 
   & > li {
-    padding: 0.25rem;
-    margin: 0;
-
     & a {
       display: flex;
       align-items: center;
@@ -22,11 +20,9 @@ const ContactIconsContainer = styled.ul`
 
   .contactIcon {
     & > svg {
-      padding: 0.75rem;
-      border-radius: 5px;
-      background-color: var(--white);
-      fill: var(--black);
-      margin: 0rem 0.5rem;
+      font-size: 2.5rem;
+      fill: var(--headerText);
+      overflow: hidden;
     }
   }
 `;
@@ -35,7 +31,7 @@ export default function ContactIcons() {
   return (
     <>
       <ContactIconsContainer>
-        <li>
+        <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <a
             href="https://github.com/conermurphy"
             target="_blank"
@@ -45,8 +41,8 @@ export default function ContactIcons() {
           >
             <FaGithub />
           </a>
-        </li>
-        <li>
+        </motion.li>
+        <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <a
             href="https://twitter.com/MrConerMurphy"
             target="_blank"
@@ -56,8 +52,8 @@ export default function ContactIcons() {
           >
             <FaTwitter />
           </a>
-        </li>
-        <li>
+        </motion.li>
+        <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <a
             href="https://www.linkedin.com/in/coner-murphy/"
             target="_blank"
@@ -67,8 +63,8 @@ export default function ContactIcons() {
           >
             <FaLinkedin />
           </a>
-        </li>
-        <li>
+        </motion.li>
+        <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <a
             href="https://instagram.com/mrconermurphy/"
             target="_blank"
@@ -78,8 +74,19 @@ export default function ContactIcons() {
           >
             <FaInstagram />
           </a>
-        </li>
-        <li>
+        </motion.li>
+        <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+          <a
+            href="https://www.facebook.com/MrConerMurphy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contactIcon"
+            aria-label="Link to Facebook Page"
+          >
+            <FaFacebook />
+          </a>
+        </motion.li>
+        <motion.li whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <a
             href="mailto:hey@conermurphy.com"
             target="_blank"
@@ -89,7 +96,7 @@ export default function ContactIcons() {
           >
             <FaEnvelope />
           </a>
-        </li>
+        </motion.li>
       </ContactIconsContainer>
     </>
   );

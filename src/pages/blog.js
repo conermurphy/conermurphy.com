@@ -1,40 +1,28 @@
 import { graphql } from 'gatsby';
 import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import useNavTheme from '../utils/useNavTheme';
-import BlogPostCard from '../components/BlogPostCard';
+import { HeroPostCard } from '../components/PostCards';
+import { Hero } from '../components/Hero';
 import Pagination from '../components/Pagination';
 import SEO from '../components/SEO';
-import TagFilter from '../components/TagFilter';
-
-const AllPostsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 4rem;
-  padding: 1rem 4rem;
-
-  * {
-    text-decoration: none;
-  }
-
-  @media (max-width: 600px) {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
-`;
+import { Testimonials } from '../components/Testimonials';
+import { BlogPostsContainer } from '../components/BlogPostsContainter';
 
 export default function Blog({ data, pageContext, path }) {
   const { edges: blogPosts, totalCount } = data.blog;
-  const { currentPage, skip, tag } = pageContext; // Used for pagination.
-  useNavTheme('dark');
+  const {
+    edges: [latestPost],
+  } = data.latestPost;
 
-  let pageTitle;
+  const { currentPage } = pageContext; // Used for pagination.
 
-  if (tag) {
-    pageTitle = `${tag} Blog Posts ${currentPage ? `- Page ${currentPage}` : ''}`;
-  } else {
-    pageTitle = `Blog ${currentPage ? `- Page ${currentPage}` : ''}`;
-  }
+  const heroContent = {
+    title: 'Blog',
+    subtitle: 'Here is where you’ll find all my blog posts. I cover everything from tutorials to content creation and more.',
+    CTA: '',
+    CTALink: '',
+  };
+
+  const pageTitle = `Blog ${currentPage ? `- Page ${currentPage}` : ''}`;
 
   return (
     <>
@@ -44,28 +32,31 @@ export default function Blog({ data, pageContext, path }) {
           title: pageTitle,
         }}
       />
-      <div className="headerTitleSeperator">
-        <h1>Blog Posts</h1>
-      </div>
-      <TagFilter base="blog" activeTag={tag} />
+      <Hero content={heroContent} />
+      <HeroPostCard post={latestPost.node} />
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
+<<<<<<< HEAD
       <AllPostsContainer>
         {blogPosts.map((post) => (
           <BlogPostCard key={`blogPostCard-${post.node.frontmatter.title}`} post={post} />
         ))}
       </AllPostsContainer>
+=======
+      <BlogPostsContainer posts={blogPosts} />
+>>>>>>> redesign-v4
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
+      <Testimonials />
     </>
   );
 }
 
 export const query = graphql`
-  query($skip: Int = 0, $pageSize: Int = 6, $tag: String) {
+  query ($skip: Int = 1, $pageSize: Int = 8) {
     blog: allMdx(
-      limit: $pageSize
       skip: $skip
-      sort: { order: [DESC, DESC], fields: [frontmatter___date, frontmatter___id] }
-      filter: { fields: { contentCategory: { eq: "blog" } }, frontmatter: { tags: { eq: $tag } } }
+      limit: $pageSize
+      sort: { order: DESC, fields: frontmatter___date }
+      filter: { fields: { contentCategory: { eq: "blog" } } }
     ) {
       edges {
         node {
@@ -73,34 +64,48 @@ export const query = graphql`
             slug
           }
           frontmatter {
-            date(formatString: "DD/MM/YYYY")
+            date(formatString: "MMM Do YYYY")
+            description
             tags
+            published
             title
-            id
             image {
               childImageSharp {
                 gatsbyImageData(layout: FULL_WIDTH)
               }
             }
           }
+          fields {
+            slug
+          }
+          excerpt
         }
       }
       totalCount
     }
+    latestPost: allMdx(
+      limit: 1
+      sort: { fields: frontmatter___date, order: DESC }
+      filter: { frontmatter: { published: { eq: true } }, fields: { contentCategory: { eq: "blog" } } }
+    ) {
+      edges {
+        node {
+          frontmatter {
+            date(formatString: "MMM Do YYYY")
+            description
+            title
+            image {
+              childImageSharp {
+                gatsbyImageData(layout: FULL_WIDTH)
+              }
+            }
+          }
+          fields {
+            slug
+          }
+          excerpt
+        }
+      }
+    }
   }
 `;
-
-Blog.propTypes = {
-  data: PropTypes.shape({
-    blog: PropTypes.shape({
-      totalCount: PropTypes.number,
-      edges: PropTypes.array,
-    }),
-  }),
-  path: PropTypes.string,
-  pageContext: PropTypes.shape({
-    currentPage: PropTypes.number,
-    skip: PropTypes.number,
-    tag: PropTypes.string,
-  }),
-};

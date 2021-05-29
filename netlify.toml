@@ -138,3 +138,195 @@
     to = "/blog/javascript-fundamentals-functions-overview/"
     force = false
     status = 301
+
+[[redirects]]
+    from = "/reads"
+    to = "/"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "/notes"
+    to = "/blog"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/notes/javascript/prototypal-inheritance/"
+    to = "/blog/prototypal-inheritance-overview"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/notes/javascript/higher-order-functions/"
+    to = "/blog/javascript-higher-order-functions-overview"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/notes/javascript/first-class-functions/"
+    to = "/blog/javascript-first-class-functions-overview"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/notes/r/vectors-overview/"
+    to = "/blog/r-vectors-overview"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "blog/javascript"
+    to = "/blog"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "blog/javascript/2"
+    to = "/blog"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "blog/gatsbyjs"
+    to = "/blog"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "blog/gatsbyjs/2"
+    to = "/blog"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "blog/other"
+    to = "/blog"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "blog/blogging"
+    to = "/blog"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "blog/nodejs"
+    to = "/blog"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "blog/web-development"
+    to = "/blog"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "notes/javascript"
+    to = "/blog"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "notes/r"
+    to = "/blog"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/portfolio"
+    to = "/projects"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/portfolio/gatsbyjs"
+    to = "/projects"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/portfolio/graphql"
+    to = "/projects"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/portfolio/nodejs"
+    to = "/projects"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/portfolio/next.js"
+    to = "/projects"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/book-recommendations"
+    to = "/threads"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "/threads/feedhive-impressions"
+    to = "/threads"
+    force = false
+    status = 410
+
+[[redirects]]
+    from = "/threads/blog-posts-cross-posting"
+    to = "/threads/post-cross-posting"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/javascript"
+    to = "/threads"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/javascript/2"
+    to = "/threads"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/gatsbyjs"
+    to = "/threads"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/blogging"
+    to = "/threads"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/other"
+    to = "/threads"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/r"
+    to = "/threads"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/graphql"
+    to = "/threads"
+    force = false
+    status = 301
+
+[[redirects]]
+    from = "/threads/nodejs"
+    to = "/threads"
+    force = false
+    status = 301

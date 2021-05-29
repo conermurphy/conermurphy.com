@@ -1,45 +1,34 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import styled from 'styled-components';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { MDXProvider } from '@mdx-js/react';
 import PropTypes from 'prop-types';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import SEO from '../components/SEO';
-import findBlogSeries from '../utils/findBlogSeries';
 // MDX Component Imports Used on each page.
 import Components from '../components/mdx/Components';
-import Tags from '../components/Tags';
-import ClosingComponents from '../components/mdx/ClosingComponents';
-import useNavTheme from '../utils/useNavTheme';
-import { PostBodyContainer, PostContainer } from '../styles/BlogNoteStyles';
+import { PostBodyContainer, PostContainer, BlogHeader } from '../styles/BlogPostStyles';
+import { Sidebar } from '../components/mdx/Sidebar';
+import { ProgressBar } from '../components/mdx/ProgressBar';
+import { EmailSignupForm } from '../components/mdx/EmailSignupForm';
+import GithubEdit from '../components/mdx/GithubEdit';
+import Navigation from '../components/mdx/Navigation';
 
-const BlogHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-
-  .postTitle {
-    font-size: 2.75rem;
-  }
-
-  .postInfo {
-    margin-bottom: 2.5rem;
-  }
-`;
-
-const BlogPost = ({ data, pageContext, path }) => {
+const BlogPost = ({ data, pageContext, path, location }) => {
   // Destructing out values to use in page.
   const post = data.mdx;
   const { frontmatter, timeToRead, body, fileAbsolutePath, excerpt } = post;
-  const { image, title, description, date, series, tags, plainDate } = frontmatter;
+  const { image, title, description, date, plainDate, tags, canonical_url } = frontmatter;
 
   // Setting image path for SEO if no image use the logo.
-  const imagePath = image ? image.childImageSharp.gatsbyImageData.images.fallback.src : '/Logo.svg';
+  const imagePath = image ? image.childImageSharp.gatsbyImageData.images.fallback.src : '/Logo.png';
 
-  // Updating the nav to show dark theme.
-  useNavTheme('dark');
+  const postData = {
+    title,
+    url: location.href,
+    twitterHande: 'MrConerMurphy',
+    tags,
+  };
 
   return (
     <>
@@ -51,25 +40,39 @@ const BlogPost = ({ data, pageContext, path }) => {
           image: imagePath,
           article: true,
           date: plainDate,
+          canonical: canonical_url,
         }}
       />
       <PostContainer>
+<<<<<<< HEAD
         <GatsbyImage className="heroImage" image={image.childImageSharp.gatsbyImageData} alt={title} />
+=======
+        <ProgressBar />
+>>>>>>> redesign-v4
         <BlogHeader>
+          <p>
+            {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes Read`}{' '}
+          </p>
           <h1 className="postTitle">{title}</h1>
-          <div className="postInfo">
-            <p>
-              {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes`}{' '}
-              {series !== null ? `| ${findBlogSeries(series)}` : ''}
-            </p>
-            <Tags tags={tags} />
+          <div className="tagContainer">
+            {tags.map((tag) => (
+              <p className="tag" key={tag}>
+                {tag}
+              </p>
+            ))}
           </div>
         </BlogHeader>
+        <GatsbyImage className="heroImage" image={image.childImageSharp.gatsbyImageData} alt={title} />
         <PostBodyContainer>
-          <MDXProvider components={Components}>
-            <MDXRenderer>{body}</MDXRenderer>
-          </MDXProvider>
-          <ClosingComponents fileAbsolutePath={fileAbsolutePath} pageContext={pageContext} />
+          <Sidebar data={postData} />
+          <div className="content">
+            <MDXProvider components={Components}>
+              <MDXRenderer>{body}</MDXRenderer>
+            </MDXProvider>
+            <EmailSignupForm />
+            <GithubEdit postURL={fileAbsolutePath} />
+            <Navigation pageContext={pageContext} />
+          </div>
         </PostBodyContainer>
       </PostContainer>
     </>
@@ -77,7 +80,7 @@ const BlogPost = ({ data, pageContext, path }) => {
 };
 
 export const query = graphql`
-  query($slug: String!) {
+  query ($slug: String!) {
     mdx(fields: { slug: { eq: $slug } }) {
       body
       timeToRead
@@ -90,17 +93,16 @@ export const query = graphql`
       }
       frontmatter {
         title
+        canonical_url
         description
         image {
           childImageSharp {
             gatsbyImageData(layout: FULL_WIDTH)
           }
         }
-        date(formatString: "DD/MM/YYYY")
+        date(formatString: "MMM Do YYYY")
         plainDate: date
-        series
         tags
-        id
       }
     }
   }

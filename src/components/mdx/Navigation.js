@@ -1,13 +1,14 @@
+import { motion } from 'framer-motion';
 import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const NavigationContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 50%);
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
+<<<<<<< HEAD
   padding: 2rem 0;
   width: 100%;
 
@@ -51,22 +52,30 @@ const NavigationContainer = styled.div`
     }
 
   }
+=======
+  margin: 5rem 0;
+>>>>>>> redesign-v4
 
   & > * {
-    padding: 0rem 2rem;
+    padding: 0 2rem;
     text-decoration: none;
+    background-color: var(--accent);
+    border-radius: var(--borderRadius);
+    filter: drop-shadow(var(--shadow));
+    font-weight: bold;
 
-    &[aria-current],
-    &.current {
-      color: var(--green);
-      font-weight: 600;
-      border-bottom: 2px solid var(--green);
+    & > div > p {
+      color: var(--accentText);
     }
+
     &[disabled] {
       pointer-events: none;
-      text-decoration: line-through;
-      color: var(--black);
       opacity: 0.5;
+      background-color: var(--secondaryBg);
+
+      & > div > p {
+        color: var(--primaryText);
+      }
     }
   }
 `;
@@ -75,32 +84,23 @@ export default function Navigation({ pageContext: { next, prev } }) {
   const hasNextPage = !!next;
   const hasPrevPage = !!prev;
 
-  const prevTitle = prev !== null ? prev.frontmatter.title : '';
   const prevLink = prev !== null ? prev.fields.slug : '/';
-  const nextTitle = next !== null ? next.frontmatter.title : '';
   const nextLink = next !== null ? next.fields.slug : '/';
+
+  const MotionLink = motion(Link);
 
   return (
     <NavigationContainer>
-      <Link title="Previous Page" disabled={!hasPrevPage} to={prevLink}>
+      <MotionLink title="Previous Page" disabled={!hasPrevPage} to={prevLink} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
         <div className="previous">
-          <p className="link">&#8592; Previous</p>
-          <p>{prevTitle}</p>
+          <p className="link">&#8592; Previous Post</p>
         </div>
-      </Link>
-      <Link title="Next Page" disabled={!hasNextPage} to={nextLink}>
+      </MotionLink>
+      <MotionLink title="Next Page" disabled={!hasNextPage} to={nextLink} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
         <div className="next">
-          <p className="link">Next &#8594; </p>
-          <p>{nextTitle}</p>
+          <p className="link">Next Post &#8594; </p>
         </div>
-      </Link>
+      </MotionLink>
     </NavigationContainer>
   );
 }
-
-Navigation.propTypes = {
-  pageContext: PropTypes.shape({
-    next: PropTypes.object,
-    prev: PropTypes.object,
-  }),
-};

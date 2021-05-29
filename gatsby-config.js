@@ -5,11 +5,15 @@ dotenv.config({ path: '.env' });
 export default {
   siteMetadata: {
     title: 'Coner Murphy',
-    description: 'Web Developer, Blogger, Content Creator',
+    description: 'Web Developer & Content Creator',
     author: 'Coner Murphy',
     siteUrl: 'https://conermurphy.com',
     twitterUsername: '@MrConerMurphy',
     image: '/Logo.png',
+  },
+  flags: {
+    FAST_DEV: true,
+    PARALLEL_SOURCING: true,
   },
   plugins: [
     {
@@ -22,8 +26,8 @@ export default {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        path: `${__dirname}/src/assets/`,
-        name: 'assets',
+        path: `${__dirname}/src/assets/images`,
+        name: 'images',
       },
     },
     {
@@ -54,29 +58,11 @@ export default {
         name: 'Coner Murphy',
         short_name: 'Coner Murphy',
         start_url: '/',
-        background_color: '#ffffff',
-        theme_color: '#498B41',
+        background_color: '#FFFFFF',
+        theme_color: '#4E66A6',
         lang: 'en',
         display: 'standalone',
-        icon: './src/assets/images/Logo.svg',
-      },
-    },
-    {
-      resolve: 'gatsby-plugin-google-gtag',
-      options: {
-        trackingIds: [
-          process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID, // Google Analytics / GA
-        ],
-        gtagConfig: {
-          anonymize_ip: true,
-          cookie_prefix: 'conermurphy.com',
-          allow_ad_personalization_signals: false,
-          cookie_expires: 0,
-        },
-        pluginConfig: {
-          // Respecting Do Not Track if set by end user.
-          respectDNT: true,
-        },
+        icon: './static/Logo.png',
       },
     },
     {

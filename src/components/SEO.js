@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { useLocation } from '@reach/router';
-import { pathJoin } from '../utils/path-join';
-
 import { useSiteMetadata } from '../utils/useSiteMetadata';
+import { pathJoin } from '../utils/pathJoin';
 
 const SEO = ({ post }) => {
-  const { title, description, image, slug, article, date } = post;
+  const { title, description, image, slug, article, date, canonical } = post;
   const { pathname } = useLocation();
   const { title: defaultTitle, description: defaultDescription, author, siteUrl, twitterUsername, image: defaultImage } = useSiteMetadata();
 
@@ -18,15 +17,13 @@ const SEO = ({ post }) => {
     url: `${siteUrl}${pathname}`,
   };
 
-  const canonical = pathJoin(siteUrl, slug);
-
   return (
     <Helmet title={seo.title} titleTemplate={`%s - ${defaultTitle}`}>
       <html lang="en" />
       <title>{seo.title}</title>
 
       {/* Meta Tags */}
-      <link rel="canonical" href={canonical} />
+      <link rel="canonical" href={canonical || pathJoin(siteUrl, slug)} />
       <meta name="description" content={seo.description} />
       <meta name="image" content={seo.image} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />

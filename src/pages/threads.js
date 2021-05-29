@@ -1,41 +1,41 @@
 import { graphql } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import useNavTheme from '../utils/useNavTheme';
 import Pagination from '../components/Pagination';
 import SEO from '../components/SEO';
 import ThreadsPostCard from '../components/ThreadsPostCard';
-import TagFilter from '../components/TagFilter';
+import { Hero } from '../components/Hero';
 
 const AllPostsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 4rem;
-  padding: 1rem 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 
-  * {
-    text-decoration: none;
-  }
-
-  @media (max-width: 600px) {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  & > div {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    align-items: flex-start;
+    justify-items: center;
+    width: clamp(400px, 80vw, 850px);
+    gap: 4rem 2rem;
   }
 `;
 
 export default function Threads({ data, pageContext, path }) {
   const { edges: twitterThreads, totalCount } = data.threads;
-  const { currentPage, skip, tag } = pageContext; // Used for pagination.
+  const { currentPage, skip } = pageContext; // Used for pagination.
 
-  useNavTheme('dark');
+  const pageTitle = `Twitter Threads ${currentPage ? `- Page ${currentPage}` : ''}`;
 
-  let pageTitle;
+  const heroContent = {
+    title: 'Twitter Threads',
+    subtitle: 'I publish a lot of free content over on Twitter. Here are all of my threads.',
+    CTA: 'Follow me on Twitter',
+    CTALink: 'https://twitter.com/MrConerMurphy',
+  };
 
-  if (tag) {
-    pageTitle = `${tag} Twitter Threads ${currentPage ? `- Page ${currentPage}` : ''}`;
-  } else {
-    pageTitle = `Twitter Threads ${currentPage ? `- Page ${currentPage}` : ''}`;
-  }
   return (
     <>
       <SEO
@@ -44,10 +44,7 @@ export default function Threads({ data, pageContext, path }) {
           title: pageTitle,
         }}
       />
-      <div className="headerTitleSeperator">
-        <h1>Twitter Threads</h1>
-      </div>
-      <TagFilter base="threads" activeTag={tag} />
+      <Hero content={heroContent} />
       <Pagination
         pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
         totalCount={totalCount}
@@ -56,9 +53,11 @@ export default function Threads({ data, pageContext, path }) {
         base={path}
       />
       <AllPostsContainer>
-        {twitterThreads.map((thread) => (
-          <ThreadsPostCard key={`threadsPostCard-${thread.node.frontmatter.conversationId}`} thread={thread} />
-        ))}
+        <div>
+          {twitterThreads.map((thread) => (
+            <ThreadsPostCard key={`threadsPostCard-${thread.node.frontmatter.conversationId}`} thread={thread} />
+          ))}
+        </div>
       </AllPostsContainer>
       <Pagination
         pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
@@ -72,12 +71,12 @@ export default function Threads({ data, pageContext, path }) {
 }
 
 export const query = graphql`
-  query($skip: Int = 0, $pageSize: Int = 6, $tag: String) {
+  query ($skip: Int = 0, $pageSize: Int = 8) {
     threads: allMdx(
       limit: $pageSize
       skip: $skip
       sort: { order: DESC, fields: frontmatter___date }
-      filter: { fields: { contentCategory: { eq: "threads" } }, frontmatter: { tags: { eq: $tag } } }
+      filter: { fields: { contentCategory: { eq: "threads" } } }
     ) {
       edges {
         node {
@@ -99,18 +98,3 @@ export const query = graphql`
     }
   }
 `;
-
-Threads.propTypes = {
-  data: PropTypes.shape({
-    threads: PropTypes.shape({
-      edges: PropTypes.array,
-      totalCount: PropTypes.number,
-    }),
-  }),
-  pageContext: PropTypes.shape({
-    currentPage: PropTypes.string,
-    skip: PropTypes.number,
-    tag: PropTypes.string,
-  }),
-  path: PropTypes.string,
-};

@@ -2,34 +2,46 @@ import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
 
 const PaginationContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  margin: 5rem;
   flex-wrap: wrap;
+  gap: 1rem;
 
-  @media (max-width: 600px) {
-    max-width: 90%;
+  .nextPrevButton {
+    background-color: var(--accent);
+    color: var(--accentText);
+
+    & > span {
+      color: var(--accentText);
+    }
   }
 
   & > * {
     padding: 1rem 2rem;
     text-decoration: none;
+    border-radius: var(--borderRadius);
+    font-weight: 600;
+    background-color: var(--secondaryBg);
 
     &[aria-current],
     &.current {
-      color: var(--green);
-      font-weight: 600;
-      border-bottom: 2px solid var(--green);
+      background-color: var(--accent);
+      color: var(--accentText);
     }
     &[disabled] {
       pointer-events: none;
-      text-decoration: line-through;
-      color: var(--black);
       opacity: 0.5;
+      background-color: var(--secondaryBg);
+
+      & > span {
+        color: var(--primaryText);
+      }
     }
   }
 `;
@@ -46,23 +58,41 @@ export default function Pagination({ pageSize, totalCount, currentPage, skip, ba
   const prevLink = prevPage === 1 ? navigateBase : `${navigateBase}/${prevPage}`;
   const nextLink = `${navigateBase}/${nextPage}`;
 
+  const MotionLink = motion(Link);
+
   return (
     <PaginationContainer>
-      <Link title="prev page" disabled={!hasPrevPage} to={prevLink}>
+      <MotionLink
+        title="prev page"
+        disabled={!hasPrevPage}
+        to={prevLink}
+        className="nextPrevButton"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
         &#8592; <span className="word">Previous</span>{' '}
-      </Link>
+      </MotionLink>
       {Array.from({ length: totalPages }).map((_, i) => (
-        <Link
+        <MotionLink
           key={`${navigateBase}-page-${i}`}
           className={currentPage === 1 && i === 0 ? 'current' : ''}
           to={`${navigateBase}/${i === 0 ? '' : i + 1}`}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           {i + 1}
-        </Link>
+        </MotionLink>
       ))}
-      <Link title="next page" disabled={!hasNextPage} to={nextLink}>
+      <MotionLink
+        title="next page"
+        disabled={!hasNextPage}
+        to={nextLink}
+        className="nextPrevButton"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
         <span className="word">Next</span> &#8594;
-      </Link>
+      </MotionLink>
     </PaginationContainer>
   );
 }

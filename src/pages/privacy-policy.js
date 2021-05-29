@@ -1,14 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import useNavTheme from '../utils/useNavTheme';
 
 const PrivacyPolicyContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 5rem;
+  width: clamp(300px, 80vw, var(--maxWidth));
 
   & > h2 {
-    border-top: 2px solid var(--grey);
     padding-top: 1rem;
   }
 
@@ -24,21 +23,14 @@ const PrivacyPolicyContainer = styled.div`
 `;
 
 export default function PrivacyPolicy() {
-  useNavTheme('dark');
   if (typeof window !== 'undefined') {
     return (
       <PrivacyPolicyContainer>
-        <div className="headerTitleSeperator">
+        <div>
           <h1>Privacy Policy</h1>
         </div>
         <p>
-          <i>Last Updated: 13/03/2021</i>
-        </p>
-        <p>
-          If you wish to opt-out of Google Analytics,{' '}
-          <button onClick={() => window.gaOptout()} type="button">
-            please click here.
-          </button>{' '}
+          <i>Last Updated: 25/05/2021</i>
         </p>
         <p>
           No one enjoys reading legal documents or terms and conditions but unfortunately, things like these are needed in the world and
@@ -55,18 +47,14 @@ export default function PrivacyPolicy() {
         <h2>Introduction</h2>
         <p>
           Hi, welcome to my website. I'm Coner and this website (conermurphy.com) is my portfolio and blog for all of the content I create
-          and share with the world. This ranges from things like blog posts and notes to my portfolio of work including both personal
+          and share with the world. This ranges from things like blog posts and notes to my projects of work including both personal
           projects and projects from previous clients.
         </p>
         <h2>Information Collected</h2>
         <p>
           My website serves purely as an information source for users to use to learn, develop and be inspired for their next project. There
-          is also some optional functionality included in the form of email newsletter signup forms which allow me to collect a users email
-          address onto my email newsletter for future communication but this is completely optional.
-        </p>
-        <p>
-          Website analytics have also been included on this website in the form of Google Analytics. This has been configured with all
-          advertising, IP tracking, and demographics collection features turned off. No personal data is shared with Google Analytics.
+          is also some optional functionality included in the form of a email newsletter signup forms which allows me to collect a users
+          email address for use in my email newsletter for future communication but this is completely optional.
         </p>
         <h2>Collection Method</h2>
         <p>There are 2 forms of data collection used on this website, these are detailed below:</p>
@@ -76,10 +64,6 @@ export default function PrivacyPolicy() {
           on this website their information ( email address, name, and IP address ) would be shared and stored on ConvertKit's
           infrastructure. If you are interested in reading more about their privacy policy,{' '}
           <a href="https://convertkit.com/privacy">you can so here.</a>
-        </p>
-        <p>
-          <strong>Automatic:</strong> Google Analytics automatically sets some cookies to track page views but as mentioned above all
-          advertising, IP tracking, and demographics collection features turned off so no personal data is sent to Google Analytics.
         </p>
         <h2>Storage Information</h2>
         <p>
@@ -91,13 +75,6 @@ export default function PrivacyPolicy() {
         <p>
           This website uses functional cookies. Meaning you won’t be haunted around the internet with ads by any of the cookies used on this
           site.
-        </p>
-        <p>
-          If you wish to opt-opt of Google Analytics{' '}
-          <button onClick={() => window.gaOptout()} type="button">
-            {' '}
-            please click here.
-          </button>
         </p>
         <h2>Your Rights</h2>
         <p>

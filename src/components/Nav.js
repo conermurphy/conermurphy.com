@@ -1,46 +1,41 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { Link } from 'gatsby';
-import PropTypes from 'prop-types';
-import Logo from './Logo';
-import NavThemeContext from '../context/NavThemeContext';
+import { graphql, Link, useStaticQuery } from 'gatsby';
+import { FaPalette } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { MdChatBubble } from 'react-icons/md';
+import { GatsbyImage } from 'gatsby-plugin-image';
+import { useSiteMetadata } from '../utils/useSiteMetadata';
+import ThemeContext from '../context/ThemeContext';
 
 const StyledNav = styled.nav`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  background-color: none;
+  gap: 2rem;
 
   ul {
-    display: grid;
-    grid-template-columns: repeat(6, auto);
+    display: flex;
+    gap: 5rem;
     margin: 0;
     padding: 0;
     text-align: center;
-    list-style: none;
     align-items: center;
 
-    @media (max-width: 600px) {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
+    & > li {
+      display: inline-block;
+
+      & > a:not(.callToAction) {
+        padding-bottom: 1rem;
+      }
     }
   }
+
   a {
-    display: block;
-    font-size: 2rem;
-    padding: 1rem;
     text-decoration: none;
 
-    &:hover {
-      color: var(--green);
-    }
-
     &.active {
-      border-bottom: 2px solid var(--green);
-      color: var(--green);
+      border-bottom: 2px solid var(--accent);
     }
   }
 `;
@@ -48,70 +43,128 @@ const StyledNav = styled.nav`
 const NavContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+
+  padding: 1.25rem;
   margin-bottom: 2.5rem;
+  background-color: var(--secondaryBg);
+  box-shadow: var(--shadow);
 
-  @media (max-width: 600px) {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  // Setting the colour of the logo and nav items based on the context theme
-  * {
-    fill: ${(props) => (props.theme === 'dark' ? 'var(--black)' : 'var(--white)')};
-    color: ${(props) => (props.theme === 'dark' ? 'var(--black)' : 'var(--white)')};
+  & > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: clamp(600px, 90vw, var(--maxWidth));
   }
 `;
 
+const AuthorCardContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  gap: 1.5rem;
+
+  & > a > .gatsby-image-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+
+  & > h3 {
+    font-size: 2rem;
+  }
+`;
+
+export function AuthorCard({ closeMenu }) {
+  const { title } = useSiteMetadata();
+
+  const data = useStaticQuery(graphql`
+    query {
+      logo: file(name: { eq: "Logo" }) {
+        childImageSharp {
+          gatsbyImageData(width: 50, placeholder: BLURRED)
+        }
+      }
+    }
+  `);
+
+  const { logo } = data;
+
+  return closeMenu ? (
+    <AuthorCardContainer>
+      <Link to="/" onClick={() => closeMenu()}>
+        <GatsbyImage image={logo.childImageSharp.gatsbyImageData} alt="Logo" />
+      </Link>
+      <h3>{title}</h3>
+    </AuthorCardContainer>
+  ) : (
+    <AuthorCardContainer>
+      <Link to="/">
+        <GatsbyImage image={logo.childImageSharp.gatsbyImageData} alt="Logo" />
+      </Link>
+      <h3>{title}</h3>
+    </AuthorCardContainer>
+  );
+}
+
 export default function Nav({ path }) {
-  const [theme, setTheme] = useContext(NavThemeContext);
+  const [isThemeDark, toggleThemeDark] = useContext(ThemeContext);
 
   let currentRootPage;
   if (path === undefined) {
     currentRootPage = '';
   } else {
-    currentRootPage = path.split('/')[1]; // Used to determine what root page the user is on. e.g. blog, notes, portfolio...
+    currentRootPage = path.split('/')[1]; // Used to determine what root page the user is on. e.g. blog, notes, projects...
   }
 
   return (
-    <NavContainer theme={theme}>
-      <Logo height="7.5rem" link />
-      <StyledNav>
-        <ul>
-          <li>
-            <Link to="/blog" className={currentRootPage === 'blog' ? 'active' : ''}>
-              Blog
-            </Link>
-          </li>
-          <li>
-            <Link to="/notes" className={currentRootPage === 'notes' ? 'active' : ''}>
-              Notes
-            </Link>
-          </li>
-          <li>
-            <Link to="/threads" className={currentRootPage === 'threads' ? 'active' : ''}>
-              Threads
-            </Link>
-          </li>
-          <li>
-            <Link to="/portfolio" className={currentRootPage === 'portfolio' ? 'active' : ''}>
-              Portfolio
-            </Link>
-          </li>
-          <li>
-            <Link to="/reads" className={currentRootPage === 'reads' ? 'active' : ''}>
-              Reads
-            </Link>
-          </li>
-          <li>
-            <Link to="/#aboutMe">Say Hi!</Link>
-          </li>
-        </ul>
-      </StyledNav>
+    <NavContainer>
+      <div>
+        <AuthorCard />
+        <StyledNav>
+          <ul>
+            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/about-me" className={currentRootPage === 'about-me' ? 'active' : ''}>
+                About Me
+              </Link>
+            </motion.li>
+            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/blog" className={currentRootPage === 'blog' ? 'active' : ''}>
+                Blog
+              </Link>
+            </motion.li>
+            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/threads" className={currentRootPage === 'threads' ? 'active' : ''}>
+                Threads
+              </Link>
+            </motion.li>
+            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/projects" className={currentRootPage === 'projects' ? 'active' : ''}>
+                Projects
+              </Link>
+            </motion.li>
+            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/contact" className="callToAction">
+                <MdChatBubble /> Hire Me
+              </Link>
+            </motion.li>
+          </ul>
+          <motion.button
+            type="button"
+            onClick={() => toggleThemeDark()}
+            className="darkModeToggle"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Toggle Dark Mode"
+          >
+            <FaPalette />
+          </motion.button>
+        </StyledNav>
+      </div>
     </NavContainer>
   );
 }
-
-Nav.propTypes = {
-  path: PropTypes.string,
-};

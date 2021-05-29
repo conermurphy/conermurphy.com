@@ -2,17 +2,19 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   :root {
-    --green: #498B41;
-    --red: #ED6E78;
-    --black: #2e2e2e;
-    --grey: hsl(0, 0%, 93%);
-    --white: #ffffff;
-    --scrollBarWidth: 6px;
-    --layoutWidth: 1080px;
-    --shadow: 0px 4px 6px rgba(0,0,0,0.22);
-    --borderRadius: 10px;
-    --lh: 2.5rem;
+    --primaryBg: ${({ theme }) => theme.primaryBg};
+    --secondaryBg: ${({ theme }) => theme.secondaryBg};
+    --accent: ${({ theme }) => theme.accent};
+    --primaryText: ${({ theme }) => theme.primaryText};
+    --headerText: ${({ theme }) => theme.headerText};
+    --accentText: ${({ theme }) => theme.accentText};
+    --shadow: ${({ theme }) => theme.shadow};
+    --scrollBarWidth: ${({ theme }) => theme.scrollBarWidth};
+    --lh: ${({ theme }) => theme.lh};
+    --borderRadius: ${({ theme }) => theme.borderRadius};
+    --maxWidth: ${({ theme }) => theme.maxWidth};
   }
+
 
    html {
        font-size: 10px;
@@ -21,7 +23,33 @@ const GlobalStyles = createGlobalStyle`
 
    body {
        font-size: 2rem;
+       background-color: var(--primaryBg);
    }
+
+   .postLinks {
+     text-decoration: none;
+   }
+
+   .callToAction {
+    background-color: var(--accent);
+    padding: 1.5rem 5rem;
+    color: var(--accentText);
+    border-radius: var(--borderRadius);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    font-weight: 600;
+    filter: drop-shadow(var(--shadow));
+   }
+
+   .darkModeToggle {
+    border: none;
+    background-color: transparent;
+    color: var(--primaryText);
+    font-size: 2rem;
+    cursor: pointer;
+  }
 
    /* Scrollbar Styles */
   body::-webkit-scrollbar {
