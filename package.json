@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "build": "cross-env NODE_OPTIONS=\"-r esm\" gatsby build",
+    "build": "cross-env NODE_OPTIONS=\"-r esm --max-old-space-size=8192\" gatsby build",
     "develop": "cross-env NODE_OPTIONS=\"-r esm\" gatsby develop",
     "start": "cross-env NODE_OPTIONS=\"-r esm\" npm run develop",
     "serve": "cross-env NODE_OPTIONS=\"-r esm\" gatsby serve",
