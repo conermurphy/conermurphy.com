@@ -51,35 +51,16 @@ const Typography = createGlobalStyle`
     font-display: swap;
     }
 
-<<<<<<< HEAD
-    html, p, strong, a, li, ol, ul, code, span {
-    font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: 400;
-    color: var(--black);
-=======
     html {
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     font-weight: 300;
     color: var(--primaryText);
     letter-spacing: 0.5px;
->>>>>>> redesign-v4
   }
 
   /* Header Styles */
 
   h1,h2,h3,h4,h5,h6 {
-<<<<<<< HEAD
-    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: normal;
-    margin: 0;
-    word-break: break-word;
-  }
-
-  code span {
-    color: var(--white);
-  }
-
-=======
     color: var(--headerText);
   }
 
@@ -127,7 +108,6 @@ const Typography = createGlobalStyle`
 
   /* Individual element Styles */
 
->>>>>>> redesign-v4
   a {
     color: var(--black);
     text-decoration-color: var(--green);
@@ -155,56 +135,6 @@ const Typography = createGlobalStyle`
       text-align: center;
   }
 
-<<<<<<< HEAD
-  .headerTitleSeperator {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 2rem;
-    position: relative;
-
-    ::after,
-    ::before {
-      border-bottom: 2px solid var(--grey);
-      width: 100%;
-      content: '';
-      position: absolute;
-      bottom: 0;
-    }
-
-    @media (max-width: 1200px) {
-      justify-content: space-evenly;
-    }
-    
-    @media (max-width: 600px) {
-      justify-content: center;
-    }
-
-
-    & > h1, h2, h3, h4, h5, h6 {
-      font-size: 2.5rem;
-      text-transform: uppercase;
-      position: relative;
-
-
-      ::before {
-        border-bottom: 2px solid var(--green);
-        width: 100%;
-        content: '';
-        position: absolute;
-        bottom: -2rem;
-        z-index: 2;
-      }
-    }
-    
-    a {
-      text-decoration: none;
-    }
-  }
-
-=======
->>>>>>> redesign-v4
 `;
 
 export default Typography;

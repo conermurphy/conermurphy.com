@@ -6,18 +6,6 @@ import { ImageText } from './ImageText';
 const H1 = styled.h1``;
 
 const H2 = styled.h2`
-<<<<<<< HEAD
-  font-size: 2.25rem;
-  text-transform: uppercase;
-  border-bottom: 2px solid var(--green);
-  padding: 1rem 0;
-`;
-
-const H3 = styled.h3`
-  font-size: 2rem;
-  text-transform: uppercase;
-  border-bottom: 2px solid var(--green);
-=======
   padding: 1rem 0;
   font-weight: bold;
   margin: 0;
@@ -31,7 +19,6 @@ const H3 = styled.h3`
 
 const H3 = styled.h3`
   font-weight: bold;
->>>>>>> redesign-v4
   padding: 1rem 0;
   font-family: 'Open Sans';
 
@@ -41,12 +28,6 @@ const H3 = styled.h3`
 `;
 
 const H4 = styled.h4`
-<<<<<<< HEAD
-  font-size: 1.75rem;
-  text-transform: uppercase;
-  border-bottom: 2px solid var(--green);
-=======
->>>>>>> redesign-v4
   padding: 1rem 0;
   font-family: 'Open Sans';
 
@@ -56,11 +37,6 @@ const H4 = styled.h4`
 `;
 
 const H5 = styled.h5`
-<<<<<<< HEAD
-  font-size: 1.75rem;
-  text-transform: uppercase;
-=======
->>>>>>> redesign-v4
   padding: 1rem 0;
   font-family: 'Open Sans';
 
@@ -70,11 +46,6 @@ const H5 = styled.h5`
 `;
 
 const H6 = styled.h6`
-<<<<<<< HEAD
-  font-size: 1.5rem;
-  text-transform: uppercase;
-=======
->>>>>>> redesign-v4
   padding: 1rem 0;
   font-family: 'Open Sans';
 
@@ -94,11 +65,8 @@ const HR = styled.hr`
 `;
 
 const Code = styled.code`
-<<<<<<< HEAD
-=======
   font-family: 'Inconsolata';
   font-weight: 400;
->>>>>>> redesign-v4
   font-size: 1.3rem;
   padding: 1rem;
 `;
@@ -106,11 +74,7 @@ const Code = styled.code`
 const InlineCode = styled(Code)`
   background-color: #193549;
   padding: 0.5rem 1rem;
-<<<<<<< HEAD
-  color: var(--white);
-=======
   color: var(--accentText);
->>>>>>> redesign-v4
   white-space: nowrap;
   font-family: 'Inconsolata';
   font-weight: 400;
@@ -128,8 +92,6 @@ const UL = styled.ul`
 
 const CustomIMG = styled.img`
   width: 100%;
-<<<<<<< HEAD
-=======
   width: -moz-available;
   width: -webkit-fill-available;
   width: fill-available;
@@ -141,7 +103,6 @@ const CustomBlockQuote = styled.blockquote`
   background-color: var(--secondaryBg);
   padding: 0.25rem 2rem;
   margin: 0;
->>>>>>> redesign-v4
 `;
 
 function copyToClip() {

@@ -8,53 +8,7 @@ const NavigationContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-<<<<<<< HEAD
-  padding: 2rem 0;
-  width: 100%;
-
-  @media (max-width: 850px) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    & > a {
-      padding: 2rem;
-    }
-  }
-
-  & > a {
-    div {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      justify-content: center;
-      text-align: right;
-
-      @media (max-width: 850px) {
-        text-align: center;
-        align-items: center;
-      }
-
-      & > p {
-        margin: 0.5rem;
-      }
-    }
-
-    .previous {
-      align-items: flex-start;
-      text-align: left;
-
-      @media (max-width: 850px) {
-        text-align: center;
-        align-items: center;
-      }
-    }
-
-  }
-=======
   margin: 5rem 0;
->>>>>>> redesign-v4
 
   & > * {
     padding: 0 2rem;

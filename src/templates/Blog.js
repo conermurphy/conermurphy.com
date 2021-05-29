@@ -44,11 +44,7 @@ const BlogPost = ({ data, pageContext, path, location }) => {
         }}
       />
       <PostContainer>
-<<<<<<< HEAD
-        <GatsbyImage className="heroImage" image={image.childImageSharp.gatsbyImageData} alt={title} />
-=======
         <ProgressBar />
->>>>>>> redesign-v4
         <BlogHeader>
           <p>
             {date} | {timeToRead === 1 ? `${timeToRead} Minute` : `${timeToRead} Minutes Read`}{' '}

@@ -68,49 +68,10 @@ export default function HomePage({ path, data }) {
             Let's Get To Work.
           </MotionLink>
         </div>
-<<<<<<< HEAD
-      </ContentSection>
-      <ContentSection>
-        <div className="headerTitleSeperator">
-          <h3>Blog</h3>
-          <Link to="/blog">View All</Link>
-        </div>
-        <div className="content">
-          {blog.edges.map((post) => (
-            <BlogPostCard key={`HomeBlogPostCard-${post.node.frontmatter.title}`} post={post} />
-          ))}
-        </div>
-      </ContentSection>
-      <NotesContentSection>
-        <div className="headerTitleSeperator">
-          <h3>Notes</h3>
-          <Link to="/notes">View All</Link>
-        </div>
-        <div className="content">
-          {notes.edges.map((note) => (
-            <NotePostCard
-              key={`HomeNotePostCard-${note.node.fields.noteCategory}-${note.node.frontmatter.title}-${note.node.frontmatter.id}`}
-              note={note}
-            />
-          ))}
-        </div>
-      </NotesContentSection>
-      <ContentSection>
-        <div className="headerTitleSeperator">
-          <h3>Testimonials</h3>
-        </div>
-        <div className="content testimonial">
-          {testimonialData.map((testimonial, index) =>
-            index <= 3 ? <TestimonialCard key={`HomePage-Testimony-${index}-${testimonial.company}`} testimonial={testimonial} /> : ''
-          )}
-        </div>
-      </ContentSection>
-=======
       </HeroSection>
       <ServiceSection />
       <CallToAction />
       <Testimonials />
->>>>>>> redesign-v4
     </>
   );
 }

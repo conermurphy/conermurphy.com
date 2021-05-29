@@ -35,15 +35,7 @@ export default function Blog({ data, pageContext, path }) {
       <Hero content={heroContent} />
       <HeroPostCard post={latestPost.node} />
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
-<<<<<<< HEAD
-      <AllPostsContainer>
-        {blogPosts.map((post) => (
-          <BlogPostCard key={`blogPostCard-${post.node.frontmatter.title}`} post={post} />
-        ))}
-      </AllPostsContainer>
-=======
       <BlogPostsContainer posts={blogPosts} />
->>>>>>> redesign-v4
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
       <Testimonials />
     </>
