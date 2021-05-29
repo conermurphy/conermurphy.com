@@ -1,28 +1,11 @@
 import { graphql } from 'gatsby';
 import React from 'react';
-import styled from 'styled-components';
-import { BlogPostCard, HeroPostCard } from '../components/PostCards';
+import { HeroPostCard } from '../components/PostCards';
 import { Hero } from '../components/Hero';
 import Pagination from '../components/Pagination';
 import SEO from '../components/SEO';
 import { Testimonials } from '../components/Testimonials';
-
-const AllPostsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-
-  & > div {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    align-items: flex-start;
-    justify-items: center;
-    width: clamp(400px, 80vw, 850px);
-    gap: 4rem 2rem;
-  }
-`;
+import { BlogPostsContainer } from '../components/BlogPostsContainter';
 
 export default function Blog({ data, pageContext, path }) {
   const { edges: blogPosts, totalCount } = data.blog;
@@ -52,14 +35,7 @@ export default function Blog({ data, pageContext, path }) {
       <Hero content={heroContent} />
       <HeroPostCard post={latestPost.node} />
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
-      <AllPostsContainer>
-        <div>
-          {blogPosts.map(({ node }) => {
-            if (!node.frontmatter.published) return null;
-            return <BlogPostCard key={`blogPostCard-${node.frontmatter.title}`} post={node} />;
-          })}
-        </div>
-      </AllPostsContainer>
+      <BlogPostsContainer posts={blogPosts} />
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
       <Testimonials />
     </>
@@ -99,7 +75,11 @@ export const query = graphql`
       }
       totalCount
     }
-    latestPost: allMdx(limit: 1, sort: { fields: frontmatter___date, order: DESC }, filter: { frontmatter: { published: { eq: true } } }) {
+    latestPost: allMdx(
+      limit: 1
+      sort: { fields: frontmatter___date, order: DESC }
+      filter: { frontmatter: { published: { eq: true } }, fields: { contentCategory: { eq: "blog" } } }
+    ) {
       edges {
         node {
           frontmatter {
