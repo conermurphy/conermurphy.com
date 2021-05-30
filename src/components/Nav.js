@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { graphql, Link, useStaticQuery } from 'gatsby';
-import { FaPalette } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { MdChatBubble } from 'react-icons/md';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import { useSiteMetadata } from '../utils/useSiteMetadata';
 import ThemeContext from '../context/ThemeContext';
 import { useHiddenNav } from '../utils/useHiddenNav';
+import { ThemeToggler } from './ThemeToggler';
 
 const StyledNav = styled.nav`
   display: flex;
@@ -168,16 +168,7 @@ export default function Nav({ path }) {
               </Link>
             </motion.li>
           </ul>
-          <motion.button
-            type="button"
-            onClick={() => toggleThemeDark()}
-            className="buttonToggle"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Toggle Dark Mode"
-          >
-            <FaPalette />
-          </motion.button>
+          <ThemeToggler />
         </StyledNav>
       </div>
     </NavContainer>

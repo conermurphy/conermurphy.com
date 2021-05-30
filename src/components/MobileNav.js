@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import { FaUserAlt, FaHome, FaPalette, FaKeyboard, FaTwitter, FaAlignJustify, FaBoxes, FaTimes } from 'react-icons/fa';
+import { FaUserAlt, FaHome, FaKeyboard, FaTwitter, FaAlignJustify, FaBoxes, FaTimes } from 'react-icons/fa';
 import { MdChatBubble } from 'react-icons/md';
 import { motion } from 'framer-motion';
-import ThemeContext from '../context/ThemeContext';
 import { AuthorCard } from './Nav';
 import ContactIcons from './ContactIcons';
 import { useHiddenNav } from '../utils/useHiddenNav';
+import { ThemeToggler } from './ThemeToggler';
 
 const MobileNavBarContainer = styled(motion.nav)`
   position: fixed;
@@ -128,8 +128,6 @@ const MobileNavContainer = styled.div`
 `;
 
 export function MobileNav({ path, setMobileMenuOpen }) {
-  const [isThemeDark, toggleThemeDark] = useContext(ThemeContext);
-
   let currentRootPage;
   if (path === undefined) {
     currentRootPage = '';
@@ -147,9 +145,7 @@ export function MobileNav({ path, setMobileMenuOpen }) {
         <div className="navHeader">
           <AuthorCard closeMenu={handleClick} />
           <div className="navControls">
-            <button type="button" onClick={() => toggleThemeDark()} className="buttonToggle">
-              <FaPalette />
-            </button>
+            <ThemeToggler />
             <button type="button" onClick={() => handleClick()} className="buttonToggle">
               <FaTimes />
             </button>

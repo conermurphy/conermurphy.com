@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import 'normalize.css';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Typography from '../styles/Typography';
 import GlobalStyles from '../styles/GlobalStyles';
 import Nav from './Nav';
@@ -46,52 +46,63 @@ export default function Layout({ children, path }) {
     visible: { opacity: 1 },
   };
 
+  const CustomThemeProvider = motion(ThemeProvider);
+
   return (
-    <ThemeProvider theme={isThemeDark ? darkTheme : lightTheme}>
-      <SiteContainer isMobile={isMobile}>
-        <Typography />
-        <GlobalStyles />
-        {componentMounted ? (
-          isMobile ? (
-            !isMobileMenuOpen ? (
-              <MobileNavBar path={path} setMobileMenuOpen={setMobileMenuOpen} />
-            ) : null
-          ) : (
-            <Nav path={path} />
-          )
-        ) : null}
-        {isMobile && isMobileMenuOpen && (
-          <MobileMenuOpenContainer
-            key="MobileMenuContainer"
+    <AnimatePresence exitBeforeEnter initial={false}>
+      <CustomThemeProvider
+        theme={isThemeDark ? darkTheme : lightTheme}
+        key={`${isThemeDark ? 'Dark' : 'Light'}-Provider`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25, ease: 'easeInOut' }}
+      >
+        <SiteContainer isMobile={isMobile}>
+          <Typography />
+          <GlobalStyles />
+          {componentMounted ? (
+            isMobile ? (
+              !isMobileMenuOpen ? (
+                <MobileNavBar path={path} setMobileMenuOpen={setMobileMenuOpen} />
+              ) : null
+            ) : (
+              <Nav path={path} />
+            )
+          ) : null}
+          {isMobile && isMobileMenuOpen && (
+            <MobileMenuOpenContainer
+              key="MobileMenuContainer"
+              initial="hidden"
+              variants={mainVariants}
+              animate={isMobileMenuOpen ? 'visible' : 'hidden'}
+              exit="hidden"
+              transition={{
+                type: 'tween',
+                duration: 0.5,
+                ease: 'easeInOut',
+              }}
+            >
+              <MobileNav path={path} setMobileMenuOpen={setMobileMenuOpen} />
+            </MobileMenuOpenContainer>
+          )}
+          <motion.main
+            key={`${path}-Main`}
             initial="hidden"
             variants={mainVariants}
-            animate={isMobileMenuOpen ? 'visible' : 'hidden'}
+            animate={isMobileMenuOpen ? 'hidden' : 'visible'}
             exit="hidden"
             transition={{
               type: 'tween',
-              duration: 0.5,
+              duration: 0.25,
               ease: 'easeInOut',
             }}
           >
-            <MobileNav path={path} setMobileMenuOpen={setMobileMenuOpen} />
-          </MobileMenuOpenContainer>
-        )}
-        <motion.main
-          key={`${path}-Main`}
-          initial="hidden"
-          variants={mainVariants}
-          animate={isMobileMenuOpen ? 'hidden' : 'visible'}
-          exit="hidden"
-          transition={{
-            type: 'tween',
-            duration: 0.25,
-            ease: 'easeInOut',
-          }}
-        >
-          {children}
-        </motion.main>
-        <Footer />
-      </SiteContainer>
-    </ThemeProvider>
+            {children}
+          </motion.main>
+          <Footer />
+        </SiteContainer>
+      </CustomThemeProvider>
+    </AnimatePresence>
   );
 }
