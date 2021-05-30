@@ -60,7 +60,7 @@ const PostFooterContainer = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   margin: 1rem;
-
+  width: clamp(400px, 60vw, var(--maxWidth));
   border-top: 1px solid rgba(50, 59, 73, 0.5);
 
   & * {

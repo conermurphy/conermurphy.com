@@ -13,6 +13,10 @@ const ContentContainer = styled.div`
   gap: 5rem;
   margin-bottom: 5rem;
 
+  & > h1 {
+    width: clamp(300px, 60vw, 700px);
+  }
+
   .sectionContainer {
     display: flex;
     flex-direction: row;

@@ -56,6 +56,10 @@ const TestimonialCardContainer = styled.div`
     text-decoration: none;
     font-weight: bold;
   }
+
+  & > h4 {
+    width: auto;
+  }
 `;
 
 const TestimonialIconContainer = styled.div`
