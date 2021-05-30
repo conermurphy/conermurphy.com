@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import { FaUserAlt, FaHome, FaPalette, FaKeyboard, FaTwitter, FaAlignJustify, FaBoxes, FaTimes } from 'react-icons/fa';
 import { MdChatBubble } from 'react-icons/md';
+import { motion, useViewportScroll } from 'framer-motion';
 import ThemeContext from '../context/ThemeContext';
 import { AuthorCard } from './Nav';
 import ContactIcons from './ContactIcons';
 
-const MobileNavBarContainer = styled.nav`
+const MobileNavBarContainer = styled(motion.nav)`
   position: fixed;
   bottom: 2rem;
 
@@ -182,6 +183,8 @@ export function MobileNav({ path, setMobileMenuOpen }) {
 }
 
 export function MobileNavBar({ path, setMobileMenuOpen }) {
+  const [navHidden, setNavHidden] = useState(false);
+
   let currentRootPage;
   if (path === undefined) {
     currentRootPage = '';
@@ -189,8 +192,28 @@ export function MobileNavBar({ path, setMobileMenuOpen }) {
     currentRootPage = path.split('/')[1]; // Used to determine what root page the user is on. e.g. blog, notes, projects...
   }
 
+  const { scrollY } = useViewportScroll();
+
+  useEffect(
+    () =>
+      scrollY.onChange(() => {
+        console.log(scrollY);
+        if (scrollY?.current < scrollY?.prev) {
+          setNavHidden(false);
+        } else {
+          setNavHidden(true);
+        }
+      }),
+    [scrollY]
+  );
+
+  const variants = {
+    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: -25 },
+  };
+
   return (
-    <MobileNavBarContainer>
+    <MobileNavBarContainer variants={variants} animate={navHidden ? 'hidden' : 'visible'} transition={{ ease: 'easeInOut', duration: 0.4 }}>
       <ul>
         <li>
           <Link to="/" className={currentRootPage === '' ? 'active' : ''}>
