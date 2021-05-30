@@ -16,7 +16,7 @@ function createMainPages(actions, base, component, totalCount) {
       component,
       // Context is passed to the page so we can skip the required amount of posts on each page.
       context: {
-        skip: i * pageSize,
+        skip: base === 'blog' ? i * pageSize + 1 : i * pageSize,
         currentPage: i + 1,
         pageSize,
       },
