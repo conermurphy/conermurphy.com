@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import { FaUserAlt, FaHome, FaPalette, FaKeyboard, FaTwitter, FaAlignJustify, FaBoxes } from 'react-icons/fa';
+import { FaUserAlt, FaHome, FaPalette, FaKeyboard, FaTwitter, FaAlignJustify, FaBoxes, FaTimes } from 'react-icons/fa';
 import { MdChatBubble } from 'react-icons/md';
 import ThemeContext from '../context/ThemeContext';
 import { AuthorCard } from './Nav';
@@ -75,6 +75,20 @@ const MobileNavContainer = styled.div`
     flex-direction: row;
     justify-content: space-between;
     width: clamp(200px, 80vw, 400px);
+
+    & > .navControls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 1rem;
+
+      & > button {
+        border: none;
+        background-color: none;
+      }
+    }
   }
 
   & > nav > ul {
@@ -118,9 +132,14 @@ export function MobileNav({ path, setMobileMenuOpen }) {
     <MobileNavContainer>
       <div className="navHeader">
         <AuthorCard closeMenu={handleClick} />
-        <button type="button" onClick={() => toggleThemeDark()} className="darkModeToggle">
-          <FaPalette />
-        </button>
+        <div className="navControls">
+          <button type="button" onClick={() => toggleThemeDark()} className="buttonToggle">
+            <FaPalette />
+          </button>
+          <button type="button" onClick={() => handleClick()} className="buttonToggle">
+            <FaTimes />
+          </button>
+        </div>
       </div>
       <nav>
         <ul>

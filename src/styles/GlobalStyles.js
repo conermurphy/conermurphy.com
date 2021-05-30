@@ -43,7 +43,7 @@ const GlobalStyles = createGlobalStyle`
     filter: drop-shadow(var(--shadow));
    }
 
-   .darkModeToggle {
+   .buttonToggle {
     border: none;
     background-color: transparent;
     color: var(--primaryText);
