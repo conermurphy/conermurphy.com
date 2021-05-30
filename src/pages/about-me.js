@@ -15,6 +15,7 @@ const ContentContainer = styled.div`
 
   & > h1 {
     width: clamp(300px, 60vw, 700px);
+    text-align: center;
   }
 
   .sectionContainer {
