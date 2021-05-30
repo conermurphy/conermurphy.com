@@ -18,6 +18,11 @@ const SiteContainer = styled.div`
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+
+  & > main {
+    margin-top: ${(props) => (props.isMobile ? '0' : '10rem')};
+    z-index: 100;
+  }
 `;
 
 const MobileMenuOpenContainer = styled(motion.div)`
@@ -29,30 +34,6 @@ const MobileMenuOpenContainer = styled(motion.div)`
   position: relative;
   height: 100vh;
   overflow: hidden;
-
-  & > main {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-width: 80vw;
-    align-self: center;
-
-    & > button {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      max-width: 100%;
-
-      border: none;
-      background-color: var(--primaryBg);
-      border-radius: var(--borderRadius);
-      filter: drop-shadow(var(--shadow));
-
-      & > * {
-        line-height: initial;
-      }
-    }
-  }
 `;
 
 export default function Layout({ children, path }) {
@@ -60,18 +41,32 @@ export default function Layout({ children, path }) {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isThemeDark, toggleThemeDark, componentMounted] = useContext(ThemeContext);
 
+  const mainVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  };
+
   return (
     <ThemeProvider theme={isThemeDark ? darkTheme : lightTheme}>
-      <SiteContainer>
+      <SiteContainer isMobile={isMobile}>
         <Typography />
         <GlobalStyles />
-        {isMobile ? !isMobileMenuOpen ? <MobileNavBar path={path} setMobileMenuOpen={setMobileMenuOpen} /> : null : <Nav path={path} />}
+        {componentMounted ? (
+          isMobile ? (
+            !isMobileMenuOpen ? (
+              <MobileNavBar path={path} setMobileMenuOpen={setMobileMenuOpen} />
+            ) : null
+          ) : (
+            <Nav path={path} />
+          )
+        ) : null}
         {isMobile && isMobileMenuOpen && (
           <MobileMenuOpenContainer
             key="MobileMenuContainer"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial="hidden"
+            variants={mainVariants}
+            animate={isMobileMenuOpen ? 'visible' : 'hidden'}
+            exit="hidden"
             transition={{
               type: 'tween',
               duration: 0.5,
@@ -81,24 +76,21 @@ export default function Layout({ children, path }) {
             <MobileNav path={path} setMobileMenuOpen={setMobileMenuOpen} />
           </MobileMenuOpenContainer>
         )}
-        {!isMobileMenuOpen && (
-          <>
-            <motion.main
-              key={`${path}-Main`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{
-                type: 'tween',
-                duration: 0.5,
-                ease: 'easeInOut',
-              }}
-            >
-              {children}
-            </motion.main>
-            <Footer />
-          </>
-        )}
+        <motion.main
+          key={`${path}-Main`}
+          initial="hidden"
+          variants={mainVariants}
+          animate={isMobileMenuOpen ? 'hidden' : 'visible'}
+          exit="hidden"
+          transition={{
+            type: 'tween',
+            duration: 0.25,
+            ease: 'easeInOut',
+          }}
+        >
+          {children}
+        </motion.main>
+        <Footer />
       </SiteContainer>
     </ThemeProvider>
   );

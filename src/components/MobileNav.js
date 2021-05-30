@@ -1,12 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import { FaUserAlt, FaHome, FaPalette, FaKeyboard, FaTwitter, FaAlignJustify, FaBoxes, FaTimes } from 'react-icons/fa';
 import { MdChatBubble } from 'react-icons/md';
-import { motion, useViewportScroll } from 'framer-motion';
+import { motion } from 'framer-motion';
 import ThemeContext from '../context/ThemeContext';
 import { AuthorCard } from './Nav';
 import ContactIcons from './ContactIcons';
+import { useHiddenNav } from '../utils/useHiddenNav';
 
 const MobileNavBarContainer = styled(motion.nav)`
   position: fixed;
@@ -63,53 +64,64 @@ const MobileNavBarContainer = styled(motion.nav)`
 `;
 
 const MobileNavContainer = styled.div`
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background-color: var(--secondaryBg);
+
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  height: 100vh;
+  align-items: center;
   justify-content: center;
-  margin: 5rem 0;
-  width: clamp(300px, 80vw, 1200px);
+  height: 100%;
+  width: 100%;
 
-  & > .navHeader {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: clamp(200px, 80vw, 400px);
-
-    & > .navControls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 1rem;
-
-      & > button {
-        border: none;
-        background-color: none;
-      }
-    }
-  }
-
-  & > nav > ul {
+  & > div {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    align-items: flex-start;
+    justify-content: center;
 
-    & > li > a {
-      text-decoration: none;
+    & > .navHeader {
       display: flex;
       flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 2rem;
-      width: max-content;
-      font-weight: bold;
-      padding-bottom: 0.5rem;
+      justify-content: space-between;
+      width: clamp(200px, 80vw, 350px);
 
-      &.active {
-        border-bottom: 3px solid var(--accent);
+      & > .navControls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        & > button {
+          border: none;
+          background-color: none;
+        }
+      }
+    }
+
+    & > nav > ul {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+
+      & > li > a {
+        text-decoration: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 2rem;
+        width: max-content;
+        font-weight: bold;
+        padding-bottom: 0.5rem;
+
+        &.active {
+          border-bottom: 3px solid var(--accent);
+        }
       }
     }
   }
@@ -131,59 +143,61 @@ export function MobileNav({ path, setMobileMenuOpen }) {
 
   return (
     <MobileNavContainer>
-      <div className="navHeader">
-        <AuthorCard closeMenu={handleClick} />
-        <div className="navControls">
-          <button type="button" onClick={() => toggleThemeDark()} className="buttonToggle">
-            <FaPalette />
-          </button>
-          <button type="button" onClick={() => handleClick()} className="buttonToggle">
-            <FaTimes />
-          </button>
+      <div>
+        <div className="navHeader">
+          <AuthorCard closeMenu={handleClick} />
+          <div className="navControls">
+            <button type="button" onClick={() => toggleThemeDark()} className="buttonToggle">
+              <FaPalette />
+            </button>
+            <button type="button" onClick={() => handleClick()} className="buttonToggle">
+              <FaTimes />
+            </button>
+          </div>
         </div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/about-me" className={currentRootPage === 'about-me' ? 'active' : ''} onClick={() => handleClick()}>
+                <FaUserAlt />
+                About Me
+              </Link>
+            </li>
+            <li>
+              <Link to="/blog" className={currentRootPage === 'blog' ? 'active' : ''} onClick={() => handleClick()}>
+                <FaKeyboard />
+                Blog
+              </Link>
+            </li>
+            <li>
+              <Link to="/threads" className={currentRootPage === 'threads' ? 'active' : ''} onClick={() => handleClick()}>
+                <FaTwitter />
+                Threads
+              </Link>
+            </li>
+            <li>
+              <Link to="/projects" className={currentRootPage === 'projects' ? 'active' : ''} onClick={() => handleClick()}>
+                <FaBoxes />
+                Projects
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" onClick={() => handleClick()}>
+                <MdChatBubble /> Hire Me
+              </Link>
+            </li>
+            <li>
+              <ContactIcons />
+            </li>
+          </ul>
+        </nav>
       </div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/about-me" className={currentRootPage === 'about-me' ? 'active' : ''} onClick={() => handleClick()}>
-              <FaUserAlt />
-              About Me
-            </Link>
-          </li>
-          <li>
-            <Link to="/blog" className={currentRootPage === 'blog' ? 'active' : ''} onClick={() => handleClick()}>
-              <FaKeyboard />
-              Blog
-            </Link>
-          </li>
-          <li>
-            <Link to="/threads" className={currentRootPage === 'threads' ? 'active' : ''} onClick={() => handleClick()}>
-              <FaTwitter />
-              Threads
-            </Link>
-          </li>
-          <li>
-            <Link to="/projects" className={currentRootPage === 'projects' ? 'active' : ''} onClick={() => handleClick()}>
-              <FaBoxes />
-              Projects
-            </Link>
-          </li>
-          <li>
-            <Link to="/contact" onClick={() => handleClick()}>
-              <MdChatBubble /> Hire Me
-            </Link>
-          </li>
-          <li>
-            <ContactIcons />
-          </li>
-        </ul>
-      </nav>
     </MobileNavContainer>
   );
 }
 
 export function MobileNavBar({ path, setMobileMenuOpen }) {
-  const [navHidden, setNavHidden] = useState(false);
+  const [navHidden] = useHiddenNav();
 
   let currentRootPage;
   if (path === undefined) {
@@ -191,21 +205,6 @@ export function MobileNavBar({ path, setMobileMenuOpen }) {
   } else {
     currentRootPage = path.split('/')[1]; // Used to determine what root page the user is on. e.g. blog, notes, projects...
   }
-
-  const { scrollY } = useViewportScroll();
-
-  useEffect(
-    () =>
-      scrollY.onChange(() => {
-        console.log(scrollY);
-        if (scrollY?.current < scrollY?.prev) {
-          setNavHidden(false);
-        } else {
-          setNavHidden(true);
-        }
-      }),
-    [scrollY]
-  );
 
   const variants = {
     visible: { opacity: 1, y: 0 },

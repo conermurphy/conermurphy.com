@@ -7,6 +7,7 @@ import { MdChatBubble } from 'react-icons/md';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import { useSiteMetadata } from '../utils/useSiteMetadata';
 import ThemeContext from '../context/ThemeContext';
+import { useHiddenNav } from '../utils/useHiddenNav';
 
 const StyledNav = styled.nav`
   display: flex;
@@ -40,11 +41,14 @@ const StyledNav = styled.nav`
   }
 `;
 
-const NavContainer = styled.div`
+const NavContainer = styled(motion.div)`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+
+  position: fixed;
+  z-index: 999;
 
   width: 100vw;
 
@@ -113,6 +117,7 @@ export function AuthorCard({ closeMenu }) {
 
 export default function Nav({ path }) {
   const [isThemeDark, toggleThemeDark] = useContext(ThemeContext);
+  const [navHidden] = useHiddenNav();
 
   let currentRootPage;
   if (path === undefined) {
@@ -121,8 +126,18 @@ export default function Nav({ path }) {
     currentRootPage = path.split('/')[1]; // Used to determine what root page the user is on. e.g. blog, notes, projects...
   }
 
+  const variants = {
+    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: -25 },
+  };
+
   return (
-    <NavContainer>
+    <NavContainer
+      variants={variants}
+      initial="hidden"
+      animate={navHidden ? 'hidden' : 'visible'}
+      transition={{ ease: 'easeInOut', duration: 0.4 }}
+    >
       <div>
         <AuthorCard />
         <StyledNav>
