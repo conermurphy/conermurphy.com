@@ -5,7 +5,7 @@ const PostContainer = styled.article`
   flex-direction: column;
   margin: auto;
   padding-bottom: 0;
-  width: clamp(300px, 60vw, 1000px);
+  width: clamp(300px, 80vw, 1000px);
 
   & > .heroImage {
     border-radius: var(--borderRadius);
@@ -23,7 +23,7 @@ const PostBodyContainer = styled.div`
   gap: 2rem;
 
   .content {
-    max-width: clamp(300px, 60vw, 700px);
+    max-width: clamp(300px, 90vw, 700px);
   }
 
   & > h1,
@@ -72,7 +72,7 @@ const BlogHeader = styled.div`
   width: clamp(300px, 60vw, 800px);
 
   .postTitle {
-    font-size: 4.5rem;
+    font-size: clamp(2rem, 5vw, 4.5rem);
     text-align: center;
     margin: 1rem;
   }

@@ -12,6 +12,7 @@ const FooterBody = styled.footer`
   flex-direction: column;
   align-items: center;
 
+  z-index: 100;
   width: 100vw;
   background-color: var(--secondaryBg);
 `;
@@ -24,6 +25,7 @@ const FooterContentContainer = styled.div`
   flex-wrap: wrap;
   margin: 2rem;
   width: clamp(300px, 100vw, var(--maxWidth));
+  z-index: 100;
 
   & > div {
     margin: 5rem 0;
@@ -62,6 +64,7 @@ const PostFooterContainer = styled.div`
   margin: 1rem;
   width: clamp(300px, 60vw, var(--maxWidth));
   border-top: 1px solid rgba(50, 59, 73, 0.5);
+  z-index: 100;
 
   & * {
     font-size: 1.4rem;

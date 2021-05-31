@@ -73,7 +73,7 @@ const MobileNavContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 100vh;
   width: 100%;
 
   & > div {

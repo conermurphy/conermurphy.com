@@ -71,18 +71,7 @@ export default function Layout({ children, path }) {
             )
           ) : null}
           {isMobile && isMobileMenuOpen && (
-            <MobileMenuOpenContainer
-              key="MobileMenuContainer"
-              initial="hidden"
-              variants={mainVariants}
-              animate={isMobileMenuOpen ? 'visible' : 'hidden'}
-              exit="hidden"
-              transition={{
-                type: 'tween',
-                duration: 0.5,
-                ease: 'easeInOut',
-              }}
-            >
+            <MobileMenuOpenContainer>
               <MobileNav path={path} setMobileMenuOpen={setMobileMenuOpen} />
             </MobileMenuOpenContainer>
           )}
