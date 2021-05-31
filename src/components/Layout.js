@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import 'normalize.css';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Typography from '../styles/Typography';
 import GlobalStyles from '../styles/GlobalStyles';
 import Nav from './Nav';
