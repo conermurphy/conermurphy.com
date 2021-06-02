@@ -9,11 +9,11 @@ canonical_url: ""
 description: ""
 ---
 
-HTTP status codes are a vital part of the web, they allow for clear communication between clients and servers. A code indicates if everything is okay, if there's been an error and where, or that it's still in progress.
+HTTP status codes are a vital part of the web, they allow for clear communication between clients and servers. A code can indicate if everything is okay, if there's been an error and where, or if ther request is still in progress.
 
-For us developers, they can give a great insight into where problems may be occurring. But, did you know that certain status codes can have an impact on your SEO?
+For us developers, they can give a great insight into where problems may be occurring. But, did you know that status codes can also have an impact on your SEO?
 
-In this post, I'm going to cover what HTTP status codes are, the different categories and how certain ones can influence your SEO. Let's get started.
+In this post, I'm going to cover what HTTP status codes are, the different classes and how certain ones can influence your SEO. Let's get started.
 
 ## What Are HTTP Status Codes?
 
@@ -21,7 +21,7 @@ The definition from [MDN is:](https://developer.mozilla.org/en-US/docs/Web/HTTP/
 
 > HTTP response status codes indicate whether a specific HTTP request has been successfully completed.
 
-What this means is for every request made they will have a status code that indicates where it was a success or not.
+What this means is for every request made they will have a status code that indicates whether it was a success or not.
 
 So for example, you click on a webpage and send a request to view it. If there are no issues and the server returns you the webpage then you would get a 200 status code (ok) for that request.
 
@@ -33,7 +33,7 @@ If you want to see the requests you're sending and their status codes, you can u
 
 _For example, this is a screenshot of the requests I received from [my website.](https://conermurphy.com/)_
 
-HTTP status codes are split into five classes, let's take a look at them next.
+HTTP status codes are split into five classes, let's take a look at them.
 
 ## The Five Status Classes.
 
@@ -101,11 +101,11 @@ Read more about the individual [Server Errors.](https://developer.mozilla.org/en
 
 ## HTTP Status Codes and SEO
 
-With our overview of the status codes classes finished. Let's take a look at how status codes can impact SEO and what we need to do to stop any negative implications.
+With our overview of the status codes classes finished. Let's take a look at how status codes can impact SEO and what we need to do to stop any negative effects.
 
 Before looking at the most important status codes for SEO, let's cover a common example.
 
-Google crawls websites every day and yours is no exception. They check the status codes of URLs compared to the previous time they crawled your website.
+Google crawls websites every day and yours is no exception. One of the checks they do is check the status codes of URLs compared to the previous time they crawled your website.
 
 _This is a vast simplification of what Google does. SEO is a large and complicated subject but for this post, we're going to focus on the status code aspect of it._
 
@@ -115,11 +115,11 @@ There is no reason why Google would expect anything different to happen when it 
 
 How should we handle this?
 
-In this scenario the answer is a simple one, the 2 pages are identical but the URLs are different. So, we would need to set up a 301 (Moved Permanently) on the old URL. This 301 would tell Google to redirect to the new URL and scrape that one instead. It's important we use a 301 status for reasons I'll cover in a moment.
+In this scenario the answer is a simple one, the 2 pages are identical but the URLs are different. So, we would need to set up a 301 (Moved Permanently) on the old URL. This 301 would tell Google to redirect to the new URL and crawl that one instead. It's important we use a 301 status for reasons I'll cover in a moment.
 
 Now, let's say that we didn't create the new `/page-a` but still deleted the original `/page-1`, what would be our best course of action? Well, we could still use a 301 to redirect to the most relevant existing page but what if we don't have any relevant pages?
 
-Contrary to what has believed it is actually bad practice to redirect every missing page to your home page or another with a 301.
+Contrary to what is often advised it is actually bad practice to redirect every missing page to your home page or another with a 301.
 
 The reason for this is because it can be confusing for the user and provides a bad experience. Imagine you're on a clothes website and want to look at a pair of jeans. That specific page has been deleted and set up with a 301 redirecting to the home page or the central jeans page. How confusing will it be for you, when you click on the jeans you're interested in and it redirects you to the central page with no explanation?
 
@@ -129,7 +129,7 @@ If the page doesn't exist anymore and there is no relevant page to redirect to t
 
 While this may sound like a bad thing to do, it actually has its perks.
 
-When Google receives a 404 for a URL it will actually stop indexing that page and crawling in the future.
+When Google receives a 404 for a URL it will actually stop indexing that page and crawling it in the future.
 
 In some situations this is helpful. Think about our shop example, if you've sold out of a particular item, you don't want Google to continue listing it. So by sending a 404 on the page and removing it from the site you stop people from being able to find the sold-out item.
 
@@ -151,9 +151,9 @@ As mentioned earlier a 301 redirect should be used when you want to permanently 
 
 Again it's important to ensure that for a good user experience the 2 URLs are relevant to each other.
 
-As I alluded to earlier there is an important reason to use a 301, that is that the Link Equity is redirected with the URL.
+As I alluded to earlier there is an important reason to use a 301, this is because the _Link Equity_ is redirected with the URL.
 
-Link equity is the special source for good SEO, this is the authority that URL has with Google. So by using a 301 redirect to a new URL, you don't lose any URL authority, it's just pointed to the new URL.
+> Link equity is the special source for good SEO, this is the authority that URL has with Google. So by using a 301 redirect to a new URL, you don't lose any URL authority, it's just pointed to the new URL.
 
 #### 302 - Temporary Redirect
 
@@ -167,7 +167,7 @@ A 404 error is the most common error seen on the internet, whenever you hit a mi
 
 It's important to note that a 404 doesn't specify if the missing page or resource is missing temporarily or permanently. If you've permanently removed a resource or page then you should look at using a 410 response.
 
-As mentioned above there are sometimes where you might want to set a 404 response. But, it can be hard to tell when to redirect and when to let it 404.
+As mentioned above there are sometimes where you might want to set a 404 response. But, it can be hard to tell when to redirect and when to set a 404.
 
 I found these [3 rules from moz.com for when you should not let a page 404.](https://moz.com/blog/are-404-pages-always-bad-for-seo)
 
@@ -183,9 +183,9 @@ If your page doesn't fall into one of these categories then it's okay to let it 
 
 A 410 response indicates that the resource or page is gone permanently.
 
-A good example of this would be promotional offers, once they are finished they're off the website. A 410 response would be a good response to use on these pages.
+A good example of this would be promotional offers, once they are finished, they're off the website. A 410 response would be a good response to use on these pages.
 
-Similar to a 404, 410 responses are no longer indexed by Google once it is received.
+Similar to a 404, 410 responses are no longer indexed by Google.
 
 Also, 410 responses can also help Google speed up removing pages from their index. This is because they don't need to validate if the page is actually missing, we've told them it's gone.
 
@@ -201,13 +201,13 @@ While the details of Google's SEO algorithms aren't public, a ranking factor is 
 
 Like the 500 response, a 503 indicates that the server is currently unavailable. But the key difference is that with a 503, everyone (including bots) are advised to return and try again later.
 
-Because a 503 could be caused by server maintenance or the server being temporarily offline. When a search engine crawler hits a 503 response it will return later on and try to crawl it again.
+Because a 503 could be caused by server maintenance or the server being temporarily offline. When a search engine crawler hits a 503 response it will return later and try to crawl it again.
 
 ## Closing Out
 
 SEO is a large and complicated subject and it goes further than sending the right status codes but this is a good start.
 
-HTTP status codes also provide us with functionality outside of SEO like being able to redirect users to new resources. So even if SEO isn't top of your priorities (it should be), you still have reasons to use the right response code.
+HTTP status codes also provide us with functionality outside of SEO like being able to redirect users to new resources. So, even if SEO isn't top of your priorities (it should be), you still have reasons to use the right response code.
 
 Overall, I hope you found this post helpful and insightful. If you had any questions about anything I've mentioned in this post, please feel free to reach out to me on [Twitter](https://twitter.com/MrConerMurphy) where I'll happily answer questions.
 
