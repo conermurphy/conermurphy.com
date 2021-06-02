@@ -9,6 +9,8 @@ const H2 = styled.h2`
   padding: 1rem 0;
   font-weight: bold;
   margin: 0;
+  margin-top: 3rem;
+  margin-bottom: -1.5rem;
   font-size: 3.5rem;
   font-family: 'Open Sans';
 
@@ -21,6 +23,8 @@ const H3 = styled.h3`
   font-weight: bold;
   padding: 1rem 0;
   font-family: 'Open Sans';
+  margin-top: 3rem;
+  margin-bottom: -1.5rem;
 
   & > a {
     font-size: inherit;
@@ -30,6 +34,10 @@ const H3 = styled.h3`
 const H4 = styled.h4`
   padding: 1rem 0;
   font-family: 'Open Sans';
+  margin-top: 3rem;
+  margin-bottom: -1.5rem;
+  font-weight: bold;
+  font-size: 1.8rem;
 
   & > a {
     font-size: inherit;
@@ -39,6 +47,8 @@ const H4 = styled.h4`
 const H5 = styled.h5`
   padding: 1rem 0;
   font-family: 'Open Sans';
+  margin-top: 3rem;
+  margin-bottom: -1.5rem;
 
   & > a {
     font-size: inherit;
@@ -48,6 +58,8 @@ const H5 = styled.h5`
 const H6 = styled.h6`
   padding: 1rem 0;
   font-family: 'Open Sans';
+  margin-top: 3rem;
+  margin-bottom: -1.5rem;
 
   & > a {
     font-size: inherit;
@@ -69,6 +81,10 @@ const Code = styled.code`
   font-weight: 400;
   font-size: 1.3rem;
   padding: 1rem;
+
+  & * {
+    color: white;
+  }
 `;
 
 const InlineCode = styled(Code)`
@@ -92,9 +108,6 @@ const UL = styled.ul`
 
 const CustomIMG = styled.img`
   width: 100%;
-  width: -moz-available;
-  width: -webkit-fill-available;
-  width: fill-available;
   margin: 2rem 0;
 `;
 

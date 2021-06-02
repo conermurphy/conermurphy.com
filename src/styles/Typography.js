@@ -86,6 +86,9 @@ const Typography = createGlobalStyle`
   h4 {
     font-size: 2rem;
   }
+  h5 {
+    font-size: 1.6rem;
+  }
 
   code {
     font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
