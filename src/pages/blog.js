@@ -48,7 +48,7 @@ export const query = graphql`
       skip: $skip
       limit: $pageSize
       sort: { order: DESC, fields: frontmatter___date }
-      filter: { fields: { contentCategory: { eq: "blog" } } }
+      filter: { frontmatter: { published: { eq: true } }, fields: { contentCategory: { eq: "blog" } } }
     ) {
       edges {
         node {
