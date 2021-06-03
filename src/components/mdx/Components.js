@@ -6,11 +6,10 @@ import { ImageText } from './ImageText';
 const H1 = styled.h1``;
 
 const H2 = styled.h2`
-  padding: 1rem 0;
   font-weight: bold;
   margin: 0;
-  margin-top: 3rem;
-  margin-bottom: -1.5rem;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
   font-size: 3.5rem;
   font-family: 'Open Sans';
 
@@ -21,10 +20,9 @@ const H2 = styled.h2`
 
 const H3 = styled.h3`
   font-weight: bold;
-  padding: 1rem 0;
   font-family: 'Open Sans';
-  margin-top: 3rem;
-  margin-bottom: -1.5rem;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
 
   & > a {
     font-size: inherit;
@@ -32,10 +30,9 @@ const H3 = styled.h3`
 `;
 
 const H4 = styled.h4`
-  padding: 1rem 0;
   font-family: 'Open Sans';
-  margin-top: 3rem;
-  margin-bottom: -1.5rem;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
   font-weight: bold;
   font-size: 1.8rem;
 
@@ -45,10 +42,9 @@ const H4 = styled.h4`
 `;
 
 const H5 = styled.h5`
-  padding: 1rem 0;
   font-family: 'Open Sans';
-  margin-top: 3rem;
-  margin-bottom: -1.5rem;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
 
   & > a {
     font-size: inherit;
@@ -56,10 +52,9 @@ const H5 = styled.h5`
 `;
 
 const H6 = styled.h6`
-  padding: 1rem 0;
   font-family: 'Open Sans';
-  margin-top: 3rem;
-  margin-bottom: -1.5rem;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
 
   & > a {
     font-size: inherit;
