@@ -2,7 +2,7 @@ import { useViewportScroll } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 export function useHiddenNav() {
-  const [navHidden, setNavHidden] = useState(false);
+  const [navHidden, setNavHidden] = useState(true);
 
   const { scrollY } = useViewportScroll();
 

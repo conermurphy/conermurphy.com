@@ -1,6 +1,6 @@
 import React from 'react';
-import { graphql, Link } from 'gatsby';
-import { GatsbyImage } from 'gatsby-plugin-image';
+import { Link } from 'gatsby';
+import { StaticImage } from 'gatsby-plugin-image';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
@@ -16,7 +16,7 @@ const HeroSection = styled.section`
   margin: 5rem 0;
   gap: 2.5rem;
   text-align: center;
-  height: clamp(20rem, 100vh, 650px);
+  height: clamp(600px, 100vh, 700px);
 
   & > h2 {
     font-size: 2.5rem;
@@ -26,6 +26,7 @@ const HeroSection = styled.section`
 
   & > .gatsby-image-wrapper {
     width: 150px;
+    height: 150px;
     filter: drop-shadow(var(--shadow));
   }
 
@@ -44,9 +45,7 @@ const HeroSection = styled.section`
   }
 `;
 
-export default function HomePage({ path, data }) {
-  const { logo } = data;
-
+export default function HomePage({ path }) {
   const MotionLink = motion(Link);
 
   return (
@@ -58,7 +57,15 @@ export default function HomePage({ path, data }) {
         }}
       />
       <HeroSection>
-        <GatsbyImage image={logo.childImageSharp.gatsbyImageData} alt="Logo" />
+        <StaticImage
+          src="../assets/images/Logo.png"
+          alt="Logo"
+          width={150}
+          height={150}
+          loading="eager"
+          placeholder="blurred"
+          layout="fixed"
+        />
         <h1 className="title">Hi, I’m Coner.</h1>
         <h2 className="subtitle">I want to help your business grow by giving you an outstanding website your customers will adore.</h2>
         <div className="linkContainer">
@@ -76,13 +83,3 @@ export default function HomePage({ path, data }) {
     </>
   );
 }
-
-export const query = graphql`
-  query {
-    logo: file(name: { eq: "Logo" }) {
-      childImageSharp {
-        gatsbyImageData(width: 150, placeholder: BLURRED)
-      }
-    }
-  }
-`;

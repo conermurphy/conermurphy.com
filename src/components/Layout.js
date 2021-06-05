@@ -38,7 +38,7 @@ const MobileMenuOpenContainer = styled(motion.div)`
 export default function Layout({ children, path }) {
   const [isMobile] = UseMobileChecker();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isThemeDark, toggleThemeDark, componentMounted] = useContext(ThemeContext);
+  const [isThemeDark] = useContext(ThemeContext);
 
   const mainVariants = {
     hidden: { opacity: 0 },
