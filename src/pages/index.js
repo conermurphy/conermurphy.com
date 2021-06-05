@@ -16,6 +16,7 @@ const HeroSection = styled.section`
   margin: 5rem 0;
   gap: 2.5rem;
   text-align: center;
+  height: clamp(20rem, 100vh, 650px);
 
   & > h2 {
     font-size: 2.5rem;

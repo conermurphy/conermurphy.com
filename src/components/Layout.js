@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import 'normalize.css';
-import { motion } from 'framer-motion';
+import { motion, useIsPresent } from 'framer-motion';
 import Typography from '../styles/Typography';
 import GlobalStyles from '../styles/GlobalStyles';
 import Nav from './Nav';
@@ -20,7 +20,6 @@ const SiteContainer = styled.div`
   overflow-x: hidden;
 
   & > main {
-    margin-top: ${(props) => (props.isMobile ? '0' : '10rem')};
     z-index: 100;
   }
 `;
@@ -46,21 +45,14 @@ export default function Layout({ children, path }) {
     visible: { opacity: 1 },
   };
 
-  const CustomThemeProvider = motion(ThemeProvider);
+  const isPresent = useIsPresent();
 
   return (
-    <CustomThemeProvider
-      theme={isThemeDark ? darkTheme : lightTheme}
-      key={`${isThemeDark ? 'Dark' : 'Light'}-Provider`}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.25, ease: 'easeInOut' }}
-    >
-      <SiteContainer isMobile={isMobile}>
+    <ThemeProvider theme={isThemeDark ? darkTheme : lightTheme}>
+      <SiteContainer>
         <Typography />
         <GlobalStyles />
-        {componentMounted ? (
+        {isPresent && isMobile !== undefined ? (
           isMobile ? (
             !isMobileMenuOpen ? (
               <MobileNavBar path={path} setMobileMenuOpen={setMobileMenuOpen} />
@@ -69,7 +61,7 @@ export default function Layout({ children, path }) {
             <Nav path={path} />
           )
         ) : null}
-        {isMobile && isMobileMenuOpen && (
+        {isPresent && isMobile && isMobileMenuOpen && (
           <MobileMenuOpenContainer>
             <MobileNav path={path} setMobileMenuOpen={setMobileMenuOpen} />
           </MobileMenuOpenContainer>
@@ -90,6 +82,6 @@ export default function Layout({ children, path }) {
         </motion.main>
         <Footer />
       </SiteContainer>
-    </CustomThemeProvider>
+    </ThemeProvider>
   );
 }

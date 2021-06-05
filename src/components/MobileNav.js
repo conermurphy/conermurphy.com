@@ -208,7 +208,12 @@ export function MobileNavBar({ path, setMobileMenuOpen }) {
   };
 
   return (
-    <MobileNavBarContainer variants={variants} animate={navHidden ? 'hidden' : 'visible'} transition={{ ease: 'easeInOut', duration: 0.4 }}>
+    <MobileNavBarContainer
+      variants={variants}
+      initial="hidden"
+      animate={navHidden ? 'hidden' : 'visible'}
+      transition={{ ease: 'easeInOut', duration: 0.4 }}
+    >
       <ul>
         <li>
           <Link to="/" className={currentRootPage === '' ? 'active' : ''}>

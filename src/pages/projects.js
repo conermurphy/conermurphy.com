@@ -12,8 +12,8 @@ const AllProjectsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5rem;
-  margin: 5rem 0;
+  margin: 0;
+  margin-bottom: 5rem;
 `;
 
 export default function Projects({ data, pageContext, path }) {
@@ -22,9 +22,9 @@ export default function Projects({ data, pageContext, path }) {
 
   const heroContent = {
     title: 'Projects',
-    subtitle: '',
-    CTA: '',
-    CTALink: '',
+    subtitle: 'Here are some of my previous projects. If you have any questions please reach out to me.',
+    CTA: 'Ready to get started on your project?',
+    CTALink: '/contact',
   };
 
   const pageTitle = `Projects ${currentPage ? `- Page ${currentPage}` : ''}`;
@@ -67,7 +67,7 @@ export default function Projects({ data, pageContext, path }) {
 }
 
 export const query = graphql`
-  query($skip: Int = 0, $pageSize: Int = 8) {
+  query ($skip: Int = 0, $pageSize: Int = 8) {
     projects: allMdx(
       limit: $pageSize
       skip: $skip

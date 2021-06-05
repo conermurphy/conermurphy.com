@@ -10,6 +10,7 @@ const PaginationContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: 5rem;
+  margin-top: 0;
   flex-wrap: wrap;
   gap: 1rem;
 

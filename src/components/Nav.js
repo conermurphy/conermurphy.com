@@ -134,7 +134,7 @@ export default function Nav({ path }) {
   return (
     <NavContainer
       variants={variants}
-      initial="hidden"
+      initial="visible"
       animate={navHidden ? 'hidden' : 'visible'}
       transition={{ ease: 'easeInOut', duration: 0.4 }}
     >

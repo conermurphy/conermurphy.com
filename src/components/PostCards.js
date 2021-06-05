@@ -33,6 +33,7 @@ const HeroPostContainer = styled(motion.div)`
   justify-content: center;
   flex-wrap: wrap;
   gap: 2rem;
+  margin-bottom: 5rem;
 
   & > div {
     width: clamp(300px, 80vw, 400px);
