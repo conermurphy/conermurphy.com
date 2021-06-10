@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import { graphql, Link } from 'gatsby';
 import SEO from '../components/SEO';
+import { Hero } from '../components/Hero';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -10,7 +11,6 @@ const ContentContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: clamp(300px, 80vw, var(--maxWidth));
-  gap: 5rem;
   margin-bottom: 5rem;
 
   & > h1 {
@@ -51,6 +51,13 @@ const ContentContainer = styled.div`
 export default function AboutMe({ data, path }) {
   const { portraitImage, pcImage, projects } = data;
 
+  const heroContent = {
+    title: "Hi 👋, I'm Coner Murphy.",
+    subtitle: "Want to find out more about me and my journey? Here's the palce to do it.",
+    CTA: 'Want to set up a call?',
+    CTALink: '/contact',
+  };
+
   return (
     <>
       <SEO
@@ -60,7 +67,7 @@ export default function AboutMe({ data, path }) {
         }}
       />
       <ContentContainer>
-        <h1>Hi 👋, I'm Coner Murphy.</h1>
+        <Hero content={heroContent} />
         <div className="sectionContainer">
           <GatsbyImage image={portraitImage.childImageSharp.gatsbyImageData} alt="Portrait of Coner Murphy." />
           <div className="textContainer">

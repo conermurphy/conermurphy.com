@@ -6,11 +6,6 @@ import ThemeContext from '../context/ThemeContext';
 export function ThemeToggler() {
   const [isThemeDark, toggleThemeDark] = useContext(ThemeContext);
 
-  const variants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0 },
-  };
-
   return (
     <AnimatePresence exitBeforeEnter>
       {isThemeDark ? (
@@ -19,9 +14,9 @@ export function ThemeToggler() {
           onClick={() => toggleThemeDark()}
           className="buttonToggle"
           key="toggleLightMode"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
           aria-label="Toggle Light Mode"
         >
@@ -33,9 +28,9 @@ export function ThemeToggler() {
           onClick={() => toggleThemeDark()}
           className="buttonToggle"
           key="toggleDarkMode"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
           aria-label="Toggle Dark Mode"
         >

@@ -18,8 +18,8 @@ export default function Blog({ data, pageContext, path }) {
   const heroContent = {
     title: 'Blog',
     subtitle: 'Here is where you’ll find all my blog posts. I cover everything from tutorials to content creation and more.',
-    CTA: '',
-    CTALink: '',
+    CTA: 'Want me to write for you?',
+    CTALink: '/contact',
   };
 
   const pageTitle = `Blog ${currentPage ? `- Page ${currentPage}` : ''}`;

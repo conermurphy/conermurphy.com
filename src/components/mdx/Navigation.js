@@ -9,6 +9,7 @@ const NavigationContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 5rem 0;
+  gap: 2.5rem;
 
   & > * {
     padding: 0 2rem;
