@@ -120,12 +120,6 @@ export default {
         ],
       },
     },
-    // {
-    //   resolve: 'gatsby-plugin-plausible',
-    //   options: {
-    //     domain: 'conermurphy.com',
-    //   },
-    // },
     'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',
     'gatsby-plugin-image',
