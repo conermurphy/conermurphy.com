@@ -6,6 +6,7 @@ const PostContainer = styled.article`
   margin: auto;
   padding-bottom: 0;
   width: clamp(300px, 80vw, 1000px);
+  margin-top: clamp(0px, 5vw, 10rem);
 
   & > .heroImage {
     border-radius: var(--borderRadius);
