@@ -18,10 +18,6 @@ const SiteContainer = styled.div`
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
-
-  & > main {
-    z-index: 100;
-  }
 `;
 
 const MobileMenuOpenContainer = styled(motion.div)`

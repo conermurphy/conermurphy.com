@@ -9,7 +9,7 @@ const TestimonialSectionContainer = styled.section`
   justify-content: center;
   flex-wrap: wrap;
   gap: 0 10rem;
-  width: 100%;
+  width: 100vw;
   padding: 5rem 0;
   background-color: var(--secondaryBg);
 
