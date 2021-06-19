@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import Tweet from './Tweet';
+import { EmailSignupForm } from './EmailSignupForm';
 import { ImageText } from './ImageText';
 
 const H1 = styled.h1``;
@@ -170,6 +171,7 @@ const Components = {
   Tweet: (props) => <Tweet {...props} />,
   ImageText: (props) => <ImageText {...props} />,
   blockquote: (props) => <CustomBlockQuote {...props} />,
+  EmailSignUpForm: (props) => <EmailSignupForm {...props} />,
 };
 
 export default Components;
