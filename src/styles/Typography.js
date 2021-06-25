@@ -123,6 +123,10 @@ const Typography = createGlobalStyle`
     
   }
 
+  strong {
+    font-weight: 600;
+  }
+
   ul {
     list-style: none;
     padding-left: 0;
