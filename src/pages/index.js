@@ -57,15 +57,6 @@ export default function HomePage({ path }) {
         }}
       />
       <HeroSection>
-        {/* <StaticImage
-          src="../assets/images/Logo.png"
-          alt="Logo"
-          width={150}
-          height={150}
-          loading="eager"
-          placeholder="blurred"
-          layout="fixed"
-        /> */}
         <h1 className="title">Hi, I’m Coner.</h1>
         <h2 className="subtitle">I want to help your business grow by giving you an outstanding website your customers will adore.</h2>
         <div className="linkContainer">
