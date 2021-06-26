@@ -14,7 +14,6 @@ const ContentContainer = styled.div`
   margin-bottom: 5rem;
 
   & > h1 {
-    width: clamp(300px, 60vw, 700px);
     text-align: center;
   }
 

@@ -67,11 +67,13 @@ const Typography = createGlobalStyle`
   h1,h2,h3 {
     font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     font-weight: 500;
+    line-height: normal;
   }
 
   h4,h5,h6 {
     font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     font-weight: 400;
+    line-height: normal;  
   }
 
   h1 {
@@ -100,7 +102,6 @@ const Typography = createGlobalStyle`
     font-weight: 300;
     color: var(--primaryText);
     margin-top: 2rem;
-    width: clamp(300px, 30vw, 500px);
   }
 
   .title {

@@ -125,7 +125,10 @@ function FooterContent() {
         <HireMe available />
         <ContactIcons />
         <h4>Sign Up For My Newsletter:</h4>
-        <p>I publish a weekly newsletter keeping you up-to-date with everything I'm currently working on.</p>
+        <p>
+          I publish a weekly newsletter keeping you up-to-date with all the projects I'm currently working on. As well as exclusive
+          productivity, UI/UX tips and analytics breakdowns of my Twitter content and blog posts.
+        </p>
         <EmailSignup />
       </div>
       <div className="latestPost">

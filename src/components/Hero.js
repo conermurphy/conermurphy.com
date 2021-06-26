@@ -8,20 +8,15 @@ const HeroContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0;
-  margin-top: 5rem;
+  margin: 5rem 0;
   gap: 2.5rem;
   text-align: center;
   height: clamp(20rem, 100vh, 500px);
 
-  & > h1 {
-    width: clamp(300px, 40vw, var(--maxWidth));
-  }
-
   & > h2 {
     font-size: 2.5rem;
     margin-top: 0;
-    max-width: 550px;
+    max-width: 600px;
   }
 `;
 
