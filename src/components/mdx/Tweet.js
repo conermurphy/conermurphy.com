@@ -99,6 +99,11 @@ const TwitterAuthorContainer = styled.div`
   .author {
     font-weight: bold;
   }
+
+  .username {
+    opacity: 50%;
+    font-weight: 400;
+  }
 `;
 
 const CustomGatsbyImage = styled(GatsbyImage)`
@@ -144,7 +149,7 @@ function TwitterAuthor({ author }) {
         <GatsbyImage image={image.childImageSharp.gatsbyImageData} objectFit="contain" alt={name} className="authorImage" />
         <div>
           <p className="author">{name}</p>
-          <p>{username}</p>
+          <p className="username">@{username}</p>
         </div>
       </TwitterAuthorContainer>
     </a>
@@ -249,7 +254,7 @@ export default function Tweet({ tweet }) {
   const [authorToDisplay] = allAuthors.filter(({ node }) => node.frontmatter.authorId === author);
 
   // 3b: Destructure values out from required author
-  const { username } = authorToDisplay.node;
+  const { username } = authorToDisplay.node.frontmatter;
 
   const tweetLink = `https://twitter.com/${username}/status/${tweetId}`;
 

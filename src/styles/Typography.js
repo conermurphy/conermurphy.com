@@ -123,8 +123,9 @@ const Typography = createGlobalStyle`
     
   }
 
-  strong {
+  strong, a {
     font-weight: 600;
+    text-decoration: none;
   }
 
   ul {

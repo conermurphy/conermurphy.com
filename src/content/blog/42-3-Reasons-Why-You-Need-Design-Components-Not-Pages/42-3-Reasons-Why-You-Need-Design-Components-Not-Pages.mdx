@@ -9,60 +9,69 @@ canonical_url: ""
 description: "If you want to design and develop better websites then you need to stop designing at a page level and start thinkning about components. Here's 3 reasons why."
 ---
 
-Recently, while scrolling through my timeline I came across the below tweet from [Dan Spratling](https://twitter.com/dan_spratling/) and it got me thinking about why we should be designing components on our websites and not pages as traditionally done.
+Recently, while scrolling through Twitter, I came across a tweet from [Dan Spratling.](https://twitter.com/dan_spratling/) It got me thinking about why we should design components and not pages as traditionally done. Check out the tweet below.
 
 <Tweet tweet="1401103660785049600" />
 
-In this post I wanted to cover why I think designing components is better for designing (and developing) websites and how it can be beneficial for us.
+In this post, I want to cover why I think designing components is the best way to design and develop websites and how it can be beneficial.
 
-Let's jump in.
+Let's get started.
 
 ## Consistent and Efficent Design
 
-If you've ever spent time trying to replicate the exact same element across two pages you'll appreciate how hard it can be to make the two designs identical to eachother in the contexts of different pages. By designing individual components we remove this issue because the component is already made all we need to do is drop the component onto the new page.
+If you've ever tried to replicate the same element across two pages you'll appreciate how hard it can be to make them identical. By designing individual components standalone from their use cases we remove this issue. This is because the component is already made all we need to do is drop it into the new use case.
 
-Because the component is self-contained and isolated in it's existence we can add or remove it as we please across multiple pages or areas of our website making our designing more efficent and consistent while reducing the amount of errors and mistakes we introduce by trying to replicate the same design.
+Because it's a standalone component we are able to add and remove it as we please regardless of its final use case. This makes designing more efficient and consistent while reducing the number of errors and mistakes we make.
 
 ## Responsivity
 
-By designing components in isolation from the pages they will be displayed on we can formulate, revise and implemnet an individual plan for responsivity on each element of the design. This means that each component will be responsive by nature and by extension the overall page will be responsive as well. This greatly reduces the amount of time we need to spend after the fact making the design responsive because we did all the work up front ensuring each component was responsive in isolation.
+By designing components in isolation we are able to plan the responsivity of the website at a component level, not as a finished product.
+
+To make the page responsive, we just need to make each component responsive on its own. This greatly reduces the amount of time we spend at the end of the project making the website responsive. We will have done all of the work at the start making sure each component is responsive.
 
 ## Smaller Codebase and Quicker Development
 
-By designing and developing individual components that we can re-use throughout our website or application we reduce the amount of code we need to write.
+By making individual components to reuse throughout our project, we reduce the amount of code we needed.
 
-When developing components with this mindset, it pays to make generalise the components so that the content within them can shift and change as required but the design stays the same. This means you only need to write the component once and then can pass the content in as required.
+When developing components with this mindset, it pays to generalise the components so that the content within them can change as required but the design stays the same. This means you only need to write the component once and then can pass the content in as required.
 
-Because we are removing the need to re-create the same component multiple times it means we can cut down on the development time of the project and spend more time ensuring the project is fit for purpose and meets all of our client needs.
+Because we remove the need to recreate the same component multiple times, we can cut down on the development time of the project. This means we can spend more time ensuring the project is fit for purpose and meets all our client's needs.
 
 ## How I Implemented This Metholody on my website
 
 ### Designing
 
-While designing my website I was constantly on the look out for opportunities to break design elements down into components and re-use them in other places. It was a great way to speed up the designing stage of the project while still creating a high quality product that was easy to follow when I was developing.
+While designing my website I was constantly looking for opportunities to make elements into smaller components that I could reuse. This meant I could speed up the designing of the project while still creating a high-quality product that was easy to follow when it came to developing.
 
-Below is the Figma artboard I used for designing my website showing the components I created and then reused throughout the design. The majority of the website is in some way reused or comes from a component. The only page that was largely bespoke was the home page but this even contained a lot of components from other locations such as the testimonial section which is one big component.
+Below is the Figma artboard I used for designing my website. It shows the components I created and then reused throughout the design. The majority of the website is in some way reused or comes from a component somewhere else.
 
 ![Figma Artboard of my website](./cm-website-figma-artboard.png)
 
 ### Developing
 
-When it came time to develop my website I put a large amount of time into creating the individual component files and breaking out the different sections and elements of the design into individual files that I could easily import and reuse whenever and wherever I needed to. This made the development process more efficent and the code base more understandable and readable.
+When it came to developing my website, I put a large amount of time into creating the individual components and breaking out large sections into components. By doing this I could easily import and reuse elements whenever and wherever I needed to. This made the development process more efficient and the code base more understandable and readable.
 
-Below is all of the components currently being used on my website.
+Below are all the components currently used on my website.
 
 ![Components directory of my codebase](./cm-website-components.png)
 
-By having all of the components broken down like this I can cut down on the amount of code required to create individual pages, here is the code used to generate the content from my home page.
+By having all the components separated I cut down on the amount of code required on the individual pages. Below is the code used to generate the content from my home page.
 
 ![Home page code for my website](./cm-website-home-page-code.png)
 
-As you can see by spending the extra time to design and develop individual components you can cut down on the work required to create individual pages on your website.
+As you can see by spending the extra time to design and develop at a component level you can cut down on the work required on each page of your website.
 
 ## Closing Out
 
-In closing, the mindset shift to designing and developing in components rather than pages yields multiple benefits. A more consistent and efficent design, a more reponsive design, a smaller more efficent codebase and a better development experience. By shifting to this mindset we can spen more time planning out our design making the entire journey from concept to finished product smoother and faster while maintaining product quality and not comprimising on our clients needs.
+In closing, the mindset change to working at a component level rather than a page level yields many benefits.
 
-After moving to this mindset for my latest website redesign I can safely say I won't be moving back to page level designing any time soon, it made the entire process smoother and more enjoyable for me. I highly recommend giving it a try on your next project.
+- A more consistent and efficient design process.
+- A more responsive design
+- A smaller and more efficient codebase.
+- A better development experience.
 
-Once again, I just want to say thank you to Dan for letting me feature his tweet for this blog post and sparking my initial curtiousty in this way of designing. If you haven't already I highly recommend [checking out Dan's work on his website](danspratling.dev/) and [following him on Twitter.](https://twitter.com/dan_spratling/)
+By using this mindset we can spend more time planning out our design. This makes the journey from concept to finished product smoother and faster while maintaining quality and not compromising on our client's needs.
+
+After moving to this mindset for my website redesign I can say I won't be moving back to page-level designing any time soon. Component level designing made the entire process smoother and more enjoyable for me. I highly recommend giving it a try on your next project.
+
+Once again, I just want to say thank you to Dan for letting me feature his tweet in this blog post and sparking my initial curiosity in this way of designing. If you haven't already I highly recommend [checking out Dan's work on his website](danspratling.dev/) and [following him on Twitter.](https://twitter.com/dan_spratling/)

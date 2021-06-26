@@ -84,6 +84,7 @@ const BlogHeader = styled.div`
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    gap: 2rem;
 
     & > .tag {
       padding: 1.25rem 2rem;
