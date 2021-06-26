@@ -25,6 +25,7 @@ const ContentContainer = styled.div`
     justify-content: center;
     flex-wrap: wrap;
     gap: 5rem;
+    margin-bottom: 5rem;
 
     .gatsby-image-wrapper {
       width: 300px;

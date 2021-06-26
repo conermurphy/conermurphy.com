@@ -21,7 +21,6 @@ const BlogPostContainer = styled(motion.div)`
   }
 
   .title {
-    line-height: 3.2rem;
     max-width: 400px;
   }
 `;
@@ -52,9 +51,6 @@ const HeroPostContainer = styled(motion.div)`
     opacity: 0.75;
   }
 
-  .title {
-    line-height: 3.2rem;
-  }
 
   .linkContainer {
     display: flex;

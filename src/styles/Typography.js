@@ -75,10 +75,10 @@ const Typography = createGlobalStyle`
   }
 
   h1 {
-    font-size: 6rem;
+    font-size: clamp(4rem, 2.9091rem + 5.8182vw, 8rem);
   } 
   h2 {
-    font-size: 4.5rem;
+    font-size: clamp(2rem, 1.9545rem + 2.9091vw, 4.5rem);
   } 
   h3 {
     font-size: 2.5rem;
@@ -106,7 +106,6 @@ const Typography = createGlobalStyle`
   .title {
     margin-bottom: 1rem;
     margin-top: 0;
-    width: clamp(300px, 30vw, 450px);
   }
 
   /* Individual element Styles */
@@ -121,6 +120,10 @@ const Typography = createGlobalStyle`
     line-height: var(--lh);
     color: var(--primaryText);
     
+  }
+
+  p {
+    font-weight: 400;
   }
 
   strong, a {

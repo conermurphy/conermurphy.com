@@ -11,10 +11,10 @@ const FooterBody = styled.footer`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   z-index: 100;
   width: 100vw;
   background-color: var(--secondaryBg);
+  padding-top: 5rem;
 `;
 
 const FooterContentContainer = styled.div`
@@ -23,19 +23,9 @@ const FooterContentContainer = styled.div`
   align-items: flex-start;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  margin: 2rem;
-  width: clamp(300px, 100vw, var(--maxWidth));
+  gap: 2rem;
+  width: clamp(300px, 90vw, var(--maxWidth));
   z-index: 100;
-
-  & > div {
-    margin: 5rem 0;
-  }
-
-  .latestPost {
-    & > h3 {
-      margin-top: 0;
-    }
-  }
 
   .info {
     display: flex;
@@ -57,17 +47,40 @@ const FooterContentContainer = styled.div`
 
 const PostFooterContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
-  margin: 1rem;
-  width: clamp(300px, 60vw, var(--maxWidth));
-  border-top: 1px solid rgba(50, 59, 73, 0.5);
+  margin-top: 5rem;
+  width: clamp(300px, 90vw, var(--maxWidth));
   z-index: 100;
 
-  & * {
-    font-size: 1.4rem;
+  .pagesContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+
+    & > h4 {
+      margin: 0;
+    }
+
+      & > li > a {
+        font-weight: 400;
+      }
+    }
+  }
+
+  & > .postFooter {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-top: 1px solid rgba(50, 59, 73, 0.5);
   }
 `;
 
@@ -114,30 +127,6 @@ function FooterContent() {
         <h4>Sign Up For My Newsletter:</h4>
         <p>I publish a weekly newsletter keeping you up-to-date with everything I'm currently working on.</p>
         <EmailSignup />
-        <h4>Pages:</h4>
-        <ul className="nav">
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about-me">About Me</Link>
-          </li>
-          <li>
-            <Link to="/blog">Blog</Link>
-          </li>
-          <li>
-            <Link to="/threads">Threads</Link>
-          </li>
-          <li>
-            <Link to="/projects">Projects</Link>
-          </li>
-          <li>
-            <Link to="/privacy-policy">Privacy Policy</Link>
-          </li>
-          <li>
-            <Link to="/contact">Contact Me</Link>
-          </li>
-        </ul>
       </div>
       <div className="latestPost">
         <h3>Latest Post:</h3>
@@ -150,13 +139,38 @@ function FooterContent() {
 function PostFooter() {
   return (
     <PostFooterContainer>
-      <p>&copy; Coner Murphy {new Date().getFullYear()}</p>
-      <p className="credits">
-        Icons Used : <a href="	https://fontawesome.com/">Font Awesome</a>,{' '}
-        <a href="http://google.github.io/material-design-icons/">Material Design</a>,{' '}
-        <a href="https://github.com/grommet/grommet-icons">Grommet-Icons</a> & <a href="https://ionicons.com/">Ionicons</a> from{' '}
-        <a href="https://react-icons.github.io/react-icons">React Icons</a>
-      </p>
+      <ul className="pagesContainer">
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/about-me">About Me</Link>
+        </li>
+        <li>
+          <Link to="/blog">Blog</Link>
+        </li>
+        <li>
+          <Link to="/threads">Threads</Link>
+        </li>
+        <li>
+          <Link to="/projects">Projects</Link>
+        </li>
+        <li>
+          <Link to="/privacy-policy">Privacy Policy</Link>
+        </li>
+        <li>
+          <Link to="/contact">Contact Me</Link>
+        </li>
+      </ul>
+      <div className="postFooter">
+        <p>&copy; Coner Murphy {new Date().getFullYear()}</p>
+        <p className="credits">
+          Icons Used : <a href="	https://fontawesome.com/">Font Awesome</a>,{' '}
+          <a href="http://google.github.io/material-design-icons/">Material Design</a>,{' '}
+          <a href="https://github.com/grommet/grommet-icons">Grommet-Icons</a> & <a href="https://ionicons.com/">Ionicons</a> from{' '}
+          <a href="https://react-icons.github.io/react-icons">React Icons</a>
+        </p>
+      </div>
     </PostFooterContainer>
   );
 }

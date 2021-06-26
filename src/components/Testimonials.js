@@ -5,29 +5,35 @@ import testimonials from '../data/testimonials.json';
 
 const TestimonialSectionContainer = styled.section`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
   gap: 0 10rem;
   width: 100vw;
   padding: 5rem 0;
   background-color: var(--secondaryBg);
 
   .sectionTitle {
-    max-width: 700px;
-    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 3rem;
 
-    @media (max-width: 1240px) {
-      text-align: center;
+    & > .subtitle {
+      width: clamp(300px, 80%, 1000px);
     }
   }
 
   .TestimonialCardsContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 50vw, 400px), 1fr));
-    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
     justify-content: center;
     gap: 5rem;
+    padding-top: 2rem;
+    width: clamp(300px, 80vw, var(--maxWidth));
   }
 `;
 

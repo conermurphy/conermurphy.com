@@ -7,6 +7,9 @@ import useForm from '../utils/useForm';
 
 const FormContainer = styled.div`
   position: relative;
+  width: max-content;
+  border-radius: var(--borderRadius);
+  overflow: hidden;
 `;
 
 const FormGridContainer = styled.form`
@@ -15,8 +18,8 @@ const FormGridContainer = styled.form`
   flex-direction: row;
   align-items: center;
   justify-content: ${(props) => (props.center ? 'center' : 'flex-start')};
-  gap: 1rem;
-  width: clamp(300px, 30vw, 500px);
+  width: clamp(300px, 30vw, 350px);
+  filter: drop-shadow(var(--shadow));
   color: var(--primaryText);
 
   fieldset {
@@ -27,27 +30,20 @@ const FormGridContainer = styled.form`
     margin: 0;
     border: none;
     color: var(--accentText);
+    width: 100%;
 
-    label {
-      border-radius: var(--borderRadius);
-      filter: drop-shadow(var(--shadow));
+    input {
+      width: 100%;
+      height: 2rem;
+      border: 0;
+      padding: 1rem;
       background-color: var(--primaryBg);
       color: var(--primaryText);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      padding: 0 0 0 1rem;
-      overflow: hidden;
-      font-weight: bold;
+      font-size: 1.4rem;
 
-      input {
-        width: 100%;
-        height: 3rem;
-        border: 0;
-        padding: 1rem;
-        background-color: var(--primaryBg);
-        color: var(--primaryText);
+      ::placeholder {
+        opacity: 100%;
+        letter-spacing: 1px;
       }
     }
   }
@@ -59,11 +55,11 @@ const FormGridContainer = styled.form`
   .signupButton {
     color: var(--accentText);
     font-weight: bold;
+    height: 4rem;
+    font-size: 1.4rem;
     border: none;
-    padding: 1rem;
+    padding: 0 2rem;
     background-color: var(--accent);
-    border-radius: var(--borderRadius);
-    filter: drop-shadow(var(--shadow));
     cursor: pointer;
   }
 `;
@@ -159,18 +155,16 @@ export const EmailSignup = ({ center }) => {
     <FormContainer>
       <FormGridContainer onSubmit={submitEmail} center={center}>
         <fieldset disabled={loading}>
-          <label htmlFor="email">
-            Email:
-            <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Please enter your email..."
-              className="emailInput"
-              onChange={updateValue}
-              value={email}
-            />
-          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Please enter your email..."
+            aria-label="Email Address"
+            className="emailInput"
+            onChange={updateValue}
+            value={email}
+          />
           <input
             type="chilliIsCool"
             name="chilliIsCool"
@@ -179,10 +173,10 @@ export const EmailSignup = ({ center }) => {
             onChange={updateValue}
             className="chilliIsCool"
           />
+          <motion.button className="signupButton" type="submit" disabled={loading} whileHover={{ scale: 1.05 }}>
+            {loading ? 'Subscribing...' : ' Subscribe'}
+          </motion.button>
         </fieldset>
-        <motion.button className="signupButton" type="submit" disabled={loading} whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.05 }}>
-          {loading ? 'Subscribing...' : ' Subscribe'}
-        </motion.button>
       </FormGridContainer>
       {message ? <OutcomeMessageContainer error={error} message={message} /> : ''}
     </FormContainer>

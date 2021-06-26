@@ -34,7 +34,6 @@ export default function Blog({ data, pageContext, path }) {
       />
       <Hero content={heroContent} />
       <HeroPostCard post={latestPost.node} />
-      <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
       <BlogPostsContainer posts={blogPosts} />
       <Pagination pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)} totalCount={totalCount} currentPage={currentPage || 1} base={path} />
       <Testimonials />

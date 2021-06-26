@@ -45,13 +45,6 @@ export default function Threads({ data, pageContext, path }) {
         }}
       />
       <Hero content={heroContent} />
-      <Pagination
-        pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
-        totalCount={totalCount}
-        currentPage={currentPage || 1}
-        skip={skip}
-        base={path}
-      />
       <AllPostsContainer>
         <div>
           {twitterThreads.map((thread) => (

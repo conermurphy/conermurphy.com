@@ -19,10 +19,6 @@ const ThreadContainer = styled(motion.div)`
     opacity: 0.75;
   }
 
-  .title {
-    line-height: 3.2rem;
-  }
-
   .threadTitle {
     max-width: 400px;
   }

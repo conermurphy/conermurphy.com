@@ -4,6 +4,7 @@ import { graphql, Link, useStaticQuery } from 'gatsby';
 import { motion } from 'framer-motion';
 import { MdChatBubble } from 'react-icons/md';
 import { GatsbyImage } from 'gatsby-plugin-image';
+import { FaTwitter } from 'react-icons/fa';
 import { useSiteMetadata } from '../utils/useSiteMetadata';
 import ThemeContext from '../context/ThemeContext';
 import { useHiddenNav } from '../utils/useHiddenNav';
@@ -34,6 +35,26 @@ const StyledNav = styled.nav`
 
   a {
     text-decoration: none;
+    position: relative;
+
+    &:not(.callToAction):before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 0px;
+      border-bottom: 2px solid var(--accent);
+      bottom: -2px;
+      -webkit-transform: scaleX(0);
+      -ms-transform: scaleX(0);
+      transform: scaleX(0);
+      -webkit-transition: -webkit-transform 0.2s ease-in;
+      transition: transform 0.4s ease-in;
+    }
+    &:hover:before {
+      -webkit-transform: scaleX(1);
+      -ms-transform: scaleX(1);
+      transform: scaleX(1);
+    }
 
     &.active {
       border-bottom: 2px solid var(--accent);
@@ -66,20 +87,17 @@ const NavContainer = styled(motion.div)`
 `;
 
 const AuthorCardContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
+  > a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
 
-  gap: 1.5rem;
-
-  & > a > .gatsby-image-wrapper {
-    width: 50px;
-    height: 50px;
-  }
-
-  & > h3 {
-    font-size: 2rem;
+    > .gatsby-image-wrapper {
+      width: 50px;
+      height: 50px;
+    }
   }
 `;
 
@@ -102,15 +120,15 @@ export function AuthorCard({ closeMenu }) {
     <AuthorCardContainer>
       <Link to="/" onClick={() => closeMenu()}>
         <GatsbyImage image={logo.childImageSharp.gatsbyImageData} alt="Logo" />
+        <h3>{title}</h3>
       </Link>
-      <h3>{title}</h3>
     </AuthorCardContainer>
   ) : (
     <AuthorCardContainer>
       <Link to="/">
         <GatsbyImage image={logo.childImageSharp.gatsbyImageData} alt="Logo" />
+        <h3>{title}</h3>
       </Link>
-      <h3>{title}</h3>
     </AuthorCardContainer>
   );
 }
@@ -142,31 +160,31 @@ export default function Nav({ path }) {
         <AuthorCard />
         <StyledNav>
           <ul>
-            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <li>
               <Link to="/about-me" className={currentRootPage === 'about-me' ? 'active' : ''}>
                 About Me
               </Link>
-            </motion.li>
-            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            </li>
+            <li>
               <Link to="/blog" className={currentRootPage === 'blog' ? 'active' : ''}>
                 Blog
               </Link>
-            </motion.li>
-            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            </li>
+            <li>
               <Link to="/threads" className={currentRootPage === 'threads' ? 'active' : ''}>
-                Threads
+                Twitter Threads
               </Link>
-            </motion.li>
-            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            </li>
+            <li>
               <Link to="/projects" className={currentRootPage === 'projects' ? 'active' : ''}>
                 Projects
               </Link>
-            </motion.li>
-            <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            </li>
+            <li>
               <Link to="/contact" className="callToAction">
                 <MdChatBubble /> Hire Me
               </Link>
-            </motion.li>
+            </li>
           </ul>
           <ThemeToggler />
         </StyledNav>

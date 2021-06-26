@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaLaptopCode } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import Services from '../data/services.json';
 
@@ -38,41 +37,17 @@ const ServiceCardContainer = styled(motion.div)`
   margin: 1rem;
 
   .serviceCardTitle {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1.5rem;
-
-    & > h4 {
-      margin: 0;
-      color: var(--primaryText);
-    }
-
-    & > svg {
-      background-color: var(--accent);
-      color: var(--accentText);
-      padding: 1rem;
-      border-radius: calc(var(--borderRadius) / 2);
-    }
+    margin: 0;
+    color: var(--primaryText);
+    font-weight: 500;
+    font-size: 2.5rem;
   }
 `;
 
-function ServiceCard({ service: { title, description, icon } }) {
-  let displayIcon;
-  switch (icon) {
-    case 'laptop':
-      displayIcon = <FaLaptopCode />;
-      break;
-    default:
-      displayIcon = '';
-  }
-
+function ServiceCard({ service: { title, description } }) {
   return (
-    <ServiceCardContainer whileHover={{ scale: 1.025 }}>
-      <div className="serviceCardTitle">
-        {displayIcon}
-        <h4>{title}</h4>
-      </div>
+    <ServiceCardContainer>
+      <h4 className="serviceCardTitle">{title}</h4>
       <p>{description}</p>
     </ServiceCardContainer>
   );

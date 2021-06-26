@@ -18,8 +18,13 @@ const HeroSection = styled.section`
   text-align: center;
   height: clamp(600px, 100vh, 700px);
 
+  & > .title {
+    width: auto;
+    font-size: 8rem;
+  }
+
   & > h2 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin-top: 0;
     width: clamp(300px, 50vw, 700px);
   }
