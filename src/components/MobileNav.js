@@ -168,7 +168,7 @@ export function MobileNav({ path, setMobileMenuOpen }) {
             <li>
               <Link to="/threads" className={currentRootPage === 'threads' ? 'active' : ''} onClick={() => handleClick()}>
                 <FaTwitter />
-                Threads
+                Twiiter Threads
               </Link>
             </li>
             <li>
