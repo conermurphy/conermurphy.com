@@ -111,11 +111,6 @@ const Typography = createGlobalStyle`
 
   /* Individual element Styles */
 
-  a {
-    color: var(--black);
-    text-decoration-color: var(--green);
-  }
-
   p, li, ul, span, button, label, a {
     font-size: 1.6rem;
     line-height: var(--lh);
@@ -128,8 +123,7 @@ const Typography = createGlobalStyle`
   }
 
   strong, a {
-    font-weight: 600;
-    text-decoration: none;
+    color: var(--accent);
   }
 
   ul {

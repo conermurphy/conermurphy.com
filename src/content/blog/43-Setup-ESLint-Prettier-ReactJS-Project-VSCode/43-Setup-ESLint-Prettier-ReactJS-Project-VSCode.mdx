@@ -1,0 +1,67 @@
+---
+title: "How to setup ESLint and Prettier in a ReactJS Project using VSCode"
+date: "2021-06-29"
+tags: ["Tutorial", "ReactJS"]
+slug: Setup-ESLint-Prettier-ReactJS-Project-VSCode
+image: ./43-Setup-ESLint-Prettier-ReactJS-Project-VSCode.png
+published: true
+canonical_url: ""
+description: "Writing efficent and readable code can be made easier by using the right tools. Learn how to setup ESLint and Prettier in a ReactJS Project using VSCode."
+---
+
+Mistakes happen all the time, no matter how expierenced of a developer you are. It's easy to miss off a comma or a closing `}` in your code. If you're not using any linting tools these simple mistakes can cost your a lot amount of time which means less code written and longer project times. So, by setting up linting tools like ESLint and Prettier, not only are we writing more efficent and readable code we are saving time and being more productive. Win-win for everyone involved.
+
+In this post, I want to cover how to setup a new ReactJS project to use ESLint and Prettier. I've been there countless times, start a new project and can't quite remember what steps I need to follow to get the setup working. With this post I aim to give a concise guide to setting up ESLint and Prettier in a ReactJS project that is easy to follow both for my future self and anyone else who might find it useful.
+
+Let's get started.
+
+## What are ESLint and Prettier
+
+If you're already aware of what both of these tools do then feel free to skip this section and go to the next one for the setup.
+
+For the uninitated, ESLint and Prettier are tools that developers can use to help them cleaner code and fix any problems as they arise in your code. Let's take a more in-depth look a them now.
+
+### ESLint
+
+> ESLint is an open source JavaScript linting utility originally created by Nicholas C. Zakas in June 2013. Code linting is a type of static analysis that is frequently used to find problematic patterns or code that doesn't adhere to certain style guidelines. There are code linters for most programming languages, and compilers sometimes incorporate linting into the compilation process.
+>
+> - [ESLint Website](https://eslint.org/docs/about/)
+
+ESLint gives us a way to check our code for errors and fix them for us. It can also change our code to ensure we meet certain stylistic guidelines which may be imposed upon us. For example, companies can create their own ruleset that they want all of their developers to follow to ensure a consistent codebase across an application. By creating this ruleset in ESLint and everyone using it, ESLint will force the code to be in that style when it lints.
+
+You can also use and extend off popular configurations from online, below are some popular ones:
+
+- [Google](https://github.com/google/eslint-config-google)
+- [Airbnb](https://www.npmjs.com/package/eslint-config-airbnb)
+- [Standard](https://github.com/standard/eslint-config-standard)
+- [Wesbos](https://github.com/wesbos/eslint-config-wesbos)
+
+If you're interested in the ESLint configuration that I use, you can [see it on my GitHub.](https://github.com/conermurphy/conermurphy.com/blob/master/.eslintrc)
+
+If you want to see the complete list of rules ESLint works with and can enforce, [check out their documentation here.](https://eslint.org/docs/rules/)
+
+### Prettier
+
+Prettier is an opinionated code formatter that changes your code to match certain rules and guidelines. Similar to ESLint however we can configure it and change some of the options to suit our own preferences. [Check out the list here.](https://prettier.io/docs/en/options.html)
+
+If you want to check out what Pretter does to code, they have an [online playground you can use.](https://prettier.io/playground/)
+
+### Why use them together?
+
+You may be asking why should we use both ESLint and Prettier?
+
+That is a valid question and there is some overlap between them. The reason I use them both together is because ESLint is more geared towards finding syntax errors in our code with some style checking on top. Where Pretter is solely about the style of our style and doesn't check for syntactical errors. For this reason, as I will cover later in this post, I disable the style checking within ESLint and let Prettier handle all of the style checking so ESLint can just focus on syntax errors.
+
+This means we can focus on writing the code and not worry about the style of it or catching simple syntax mistakes because we have 2 great tools working together solving both of those issues for us.
+
+## Setup
+
+### Creating a new ReactJS Project
+
+### Installing ESLint and Prettier
+
+### Configuration Files
+
+### VSCode
+
+## Conclusion
