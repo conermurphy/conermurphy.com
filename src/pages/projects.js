@@ -52,15 +52,6 @@ export default function Projects({ data, pageContext, path }) {
           <ProjectCard key={node.id} project={node} />
         ))}
       </AllProjectsContainer>
-      {totalCount > 8 ? (
-        <Pagination
-          pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
-          totalCount={totalCount}
-          currentPage={currentPage || 1}
-          skip={skip}
-          base={path}
-        />
-      ) : null}
       <Testimonials />
     </>
   );

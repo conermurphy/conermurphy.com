@@ -123,7 +123,8 @@ const Typography = createGlobalStyle`
   }
 
   strong, a {
-    color: var(--accent);
+    color: var(--primaryText);
+    text-decoration: none;
   }
 
   ul {

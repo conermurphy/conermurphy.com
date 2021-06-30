@@ -56,7 +56,7 @@ const TestimonialCardContainer = styled.div`
   filter: drop-shadow(var(--shadow));
 
   & > a {
-    text-decoration: none;
+    color: var(--accent);
     font-weight: bold;
   }
 

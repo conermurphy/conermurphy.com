@@ -60,16 +60,21 @@ const PostFooterContainer = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
     flex-wrap: wrap;
 
     & > h4 {
       margin: 0;
     }
 
-      & > li > a {
-        font-weight: 400;
-      }
+    & > li > a {
+      font-weight: 600;
+      border-right: 1px solid var(--primaryText);
+      padding-right: 1rem;
+    }
+
+    & > li:last-child > a {
+      border-right: none;
     }
   }
 
@@ -81,6 +86,11 @@ const PostFooterContainer = styled.div`
     justify-content: space-between;
     width: 100%;
     border-top: 1px solid rgba(50, 59, 73, 0.5);
+
+    & .credits > a {
+      font-weight: 600;
+      text-decoration: underline;
+    }
   }
 `;
 
