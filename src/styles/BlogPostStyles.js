@@ -71,6 +71,7 @@ const BlogHeader = styled.div`
   align-self: center;
   justify-content: center;
   width: clamp(300px, 60vw, 800px);
+  margin-top: 3rem;
 
   .postTitle {
     font-size: clamp(2rem, 5vw, 4.5rem);
