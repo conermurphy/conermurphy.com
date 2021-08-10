@@ -73,7 +73,6 @@ export const query = graphql`
             tags
             slug
             description
-            repo
             URL
             date(formatString: "MMM Do YYYY")
             image {

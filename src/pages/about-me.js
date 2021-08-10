@@ -109,7 +109,6 @@ export default function AboutMe({ data, path }) {
           <GatsbyImage image={pcImage.childImageSharp.gatsbyImageData} alt="PC Build In Progress." />
         </div>
         <div className="sectionContainer">
-          <GatsbyImage image={projects.childImageSharp.gatsbyImageData} alt="Previous Projects" />
           <div className="textContainer">
             <h2>How I can help you.</h2>
             <p>I want to help you and your business achieve your goals by making you a website that your users will adore.</p>
