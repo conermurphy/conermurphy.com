@@ -53,6 +53,15 @@ export default {
       },
     },
     {
+      resolve: 'gatsby-plugin-fathom',
+      options: {
+        // Your custom domain, defaults to `cdn.usefathom.com`
+        trackingUrl: 'polarbear.conermurphy.com',
+        // Unique site id
+        siteId: 'FBDCDFEY',
+      },
+    },
+    {
       resolve: 'gatsby-plugin-manifest',
       options: {
         name: 'Coner Murphy',

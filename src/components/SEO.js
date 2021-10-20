@@ -21,7 +21,6 @@ const SEO = ({ post }) => {
     <Helmet title={seo.title} titleTemplate={`%s - ${defaultTitle}`}>
       <html lang="en" />
       <title>{seo.title}</title>
-      <script async defer data-domain="conermurphy.com" src="https://plausible.io/js/plausible.js" />
 
       {/* Meta Tags */}
       <link rel="canonical" href={canonical || pathJoin(siteUrl, slug)} />
