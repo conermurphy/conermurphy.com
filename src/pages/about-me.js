@@ -53,7 +53,7 @@ export default function AboutMe({ data, path }) {
 
   const heroContent = {
     title: "Hi 👋, I'm Coner Murphy.",
-    subtitle: "Want to find out more about me and my journey? Here's the palce to do it.",
+    subtitle: "Want to find out more about me and my journey? Here's the place to do it.",
     CTA: 'Want to set up a call?',
     CTALink: '/contact',
   };
