@@ -9,7 +9,7 @@
     "lint": "next lint",
     "test": "jest --passWithNoTests",
     "test:update": "jest -u",
-    "test:coverage": "jest -c",
+    "test:coverage": "jest -c --passWithNoTests",
     "prepare": "husky install"
   },
   "dependencies": {
