@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavBar Matches the snapshot 1`] = `
+<div>
+  <nav
+    class="flex flex-row gap-8"
+  >
+    <p
+      class="font-semibold opacity-75"
+      href="/"
+    >
+      Home
+    </p>
+    <p
+      class="font-semibold opacity-75"
+      href="/blog"
+    >
+      Blog
+    </p>
+    <p
+      class="font-semibold opacity-75"
+      href="/contact"
+    >
+      Contact
+    </p>
+  </nav>
+</div>
+`;
