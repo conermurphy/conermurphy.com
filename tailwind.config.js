@@ -13,10 +13,12 @@ module.exports = {
         primaryBorder: 'hsla(221, 39%, 11%, 0.25)',
       },
       spacing: {
-        106: '106px',
+        106: '6.625rem',
+        72: '4.5rem',
       },
       fontSize: {
         32: '2rem',
+        40: '2.5rem',
       },
     },
     fontFamily: {
