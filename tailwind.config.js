@@ -7,10 +7,10 @@ module.exports = {
     extend: {
       colors: {
         transparent: 'transparent',
-        offWhite: '#FAFAFC',
-        primary: '#111827',
-        accent: '#F97316',
-        primaryBorder: 'hsla(221, 39%, 11%, 0.25)',
+        offWhite: 'var(--offWhite)',
+        primary: 'var(--primary)',
+        accent: 'var(--accent)',
+        primaryBorder: 'var(--primaryBorder)',
       },
       spacing: {
         106: '6.625rem',

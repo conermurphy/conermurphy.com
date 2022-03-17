@@ -44,11 +44,11 @@ exports[`Header Matches the snapshot with no props 1`] = `
       >
         <svg
           fill="currentColor"
-          height="1.5rem"
+          height="24px"
           stroke="currentColor"
           stroke-width="0"
           viewBox="0 0 512 512"
-          width="1.5rem"
+          width="24px"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -61,11 +61,11 @@ exports[`Header Matches the snapshot with no props 1`] = `
       >
         <svg
           fill="currentColor"
-          height="1.5rem"
+          height="24px"
           stroke="currentColor"
           stroke-width="0"
           viewBox="0 0 448 512"
-          width="1.5rem"
+          width="24px"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -78,11 +78,11 @@ exports[`Header Matches the snapshot with no props 1`] = `
       >
         <svg
           fill="currentColor"
-          height="1.5rem"
+          height="24px"
           stroke="currentColor"
           stroke-width="0"
           viewBox="0 0 512 512"
-          width="1.5rem"
+          width="24px"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
