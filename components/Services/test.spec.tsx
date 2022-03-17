@@ -25,4 +25,12 @@ describe('Services', () => {
     const { container } = render(<Services services={services} />);
     expect(container).toMatchSnapshot();
   });
+
+  it('Should have 3 child elements', () => {
+    const { container } = render(<Services services={services} />);
+    const ul = container.querySelector('ul');
+    const items = ul?.querySelectorAll('article');
+
+    expect(items).toHaveLength(3);
+  });
 });

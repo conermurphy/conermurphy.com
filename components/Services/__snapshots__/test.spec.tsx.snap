@@ -5,7 +5,7 @@ exports[`Services Matches the snapshot 1`] = `
   <div
     class="flex flex-col items-center w-100-perc my-10 md:my-72"
   >
-    <div
+    <section
       class="max-w-[1334px] md:px-20 lg:px-106"
     >
       <h2
@@ -14,14 +14,14 @@ exports[`Services Matches the snapshot 1`] = `
         My Crafts...
       </h2>
       <p
-        class="text-lg md:text-2xl opacity-75 mb-10"
+        class="text-lg opacity-75 mb-10 md:text-2xl"
       >
         Let me help you, here’s how.
       </p>
-      <div
-        class="flex flex-col items-center flex-wrap gap-12 xl:gap-[78px] md:flex-row lg:flex-nowrap"
+      <ul
+        class="flex flex-col items-center flex-wrap gap-12 md:flex-row lg:flex-nowrap xl:gap-[78px]"
       >
-        <div
+        <article
           class="max-w-xs"
         >
           <div
@@ -59,8 +59,8 @@ exports[`Services Matches the snapshot 1`] = `
           >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla arcu at facilisis dignissim arcu pretium tempus. Cras scelerisque urna amet sagittis donec arcu ipsum.
           </p>
-        </div>
-        <div
+        </article>
+        <article
           class="max-w-xs"
         >
           <div
@@ -98,8 +98,8 @@ exports[`Services Matches the snapshot 1`] = `
           >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla arcu at facilisis dignissim arcu pretium tempus. Cras scelerisque urna amet sagittis donec arcu ipsum.
           </p>
-        </div>
-        <div
+        </article>
+        <article
           class="max-w-xs"
         >
           <div
@@ -137,9 +137,9 @@ exports[`Services Matches the snapshot 1`] = `
           >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla arcu at facilisis dignissim arcu pretium tempus. Cras scelerisque urna amet sagittis donec arcu ipsum.
           </p>
-        </div>
-      </div>
-    </div>
+        </article>
+      </ul>
+    </section>
   </div>
 </div>
 `;
