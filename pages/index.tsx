@@ -12,6 +12,7 @@ const Home: NextPage<IProps> = ({ services }) => {
     <>
       <Services services={services} />
       <Spotlight type={SPOTLIGHT.TECH} />
+      <Spotlight type={SPOTLIGHT.COMPANIES} />
     </>
   );
 };

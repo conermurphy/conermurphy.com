@@ -9,4 +9,11 @@ module.exports = {
       lines: 80,
     },
   },
+  transform: {
+    '^.+\\.js$': 'babel-jest',
+    '^.+\\.jsx$': 'babel-jest',
+    '^.+\\.ts$': 'babel-jest',
+    '^.+\\.tsx$': 'babel-jest',
+    '\\.svg$': '<rootDir>/svgTransformer.js',
+  },
 };
