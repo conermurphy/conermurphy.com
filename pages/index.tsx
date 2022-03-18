@@ -1,6 +1,6 @@
 import type { GetStaticProps, NextPage } from 'next';
 import { Services, Spotlight } from '../components';
-import { Service } from '../types';
+import { Service, SPOTLIGHTTYPE } from '../types';
 import { pageDataSource } from '../utils';
 
 interface IProps {
@@ -11,7 +11,7 @@ const Home: NextPage<IProps> = ({ services }) => {
   return (
     <>
       <Services services={services} />
-      <Spotlight type="latestTechnologies" />
+      <Spotlight type={SPOTLIGHTTYPE.TECH} />
     </>
   );
 };

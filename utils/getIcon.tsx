@@ -42,21 +42,77 @@ export default function getIcon({
 
   switch (icon) {
     case ICONS.KEYBOARD:
-      return <MdKeyboard size={size} color={color} />;
+      return (
+        <MdKeyboard
+          size={size}
+          color={color}
+          title="keyboard icon"
+          data-testid="services-icon"
+        />
+      );
     case ICONS.CODE:
-      return <MdCode size={size} color={color} />;
+      return (
+        <MdCode
+          size={size}
+          color={color}
+          title="< > symbols"
+          data-testid="services-icon"
+        />
+      );
     case ICONS.SOCIALS:
-      return <MdShare size={size} color={color} />;
+      return (
+        <MdShare
+          size={size}
+          color={color}
+          title="Social media share icon"
+          data-testid="services-icon"
+        />
+      );
     case ICONS.GRAPHQL:
-      return <SiGraphql size={size} color={color} />;
+      return (
+        <SiGraphql
+          size={size}
+          color={color}
+          title="GraphQL logo"
+          data-testid="tech-icon"
+        />
+      );
     case ICONS.REACT:
-      return <SiReact size={size} color={color} />;
+      return (
+        <SiReact
+          size={size}
+          color={color}
+          title="ReactJS logo"
+          data-testid="tech-icon"
+        />
+      );
     case ICONS.NEXTJS:
-      return <SiNextdotjs size={size} color={color} />;
+      return (
+        <SiNextdotjs
+          size={size}
+          color={color}
+          title="Next.js logo"
+          data-testid="tech-icon"
+        />
+      );
     case ICONS.TYPESCRIPT:
-      return <SiTypescript size={size} color={color} />;
+      return (
+        <SiTypescript
+          size={size}
+          color={color}
+          title="TypeScript logo"
+          data-testid="tech-icon"
+        />
+      );
     case ICONS.JAVASCRIPT:
-      return <SiJavascript size={size} color={color} />;
+      return (
+        <SiJavascript
+          size={size}
+          color={color}
+          title="JavaScript logo"
+          data-testid="tech-icon"
+        />
+      );
     default:
       break;
   }

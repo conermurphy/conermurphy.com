@@ -17,6 +17,11 @@ export enum ICONSCOLORS {
   JAVASCRIPT = '#f7df1e',
 }
 
+export enum SPOTLIGHTTYPE {
+  TECH = 'LATEST_TECHNOLOGIES',
+  COMPANIES = 'COMPANIES',
+}
+
 export enum THEMES {
   LIGHT = 'LIGHT',
   DARK = 'DARK',
