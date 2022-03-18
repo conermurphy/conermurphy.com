@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { SPOTLIGHTTYPE } from '../../types';
+import { SPOTLIGHT } from '../../types';
 import Spotlight from './Spotlight';
 
 describe('Spotlight', () => {
   it('When showing the tech spotlight, should have tech title', () => {
-    render(<Spotlight type={SPOTLIGHTTYPE.TECH} />);
+    render(<Spotlight type={SPOTLIGHT.TECH} />);
 
     const title = screen.queryByText(
       /Using the latest technologies and more.../i
@@ -15,7 +15,7 @@ describe('Spotlight', () => {
   });
 
   it('When showing the tech spotlight, at least one SVG should be present from the tech enum', () => {
-    render(<Spotlight type={SPOTLIGHTTYPE.TECH} />);
+    render(<Spotlight type={SPOTLIGHT.TECH} />);
 
     const icons = screen.queryAllByTestId('tech-icon').length;
 
@@ -23,7 +23,7 @@ describe('Spotlight', () => {
   });
 
   it('When showing the companies spotlight, should have companies title', () => {
-    render(<Spotlight type={SPOTLIGHTTYPE.COMPANIES} />);
+    render(<Spotlight type={SPOTLIGHT.COMPANIES} />);
 
     const title = screen.queryByText(/Trusted by companies around the globe/i);
 
