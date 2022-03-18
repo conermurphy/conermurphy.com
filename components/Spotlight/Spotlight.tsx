@@ -1,6 +1,8 @@
 import React from 'react';
+import Image from 'next/image';
 import { ICONS, SPOTLIGHT } from '../../types';
 import { getIcon } from '../../utils';
+import { companies } from '../../content';
 
 interface IProps {
   type: SPOTLIGHT;
@@ -26,15 +28,24 @@ export default function Spotlight({ type }: IProps): JSX.Element {
         {type === SPOTLIGHT.TECH
           ? techs.map((tech) => {
               return (
-                <div key={`type-${tech}`}>
+                <li key={`type-${tech}`}>
                   {getIcon({
                     icon: tech,
                     size: '64px',
                   })}
-                </div>
+                </li>
               );
             })
-          : null}
+          : companies.map(({ icon, alt }) => {
+              return (
+                <li
+                  className="relative h-11 lg:h-20 w-full md:w-3/12 lg:w-full"
+                  key={alt.replace(' ', '-')}
+                >
+                  <Image src={icon} alt={alt} layout="fill" />
+                </li>
+              );
+            })}
       </ul>
     </section>
   );
