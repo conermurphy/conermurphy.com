@@ -1,27 +1,14 @@
 import React from 'react';
-import { MdCode, MdKeyboard, MdShare } from 'react-icons/md';
-import { Service } from '../../types';
+import { Service, THEMES } from '../../types';
+import { getIcon } from '../../utils';
 
 interface IProps {
   services: Service[];
 }
 
-function getIcon(icon: string) {
-  switch (icon) {
-    case 'keyboard':
-      return <MdKeyboard size="1.5rem" />;
-    case 'code':
-      return <MdCode size="1.5rem" />;
-    case 'socials':
-      return <MdShare size="1.5rem" />;
-    default:
-      break;
-  }
-}
-
 export default function Services({ services }: IProps): JSX.Element {
   return (
-    <div className="flex flex-col items-center w-100-perc my-10 md:my-72">
+    <div className="flex flex-col items-center my-10 md:my-72">
       <section className="max-w-[1334px] md:px-20 lg:px-106">
         <h2 className="font-bold text-32 md:text-40">My Crafts...</h2>
         <p className="text-lg opacity-75 mb-10 md:text-2xl">
@@ -29,7 +16,7 @@ export default function Services({ services }: IProps): JSX.Element {
         </p>
         <ul className="flex flex-col items-center flex-wrap gap-12 md:flex-row lg:flex-nowrap xl:gap-[78px]">
           {services.map(({ title, copy, icon }) => {
-            const iconSVG = getIcon(icon);
+            const iconSVG = getIcon({ icon, theme: THEMES.DARK });
             return (
               <article key={title} className="max-w-xs">
                 <div className="flex flex-row items-center gap-3 mb-5">

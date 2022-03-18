@@ -17,23 +17,23 @@ export default function Socials({ isHeader = true }: IProps): JSX.Element {
   return isHeader ? (
     <address className="flex flex-row gap-8">
       <a href="https://twitter.com/MrConerMurphy">
-        <FaTwitter size="1.5rem" />
+        <FaTwitter size="24px" />
       </a>
       <a href="https://www.linkedin.com/in/conermurphy/">
-        <FaLinkedin size="1.5rem" />
+        <FaLinkedin size="24px" />
       </a>
       <a href="mailto:hey@conermurphy.com">
-        <FaEnvelope size="1.5rem" />
+        <FaEnvelope size="24px" />
       </a>
     </address>
   ) : (
     <address className="flex flex-row gap-5">
-      <FaTwitter size="1.375rem" />
-      <FaLinkedin size="1.375rem" />
-      <FaFacebookSquare size="1.375rem" />
-      <FaGithub size="1.375rem" />
-      <FaInstagram size="1.375rem" />
-      <FaYoutube size="1.375rem" />
+      <FaTwitter size="22px" />
+      <FaLinkedin size="22px" />
+      <FaFacebookSquare size="22px" />
+      <FaGithub size="22px" />
+      <FaInstagram size="22px" />
+      <FaYoutube size="22px" />
     </address>
   );
 }

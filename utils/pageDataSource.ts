@@ -1,4 +1,4 @@
-import Services from '../content/services.json';
+import Services from '../content/services';
 
 interface IProps {
   services?: boolean;
