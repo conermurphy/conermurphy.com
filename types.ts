@@ -44,3 +44,8 @@ export type Testimonial = {
     image: StaticImageData;
   };
 };
+
+export type UseFormValues = {
+  email: string;
+  chilliIsCool: string;
+};
