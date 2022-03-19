@@ -1,4 +1,4 @@
-import Services from '../content/services';
+import { servicesData, testimonialsData } from '../content';
 
 interface IProps {
   services?: boolean;
@@ -6,11 +6,18 @@ interface IProps {
   testimonials?: boolean;
 }
 
-export default function pageDataSource({ services = false }: IProps) {
+export default function pageDataSource({
+  services = false,
+  testimonials = false,
+}: IProps) {
   const data = [];
 
   if (services) {
-    data.push({ services: Services });
+    data.push({ services: servicesData });
+  }
+
+  if (testimonials) {
+    data.push({ testimonials: testimonialsData });
   }
 
   return data;

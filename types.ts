@@ -1,3 +1,5 @@
+import StaticImageData from 'next/image';
+
 export enum ICONS {
   CODE = 'CODE',
   KEYBOARD = 'KEYBOARD',
@@ -31,4 +33,14 @@ export type Service = {
   title: string;
   copy: string;
   icon: ICONS;
+};
+
+export type Testimonial = {
+  copy: string;
+  quotee: {
+    name: string;
+    jobTitle: string;
+    company: string;
+    image: StaticImageData;
+  };
 };

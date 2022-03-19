@@ -9,7 +9,7 @@ exports[`Header Matches the snapshot with no props 1`] = `
       class="flex flex-row items-center gap-12"
     >
       <p
-        class="text-32 font-bold"
+        class="text-32 font-bold opacity-100"
       >
         Coner Murphy
       </p>
@@ -17,19 +17,19 @@ exports[`Header Matches the snapshot with no props 1`] = `
         class="flex flex-row gap-8"
       >
         <p
-          class="font-semibold opacity-75"
+          class="font-semibold"
           href="/"
         >
           Home
         </p>
         <p
-          class="font-semibold opacity-75"
+          class="font-semibold"
           href="/blog"
         >
           Blog
         </p>
         <p
-          class="font-semibold opacity-75"
+          class="font-semibold"
           href="/contact"
         >
           Contact

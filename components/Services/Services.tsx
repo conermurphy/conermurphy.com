@@ -10,8 +10,8 @@ export default function Services({ services }: IProps): JSX.Element {
   return (
     <div className="flex flex-col items-center my-10 md:my-72">
       <section className="max-w-[1334px] md:px-20 lg:px-106">
-        <h2 className="font-bold text-32 md:text-40">My Crafts...</h2>
-        <p className="text-lg opacity-75 mb-10 md:text-2xl">
+        <h2 className="text-32 md:text-40">My Crafts...</h2>
+        <p className="text-lg mb-10 mt-2.5 lg:mt-1 md:text-2xl">
           Let me help you, here’s how.
         </p>
         <ul className="flex flex-col items-center flex-wrap gap-12 md:flex-row lg:flex-nowrap xl:gap-[78px]">
@@ -25,9 +25,7 @@ export default function Services({ services }: IProps): JSX.Element {
                   </div>
                   <h3 className="text-2xl font-semibold">{title}</h3>
                 </div>
-                <p className="opacity-75 max-w-[274px] lg:max-w-[320px]">
-                  {copy}
-                </p>
+                <p className="max-w-[274px] lg:max-w-[320px]">{copy}</p>
               </article>
             );
           })}

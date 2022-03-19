@@ -9,7 +9,7 @@ interface CustomLinkProps {
 function CustomLink({ href, value }: CustomLinkProps): JSX.Element {
   return (
     <Link href={href} passHref>
-      <p className="font-semibold opacity-75">{value}</p>
+      <p className="font-semibold">{value}</p>
     </Link>
   );
 }

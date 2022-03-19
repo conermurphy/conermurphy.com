@@ -1,6 +1,6 @@
-import { ICONS } from '../types';
+import { ICONS, Service } from '../types';
 
-const services = [
+const services: Service[] = [
   {
     title: 'Service Title 1',
     copy: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla arcu at facilisis dignissim arcu pretium tempus. Cras scelerisque urna amet sagittis donec arcu ipsum.',

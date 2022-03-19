@@ -10,10 +10,7 @@ module.exports = {
     },
   },
   transform: {
-    '^.+\\.js$': 'babel-jest',
-    '^.+\\.jsx$': 'babel-jest',
-    '^.+\\.ts$': 'babel-jest',
-    '^.+\\.tsx$': 'babel-jest',
-    '\\.svg$': '<rootDir>/svgTransformer.js',
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+    '\\.(svg|jpg)$': '<rootDir>/imageTransformer.js',
   },
 };
