@@ -27,7 +27,7 @@ export default function Testimonials({ testimonials }: IProps): JSX.Element {
                   )}-${company.replaceAll(' ', '-')}`}
                   className="flex flex-col gap-8 max-w-[272px] bg-offWhite rounded-xl p-4"
                 >
-                  <p className="max-w-[240px]">{copy}</p>
+                  <p className="w-[240px] text-sm">{copy}</p>
                   <div className="flex flex-row items-start gap-2">
                     <div className="relative h-[50px] w-[50px] rounded-lg overflow-hidden">
                       <div className="shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.10)] h-full w-full relative z-10" />
