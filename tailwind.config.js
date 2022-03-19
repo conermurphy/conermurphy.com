@@ -26,5 +26,5 @@ module.exports = {
       body: ['Poppins'],
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 };
