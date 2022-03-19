@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEmail, useForm } from '../../utils';
 
-export default function Newsletter() {
+export default function Newsletter(): JSX.Element {
   const { values, updateValue } = useForm({
     email: '',
     chilliIsCool: '',
