@@ -1,6 +1,6 @@
-import * as fauna from './fauna-logo.svg';
-import * as logrocket from './logrocket-logo.svg';
-import * as prismic from './prismic-logo.svg';
+import * as fauna from './assets/companies/fauna-logo.svg';
+import * as logrocket from './assets/companies/logrocket-logo.svg';
+import * as prismic from './assets/companies/prismic-logo.svg';
 
 type Company = {
   icon: typeof import('*.svg');

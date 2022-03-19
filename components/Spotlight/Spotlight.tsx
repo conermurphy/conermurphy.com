@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { ICONS, SPOTLIGHT } from '../../types';
 import { getIcon } from '../../utils';
-import { companies } from '../../content';
+import { companiesData } from '../../content';
 
 interface IProps {
   type: SPOTLIGHT;
@@ -19,7 +19,7 @@ export default function Spotlight({ type }: IProps): JSX.Element {
 
   return (
     <section className="flex flex-col items-center bg-offWhite py-10 px-6 lg:px-0 md:py-72">
-      <h2 className="text-lg text-center md:text-2xl opacity-75">
+      <h2 className="text-lg text-center md:text-2xl opacity-75 font-normal">
         {type === SPOTLIGHT.TECH
           ? 'Using the latest technologies and more...'
           : 'Trusted by companies around the globe'}
@@ -36,7 +36,7 @@ export default function Spotlight({ type }: IProps): JSX.Element {
                 </li>
               );
             })
-          : companies.map(({ icon, alt }) => {
+          : companiesData.map(({ icon, alt }) => {
               return (
                 <li
                   className="relative h-11 lg:h-20 w-full md:w-3/12 lg:w-full"

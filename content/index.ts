@@ -1,2 +1,3 @@
-export { default as services } from './services';
-export { default as companies } from './companies/companies';
+export { default as servicesData } from './services';
+export { default as companiesData } from './companies';
+export { default as testimonialsData } from './testimonials';
