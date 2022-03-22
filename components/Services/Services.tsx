@@ -9,12 +9,12 @@ interface IProps {
 export default function Services({ services }: IProps): JSX.Element {
   return (
     <div className="flex flex-col items-center my-10 md:my-72">
-      <section className="max-w-[1334px] md:px-20 lg:px-106">
+      <section className="max-w-[272px] md:max-w-[1372px] w-full md:px-20 lg:px-106">
         <h2 className="text-32 md:text-40">My Crafts...</h2>
         <p className="text-lg mb-10 mt-2.5 lg:mt-1 md:text-2xl">
           Let me help you, here’s how.
         </p>
-        <ul className="flex flex-col items-center flex-wrap gap-12 md:flex-row lg:flex-nowrap xl:gap-[78px]">
+        <ul className="flex flex-col items-center justify-between flex-wrap gap-12 md:flex-row lg:flex-nowrap xl:gap-[78px]">
           {services.map(({ title, copy, icon }) => {
             const iconSVG = getIcon({ icon, theme: THEMES.DARK });
             return (

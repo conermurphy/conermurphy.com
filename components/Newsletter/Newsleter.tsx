@@ -1,7 +1,11 @@
 import React from 'react';
 import { useEmail, useForm } from '../../utils';
 
-export default function Newsletter(): JSX.Element {
+interface IProps {
+  breakpoint?: string;
+}
+
+export default function Newsletter({ breakpoint = 'md' }: IProps): JSX.Element {
   const { values, updateValue } = useForm({
     email: '',
     chilliIsCool: '',
@@ -10,17 +14,19 @@ export default function Newsletter(): JSX.Element {
   const { loading, message, submitEmail } = useEmail({ values });
 
   return (
-    <div className="flex flex-col gap-3 md:gap-4 max-w-[272px] md:max-w-[400px]">
+    <div
+      className={`flex flex-col gap-3 max-w-[272px] ${breakpoint}:max-w-[372px] ${breakpoint}:gap-4`}
+    >
       <div>
         <p className="font-bold opacity-100">Stay up to date</p>
-        <p className="text-xs md:text-base">
+        <p className={`text-xs ${breakpoint}:text-base`}>
           Get exclusive content before anyone else. Subscribe to my newsletter
           below.
         </p>
       </div>
       <form
         onSubmit={submitEmail}
-        className="flex flex-col gap-y-2 gap-x-4 md:flex-row"
+        className={`flex flex-col gap-y-2 gap-x-4 ${breakpoint}:flex-row`}
         data-testid="newsletter-form"
       >
         <input
@@ -31,7 +37,7 @@ export default function Newsletter(): JSX.Element {
           placeholder="Enter your email"
           onChange={updateValue}
           value={values.email}
-          className="rounded-lg border-primaryBorder max-w-[272px] text-xs bg-offWhite md:text-md"
+          className={`rounded-lg border-primaryBorder max-w-[272px] text-xs bg-offWhite ${breakpoint}:text-md`}
         />
         <input
           type="text"
@@ -42,12 +48,12 @@ export default function Newsletter(): JSX.Element {
         />
         <button
           type="submit"
-          className="bg-primary text-offWhite text-xs rounded-lg py-3 px-5 md:text-md"
+          className={`bg-primary text-offWhite text-xs rounded-lg py-3 px-5 ${breakpoint}:text-md`}
         >
           {loading ? 'Subscribing..' : 'Subscribe'}
         </button>
       </form>
-      <p className="text-xs md:text-sm">{message}</p>
+      <p className={`text-xs ${breakpoint}:text-sm`}>{message}</p>
     </div>
   );
 }

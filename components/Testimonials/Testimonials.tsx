@@ -9,7 +9,7 @@ interface IProps {
 export default function Testimonials({ testimonials }: IProps): JSX.Element {
   return (
     <div className="flex flex-col items-center justify-center py-10 md:py-72 bg-primary">
-      <section className="max-w-[272px] md:max-w-[1334px] md:px-20 lg:px-106">
+      <section className="max-w-[272px] md:max-w-[1372px] md:px-20 lg:px-106">
         <h2 className="text-32 text-offWhite max-w-max md:text-40">
           What My Clients Say...
         </h2>

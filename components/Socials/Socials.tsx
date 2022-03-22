@@ -15,7 +15,7 @@ interface IProps {
 
 export default function Socials({ isHeader = true }: IProps): JSX.Element {
   return isHeader ? (
-    <address className="flex flex-row gap-8">
+    <address className="flex flex-row gap-8 opacity-75">
       <a href="https://twitter.com/MrConerMurphy">
         <FaTwitter size="24px" />
       </a>
