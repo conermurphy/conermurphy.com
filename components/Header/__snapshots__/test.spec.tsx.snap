@@ -37,7 +37,7 @@ exports[`Header Matches the snapshot with no props 1`] = `
       </nav>
     </div>
     <address
-      class="flex flex-row gap-8"
+      class="flex flex-row gap-8 opacity-75"
     >
       <a
         href="https://twitter.com/MrConerMurphy"

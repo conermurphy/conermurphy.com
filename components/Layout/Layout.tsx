@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 
 interface IProps {
@@ -10,6 +11,7 @@ export default function Layout({ children }: IProps): JSX.Element {
     <>
       <Header />
       <main>{children}</main>
+      <Footer />
     </>
   );
 }

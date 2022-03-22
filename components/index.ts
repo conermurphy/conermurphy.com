@@ -6,3 +6,4 @@ export { default as Services } from './Services/Services';
 export { default as Spotlight } from './Spotlight/Spotlight';
 export { default as Testimonials } from './Testimonials/Testimonials';
 export { default as Newsletter } from './Newsletter/Newsleter';
+export { default as Footer } from './Footer/Footer';
