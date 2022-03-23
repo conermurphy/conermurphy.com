@@ -20,7 +20,7 @@ export default async function getAllBlogPosts(
     // This should never actually be called it's just here to filter the types for TS
     if (!aDate || !bDate) return 0;
 
-    return aDate.localeCompare(bDate);
+    return bDate.localeCompare(aDate);
   });
 
   // If limit is passed than slice off 0 to the limt and return

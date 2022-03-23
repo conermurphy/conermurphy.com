@@ -8,7 +8,7 @@ interface IProps {
 }
 
 interface ReturnType {
-  services: boolean | Service[];
+  services: false | Service[];
   testimonials: false | Testimonial[];
 }
 

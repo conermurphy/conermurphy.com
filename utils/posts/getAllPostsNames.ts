@@ -9,10 +9,10 @@ export default async function getAllPostsNames({
   postType = 'blog',
 }: IProps): Promise<string[]> {
   const fsPromises = fs.promises;
-  const blogPostDir = path.join(process.cwd(), 'content', postType);
+  const dir = path.join(process.cwd(), 'content', postType);
 
   // Get all subfolders within the content/blog directory
-  const dirs = await fsPromises.readdir(blogPostDir, {
+  const dirs = await fsPromises.readdir(dir, {
     withFileTypes: true,
   });
 
@@ -24,7 +24,7 @@ export default async function getAllPostsNames({
   // Loop through all of the subFolders and return the mdx file names for each post
   const postFileNames = await Promise.all(
     folders.map(async (folder) => {
-      const files = await fsPromises.readdir(`${blogPostDir}/${folder}`, {
+      const files = await fsPromises.readdir(`${dir}/${folder}`, {
         withFileTypes: true,
       });
 

@@ -51,6 +51,7 @@ export type UseFormValues = {
 };
 
 export type PostFrontMatter = {
+  id: number;
   title: string;
   date: string;
   tags: string[];

@@ -5,15 +5,15 @@ import { pageDataSource } from '../utils';
 import { getAllPostsSlugs, getPost } from '../utils/posts';
 
 interface IProps {
-  blogPost: Post;
+  post: Post;
 }
 
 interface IParams extends ParsedUrlQuery {
   slug: string;
 }
 
-const BlogPost: NextPage<IProps> = ({ blogPost }) => {
-  return <p>{blogPost.data.title}</p>;
+const BlogPost: NextPage<IProps> = ({ post }) => {
+  return <p>{post.data.title}</p>;
 };
 
 export const getStaticPaths: GetStaticPaths<IParams> = async () => {
@@ -29,10 +29,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { services, testimonials } = pageDataSource({});
 
   const { slug } = params as IParams;
-  const blogPost = await getPost({ slug });
+  const post = await getPost({ slug });
 
   return {
-    props: { services, testimonials, blogPost },
+    props: { services, testimonials, post },
   };
 };
 
