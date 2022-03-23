@@ -1,6 +1,6 @@
 import type { GetStaticProps, NextPage } from 'next';
-import { Services, Spotlight, Testimonials } from '../components';
-import { Service, SPOTLIGHT, Testimonial } from '../types';
+import { Services, Testimonials } from '../components';
+import { Service, Testimonial } from '../types';
 import { pageDataSource } from '../utils';
 
 interface IProps {
@@ -8,12 +8,10 @@ interface IProps {
   testimonials: Testimonial[];
 }
 
-const Home: NextPage<IProps> = ({ services, testimonials }) => {
+const Blog: NextPage<IProps> = ({ services, testimonials }) => {
   return (
     <>
-      <Spotlight type={SPOTLIGHT.COMPANIES} />
       <Services services={services} />
-      <Spotlight type={SPOTLIGHT.TECH} />
       <Testimonials testimonials={testimonials} />
     </>
   );
@@ -30,4 +28,4 @@ export const getStaticProps: GetStaticProps = () => {
   };
 };
 
-export default Home;
+export default Blog;

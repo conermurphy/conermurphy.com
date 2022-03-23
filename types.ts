@@ -49,3 +49,21 @@ export type UseFormValues = {
   email: string;
   chilliIsCool: string;
 };
+
+export type PostFrontMatter = {
+  id: number;
+  title: string;
+  date: string;
+  tags: string[];
+  category: string;
+  slug: string;
+  image: string;
+  published: boolean;
+  canonical_url: string;
+  description: string;
+};
+
+export type Post = {
+  data: { [key: string]: any };
+  content?: string;
+};
