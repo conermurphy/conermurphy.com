@@ -16,21 +16,21 @@ exports[`Layout Matches the snapshot on mobile 1`] = `
       <nav
         class="flex flex-row gap-8"
       >
-        <p
+        <a
           class="font-semibold"
         >
           Home
-        </p>
-        <p
+        </a>
+        <a
           class="font-semibold"
         >
           Blog
-        </p>
-        <p
+        </a>
+        <a
           class="font-semibold"
         >
           Contact
-        </p>
+        </a>
       </nav>
     </div>
     <address
@@ -116,21 +116,21 @@ exports[`Layout Matches the snapshot on mobile 1`] = `
           <nav
             class="flex flex-row gap-8"
           >
-            <p
+            <a
               class="font-semibold"
             >
               Home
-            </p>
-            <p
+            </a>
+            <a
               class="font-semibold"
             >
               Blog
-            </p>
-            <p
+            </a>
+            <a
               class="font-semibold"
             >
               Contact
-            </p>
+            </a>
           </nav>
         </div>
         <div

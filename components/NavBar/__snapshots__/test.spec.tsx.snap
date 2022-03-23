@@ -5,24 +5,24 @@ exports[`NavBar Matches the snapshot 1`] = `
   <nav
     class="flex flex-row gap-8"
   >
-    <p
+    <a
       class="font-semibold"
       href="/"
     >
       Home
-    </p>
-    <p
+    </a>
+    <a
       class="font-semibold"
       href="/blog"
     >
       Blog
-    </p>
-    <p
+    </a>
+    <a
       class="font-semibold"
       href="/contact"
     >
       Contact
-    </p>
+    </a>
   </nav>
 </div>
 `;

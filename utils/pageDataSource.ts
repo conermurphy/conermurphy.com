@@ -1,4 +1,5 @@
 import { servicesData, testimonialsData } from '../content';
+import { Service, Testimonial } from '../types';
 
 interface IProps {
   services?: boolean;
@@ -6,19 +7,17 @@ interface IProps {
   testimonials?: boolean;
 }
 
+interface ReturnType {
+  services: boolean | Service[];
+  testimonials: false | Testimonial[];
+}
+
 export default function pageDataSource({
   services = false,
   testimonials = false,
-}: IProps) {
-  const data = [];
-
-  if (services) {
-    data.push({ services: servicesData });
-  }
-
-  if (testimonials) {
-    data.push({ testimonials: testimonialsData });
-  }
-
-  return data;
+}: IProps): ReturnType {
+  return {
+    services: services && servicesData,
+    testimonials: testimonials && testimonialsData,
+  };
 }
