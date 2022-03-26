@@ -9,3 +9,4 @@ export { default as Newsletter } from './Newsletter/Newsleter';
 export { default as Footer } from './Footer/Footer';
 export { default as PageHero } from './PageHero/PageHero';
 export { default as LatestPosts } from './LatestPosts/LatestPosts';
+export { default as SEO } from './SEO/SEO';
