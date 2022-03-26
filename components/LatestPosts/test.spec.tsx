@@ -54,7 +54,7 @@ describe('LatestPosts', () => {
     render(<LatestPosts posts={mockData} />);
 
     const title = screen.queryByText(/Latest Content.../i);
-    const subtitle = screen.queryByText(/What I’m up too and more./i);
+    const subtitle = screen.queryByText(/What I’m up to and more./i);
 
     expect(title).toBeVisible();
     expect(subtitle).toBeVisible();
