@@ -19,7 +19,7 @@ const mockData = [
   },
   {
     data: {
-      id: 1,
+      id: 2,
       title: 'Example Post 1',
       date: '2022-03-26',
       tags: ['JAVASCRIPT'],
@@ -34,7 +34,7 @@ const mockData = [
   },
   {
     data: {
-      id: 1,
+      id: 3,
       title: 'Example Post 1',
       date: '2022-03-26',
       tags: ['JAVASCRIPT'],
