@@ -1,18 +1,19 @@
 import type { GetStaticProps, NextPage } from 'next';
-import { Testimonials, PageHero } from '../components';
+import { Testimonials, PageHero, SEO } from '../components';
 import { PostCardGrid } from '../components/blog';
-import { Testimonial, Posts } from '../types';
+import { Testimonial, PostWithFrontmatter } from '../types';
 import { pageDataSource } from '../utils';
 import { getAllPosts } from '../utils/posts';
 
 interface IProps {
   testimonials: Testimonial[];
-  posts: Posts;
+  posts: PostWithFrontmatter[];
 }
 
 const Blog: NextPage<IProps> = ({ testimonials, posts }) => {
   return (
     <>
+      <SEO metaTitle="Blog" metaDescription="My Blog" url="blog" />
       <PageHero
         title="My Content"
         body="Blog posts, tutorials, technical writing and much more. All of my

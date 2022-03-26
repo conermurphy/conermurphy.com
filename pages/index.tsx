@@ -1,17 +1,24 @@
 import type { GetStaticProps, NextPage } from 'next';
-import { LatestPosts, Services, Spotlight, Testimonials } from '../components';
-import { Posts, Service, SPOTLIGHT, Testimonial } from '../types';
+import {
+  LatestPosts,
+  SEO,
+  Services,
+  Spotlight,
+  Testimonials,
+} from '../components';
+import { PostWithFrontmatter, Service, SPOTLIGHT, Testimonial } from '../types';
 import { pageDataSource } from '../utils';
 
 interface IProps {
   services: Service[];
   testimonials: Testimonial[];
-  posts: Posts;
+  posts: PostWithFrontmatter[];
 }
 
 const Home: NextPage<IProps> = ({ services, testimonials, posts }) => {
   return (
     <>
+      <SEO metaTitle="Home" metaDescription="Home page" />
       <Spotlight type={SPOTLIGHT.COMPANIES} />
       <Services services={services} />
       <Spotlight type={SPOTLIGHT.TECH} />
