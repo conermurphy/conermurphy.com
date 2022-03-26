@@ -26,7 +26,7 @@ export const getStaticPaths: GetStaticPaths<IParams> = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { services, testimonials } = pageDataSource({});
+  const { services, testimonials } = await pageDataSource({});
 
   const { slug } = params as IParams;
   const post = await getPost({ slug });

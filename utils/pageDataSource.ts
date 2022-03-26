@@ -1,23 +1,29 @@
 import { servicesData, testimonialsData } from '../content';
-import { Service, Testimonial } from '../types';
+import { Post, Service, Testimonial } from '../types';
+import { getAllPosts } from './posts';
 
 interface IProps {
   services?: boolean;
-  blog?: boolean;
+  latestPosts?: boolean;
   testimonials?: boolean;
 }
 
 interface ReturnType {
   services: false | Service[];
   testimonials: false | Testimonial[];
+  posts: false | Post[];
 }
 
-export default function pageDataSource({
+export default async function pageDataSource({
   services = false,
   testimonials = false,
-}: IProps): ReturnType {
+  latestPosts = false,
+}: IProps): Promise<ReturnType> {
+  const posts = await getAllPosts({ limit: 3 });
+
   return {
     services: services && servicesData,
     testimonials: testimonials && testimonialsData,
+    posts: latestPosts && posts,
   };
 }

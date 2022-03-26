@@ -12,11 +12,11 @@ export enum ICONS {
 }
 
 export enum ICONSCOLORS {
-  REACT = '#61dafb',
-  GRAPHQL = '#e10098',
-  NEXTJS = '#111111',
-  TYPESCRIPT = '#3178c6',
-  JAVASCRIPT = '#f7df1e',
+  REACT = 'hsl(193, 95%, 68%)',
+  GRAPHQL = 'hsl(319, 100%, 44%)',
+  NEXTJS = 'hsl(0, 0%, 7%)',
+  TYPESCRIPT = 'hsl(211, 60%, 48%)',
+  JAVASCRIPT = 'hsl(53, 93%, 54%)',
 }
 
 export enum SPOTLIGHT {
@@ -55,7 +55,7 @@ export type PostFrontMatter = {
   title: string;
   date: string;
   tags: string[];
-  category: string;
+  categories: string[];
   slug: string;
   image: string;
   published: boolean;
@@ -66,4 +66,21 @@ export type PostFrontMatter = {
 export type Post = {
   data: { [key: string]: any };
   content?: string;
+};
+
+export type PostTags = {
+  [key: string]: {
+    tagName: string;
+    colors: {
+      active: {
+        bg: string;
+        text: string;
+      };
+      nonActive: {
+        bg: string;
+        text: string;
+        border: string;
+      };
+    };
+  };
 };

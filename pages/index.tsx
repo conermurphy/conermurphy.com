@@ -19,8 +19,8 @@ const Home: NextPage<IProps> = ({ services, testimonials }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = () => {
-  const { services, testimonials } = pageDataSource({
+export const getStaticProps: GetStaticProps = async () => {
+  const { services, testimonials } = await pageDataSource({
     services: true,
     testimonials: true,
   });
