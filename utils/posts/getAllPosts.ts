@@ -1,5 +1,6 @@
 import getAllPostsData from './getAllPostsData';
 import getAllPostNames from './getAllPostsNames';
+import { Post } from '../../types';
 
 interface IProps {
   limit?: number;
@@ -7,7 +8,7 @@ interface IProps {
 
 export default async function getAllBlogPosts({
   limit,
-}: IProps): Promise<{ data: { [key: string]: any } }[]> {
+}: IProps): Promise<Post[]> {
   const postNames = await getAllPostNames({});
 
   // Loop through all mdx posts, get content and data from gray-matter

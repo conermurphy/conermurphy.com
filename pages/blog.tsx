@@ -1,15 +1,13 @@
 import type { GetStaticProps, NextPage } from 'next';
 import { Testimonials, PageHero } from '../components';
 import { PostCardGrid } from '../components/blog';
-import { Testimonial, PostFrontMatter } from '../types';
+import { Testimonial, Posts } from '../types';
 import { pageDataSource } from '../utils';
 import { getAllPosts } from '../utils/posts';
 
 interface IProps {
   testimonials: Testimonial[];
-  posts: {
-    data: PostFrontMatter;
-  }[];
+  posts: Posts;
 }
 
 const Blog: NextPage<IProps> = ({ testimonials, posts }) => {

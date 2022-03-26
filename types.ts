@@ -68,6 +68,12 @@ export type Post = {
   content?: string;
 };
 
+// This type is used for passing posts to LatestPosts component and blog page because we can more strictly type the frontmatter in data. Where the Post type above can't as it's being compared to the data from the gray-matter package.
+export type Posts = {
+  data: PostFrontMatter;
+  content?: string;
+}[];
+
 export type PostTags = {
   [key: string]: {
     tagName: string;
