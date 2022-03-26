@@ -1,30 +1,33 @@
 import type { GetStaticProps, NextPage } from 'next';
-import { Services, Testimonials } from '../components';
-import { Service, Testimonial } from '../types';
+import { Testimonials, PageHero } from '../components';
+import { Testimonial } from '../types';
 import { pageDataSource } from '../utils';
 
 interface IProps {
-  services: Service[];
   testimonials: Testimonial[];
 }
 
-const Blog: NextPage<IProps> = ({ services, testimonials }) => {
+const Blog: NextPage<IProps> = ({ testimonials }) => {
   return (
     <>
-      <Services services={services} />
+      <PageHero
+        title="My Content"
+        body="Blog posts, tutorials, technical writing and much more. All of my
+            content in one place to enjoy..."
+      />
       <Testimonials testimonials={testimonials} />
     </>
   );
 };
 
 export const getStaticProps: GetStaticProps = () => {
-  const { services, testimonials } = pageDataSource({
-    services: true,
+  const { testimonials } = pageDataSource({
+    services: false,
     testimonials: true,
   });
 
   return {
-    props: { services, testimonials },
+    props: { testimonials },
   };
 };
 
