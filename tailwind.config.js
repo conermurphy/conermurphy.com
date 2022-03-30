@@ -17,8 +17,8 @@ module.exports = {
         72: '4.5rem',
       },
       fontSize: {
-        32: '2rem',
-        40: '2.5rem',
+        32: ['2rem', { letterSpacing: '', lineHeight: '40px' }],
+        40: ['2.5rem', { letterSpacing: '', lineHeight: '48px' }],
       },
     },
     fontFamily: {

@@ -23,10 +23,22 @@ export default async function getAllPostsData({
       const folder = post.replace(/.mdx$/, '');
       const filePath = `${dir}/${folder}/${post}`;
 
-      const { data, content } = await fsPromises
+      const { dataWithTTR: data, tempContent: content } = await fsPromises
         .readFile(filePath, 'utf-8')
         .then((fileContent) => {
-          return matter(fileContent);
+          const { data: tempData, content: tempContent } = matter(fileContent);
+
+          const totalWords = tempContent.trim().split(/\s+/).length;
+          const ttr = Math.ceil(
+            totalWords / parseInt(process.env.NEXT_PUBLIC_WPM)
+          );
+
+          const dataWithTTR = {
+            ...tempData,
+            timeToRead: ttr,
+          };
+
+          return { dataWithTTR, tempContent };
         });
 
       return getContent ? { data, content } : { data };

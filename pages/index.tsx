@@ -29,14 +29,14 @@ const Home: NextPage<IProps> = ({ services, testimonials, posts }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { services, testimonials, posts } = await pageDataSource({
+  const { services, testimonials, latestPosts } = await pageDataSource({
     services: true,
     testimonials: true,
     latestPosts: true,
   });
 
   return {
-    props: { services, testimonials, posts },
+    props: { services, testimonials, latestPosts },
   };
 };
 

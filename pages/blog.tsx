@@ -1,6 +1,6 @@
 import type { GetStaticProps, NextPage } from 'next';
 import { Testimonials, PageHero, SEO } from '../components';
-import { PostCardGrid } from '../components/blog';
+import { PostCardGrid } from '../components/Blog';
 import { Testimonial, PostWithFrontmatter } from '../types';
 import { pageDataSource } from '../utils';
 import { getAllPosts } from '../utils/posts';

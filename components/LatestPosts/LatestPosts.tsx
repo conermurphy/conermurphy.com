@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { PostWithFrontmatter } from '../../types';
-import { PostCard } from '../blog';
+import { PostCard } from '../Blog';
 
 interface IProps {
   posts: PostWithFrontmatter[];

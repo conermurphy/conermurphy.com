@@ -61,6 +61,7 @@ export type PostFrontMatter = {
   published: boolean;
   canonical_url: string;
   description: string;
+  timeToRead: number;
 };
 
 export type Post = {
