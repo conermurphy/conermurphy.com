@@ -11,30 +11,16 @@ export default async function getAllPostsNames({
   const fsPromises = fs.promises;
   const dir = path.join(process.cwd(), 'content', postType);
 
-  // Get all subfolders within the content/blog directory
-  const dirs = await fsPromises.readdir(dir, {
-    withFileTypes: true,
-  });
-
-  // Return all of the folders names
-  const folders = dirs.map(({ name }: { name: string }) => {
-    return name;
-  });
-
-  // Loop through all of the subFolders and return the mdx file names for each post
-  const postFileNames = await Promise.all(
-    folders.map(async (folder) => {
-      const files = await fsPromises.readdir(`${dir}/${folder}`, {
-        withFileTypes: true,
-      });
-
-      const [mdxFile] = files.flatMap(({ name }) => {
+  // Read all files in the directory and return an array of all mdx files.
+  const postFileNames = await fsPromises
+    .readdir(dir, {
+      withFileTypes: true,
+    })
+    .then((data) => {
+      return data.flatMap(({ name }) => {
         return name.includes('.mdx') ? name : [];
       });
-
-      return mdxFile;
-    })
-  );
+    });
 
   // Remove any posts that are undefined from not containing .mdx in the filename above
   return postFileNames.filter((post) => {

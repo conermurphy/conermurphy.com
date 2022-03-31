@@ -20,8 +20,7 @@ export default async function getAllPostsData({
   // Map over all of the posts in the given postType directory and return the frontmatter and content for it
   const postsData = await Promise.all(
     posts.map(async (post) => {
-      const folder = post.replace(/.mdx$/, '');
-      const filePath = `${dir}/${folder}/${post}`;
+      const filePath = `${dir}/${post}`;
 
       const { dataWithTTR: data, tempContent: content } = await fsPromises
         .readFile(filePath, 'utf-8')
