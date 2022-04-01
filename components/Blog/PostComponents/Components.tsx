@@ -29,7 +29,7 @@ function idLinkCreator(children: ReactNode): string {
         .replaceAll(/(--)/g, '-')
         // Make it all lower case
         .toLowerCase()
-    : '#';
+    : '';
 }
 
 const components = {
@@ -37,7 +37,7 @@ const components = {
     return (
       <h2
         id={idLinkCreator(children)}
-        className="font-semibold text-2xl md:text-32 mb-1.5 mt-6 md:mt-8"
+        className="font-semibold text-2xl md:text-32 mb-1.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
       >
         <a
           href={`#${idLinkCreator(children)}`}
@@ -54,7 +54,7 @@ const components = {
     return (
       <h3
         id={idLinkCreator(children)}
-        className="font-semibold text-xl md:text-2xl mb-1.5.5 mt-6 md:mt-8"
+        className="font-semibold text-xl md:text-2xl mb-1.5.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
       >
         <a
           href={`#${idLinkCreator(children)}`}
@@ -71,7 +71,7 @@ const components = {
     return (
       <h4
         id={idLinkCreator(children)}
-        className="font-semibold text-lg md:text-xl mb-1.5 mt-6 md:mt-8"
+        className="font-semibold text-lg md:text-xl mb-1.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
       >
         <a
           href={`#${idLinkCreator(children)}`}
@@ -88,7 +88,7 @@ const components = {
     return (
       <h5
         id={idLinkCreator(children)}
-        className="font-semibold text-base md:text-lg mb-1.5 mt-6 md:mt-8"
+        className="font-semibold text-base md:text-lg mb-1.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
       >
         <a
           href={`#${idLinkCreator(children)}`}
@@ -105,7 +105,7 @@ const components = {
     return (
       <h6
         id={idLinkCreator(children)}
-        className="font-semibold text-sm md:text-base mb-1.5 mt-6 md:mt-8"
+        className="font-semibold text-sm md:text-base mb-1.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
       >
         <a
           href={`#${idLinkCreator(children)}`}
