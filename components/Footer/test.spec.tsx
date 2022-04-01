@@ -5,7 +5,7 @@ import Footer from './Footer';
 describe('Footer', () => {
   it('Title text is present', () => {
     render(<Footer />);
-    const title = screen.queryByTestId('title');
+    const title = screen.getByRole('heading', { level: 2 });
 
     expect(title).toBeVisible();
   });

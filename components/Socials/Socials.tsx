@@ -10,20 +10,20 @@ import {
 } from 'react-icons/fa';
 
 interface IProps {
-  isHeader?: boolean;
+  compact?: boolean;
 }
 
-export default function Socials({ isHeader = true }: IProps): JSX.Element {
-  return isHeader ? (
+export default function Socials({ compact = true }: IProps): JSX.Element {
+  return compact ? (
     <address className="flex flex-row gap-8 opacity-75">
       <a href="https://twitter.com/MrConerMurphy">
-        <FaTwitter size="24px" />
+        <FaTwitter size="20px" />
       </a>
       <a href="https://www.linkedin.com/in/conermurphy/">
-        <FaLinkedin size="24px" />
+        <FaLinkedin size="20px" />
       </a>
       <a href="mailto:hey@conermurphy.com">
-        <FaEnvelope size="24px" />
+        <FaEnvelope size="20px" />
       </a>
     </address>
   ) : (

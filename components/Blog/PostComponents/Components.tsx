@@ -127,9 +127,7 @@ const components = {
   },
   code: ({ children }: IProps): JSX.Element => {
     return (
-      <code className="bg-[#1f4662] text-[#f8f8f2] opacity-100 p-1">
-        {children}
-      </code>
+      <code className=" opacity-100 p-1 font-extrabold">`{children}`</code>
     );
   },
   blockquote: ({ children }: IProps): JSX.Element => {

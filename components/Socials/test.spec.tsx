@@ -9,7 +9,7 @@ describe('Socials', () => {
   });
 
   it('Matches the snapshot with header false', () => {
-    const { container } = render(<Socials isHeader={false} />);
+    const { container } = render(<Socials compact={false} />);
     expect(container).toMatchSnapshot();
   });
 });

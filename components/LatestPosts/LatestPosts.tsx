@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { PostWithFrontmatter } from '../../types';
 import { PostCard } from '../Blog';
+import { HeaderBackground } from '../Header/components';
 
 interface IProps {
   posts: PostWithFrontmatter[];
@@ -9,7 +10,8 @@ interface IProps {
 
 export default function LatestPosts({ posts }: IProps): JSX.Element {
   return (
-    <div className="flex flex-col items-center py-10 md:py-72 border-t border-primaryBorder">
+    <div className="flex flex-col items-center pb-10 md:pb-72 pt-2">
+      <HeaderBackground bg="bg-white" />
       <section className="max-w-[272px] md:max-w-[1372px] w-full md:px-20 lg:px-106">
         <h2 className="text-32 md:text-40">Latest Content...</h2>
         <p className="text-lg mb-10 mt-2.5 lg:mt-1 md:text-2xl">

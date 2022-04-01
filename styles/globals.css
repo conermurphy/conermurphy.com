@@ -42,9 +42,19 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Inconsolata";
+  src: url("/fonts/inconsolata-extraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --primary: #111827;
-  --offWhite: #fafafc;
+  /* Light mode */
+  --primaryBackground: rgb(250,250,252,1);
+  --secondaryBackground: rgb(255,255,255,1);
+  --primaryText: rgba(17,24,39,1);
   --accent: #f97316;
   --primaryBorder: hsla(221, 39%, 11%, 0.25);
 }
@@ -94,5 +104,5 @@ code {
 /* !important used to override styling on blog post page as every element is auto-wrapped in p tags and in some cases need to override the tailwind styles. */
 blockquote > p {
   margin-bottom: 0 !important;
-  color: rgba(17,24,39,1) !important;
+  color: var(--primaryText) !important;
 }

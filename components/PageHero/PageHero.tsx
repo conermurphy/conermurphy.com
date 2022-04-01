@@ -1,4 +1,5 @@
 import React from 'react';
+import { HeaderBackground } from '../Header/components';
 import Newsletter from '../Newsletter/Newsleter';
 
 interface IProps {
@@ -13,8 +14,9 @@ export default function PageHero({
   showNewsletter = true,
 }: IProps): JSX.Element {
   return (
-    <div className="flex flex-col items-center py-10 md:py-72 bg-offWhite">
-      <section className="flex flex-col gap-y-20 md:gap-y-10 max-w-[272px] md:max-w-[1372px] w-full md:px-20 lg:px-106">
+    <div className="flex flex-col items-center bg-offWhite -mt-16">
+      <HeaderBackground bg="bg-offWhite" />
+      <section className="flex flex-col gap-y-20 md:gap-y-10 max-w-[272px] md:max-w-[1372px] w-full md:px-20 lg:px-106 py-10 md:py-72">
         <div className="max-w-xl">
           <h1 className="text-32 md:text-40">{title}</h1>
           <p className="text-base md:text-xl">{body}</p>

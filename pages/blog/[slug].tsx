@@ -1,14 +1,13 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
-import { PostFrontMatter, PostWithFrontmatter } from '../types';
-import { pageDataSource } from '../utils';
-import { getAllPostsSlugs, getPost } from '../utils/posts';
-import { LatestPosts, SEO } from '../components';
-
-import { Components, PostHeader } from '../components/Blog/PostComponents';
+import { PostFrontMatter, PostWithFrontmatter } from '../../types';
+import { pageDataSource } from '../../utils';
+import { getAllPostsSlugs, getPost } from '../../utils/posts';
+import { LatestPosts, SEO } from '../../components';
+import { Components, PostHeader } from '../../components/Blog/PostComponents';
+import { HeaderBackground } from '../../components/Header/components';
 
 interface IProps {
   post: {
@@ -44,14 +43,18 @@ const BlogPost: NextPage<IProps> = ({ post, latestPosts }) => {
         canonicalUrl={canonicalUrl}
         article
       />
-      <div className="flex flex-col items-center mb-72">
+      <div className="flex flex-col items-center pb-10 bg-offWhite">
         <article className="flex flex-col w-full">
           <PostHeader frontmatter={frontmatter} />
-          <div className="flex flex-row justify-center w-full">
-            <div className="max-w-[800px] mx-6 lg:mx-0">
-              {/*  eslint-disable-next-line */}
-              {/* @ts-ignore */}
-              <MDXRemote {...content} components={Components} />
+          <div>
+            <HeaderBackground bg="bg-offWhite" />
+            <div className="flex flex-row justify-center gap-0 xl:gap-16 w-full max-w-[1100px] m-auto">
+              <div className="min-w-[272px] md:max-w-[700px] mx-6 xl:mx-0">
+                {/*  eslint-disable-next-line */}
+                {/* @ts-ignore */}
+                <MDXRemote {...content} components={Components} />
+              </div>
+              <p className="hidden xl:block">post sidebar</p>
             </div>
           </div>
         </article>

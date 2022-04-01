@@ -1,8 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
-import { ICONS, SPOTLIGHT } from '../../types';
+import { ICONS } from '../../constants';
 import { getIcon } from '../../utils';
 import { companiesData } from '../../content';
+import { SPOTLIGHT } from '../../types';
+import { HeaderBackground } from '../Header/components';
 
 interface IProps {
   type: SPOTLIGHT;
@@ -10,15 +12,16 @@ interface IProps {
 
 export default function Spotlight({ type }: IProps): JSX.Element {
   const techs = [
-    ICONS.GRAPHQL,
-    ICONS.REACT,
-    ICONS.NEXTJS,
-    ICONS.TYPESCRIPT,
-    ICONS.JAVASCRIPT,
+    ICONS.GRAPHQL.name,
+    ICONS.REACT.name,
+    ICONS.NEXTJS.name,
+    ICONS.TYPESCRIPT.name,
+    ICONS.JAVASCRIPT.name,
   ];
 
   return (
     <section className="flex flex-col items-center bg-offWhite py-10 px-6 lg:px-0 md:py-72">
+      <HeaderBackground bg="bg-offWhite" />
       <h2 className="text-lg text-center md:text-2xl opacity-75 font-normal">
         {type === SPOTLIGHT.TECH
           ? 'Using the latest technologies and more...'
