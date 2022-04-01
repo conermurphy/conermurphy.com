@@ -12,31 +12,31 @@ import { pageDataSource } from '../utils';
 interface IProps {
   services: Service[];
   testimonials: Testimonial[];
-  posts: PostWithFrontmatter[];
+  latestPosts: PostWithFrontmatter[];
 }
 
-const Home: NextPage<IProps> = ({ services, testimonials, posts }) => {
+const Home: NextPage<IProps> = ({ services, testimonials, latestPosts }) => {
   return (
     <>
       <SEO metaTitle="Home" metaDescription="Home page" />
       <Spotlight type={SPOTLIGHT.COMPANIES} />
       <Services services={services} />
       <Spotlight type={SPOTLIGHT.TECH} />
-      <LatestPosts posts={posts} />
+      <LatestPosts posts={latestPosts} />
       <Testimonials testimonials={testimonials} />
     </>
   );
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { services, testimonials, posts } = await pageDataSource({
+  const { services, testimonials, latestPosts } = await pageDataSource({
     services: true,
     testimonials: true,
     latestPosts: true,
   });
 
   return {
-    props: { services, testimonials, posts },
+    props: { services, testimonials, latestPosts },
   };
 };
 

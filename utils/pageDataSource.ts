@@ -11,7 +11,7 @@ interface IProps {
 interface ReturnType {
   services: false | Service[];
   testimonials: false | Testimonial[];
-  posts: false | Post[];
+  latestPosts: false | Post[];
 }
 
 export default async function pageDataSource({
@@ -24,6 +24,6 @@ export default async function pageDataSource({
   return {
     services: services && servicesData,
     testimonials: testimonials && testimonialsData,
-    posts: latestPosts && posts,
+    latestPosts: latestPosts && posts,
   };
 }

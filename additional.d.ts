@@ -6,6 +6,7 @@ declare global {
       CONVERTKIT_ENDPOINT: string;
       CONVERTKIT_PUBLIC_KEY: string;
       CONVERTKIT_SIGNUP_FORM: string;
+      NEXT_PUBLIC_WPM: string;
     }
   }
 }

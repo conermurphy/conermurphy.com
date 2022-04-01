@@ -1,6 +1,7 @@
 import React from 'react';
 import Img from 'next/image';
 import { Testimonial } from '../../types';
+import { HeaderBackground } from '../Header/components';
 
 interface IProps {
   testimonials: Testimonial[];
@@ -9,6 +10,7 @@ interface IProps {
 export default function Testimonials({ testimonials }: IProps): JSX.Element {
   return (
     <div className="flex flex-col items-center justify-center py-10 md:py-72 bg-primary">
+      <HeaderBackground bg="bg-primary" />
       <section className="max-w-[272px] md:max-w-[1372px] md:px-20 lg:px-106">
         <h2 className="text-32 text-offWhite max-w-max md:text-40">
           What My Clients Say...

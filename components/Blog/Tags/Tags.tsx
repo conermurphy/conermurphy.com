@@ -48,7 +48,7 @@ function Tag({ tag }: { tag: string }): JSX.Element {
   return (
     <p
       key={tag}
-      className={`text-xs px-3 py-1 ${bg} ${text} ${border} border font-semibold w-max rounded`}
+      className={`text-xs px-3 py-1 ${bg} ${text} ${border} border font-semibold w-max rounded opacity-100`}
     >
       {tagName}
     </p>

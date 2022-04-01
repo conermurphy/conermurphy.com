@@ -1,24 +1,5 @@
 import StaticImageData from 'next/image';
 
-export enum ICONS {
-  CODE = 'CODE',
-  KEYBOARD = 'KEYBOARD',
-  SOCIALS = 'SOCIALS',
-  GRAPHQL = 'GRAPHQL',
-  REACT = 'REACT',
-  NEXTJS = 'NEXTJS',
-  TYPESCRIPT = 'TYPESCRIPT',
-  JAVASCRIPT = 'JAVASCRIPT',
-}
-
-export enum ICONSCOLORS {
-  REACT = 'hsl(193, 95%, 68%)',
-  GRAPHQL = 'hsl(319, 100%, 44%)',
-  NEXTJS = 'hsl(0, 0%, 7%)',
-  TYPESCRIPT = 'hsl(211, 60%, 48%)',
-  JAVASCRIPT = 'hsl(53, 93%, 54%)',
-}
-
 export enum SPOTLIGHT {
   TECH = 'LATEST_TECHNOLOGIES',
   COMPANIES = 'COMPANIES',
@@ -29,10 +10,14 @@ export enum THEMES {
   DARK = 'DARK',
 }
 
+export type Icons = {
+  [key: string]: { name: string; color?: string };
+};
+
 export type Service = {
   title: string;
   copy: string;
-  icon: ICONS;
+  icon: string;
 };
 
 export type Testimonial = {
@@ -61,6 +46,7 @@ export type PostFrontMatter = {
   published: boolean;
   canonical_url: string;
   description: string;
+  timeToRead: number;
 };
 
 export type Post = {

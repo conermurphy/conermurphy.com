@@ -7,8 +7,8 @@ module.exports = {
     extend: {
       colors: {
         transparent: 'transparent',
-        offWhite: 'var(--offWhite)',
-        primary: 'var(--primary)',
+        offWhite: 'var(--primaryBackground)',
+        primary: 'var(--primaryText)',
         accent: 'var(--accent)',
         primaryBorder: 'var(--primaryBorder)',
       },
@@ -17,8 +17,8 @@ module.exports = {
         72: '4.5rem',
       },
       fontSize: {
-        32: '2rem',
-        40: '2.5rem',
+        32: ['2rem', { letterSpacing: '', lineHeight: '40px' }],
+        40: ['2.5rem', { letterSpacing: '', lineHeight: '48px' }],
       },
     },
     fontFamily: {

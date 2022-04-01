@@ -97,11 +97,11 @@ exports[`Socials Matches the snapshot with no props 1`] = `
     >
       <svg
         fill="currentColor"
-        height="24px"
+        height="20px"
         stroke="currentColor"
         stroke-width="0"
         viewBox="0 0 512 512"
-        width="24px"
+        width="20px"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -114,11 +114,11 @@ exports[`Socials Matches the snapshot with no props 1`] = `
     >
       <svg
         fill="currentColor"
-        height="24px"
+        height="20px"
         stroke="currentColor"
         stroke-width="0"
         viewBox="0 0 448 512"
-        width="24px"
+        width="20px"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -131,11 +131,11 @@ exports[`Socials Matches the snapshot with no props 1`] = `
     >
       <svg
         fill="currentColor"
-        height="24px"
+        height="20px"
         stroke="currentColor"
         stroke-width="0"
         viewBox="0 0 512 512"
-        width="24px"
+        width="20px"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
