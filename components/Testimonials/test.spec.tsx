@@ -19,6 +19,6 @@ describe('Testimonials', () => {
     const ul = container.querySelector('ul');
     const items = ul?.querySelectorAll('article');
 
-    expect(items).toHaveLength(4);
+    expect(items).toHaveLength(3);
   });
 });
