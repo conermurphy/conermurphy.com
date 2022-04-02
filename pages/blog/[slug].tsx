@@ -43,11 +43,11 @@ const BlogPost: NextPage<IProps> = ({ post, latestPosts }) => {
         canonicalUrl={canonicalUrl}
         article
       />
-      <div className="flex flex-col items-center pb-10 bg-offWhite">
+      <div className="flex flex-col items-center pb-10 bg-primaryBg">
         <article className="flex flex-col w-full">
           <PostHeader frontmatter={frontmatter} />
           <div>
-            <HeaderBackground bg="bg-offWhite" />
+            <HeaderBackground bg="bg-primaryBg" />
             <div className="flex flex-row justify-center gap-0 xl:gap-16 w-full max-w-[1100px] m-auto">
               <div className="min-w-[272px] md:max-w-[700px] mx-6 xl:mx-0">
                 {/*  eslint-disable-next-line */}

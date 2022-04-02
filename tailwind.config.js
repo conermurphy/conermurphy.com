@@ -7,8 +7,9 @@ module.exports = {
     extend: {
       colors: {
         transparent: 'transparent',
-        offWhite: 'var(--primaryBackground)',
-        primary: 'var(--primaryText)',
+        primaryBg: 'var(--primaryBackground)',
+        secondaryBg: 'var(--secondaryBackground)',
+        primaryText: 'var(--primaryText)',
         accent: 'var(--accent)',
         primaryBorder: 'var(--primaryBorder)',
       },

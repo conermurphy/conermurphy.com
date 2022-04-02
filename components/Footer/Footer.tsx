@@ -5,7 +5,7 @@ import Socials from '../Socials/Socials';
 
 export default function Footer(): JSX.Element {
   return (
-    <div className="flex flex-col items-center py-10 md:pt-72 md:pb-11 bg-offWhite">
+    <div className="flex flex-col items-center py-10 md:pt-36 md:pb-11 bg-primaryBg">
       <footer className="max-w-[272px] md:max-w-[1372px] w-full md:px-20 lg:px-106">
         <section className="flex flex-col gap-y-20 justify-between mb-8 md:mb-72 md:flex-row">
           <div className="max-w-[300px] lg:max-w-[420px]">

@@ -20,8 +20,8 @@ export default function Spotlight({ type }: IProps): JSX.Element {
   ];
 
   return (
-    <section className="flex flex-col items-center bg-offWhite py-10 px-6 lg:px-0 md:py-72">
-      <HeaderBackground bg="bg-offWhite" />
+    <section className="flex flex-col items-center bg-primaryBg px-6 lg:px-0 pt-0 md:pt-2 pb-10 md:pb-72">
+      <HeaderBackground bg="bg-primaryBg" />
       <h2 className="text-lg text-center md:text-2xl opacity-75 font-normal">
         {type === SPOTLIGHT.TECH
           ? 'Using the latest technologies and more...'

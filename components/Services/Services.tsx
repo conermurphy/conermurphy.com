@@ -1,7 +1,7 @@
 import React from 'react';
 import { Service } from '../../types';
 import { getIcon } from '../../utils';
-import { HeaderBackground } from '../Header/components';
+import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
 
 interface IProps {
   services: Service[];
@@ -9,30 +9,31 @@ interface IProps {
 
 export default function Services({ services }: IProps): JSX.Element {
   return (
-    <div className="flex flex-col items-center my-10 md:my-72">
-      <HeaderBackground bg="bg-white" />
-      <section className="max-w-[272px] md:max-w-[1372px] w-full md:px-20 lg:px-106">
-        <h2 className="text-32 md:text-40">My Crafts...</h2>
-        <p className="text-lg mb-10 mt-2.5 lg:mt-1 md:text-2xl">
-          Let me help you, here’s how.
-        </p>
-        <ul className="flex flex-col items-center justify-between flex-wrap gap-12 md:flex-row lg:flex-nowrap xl:gap-[78px]">
-          {services.map(({ title, copy, icon }) => {
-            const iconSVG = getIcon({ icon });
-            return (
-              <article key={title} className="max-w-xs">
-                <div className="flex flex-row items-center gap-3 mb-5">
-                  <div className="w-11 h-11 flex items-center justify-center bg-primary text-offWhite rounded-[10px]">
-                    {iconSVG}
-                  </div>
-                  <h3 className="text-2xl font-semibold">{title}</h3>
+    <ComponentWrapper
+      data={{
+        title: 'My Crafts...',
+        subTitle: 'Let me help you, here’s how.',
+      }}
+    >
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-start gap-6 md:items-start">
+        {services.map(({ title, copy, icon }) => {
+          const iconSVG = getIcon({ icon, size: '22px' });
+          return (
+            <article
+              key={title}
+              className="flex flex-col gap-6 h-full justify-between max-w-[272px] sm:max-w-[360px] bg-primaryBg rounded-lg px-8 py-6"
+            >
+              <div className="flex flex-row items-center gap-3">
+                <div className="w-10 h-10 flex items-center justify-center bg-primaryText text-primaryBg rounded-lg">
+                  {iconSVG}
                 </div>
-                <p className="max-w-[274px] lg:max-w-[320px]">{copy}</p>
-              </article>
-            );
-          })}
-        </ul>
-      </section>
-    </div>
+                <h3 className="text-lg font-semibold">{title}</h3>
+              </div>
+              <p className="text-sm md:text-base">{copy}</p>
+            </article>
+          );
+        })}
+      </ul>
+    </ComponentWrapper>
   );
 }

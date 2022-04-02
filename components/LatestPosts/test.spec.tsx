@@ -8,13 +8,14 @@ const mockData = [
       title: 'Example Post 1',
       date: '2022-03-26',
       tags: ['JAVASCRIPT'],
-      slug: '/example-post-1',
+      slug: 'example-post-1',
       image:
         '/images/blog/complete-2021-guide-to-http-status-codes-their-seo-influence.png',
       description: 'This is a description of a post',
       categories: [''],
       published: true,
       canonical_url: '',
+      timeToRead: 10,
     },
   },
   {
@@ -23,13 +24,14 @@ const mockData = [
       title: 'Example Post 1',
       date: '2022-03-26',
       tags: ['JAVASCRIPT'],
-      slug: '/example-post-1',
+      slug: 'example-post-1',
       image:
         '/images/blog/complete-2021-guide-to-http-status-codes-their-seo-influence.png',
       description: 'This is a description of a post',
       categories: [''],
       published: true,
       canonical_url: '',
+      timeToRead: 10,
     },
   },
   {
@@ -38,13 +40,14 @@ const mockData = [
       title: 'Example Post 1',
       date: '2022-03-26',
       tags: ['JAVASCRIPT'],
-      slug: '/example-post-1',
+      slug: 'example-post-1',
       image:
         '/images/blog/complete-2021-guide-to-http-status-codes-their-seo-influence.png',
       description: 'This is a description of a post',
       categories: [''],
       published: true,
       canonical_url: '',
+      timeToRead: 10,
     },
   },
 ];

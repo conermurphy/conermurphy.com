@@ -37,7 +37,7 @@ export default function Newsletter({ breakpoint = 'md' }: IProps): JSX.Element {
           placeholder="Enter your email"
           onChange={updateValue}
           value={values.email}
-          className={`rounded-lg border-primaryBorder max-w-[272px] text-xs bg-offWhite ${breakpoint}:text-md`}
+          className={`rounded-lg border-primaryBorder max-w-[272px] text-xs bg-primaryBg ${breakpoint}:text-md`}
         />
         <input
           type="text"
@@ -48,7 +48,7 @@ export default function Newsletter({ breakpoint = 'md' }: IProps): JSX.Element {
         />
         <button
           type="submit"
-          className={`bg-primary text-offWhite text-xs rounded-lg py-3 px-5 ${breakpoint}:text-md`}
+          className={`bg-primaryText text-primaryBg text-xs rounded-lg py-3 px-5 ${breakpoint}:text-md`}
         >
           {loading ? 'Subscribing..' : 'Subscribe'}
         </button>

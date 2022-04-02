@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  FaTwitter,
-  FaLinkedin,
-  FaFacebookSquare,
-  FaGithub,
-  FaInstagram,
-  FaYoutube,
-  FaEnvelope,
-} from 'react-icons/fa';
+import { ICONS } from '../../constants';
+import { getIcon } from '../../utils';
 
 interface IProps {
   compact?: boolean;
@@ -16,24 +9,72 @@ interface IProps {
 export default function Socials({ compact = true }: IProps): JSX.Element {
   return compact ? (
     <address className="flex flex-row gap-8 opacity-75">
-      <a href="https://twitter.com/MrConerMurphy">
-        <FaTwitter size="20px" />
+      <a
+        href="https://twitter.com/MrConerMurphy"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {getIcon({ icon: ICONS.TWITTER.name, size: '20px' })}
       </a>
-      <a href="https://www.linkedin.com/in/conermurphy/">
-        <FaLinkedin size="20px" />
+      <a
+        href="https://www.linkedin.com/in/conermurphy/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {getIcon({ icon: ICONS.LINKEDIN.name, size: '20px' })}
       </a>
-      <a href="mailto:hey@conermurphy.com">
-        <FaEnvelope size="20px" />
+      <a
+        href="mailto:hey@conermurphy.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {getIcon({ icon: ICONS.EMAIL.name, size: '20px' })}
       </a>
     </address>
   ) : (
     <address className="flex flex-row gap-5">
-      <FaTwitter size="22px" />
-      <FaLinkedin size="22px" />
-      <FaFacebookSquare size="22px" />
-      <FaGithub size="22px" />
-      <FaInstagram size="22px" />
-      <FaYoutube size="22px" />
+      <a
+        href="https://twitter.com/MrConerMurphy"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {getIcon({ icon: ICONS.TWITTER.name, size: '22px' })}
+      </a>
+      <a
+        href="https://www.linkedin.com/in/conermurphy/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {getIcon({ icon: ICONS.LINKEDIN.name, size: '22px' })}
+      </a>
+      <a
+        href="https://www.facebook.com/MrConerMurphy"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {getIcon({ icon: ICONS.FACEBOOK.name, size: '22px' })}
+      </a>
+      <a
+        href="https://github.com/conermurphy"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {getIcon({ icon: ICONS.GITHUB.name, size: '22px' })}
+      </a>
+      <a
+        href="https://www.instagram.com/mrconermurphy/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {getIcon({ icon: ICONS.INSTAGRAM.name, size: '22px' })}
+      </a>
+      <a
+        href="https://www.youtube.com/channel/UCKbxBnz1xuyGAPMCOZQRdVw"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {getIcon({ icon: ICONS.YOUTUBE.name, size: '22px' })}
+      </a>
     </address>
   );
 }
