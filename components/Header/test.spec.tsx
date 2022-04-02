@@ -11,6 +11,15 @@ describe('Header', () => {
     expect(title).toBeVisible();
   });
 
+  it('Should render a link to home', () => {
+    render(<Header />);
+
+    const title = screen.getByRole('link', { name: 'Coner Murphy' });
+
+    expect(title).toBeVisible();
+    expect(title.getAttribute('href')).toMatch(/.*\/$/);
+  });
+
   it('Should render a nav component for the nav bar', () => {
     render(<Header />);
 
