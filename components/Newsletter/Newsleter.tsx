@@ -3,9 +3,13 @@ import { useEmail, useForm } from '../../utils';
 
 interface IProps {
   breakpoint?: 'md' | 'lg';
+  forceMobile?: boolean;
 }
 
-export default function Newsletter({ breakpoint = 'md' }: IProps): JSX.Element {
+export default function Newsletter({
+  breakpoint = 'md',
+  forceMobile = false,
+}: IProps): JSX.Element {
   const { values, updateValue } = useForm({
     email: '',
     chilliIsCool: '',
@@ -13,26 +17,31 @@ export default function Newsletter({ breakpoint = 'md' }: IProps): JSX.Element {
 
   const { loading, message, submitEmail } = useEmail({ values });
 
+  let formDirectionStyles = '';
+  let textSize = '';
+  let widthGap = '';
+
+  if (!forceMobile) {
+    formDirectionStyles = breakpoint === 'md' ? 'md:flex-row' : 'lg:flex-row';
+    textSize = breakpoint === 'md' ? 'md:text-sm' : 'lg:text-sm';
+    widthGap =
+      breakpoint === 'md'
+        ? 'md:max-w-[372px] md:gap-4'
+        : 'lg:max-w-[372px] lg:gap-4';
+  }
+
   return (
-    <div
-      className={`flex flex-col gap-3 max-w-[272px] ${
-        breakpoint === 'md'
-          ? 'md:max-w-[372px] md:gap-4'
-          : 'lg:max-w-[372px] lg:gap-4'
-      }`}
-    >
+    <div className={`flex flex-col gap-3 max-w-[272px] ${widthGap}`}>
       <div>
         <p className="font-bold opacity-100">Stay up to date</p>
-        <p className={`text-xs ${breakpoint}:text-base`}>
+        <p className={`text-xs ${textSize}`}>
           Get exclusive content before anyone else. Subscribe to my newsletter
           below.
         </p>
       </div>
       <form
         onSubmit={submitEmail}
-        className={`flex flex-col gap-y-2 gap-x-4 ${
-          breakpoint === 'md' ? 'md:flex-row' : 'lg:flex-row'
-        }`}
+        className={`flex flex-col gap-y-2 gap-x-4 ${formDirectionStyles}`}
         data-testid="newsletter-form"
       >
         <input
@@ -43,9 +52,7 @@ export default function Newsletter({ breakpoint = 'md' }: IProps): JSX.Element {
           placeholder="Enter your email"
           onChange={updateValue}
           value={values.email}
-          className={`rounded-lg border-primaryBorder max-w-[272px] text-xs bg-secondaryBg ${
-            breakpoint === 'md' ? 'md:text-md' : 'lg:text-md'
-          }`}
+          className={`rounded-lg border-primaryBorder max-w-[272px] text-xs bg-secondaryBg ${textSize}`}
         />
         <input
           type="text"
@@ -56,9 +63,7 @@ export default function Newsletter({ breakpoint = 'md' }: IProps): JSX.Element {
         />
         <button
           type="submit"
-          className={`bg-primaryText text-primaryBg text-xs rounded-lg py-3 px-5 ${
-            breakpoint === 'md' ? 'md:text-md' : 'lg:text-md'
-          }`}
+          className={`bg-primaryText text-primaryBg text-xs rounded-lg py-3 px-5 ${textSize}`}
         >
           {loading ? 'Subscribing..' : 'Subscribe'}
         </button>

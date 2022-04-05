@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
 import Img from 'next/image';
 import Code from './Code/Code';
 import BlockQuoteAuthor from './BlockQuoteAuthor/BlockQuoteAuthor';
 import ImageCaption from './ImageCaption/ImageCaption';
+import { getHeadingLink } from '../../../utils/posts';
 
 interface IProps {
-  children?: ReactNode;
+  children: string;
   href?: string;
 }
 
@@ -18,29 +18,15 @@ function copyToClip() {
   navigator.clipboard.writeText(window?.location?.href);
 }
 
-function idLinkCreator(children: ReactNode): string {
-  return typeof children === 'string'
-    ? children
-        // Regex to remove all punctionation from the original string
-        .replaceAll(/['!"#$%&\\'()\\*+,\-\\.\\/:;<=>?@\\[\\\]\\^_`{|}~']/g, '')
-        // Convert any spaces to '-'
-        .replaceAll(' ', '-')
-        // Replace any '--' to a '-'
-        .replaceAll(/(--)/g, '-')
-        // Make it all lower case
-        .toLowerCase()
-    : '';
-}
-
 const components = {
   h2: ({ children }: IProps): JSX.Element => {
     return (
       <h2
-        id={idLinkCreator(children)}
+        id={getHeadingLink(children)}
         className="font-semibold text-2xl md:text-32 mb-1.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
       >
         <a
-          href={`#${idLinkCreator(children)}`}
+          href={`#${getHeadingLink(children)}`}
           onClick={() => {
             return copyToClip();
           }}
@@ -53,11 +39,11 @@ const components = {
   h3: ({ children }: IProps): JSX.Element => {
     return (
       <h3
-        id={idLinkCreator(children)}
+        id={getHeadingLink(children)}
         className="font-semibold text-xl md:text-2xl mb-1.5.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
       >
         <a
-          href={`#${idLinkCreator(children)}`}
+          href={`#${getHeadingLink(children)}`}
           onClick={() => {
             return copyToClip();
           }}
@@ -70,11 +56,11 @@ const components = {
   h4: ({ children }: IProps): JSX.Element => {
     return (
       <h4
-        id={idLinkCreator(children)}
+        id={getHeadingLink(children)}
         className="font-semibold text-lg md:text-xl mb-1.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
       >
         <a
-          href={`#${idLinkCreator(children)}`}
+          href={`#${getHeadingLink(children)}`}
           onClick={() => {
             return copyToClip();
           }}
@@ -87,11 +73,11 @@ const components = {
   h5: ({ children }: IProps): JSX.Element => {
     return (
       <h5
-        id={idLinkCreator(children)}
+        id={getHeadingLink(children)}
         className="font-semibold text-base md:text-lg mb-1.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
       >
         <a
-          href={`#${idLinkCreator(children)}`}
+          href={`#${getHeadingLink(children)}`}
           onClick={() => {
             return copyToClip();
           }}
@@ -104,11 +90,11 @@ const components = {
   h6: ({ children }: IProps): JSX.Element => {
     return (
       <h6
-        id={idLinkCreator(children)}
+        id={getHeadingLink(children)}
         className="font-semibold text-sm md:text-base mb-1.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
       >
         <a
-          href={`#${idLinkCreator(children)}`}
+          href={`#${getHeadingLink(children)}`}
           onClick={() => {
             return copyToClip();
           }}

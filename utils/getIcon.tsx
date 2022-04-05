@@ -7,6 +7,7 @@ import {
   FaInstagram,
   FaYoutube,
   FaEnvelope,
+  FaReddit,
 } from 'react-icons/fa';
 import { MdCode, MdKeyboard, MdShare } from 'react-icons/md';
 import {
@@ -16,6 +17,7 @@ import {
   SiReact,
   SiTypescript,
 } from 'react-icons/si';
+import { FiCopy } from 'react-icons/fi';
 import { ICONS } from '../constants';
 
 interface IProps {
@@ -56,6 +58,17 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
           data-testid="services-icon"
           role="img"
           aria-label="Social media share icon"
+        />
+      );
+    case ICONS.COPY.name:
+      return (
+        <FiCopy
+          size={size}
+          color="var(--primaryText)"
+          title="Copy link icon"
+          data-testid="share-icon"
+          role="img"
+          aria-label="copy link icon"
         />
       );
     case ICONS.TWITTER.name:
@@ -133,6 +146,17 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
           data-testid="socials-icon"
           role="img"
           aria-label="YouTube logo"
+        />
+      );
+    case ICONS.REDDIT.name:
+      return (
+        <FaReddit
+          size={size}
+          color="var(--primaryText)"
+          title="Reddit icon"
+          data-testid="socials-icon"
+          role="img"
+          aria-label="Reddit logo"
         />
       );
     case ICONS.GRAPHQL.name:
