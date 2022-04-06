@@ -68,31 +68,37 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
       <div className={sectionClasses}>
         <Newsletter forceMobile />
       </div>
-      <div className={`flex flex-row gap-x-4 ${sectionClasses}`}>
-        <button type="button" className={shareIconClasses} onClick={copyToClip}>
-          {getIcon({ icon: ICONS.COPY.name })}
-        </button>
-        <div className={shareIconClasses}>
+      <ul className={`flex flex-row gap-x-4 ${sectionClasses}`}>
+        <li>
+          <button
+            type="button"
+            className={shareIconClasses}
+            onClick={copyToClip}
+          >
+            {getIcon({ icon: ICONS.COPY.name })}
+          </button>
+        </li>
+        <li className={shareIconClasses}>
           <TwitterShareButton url={url} title={title} via="MrConerMurphy">
             {getIcon({ icon: ICONS.TWITTER.name, size: '20px' })}
           </TwitterShareButton>
-        </div>
-        <div className={shareIconClasses}>
+        </li>
+        <li className={shareIconClasses}>
           <FacebookShareButton url={url}>
             {getIcon({ icon: ICONS.FACEBOOK.name, size: '20px' })}
           </FacebookShareButton>
-        </div>
-        <div className={shareIconClasses}>
+        </li>
+        <li className={shareIconClasses}>
           <LinkedinShareButton url={url}>
             {getIcon({ icon: ICONS.LINKEDIN.name, size: '20px' })}
           </LinkedinShareButton>
-        </div>
-        <div className={shareIconClasses}>
+        </li>
+        <li className={shareIconClasses}>
           <RedditShareButton url={url}>
             {getIcon({ icon: ICONS.REDDIT.name, size: '20px' })}
           </RedditShareButton>
-        </div>
-      </div>
+        </li>
+      </ul>
     </aside>
   );
 }

@@ -1,5 +1,5 @@
-import { PostHeading } from '../../types';
-import getHeadingLink from './getHeadingLink';
+import { PostHeading } from '../../../types';
+import getHeadingLink from '../getHeadingsLink/getHeadingLink';
 
 export default function getHeadings(source: string): PostHeading[] {
   // The base of this function is from https://twitter.com/joshwcomeau/status/1334649414812659715?lang=en-GB

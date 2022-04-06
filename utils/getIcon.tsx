@@ -109,7 +109,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
         <FaFacebookSquare
           size={size}
           color="var(--primaryText)"
-          title="Facebook icon"
+          title="Facebook logo"
           data-testid="socials-icon"
           role="img"
           aria-label="Facebook logo"
@@ -120,7 +120,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
         <FaGithub
           size={size}
           color="var(--primaryText)"
-          title="GitHub icon"
+          title="GitHub logo"
           data-testid="socials-icon"
           role="img"
           aria-label="GitHub logo"
@@ -131,7 +131,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
         <FaInstagram
           size={size}
           color="var(--primaryText)"
-          title="Instagram icon"
+          title="Instagram logo"
           data-testid="socials-icon"
           role="img"
           aria-label="Instagram logo"
@@ -142,7 +142,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
         <FaYoutube
           size={size}
           color="var(--primaryText)"
-          title="YouTube icon"
+          title="YouTube logo"
           data-testid="socials-icon"
           role="img"
           aria-label="YouTube logo"
@@ -153,7 +153,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
         <FaReddit
           size={size}
           color="var(--primaryText)"
-          title="Reddit icon"
+          title="Reddit logo"
           data-testid="socials-icon"
           role="img"
           aria-label="Reddit logo"
