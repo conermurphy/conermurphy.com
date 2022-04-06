@@ -49,6 +49,12 @@ export type PostFrontMatter = {
   timeToRead: number;
 };
 
+export type PostHeading = {
+  text: string;
+  level: number;
+  link: string;
+};
+
 export type Post = {
   data: { [key: string]: any };
   content?: string;

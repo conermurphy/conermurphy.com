@@ -7,6 +7,7 @@ import {
   FaInstagram,
   FaYoutube,
   FaEnvelope,
+  FaReddit,
 } from 'react-icons/fa';
 import { MdCode, MdKeyboard, MdShare } from 'react-icons/md';
 import {
@@ -16,6 +17,7 @@ import {
   SiReact,
   SiTypescript,
 } from 'react-icons/si';
+import { FiCopy } from 'react-icons/fi';
 import { ICONS } from '../constants';
 
 interface IProps {
@@ -58,6 +60,17 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
           aria-label="Social media share icon"
         />
       );
+    case ICONS.COPY.name:
+      return (
+        <FiCopy
+          size={size}
+          color="var(--primaryText)"
+          title="Copy link icon"
+          data-testid="share-icon"
+          role="img"
+          aria-label="copy link icon"
+        />
+      );
     case ICONS.TWITTER.name:
       return (
         <FaTwitter
@@ -96,7 +109,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
         <FaFacebookSquare
           size={size}
           color="var(--primaryText)"
-          title="Facebook icon"
+          title="Facebook logo"
           data-testid="socials-icon"
           role="img"
           aria-label="Facebook logo"
@@ -107,7 +120,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
         <FaGithub
           size={size}
           color="var(--primaryText)"
-          title="GitHub icon"
+          title="GitHub logo"
           data-testid="socials-icon"
           role="img"
           aria-label="GitHub logo"
@@ -118,7 +131,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
         <FaInstagram
           size={size}
           color="var(--primaryText)"
-          title="Instagram icon"
+          title="Instagram logo"
           data-testid="socials-icon"
           role="img"
           aria-label="Instagram logo"
@@ -129,10 +142,21 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
         <FaYoutube
           size={size}
           color="var(--primaryText)"
-          title="YouTube icon"
+          title="YouTube logo"
           data-testid="socials-icon"
           role="img"
           aria-label="YouTube logo"
+        />
+      );
+    case ICONS.REDDIT.name:
+      return (
+        <FaReddit
+          size={size}
+          color="var(--primaryText)"
+          title="Reddit logo"
+          data-testid="socials-icon"
+          role="img"
+          aria-label="Reddit logo"
         />
       );
     case ICONS.GRAPHQL.name:
