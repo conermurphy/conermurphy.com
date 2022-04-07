@@ -1,5 +1,11 @@
 import type { GetStaticProps, NextPage } from 'next';
-import { ContactHeader, LatestPosts, SEO, Testimonials } from '../components';
+import {
+  ContactForm,
+  ContactHeader,
+  LatestPosts,
+  SEO,
+  Testimonials,
+} from '../components';
 import { PostWithFrontmatter, Service, Testimonial } from '../types';
 import { pageDataSource } from '../utils';
 
@@ -14,9 +20,7 @@ const Home: NextPage<IProps> = ({ testimonials, latestPosts }) => {
     <>
       <SEO metaTitle="Contact Me" metaDescription="Contact Me" />
       <ContactHeader />
-      <div id="contact-form">
-        <p>Form goes here</p>
-      </div>
+      <ContactForm />
       <LatestPosts posts={latestPosts} />
       <Testimonials testimonials={testimonials} />
     </>

@@ -33,6 +33,9 @@ export type Testimonial = {
 export type UseFormValues = {
   email: string;
   chilliIsCool: string;
+  firstName?: string;
+  lastName?: string;
+  message?: string;
 };
 
 export type PostFrontMatter = {
