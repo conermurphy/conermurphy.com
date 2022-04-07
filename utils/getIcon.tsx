@@ -23,15 +23,20 @@ import { ICONS } from '../constants';
 interface IProps {
   icon: string;
   size?: string;
+  color?: string;
 }
 
-export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
+export default function getIcon({
+  icon,
+  size = '24px',
+  color = 'var(--primaryText)',
+}: IProps): ReactNode {
   switch (icon) {
     case ICONS.KEYBOARD.name:
       return (
         <MdKeyboard
           size={size}
-          color="var(--primaryBackground)"
+          color={color}
           title="keyboard icon"
           data-testid="services-icon"
           role="img"
@@ -42,7 +47,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
       return (
         <MdCode
           size={size}
-          color="var(--primaryBackground)"
+          color={color}
           title="< > symbols"
           data-testid="services-icon"
           role="img"
@@ -53,7 +58,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
       return (
         <MdShare
           size={size}
-          color="var(--primaryBackground)"
+          color={color}
           title="Social media share icon"
           data-testid="services-icon"
           role="img"
@@ -64,7 +69,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
       return (
         <FiCopy
           size={size}
-          color="var(--primaryText)"
+          color={color}
           title="Copy link icon"
           data-testid="share-icon"
           role="img"
@@ -75,7 +80,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
       return (
         <FaTwitter
           size={size}
-          color="var(--primaryText)"
+          color={color}
           title="Twitter logo"
           data-testid="socials-icon"
           role="img"
@@ -86,7 +91,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
       return (
         <FaLinkedin
           size={size}
-          color="var(--primaryText)"
+          color={color}
           title="LinkedIn logo"
           data-testid="socials-icon"
           role="img"
@@ -97,7 +102,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
       return (
         <FaEnvelope
           size={size}
-          color="var(--primaryText)"
+          color={color}
           title="Envelope icon"
           data-testid="socials-icon"
           role="img"
@@ -108,7 +113,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
       return (
         <FaFacebookSquare
           size={size}
-          color="var(--primaryText)"
+          color={color}
           title="Facebook logo"
           data-testid="socials-icon"
           role="img"
@@ -119,7 +124,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
       return (
         <FaGithub
           size={size}
-          color="var(--primaryText)"
+          color={color}
           title="GitHub logo"
           data-testid="socials-icon"
           role="img"
@@ -130,7 +135,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
       return (
         <FaInstagram
           size={size}
-          color="var(--primaryText)"
+          color={color}
           title="Instagram logo"
           data-testid="socials-icon"
           role="img"
@@ -141,7 +146,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
       return (
         <FaYoutube
           size={size}
-          color="var(--primaryText)"
+          color={color}
           title="YouTube logo"
           data-testid="socials-icon"
           role="img"
@@ -152,7 +157,7 @@ export default function getIcon({ icon, size = '24px' }: IProps): ReactNode {
       return (
         <FaReddit
           size={size}
-          color="var(--primaryText)"
+          color={color}
           title="Reddit logo"
           data-testid="socials-icon"
           role="img"

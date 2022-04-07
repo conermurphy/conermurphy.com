@@ -32,7 +32,7 @@ export default function Socials({ compact = true }: IProps): JSX.Element {
       </a>
     </address>
   ) : (
-    <address className="flex flex-row gap-5">
+    <address className="flex flex-row gap-x-5">
       <a
         href="https://twitter.com/MrConerMurphy"
         target="_blank"
@@ -48,13 +48,6 @@ export default function Socials({ compact = true }: IProps): JSX.Element {
         {getIcon({ icon: ICONS.LINKEDIN.name, size: '22px' })}
       </a>
       <a
-        href="https://www.facebook.com/MrConerMurphy"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {getIcon({ icon: ICONS.FACEBOOK.name, size: '22px' })}
-      </a>
-      <a
         href="https://github.com/conermurphy"
         target="_blank"
         rel="noopener noreferrer"
@@ -62,18 +55,25 @@ export default function Socials({ compact = true }: IProps): JSX.Element {
         {getIcon({ icon: ICONS.GITHUB.name, size: '22px' })}
       </a>
       <a
-        href="https://www.instagram.com/mrconermurphy/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {getIcon({ icon: ICONS.INSTAGRAM.name, size: '22px' })}
-      </a>
-      <a
         href="https://www.youtube.com/channel/UCKbxBnz1xuyGAPMCOZQRdVw"
         target="_blank"
         rel="noopener noreferrer"
       >
         {getIcon({ icon: ICONS.YOUTUBE.name, size: '22px' })}
+      </a>
+      <a
+        href="https://www.facebook.com/MrConerMurphy"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {getIcon({ icon: ICONS.FACEBOOK.name, size: '22px' })}
+      </a>
+      <a
+        href="https://www.instagram.com/mrconermurphy/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {getIcon({ icon: ICONS.INSTAGRAM.name, size: '22px' })}
       </a>
     </address>
   );

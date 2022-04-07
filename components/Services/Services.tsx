@@ -17,7 +17,11 @@ export default function Services({ services }: IProps): JSX.Element {
     >
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-start gap-6 md:items-start">
         {services.map(({ title, copy, icon }) => {
-          const iconSVG = getIcon({ icon, size: '22px' });
+          const iconSVG = getIcon({
+            icon,
+            size: '22px',
+            color: 'var(--primaryBackground)',
+          });
           return (
             <article
               key={title}
