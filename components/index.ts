@@ -12,3 +12,4 @@ export { default as LatestPosts } from './LatestPosts/LatestPosts';
 export { default as SEO } from './SEO/SEO';
 export { default as ComponentWrapper } from './ComponentWrapper/ComponentWrapper';
 export { default as ContactHeader } from './ContactHeader/ContactHeader';
+export { default as ContactForm } from './ContactForm/ContactForm';

@@ -4,7 +4,7 @@ import { getIcon } from '../../utils';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
 import Socials from '../Socials/Socials';
 
-export default function ContactHeader() {
+export default function ContactHeader(): JSX.Element {
   const itemContainerStyles = 'max-w-[272px] xl:max-w-[320px]';
   const itemHeaderStyles = 'flex flex-row items-center gap-x-3 mb-1';
   return (
