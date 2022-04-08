@@ -1,0 +1,243 @@
+---
+id: 30
+title: "Prototypal Inheritance Overiew"
+date: "2021-02-24"
+tags: ["JAVASCRIPT"]
+categories: ["DEVELOPMENT"]
+slug: prototypal-inheritance-overview
+image: /images/blog/30-Prototypal-Inheritance/prototypal-inheritance.png
+published: true
+canonical_url: ""
+description: ""
+---
+
+## What is it?
+
+Prototypal inheritance is the process an object uses in JavaScript to lookup properties and methods from it's prototype should it not be found in the current object.
+
+At first the object looks for the property within itself, if it's not found it looks up to it's prototype for it, if it's not found there it looks in the next prototype and this process continues until either method / property is found or it reaches the end of the prototype chain which is the value null.
+
+### Example
+
+```jsx
+const shop = {
+  location: "United Kingdom",
+  currency: "GBP",
+};
+
+const foodShop = {
+  name: "Food Shop",
+};
+
+console.log(foodShop); // Object {name: "Food Shop" }
+console.log(foodShop.location); //  undefined
+
+foodShop.__proto__ = shop; // Setting the prototype of foodShop to the shop object. <--- Don't use __proto__ in real life, see end of article for why.
+
+console.log(foodShop); // Logs the foodShop object as before but with the shop as it's prototype.
+console.log(foodShop.location); //  "United Kingdom"
+```
+
+So, what's going on here? Let's start by breaking down what happened above.
+
+    1. First we log the `foodShop` object and it logs fine.
+    2. Then we try to log `foodShop.location` and it returns undefined as `.location` doesn't exist in that object
+    3. We set the prototype of `foodShop` to be the `shop` object
+    4. We re-log the `foodShop` object and it displays as normal but with the prototype as the `shop` object.
+    5. We try access `foodShop.location` again and it returns the value.
+
+Now the reason the above works fine after we set the prototype is because of prototypal inheritance.
+
+## The Chain
+
+While it sounds fancy in fact it's quite logical, when we try to access a property/method of an object at first it looks within itself, if it can find it great! It returns the code or returns the value. But, if it can't find the requested property/method it then looks up the chain to the next link in the prototype chain, in this case the `shop` object. This continues on until we find what we're after or there is no more prototypes to access and we return null.
+
+By default an object doesn't have a custom prototype chain like shown above, by default an object literal prototype chain would look like:
+
+```
+null
+^
+Object.prototype
+^
+Our Object
+```
+
+The Object.prototype is the prototype shared by all objects, this contains the built in methods like `.keys()`, .`.toString()` and all the other methods we're use to using on Objects.
+
+We're the magic happens so to speak is where we get involved and assign a custom prototype to an object, as one object can only inherit from one prototype this is what happens where we assign a new prototype like above:
+
+```
+null
+^
+Object.prototype
+^
+shop
+^
+foodShop
+```
+
+This is why in our example, when we accessed `.location` it returned the value from within the `shop` object. It first looked within the `foodShop` object and couldn't find it so it went looking in the next chain in the prototype, found the value and returned it.
+
+It's not limited to just one extra link either, we could add more links to the prototype chain like so:
+
+```
+null
+^
+Object.prototype
+^
+shop
+^
+foodShop
+^
+isle
+^
+item
+```
+
+So, if we access the `item` object and it can't find the property we requested, it'll continue looking up the chain until it finds it or it hits null.
+
+## Read only
+
+The prototype and by extension the prototype chain is only used for reading properties, when it comes to writing/deleting properties & methods they are added/removed to the object it was called on regardless if one is the in the prototype or not. For example:
+
+```jsx
+const car = {
+  drive() {
+    console.log("broom broom"); // Ignored by fastCar object after we write the method to it.
+  },
+};
+
+const fastCar = {
+  __proto__: car,
+};
+
+fastCar.drive = function () {
+  console.log("vrooooomm");
+};
+
+fastCar.drive(); // vrooooomm
+```
+
+Because we are writing a new property/method to the `fastCar` object, it doesn't lookup the prototype chain to check for existing ones, it just writes the new one onto the object. In the future now, the `fastCar` object will always use the `drive` method that we added to it and not the one on `car`.
+
+### Accessor properties are the exception
+
+Accessor properties are the exception to the read only rule because an assignment is handled by a setter function so writing to the property is the same as calling a function. For example, let's take the example from earlier:
+
+```jsx
+const shop = {
+  location: "United Kingdom",
+  currency: "GBP",
+  age: 0,
+  set age(val) {
+    this.age = val;
+  },
+  get age() {
+    return age;
+  },
+};
+
+const foodShop = {
+  __proto__: shop,
+  name: "Food Shop",
+};
+
+console.log(foodShop.age); // 0
+
+// Triggering the setter found in the chain
+foodShop.age = 10;
+
+console.log(foodShop.age); // 10 <- State of foodShop has been changed.
+console.log(shop.age); // 0 <- State of shop has been preserved.
+```
+
+Unlike the example earlier showing how properties/methods are added even if the prototype has a matching value, when it comes to getters and setters we use the function from the chain but the value stored is tied to the calling object.
+
+So, in our example `foodShop` called the getter first but because we hadn't called the setter it had no value to pick up so fell back to the one within the `shop` object. However, once we called the setter and added an `age` value to the `foodShop` object, when we ran the getter again this is the value it found and returned, so we finished with 2 different values on the object itself and the object up the chain.
+
+## "this"
+
+The "this" keyword can be confusing at the best of times but to keep things easy to remember when it comes to the prototype, just remember:
+
+**No matter where the method is found whether it be in the object itself or within the prototype chain. When calling a method the "this" keyword always refers to the object before the dot.**
+
+So, in the example shown above when we called `foodShop.age = 10`, the "this" value was equal to `foodShop` and not `shop`.
+
+This is helpful because it means that if many objects share one prototype object they will share the methods but not the state.
+
+```jsx
+const car = {
+  drive() {
+    this.isDriving = true;
+  },
+};
+
+const car1 = {
+  __proto__: car,
+};
+
+const car2 = {
+  __proto__: car,
+};
+
+// Modify the state within car1
+car1.drive();
+
+console.log(car1.isDriving); // true
+console.log(car2.isDriving); // undefined
+```
+
+When we use "this" to write data, it is stored within the object that called it and not the one where the method was found in the chain. Therefore, we can have many objects sharing one prototype, all sharing it's methods but with their own state.
+
+## Looping
+
+If you want to return the properties of an object, you can do this via `Object.keys()` but this will ignore any inherited properties, if you want these to be included you would be better served using a `for..in` loop like so:
+
+```jsx
+const shop = {
+  location: "United Kingdom",
+  currency: "GBP",
+  age: 0,
+};
+
+const foodShop = {
+  __proto__: shop,
+  name: "Food Shop",
+};
+
+// Object.keys only returns the properties directly on that object
+console.log(Object.keys(foodShop)); // ['name']
+
+// for..in loops over it's own properties as well inherited.
+for (let prop in foodShop) console.log(prop); // name, location, currency, age
+```
+
+When we use the `for..in` loop we loop over the properties on the actual object first before then working up the prototype chain.
+
+If you would like to check if a property is built into that object while looping through it, you can use `Object.prototype.hasOwnProperty()`, this returns a boolean value representing if the property passed is directly on the object or inherited from the prototype. For example:
+
+```jsx
+const shop = {
+  location: "United Kingdom",
+  currency: "GBP",
+  age: 0,
+};
+
+const foodShop = {
+  __proto__: shop,
+  name: "Food Shop",
+};
+
+console.log(foodShop.hasOwnProperty("name")); // true
+console.log(foodShop.hasOwnProperty("location")); // false
+```
+
+The interesting thing is that in itself `Object.prototype.hasOwnProperty()` is inherited into any object as it's part of the Object.prototype but yet when we loop through the properties of an object, it along with the other properties on the Object.prototype do not show, why is this?
+
+This behaviour is due to the prototype properties having the flag `enumerable:false` and because a `for..in` loop will only list enumerable properties it skips over the ones inherited from the Object.prototype but not ones inherited from prototype that we have set.
+
+## The use of proto
+
+I have used the syntax `__proto__` a fair amount throughout this post but this is purely for demonstration purposes as the code is easy to read and understand. The use of `__proto__` is now deprecated and no longer recommended. Instead we should be using [Object.getPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf)/[Reflect.getPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/getPrototypeOf) and [Object.setPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf)/[Reflect.setPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/setPrototypeOf).
+
+If you're interested in reading more about the above then I recommended checking out the [page on **proto** on MDN here.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/proto)

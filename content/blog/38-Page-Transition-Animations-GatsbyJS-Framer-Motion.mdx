@@ -1,0 +1,213 @@
+---
+id: 38
+title: "How to Add Page Transition Animations to GatsbyJS Using Framer Motion"
+date: "2021-05-19"
+tags: ["GATSBYJS"]
+categories: ["DEVELOPMENT"]
+slug: page-transition-animations-gatsbyjs-framer-motion
+image: /images/blog/38-Page-Transition-Animations-GatsbyJS-Framer-Motion/page-transition-animations-gatsbyjs-framer-motion.png
+published: true
+canonical_url: ""
+description: ""
+---
+
+While redesigning my website I decided to add page transition animations to improve the user experience. In turn this led me down the rabbit hole of web-based animations, of which I came back with the idea of using Framer Motion.
+
+[Framer Motion](https://www.framer.com/motion/), for the uninitiated, is a JavaScript animation library that has many powerful features. In fact, it has so many you could make an entire course on it. But, that's not what we're covering today.
+
+Today, we are going to be looking at using the `AnimatePresence` component. And, more specifically how it can help us with page transition animations in GatsbyJS.
+
+Before we jump in, let's take a look at what we'll be covering:
+
+![Page Transitions Example](/images/blog/38-Page-Transition-Animations-GatsbyJS-Framer-Motion/page-transitions.gif)
+
+Let's get started.
+
+## AnimatePresence
+
+React itself has no lifecycle method for:
+
+- Notifying components when they're going to be unmounted.
+- Allows for the defering of the unmounting until an operation is complete.
+
+This is what `AnimatePresence` aims to solve.
+
+By wrapping all our components in an `AnimatePresence` component, we can provide exit animations to components that will be completed once a component is going to be unmounted.
+
+In other words, this means that if we remove a component from the DOM tree, it will fire its exit animation, wait for it to complete and then be removed. This is unlike normal React where it would be removed without waiting for the animation to complete.
+
+_Read more about [AnimatePresence here.](https://www.framer.com/api/motion/animate-presence/)_
+
+### exitBeforeEnter
+
+While `AnimatePresence` provides the capabilities for us to use exit animations. If we want to ensure the exit animation of the leaving component is complete before the entering component starts animating, we need to add a prop.
+
+This prop is `exitBeforeEnter`, [read more here.](https://www.framer.com/api/motion/animate-presence/#animatepresenceprops.exitbeforeenter)
+
+`exitBeforeEnter` forces only one component to render at a given moment. This means that the exit animation of the leaving component will complete before the entering component starts animating.
+
+With the theory covered, let's jump into some code.
+
+## Page Transition Animations with GatsbyJS
+
+As mentioned earlier to use `AnimatePresence` we need to wrap all our components in it. For page transitions, this means that we need to wrap each page in it.
+
+This is easy to do in GatsbyJS.
+
+With GatsbyJS, when you create a new file in the pages directory it will automatically become a new route on the website to navigate to.
+
+For example, create a file called `blog.js` it will be available at the URL `yourdomain.com/blog`, pretty nifty.
+
+A good method of ensuring each page looks the same and shares the same common elements is to wrap each page in a `Layout` component.
+
+This way we can add our common components and styles to one component and they'll apply to each page automatically.
+
+This also provides us with a great place to add our `AnimatePresence` component.
+
+If we went into our `Layout` component and added `AnimatePresence` like so:
+
+```jsx
+export default function Layout({ children, path }) {
+  return (
+    <>
+      <Nav path={path} />
+      <AnimatePresence exitBeforeEnter>
+        <main>{children}</main>
+      </AnimatePresence>
+      <Footer />
+    </>
+  );
+}
+```
+
+You would think this would now allow us to use exit animations on our pages but we can't... Why?!?
+
+The reason this doesn't work is that although every page shares the `Layout` component, it doesn't stay mounted all the time.
+
+Because of how GatsbyJS works it actually unmounts and remounts the `Layout` component every time you change a page. In effect, this means that each time you change the page you're getting a new `AnimatePresence` component that has no memory of the previous components.
+
+For `AnimatePresence` to be able to monitor each component as they mount and unmount, we need to keep it mounted at all times.
+
+Don't worry we have a solution for this.
+
+### wrapPageElement
+
+Gatsby has exposed several APIs in the `gatsby-browser.js` file for us to use. One of these is [`wrapPageElement`](https://www.gatsbyjs.com/docs/reference/config-files/gatsby-browser/#wrapPageElement), which solves our problem perfectly.
+
+The `wrapPageElement` API allows us to wrap every page in a component like the `Layout` component from before. But, this time `wrapPageElement` prevents the component from being unmounted on page changes.
+
+So we can add our `AnimatePresence` component here and because it won't unmount like before, it can monitor each mount and unmount.
+
+Here's what it looks like:
+
+```jsx
+export function wrapPageElement({ element, props }) {
+  return <AnimatePresence exitBeforeEnter>{element}</AnimatePresence>;
+}
+```
+
+With this in place, we are now free to add entry and exit animations to our pages, let's do that now.
+
+_Read more on [Gatsby Browser APIs here.](https://www.gatsbyjs.com/docs/reference/config-files/gatsby-browser/)_
+
+## Adding our Animations
+
+Because we now have `AnimatePresence` wrapping each of our pages, the only thing we have to do is provide the animation.
+
+Going back to our `Layout` component from earlier, we can substitute out our original `main` element for a `motion.main` element. This allows us to apply animations to the element.
+
+For our page transition animation to work smoothly, we need to add 5 props to our new `motion.main` element, these are:
+
+- key
+- initial
+- animate
+- exit
+- transition
+
+Let's cover each of these now.
+
+### Key
+
+Like normal React when you create components by mapping over data you need to add a `key` prop to them. This is for React to keep track of each of the components and aid in unmounting them as required.
+
+The same goes for Framer Motion. So it knows when to fire an exit or entry animation, it needs to be able to keep track of each animated component. This is done by providing a unique `key` prop to each element.
+
+### Initial
+
+The `initial` prop is the state the component will start in when it is first mounted.
+
+In our case, I want the component to fade in when it's entering. So we set the `initial` prop to `initial={{ opacity: 0 }}`.
+
+### Animate
+
+The `animate` prop is the state of the component that it will animate to from the state defined in the `initial` prop.
+
+So for us to complete the fade-in animation we want, we set the `animate` prop to be: `animate={{ opacity: 1 }}`.
+
+This means that when the component first mounts, it starts at `opacity: 0` and then works up to `opacity: 1`.
+
+### Exit
+
+When the component unmounts it needs a state to animate to from the state we defined in the `animate` prop. This is what we define in the `exit` prop.
+
+For the exit animation, I want the component to fade out again. So it starts at `opacity: 1` as defined by the `animate` prop and it will finish at `opacity: 0`, defined in the `exit` prop like `exit={{ opacity: 0 }}`
+
+### Transition
+
+Finally, we have the `transition` prop. This prop is the settings of the entire animation. Here, we can define the type of animation, the duration and a bunch of other things.
+
+I won't cover all the settings here but the settings I used for my animation was:
+
+```jsx
+transition={{
+    type: 'spring',
+    mass: 0.35,
+    stiffness: 75,
+    duration: 0.3,
+}}
+```
+
+If you're interested you can [read about the `transition` prop here.](https://www.framer.com/api/motion/component/#animationprops.transition)
+
+### Finished Component
+
+That's all the props covered for our animation, let's take a look at the finished component:
+
+```jsx
+export default function Layout({ children, path }) {
+  return (
+    <>
+      <Nav path={path} />
+      <motion.main
+        key={path}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{
+          type: "spring",
+          mass: 0.35,
+          stiffness: 75,
+          duration: 0.3,
+        }}
+      >
+        {children}
+      </motion.main>
+      <Footer />
+    </>
+  );
+}
+```
+
+We these props now added in, our page transition animations should now be working.
+
+## Summing Up
+
+As with many things; once you know-how; it's not too difficult. Even so, adding page transition animations with Framer Motion was a lot less challenging than I expected it to be.
+
+If for some reason these steps did not work for you, [please feel free to DM me on Twitter and I'll be happy to help.](https://twitter.com/MrConerMurphy)
+
+If you found this post helpful, I would greatly appreciate it if you could share this post with others who you think may find it useful.
+
+If you want to support me and see more of my content, please consider [following me on Twitter where I post more daily web development content.](https://twitter.com/MrConerMurphy)
+
+Until next time, thanks for reading. 😊

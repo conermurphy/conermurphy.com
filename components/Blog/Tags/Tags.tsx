@@ -35,15 +35,89 @@ const POST_TAGS: PostTags = {
       },
     },
   },
+  GATSBYJS: {
+    tagName: 'GatsbyJS',
+    colors: {
+      nonActive: {
+        bg: 'bg-purple-100',
+        text: 'text-purple-700',
+        border: 'border-purple-700',
+      },
+      active: {
+        bg: 'bg-purple-700',
+        text: 'text-purple-100',
+      },
+    },
+  },
+  NODEJS: {
+    tagName: 'NodeJS',
+    colors: {
+      nonActive: {
+        bg: 'bg-green-100',
+        text: 'text-green-700',
+        border: 'border-green-700',
+      },
+      active: {
+        bg: 'bg-green-700',
+        text: 'text-green-100',
+      },
+    },
+  },
+  CSS: {
+    tagName: 'CSS',
+    colors: {
+      nonActive: {
+        bg: 'bg-blue-100',
+        text: 'text-blue-700',
+        border: 'border-blue-700',
+      },
+      active: {
+        bg: 'bg-blue-700',
+        text: 'text-blue-100',
+      },
+    },
+  },
+  DESIGN: {
+    tagName: 'Design',
+    colors: {
+      nonActive: {
+        bg: 'bg-gray-100',
+        text: 'text-gray-700',
+        border: 'border-gray-700',
+      },
+      active: {
+        bg: 'bg-gray-700',
+        text: 'text-gray-100',
+      },
+    },
+  },
+  UI: {
+    tagName: 'UI',
+    colors: {
+      nonActive: {
+        bg: 'bg-violet-100',
+        text: 'text-violet-700',
+        border: 'border-violet-700',
+      },
+      active: {
+        bg: 'bg-violet-700',
+        text: 'text-violet-100',
+      },
+    },
+  },
 };
 
-function Tag({ tag }: { tag: string }): JSX.Element {
+function Tag({ tag }: { tag: string }): JSX.Element | null {
+  if (!tag) return null;
+
+  const upperTag = tag.toUpperCase();
+
   const {
     tagName,
     colors: {
       nonActive: { bg, text, border },
     },
-  } = POST_TAGS[tag];
+  } = POST_TAGS[upperTag];
 
   return (
     <p

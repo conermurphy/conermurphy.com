@@ -1,0 +1,113 @@
+---
+id: 18
+title: "JavaScript Array Methods: Array.prototype.fill()"
+description: "The Array is one of the most important data types in JavaScript, so in this series we are going to cover all of the Array Methods. In this post it's Array.prototype.fill()"
+date: "2020-06-09"
+tags: ["JAVASCRIPT"]
+categories: ["DEVELOPMENT"]
+slug: javascript-array-methods-prototype-fill-explained
+image: /images/blog/18-Array-Methods-Prototype-Fill-Explained/array-methods-prototype-fill-explained.png
+published: true
+canonical_url: ""
+---
+
+## Series Introduction
+
+The JavaScript Array data type currently has 37 methods on it according to the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) and in this series we are going to cover them all one by one explaining each with examples as we work our way down the list.
+
+If you have any questions regarding anything in this series please get in contact with me by using the methods listed at the bottom of this post and if you think I've got something wrong please create a pull request on GitHub to correct the information (link at the bottom of the article).
+
+This is **post #8** in the series. If you're interested in reading any of the other posts in this series, there is a up-to-date list at the bottom of this post.
+
+---
+
+## Method #8: Array.prototype.fill()
+
+.fill() allows us to quickly fill either an entire array or a subset of an array with a chosen static value. This is helpful if we need to overwrite an entire array or a portion of an array with a new value. Let's take a look at the syntax for this method before moving on to some examples and getting hands on with this method.
+
+### Syntax
+
+```jsx
+arr.fill(value[, start[, end]])
+```
+
+#### Parameters
+
+The .fill() method takes in 3 parameters:
+
+1. _Required -_ **value:** This is the value we want to fill the target array with. It's worth mentioning that all values in the array or in the chosen section of the array will be this replaced with this value.
+2. _Optional -_ **start:** The start index of the section to replace on the target array. _Default starts at 0_
+3. _Optional -_ **end:** The end index of the section to replace on the target array. (The specified end index is not included in the replacement). _Default is array.length_
+
+#### Returned Value
+
+The .fill() method only returns one value and that is the modified version of the array we called the method on. It is worth mentioning that the .fill() method will modify the original array and not create a copy of it. So, if you need the original array intact before using .fill() then store a copy of the original array in a variable and call .fill() on the copied array to ensure the original array is left untouched.
+
+### Other Information
+
+- If the start value passed is negative then it will be treated as 'array.length + start';
+
+```jsx
+[1, 2, 3, 4, 5, 6].fill(2, -4); // === [1,2,3,4,5,6].fill(2,2); => [1,2,2,2,2,2]
+```
+
+- If the end value passed is negative then it will be treated as 'array.length + end';
+
+```jsx
+[1, 2, 3, 4, 5, 6].fill(2, 0, -3); // === [1,2,3,4,5,6].fill(2,0,3) => [2,2,2,4,5,6]
+```
+
+- .fill() will change the original array and return that, NOT create a copy. (mutator method).
+- If the value parameter is passed an object, all slots in the array overwritten will reference this object
+
+### Examples
+
+Now, let's have a look at some examples of the .fill() method and some of the other stuff it can do:
+
+```jsx
+// Replacing all values in an array.
+[1, 2, 3, 4, 5, 6].fill("a"); // ['a','a','a','a','a','a']
+
+// Replacing an array from the a start index to the end of the array
+[1, 2, 3, 4, 5, 6].fill("a", 3); // [1,2,3,'a','a','a']
+
+// Replacing an array between a start and end index
+[1, 2, 3, 4, 5, 6].fill("a", 1, 4); // [1,'a','a','a',5,6]
+
+// Using negative indexes
+[1, 2, 3, 4, 5, 6].fill("a", -4, -1); // [1,2,'a','a','a',6]
+
+// Dealing with undefined and NaN indexes
+[1, 2, 3, 4, 5, 6].fill("a", undefined, undefined); // ['a','a','a','a','a','a',]
+[1, 2, 3, 4, 5, 6].fill("a", NaN, NaN); // [1,2,3,4,5,6]
+
+// Working with objects
+let array = Array(3).fill({}); // [{}, {}, {}]
+array[1].test = "test"; // [{test:test}, {test:test}, {test:test}]
+// This happens because each slot in the array references the original object that was used to fill the array.
+```
+
+Interestingly if you pass false and true in as the start and end values respectively it will replace just the value at index 0 as it will use the binary values of false (0) and true (1):
+
+```jsx
+[1, 2, 3, 4, 5, 6].fill("a", false, true); // === [1,2,3,4,5,6].fill('a',0,1); => [ "a", 2, 3, 4, 5, 6 ]
+```
+
+### Rounding Up.
+
+That's about all there is to the .fill() method, I hope you found this post helpful and if you did then I would greatly appreciate you sharing this article with someone you think may find it helpful. If you have any questions then I would be happy to answer them, just get in contact with me via the links below.
+
+If you're interested in getting more content like this and exclusive content that is no where else then please consider joining my newsletter by using the form below.
+
+Thank you and see you in the next post.
+
+## Series links
+
+- [#1: Array.from()](https://conermurphy.com/javascript-array-methods-from-explained)
+- [#2: Array.isArray()](https://conermurphy.com/javascript-array-methods-isarray-explained)
+- [#3: Array.of()](https://conermurphy.com/javascript-array-methods-of-explained)
+- [#4: Array.prototype.concat()](https://conermurphy.com/javascript-array-methods-prototype-concat-explained)
+- [#5: Array.prototype.copyWithin()](https://conermurphy.com/javascript-array-methods-prototype-copywithin-explained)
+- [#6: Array.prototype.entries()](https://conermurphy.com/javascript-array-methods-prototype-entries-explained)
+- [#7: Array.prototype.every()](https://conermurphy.com/javascript-array-methods-prototype-every-explained)
+- [#8: Array.prototype.fill()](https://conermurphy.com/javascript-array-methods-prototype-fill-explained)

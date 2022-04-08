@@ -1,0 +1,108 @@
+---
+id: 7
+title: "JavaScript Array Methods: Array.isArray()"
+description: "The Array is one of the most important types of data in JavaScript, so in this series we are going to cover all of the Array methods, in this post it's Array.isArray()"
+date: "2020-05-28"
+tags: ["JAVASCRIPT"]
+categories: ["DEVELOPMENT"]
+slug: javascript-array-methods-isarray-explained
+image: /images/blog/7-Array-Prototype-Methods-isArray/array-methods-isarray-explained.png
+published: true
+canonical_url: ""
+---
+
+## Series Introduction
+
+The JavaScript Array data type currently has 37 methods on it according to the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) and in this series we are going to cover them all one by one explaining each one with examples as we work our way down the list.
+
+If you have any questions regarding anything in this series please get in contact with me by using the methods listed at the bottom of this post and if you think I've got something wrong please create a pull request on GitHub to correct the information (link at the bottom of the article).
+
+---
+
+## Method #2: Array.isArray()
+
+_The Array.isArray() method checks if a passed value is an Array or not._
+
+Array.isArray() is one of the more simpler methods on the Array.prototype, it allows for one argument to be passed in, a value of any type.
+
+This value is then checked to see if it is of the Array type, if it is then it returns true, if isn't then it returns false.
+
+_Note:_
+
+Similar to Array.from() we looked at post #4, this method also exists on the parent Array data type prototype and not on individual arrays created from this parent Array.
+
+If you would like to read more about this and why some methods only exist on the parent Array.prototype and not on individual arrays created from the parent type then please check out post [#4](https://conermurphy.com/javascript-array-prototype-methods-from-explained/).
+
+But for now, let's continue looking at Array.isArray().
+
+### Syntax
+
+Below, is the syntax used for this method:
+
+```jsx
+Array.isArray(value);
+```
+
+As you can see, the method only takes in one argument the value of the item we are checking to be an array or not, and it returns a boolean value (true or false) for whether that value is indeed an array.
+
+Now, that's enough of the theory let's look at some examples.
+
+### Examples
+
+Below are some examples of what happens when we pass in different values to Array.isArray().
+
+```jsx
+// Examples that will output true.
+
+Array.isArray([]);
+Array.isArray([1, 2, 3]);
+Array.isArray(new Array());
+Array.isArray(new Array(1, 2, 3));
+
+// Interestingly the Array.prototype itself is an array and returns true. 🤔
+Array.isArray(Array.prototype);
+
+// Here are some examples that return false.
+Array.isArray();
+Array.isArray({});
+Array.isArray("");
+Array.isArray(null);
+Array.isArray(undefined);
+Array.isArray(1);
+Array.isArray(true);
+
+// Also, interestingly any other prototype will return false. 🤔
+Array.isArray(String.prototype);
+Array.isArray(Object.prototype);
+```
+
+In regards to the prototype examples, this behaviour makes seem odd at first but when we think about it, it actually makes a lot of sense because what is returned when you console.log a prototype of a data type is the actual type itself with an object containing all of the methods on that data's prototype. For example:
+
+```jsx
+console.log(Array.prototype); // Array[] {...methods in here}
+console.log(String.prototype); // String{""} {...methods in here}
+console.log(Object.prototype); // Object{...} {...methods in here}
+```
+
+So, looking at the above code you can see why when passing in the prototypes to Array.isArray() we get the outputs we do, Array.prototype returns true because it returns an empty array, while all the others return false because they return empty versions of themselves and not an array.
+
+This is also interesting because at first I believed that when calling Array.isArray on a prototype of a data type it would be looking at the actual prototype itself, which would be the object containing the methods so it would return false. But, that's not the case and instead it looks at the returned value so will only return true for Array.prototype.
+
+#### arrayLike values
+
+Just a quick note on arrayLike values, without going to in depth on them as we covered them more extensively in [#4](https://conermurphy.com/javascript-array-prototype-methods-from-explained/). arrayLike values are values that share some methods with arrays and are visually shown to be the same syntax as an array but they are a different data type to a full array which is why sometimes you need to convert an arrayLike value to an array using Array.from() that we looked at in [#4](https://conermurphy.com/javascript-array-prototype-methods-from-explained/).
+
+However, arrayLike values although look like an Array are a separate data type and therefore will return false when used with Array.isArray().
+
+```jsx
+const nodes = document.querySelectorAll("p");
+Array.isArray(nodes); // false
+```
+
+## Conclusion
+
+I hope you enjoyed this post looking at the Array.Prototype method **Array.isArray()**, I will be realising more in this series on a regular basis throughout the coming weeks and I would greatly appreciate it if you could share these articles with people you think will find this content helpful or interesting.
+
+As always if you believe you have found any issues with this post please use the GitHub link below to submit a pull request for the content to be changed and I will review it as soon as possible. If you have any questions please contact me via the links below.
+
+_#3 in this series will be on: Array.of() and will be released on 30/05/20, see you then.😃_

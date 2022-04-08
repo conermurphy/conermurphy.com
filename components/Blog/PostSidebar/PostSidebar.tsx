@@ -47,7 +47,7 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
     'flex items-center justify-center border border-primaryBorder p-2 rounded opacity-50 w-10 h-10';
 
   return (
-    <aside className="hidden lg:block sticky h-min top-16 max-w-[272px]">
+    <aside className="hidden lg:block sticky h-min top-16 max-w-[272px] lg:max-w-[300px]">
       <div className="pb-6">
         <h2 className="text-lg text-accent mb-1.5">In this article</h2>
         <ul>
