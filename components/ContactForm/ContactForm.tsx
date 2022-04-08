@@ -13,6 +13,11 @@ export default function ContactForm(): JSX.Element {
 
   const { firstName, lastName, email, message } = values;
 
+  const inputContainerStyles = 'flex flex-col items-start';
+  const labelStyles = 'font-semibold opacity-75 mb-1';
+  const twoColInputStyles =
+    'rounded-lg border-primaryBorder max-w-[272px] md:max-w-[217px] text-xs bg-secondaryBg w-full';
+
   return (
     <ComponentWrapper
       data={{
@@ -23,14 +28,12 @@ export default function ContactForm(): JSX.Element {
       id="contact-form"
     >
       <div className="flex flex-row md:justify-center">
+        {/* TODO: Replace action with onSubmit handler once logic is created. */}
         <form action="" className="max-w-[272px] md:max-w-[450px] w-full">
           <fieldset className="flex flex-col gap-4 md:gap-6">
             <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex flex-col items-start">
-                <label
-                  htmlFor="firstName"
-                  className="font-semibold opacity-75 mb-1"
-                >
+              <div className={inputContainerStyles}>
+                <label htmlFor="firstName" className={labelStyles}>
                   First Name
                 </label>
                 <input
@@ -41,14 +44,11 @@ export default function ContactForm(): JSX.Element {
                   placeholder="Your first name"
                   onChange={updateValue}
                   value={firstName}
-                  className="rounded-lg border-primaryBorder max-w-[272px] md:max-w-[217px] text-xs bg-secondaryBg w-full"
+                  className={twoColInputStyles}
                 />
               </div>
-              <div className="flex flex-col items-start">
-                <label
-                  htmlFor="lastName"
-                  className="font-semibold opacity-75 mb-1"
-                >
+              <div className={inputContainerStyles}>
+                <label htmlFor="lastName" className={labelStyles}>
                   Last Name
                 </label>
                 <input
@@ -59,12 +59,12 @@ export default function ContactForm(): JSX.Element {
                   placeholder="Your last name"
                   onChange={updateValue}
                   value={lastName}
-                  className="rounded-lg border-primaryBorder max-w-[272px] md:max-w-[217px] text-xs bg-secondaryBg w-full"
+                  className={twoColInputStyles}
                 />
               </div>
             </div>
-            <div className="flex flex-col items-start">
-              <label htmlFor="email" className="font-semibold opacity-75 mb-1">
+            <div className={inputContainerStyles}>
+              <label htmlFor="email" className={labelStyles}>
                 Email Address
               </label>
               <input
@@ -78,11 +78,8 @@ export default function ContactForm(): JSX.Element {
                 className="rounded-lg border-primaryBorder max-w-[272px] md:max-w-[450px] text-xs bg-secondaryBg w-full"
               />
             </div>
-            <div className="flex flex-col items-start">
-              <label
-                htmlFor="message"
-                className="font-semibold opacity-75 mb-1"
-              >
+            <div className={inputContainerStyles}>
+              <label htmlFor="message" className={labelStyles}>
                 Message
               </label>
               <textarea
