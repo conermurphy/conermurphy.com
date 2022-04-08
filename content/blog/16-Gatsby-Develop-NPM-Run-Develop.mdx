@@ -1,0 +1,44 @@
+---
+id: 16
+title: "gatsby develop vs npm run develop"
+description: "There's multiple commands that allow you to develop with Gatsby, here's the difference between gatsby develop and npm run develop."
+date: "2020-06-06"
+tags: ["GATSBYJS"]
+categories: [""]
+slug: gatsby-develop-npm-run-develop
+image: /images/blog/16-Gatsby-Develop-NPM-Run-Develop/gatsby-develop-npm-run-develop.png
+published: true
+canonical_url: ""
+---
+
+## The Issue
+
+Gatsby comes built in with several commands and throughout all of the tutorials you can follow on the [GatsbyJS site](https://www.gatsbyjs.org/tutorial/) you will see the command 'gatsby develop' all over the place.
+
+And, for good reason this is the command you can use to build your site into development mode. Normally, this happens without any issues what so ever but sometimes errors happen, seemingly for no reason at all.
+
+This happened to me the other week when working on my [website](https://conermurphy.com) I kept getting errors relating to a package and I found the solution to be to use 'npm run develop' which got me wondering, why should I use this command over the 'gatsby develop' command I've been seeing all over the documentation?
+
+Here is my understanding and reasoning...
+
+## Understanding NPM
+
+When we install a package using NPM, we can either install a package locally into an individual project or you can install it globally so every project has access to that package.
+
+Now, both have their benefits and their drawbacks which I won't go into during this post but when following the tutorial for getting started for Gatsby they get you to perform a global install of the CLI, this allows you to boilerplate a GatsbyJS project fast. But, it does come with some issues.
+
+## The problem
+
+When running Gatsby using it's global commands such as 'gatsby develop', it will run the project by first looking for referenced packages and dependencies in the global path. So for a globally installed Gatsby it means it will use whatever version of Gatsby the global version is. However, if we were to use 'npm run develop' instead it would look for the packages and dependencies installed in our local 'node-modules' directory so will use the local version of Gatsby instead.
+
+While this doesn't sound like a major issue, it can cause some unexpected outcomes if you have different versions of packages and Gatsby installed between your global installations and your local installations as I found out when working on this site.
+
+For a time whenever I would run my site using 'gatsby develop' it would return an error saying it couldn't locate one of the referenced packages in the global path. The reason being because the packages weren't installed globally but rather locally to that project so as soon as I ran the project using 'npm run develop' the error was solved.
+
+## Going forward
+
+In the future, I am only going to shift towards only using 'npm run develop' and am debating un-installing the global version of Gatsby completely to avoid this issue, in fact I would recommend the same for everyone to do the same to avoid these issues unless of course you are on top of keeping both versions of your packages up to date and on the same version. In which case I tip my hat to you.
+
+By the way, if you want to find out how to check for outdated global packages and how to update them, I have a [blog post](https://conermurphy.com/finding-updating-outdated-npm-packages/) for that.
+
+That's it for this Hot Tip🔥 see you in the next post.

@@ -2,6 +2,7 @@ import Img from 'next/image';
 import Code from './Code/Code';
 import BlockQuoteAuthor from './BlockQuoteAuthor/BlockQuoteAuthor';
 import ImageCaption from './ImageCaption/ImageCaption';
+import Tweet from './Tweet/Tweet';
 import { getHeadingLink } from '../../../utils/posts';
 
 interface IProps {
@@ -163,6 +164,7 @@ const components = {
   pre: Code,
   BlockQuoteAuthor,
   ImageCaption,
+  Tweet,
 };
 
 export default components;

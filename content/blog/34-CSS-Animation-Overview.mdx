@@ -1,0 +1,242 @@
+---
+id: 34
+title: "CSS Animation Overview"
+date: "2021-05-04"
+tags: ["CSS"]
+categories: [""]
+slug: css-animation-overview
+image: /images/blog/34-CSS-Animation-Overview/css-animation-overview.png
+published: true
+canonical_url: ""
+description: ""
+---
+
+## What are they?
+
+CSS Animations are a way of animating elements in CSS without any external libraries or the use of JS.
+
+CSS Animations contain 2 parts:
+
+1. A style describing the animation
+2. A set of keyframes that state the start and end properties of the animation.
+
+## Defining Animations
+
+Before we can actually use animations we need to define the animation, this is done with the keyframes at-rule in CSS.
+
+Syntax using from/to:
+
+```css
+@keyframes <ANIMATION NAME> {
+  from {
+    color: #000000;
+  }
+  to {
+    color: #ffffff;
+  }
+}
+```
+
+Syntax using percentages:
+
+```css
+@keyframes <ANIMATION NAME> {
+  0% {
+    color: #000000;
+  }
+  50% {
+    color: rgb(255, 0, 0);
+  }
+  100% {
+    color: #ffffff;
+  }
+}
+```
+
+By using percentages we can add more points into the animation, compared to the from/to method where we can only define the start and stop points.
+
+You can also mix and match from/to and percentages as well:
+
+```css
+@keyframes <ANIMATION NAME> {
+  from {
+    color: #000000;
+  }
+  60% {
+    color: rgb(200, 0, 0);
+  }
+  to {
+    color: #ffffff;
+  }
+}
+```
+
+## Animation Properties
+
+There are 8 animation properties that we can use to contorl and configure the animation.
+
+**Animation properties do not control the style of the animation! That happens with Keyframes**
+
+1. [animation-name](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-name)
+2. [animation-duration](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-duration)
+3. [animation-timing-function](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function)
+4. [animation-delay](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-delay)
+5. [animation-iteration-count](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-iteration-count)
+6. [animation-direction](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-direction)
+7. [animation-fill-mode](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode)
+8. [animation-play-state](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-play-state)
+
+### animation-name
+
+**Description:**
+Specifies the name of the @keyframes animation that will be given to the element.
+
+**Example:**
+
+```css
+animation-name: ANIMATION_NAME;
+```
+
+### animation-duration
+
+**Description:**
+Allows for control of the length of the animation to complete one cycle. Time given in either Seconds(s) or Milliseconds(ms).
+
+**Example:**
+
+```css
+animation-duration: 1s;
+animation-duration: 500ms;
+```
+
+### animation-timing-function
+
+**Description:**
+Controls how the animation progresses through the keyframes by establishing an accerelation curve.
+
+**Example:**
+
+```css
+animation-timing-function: linear;
+animation-timing-function: ease-in-out;
+animation-timing-function: cubic-bezier(0.1, 0.7, 1, 0.1);
+```
+
+### animation-delay
+
+**Description:**
+Controls the delay between the element loading and the animation starting. Controlled in either Seconds(s) or Milliseconds(ms).
+
+**Example:**
+
+```css
+animation-delay: 1s;
+animation-delay: 500ms;
+```
+
+### animation-iteration-count
+
+**Description:**
+Controls how many times the animation will repeat for. If given as `infinite` then the animation will repeat forever.
+
+**Example:\***
+
+```css
+animation-iteration-count: 5;
+```
+
+### animation-direction
+
+**Description:**
+Controls the direction of the animation, starting at 0% to 100% (normal) or 100% to 0% (reverse). Or, if set to alternate will change on each completion of the animation.
+
+**Example:**
+
+```css
+animation-direction: normal;
+animation-direction: alternate;
+```
+
+### animation-fill-mode
+
+**Description:**
+Controls the styles applying to the element after the animation has finished.
+
+If set to `forwards` then the animation will persist the final animation styling after it finishes.
+
+If set to `backwards` then the animation will revert back to the styling prior to the animation.
+
+**Example:**
+
+```css
+animation-fill-mode: none;
+animation-fill-mode: forwards;
+```
+
+### animation-play-state
+
+**Description:**
+Allows for playing and pausing of an animation.
+
+**Example:**
+
+```css
+animation-play-state: running;
+animation-play-state: paused;
+```
+
+## Animation Shorthand CSS
+
+You can set the animation properies in one line using the CSS Shorthand `animation`.
+
+```css
+/* @keyframes duration | easing-function | delay |
+iteration-count | direction | fill-mode | play-state | name */
+
+animation: 3s ease-in 1s 2 reverse both paused slidein;
+
+/* @keyframes name | duration | easing-function | delay */
+animation: slidein 3s linear 1s;
+
+/* @keyframes name | duration */
+animation: slidein 3s;
+```
+
+Learn More about CSS [Shorthand Properties](https://conermurphy.com/blog/css-shorthand-properties-overview).
+
+## Setting Multiple Animations
+
+If we use the longhand CSS animation properties covered above, we can define multiple CSS animations in one go.
+
+```css
+animation-name: fadeInOut, moveLeft300px, bounce;
+animation-duration: 3s;
+animation-iteration-count: 1;
+```
+
+In this example, because there is 3 animations but only one duration and iteration-count properties they will all inherit these properties.
+
+```css
+animation-name: fadeInOut, moveLeft300px, bounce;
+animation-duration: 2.5s, 5s, 1s;
+animation-iteration-count: 2, 1, 5;
+```
+
+In this example, because there is enough properties for all of the animations they will inherit their respective placed property.
+
+For example, the first defined animation `fadeInOut` will inherit the first defined properties: 2.5s and 2.
+
+```css
+animation-name: fadeInOut, moveLeft300px, bounce;
+animation-duration: 2.5s, 5s;
+animation-iteration-count: 2, 1;
+```
+
+In this final case, as there isn't enough properties for all of the defined animations, CSS will loop through them.
+
+For example, `fadeInOut` gets 2.5s and 2, `moveLeft300px` gets 5s and 1 and then it goes back to the start so `bounce` will get 2.5s and 2 again.
+
+## Read More / Sources
+
+[MDN Page on using CSS Animations](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations)
+[CSS Tricks page on CSS Animations](https://css-tricks.com/almanac/properties/a/animation/)

@@ -1,0 +1,81 @@
+---
+id: 39
+title: "Truthy and Falsy Values Explained"
+date: "2021-05-22"
+tags: ["JAVASCRIPT"]
+categories: [""]
+slug: truthy-falsy-values-explained
+image: /images/blog/39-Truthy-Falsy-Values-Explained/truthy-falsy-values-explained.png
+published: true
+canonical_url: ""
+description: ""
+---
+
+A large part of using JavaScript is dealing with booleans. This might be in conditional rendering or an if statement. But, regardless booleans are everywhere.
+
+For this reason, it's important that we understand that every value we create in JavaScript evaluates to either true or false. Values are known to either be `truthy` (evaluate to true) or `falsy` (evaluate to false).
+
+In this post, let's take a look at both of them and learn a bit more about them.
+
+## Truthy Values
+
+By default, every value in JavaScript is `truthy`. The only time it won't be `truthy` is if it's one of the values on the `falsy` value list. (We'll come to this in a second).
+
+This means that any time we create a value, whether it be a function, an object or a variable declaration it will evaluate to true.
+
+This is how we can run if statements to check if a variable is present or not:
+
+```jsx
+const helloWorld = "hello";
+
+if (helloWorld) {
+  console.log(helloWorld);
+}
+```
+
+Because `helloWorld` has a value it is `truthy` and will satisfy the if condition and run the code block.
+
+Here is an example of values that can be considered to be `truthy`.
+
+![List of Truthy Values](/images/blog/39-Truthy-Falsy-Values-Explained/truthy-values.png)
+
+## Falsy Values
+
+`Falsy` values are the opposite of `truthy` values. That means is if we define a value using one of these `falsy` values it will evaluate to false.
+
+Unlike `truthy` values, only certain values are `falsy`. Here is a complete list of them:
+
+![List of Falsy Values](/images/blog/39-Truthy-Falsy-Values-Explained/falsy-values.png)
+
+_Read more about [[[IsHTMLDDA]]](https://tc39.es/ecma262/#sec-IsHTMLDDA-internal-slot)_
+
+If we were to use one of these in the if statement from before it wouldn't run the code block.
+
+```jsx
+const helloWorld = "";
+
+if (helloWorld) {
+  console.log(helloWorld);
+}
+```
+
+Because `helloWorld` is now an empty string (`falsy`) it won't satisfy the if statement condition and will skip the code block.
+
+### Changing Between Truthy and Falsy
+
+Of course, values can switch between being `truthy` and `falsy`. For example, if we had a form on our website, by default it would be empty (`falsy`). But, as soon as we started typing in it, it wouldn't be an empty string anymore so therefore would become `truthy`.
+
+There are many examples of where this could happen such as a counter starting at 0 (`falsy`) and then getting incremented (`truthy`).
+
+## Summary
+
+Over time dealing with `truthy` and `falsy` values become second nature. But, at first, it can through you into a spin where you can't figure out why a variable is evaluating to false.
+
+You don't need to worry about memorising all of them to start with, the more you practise, the more you learn them.
+
+So, have you ever fallen victim to a variable being `falsy` when you thought it should be `truthy`? If so share your story with me over on [Twitter.](https://twitter.com/MrConerMurphy)
+
+## Read More / Sources
+
+- https://developer.mozilla.org/en-US/docs/Glossary/Truthy
+- https://developer.mozilla.org/en-US/docs/Glossary/Falsy

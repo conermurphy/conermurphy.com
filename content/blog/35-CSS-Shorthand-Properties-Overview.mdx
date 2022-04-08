@@ -1,0 +1,168 @@
+---
+id: 35
+title: "CSS Shorthand Properties Overview"
+date: "2021-05-04"
+tags: ["CSS"]
+categories: [""]
+slug: css-shorthand-properties-overview
+image: /images/blog/35-CSS-Shorthand-Properties-Overview/css-shorthand-properties-overview.png
+published: true
+canonical_url: ""
+description: ""
+---
+
+## What are they?
+
+Shorthand properties are CSS properties that let you set the values of multiple CSS properties at once. CSS shorthand groups the definition of common properties acting on the same theme.
+
+For example, `background` can define the values for `background-color`, `background-image`, `background-repeat`, and `background-position`.
+
+Another common example of shorthand properties is using `margin` and `padding` to define the respective values on an element at once. Without having to specify `top`, `right`, `left` and `bottom` individually.
+
+## Why should we use them?
+
+By using shorthand properties we can be more concise in our code and in most cases more readable as well. This allows us to save time and energy in the long run making us more productive.
+
+## Edge Cases
+
+While shorthand properties make us more productive, there are some edge cases we need to keep in mind when using them.
+
+### A value which is not specified will be set to it's initial value.
+
+What this means, is if we don't specify a value in the shorthand, regardless if we have previously defined the value or not, it will be defaulted back to it's initial value.
+
+For Example:
+
+```css
+background-color: blue;
+background: url(images/bg.gif) no-repeat left top;
+```
+
+You might expect, in this case that the `background-color` would still be blue but because the second declaration takes priority and it doesn't define a value for `background-color` it defaults it back to the initial value which is `transparent`.
+
+### Only individual properties values can inherit.
+
+Missing values in a shorthand declaration are replaced by their initial or default value as described above. This makes it impossible to allow inheritance of individual properties by omitting them in a declaration.
+
+The keyword `inherit` can only be applied to a property in whole, not on a per value basis. So if you do want to inherit a value, then you need to use the longhand property and specify `inherit`.
+
+For example:
+
+```css
+/* This would not work */
+
+margin: 50px 50px 50px inherit;
+
+/* This would work */
+
+margin: 50px;
+margin-left: inherit;
+```
+
+### Shorthand properties try not to force a specific order.
+
+Shorthand CSS properties will try to not force a specific order on the properties they represent. This works great for properties that use different value types as the order has no importance. An example of this would be the `background` property or the `animation` property, we can specify values for those properties in any order.
+
+However, this doesn't work when the properties replaced can have identical values. For example: `margin`, `padding`, `border-style` and `border-radius`. In these cases, we need to pay attention to the order and how we define them. Let's take a look at that now.
+
+#### Edges of a box
+
+Any properties like `margin`, `padding` and `border-style` that relate to the edge of a box, use a consistent 1-to-4 syntax representing the edges.
+
+1. When 1 value is specified it represents every edge of the box
+2. 2 values, represent the vertical first (top & bottom) and then the horizontal second (left & right)
+3. 3 values, represents the top, horizontal and bottom in that order.
+4. 4 values, represent the top, right, bottom and left. This is always in that order and never deviates. You can remember this by thinking of a clockwise clock or the initialism TRBL.
+
+#### Corners of a box
+
+Any properties like `border-radius` that represent the corners of a box, use a consistent 1-to-4 syntax as well:
+
+1. 1 value, represents all the corners.
+2. 2 values: 1st represents the top left and bottom right. 2nd represents the top right and bottom left.
+3. 3 values: 1st represents the top left, 2nd represents the top right and bottom left. 3rd represents the bottom right corner
+4. 4 values, represents each corner individually. In the order: top left, top right, bottom right and bottom left. In other words it goes clockwise starting from the top left.
+
+## Examples
+
+Here are some examples to show how shorthand properties can shorten code.
+
+### Background Properties
+
+A background with these properties...
+
+```css
+background-color: #000;
+background-image: url(images/bg.gif);
+background-repeat: no-repeat;
+background-position: left top;
+```
+
+Can be shortened to just one line...
+
+```css
+background: #000 url(images/bg.gif) no-repeat left top;
+```
+
+### Font Properties
+
+```css
+font-style: italic;
+font-weight: bold;
+font-size: 0.8em;
+line-height: 1.2;
+font-family: Arial, sans-serif;
+```
+
+This can be shortened to...
+
+```css
+font: italic bold 0.8em/1.2 Arial, sans-serif;
+```
+
+### Border Properties
+
+```css
+border-width: 1px;
+border-style: solid;
+border-color: #000;
+```
+
+Can be shortened to...
+
+```css
+border: 1px solid #000;
+```
+
+### Margin and Padding Properties
+
+```css
+margin-top: 10px;
+margin-right: 5px;
+margin-bottom: 10px;
+margin-left: 5px;
+```
+
+Can be shortened to...
+
+```css
+margin: 10px 5px 10px 5px;
+```
+
+With these shorthand properties you can specify any number of values from 1-to-4, please see above for how the different numbers are applied to the element.
+
+## The Universal Shorthand Property
+
+CSS provides a universal shorthand property [`all`](https://developer.mozilla.org/en-US/docs/Web/CSS/all), this applies it's value to every property in the document.
+
+The `all` property is designed to change the properties inheritance model to one of:
+
+1. **inherit** - Sets the property value to be the same as the parent's
+2. **initial** - Sets the property value to be initial value of that property
+3. **unset** - Resets the property to it's natural value. This could be `inherit` if it naturally inherits, otherwise it will be `initial`.
+
+_There is a 4th value coming: [**revert**](https://developer.mozilla.org/en-US/docs/Web/CSS/revert) but it has limited support right now._
+
+## Read More / Sources
+
+[Read more on MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Shorthand_properties)

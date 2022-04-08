@@ -1,0 +1,214 @@
+---
+id: 36
+title: "CSS Keyframes Overview"
+date: "2021-05-11"
+tags: ["CSS"]
+categories: [""]
+slug: css-keyframes-overview
+image: /images/blog/36-CSS-Keyframes-Overview/css-keyframes-overview.png
+published: true
+canonical_url: ""
+description: ""
+---
+
+Welcome back to the blog. In this post, I'm going to cover everything you need to know about keyframes in CSS. How to create and use them as well as some other quirky things that you may or may not know.
+
+Let's get started.
+
+## What are keyframes?
+
+The @keyframes rule controls the intermediate steps in a CSS animation by defining styles for keyframes or points along the sequence giving more control of the animation than a simple transition would provide.
+
+## Example
+
+You can use either the from-to method for defining keyframes or use percentages.
+
+### from-to
+
+```css
+@keyframes slidein {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+```
+
+### Percentages
+
+```css
+@keyframes slidein {
+  0% {
+    transform: translateX(0%);
+  }
+
+  50% {
+    tranform: translateX(60%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+```
+
+By using percentages we can have even more control over the animation by defining multiple points on the sequence rather than a start and finish with from-to.
+
+## Parts of a keyframe rule
+
+To create a keyframe rule you need 4 things, these are:
+
+1. `@keyframe`
+2. `<NAME_OF_ANIMATION>`
+3. Keyframe declarations
+4. Styles within the declarations
+
+## Valid Keyframe lists
+
+If a keyframe rules doesn't contain a start or end (from/to or 0%/100%) then the browser will take the existing element styles to be the start/end state to animate to.
+
+This allows us to animate to and from initial state easily.
+
+```css
+.element {
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+  animation: scale 2s ease infinite;
+}
+
+@keyframes scale {
+  50% {
+    scale: 2;
+  }
+}
+```
+
+If we was to convert this out to what is actually happening it would be:
+
+```css
+.element {
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+  animation: scale 2s ease infinite;
+}
+
+@keyframes scale {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 2;
+  }
+  100% {
+    scale: 1;
+  }
+}
+```
+
+We would go from height/width of 100px to 200px at 50% and back to 100px at 100% but we only need to define one keyframe to do it.
+
+## Duplicate declarations
+
+Keyframes don't cascade across keyframe declarations, so if two declarations are made then the last one encountered is used by the parser and the others are discarded.
+
+For example, because there is 2 keyframe sets called `scale` the second one is taken and the first is discarded.
+
+```css
+@keyframes scale {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 2;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+@keyframes scale {
+  50% {
+    scale: 5;
+  }
+}
+```
+
+## Missing Properties
+
+If properties have been missed in a keyframe declaration they are interpolated if possible.
+
+For example, the 50% keyframe is missing a scale property so it is interpolated by CSS.
+
+```css
+@keyframes scale {
+  25% {
+    scale: 1.25;
+  }
+  50% {
+    background-color: yellow;
+  }
+  75% {
+    scale: 2;
+  }
+}
+```
+
+If a property can't be interpolated by CSS then it is dropped from the animation.
+
+## Multiple Keyframe Declarations
+
+In this situation, because there is 2 50% declarations the latest one is taken for the shared property (scale) but because only the first declaration contains (background-color) that value is taken from their.
+
+All keyframes at the given declaration is considered and the newest one of the duplicate deceleration is taken.
+
+In this example the 50% keyframe would be: `scale 1, background-color: red;`
+
+```css
+@keyframes scale {
+  50% {
+    scale: 2;
+    background-color: red;
+  }
+  50% {
+    scale: 1;
+  }
+}
+```
+
+Rules do cascade across the same declaration as well.
+
+In this case, in the first declaration there is 2 `background-color` properties like normal CSS the lowest one is taken. So in this case the square would animate to yellow.
+
+```css
+@keyframes scale {
+  50% {
+    scale: 2;
+    background-color: red;
+    background-color: yellow;
+  }
+  50% {
+    scale: 1;
+  }
+}
+```
+
+## !important in keyframes
+
+If `!important` is used in a declaration of a property, that property is ignored.
+
+```css
+@keyframes scale {
+  50% {
+    scale: 2;
+    background-color: red;
+    background-color: yellow !important;
+  }
+}
+```
+
+So even though the `background-color: yellow` is the lowest in the cascade and would normally be the one used overriding `background-color: red` because we used the `!important` qualifier that property is ignored. Therefore, `background-color: red` becomes the lowest in the cascade and is used in the animation.
