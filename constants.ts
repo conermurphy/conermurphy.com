@@ -1,4 +1,4 @@
-import { Icons } from './types';
+import { Icons, PostCategories } from './types';
 
 export const ICONS: Icons = {
   CODE: { name: 'CODE' },
@@ -18,4 +18,19 @@ export const ICONS: Icons = {
   NEXTJS: { name: 'NEXTJS', color: 'hsl(0, 0%, 7%)' },
   TYPESCRIPT: { name: 'TYPESCRIPT', color: 'hsl(211, 60%, 48%)' },
   JAVASCRIPT: { name: 'JAVASCRIPT', color: 'hsl(53, 93%, 54%)' },
+};
+
+export const CATEGORIES: PostCategories = {
+  ENTREPRENEURSHIP: {
+    name: 'Entrepreneurship',
+  },
+  DESIGN: {
+    name: 'Design',
+  },
+  DEVELOPMENT: {
+    name: 'Development',
+  },
+  CONTENT_CREATION: {
+    name: 'Content Creation',
+  },
 };

@@ -1,17 +1,17 @@
 import fs from 'fs';
 import matter from 'gray-matter';
 import path from 'path';
-import { Post } from '../../types';
+import { Post, POSTTYPES } from '../../types';
 
 interface IProps {
   posts: string[];
-  postType?: string;
+  postType: POSTTYPES;
   getContent?: boolean;
 }
 
 export default async function getAllPostsData({
   posts,
-  postType = 'blog',
+  postType,
   getContent = false,
 }: IProps): Promise<Post[]> {
   const fsPromises = fs.promises;

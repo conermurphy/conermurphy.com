@@ -1,8 +1,10 @@
+import Link from 'next/link';
 import React from 'react';
-import { PostTags } from '../../../types';
+import { PostTags, POSTTYPES } from '../../../types';
 
 interface IProps {
   tags: string[];
+  postType: POSTTYPES;
 }
 
 // Possible issue with TailwindCSS where styles aren't included in the final bundle if they are kept in an external file so keeping them here for the styles to work. https://github.com/tailwindlabs/tailwindcss/discussions/7956
@@ -107,7 +109,13 @@ const POST_TAGS: PostTags = {
   },
 };
 
-function Tag({ tag }: { tag: string }): JSX.Element | null {
+function Tag({
+  tag,
+  postType,
+}: {
+  tag: string;
+  postType: POSTTYPES;
+}): JSX.Element | null {
   if (!tag) return null;
 
   const upperTag = tag.toUpperCase();
@@ -120,20 +128,21 @@ function Tag({ tag }: { tag: string }): JSX.Element | null {
   } = POST_TAGS[upperTag];
 
   return (
-    <p
-      key={tag}
-      className={`text-xs px-3 py-1 ${bg} ${text} ${border} border font-semibold w-max rounded opacity-100`}
-    >
-      {tagName}
-    </p>
+    <Link key={tag} href={`/${postType}/${tagName.toLowerCase()}`}>
+      <a
+        className={`text-xs px-3 py-1 ${bg} ${text} ${border} border font-semibold w-max rounded opacity-100`}
+      >
+        {tagName}
+      </a>
+    </Link>
   );
 }
 
-export default function Tags({ tags }: IProps): JSX.Element {
+export default function Tags({ tags, postType }: IProps): JSX.Element {
   return (
-    <div className="flex flex-row gap-x-3 gap-y-2">
+    <div className="flex flex-row flex-wrap gap-x-3 gap-y-2">
       {tags.map((tag) => {
-        return <Tag key={tag} tag={tag} />;
+        return <Tag key={tag} tag={tag} postType={postType} />;
       })}
     </div>
   );

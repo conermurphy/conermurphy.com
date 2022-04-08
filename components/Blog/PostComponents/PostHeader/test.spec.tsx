@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { POSTTYPES } from '../../../../types';
 import PostHeader from './PostHeader';
 
 const frontmatter = {
@@ -19,7 +20,9 @@ const frontmatter = {
 
 describe('PostHeader', () => {
   it('should render all items', () => {
-    const { container } = render(<PostHeader frontmatter={frontmatter} />);
+    const { container } = render(
+      <PostHeader frontmatter={frontmatter} postType={POSTTYPES.BLOG} />
+    );
 
     const date = screen.getByText(/published on 1 jun 2021/i);
     const ttr = screen.getByText(/10 minute read/i);

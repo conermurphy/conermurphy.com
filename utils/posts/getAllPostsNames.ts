@@ -1,12 +1,13 @@
 import fs from 'fs';
 import path from 'path';
+import { POSTTYPES } from '../../types';
 
 interface IProps {
-  postType?: string;
+  postType: POSTTYPES;
 }
 
 export default async function getAllPostsNames({
-  postType = 'blog',
+  postType,
 }: IProps): Promise<string[]> {
   const fsPromises = fs.promises;
   const dir = path.join(process.cwd(), 'content', postType);

@@ -10,6 +10,11 @@ export enum THEMES {
   DARK = 'DARK',
 }
 
+export enum POSTTYPES {
+  BLOG = 'blog',
+  NEWSLETTER = 'newsletter',
+}
+
 export type Icons = {
   [key: string]: { name: string; color?: string };
 };
@@ -83,5 +88,11 @@ export type PostTags = {
         border: string;
       };
     };
+  };
+};
+
+export type PostCategories = {
+  [key: string]: {
+    name: string;
   };
 };

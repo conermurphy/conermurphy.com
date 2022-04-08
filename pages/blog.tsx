@@ -1,8 +1,8 @@
 import type { GetStaticProps, NextPage } from 'next';
 import { Testimonials, PageHero, SEO } from '../components';
-import { PostCardGrid } from '../components/Blog';
+import { PageSidebar, PostCardGrid } from '../components/Blog';
 import { HeaderBackground } from '../components/Header/components';
-import { Testimonial, PostWithFrontmatter } from '../types';
+import { Testimonial, PostWithFrontmatter, POSTTYPES } from '../types';
 import { pageDataSource } from '../utils';
 import { getAllPosts } from '../utils/posts';
 
@@ -23,8 +23,8 @@ const Blog: NextPage<IProps> = ({ testimonials, posts }) => {
       <HeaderBackground bg="bg-white" />
       <div className="flex flex-row items-center justify-center mb-10 xl:mt-72 md:mb-12">
         <div className="flex flex-col items-center gap-y-10 justify-between w-full max-w-[272px] md:max-w-[1372px] md:px-20 lg:px-106 xl:flex-row xl:items-start">
-          <p>Blog page sidebar</p>
-          <PostCardGrid posts={posts} />
+          <PageSidebar posts={posts} />
+          <PostCardGrid posts={posts} postType={POSTTYPES.BLOG} />
         </div>
       </div>
       <Testimonials testimonials={testimonials} />
@@ -39,7 +39,7 @@ export const getStaticProps: GetStaticProps = async () => {
     latestPosts: false,
   });
 
-  const posts = await getAllPosts({});
+  const posts = await getAllPosts({ postType: POSTTYPES.BLOG });
 
   return {
     props: { testimonials, posts },
