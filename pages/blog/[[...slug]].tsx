@@ -90,7 +90,7 @@ const BlogPage: NextPage<BlogPageProps> = ({
   );
 };
 
-// Page to show for /blog/X where X is a slug of a blog post.
+// Page to show for /blog/X where x is a slug of a blog post.
 const BlogPost: NextPage<BlogPostProps> = ({ post, latestPosts }) => {
   const { content, headings, data: frontmatter } = post;
   const {
@@ -176,14 +176,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     testimonials: true,
   });
 
-  // If there is a slug, take the value of it otherwise blank
+  // If there is a slug, take the value of it otherwise '0'
   const slugVal = Array.isArray(slug) ? slug[0] : '0';
 
   // Try convert the slug into a number.
   const slugInt = parseInt(slugVal);
 
-  // If the slug passed is all numbers or if the slugVal is '' it must be blog page pagination
-  const isBlogPage = slugVal === '' || slugVal.match(/^[0-9]*$/gm);
+  // If the slug passed is all numbers, it must be blog page pagination
+  const isBlogPage = slugVal.match(/^[0-9]*$/gm);
 
   // If it is a blog page pagination return props required for it
   if (isBlogPage) {
