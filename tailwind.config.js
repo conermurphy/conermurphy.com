@@ -10,6 +10,7 @@ module.exports = {
         primaryBg: 'var(--primaryBackground)',
         secondaryBg: 'var(--secondaryBackground)',
         primaryText: 'var(--primaryText)',
+        accentBg: 'var(--accentBackground)',
         accent: 'var(--accent)',
         primaryBorder: 'var(--primaryBorder)',
       },

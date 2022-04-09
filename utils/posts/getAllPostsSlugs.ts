@@ -8,7 +8,7 @@ interface IProps {
 
 interface ReturnType {
   params: {
-    slug: string;
+    slug: string[];
   };
 }
 
@@ -31,7 +31,7 @@ export default async function getAllPostsSlugs({
 
     return {
       params: {
-        slug,
+        slug: [slug],
       },
     };
   });

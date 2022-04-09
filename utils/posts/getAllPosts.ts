@@ -3,13 +3,15 @@ import getAllPostNames from './getAllPostsNames';
 import { Post, POSTTYPES } from '../../types';
 
 interface IProps {
-  limit?: number;
   postType: POSTTYPES;
+  limit?: number;
+  skip?: number;
 }
 
 export default async function getAllPosts({
   limit,
   postType,
+  skip = 0,
 }: IProps): Promise<Post[]> {
   const postNames = await getAllPostNames({ postType });
 
@@ -31,9 +33,9 @@ export default async function getAllPosts({
     return bDate.localeCompare(aDate);
   });
 
-  // If limit is passed than slice off 0 to the limt and return
+  // If limit is passed than slice off 0 to the limit and return
   if (limit) {
-    return sortedPosts.slice(0, limit);
+    return sortedPosts.slice(skip, skip + limit);
   }
 
   return sortedPosts;

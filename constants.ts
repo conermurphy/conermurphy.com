@@ -23,14 +23,18 @@ export const ICONS: Icons = {
 export const CATEGORIES: PostCategories = {
   ENTREPRENEURSHIP: {
     name: 'Entrepreneurship',
+    link: 'entrepreneurship',
   },
   DESIGN: {
     name: 'Design',
+    link: 'design',
   },
   DEVELOPMENT: {
     name: 'Development',
+    link: 'development',
   },
   CONTENT_CREATION: {
     name: 'Content Creation',
+    link: 'content-creation',
   },
 };
