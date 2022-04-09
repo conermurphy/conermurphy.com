@@ -14,46 +14,14 @@ jest.mock('next/router', () => {
   };
 });
 
-const mockPosts = [
-  {
-    data: {
-      id: 9,
-      title: 'JavaScript Array Methods: Array.of()',
-      description:
-        "The Array is one of the most important types of data in JavaScript, so in this series we are going to cover all of the Array Methods, in this post it's Array.of()",
-      date: '2020-05-30',
-      tags: ['JAVASCRIPT'],
-      categories: ['DEVELOPMENT'],
-      slug: 'javascript-array-methods-of-explained',
-      image:
-        '/images/blog/9-Array-Methods-of-explained/array-methods-of-explained.png',
-      published: true,
-      canonical_url: '',
-      timeToRead: 10,
-    },
-  },
-  {
-    data: {
-      id: 2,
-      title: 'Nodejs article',
-      description:
-        "The Array is one of the most important types of data in JavaScript, so in this series we are going to cover all of the Array Methods, in this post it's Array.of()",
-      date: '2020-05-30',
-      tags: ['NODEJS'],
-      categories: ['DESIGN'],
-      slug: 'javascript-array-methods-of-explained',
-      image:
-        '/images/blog/9-Array-Methods-of-explained/array-methods-of-explained.png',
-      published: true,
-      canonical_url: '',
-      timeToRead: 10,
-    },
-  },
-];
+const mockData = {
+  tags: ['JAVASCRIPT', 'NODEJS'],
+  categories: ['DESIGN', 'DEVELOPMENT'],
+};
 
 describe('PostSidebar', () => {
   it('Should render all items correctly', () => {
-    render(<PageSidebar posts={mockPosts} />);
+    render(<PageSidebar data={mockData} />);
 
     const categoriesTitle = screen.getByText(/categories/i);
     const tagsTitle = screen.getByText(/tags/i);
