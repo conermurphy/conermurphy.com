@@ -15,7 +15,7 @@ export default function PageSidebar({ data }: IProps): JSX.Element {
   const { tags, categories } = data;
 
   return (
-    <aside className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-8 gap-x-20 w-full max-w-[272px] md:max-w-[624px] lg:max-w-[780px] xl:max-w-[272px]">
+    <aside className="sticky grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-8 gap-x-20 w-full max-w-[272px] md:max-w-[624px] lg:max-w-[780px] xl:max-w-[272px] top-16">
       <div className="w-full">
         <h2 className="text-lg font-normal mb-3">Categories</h2>
         <div className="flex flex-col gap-3">
