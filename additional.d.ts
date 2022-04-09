@@ -7,6 +7,7 @@ declare global {
       CONVERTKIT_PUBLIC_KEY: string;
       CONVERTKIT_SIGNUP_FORM: string;
       NEXT_PUBLIC_WPM: string;
+      POSTS_PER_PAGE: string;
     }
   }
 }

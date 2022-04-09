@@ -20,9 +20,9 @@ export default function PageSidebar({ data }: IProps): JSX.Element {
         <h2 className="text-lg font-normal mb-3">Categories</h2>
         <div className="flex flex-col gap-3">
           {categories.map((category) => {
-            const { name } = CATEGORIES[category];
+            const { name, link } = CATEGORIES[category];
             return (
-              <Link href={`/blog/${name.toLowerCase()}`} key={name} passHref>
+              <Link href={`/blog/${link}`} key={link} passHref>
                 <a
                   className={`font-semibold text-sm p-3 rounded-md ${
                     asPath.includes(category)

@@ -95,6 +95,7 @@ export type PostTags = {
 export type PostCategories = {
   [key: string]: {
     name: string;
+    link: string;
   };
 };
 
