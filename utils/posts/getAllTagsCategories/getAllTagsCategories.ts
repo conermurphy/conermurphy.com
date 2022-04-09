@@ -1,7 +1,7 @@
 import { Post, PostFrontMatter, POSTTYPES } from '../../../types';
 import getAllPosts from '../getAllPosts';
 
-interface GetFrontmatterTagsCategoriesProps {
+interface GetFrontmatterDataProps {
   posts: Post[];
   type: string;
 }
@@ -15,10 +15,10 @@ interface ReturnType {
   categories: string[];
 }
 
-function getFrontmatterTagsCategories({
+function getFrontmatterData({
   posts,
   type,
-}: GetFrontmatterTagsCategoriesProps): string[] {
+}: GetFrontmatterDataProps): string[] {
   const uniqueValues = [
     ...new Set(
       posts.flatMap(({ data }) => {
@@ -36,13 +36,13 @@ function getFrontmatterTagsCategories({
     });
 }
 
-export default async function getTagsCategories({
+export default async function getAllTagsCategories({
   postType,
 }: IProps): Promise<ReturnType> {
   const posts = await getAllPosts({ postType });
 
-  const tags = getFrontmatterTagsCategories({ posts, type: 'tags' });
-  const categories = getFrontmatterTagsCategories({
+  const tags = getFrontmatterData({ posts, type: 'tags' });
+  const categories = getFrontmatterData({
     posts,
     type: 'categories',
   });
