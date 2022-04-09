@@ -9,11 +9,46 @@ interface IProps {
   postType: POSTTYPES;
 }
 
+interface PageNumberProps {
+  pageNumber: number;
+  postType: POSTTYPES;
+  path: string;
+}
+
 const disabledLinkStyles =
   'opacity-50 select-none pointer-events-none line-through';
 const enabledLinkStyles = 'opacity-75';
 const pageNumberStyles =
   'flex items-center justify-center rounded w-8 h-8 opacity-75';
+
+function PageNumber({
+  pageNumber,
+  postType,
+  path,
+}: PageNumberProps): JSX.Element {
+  const activePage =
+    path.includes(pageNumber.toString()) ||
+    (path === `/${postType}` && pageNumber === 1);
+
+  return (
+    <Link
+      href={`${
+        pageNumber === 1 ? `/${postType}` : `/${postType}/${pageNumber}`
+      }`}
+      key={pageNumber}
+      passHref
+    >
+      <a
+        className={`text-sm font-semibold ${pageNumberStyles} ${
+          activePage ? 'bg-accentBg' : 'bg-[rgba(17,24,39,10%)]'
+        }`}
+        data-testid="pagination-number"
+      >
+        {pageNumber}
+      </a>
+    </Link>
+  );
+}
 
 export default function PagePagination({
   pageCount,
@@ -26,9 +61,23 @@ export default function PagePagination({
   const hasPrevLink = currentPage !== 0;
   const hasNextLink = currentPage !== pageCount;
 
-  const prevLink = `${currentPage - 1 !== 1 ? currentPage - 1 : ''}`;
+  const prevLink = `/${postType}/${
+    currentPage - 1 <= 1 ? '' : currentPage - 1
+  }`;
   const nextLink =
-    currentPage + 1 === 1 ? `${currentPage + 2}` : `${currentPage + 1}`;
+    currentPage + 1 === 1
+      ? `/${postType}/${currentPage + 2}`
+      : `/${postType}/${currentPage + 1}`;
+
+  const pageNumbers = Array.from({ length: pageCount }).map((_, i) => {
+    return i + 1;
+  });
+  const firstPageNumbers = [1, 2];
+  const lastPageNumbers = pageNumbers.slice(pageNumbers.length - 2);
+
+  const showEllipse = (pageNum: number): boolean => {
+    return pageNum > 2 && pageNum < pageCount - 1;
+  };
 
   return (
     <div className="flex flex-row items-center justify-center">
@@ -44,53 +93,53 @@ export default function PagePagination({
             <span className="hidden md:block">&#8592; Previous Page</span>
           </a>
         </Link>
-
         <div className="flex-row gap-2 hidden md:flex">
-          {Array.from({ length: pageCount }).map((_, i) => {
-            const pageNumber = i + 1;
-            const lastPages = pageCount - 1;
-            const activePage =
-              asPath.includes(pageNumber.toString()) ||
-              (asPath === `/${postType}` && pageNumber === 1);
-
-            const showEllipse = (pageNum: number): boolean => {
-              return pageNum > 2 && pageNum < lastPages;
-            };
-
-            if (pageCount > 5 && showEllipse(pageNumber)) {
+          {pageCount <= 5 ? (
+            pageNumbers.map((page) => {
               return (
-                <span
-                  className={`text-sm font-semibold ${pageNumberStyles} ${
-                    showEllipse(activePageNumber) ? 'bg-accentBg' : ''
-                  }`}
-                >
-                  ...
-                </span>
+                <PageNumber
+                  key={page}
+                  pageNumber={page}
+                  postType={postType}
+                  path={asPath}
+                />
               );
-            }
-
-            return (
-              <Link
-                href={`${
-                  pageNumber === 1
-                    ? `/${postType}`
-                    : `/${postType}/${pageNumber}`
+            })
+          ) : (
+            <>
+              {firstPageNumbers.map((page) => {
+                return (
+                  <PageNumber
+                    key={page}
+                    pageNumber={page}
+                    postType={postType}
+                    path={asPath}
+                  />
+                );
+              })}
+              <span
+                className={`text-sm font-semibold ${pageNumberStyles} ${
+                  showEllipse(activePageNumber)
+                    ? 'bg-accentBg'
+                    : 'bg-[rgba(17,24,39,10%)]'
                 }`}
-                key={pageNumber}
-                passHref
+                data-testid="pagination-ellipses"
               >
-                <a
-                  className={`text-sm font-semibold ${pageNumberStyles} ${
-                    activePage ? 'bg-accentBg' : 'bg-[rgba(17,24,39,10%)]'
-                  }`}
-                >
-                  {pageNumber}
-                </a>
-              </Link>
-            );
-          })}
+                ...
+              </span>
+              {lastPageNumbers.map((page) => {
+                return (
+                  <PageNumber
+                    key={page}
+                    pageNumber={page}
+                    postType={postType}
+                    path={asPath}
+                  />
+                );
+              })}
+            </>
+          )}
         </div>
-
         <p className="block md:hidden text-sm">
           Page{' '}
           <span className="font-semibold">
