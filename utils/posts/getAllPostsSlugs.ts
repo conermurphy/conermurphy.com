@@ -1,8 +1,9 @@
+import { POSTTYPES } from '../../types';
 import getAllPostsData from './getAllPostsData';
 import getAllPostNames from './getAllPostsNames';
 
 interface IProps {
-  postType?: string;
+  postType: POSTTYPES;
 }
 
 interface ReturnType {
@@ -12,12 +13,13 @@ interface ReturnType {
 }
 
 export default async function getAllPostsSlugs({
-  postType = 'blog',
+  postType,
 }: IProps): Promise<ReturnType[]> {
   const allPostNames = await getAllPostNames({ postType });
   const allPostData = await getAllPostsData({
     posts: allPostNames,
     getContent: true,
+    postType,
   });
 
   // Return all of the post slugs for static page generation

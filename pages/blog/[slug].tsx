@@ -2,7 +2,12 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
-import { PostFrontMatter, PostHeading, PostWithFrontmatter } from '../../types';
+import {
+  PostFrontMatter,
+  PostHeading,
+  POSTTYPES,
+  PostWithFrontmatter,
+} from '../../types';
 import { pageDataSource } from '../../utils';
 import { getAllPostsSlugs, getHeadings, getPost } from '../../utils/posts';
 import { LatestPosts, SEO } from '../../components';
@@ -47,7 +52,7 @@ const BlogPost: NextPage<IProps> = ({ post, latestPosts }) => {
       />
       <div className="flex flex-col items-center pb-10 bg-primaryBg px-6">
         <article className="flex flex-col w-full">
-          <PostHeader frontmatter={frontmatter} />
+          <PostHeader frontmatter={frontmatter} postType={POSTTYPES.BLOG} />
           <div>
             <HeaderBackground bg="bg-primaryBg" />
             <div className="relative flex flex-row justify-center lg:justify-between xl:justify-center gap-0 xl:gap-24 w-full max-w-[1100px] m-auto">
@@ -67,7 +72,7 @@ const BlogPost: NextPage<IProps> = ({ post, latestPosts }) => {
 };
 
 export const getStaticPaths: GetStaticPaths<IParams> = async () => {
-  const paths = await getAllPostsSlugs({ postType: 'blog' });
+  const paths = await getAllPostsSlugs({ postType: POSTTYPES.BLOG });
 
   return {
     paths,
@@ -79,7 +84,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { latestPosts } = await pageDataSource({ latestPosts: true });
 
   const { slug } = params as IParams;
-  const post = await getPost({ slug });
+  const post = await getPost({ slug, postType: POSTTYPES.BLOG });
   let content;
   let headings;
 

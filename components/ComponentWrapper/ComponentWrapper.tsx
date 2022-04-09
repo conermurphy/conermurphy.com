@@ -17,7 +17,7 @@ export default function ComponentWrapper({
 }: IProps): JSX.Element {
   const bg = pageHeader ? 'bg-primaryBg' : 'bg-secondaryBg';
   const contentMargin = pageHeader ? 'mb-12 md:mb-72' : 'mb-8';
-  const paddingBottom = pageHeader ? 'pb-10 md:pb-72' : 'pb-72 md:pb-72';
+  const paddingBottom = pageHeader ? 'pb-10 md:pb-72' : 'pb-72';
   const negativeMargin = pageHeader ? '-mt-16' : '';
   const subTitleMaxWidth = pageHeader ? 'max-w-3xl' : '';
 

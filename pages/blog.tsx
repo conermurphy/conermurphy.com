@@ -1,17 +1,23 @@
 import type { GetStaticProps, NextPage } from 'next';
 import { Testimonials, PageHero, SEO } from '../components';
-import { PostCardGrid } from '../components/Blog';
+import { PageSidebar, PostCardGrid } from '../components/Blog';
 import { HeaderBackground } from '../components/Header/components';
-import { Testimonial, PostWithFrontmatter } from '../types';
+import {
+  Testimonial,
+  PostWithFrontmatter,
+  POSTTYPES,
+  PostTagsCats,
+} from '../types';
 import { pageDataSource } from '../utils';
-import { getAllPosts } from '../utils/posts';
+import { getAllPosts, getAllTagsCategories } from '../utils/posts';
 
 interface IProps {
   testimonials: Testimonial[];
   posts: PostWithFrontmatter[];
+  tagsCats: PostTagsCats;
 }
 
-const Blog: NextPage<IProps> = ({ testimonials, posts }) => {
+const Blog: NextPage<IProps> = ({ testimonials, posts, tagsCats }) => {
   return (
     <>
       <SEO metaTitle="Blog" metaDescription="My Blog" url="blog" />
@@ -21,10 +27,10 @@ const Blog: NextPage<IProps> = ({ testimonials, posts }) => {
             content in one place to enjoy..."
       />
       <HeaderBackground bg="bg-white" />
-      <div className="flex flex-row items-center justify-center mb-10 xl:mt-72 md:mb-12">
-        <div className="flex flex-col items-center gap-y-10 justify-between w-full max-w-[272px] md:max-w-[1372px] md:px-20 lg:px-106 xl:flex-row xl:items-start">
-          <p>Blog page sidebar</p>
-          <PostCardGrid posts={posts} />
+      <div className="flex flex-row items-center justify-center mb-72">
+        <div className="flex flex-col items-center justify-center gap-y-14 gap-x-20 w-full md:px-20 lg:px-106 xl:flex-row-reverse xl:items-start">
+          <PostCardGrid posts={posts} postType={POSTTYPES.BLOG} />
+          <PageSidebar data={tagsCats} />
         </div>
       </div>
       <Testimonials testimonials={testimonials} />
@@ -39,10 +45,11 @@ export const getStaticProps: GetStaticProps = async () => {
     latestPosts: false,
   });
 
-  const posts = await getAllPosts({});
+  const posts = await getAllPosts({ postType: POSTTYPES.BLOG, limit: 8 });
+  const tagsCats = await getAllTagsCategories({ postType: POSTTYPES.BLOG });
 
   return {
-    props: { testimonials, posts },
+    props: { testimonials, posts, tagsCats },
   };
 };
 

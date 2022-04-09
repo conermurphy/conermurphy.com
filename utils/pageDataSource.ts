@@ -1,5 +1,5 @@
 import { servicesData, testimonialsData } from '../content';
-import { Post, Service, Testimonial } from '../types';
+import { Post, POSTTYPES, Service, Testimonial } from '../types';
 import { getAllPosts } from './posts';
 
 interface IProps {
@@ -19,7 +19,7 @@ export default async function pageDataSource({
   testimonials = false,
   latestPosts = false,
 }: IProps): Promise<ReturnType> {
-  const posts = await getAllPosts({ limit: 3 });
+  const posts = await getAllPosts({ limit: 3, postType: POSTTYPES.BLOG });
 
   return {
     services: services && servicesData,

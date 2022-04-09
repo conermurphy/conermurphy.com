@@ -10,6 +10,11 @@ export enum THEMES {
   DARK = 'DARK',
 }
 
+export enum POSTTYPES {
+  BLOG = 'blog',
+  NEWSLETTER = 'newsletter',
+}
+
 export type Icons = {
   [key: string]: { name: string; color?: string };
 };
@@ -59,7 +64,8 @@ export type PostHeading = {
 };
 
 export type Post = {
-  data: { [key: string]: any };
+  // This is hacky and is used to get around Greymatter returning any type on frontmatter
+  data: { [key: string]: string | number | boolean | string[] };
   content?: string;
 };
 
@@ -84,4 +90,15 @@ export type PostTags = {
       };
     };
   };
+};
+
+export type PostCategories = {
+  [key: string]: {
+    name: string;
+  };
+};
+
+export type PostTagsCats = {
+  tags: string[];
+  categories: string[];
 };

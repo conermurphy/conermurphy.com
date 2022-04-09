@@ -1,14 +1,15 @@
 import React from 'react';
 import Img from 'next/image';
 import Link from 'next/link';
-import { PostFrontMatter } from '../../../types';
+import { PostFrontMatter, POSTTYPES } from '../../../types';
 import Tags from '../Tags/Tags';
 
 interface IProps {
   post: PostFrontMatter;
+  postType: POSTTYPES;
 }
 
-export default function PostCard({ post }: IProps): JSX.Element {
+export default function PostCard({ post, postType }: IProps): JSX.Element {
   const { title, date, tags, slug, image, description } = post;
 
   return (
@@ -29,7 +30,7 @@ export default function PostCard({ post }: IProps): JSX.Element {
             <h2 className="text-xl lg:text-2xl">{title}</h2>
             <p className="text-sm lg:text-base">{description}</p>
           </div>
-          <Tags tags={tags} />
+          <Tags tags={tags} postType={postType} />
         </div>
       </article>
     </Link>
