@@ -53,7 +53,7 @@ interface IProps extends BlogPageProps, BlogPostProps {
   isBlogPage: boolean;
 }
 
-// Page to show for /blog or /blog/X where x is a number representing the page number
+// Page to show for /blog or /blog/x where x is a number representing the page number
 const BlogPage: NextPage<BlogPageProps> = ({
   blogPage,
   pageCount,
@@ -90,7 +90,7 @@ const BlogPage: NextPage<BlogPageProps> = ({
   );
 };
 
-// Page to show for /blog/X where x is a slug of a blog post.
+// Page to show for /blog/x where x is a slug of a blog post.
 const BlogPost: NextPage<BlogPostProps> = ({ post, latestPosts }) => {
   const { content, headings, data: frontmatter } = post;
   const {
