@@ -64,12 +64,10 @@ export type PostHeading = {
 };
 
 export type Post = {
-  // This is hacky and is used to get around Greymatter returning any type on frontmatter
-  data: { [key: string]: string | number | boolean | string[] };
+  data: PostFrontMatter;
   content?: string;
 };
 
-// This type is used for passing posts to LatestPosts component and blog page because we can more strictly type the frontmatter in data. Where the Post type above can't as it's being compared to the data from the gray-matter package.
 export type PostWithFrontmatter = {
   data: PostFrontMatter;
   content?: string;

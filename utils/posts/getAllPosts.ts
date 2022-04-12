@@ -23,12 +23,8 @@ export default async function getAllPosts({
   });
 
   const sortedPosts = posts.sort((a, b) => {
-    // This is a bit hacky as the gray-matter package only supports generic typings at the time of writing for frontmatter so TS errors that date is missing as it's not explicity defined.
-    const { date: aDate }: { date?: string } = a.data;
-    const { date: bDate }: { date?: string } = b.data;
-
-    // This should never actually be called it's just here to filter the types for TS
-    if (!aDate || !bDate) return 0;
+    const { date: aDate } = a.data;
+    const { date: bDate } = b.data;
 
     return bDate.localeCompare(aDate);
   });
