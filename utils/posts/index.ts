@@ -5,3 +5,4 @@ export { default as getPost } from './getPost';
 export { default as getHeadings } from './getHeadings/getHeadings';
 export { default as getHeadingLink } from './getHeadingsLink/getHeadingLink';
 export { default as getAllTagsCategories } from './getAllTagsCategories/getAllTagsCategories';
+export { default as getPostPaths } from './getPostPaths';

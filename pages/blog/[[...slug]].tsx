@@ -16,6 +16,7 @@ import {
   getAllTagsCategories,
   getHeadings,
   getPost,
+  getPostPaths,
 } from '../../utils/posts';
 import { LatestPosts, PageHero, SEO, Testimonials } from '../../components';
 import { Components, PostHeader } from '../../components/Blog/PostComponents';
@@ -139,84 +140,10 @@ const Blog: NextPage<IProps> = ({ isBlogPage, ...params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths<IParams> = async () => {
-  const postsPerPage = parseInt(process.env.POSTS_PER_PAGE);
-  const postData = await getAllPosts({ postType: POSTTYPES.BLOG });
-
-  // Get all post slugs
-  const postPaths = postData.map((post) => {
-    const { slug } = post.data;
-
-    return {
-      params: {
-        slug: [slug],
-      },
-    };
-  });
-
-  // Get all Tags and Categories for postType
-  const { categories, tags } = await getAllTagsCategories({
-    postType: POSTTYPES.BLOG,
-  });
-
-  const tagPaths = tags
-    .map((tag) => {
-      const totalPostsWithTag = postData.filter(
-        ({ data: { tags: postTags } }) => {
-          return postTags.includes(tag);
-        }
-      ).length;
-
-      const pagesRequired = Math.ceil(totalPostsWithTag / postsPerPage);
-
-      const paths = Array.from({ length: pagesRequired }).map((_, i) => {
-        return {
-          params: {
-            slug: [tag, `${i !== 0 ? i + 1 : ''}`],
-          },
-        };
-      });
-
-      return paths;
-    })
-    .flat();
-
-  const catPaths = categories
-    .map((cat) => {
-      const totalPostsWithCat = postData.filter(
-        ({ data: { categories: postCategories } }) => {
-          return postCategories.includes(cat);
-        }
-      ).length;
-
-      const pagesRequired = Math.ceil(totalPostsWithCat / postsPerPage);
-
-      const paths = Array.from({ length: pagesRequired }).map((_, i) => {
-        return {
-          params: {
-            slug: [cat, `${i !== 0 ? i + 1 : ''}`],
-          },
-        };
-      });
-
-      return paths;
-    })
-    .flat();
-
-  // Find the total number of blog posts and calculate the number of pages required to show them with 8 per page
-  const postsLength = postData.length;
-  const pages = postsLength / postsPerPage;
-
-  // Create the routes for each blog page and then add the post paths onto the array
-  const blogPaths = Array.from({ length: pages }).map((_, i) => {
-    return {
-      params: {
-        slug: [`${i !== 0 ? i + 1 : ''}`],
-      },
-    };
-  });
+  const paths = await getPostPaths({ postType: POSTTYPES.BLOG });
 
   return {
-    paths: [...blogPaths, ...postPaths, ...catPaths, ...tagPaths],
+    paths,
     fallback: false,
   };
 };
