@@ -28,7 +28,7 @@ function postFilter({ data, allPosts, postsPerPage, filter }: PostFilterProps) {
     return Array.from({ length: pagesRequired }).map((_, i) => {
       return {
         params: {
-          slug: [item, `${i !== 0 ? i + 1 : ''}`],
+          slug: [item.toLowerCase(), `${i !== 0 ? i + 1 : ''}`],
         },
       };
     });
