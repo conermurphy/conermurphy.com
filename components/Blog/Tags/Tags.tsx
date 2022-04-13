@@ -8,9 +8,10 @@ interface IProps {
 }
 
 // Possible issue with TailwindCSS where styles aren't included in the final bundle if they are kept in an external file so keeping them here for the styles to work. https://github.com/tailwindlabs/tailwindcss/discussions/7956
-const POST_TAGS: PostTags = {
+export const POST_TAGS: PostTags = {
   JAVASCRIPT: {
-    tagName: 'JavaScript',
+    name: 'JavaScript',
+    link: 'javascript',
     colors: {
       nonActive: {
         bg: 'bg-yellow-100',
@@ -24,7 +25,8 @@ const POST_TAGS: PostTags = {
     },
   },
   TYPESCRIPT: {
-    tagName: 'TypeScript',
+    name: 'TypeScript',
+    link: 'typescript',
     colors: {
       nonActive: {
         bg: 'bg-blue-100',
@@ -38,7 +40,8 @@ const POST_TAGS: PostTags = {
     },
   },
   GATSBYJS: {
-    tagName: 'GatsbyJS',
+    name: 'GatsbyJS',
+    link: 'gatsbyjs',
     colors: {
       nonActive: {
         bg: 'bg-purple-100',
@@ -52,7 +55,8 @@ const POST_TAGS: PostTags = {
     },
   },
   NODEJS: {
-    tagName: 'NodeJS',
+    name: 'NodeJS',
+    link: 'nodejs',
     colors: {
       nonActive: {
         bg: 'bg-green-100',
@@ -66,7 +70,8 @@ const POST_TAGS: PostTags = {
     },
   },
   CSS: {
-    tagName: 'CSS',
+    name: 'CSS',
+    link: 'css',
     colors: {
       nonActive: {
         bg: 'bg-blue-100',
@@ -80,7 +85,8 @@ const POST_TAGS: PostTags = {
     },
   },
   DESIGN: {
-    tagName: 'Design',
+    name: 'Design',
+    link: 'design',
     colors: {
       nonActive: {
         bg: 'bg-gray-100',
@@ -94,7 +100,8 @@ const POST_TAGS: PostTags = {
     },
   },
   UI: {
-    tagName: 'UI',
+    name: 'UI',
+    link: 'ui',
     colors: {
       nonActive: {
         bg: 'bg-violet-100',
@@ -113,24 +120,35 @@ function Tag({ tag }: { tag: string }): JSX.Element | null {
   const { asPath } = useRouter();
 
   if (!tag) return null;
+  let linkHref = '';
 
   const baseRoute = asPath.split('/').slice(0, 2).join('/');
 
-  const upperTag = tag.toUpperCase();
-
   const {
-    tagName,
+    name,
+    link,
     colors: {
+      active: { bg: activeBg, text: activeText },
       nonActive: { bg, text, border },
     },
-  } = POST_TAGS[upperTag];
+  } = POST_TAGS[tag.toUpperCase()];
+
+  const tagActive = asPath?.includes(link);
+
+  if (tagActive) {
+    linkHref = baseRoute;
+  } else {
+    linkHref = `${baseRoute}/${link}`;
+  }
 
   return (
-    <Link key={tag} href={`${baseRoute}/${tagName.toLowerCase()}`}>
+    <Link key={tag} href={linkHref}>
       <a
-        className={`text-xs px-3 py-1 ${bg} ${text} ${border} border font-semibold w-max rounded opacity-100`}
+        className={`text-xs px-3 py-1 ${
+          tagActive ? `${activeBg} ${activeText}` : `${bg} ${text}`
+        } ${border} border font-semibold w-max rounded opacity-100`}
       >
-        {tagName}
+        {name}
       </a>
     </Link>
   );

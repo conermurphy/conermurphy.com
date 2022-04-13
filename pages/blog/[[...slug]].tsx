@@ -3,6 +3,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import {
+  Post,
   PostFrontMatter,
   PostHeading,
   PostTagsCats,
@@ -27,6 +28,8 @@ import {
   PostCardGrid,
   PostSidebar,
 } from '../../components/Blog';
+import { POST_TAGS } from '../../components/Blog/Tags/Tags';
+import { CATEGORIES } from '../../constants';
 
 interface IParams extends ParsedUrlQuery {
   slug: string[];
@@ -52,6 +55,39 @@ interface BlogPostProps {
 
 interface IProps extends BlogPageProps, BlogPostProps {
   isPostGridPage: boolean;
+}
+
+interface CreateFilterPostPageProps {
+  slug: string;
+  posts: Post[];
+  postsPerPage: number;
+  slugPage: number;
+  filterType: 'tags' | 'categories';
+}
+
+function createFilterPostPage({
+  slug,
+  posts,
+  postsPerPage,
+  slugPage,
+  filterType,
+}: CreateFilterPostPageProps) {
+  const tagInfo = POST_TAGS[slug?.toUpperCase()];
+  const catInfo = CATEGORIES[slug?.toUpperCase()];
+
+  const skip = slugPage ? (slugPage - 1) * postsPerPage : 0;
+
+  const filteredPosts = posts.filter(({ data }) => {
+    return data[filterType].includes(slug.toUpperCase());
+  });
+
+  const paginatedPosts = filteredPosts.slice(skip, skip + postsPerPage);
+
+  return {
+    postsLength: filteredPosts.length,
+    posts: paginatedPosts,
+    filterItem: tagInfo?.name || catInfo?.name,
+  };
 }
 
 // Page to show for /blog or /blog/x where x is a number representing the page number
@@ -172,24 +208,40 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const isPostGridPage = slugVal.match(/^[0-9]*$/gm);
 
   if (categories.includes(slugVal.toUpperCase())) {
-    const filterItem = slugVal
-      .replaceAll('-', ' ')
-      .replace(/(^\w|\s\w)/g, (m) => {
-        return m.toUpperCase();
-      });
-
-    const skip = slugFilterPageInt ? (slugFilterPageInt - 1) * postsPerPage : 0;
-
-    const filteredPosts = postData.filter(({ data }) => {
-      return data.categories.includes(slugVal.toUpperCase());
+    const { postsLength, posts, filterItem } = createFilterPostPage({
+      slug: slugVal,
+      posts: postData,
+      postsPerPage,
+      slugPage: slugFilterPageInt,
+      filterType: 'categories',
     });
-
-    const posts = filteredPosts.slice(skip, skip + postsPerPage);
 
     return {
       props: {
         isPostGridPage: true,
-        pageCount: filteredPosts.length / postsPerPage,
+        pageCount: Math.ceil(postsLength / postsPerPage),
+        blogPage: slugFilterPageInt,
+        posts,
+        tagsCats: { categories, tags },
+        testimonials,
+        filterItem,
+      },
+    };
+  }
+
+  if (tags.includes(slugVal.toUpperCase())) {
+    const { postsLength, posts, filterItem } = createFilterPostPage({
+      slug: slugVal,
+      posts: postData,
+      postsPerPage,
+      slugPage: slugFilterPageInt,
+      filterType: 'tags',
+    });
+
+    return {
+      props: {
+        isPostGridPage: true,
+        pageCount: Math.ceil(postsLength / postsPerPage),
         blogPage: slugFilterPageInt,
         posts,
         tagsCats: { categories, tags },
@@ -209,7 +261,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return {
       props: {
         isPostGridPage,
-        pageCount: postData.length / postsPerPage,
+        pageCount: Math.ceil(postData.length / postsPerPage),
         blogPage: slugInt,
         posts,
         tagsCats: { categories, tags },

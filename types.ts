@@ -75,7 +75,8 @@ export type PostWithFrontmatter = {
 
 export type PostTags = {
   [key: string]: {
-    tagName: string;
+    name: string;
+    link: string;
     colors: {
       active: {
         bg: string;

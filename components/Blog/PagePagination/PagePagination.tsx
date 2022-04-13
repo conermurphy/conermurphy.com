@@ -62,7 +62,7 @@ export default function PagePagination({
     : asPath;
 
   const hasPrevLink = currentPage !== 0;
-  const hasNextLink = pageCount > 2 && currentPage !== pageCount;
+  const hasNextLink = pageCount >= 2 && currentPage !== pageCount;
 
   const prevLink = `${routeBase}/${
     currentPage - 1 <= 1 ? '' : currentPage - 1
