@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { CATEGORIES } from '../../../constants';
-import { PostTagsCats, POSTTYPES } from '../../../types';
+import { PostTagsCats } from '../../../types';
 import Tags from '../Tags/Tags';
 
 interface IProps {
@@ -11,6 +11,7 @@ interface IProps {
 
 export default function PageSidebar({ data }: IProps): JSX.Element {
   const { asPath } = useRouter();
+  const baseRoute = asPath.split('/').slice(0, 2).join('/');
 
   const { tags, categories } = data;
 
@@ -21,11 +22,19 @@ export default function PageSidebar({ data }: IProps): JSX.Element {
         <div className="flex flex-col gap-3">
           {categories.map((category) => {
             const { name, link } = CATEGORIES[category];
+            let linkHref = '';
+
+            if (asPath.includes(link)) {
+              linkHref = baseRoute;
+            } else {
+              linkHref = `${baseRoute}/${link}`;
+            }
+
             return (
-              <Link href={`/blog/${link}`} key={link} passHref>
+              <Link href={linkHref} key={link} passHref>
                 <a
                   className={`font-semibold text-sm p-3 rounded-md ${
-                    asPath.includes(category)
+                    asPath.includes(link)
                       ? 'bg-[rgba(249,115,22,25%)]'
                       : 'bg-[rgba(17,24,39,10%)]'
                   }`}
@@ -39,7 +48,7 @@ export default function PageSidebar({ data }: IProps): JSX.Element {
       </div>
       <div>
         <h2 className="text-lg font-normal mb-3">Tags</h2>
-        <Tags postType={POSTTYPES.BLOG} tags={tags} />
+        <Tags tags={tags} />
       </div>
     </aside>
   );

@@ -33,7 +33,7 @@ export const CATEGORIES: PostCategories = {
     name: 'Development',
     link: 'development',
   },
-  CONTENT_CREATION: {
+  'CONTENT-CREATION': {
     name: 'Content Creation',
     link: 'content-creation',
   },

@@ -16,6 +16,19 @@ const mockData = {
   timeToRead: 10,
 };
 
+jest.mock('next/router', () => {
+  return {
+    useRouter() {
+      return {
+        route: '/',
+        pathname: '',
+        query: '',
+        asPath: 'example-post-title',
+      };
+    },
+  };
+});
+
 describe('PostCard', () => {
   it('Should contain all revelant elements', () => {
     const { container } = render(<PostCard post={mockData} />);

@@ -52,6 +52,19 @@ const mockData = [
   },
 ];
 
+jest.mock('next/router', () => {
+  return {
+    useRouter() {
+      return {
+        route: '/',
+        pathname: '',
+        query: '',
+        asPath: 'example-post-title',
+      };
+    },
+  };
+});
+
 describe('LatestPosts', () => {
   it('should have correct title and subtitle', () => {
     render(<LatestPosts posts={mockData} />);

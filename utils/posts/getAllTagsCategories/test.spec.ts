@@ -29,7 +29,7 @@ const mockPosts = [
       image:
         '/images/blog/complete-2021-guide-to-http-status-codes-their-seo-influence.png',
       description: 'This is a description of a post',
-      categories: ['CONTENT_CREATION'],
+      categories: ['CONTENT-CREATION'],
       published: true,
       canonical_url: '',
       timeToRead: 10,
@@ -68,6 +68,6 @@ describe('getAllTagsCategories', () => {
     });
 
     expect(tags).toEqual(['JAVASCRIPT', 'GATSBYJS', 'CSS']);
-    expect(categories).toEqual(['CONTENT_CREATION', 'DESIGN']);
+    expect(categories).toEqual(['CONTENT-CREATION', 'DESIGN']);
   });
 });

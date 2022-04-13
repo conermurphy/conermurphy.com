@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import { POSTTYPES } from '../../../types';
 import PagePagination from './PagePagination';
 
 jest.mock('next/router', () => {
@@ -9,7 +8,7 @@ jest.mock('next/router', () => {
         route: '/',
         pathname: '',
         query: '',
-        asPath: 'example-post-title',
+        asPath: '/blog',
       };
     },
   };
@@ -17,9 +16,7 @@ jest.mock('next/router', () => {
 
 describe('PagePagination', () => {
   it('Should render all items correctly', () => {
-    render(
-      <PagePagination pageCount={5} currentPage={2} postType={POSTTYPES.BLOG} />
-    );
+    render(<PagePagination pageCount={5} currentPage={2} />);
 
     const previousPage = screen.getByRole('link', {
       name: '< ← Previous Page',
@@ -63,9 +60,7 @@ describe('PagePagination', () => {
   });
 
   it('Should render all items correctly with 6 or above pages', () => {
-    render(
-      <PagePagination pageCount={6} currentPage={2} postType={POSTTYPES.BLOG} />
-    );
+    render(<PagePagination pageCount={6} currentPage={2} />);
 
     const paginationNumbers = screen.getAllByTestId('pagination-number');
     const ellipses = screen.queryByTestId('pagination-ellipses');

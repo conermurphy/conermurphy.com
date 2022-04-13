@@ -38,6 +38,7 @@ interface BlogPageProps {
   testimonials: Testimonial[];
   posts: PostWithFrontmatter[];
   tagsCats: PostTagsCats;
+  filterItem: string;
 }
 
 interface BlogPostProps {
@@ -50,7 +51,7 @@ interface BlogPostProps {
 }
 
 interface IProps extends BlogPageProps, BlogPostProps {
-  isBlogPage: boolean;
+  isPostGridPage: boolean;
 }
 
 // Page to show for /blog or /blog/x where x is a number representing the page number
@@ -60,11 +61,14 @@ const BlogPage: NextPage<BlogPageProps> = ({
   testimonials,
   posts,
   tagsCats,
+  filterItem,
 }) => {
   return (
     <>
       <SEO
-        metaTitle={`Blog${blogPage ? ` - Page ${blogPage}` : ''}`}
+        metaTitle={`${filterItem ? `${filterItem} Posts |` : ''} Blog${
+          blogPage ? ` - Page ${blogPage}` : ''
+        }`}
         metaDescription="My Blog"
         url="blog"
       />
@@ -76,15 +80,11 @@ const BlogPage: NextPage<BlogPageProps> = ({
       <HeaderBackground bg="bg-white" />
       <div className="flex flex-row items-center justify-center mb-72 md:mb-12">
         <div className="flex flex-col items-center justify-center gap-y-14 gap-x-20 w-full md:px-20 lg:px-106 xl:flex-row-reverse xl:items-start">
-          <PostCardGrid posts={posts} postType={POSTTYPES.BLOG} />
+          <PostCardGrid posts={posts} />
           <PageSidebar data={tagsCats} />
         </div>
       </div>
-      <PagePagination
-        pageCount={pageCount}
-        currentPage={blogPage}
-        postType={POSTTYPES.BLOG}
-      />
+      <PagePagination pageCount={pageCount} currentPage={blogPage} />
       <Testimonials testimonials={testimonials} />
     </>
   );
@@ -115,7 +115,7 @@ const BlogPost: NextPage<BlogPostProps> = ({ post, latestPosts }) => {
       />
       <div className="flex flex-col items-center pb-10 bg-primaryBg px-6">
         <article className="flex flex-col w-full">
-          <PostHeader frontmatter={frontmatter} postType={POSTTYPES.BLOG} />
+          <PostHeader frontmatter={frontmatter} />
           <div>
             <HeaderBackground bg="bg-primaryBg" />
             <div className="relative flex flex-row justify-center lg:justify-between xl:justify-center gap-0 xl:gap-24 w-full max-w-[1100px] m-auto">
@@ -134,9 +134,9 @@ const BlogPost: NextPage<BlogPostProps> = ({ post, latestPosts }) => {
   );
 };
 
-// This controls which page to show based off the isBlogPage prop
-const Blog: NextPage<IProps> = ({ isBlogPage, ...params }) => {
-  return isBlogPage ? <BlogPage {...params} /> : <BlogPost {...params} />;
+// This controls which page to show based off the isPostGridPage prop
+const Blog: NextPage<IProps> = ({ isPostGridPage, ...params }) => {
+  return isPostGridPage ? <BlogPage {...params} /> : <BlogPost {...params} />;
 };
 
 export const getStaticPaths: GetStaticPaths<IParams> = async () => {
@@ -150,6 +150,7 @@ export const getStaticPaths: GetStaticPaths<IParams> = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const postsPerPage = parseInt(process.env.POSTS_PER_PAGE);
+  const postData = await getAllPosts({ postType: POSTTYPES.BLOG });
   const { slug } = params as IParams;
 
   const { latestPosts, testimonials } = await pageDataSource({
@@ -157,32 +158,61 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     testimonials: true,
   });
 
+  const { categories, tags } = await getAllTagsCategories({
+    postType: POSTTYPES.BLOG,
+  });
+
   // If there is a slug, take the value of it otherwise '0'
-  const slugVal = Array.isArray(slug) ? slug[0] : '0';
+  const slugVal = slug?.length ? slug[0] : '0';
+  const slugFilterPage = slug?.length === 2 ? slug[1] : '0';
 
-  // Try convert the slug into a number.
   const slugInt = parseInt(slugVal);
+  const slugFilterPageInt = parseInt(slugFilterPage);
 
-  // If the slug passed is all numbers, it must be blog page pagination
-  const isBlogPage = slugVal.match(/^[0-9]*$/gm);
+  const isPostGridPage = slugVal.match(/^[0-9]*$/gm);
 
-  // If it is a blog page pagination return props required for it
-  if (isBlogPage) {
-    // Work out the number of blog posts required to skip for the page accessed. E.g. page 2 skip the first 8 posts and return from 9 to 16.
-    const skip = slugInt ? (slugInt - 1) * postsPerPage : 0;
+  if (categories.includes(slugVal.toUpperCase())) {
+    const filterItem = slugVal
+      .replaceAll('-', ' ')
+      .replace(/(^\w|\s\w)/g, (m) => {
+        return m.toUpperCase();
+      });
 
-    const postData = await getAllPosts({ postType: POSTTYPES.BLOG });
-    const posts = postData.slice(skip, skip + postsPerPage);
+    const skip = slugFilterPageInt ? (slugFilterPageInt - 1) * postsPerPage : 0;
 
-    const tagsCats = await getAllTagsCategories({ postType: POSTTYPES.BLOG });
+    const filteredPosts = postData.filter(({ data }) => {
+      return data.categories.includes(slugVal.toUpperCase());
+    });
+
+    const posts = filteredPosts.slice(skip, skip + postsPerPage);
 
     return {
       props: {
-        isBlogPage,
+        isPostGridPage: true,
+        pageCount: filteredPosts.length / postsPerPage,
+        blogPage: slugFilterPageInt,
+        posts,
+        tagsCats: { categories, tags },
+        testimonials,
+        filterItem,
+      },
+    };
+  }
+
+  // If it is a blog page pagination return props required for it
+  if (isPostGridPage) {
+    // Work out the number of blog posts required to skip for the page accessed. E.g. page 2 skip the first 8 posts and return from 9 to 16.
+    const skip = slugInt ? (slugInt - 1) * postsPerPage : 0;
+
+    const posts = postData.slice(skip, skip + postsPerPage);
+
+    return {
+      props: {
+        isPostGridPage,
         pageCount: postData.length / postsPerPage,
         blogPage: slugInt,
         posts,
-        tagsCats,
+        tagsCats: { categories, tags },
         testimonials,
       },
     };
@@ -200,7 +230,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: {
-      isBlogPage,
+      isPostGridPage,
       latestPosts,
       post: { content, headings, data: post.data },
     },

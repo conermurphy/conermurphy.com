@@ -52,6 +52,19 @@ const mockData = [
   },
 ];
 
+jest.mock('next/router', () => {
+  return {
+    useRouter() {
+      return {
+        route: '/',
+        pathname: '',
+        query: '',
+        asPath: 'example-post-title',
+      };
+    },
+  };
+});
+
 describe('PostCardGrid', () => {
   it('should match length', () => {
     render(<PostCardGrid posts={mockData} />);
