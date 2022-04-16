@@ -137,8 +137,10 @@ function Tag({ tag }: { tag: string }): JSX.Element | null {
 
   if (tagActive) {
     linkHref = baseRoute;
+  } else if (baseRoute !== 'blog' && baseRoute !== 'newsletter') {
+    linkHref = `/blog/${link}`;
   } else {
-    linkHref = `${baseRoute}/${link}`;
+    linkHref = `${baseRoute}${link}`;
   }
 
   return (
