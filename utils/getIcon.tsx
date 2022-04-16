@@ -8,6 +8,7 @@ import {
   FaYoutube,
   FaEnvelope,
   FaReddit,
+  FaAlignJustify,
 } from 'react-icons/fa';
 import { MdCode, MdKeyboard, MdShare } from 'react-icons/md';
 import {
@@ -17,6 +18,7 @@ import {
   SiReact,
   SiTypescript,
 } from 'react-icons/si';
+import { IoMdClose } from 'react-icons/io';
 import { FiCopy } from 'react-icons/fi';
 import { ICONS } from '../constants';
 
@@ -32,6 +34,28 @@ export default function getIcon({
   color = 'var(--primaryText)',
 }: IProps): ReactNode {
   switch (icon) {
+    case ICONS.JUSTIFY.name:
+      return (
+        <FaAlignJustify
+          size={size}
+          color={color}
+          title="Mobile Menu icon"
+          data-testid="menu-icon"
+          role="img"
+          aria-label="mobile menu icon"
+        />
+      );
+    case ICONS.CLOSE.name:
+      return (
+        <IoMdClose
+          size={size}
+          color={color}
+          title="Mobile Close icon"
+          data-testid="menu-icon"
+          role="img"
+          aria-label="mobile close icon"
+        />
+      );
     case ICONS.KEYBOARD.name:
       return (
         <MdKeyboard
