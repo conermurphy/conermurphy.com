@@ -72,15 +72,20 @@ function createFilterPostPage({
   slugPage,
   filterType,
 }: CreateFilterPostPageProps) {
-  const tagInfo = POST_TAGS[slug?.toUpperCase()];
-  const catInfo = CATEGORIES[slug?.toUpperCase()];
+  const upperSlug = slug.toUpperCase();
+  // Try access the slug on both POST_TAGS and CATEGORIES constants
+  const tagInfo = POST_TAGS[upperSlug];
+  const catInfo = CATEGORIES[upperSlug];
 
+  // Calculate the skip value off the page number
   const skip = slugPage ? (slugPage - 1) * postsPerPage : 0;
 
+  // Filter all posts to just the ones matching the provided tag/category
   const filteredPosts = posts.filter(({ data }) => {
-    return data[filterType].includes(slug.toUpperCase());
+    return data[filterType].includes(upperSlug);
   });
 
+  // Paginate the posts off the skip value and the postsPerPage value
   const paginatedPosts = filteredPosts.slice(skip, skip + postsPerPage);
 
   return {
@@ -176,6 +181,7 @@ const Blog: NextPage<IProps> = ({ isPostGridPage, ...params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths<IParams> = async () => {
+  // Get all post paths for BLOG POSTTYPE including generic blog pages, post pages, tag and category pages
   const paths = await getPostPaths({ postType: POSTTYPES.BLOG });
 
   return {
@@ -186,28 +192,34 @@ export const getStaticPaths: GetStaticPaths<IParams> = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const postsPerPage = parseInt(process.env.POSTS_PER_PAGE);
-  const postData = await getAllPosts({ postType: POSTTYPES.BLOG });
+  const postType = POSTTYPES.BLOG;
+  const postData = await getAllPosts({ postType });
   const { slug } = params as IParams;
 
+  // Source data for extra sections being displayed on the page
   const { latestPosts, testimonials } = await pageDataSource({
     latestPosts: true,
     testimonials: true,
   });
 
+  // Get all tags and categories used on the POSTTYPE
   const { categories, tags } = await getAllTagsCategories({
-    postType: POSTTYPES.BLOG,
+    postType,
   });
 
-  // If there is a slug, take the value of it otherwise '0'
-  const slugVal = slug?.length ? slug[0] : '0';
+  // If slug is an array, take the first value, otherwise return '0' to indidicate page 0
+  const slugVal = slug?.length ? slug[0].toUpperCase() : '0';
+  // If slug is an array and has a length of 2, take the second item otherwise '0'
   const slugFilterPage = slug?.length === 2 ? slug[1] : '0';
 
   const slugInt = parseInt(slugVal);
   const slugFilterPageInt = parseInt(slugFilterPage);
 
+  // Check if slugVal stars with a number not in a word to indicate if its blog page pagination or not
   const isPostGridPage = slugVal.match(/^[0-9]*$/gm);
 
-  if (categories.includes(slugVal.toUpperCase())) {
+  // Check if the first slug value is included in categories, if so return the required props for it
+  if (categories.includes(slugVal)) {
     const { postsLength, posts, filterItem } = createFilterPostPage({
       slug: slugVal,
       posts: postData,
@@ -229,7 +241,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
   }
 
-  if (tags.includes(slugVal.toUpperCase())) {
+  // Check if the first slug value is included in tags, if so return the required props for it
+  if (tags.includes(slugVal)) {
     const { postsLength, posts, filterItem } = createFilterPostPage({
       slug: slugVal,
       posts: postData,
@@ -251,7 +264,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
   }
 
-  // If it is a blog page pagination return props required for it
+  // If it is overall blog page pagination return props for it
   if (isPostGridPage) {
     // Work out the number of blog posts required to skip for the page accessed. E.g. page 2 skip the first 8 posts and return from 9 to 16.
     const skip = slugInt ? (slugInt - 1) * postsPerPage : 0;
@@ -270,8 +283,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
   }
 
-  // If it is a blog post return props required for it
-  const post = await getPost({ slug: slugVal, postType: POSTTYPES.BLOG });
+  // If it is a blog post return props for it
+  const post = await getPost({ slug: slugVal, postType });
   let content;
   let headings;
 
