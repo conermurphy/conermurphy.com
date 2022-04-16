@@ -1,18 +1,17 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { POSTTYPES } from '../../../types';
 
 interface IProps {
   pageCount: number;
   currentPage: number;
-  postType: POSTTYPES;
 }
 
 interface PageNumberProps {
   pageNumber: number;
-  postType: POSTTYPES;
+  routeBase: string;
   path: string;
+  activePageNumber: number;
 }
 
 const disabledLinkStyles =
@@ -23,17 +22,18 @@ const pageNumberStyles =
 
 function PageNumber({
   pageNumber,
-  postType,
+  routeBase,
   path,
+  activePageNumber,
 }: PageNumberProps): JSX.Element {
   const activePage =
     path.includes(pageNumber.toString()) ||
-    (path === `/${postType}` && pageNumber === 1);
+    (Number.isNaN(activePageNumber) && pageNumber === 1);
 
   return (
     <Link
       href={`${
-        pageNumber === 1 ? `/${postType}` : `/${postType}/${pageNumber}`
+        pageNumber === 1 ? `${routeBase}` : `${routeBase}/${pageNumber}`
       }`}
       key={pageNumber}
       passHref
@@ -53,21 +53,24 @@ function PageNumber({
 export default function PagePagination({
   pageCount,
   currentPage,
-  postType,
 }: IProps): JSX.Element {
   const { asPath } = useRouter();
-  const activePageNumber = parseInt(asPath.split('/')[2]);
+  const lastURLRoute = asPath.split('/').at(-1);
+  const activePageNumber = parseInt(lastURLRoute ?? '0');
+  const routeBase = !Number.isNaN(activePageNumber)
+    ? asPath.split('/').slice(0, -1).join('/')
+    : asPath;
 
   const hasPrevLink = currentPage !== 0;
-  const hasNextLink = currentPage !== pageCount;
+  const hasNextLink = pageCount >= 2 && currentPage !== pageCount;
 
-  const prevLink = `/${postType}/${
+  const prevLink = `${routeBase}/${
     currentPage - 1 <= 1 ? '' : currentPage - 1
   }`;
   const nextLink =
     currentPage + 1 === 1
-      ? `/${postType}/${currentPage + 2}`
-      : `/${postType}/${currentPage + 1}`;
+      ? `${routeBase}/${currentPage + 2}`
+      : `${routeBase}/${currentPage + 1}`;
 
   const pageNumbers = Array.from({ length: pageCount }).map((_, i) => {
     return i + 1;
@@ -100,8 +103,9 @@ export default function PagePagination({
                 <PageNumber
                   key={page}
                   pageNumber={page}
-                  postType={postType}
+                  routeBase={routeBase}
                   path={asPath}
+                  activePageNumber={activePageNumber}
                 />
               );
             })
@@ -112,8 +116,9 @@ export default function PagePagination({
                   <PageNumber
                     key={page}
                     pageNumber={page}
-                    postType={postType}
+                    routeBase={routeBase}
                     path={asPath}
+                    activePageNumber={activePageNumber}
                   />
                 );
               })}
@@ -132,8 +137,9 @@ export default function PagePagination({
                   <PageNumber
                     key={page}
                     pageNumber={page}
-                    postType={postType}
+                    routeBase={routeBase}
                     path={asPath}
+                    activePageNumber={activePageNumber}
                   />
                 );
               })}

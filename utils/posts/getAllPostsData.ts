@@ -1,7 +1,7 @@
 import fs from 'fs';
 import matter from 'gray-matter';
 import path from 'path';
-import { Post, POSTTYPES } from '../../types';
+import { Post, PostFrontMatter, POSTTYPES } from '../../types';
 
 interface IProps {
   posts: string[];
@@ -33,7 +33,7 @@ export default async function getAllPostsData({
           );
 
           const dataWithTTR = {
-            ...tempData,
+            ...(tempData as PostFrontMatter),
             timeToRead: ttr,
           };
 

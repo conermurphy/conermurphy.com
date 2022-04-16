@@ -3,6 +3,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import {
+  Post,
   PostFrontMatter,
   PostHeading,
   PostTagsCats,
@@ -13,10 +14,10 @@ import {
 import { pageDataSource } from '../../utils';
 import {
   getAllPosts,
-  getAllPostsSlugs,
   getAllTagsCategories,
   getHeadings,
   getPost,
+  getPostPaths,
 } from '../../utils/posts';
 import { LatestPosts, PageHero, SEO, Testimonials } from '../../components';
 import { Components, PostHeader } from '../../components/Blog/PostComponents';
@@ -27,6 +28,8 @@ import {
   PostCardGrid,
   PostSidebar,
 } from '../../components/Blog';
+import { POST_TAGS } from '../../components/Blog/Tags/Tags';
+import { CATEGORIES } from '../../constants';
 
 interface IParams extends ParsedUrlQuery {
   slug: string[];
@@ -38,6 +41,7 @@ interface BlogPageProps {
   testimonials: Testimonial[];
   posts: PostWithFrontmatter[];
   tagsCats: PostTagsCats;
+  filterItem: string;
 }
 
 interface BlogPostProps {
@@ -50,7 +54,45 @@ interface BlogPostProps {
 }
 
 interface IProps extends BlogPageProps, BlogPostProps {
-  isBlogPage: boolean;
+  isPostGridPage: boolean;
+}
+
+interface CreateFilterPostPageProps {
+  slug: string;
+  posts: Post[];
+  postsPerPage: number;
+  slugPage: number;
+  filterType: 'tags' | 'categories';
+}
+
+function createFilterPostPage({
+  slug,
+  posts,
+  postsPerPage,
+  slugPage,
+  filterType,
+}: CreateFilterPostPageProps) {
+  const upperSlug = slug.toUpperCase();
+  // Try access the slug on both POST_TAGS and CATEGORIES constants
+  const tagInfo = POST_TAGS[upperSlug];
+  const catInfo = CATEGORIES[upperSlug];
+
+  // Calculate the skip value off the page number
+  const skip = slugPage ? (slugPage - 1) * postsPerPage : 0;
+
+  // Filter all posts to just the ones matching the provided tag/category
+  const filteredPosts = posts.filter(({ data }) => {
+    return data[filterType].includes(upperSlug);
+  });
+
+  // Paginate the posts off the skip value and the postsPerPage value
+  const paginatedPosts = filteredPosts.slice(skip, skip + postsPerPage);
+
+  return {
+    postsLength: filteredPosts.length,
+    posts: paginatedPosts,
+    filterItem: tagInfo?.name || catInfo?.name,
+  };
 }
 
 // Page to show for /blog or /blog/x where x is a number representing the page number
@@ -60,11 +102,16 @@ const BlogPage: NextPage<BlogPageProps> = ({
   testimonials,
   posts,
   tagsCats,
+  filterItem,
 }) => {
   return (
     <>
       <SEO
-        metaTitle={`Blog${blogPage ? ` - Page ${blogPage}` : ''}`}
+        metaTitle={`${
+          filterItem
+            ? `${filterItem} Posts ${blogPage ? ` - Page ${blogPage}` : ''} |`
+            : ''
+        } Blog ${!filterItem && blogPage ? `- Page ${blogPage}` : ''}`}
         metaDescription="My Blog"
         url="blog"
       />
@@ -76,15 +123,11 @@ const BlogPage: NextPage<BlogPageProps> = ({
       <HeaderBackground bg="bg-white" />
       <div className="flex flex-row items-center justify-center mb-72 md:mb-12">
         <div className="flex flex-col items-center justify-center gap-y-14 gap-x-20 w-full md:px-20 lg:px-106 xl:flex-row-reverse xl:items-start">
-          <PostCardGrid posts={posts} postType={POSTTYPES.BLOG} />
+          <PostCardGrid posts={posts} />
           <PageSidebar data={tagsCats} />
         </div>
       </div>
-      <PagePagination
-        pageCount={pageCount}
-        currentPage={blogPage}
-        postType={POSTTYPES.BLOG}
-      />
+      <PagePagination pageCount={pageCount} currentPage={blogPage} />
       <Testimonials testimonials={testimonials} />
     </>
   );
@@ -115,7 +158,7 @@ const BlogPost: NextPage<BlogPostProps> = ({ post, latestPosts }) => {
       />
       <div className="flex flex-col items-center pb-10 bg-primaryBg px-6">
         <article className="flex flex-col w-full">
-          <PostHeader frontmatter={frontmatter} postType={POSTTYPES.BLOG} />
+          <PostHeader frontmatter={frontmatter} />
           <div>
             <HeaderBackground bg="bg-primaryBg" />
             <div className="relative flex flex-row justify-center lg:justify-between xl:justify-center gap-0 xl:gap-24 w-full max-w-[1100px] m-auto">
@@ -134,32 +177,14 @@ const BlogPost: NextPage<BlogPostProps> = ({ post, latestPosts }) => {
   );
 };
 
-// This controls which page to show based off the isBlogPage prop
-const Blog: NextPage<IProps> = ({ isBlogPage, ...params }) => {
-  return isBlogPage ? <BlogPage {...params} /> : <BlogPost {...params} />;
+// This controls which page to show based off the isPostGridPage prop
+const Blog: NextPage<IProps> = ({ isPostGridPage, ...params }) => {
+  return isPostGridPage ? <BlogPage {...params} /> : <BlogPost {...params} />;
 };
 
 export const getStaticPaths: GetStaticPaths<IParams> = async () => {
-  const postsPerPage = parseInt(process.env.POSTS_PER_PAGE);
-
-  // Get all blog post paths from MDX files
-  const postPaths = await getAllPostsSlugs({ postType: POSTTYPES.BLOG });
-
-  // Find the total number of blog posts and calculate the number of pages required to show them with 8 per page
-  const postData = await getAllPosts({ postType: POSTTYPES.BLOG });
-  const postsLength = postData.length;
-  const pages = postsLength / postsPerPage;
-
-  // Create the routes for each blog page and then add the post paths onto the array
-  const paths = Array.from({ length: pages })
-    .map((_, i) => {
-      return {
-        params: {
-          slug: [`${i !== 0 ? i + 1 : ''}`],
-        },
-      };
-    })
-    .concat(postPaths);
+  // Get all post paths for BLOG POSTTYPE including generic blog pages, post pages, tag and category pages
+  const paths = await getPostPaths({ postType: POSTTYPES.BLOG });
 
   return {
     paths,
@@ -169,46 +194,99 @@ export const getStaticPaths: GetStaticPaths<IParams> = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const postsPerPage = parseInt(process.env.POSTS_PER_PAGE);
+  const postType = POSTTYPES.BLOG;
+  const postData = await getAllPosts({ postType });
   const { slug } = params as IParams;
 
+  // Source data for extra sections being displayed on the page
   const { latestPosts, testimonials } = await pageDataSource({
     latestPosts: true,
     testimonials: true,
   });
 
-  // If there is a slug, take the value of it otherwise '0'
-  const slugVal = Array.isArray(slug) ? slug[0] : '0';
+  // Get all tags and categories used on the POSTTYPE
+  const { categories, tags } = await getAllTagsCategories({
+    postType,
+  });
 
-  // Try convert the slug into a number.
+  // If slug is an array, take the first value, otherwise return '0' to indidicate page 0
+  const slugVal = slug?.length ? slug[0] : '0';
+  // If slug is an array and has a length of 2, take the second item otherwise '0'
+  const slugFilterPage = slug?.length === 2 ? slug[1] : '0';
+
   const slugInt = parseInt(slugVal);
+  const slugFilterPageInt = parseInt(slugFilterPage);
 
-  // If the slug passed is all numbers, it must be blog page pagination
-  const isBlogPage = slugVal.match(/^[0-9]*$/gm);
+  // Check if slugVal stars with a number not in a word to indicate if its blog page pagination or not
+  const isPostGridPage = slugVal.match(/^[0-9]*$/gm);
 
-  // If it is a blog page pagination return props required for it
-  if (isBlogPage) {
-    // Work out the number of blog posts required to skip for the page accessed. E.g. page 2 skip the first 8 posts and return from 9 to 16.
-    const skip = slugInt ? (slugInt - 1) * postsPerPage : 0;
-
-    const postData = await getAllPosts({ postType: POSTTYPES.BLOG });
-    const posts = postData.slice(skip, skip + postsPerPage);
-
-    const tagsCats = await getAllTagsCategories({ postType: POSTTYPES.BLOG });
+  // Check if the first slug value is included in categories, if so return the required props for it
+  if (categories.includes(slugVal.toUpperCase())) {
+    const { postsLength, posts, filterItem } = createFilterPostPage({
+      slug: slugVal,
+      posts: postData,
+      postsPerPage,
+      slugPage: slugFilterPageInt,
+      filterType: 'categories',
+    });
 
     return {
       props: {
-        isBlogPage,
-        pageCount: postData.length / postsPerPage,
+        isPostGridPage: true,
+        pageCount: Math.ceil(postsLength / postsPerPage),
+        blogPage: slugFilterPageInt,
+        posts,
+        tagsCats: { categories, tags },
+        testimonials,
+        filterItem,
+      },
+    };
+  }
+
+  // Check if the first slug value is included in tags, if so return the required props for it
+  if (tags.includes(slugVal.toUpperCase())) {
+    const { postsLength, posts, filterItem } = createFilterPostPage({
+      slug: slugVal,
+      posts: postData,
+      postsPerPage,
+      slugPage: slugFilterPageInt,
+      filterType: 'tags',
+    });
+
+    return {
+      props: {
+        isPostGridPage: true,
+        pageCount: Math.ceil(postsLength / postsPerPage),
+        blogPage: slugFilterPageInt,
+        posts,
+        tagsCats: { categories, tags },
+        testimonials,
+        filterItem,
+      },
+    };
+  }
+
+  // If it is overall blog page pagination return props for it
+  if (isPostGridPage) {
+    // Work out the number of blog posts required to skip for the page accessed. E.g. page 2 skip the first 8 posts and return from 9 to 16.
+    const skip = slugInt ? (slugInt - 1) * postsPerPage : 0;
+
+    const posts = postData.slice(skip, skip + postsPerPage);
+
+    return {
+      props: {
+        isPostGridPage,
+        pageCount: Math.ceil(postData.length / postsPerPage),
         blogPage: slugInt,
         posts,
-        tagsCats,
+        tagsCats: { categories, tags },
         testimonials,
       },
     };
   }
 
-  // If it is a blog post return props required for it
-  const post = await getPost({ slug: slugVal, postType: POSTTYPES.BLOG });
+  // If it is a blog post return props for it
+  const post = await getPost({ slug: slugVal, postType });
   let content;
   let headings;
 
@@ -219,7 +297,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: {
-      isBlogPage,
+      isPostGridPage,
       latestPosts,
       post: { content, headings, data: post.data },
     },

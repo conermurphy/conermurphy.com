@@ -1,16 +1,17 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
-import { PostTags, POSTTYPES } from '../../../types';
+import { PostTags } from '../../../types';
 
 interface IProps {
   tags: string[];
-  postType: POSTTYPES;
 }
 
 // Possible issue with TailwindCSS where styles aren't included in the final bundle if they are kept in an external file so keeping them here for the styles to work. https://github.com/tailwindlabs/tailwindcss/discussions/7956
-const POST_TAGS: PostTags = {
+export const POST_TAGS: PostTags = {
   JAVASCRIPT: {
-    tagName: 'JavaScript',
+    name: 'JavaScript',
+    link: 'javascript',
     colors: {
       nonActive: {
         bg: 'bg-yellow-100',
@@ -24,7 +25,8 @@ const POST_TAGS: PostTags = {
     },
   },
   TYPESCRIPT: {
-    tagName: 'TypeScript',
+    name: 'TypeScript',
+    link: 'typescript',
     colors: {
       nonActive: {
         bg: 'bg-blue-100',
@@ -38,7 +40,8 @@ const POST_TAGS: PostTags = {
     },
   },
   GATSBYJS: {
-    tagName: 'GatsbyJS',
+    name: 'GatsbyJS',
+    link: 'gatsbyjs',
     colors: {
       nonActive: {
         bg: 'bg-purple-100',
@@ -52,7 +55,8 @@ const POST_TAGS: PostTags = {
     },
   },
   NODEJS: {
-    tagName: 'NodeJS',
+    name: 'NodeJS',
+    link: 'nodejs',
     colors: {
       nonActive: {
         bg: 'bg-green-100',
@@ -66,7 +70,8 @@ const POST_TAGS: PostTags = {
     },
   },
   CSS: {
-    tagName: 'CSS',
+    name: 'CSS',
+    link: 'css',
     colors: {
       nonActive: {
         bg: 'bg-blue-100',
@@ -80,7 +85,8 @@ const POST_TAGS: PostTags = {
     },
   },
   DESIGN: {
-    tagName: 'Design',
+    name: 'Design',
+    link: 'design',
     colors: {
       nonActive: {
         bg: 'bg-gray-100',
@@ -94,7 +100,8 @@ const POST_TAGS: PostTags = {
     },
   },
   UI: {
-    tagName: 'UI',
+    name: 'UI',
+    link: 'ui',
     colors: {
       nonActive: {
         bg: 'bg-violet-100',
@@ -109,40 +116,51 @@ const POST_TAGS: PostTags = {
   },
 };
 
-function Tag({
-  tag,
-  postType,
-}: {
-  tag: string;
-  postType: POSTTYPES;
-}): JSX.Element | null {
-  if (!tag) return null;
+function Tag({ tag }: { tag: string }): JSX.Element | null {
+  const { asPath } = useRouter();
 
-  const upperTag = tag.toUpperCase();
+  if (!tag) return null;
+  let linkHref = '';
+
+  const baseRoute = asPath.split('/').slice(0, 2).join('/');
 
   const {
-    tagName,
+    name,
+    link,
     colors: {
+      active: { bg: activeBg, text: activeText },
       nonActive: { bg, text, border },
     },
-  } = POST_TAGS[upperTag];
+  } = POST_TAGS[tag.toUpperCase()];
+
+  const tagActive = asPath?.includes(link);
+
+  if (tagActive) {
+    linkHref = baseRoute;
+  } else if (baseRoute !== 'blog' && baseRoute !== 'newsletter') {
+    linkHref = `/blog/${link}`;
+  } else {
+    linkHref = `${baseRoute}${link}`;
+  }
 
   return (
-    <Link key={tag} href={`/${postType}/${tagName.toLowerCase()}`}>
+    <Link key={tag} href={linkHref}>
       <a
-        className={`text-xs px-3 py-1 ${bg} ${text} ${border} border font-semibold w-max rounded opacity-100`}
+        className={`text-xs px-3 py-1 ${
+          tagActive ? `${activeBg} ${activeText}` : `${bg} ${text}`
+        } ${border} border font-semibold w-max rounded opacity-100`}
       >
-        {tagName}
+        {name}
       </a>
     </Link>
   );
 }
 
-export default function Tags({ tags, postType }: IProps): JSX.Element {
+export default function Tags({ tags }: IProps): JSX.Element {
   return (
     <div className="flex flex-row flex-wrap gap-x-3 gap-y-2">
       {tags.map((tag) => {
-        return <Tag key={tag} tag={tag} postType={postType} />;
+        return <Tag key={tag} tag={tag} />;
       })}
     </div>
   );

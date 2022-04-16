@@ -8,7 +8,7 @@ jest.mock('next/router', () => {
         route: '/',
         pathname: '',
         query: '',
-        asPath: 'example-post-title',
+        asPath: '/blog',
       };
     },
   };
@@ -19,7 +19,7 @@ const mockData = {
   categories: ['DESIGN', 'DEVELOPMENT'],
 };
 
-describe('PostSidebar', () => {
+describe('PageSidebar', () => {
   it('Should render all items correctly', () => {
     render(<PageSidebar data={mockData} />);
 
