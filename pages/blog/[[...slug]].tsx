@@ -107,9 +107,11 @@ const BlogPage: NextPage<BlogPageProps> = ({
   return (
     <>
       <SEO
-        metaTitle={`${filterItem ? `${filterItem} Posts |` : ''} Blog${
-          blogPage ? ` - Page ${blogPage}` : ''
-        }`}
+        metaTitle={`${
+          filterItem
+            ? `${filterItem} Posts ${blogPage ? ` - Page ${blogPage}` : ''} |`
+            : ''
+        } Blog ${!filterItem && blogPage ? `- Page ${blogPage}` : ''}`}
         metaDescription="My Blog"
         url="blog"
       />
@@ -208,7 +210,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   });
 
   // If slug is an array, take the first value, otherwise return '0' to indidicate page 0
-  const slugVal = slug?.length ? slug[0].toUpperCase() : '0';
+  const slugVal = slug?.length ? slug[0] : '0';
   // If slug is an array and has a length of 2, take the second item otherwise '0'
   const slugFilterPage = slug?.length === 2 ? slug[1] : '0';
 
@@ -219,7 +221,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const isPostGridPage = slugVal.match(/^[0-9]*$/gm);
 
   // Check if the first slug value is included in categories, if so return the required props for it
-  if (categories.includes(slugVal)) {
+  if (categories.includes(slugVal.toUpperCase())) {
     const { postsLength, posts, filterItem } = createFilterPostPage({
       slug: slugVal,
       posts: postData,
@@ -242,7 +244,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 
   // Check if the first slug value is included in tags, if so return the required props for it
-  if (tags.includes(slugVal)) {
+  if (tags.includes(slugVal.toUpperCase())) {
     const { postsLength, posts, filterItem } = createFilterPostPage({
       slug: slugVal,
       posts: postData,

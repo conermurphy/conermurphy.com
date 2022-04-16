@@ -19,7 +19,7 @@ export default async function getPost({
   });
 
   const [post] = allPostData.filter((postData) => {
-    const { slug: postSlug }: { slug?: string } = postData.data;
+    const { slug: postSlug } = postData.data;
 
     if (!postSlug) return;
 
