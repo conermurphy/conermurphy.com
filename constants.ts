@@ -1,6 +1,8 @@
 import { Icons, PostCategories } from './types';
 
 export const ICONS: Icons = {
+  JUSTIFY: { name: 'JUSTIFY' },
+  CLOSE: { name: 'CLOSE' },
   CODE: { name: 'CODE' },
   KEYBOARD: { name: 'KEYBOARD' },
   SOCIALS: { name: 'SOCIALS' },
