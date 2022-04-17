@@ -1,6 +1,7 @@
 import getAllPostsData from './getAllPostsData';
 import getAllPostNames from './getAllPostsNames';
 import { Post, POSTTYPES } from '../../types';
+import { dev } from '../../config';
 
 interface IProps {
   postType: POSTTYPES;
@@ -22,17 +23,28 @@ export default async function getAllPosts({
     postType,
   });
 
-  const sortedPosts = posts.sort((a, b) => {
-    const { date: aDate } = a.data;
-    const { date: bDate } = b.data;
+  const postsToDisplay = posts
+    .filter((post) => {
+      if (!dev && !post.data.published) return null;
 
-    return bDate.localeCompare(aDate);
-  });
+      return post;
+    })
+    .sort((a, b) => {
+      const { date: aDate, id: aId } = a.data;
+      const { date: bDate, id: bId } = b.data;
+
+      if (bDate.localeCompare(aDate) !== 0) return bDate.localeCompare(aDate);
+
+      if (aId > bId) return -1;
+      if (bId > aId) return 1;
+
+      return 0;
+    });
 
   // If limit is passed than slice off 0 to the limit and return
   if (limit) {
-    return sortedPosts.slice(skip, skip + limit);
+    return postsToDisplay.slice(skip, skip + limit);
   }
 
-  return sortedPosts;
+  return postsToDisplay;
 }
