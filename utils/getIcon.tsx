@@ -39,10 +39,10 @@ export default function getIcon({
         <FaAlignJustify
           size={size}
           color={color}
-          title="Mobile Menu icon"
+          title="Mobile Menu Open Icon"
           data-testid="menu-icon"
           role="img"
-          aria-label="mobile menu icon"
+          aria-label="mobile menu open icon"
         />
       );
     case ICONS.CLOSE.name:
@@ -50,10 +50,10 @@ export default function getIcon({
         <IoMdClose
           size={size}
           color={color}
-          title="Mobile Close icon"
+          title="Mobile Menu Close Icon"
           data-testid="menu-icon"
           role="img"
-          aria-label="mobile close icon"
+          aria-label="mobile menu close icon"
         />
       );
     case ICONS.KEYBOARD.name:

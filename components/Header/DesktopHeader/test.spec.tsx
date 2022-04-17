@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import Header from './DesktopHeader';
+import DesktopHeader from './DesktopHeader';
 
-describe('Header', () => {
+describe('DesktopHeader', () => {
   it('Should render the site title', () => {
-    render(<Header />);
+    render(<DesktopHeader />);
 
     const title = screen.getByText(/coner murphy/i);
 
@@ -12,7 +12,7 @@ describe('Header', () => {
   });
 
   it('Should render a link to home', () => {
-    render(<Header />);
+    render(<DesktopHeader />);
 
     const title = screen.getByRole('link', { name: 'Coner Murphy' });
 
@@ -21,7 +21,7 @@ describe('Header', () => {
   });
 
   it('Should render a nav component for the nav bar', () => {
-    render(<Header />);
+    render(<DesktopHeader />);
 
     const nav = screen.getByRole('navigation');
 
@@ -29,7 +29,7 @@ describe('Header', () => {
   });
 
   it('Should render the socials component', () => {
-    render(<Header />);
+    render(<DesktopHeader />);
 
     const icons = screen.queryAllByRole('img').length;
 
