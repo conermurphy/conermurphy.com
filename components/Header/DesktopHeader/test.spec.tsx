@@ -27,4 +27,19 @@ describe('Header', () => {
 
     expect(nav).toBeVisible();
   });
+
+  it('Should render the socials component', () => {
+    render(<Header />);
+
+    const icons = screen.queryAllByRole('img').length;
+
+    const twitterIcon = screen.getByLabelText('Twitter logo');
+    const linkedInIcon = screen.getByLabelText('LinkedIn logo');
+    const emailIcon = screen.getByLabelText('Email icon');
+
+    expect(twitterIcon).toBeVisible();
+    expect(linkedInIcon).toBeVisible();
+    expect(emailIcon).toBeVisible();
+    expect(icons).toEqual(3);
+  });
 });

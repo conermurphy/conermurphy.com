@@ -16,7 +16,7 @@ export default function ContactHeader(): JSX.Element {
         pageHeader: true,
       }}
     >
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-72">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-12">
         <div className={itemContainerStyles}>
           <div className={itemHeaderStyles}>
             {getIcon({ icon: ICONS.EMAIL.name })}

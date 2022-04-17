@@ -9,10 +9,10 @@ interface IProps {
 export default function MobileNavMenu({ isOpen }: IProps): JSX.Element | null {
   return isOpen ? (
     <div className="fixed top-16 w-full border-b border-primaryBorder">
-      <div className="p-6 bg-secondaryBg">
+      <div className="p-6 sm:px-20 bg-secondaryBg">
         <NavBar isMobile />
       </div>
-      <div className="p-6 bg-primaryBg">
+      <div className="p-6 sm:px-20 bg-primaryBg">
         <Newsletter />
       </div>
     </div>
