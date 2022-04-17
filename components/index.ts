@@ -1,5 +1,3 @@
-export { default as DesktopHeader } from './Header/DesktopHeader/DesktopHeader';
-export { default as MobileHeader } from './Header/MobileHeader/MobileHeader';
 export { default as Layout } from './Layout/Layout';
 export { default as NavBar } from './NavBar/NavBar';
 export { default as Socials } from './Socials/Socials';

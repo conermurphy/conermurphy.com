@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
 import Footer from '../Footer/Footer';
-import DesktopHeader from '../Header/DesktopHeader/DesktopHeader';
-import MobileHeader from '../Header/MobileHeader/MobileHeader';
+import { DesktopHeader, MobileHeader } from '../Header';
 
 interface IProps {
   children?: ReactNode;
