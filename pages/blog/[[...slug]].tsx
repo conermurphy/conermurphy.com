@@ -8,7 +8,6 @@ import {
   PostHeading,
   PostTagsCats,
   POSTTYPES,
-  PostWithFrontmatter,
   Testimonial,
 } from '../../types';
 import { pageDataSource } from '../../utils';
@@ -20,7 +19,11 @@ import {
   getPostPaths,
 } from '../../utils/posts';
 import { LatestPosts, PageHero, SEO, Testimonials } from '../../components';
-import { Components, PostHeader } from '../../components/Blog/PostComponents';
+import {
+  Components,
+  GitHubCTA,
+  PostHeader,
+} from '../../components/Blog/PostComponents';
 import { HeaderBackground } from '../../components/Header/components';
 import {
   PagePagination,
@@ -39,7 +42,7 @@ interface BlogPageProps {
   blogPage: number;
   pageCount: number;
   testimonials: Testimonial[];
-  posts: PostWithFrontmatter[];
+  posts: Post[];
   tagsCats: PostTagsCats;
   filterItem: string;
 }
@@ -49,8 +52,9 @@ interface BlogPostProps {
     content: MDXRemoteSerializeResult;
     data: PostFrontMatter;
     headings: PostHeading[];
+    filePath: string;
   };
-  latestPosts: PostWithFrontmatter[];
+  latestPosts: Post[];
 }
 
 interface IProps extends BlogPageProps, BlogPostProps {
@@ -135,7 +139,7 @@ const BlogPage: NextPage<BlogPageProps> = ({
 
 // Page to show for /blog/x where x is a slug of a blog post.
 const BlogPost: NextPage<BlogPostProps> = ({ post, latestPosts }) => {
-  const { content, headings, data: frontmatter } = post;
+  const { content, headings, data: frontmatter, filePath } = post;
   const {
     title,
     description,
@@ -166,6 +170,8 @@ const BlogPost: NextPage<BlogPostProps> = ({ post, latestPosts }) => {
                 {/*  eslint-disable-next-line */}
                 {/* @ts-ignore */}
                 <MDXRemote {...content} components={Components} />
+                <hr />
+                <GitHubCTA postPath={filePath} />
               </div>
               <PostSidebar headings={headings} title={title} />
             </div>
@@ -299,7 +305,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       isPostGridPage,
       latestPosts,
-      post: { content, headings, data: post.data },
+      post: { content, headings, data: post.data, filePath: post.filePath },
     },
   };
 };

@@ -21,6 +21,7 @@ export default async function getAllPostsData({
   const postsData = await Promise.all(
     posts.map(async (post) => {
       const filePath = `${dir}/${post}`;
+      const gitHubFilePath = filePath.split('content')[1];
 
       const { dataWithTTR: data, tempContent: content } = await fsPromises
         .readFile(filePath, 'utf-8')
@@ -40,7 +41,9 @@ export default async function getAllPostsData({
           return { dataWithTTR, tempContent };
         });
 
-      return getContent ? { data, content } : { data };
+      return getContent
+        ? { data, content, filePath: gitHubFilePath }
+        : { data };
     })
   );
 

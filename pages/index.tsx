@@ -6,13 +6,13 @@ import {
   Spotlight,
   Testimonials,
 } from '../components';
-import { PostWithFrontmatter, Service, SPOTLIGHT, Testimonial } from '../types';
+import { Post, Service, SPOTLIGHT, Testimonial } from '../types';
 import { pageDataSource } from '../utils';
 
 interface IProps {
   services: Service[];
   testimonials: Testimonial[];
-  latestPosts: PostWithFrontmatter[];
+  latestPosts: Post[];
 }
 
 const Home: NextPage<IProps> = ({ services, testimonials, latestPosts }) => {
