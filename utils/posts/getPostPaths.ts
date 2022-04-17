@@ -1,3 +1,4 @@
+import { dev } from '../../config';
 import { Post, POSTTYPES } from '../../types';
 import getAllPosts from './getAllPosts';
 import getAllTagsCategories from './getAllTagsCategories/getAllTagsCategories';
@@ -5,6 +6,14 @@ import getAllTagsCategories from './getAllTagsCategories/getAllTagsCategories';
 interface IProps {
   postType: POSTTYPES;
 }
+
+type ReturnType = Promise<
+  {
+    params: {
+      slug: string[];
+    };
+  }[]
+>;
 
 interface PostFilterProps {
   data: string[];
@@ -35,13 +44,21 @@ function postFilter({ data, allPosts, postsPerPage, filter }: PostFilterProps) {
   });
 }
 
-export default async function getPostPaths({ postType }: IProps) {
+export default async function getPostPaths({ postType }: IProps): ReturnType {
   const postsPerPage = parseInt(process.env.POSTS_PER_PAGE);
   const postData = await getAllPosts({ postType });
 
   // Get all post slugs
   const postPaths = postData.map((post) => {
-    const { slug } = post.data;
+    const { slug, published } = post.data;
+
+    if (!dev && !published) {
+      return {
+        params: {
+          slug: [''],
+        },
+      };
+    }
 
     return {
       params: {
