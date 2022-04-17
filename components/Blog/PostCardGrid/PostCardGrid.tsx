@@ -1,9 +1,9 @@
 import React from 'react';
-import { PostWithFrontmatter } from '../../../types';
+import { Post } from '../../../types';
 import PostCard from '../PostCard/PostCard';
 
 interface IProps {
-  posts: PostWithFrontmatter[];
+  posts: Post[];
 }
 
 export default function PostCardGrid({ posts }: IProps): JSX.Element {

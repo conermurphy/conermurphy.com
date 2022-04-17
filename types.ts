@@ -66,11 +66,8 @@ export type PostHeading = {
 export type Post = {
   data: PostFrontMatter;
   content?: string;
-};
-
-export type PostWithFrontmatter = {
-  data: PostFrontMatter;
-  content?: string;
+  headings?: PostHeading[];
+  filePath?: string;
 };
 
 export type PostTags = {

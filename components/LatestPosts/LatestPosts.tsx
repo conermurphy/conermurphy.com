@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import React from 'react';
-import { PostWithFrontmatter } from '../../types';
+import { Post } from '../../types';
 import { PostCard } from '../Blog';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
 
 interface IProps {
-  posts: PostWithFrontmatter[];
+  posts: Post[];
 }
 
 export default function LatestPosts({ posts }: IProps): JSX.Element {
