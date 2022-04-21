@@ -22,6 +22,15 @@ module.exports = {
         32: ['2rem', { letterSpacing: '', lineHeight: '40px' }],
         40: ['2.5rem', { letterSpacing: '', lineHeight: '48px' }],
       },
+      keyframes: {
+        blink: {
+          "0%, 40%": {opacity: 1},
+          "60%, 100%": {opacity: 0},
+        }
+      },
+      animation: {
+        blink: 'blink .6s linear infinite alternate'
+      }
     },
     fontFamily: {
       display: ['Poppins'],

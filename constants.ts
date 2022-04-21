@@ -40,3 +40,17 @@ export const CATEGORIES: PostCategories = {
     link: 'content-creation',
   },
 };
+
+export const TECHS = [
+  ICONS.GRAPHQL.name,
+  ICONS.REACT.name,
+  ICONS.NEXTJS.name,
+  ICONS.TYPESCRIPT.name,
+  ICONS.JAVASCRIPT.name,
+];
+
+export const HOME_TYPEWRITER_TEXT = [
+  'TypeScript Developer',
+  'Technical Writer',
+  'Content Creator',
+];
