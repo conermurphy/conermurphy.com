@@ -35,42 +35,44 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
                 </div>
               </div>
             ) : null}
-            <pre
-              className={`${className} ${fileName ? '' : 'my-6 md:my-8'} ${
-                fileName ? 'rounded-b-lg' : 'rounded-lg'
-              } text-sm md:text-base relative drop-shadow-lg`}
-              style={{ ...style }}
-            >
-              {tokens.map((line, index) => {
-                const lineProps = getLineProps({ line, key: index });
-                return (
-                  <div
-                    key={`item-${index}`}
-                    className={lineProps.className}
-                    style={lineProps.style}
-                  >
-                    <span className="pr-4 opacity-75 select-none">
-                      {index + 1}
-                    </span>
-                    {line.map((token, key) => {
-                      const tokenProps = getTokenProps({ token, key });
-                      return (
-                        <span
-                          key={`line-${key}`}
-                          style={tokenProps.style}
-                          className={tokenProps.className}
-                        >
-                          {tokenProps.children}
-                        </span>
-                      );
-                    })}
-                  </div>
-                );
-              })}
-              <span className="absolute bottom-1.5 right-3 opacity-75 select-none">
+            <div className="relative ">
+              <pre
+                className={`${className} ${fileName ? '' : 'my-6 md:my-8'} ${
+                  fileName ? 'rounded-b-lg' : 'rounded-lg'
+                } text-sm md:text-base drop-shadow-lg`}
+                style={{ ...style }}
+              >
+                {tokens.map((line, index) => {
+                  const lineProps = getLineProps({ line, key: index });
+                  return (
+                    <div
+                      key={`item-${index}`}
+                      className={lineProps.className}
+                      style={lineProps.style}
+                    >
+                      <span className="pr-4 opacity-75 select-none">
+                        {index + 1}
+                      </span>
+                      {line.map((token, key) => {
+                        const tokenProps = getTokenProps({ token, key });
+                        return (
+                          <span
+                            key={`line-${key}`}
+                            style={tokenProps.style}
+                            className={tokenProps.className}
+                          >
+                            {tokenProps.children}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </pre>
+              <span className="absolute bottom-1.5 right-3 select-none text-[#f8f8f2] text-xs md:text-sm">
                 {language}
               </span>
-            </pre>
+            </div>
           </>
         );
       }}
