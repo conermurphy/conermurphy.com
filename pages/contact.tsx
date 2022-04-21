@@ -18,7 +18,10 @@ interface IProps {
 const Home: NextPage<IProps> = ({ testimonials, latestPosts }) => {
   return (
     <>
-      <SEO metaTitle="Contact Me" metaDescription="Contact Me" />
+      <SEO
+        metaTitle="Contact Me"
+        metaDescription="Got a burning question you want to ask Coner Murphy? Come ask me via the methods here."
+      />
       <ContactHeader />
       <ContactForm />
       <LatestPosts posts={latestPosts} />

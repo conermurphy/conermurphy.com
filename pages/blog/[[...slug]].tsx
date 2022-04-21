@@ -116,11 +116,11 @@ const BlogPage: NextPage<BlogPageProps> = ({
             ? `${filterItem} Posts ${blogPage ? ` - Page ${blogPage}` : ''} |`
             : ''
         } Blog ${!filterItem && blogPage ? `- Page ${blogPage}` : ''}`}
-        metaDescription="My Blog"
+        metaDescription="Whether it's JavaScript, TypeScript, ReactJS or something else web development related, there's a post here for you. Come see Coner Murphy's latest posts."
         url="blog"
       />
       <PageHero
-        title="My Content"
+        title="My Blog"
         body="Blog posts, tutorials, technical writing and much more. All of my
             content in one place to enjoy..."
       />
