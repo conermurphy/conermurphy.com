@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "next lint",
     "test": "jest --passWithNoTests",
@@ -19,6 +20,7 @@
     "isomorphic-fetch": "^3.0.0",
     "next": "12.1.0",
     "next-mdx-remote": "^4.0.2",
+    "next-sitemap": "^2.5.20",
     "prism-react-renderer": "^1.3.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
