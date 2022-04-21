@@ -18,13 +18,6 @@
       "parserOptions": {
         "project": ["./tsconfig.json"]
       }
-    },
-    {
-    "files": "*.mdx",
-    "extends": ["plugin:mdx/recommended"],
-    "settings": {
-        "mdx/code-blocks": true
-    }
     }
   ],
   "rules": {

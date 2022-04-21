@@ -1,10 +1,5 @@
 import StaticImageData from 'next/image';
 
-export enum SPOTLIGHT {
-  TECH = 'LATEST_TECHNOLOGIES',
-  COMPANIES = 'COMPANIES',
-}
-
 export enum THEMES {
   LIGHT = 'LIGHT',
   DARK = 'DARK',

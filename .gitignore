@@ -36,3 +36,8 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# Sitemap info
+robots.txt
+sitemap-0.xml
+sitemap.xml
