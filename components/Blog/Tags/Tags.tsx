@@ -133,7 +133,7 @@ function Tag({ tag }: { tag: string }): JSX.Element | null {
     },
   } = POST_TAGS[tag.toUpperCase()];
 
-  const tagActive = asPath?.includes(link);
+  const tagActive = asPath.split('/').slice(-2).includes(link);
 
   if (tagActive) {
     linkHref = baseRoute;

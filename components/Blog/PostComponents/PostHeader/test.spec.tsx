@@ -50,6 +50,6 @@ describe('PostHeader', () => {
     expect(title).toBeVisible();
     expect(description).toBeVisible();
     expect(tags).toBeVisible();
-    expect(image).toEqual(2);
+    expect(image).toEqual(1);
   });
 });

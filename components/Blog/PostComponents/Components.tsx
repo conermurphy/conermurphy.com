@@ -155,9 +155,11 @@ const components = {
       <Img
         src={src}
         alt={alt}
-        width="800"
-        height="450"
-        className="rounded-xl drop-shadow-[0px_0px_4px_rgba(0,0,0,0.25)]"
+        width={650}
+        height={366}
+        layout="responsive"
+        objectFit="contain"
+        className="rounded-xl"
       />
     );
   },
