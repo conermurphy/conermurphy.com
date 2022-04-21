@@ -107,3 +107,8 @@ blockquote > p {
   margin-bottom: 0 !important;
   color: var(--primaryText) !important;
 }
+
+.token-line {
+  width: max-content !important;
+  padding-right: 14px;
+}

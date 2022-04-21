@@ -160,13 +160,13 @@ const BlogPost: NextPage<BlogPostProps> = ({ post, latestPosts }) => {
         canonicalUrl={canonicalUrl}
         article
       />
-      <div className="flex flex-col items-center pb-10 bg-primaryBg px-6">
+      <div className="flex flex-col items-center pb-10 bg-primaryBg px-0">
         <article className="flex flex-col w-full">
           <PostHeader frontmatter={frontmatter} />
           <div>
             <HeaderBackground bg="bg-primaryBg" />
             <div className="relative flex flex-row justify-center lg:justify-between xl:justify-center gap-0 xl:gap-24 w-full max-w-[1100px] m-auto">
-              <div className="min-w-[272px] md:max-w-[650px] mx-6 xl:mx-0">
+              <div className="min-w-[272px] md:max-w-[650px] mx-4 xl:mx-0">
                 {/*  eslint-disable-next-line */}
                 {/* @ts-ignore */}
                 <MDXRemote {...content} components={Components} />
