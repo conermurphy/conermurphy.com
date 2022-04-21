@@ -15,8 +15,8 @@ interface ImageProps {
   alt?: string;
 }
 
-function copyToClip() {
-  navigator.clipboard.writeText(window?.location?.href);
+async function copyToClip() {
+  await navigator.clipboard.writeText(window?.location?.href);
 }
 
 const components = {

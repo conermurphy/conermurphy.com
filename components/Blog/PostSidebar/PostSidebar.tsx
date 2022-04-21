@@ -16,8 +16,8 @@ interface IProps {
   title: string;
 }
 
-function copyToClip() {
-  navigator.clipboard.writeText(window?.location?.href);
+async function copyToClip() {
+  await navigator.clipboard.writeText(window?.location?.href);
 }
 
 function getHeadingClasses(level: number): string {
