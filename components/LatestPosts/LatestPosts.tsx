@@ -21,7 +21,7 @@ export default function LatestPosts({ posts }: IProps): JSX.Element {
           return <PostCard key={data.id} post={data} />;
         })}
       </ul>
-      <div className="flex flex-col gap-1 mt-10 text-lg md:flex-row lg:text-xl justify-centerxl:justify-start">
+      <div className="flex flex-col gap-1 mt-10 text-lg md:flex-row lg:text-xl justify-center xl:justify-start">
         <p>Want to read more?</p>
         <span className="font-semibold">
           <Link href="/blog">View all posts here</Link>
