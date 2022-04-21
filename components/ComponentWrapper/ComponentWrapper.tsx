@@ -17,14 +17,15 @@ export default function ComponentWrapper({
 }: IProps): JSX.Element {
   const bg = pageHeader ? 'bg-primaryBg' : 'bg-secondaryBg';
   const contentMargin = pageHeader ? 'mb-12 md:mb-72' : 'mb-8';
-  const paddingBottom = pageHeader ? 'pb-10 md:pb-72' : 'pb-72';
+  const padding = pageHeader ? 'pb-10 md:pb-72 pt-72' : 'pb-72';
   const negativeMargin = pageHeader ? '-mt-16 pt-8' : '';
   const subTitleMaxWidth = pageHeader ? 'max-w-3xl' : '';
+  const textStyles = pageHeader ? '' : 'text-center';
 
   return (
     <div
       id={props?.id}
-      className={`flex flex-col items-center justify-center ${bg} pt-0 md:pt-72 ${paddingBottom} ${negativeMargin} ${
+      className={`flex flex-col items-center justify-center ${bg} pt-0 ${padding} ${negativeMargin} ${
         props?.className || ''
       }`}
     >
@@ -33,10 +34,12 @@ export default function ComponentWrapper({
         {pageHeader ? (
           <h1 className="text-32 md:text-40">{title}</h1>
         ) : (
-          <h2 className="text-3xl font-normal md:text-4xl">{title}</h2>
+          <h2 className={`text-3xl font-normal md:text-4xl ${textStyles}`}>
+            {title}
+          </h2>
         )}
         <p
-          className={`text-base md:text-xl mt-2.5 lg:mt-1 text-primaryText ${subTitleMaxWidth} ${contentMargin}`}
+          className={`text-base md:text-xl mt-2.5 lg:mt-1 text-primaryText ${subTitleMaxWidth} ${contentMargin} ${textStyles}`}
         >
           {subTitle}
         </p>

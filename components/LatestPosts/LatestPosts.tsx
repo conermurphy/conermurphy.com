@@ -16,12 +16,12 @@ export default function LatestPosts({ posts }: IProps): JSX.Element {
         subTitle: 'What I’m up to and more.',
       }}
     >
-      <ul className="flex flex-col items-start md:items-center justify-between flex-wrap gap-12 md:flex-row lg:flex-nowrap xl:gap-[78px]">
+      <ul className="flex flex-col flex-wrap gap-6 md:flex-row w-full items-start justify-center">
         {posts.map(({ data }) => {
           return <PostCard key={data.id} post={data} />;
         })}
       </ul>
-      <div className="flex flex-col gap-1 mt-10 text-lg md:flex-row lg:text-xl">
+      <div className="flex flex-col gap-1 mt-10 text-lg md:flex-row lg:text-xl justify-center">
         <p>Want to read more?</p>
         <span className="font-semibold">
           <Link href="/blog">View all posts here</Link>
