@@ -15,7 +15,7 @@ export default function Testimonials({ testimonials }: IProps): JSX.Element {
         subTitle: 'Don’t take my word for it.',
       }}
     >
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-start gap-6 md:items-start">
+      <ul className="flex flex-col flex-wrap gap-6 md:flex-row w-full items-start justify-center">
         {testimonials
           .slice(0, 3)
           .map(({ copy, quotee: { name, jobTitle, company, image } }) => {

@@ -15,7 +15,7 @@ export default function Services({ services }: IProps): JSX.Element {
         subTitle: 'Let me help you, here’s how.',
       }}
     >
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-start gap-6 md:items-start">
+      <ul className="flex flex-col flex-wrap gap-6 md:flex-row w-full items-start justify-center">
         {services.map(({ title, copy, icon }) => {
           const iconSVG = getIcon({
             icon,
