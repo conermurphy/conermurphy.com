@@ -57,7 +57,50 @@ Below are all the components currently used on my website.
 
 By having all the components separated I cut down on the amount of code required on the individual pages. Below is the code used to generate the content for my home page.
 
-![Home page code for my website](/images/blog/42-3-Reasons-Why-You-Need-Design-Components-Not-Pages/cm-website-home-page-code.png)
+```jsx:index.js:JAVASCRIPT
+export default function HomePage({ path }) {
+  const MotionLink = motion(Link);
+
+  return (
+    <>
+      <SEO
+        post={{
+          slug: path,
+          title: "Home",
+        }}
+      />
+      <HeroSection>
+        <h1 className="title">Hi, I’m Coner.</h1>
+        <h2 className="subtitle">
+          I want to help your business grow by giving you an outstanding website
+          your customers will adore.
+        </h2>
+        <div className="linkContainer">
+          <MotionLink
+            to="/about-me"
+            className="callToAction outlinedLink"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Learn More About Me.
+          </MotionLink>
+          <MotionLink
+            to="/contact"
+            className="callToAction"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Let's Get To Work.
+          </MotionLink>
+        </div>
+      </HeroSection>
+      <ServiceSection />
+      <CallToAction />
+      <Testimonials />
+    </>
+  );
+}
+```
 
 As you can see by spending the extra time to design and develop at a component level you can cut down on the work required on each page of your website.
 

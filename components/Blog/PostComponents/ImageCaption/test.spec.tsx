@@ -17,7 +17,7 @@ describe('ImageCaption', () => {
       return alt;
     });
 
-    expect(image).toEqual(2);
+    expect(image).toEqual(1);
     expect(altText).toContain('Test Image');
     expect(caption).toBeVisible();
   });
@@ -31,8 +31,8 @@ describe('ImageCaption', () => {
     });
     const caption = screen.queryByText(/this is an image/i);
 
-    expect(image).toEqual(2);
-    expect(altText).toEqual(['', '']);
+    expect(image).toEqual(1);
+    expect(altText).toEqual(['']);
     expect(caption).toBeNull();
   });
 });

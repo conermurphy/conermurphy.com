@@ -35,7 +35,7 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
                 </div>
               </div>
             ) : null}
-            <div className="relative ">
+            <div className="relative mb-6">
               <pre
                 className={`${className} ${fileName ? '' : 'my-6 md:my-8'} ${
                   fileName ? 'rounded-b-lg' : 'rounded-lg'
@@ -69,7 +69,7 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
                   );
                 })}
               </pre>
-              <span className="absolute bottom-1.5 right-3 select-none text-[#f8f8f2] text-xs md:text-sm">
+              <span className="absolute top-1.5 right-3 select-none text-[#f8f8f2] text-xs md:text-sm">
                 {language}
               </span>
             </div>

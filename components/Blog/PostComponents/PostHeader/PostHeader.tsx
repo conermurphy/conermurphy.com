@@ -14,7 +14,7 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
   return (
     <header className="flex flex-col items-center -mt-16 pb-0 lg:pb-3 bg-primaryBg">
       <HeaderBackground bg="bg-primaryBg" />
-      <div className="max-w-full sm:max-w-[1100px] w-full px-4 pb-4 md:pb-12 z-[1] pt-10 md:pt-72">
+      <div className="max-w-full sm:max-w-[1100px] w-full px-4 pb-4 md:pb-10 z-[1] pt-10 md:pt-72">
         <p className="text-xs md:text-base font-semiBold text-primaryText opacity-75 mb-1">
           {`Published on
               ${new Date(date).toLocaleDateString('en-GB', {
@@ -32,13 +32,15 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
         </p>
         <Tags tags={tags} />
       </div>
-      <div className="px-4 sm:max-w-[1100px]">
+      <div className="block max-w-[1100px] h-full w-full px-4">
         <Img
           src={image}
           alt={title}
-          height="619"
-          width="1100"
-          className="rounded-xl lg:rounded-2xl z-[1]"
+          layout="responsive"
+          objectFit="contain"
+          width={1100}
+          height={619}
+          className="rounded-xl z-[1]"
         />
       </div>
     </header>
