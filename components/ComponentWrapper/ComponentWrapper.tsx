@@ -17,7 +17,7 @@ export default function ComponentWrapper({
 }: IProps): JSX.Element {
   const bg = pageHeader ? 'bg-primaryBg' : 'bg-secondaryBg';
   const contentMargin = pageHeader ? 'mb-12 md:mb-72' : 'mb-8';
-  const padding = pageHeader ? 'pb-10 md:pb-72 pt-72' : 'pb-72';
+  const padding = pageHeader ? 'pb-10 md:pb-72 pt-72' : 'pb-72 pt-0';
   const negativeMargin = pageHeader ? '-mt-16 pt-8' : '';
   const subTitleMaxWidth = pageHeader ? 'max-w-3xl' : '';
   const textStyles = pageHeader ? '' : 'text-center';
@@ -25,7 +25,7 @@ export default function ComponentWrapper({
   return (
     <div
       id={props?.id}
-      className={`flex flex-col items-center justify-center ${bg} pt-0 ${padding} ${negativeMargin} ${
+      className={`flex flex-col items-center justify-center ${bg} ${padding} ${negativeMargin} ${
         props?.className || ''
       }`}
     >
