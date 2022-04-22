@@ -24,8 +24,8 @@ const Home: NextPage<IProps> = ({ testimonials, latestPosts }) => {
       />
       <ContactHeader />
       <ContactForm />
-      <LatestPosts posts={latestPosts} />
       <Testimonials testimonials={testimonials} />
+      <LatestPosts posts={latestPosts} />
     </>
   );
 };

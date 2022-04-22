@@ -11,8 +11,7 @@ export default function Footer(): JSX.Element {
           <div className="max-w-[300px] lg:max-w-[420px]">
             <h2 className="text-2xl lg:text-32 mb-3">Coner Murphy</h2>
             <p className="lg:text-lg mb-4">
-              Some random text that I need to write that will talk about me and
-              my work etc etc.
+              TypeScript Developer | Technical Writer | Content Creator
             </p>
             <NavBar />
           </div>

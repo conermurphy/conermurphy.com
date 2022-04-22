@@ -22,7 +22,7 @@ describe('PageHero', () => {
     render(<PageHero title="" body="" />);
 
     const input = screen.queryByPlaceholderText(/Enter your email/i);
-    const button = screen.queryByText(/subscribe./i);
+    const button = screen.queryByText(/subscribe/i);
 
     expect(input).toBeVisible();
     expect(button).toBeVisible();
@@ -32,7 +32,7 @@ describe('PageHero', () => {
     render(<PageHero title="" body="" showNewsletter={false} />);
 
     const input = screen.queryByPlaceholderText(/Enter your email/i);
-    const button = screen.queryByText(/subscribe./i);
+    const button = screen.queryByText(/subscribe/i);
 
     expect(input).toBeNull();
     expect(button).toBeNull();

@@ -121,8 +121,7 @@ const BlogPage: NextPage<BlogPageProps> = ({
       />
       <PageHero
         title="My Blog"
-        body="Blog posts, tutorials, technical writing and much more. All of my
-            content in one place to enjoy..."
+        body="Here are all my latest writings; development, online business, content creation, and more..."
       />
       <HeaderBackground bg="bg-white" />
       <div className="flex flex-row items-center justify-center mb-72 md:mb-12">
