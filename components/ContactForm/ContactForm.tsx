@@ -1,9 +1,9 @@
 import React from 'react';
-import { useForm } from '../../utils';
+import { useContactForm, useForm } from '../../utils';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
 
 export default function ContactForm(): JSX.Element {
-  const { values, updateValue } = useForm({
+  const { values, updateValue, resetValues } = useForm({
     firstName: '',
     lastName: '',
     email: '',
@@ -12,6 +12,11 @@ export default function ContactForm(): JSX.Element {
   });
 
   const { firstName, lastName, email, message } = values;
+
+  const { loading, outputMessage, submitContactForm } = useContactForm({
+    values,
+    resetValues,
+  });
 
   const inputContainerStyles = 'flex flex-col items-start';
   const labelStyles = 'font-semibold opacity-75 mb-1';
@@ -24,12 +29,15 @@ export default function ContactForm(): JSX.Element {
         title: 'Get in touch',
         subTitle: 'Fill out the form below and let’s get talking.',
       }}
-      className="md:text-center"
+      textClasses="xl:text-center"
       id="contact-form"
     >
-      <div className="flex flex-row md:justify-center">
-        {/* TODO: Replace action with onSubmit handler once logic is created. */}
-        <form action="" className="max-w-[272px] md:max-w-[450px] w-full">
+      <div className="flex flex-col justify-center items-center">
+        <form
+          onSubmit={submitContactForm}
+          className="max-w-[272px] md:max-w-[450px] w-full"
+          data-testid="contact-form"
+        >
           <fieldset className="flex flex-col gap-4 md:gap-6">
             <div className="flex flex-col md:flex-row gap-4">
               <div className={inputContainerStyles}>
@@ -96,10 +104,11 @@ export default function ContactForm(): JSX.Element {
               type="submit"
               className="bg-primaryText text-primaryBg text-xs rounded-lg py-3 px-5"
             >
-              Send Message
+              {loading ? 'Sending..' : 'Send Message'}
             </button>
           </fieldset>
         </form>
+        <p className="text-xs lg:text-base mt-6">{outputMessage}</p>
       </div>
     </ComponentWrapper>
   );

@@ -8,6 +8,7 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
     subTitle: string;
     pageHeader?: boolean;
   };
+  textClasses?: string;
 }
 
 export default function ComponentWrapper({
@@ -34,12 +35,18 @@ export default function ComponentWrapper({
         {pageHeader ? (
           <h1 className="text-32 md:text-40">{title}</h1>
         ) : (
-          <h2 className={`text-3xl font-normal md:text-4xl ${textStyles}`}>
+          <h2
+            className={`text-3xl font-normal md:text-4xl ${textStyles} ${
+              props?.textClasses || ''
+            }`}
+          >
             {title}
           </h2>
         )}
         <p
-          className={`text-base md:text-xl mt-2.5 lg:mt-1 text-primaryText ${subTitleMaxWidth} ${contentMargin} ${textStyles}`}
+          className={`text-base md:text-xl mt-2.5 lg:mt-1 text-primaryText ${subTitleMaxWidth} ${contentMargin} ${textStyles} ${
+            props?.textClasses || ''
+          }`}
         >
           {subTitle}
         </p>

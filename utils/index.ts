@@ -3,3 +3,4 @@ export { default as getIcon } from './getIcon';
 export { default as useForm } from './useForm';
 export { default as useEmail } from './useEmail';
 export { default as useOutsideClick } from './useOutsideClick';
+export { default as useContactForm } from './useContactForm';
