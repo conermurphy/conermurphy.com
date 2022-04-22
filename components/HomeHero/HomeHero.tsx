@@ -43,9 +43,10 @@ export default function HomeHero(): JSX.Element {
             <span className="ml-[-50px]">&gt;</span>
           </p>
           <p className="text-base sm:text-xl lg:text-2xl">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla arcu
-            at facilisis dignissim arcu pretium tempus. Cras scelerisque urna
-            amet sagittis donec arcu ipsum.
+            I&apos;m a full stack TypeScript developer from the United Kingdom
+            🇬🇧. I regularly write technical articles and create content on
+            social media around web development, content creation and running an
+            online business to help others on their journies.
           </p>
         </div>
         <div className="flex flex-row items-center gap-x-4 sm:gap-x-10">
