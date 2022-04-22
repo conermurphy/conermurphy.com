@@ -14,7 +14,7 @@
     "prepare": "husky install"
   },
   "engines": {
-    "node": "17.9.0"
+    "node": "17.x"
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.0",
