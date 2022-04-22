@@ -11,6 +11,6 @@ module.exports = {
   },
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
-    '\\.(svg|jpg)$': '<rootDir>/imageTransformer.js',
+    '\\.(svg|jpg|png)$': '<rootDir>/imageTransformer.js',
   },
 };

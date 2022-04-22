@@ -11,7 +11,7 @@ export default function Services({ services }: IProps): JSX.Element {
   return (
     <ComponentWrapper
       data={{
-        title: 'My Crafts...',
+        title: 'Services',
         subTitle: 'Let me help you, here’s how.',
       }}
     >

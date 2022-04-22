@@ -35,8 +35,8 @@ export default function Newsletter({
       <div>
         <p className="font-bold opacity-100">Stay up to date</p>
         <p className={`text-xs ${textSize}`}>
-          Get exclusive content before anyone else. Subscribe to my newsletter
-          below.
+          Get exclusive content and be notified of my content before anyone else
+          by subscribing to my newsletter below.
         </p>
       </div>
       <form

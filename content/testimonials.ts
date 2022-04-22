@@ -1,44 +1,24 @@
 import { Testimonial } from '../types';
-import Testimonial1 from './assets/testimonials/testimonial-1.jpg';
-import Testimonial2 from './assets/testimonials/testimonial-2.jpg';
-import Testimonial3 from './assets/testimonials/testimonial-3.jpg';
-import Testimonial4 from './assets/testimonials/testimonial-4.jpg';
+import graceMiller from './assets/testimonials/grace-miller.jpg';
+import emilyKochanekKetner from './assets/testimonials/emily-kochanek-ketner.png';
 
 const testimonials: Testimonial[] = [
   {
-    copy: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla arcu at facilisis dignissim arcu pretium tempus. Cras scelerisque urna amet sagittis donec arcu ipsum.',
+    copy: "After working with Coner on several occasions, I've found that he's a thoughtful collaborator with excellent communication skills. I know that when I bring him onto a project, I can rely on a carefully researched and planned final product.",
     quotee: {
-      name: 'Some Person 1',
-      jobTitle: 'Job Title 1',
-      company: 'Company',
-      image: Testimonial1,
+      name: 'Grace Miller',
+      jobTitle: 'Content Strategist',
+      company: 'Prismic',
+      image: graceMiller,
     },
   },
   {
-    copy: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla arcu at facilisis dignissim arcu pretium tempus. Cras scelerisque urna amet sagittis donec arcu ipsum.  Cras scelerisque urna amet sagittis donec arcu ipsum.',
+    copy: 'Coner is a strong technical writer when writing about frontend development. He is consistent and thorough, presenting concepts in an easily-digestible format. He takes feedback constructively to improve his work and continuously strives to be a better technical writer.',
     quotee: {
-      name: 'Some Person 2',
-      jobTitle: 'Job Title 2',
-      company: 'Company',
-      image: Testimonial2,
-    },
-  },
-  {
-    copy: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla arcu at facilisis dignissim arcu pretium tempus',
-    quotee: {
-      name: 'Some Person 3',
-      jobTitle: 'Job Title 3',
-      company: 'Company',
-      image: Testimonial3,
-    },
-  },
-  {
-    copy: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla arcu at facilisis dignissim arcu pretium tempus. Cras scelerisque urna amet sagittis donec arcu ipsum.  Cras scelerisque urna amet sagittis donec arcu ipsum. Cras scelerisque urna amet sagittis donec arcu ipsum.',
-    quotee: {
-      name: 'Some Person 4',
-      jobTitle: 'Job Title 4',
-      company: 'Company',
-      image: Testimonial4,
+      name: 'Emily Kochanek Ketner ',
+      jobTitle: 'Content Marketing Manager',
+      company: 'LogRocket',
+      image: emilyKochanekKetner,
     },
   },
 ];

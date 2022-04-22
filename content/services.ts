@@ -3,18 +3,18 @@ import { Service } from '../types';
 
 const services: Service[] = [
   {
-    title: 'Service Title 1',
-    copy: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla arcu at facilisis dignissim arcu pretium tempus. Cras scelerisque urna amet sagittis donec arcu ipsum.',
-    icon: ICONS.KEYBOARD.name,
-  },
-  {
-    title: 'Service Title 2',
-    copy: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla arcu at facilisis dignissim arcu pretium tempus. Cras scelerisque urna amet sagittis donec arcu ipsum.',
+    title: 'TypeScript Developer',
+    copy: "Whether it be an AWS project you need help with, or a frontend built out. I'm a full stack TypeScript developer and always open to discussing new opportunities or projects where I can help.",
     icon: ICONS.CODE.name,
   },
   {
-    title: 'Service Title 3',
-    copy: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla arcu at facilisis dignissim arcu pretium tempus. Cras scelerisque urna amet sagittis donec arcu ipsum.',
+    title: 'Technical Writer',
+    copy: "Whether it be documentation, explanations, or tutorials. I'm able to accomodate your needs and deliver high-quality technical articles that your platform and audience will love.",
+    icon: ICONS.KEYBOARD.name,
+  },
+  {
+    title: 'Content Creator',
+    copy: 'Need content created for your brand? Or, want to get your product or service infront of an audience? I produce daily content on social media and make regular blog posts providing ample opportunities.',
     icon: ICONS.SOCIALS.name,
   },
 ];
