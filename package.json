@@ -13,6 +13,9 @@
     "test:coverage": "jest -c --passWithNoTests",
     "prepare": "husky install"
   },
+  "engines": {
+    "node": "17.9.0"
+  },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.0",
     "fathom-client": "^3.4.1",
