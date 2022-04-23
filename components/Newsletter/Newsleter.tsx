@@ -47,7 +47,6 @@ export default function Newsletter({
         <input
           type="email"
           name="email"
-          id="email"
           required
           placeholder="Enter your email"
           onChange={updateValue}

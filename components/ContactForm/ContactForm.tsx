@@ -21,7 +21,7 @@ export default function ContactForm(): JSX.Element {
   const inputContainerStyles = 'flex flex-col items-start';
   const labelStyles = 'font-semibold opacity-75 mb-1';
   const twoColInputStyles =
-    'rounded-lg border-primaryBorder max-w-[272px] md:max-w-[217px] text-xs bg-secondaryBg w-full';
+    'rounded-lg border-primaryBorder max-w-[272px] md:max-w-[217px] text-xs bg-secondaryBg w-full md:w-[217px]';
 
   return (
     <ComponentWrapper
