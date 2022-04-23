@@ -2,11 +2,11 @@ export default function getHeadingLink(children: string): string {
   return typeof children === 'string'
     ? children
         // Regex to remove all punctionation from the original string
-        .replaceAll(/['!"#$%&\\'()\\*+,\-\\.\\/:;<=>?@\\[\\\]\\^_`{|}~']/g, '')
+        .replace(/['!"#$%&\\'()\\*+,\-\\.\\/:;<=>?@\\[\\\]\\^_`{|}~']/g, '')
         // Convert any spaces to '-'
-        .replaceAll(' ', '-')
+        .replace(/ /g, '-')
         // Replace any '--' to a '-'
-        .replaceAll(/(--)/g, '-')
+        .replace(/(--)/g, '-')
         // Make it all lower case
         .toLowerCase()
     : '';
