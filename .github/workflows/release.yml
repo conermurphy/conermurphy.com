@@ -1,14 +1,15 @@
 name: Release
 on:
-  push:
-    branches:
-      - main
-      - develop
+  pull_request:
+    branches: [main, develop]
+    types: [closed]
 
 jobs:
   release:
+    if: ${{ github.event.pull_request.merged }}
     name: Release
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
