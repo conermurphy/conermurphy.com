@@ -31,7 +31,7 @@ export default function ComponentWrapper({
       }`}
     >
       <HeaderBackground bg={bg} />
-      <section className="max-w-[272px] md:max-w-[1372px] md:px-20 lg:px-106 w-full text-primaryText">
+      <section className="md:max-w-[1372px] px-6 md:px-20 lg:px-106 w-full text-primaryText">
         {pageHeader ? (
           <h1 className="text-32 md:text-40">{title}</h1>
         ) : (

@@ -21,7 +21,7 @@ export default function ContactForm(): JSX.Element {
   const inputContainerStyles = 'flex flex-col items-start';
   const labelStyles = 'font-semibold opacity-75 mb-1';
   const twoColInputStyles =
-    'rounded-lg border-primaryBorder max-w-[272px] md:max-w-[217px] text-xs bg-secondaryBg w-full md:w-[217px]';
+    'rounded-lg border-primaryBorder md:max-w-[217px] text-xs bg-secondaryBg w-full md:w-[217px]';
 
   return (
     <ComponentWrapper
@@ -35,7 +35,7 @@ export default function ContactForm(): JSX.Element {
       <div className="flex flex-col justify-center items-center">
         <form
           onSubmit={submitContactForm}
-          className="max-w-[272px] md:max-w-[450px] w-full"
+          className="md:max-w-[450px] w-full"
           data-testid="contact-form"
         >
           <fieldset className="flex flex-col gap-4 md:gap-6">
@@ -83,7 +83,7 @@ export default function ContactForm(): JSX.Element {
                 placeholder="Your email"
                 onChange={updateValue}
                 value={email}
-                className="rounded-lg border-primaryBorder max-w-[272px] md:max-w-[450px] text-xs bg-secondaryBg w-full"
+                className="rounded-lg border-primaryBorder md:max-w-[450px] text-xs bg-secondaryBg w-full"
               />
             </div>
             <div className={inputContainerStyles}>
@@ -97,7 +97,7 @@ export default function ContactForm(): JSX.Element {
                 placeholder="Your message"
                 onChange={updateValue}
                 value={message}
-                className="rounded-lg border-primaryBorder max-w-[272px] md:max-w-[450px] min-h-[132px] text-xs bg-secondaryBg w-full resize-none"
+                className="rounded-lg border-primaryBorder md:max-w-[450px] min-h-[132px] text-xs bg-secondaryBg w-full resize-none"
               />
             </div>
             <button
