@@ -1,5 +1,5 @@
 {
-  "name": "001-conermurphy",
+  "name": "conermurphy",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,9 +12,6 @@
     "test:update": "jest -u",
     "test:coverage": "jest -c --passWithNoTests",
     "prepare": "husky install"
-  },
-  "engines": {
-    "node": "17.x"
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.0",
@@ -42,7 +39,7 @@
     "@types/jest": "^27.4.1",
     "@types/mdx": "^2.0.1",
     "@types/node": "^17.0.23",
-    "@types/react": "^18.0.0",
+    "@types/react": "^17.0.39",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
     "autoprefixer": "^10.4.4",
