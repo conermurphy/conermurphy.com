@@ -16,7 +16,7 @@ export default function LatestPosts({ posts }: IProps): JSX.Element {
         subTitle: 'What I’m up to and more.',
       }}
     >
-      <ul className="flex flex-col flex-wrap gap-6 md:flex-row w-full items-start justify-center xl:justify-start">
+      <ul className="flex flex-wrap gap-6 flex-row w-full items-start justify-center xl:justify-start">
         {posts.map(({ data }) => {
           return (
             <li key={data.id}>
