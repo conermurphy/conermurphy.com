@@ -28,7 +28,7 @@ export default function HomeHero(): JSX.Element {
             );
           })}
         </ul>
-        <h1 className="text-2xl sm:text-4xl md:text-7xl lg:text-8xl mt-6 sm:mt-12">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl mt-6 sm:mt-12">
           <TypewriterComponent
             options={{
               strings: HOME_TYPEWRITER_TEXT,
