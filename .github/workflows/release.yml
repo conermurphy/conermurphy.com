@@ -1,12 +1,10 @@
 name: Release
 on:
-  pull_request:
+  push:
     branches: [main, develop]
-    types: [closed]
 
 jobs:
   release:
-    if: ${{ github.event.pull_request.merged }}
     name: Release
     runs-on: ubuntu-latest
 
