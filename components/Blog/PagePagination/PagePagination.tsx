@@ -55,7 +55,7 @@ export default function PagePagination({
   currentPage,
 }: IProps): JSX.Element {
   const { asPath } = useRouter();
-  const lastURLRoute = asPath.split('/').at(-1);
+  const lastURLRoute = asPath.split('/')[asPath.split('/').length - 1];
   const activePageNumber = parseInt(lastURLRoute ?? '0');
   const routeBase = !Number.isNaN(activePageNumber)
     ? asPath.split('/').slice(0, -1).join('/')

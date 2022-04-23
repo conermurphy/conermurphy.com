@@ -7,6 +7,12 @@ const nextConfig = {
   webpack5: true,
   webpack: (config) => {
     config.resolve.fallback = { fs: false, path: false, process: false, buffer: false };
+    config.resolve.alias = {
+        ...config.resolve.alias,
+        // fixes next-mdx-remote: Package path ./jsx-runtime.js is not exported from package react
+        // https://github.com/hashicorp/next-mdx-remote/issues/237
+        "react/jsx-runtime.js": require.resolve("react/jsx-runtime"),
+      };
 
     return config;
   },
@@ -166,4 +172,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

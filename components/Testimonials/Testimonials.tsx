@@ -21,10 +21,10 @@ export default function Testimonials({ testimonials }: IProps): JSX.Element {
           .map(({ copy, quotee: { name, jobTitle, company, image } }) => {
             return (
               <article
-                key={`${name.replaceAll(' ', '-')}-${jobTitle.replaceAll(
-                  ' ',
+                key={`${name.replace(/ /g, '-')}-${jobTitle.replace(
+                  / /g,
                   '-'
-                )}-${company.replaceAll(' ', '-')}`}
+                )}-${company.replace(/ /g, '-')}`}
                 className="flex flex-col gap-8 h-full justify-between max-w-[272px] sm:max-w-[400px] bg-primaryBg rounded-lg px-8 py-6"
               >
                 <p className="text-sm md:text-base">{copy}</p>
