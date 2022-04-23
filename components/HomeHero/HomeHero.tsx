@@ -9,7 +9,7 @@ export default function HomeHero(): JSX.Element {
   return (
     <div className="flex flex-col items-center justify-center bg-primaryBg -mt-16">
       <HeaderBackground bg="bg-primaryBg" />
-      <section className="max-w-[272px] sm:max-w-[1372px] sm:px-20 lg:px-106 w-full text-primaryText pb-10 sm:pb-72 pt-8 sm:pt-72">
+      <section className="sm:max-w-[1372px] px-6 sm:px-20 lg:px-106 w-full text-primaryText pb-10 sm:pb-72 pt-8 sm:pt-72">
         <p
           className="font-semibold text-xl sm:text-2xl md:text-3xl lg:text-5xl"
           data-testid="hey-text"
@@ -28,7 +28,7 @@ export default function HomeHero(): JSX.Element {
             );
           })}
         </ul>
-        <h1 className="text-2xl sm:text-4xl md:text-7xl lg:text-8xl mt-6 sm:mt-12">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl mt-6 sm:mt-12">
           <TypewriterComponent
             options={{
               strings: HOME_TYPEWRITER_TEXT,

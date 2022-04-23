@@ -15,7 +15,7 @@ export default function Services({ services }: IProps): JSX.Element {
         subTitle: 'Let me help you, here’s how.',
       }}
     >
-      <ul className="flex flex-col flex-wrap gap-6 md:flex-row w-full items-start justify-center xl:justify-start">
+      <ul className="flex flex-wrap gap-6 flex-row w-full items-start justify-center xl:justify-start">
         {services.map(({ title, copy, icon }) => {
           const iconSVG = getIcon({
             icon,
@@ -24,12 +24,12 @@ export default function Services({ services }: IProps): JSX.Element {
           });
           return (
             <li key={title}>
-              <article className="flex flex-col gap-6 h-full justify-between max-w-[272px] sm:max-w-[360px] bg-primaryBg rounded-lg px-8 py-6">
+              <article className="flex flex-col gap-6 h-full justify-between md:max-w-[360px] bg-primaryBg rounded-lg px-6 sm:px-8 py-6">
                 <div className="flex flex-row items-center gap-3">
                   <div className="w-10 h-10 flex items-center justify-center bg-primaryText text-primaryBg rounded-lg">
                     {iconSVG}
                   </div>
-                  <h3 className="text-lg font-semibold">{title}</h3>
+                  <h3 className="text-sm sm:text-lg font-semibold">{title}</h3>
                 </div>
                 <p className="text-sm md:text-base">{copy}</p>
               </article>

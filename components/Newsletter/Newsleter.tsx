@@ -31,7 +31,7 @@ export default function Newsletter({
   }
 
   return (
-    <div className={`flex flex-col gap-3 max-w-[272px] ${widthGap}`}>
+    <div className={`flex flex-col gap-3 sm:max-w-[272px] ${widthGap}`}>
       <div>
         <p className="font-bold opacity-100">Stay up to date</p>
         <p className={`text-xs ${textSize}`}>
@@ -51,7 +51,7 @@ export default function Newsletter({
           placeholder="Enter your email"
           onChange={updateValue}
           value={values.email}
-          className={`rounded-lg border-primaryBorder max-w-[272px] text-xs bg-secondaryBg ${textSize}`}
+          className={`rounded-lg border-primaryBorder sm:max-w-[272px] text-xs bg-secondaryBg ${textSize}`}
         />
         <input
           type="text"
