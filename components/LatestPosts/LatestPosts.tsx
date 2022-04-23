@@ -25,7 +25,7 @@ export default function LatestPosts({ posts }: IProps): JSX.Element {
           );
         })}
       </ul>
-      <div className="flex flex-col gap-1 mt-10 text-lg md:flex-row lg:text-xl justify-center xl:justify-start">
+      <div className="flex gap-1 mt-10 text-lg flex-row lg:text-xl justify-center xl:justify-start flex-wrap">
         <p>Want to read more?</p>
         <span className="font-semibold">
           <Link href="/blog">View all posts here</Link>
