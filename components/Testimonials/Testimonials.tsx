@@ -20,34 +20,35 @@ export default function Testimonials({ testimonials }: IProps): JSX.Element {
           .slice(0, 3)
           .map(({ copy, quotee: { name, jobTitle, company, image } }) => {
             return (
-              <article
+              <li
                 key={`${name.replace(/ /g, '-')}-${jobTitle.replace(
                   / /g,
                   '-'
                 )}-${company.replace(/ /g, '-')}`}
-                className="flex flex-col gap-8 h-full justify-between max-w-[272px] sm:max-w-[400px] bg-primaryBg rounded-lg px-8 py-6"
               >
-                <p className="text-sm md:text-base">{copy}</p>
-                <div className="flex flex-row items-center gap-2">
-                  <div className="relative h-[50px] w-[50px] rounded-lg overflow-hidden">
-                    <div className="shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.10)] h-full w-full relative z-10" />
-                    <Img
-                      src={image}
-                      alt={name}
-                      layout="fill"
-                      objectFit="contain"
-                    />
+                <article className="flex flex-col gap-8 h-full justify-between max-w-[272px] sm:max-w-[400px] bg-primaryBg rounded-lg px-8 py-6">
+                  <p className="text-sm md:text-base">{copy}</p>
+                  <div className="flex flex-row items-center gap-2">
+                    <div className="relative h-[50px] w-[50px] rounded-lg overflow-hidden">
+                      <div className="shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.10)] h-full w-full relative z-10" />
+                      <Img
+                        src={image}
+                        alt={name}
+                        layout="fill"
+                        objectFit="contain"
+                      />
+                    </div>
+                    <div>
+                      <p className="text-sm md:text-base font-bold opacity-100">
+                        {name}
+                      </p>
+                      <p className="text-xs md:text-sm">
+                        {jobTitle} @ {company}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm md:text-base font-bold opacity-100">
-                      {name}
-                    </p>
-                    <p className="text-xs md:text-sm">
-                      {jobTitle} @ {company}
-                    </p>
-                  </div>
-                </div>
-              </article>
+                </article>
+              </li>
             );
           })}
       </ul>
