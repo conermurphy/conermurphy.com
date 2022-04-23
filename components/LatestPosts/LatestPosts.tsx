@@ -18,7 +18,11 @@ export default function LatestPosts({ posts }: IProps): JSX.Element {
     >
       <ul className="flex flex-col flex-wrap gap-6 md:flex-row w-full items-start justify-center xl:justify-start">
         {posts.map(({ data }) => {
-          return <PostCard key={data.id} post={data} />;
+          return (
+            <li key={data.id}>
+              <PostCard post={data} />
+            </li>
+          );
         })}
       </ul>
       <div className="flex flex-col gap-1 mt-10 text-lg md:flex-row lg:text-xl justify-center xl:justify-start">

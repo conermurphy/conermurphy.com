@@ -1,0 +1,36 @@
+{
+  "name": "Coner Murphy",
+  "short_name": "Coner Murphy",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafafc",
+  "theme_color": "#121826",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-96.png",
+      "sizes": "96x96",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-384.png",
+      "sizes": "384x384",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
