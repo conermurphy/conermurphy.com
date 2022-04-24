@@ -22,6 +22,5 @@ jobs:
         run: |
           git fetch
           git checkout develop
-          git pull
-          git merge --no-ff main -m "Auto-merge main back to develop"
+          git pull --rebase origin main
           git push
