@@ -14,7 +14,7 @@ export default function PostCard({ post }: IProps): JSX.Element {
   return (
     <Link href={`/blog/${slug}`} passHref>
       <article className="flex flex-col gap-y-6 max-w-[272px] lg:max-w-[350px] cursor-pointer">
-        <div className="relative w-full h-full max-w-[350px] rounded-2xl overflow-hidden">
+        <div className="relative w-full max-w-[350px] rounded-2xl overflow-hidden">
           <Img
             src={image}
             alt={title}
