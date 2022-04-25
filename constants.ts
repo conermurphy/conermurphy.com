@@ -39,6 +39,10 @@ export const CATEGORIES: PostCategories = {
     name: 'Content Creation',
     link: 'content-creation',
   },
+  LIFE: {
+    name: 'Life',
+    link: 'life',
+  },
 };
 
 export const TECHS = [

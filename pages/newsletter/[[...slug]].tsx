@@ -38,8 +38,8 @@ interface IParams extends ParsedUrlQuery {
   slug: string[];
 }
 
-interface BlogPageProps {
-  blogPage: number;
+interface PageProps {
+  newsletterPage: number;
   pageCount: number;
   testimonials: Testimonial[];
   posts: Post[];
@@ -48,7 +48,7 @@ interface BlogPageProps {
   postType: POSTTYPES;
 }
 
-interface BlogPostProps {
+interface PostProps {
   post: {
     content: MDXRemoteSerializeResult;
     data: PostFrontMatter;
@@ -58,7 +58,7 @@ interface BlogPostProps {
   latestPosts: Post[];
 }
 
-interface IProps extends BlogPageProps, BlogPostProps {
+interface IProps extends PageProps, PostProps {
   isPostGridPage: boolean;
 }
 
@@ -100,9 +100,9 @@ function createFilterPostPage({
   };
 }
 
-// Page to show for /blog or /blog/x where x is a number representing the page number
-const BlogPage: NextPage<BlogPageProps> = ({
-  blogPage,
+// Page to show for /newsletter or /newsletter/x where x is a number representing the page number
+const NewsletterPage: NextPage<PageProps> = ({
+  newsletterPage,
   pageCount,
   testimonials,
   posts,
@@ -115,15 +115,19 @@ const BlogPage: NextPage<BlogPageProps> = ({
       <SEO
         metaTitle={`${
           filterItem
-            ? `${filterItem} Posts ${blogPage ? ` - Page ${blogPage}` : ''} |`
+            ? `${filterItem} Posts ${
+                newsletterPage ? ` - Page ${newsletterPage}` : ''
+              } |`
             : ''
-        } Blog ${!filterItem && blogPage ? `- Page ${blogPage}` : ''}`}
-        metaDescription="Whether it's JavaScript, TypeScript, ReactJS or something else web development related, there's a post here for you. Come see Coner Murphy's latest posts."
-        url="blog"
+        } Newsletter ${
+          !filterItem && newsletterPage ? `- Page ${newsletterPage}` : ''
+        }`}
+        metaDescription="Thoughts, stories, questions, and actionable advise for developers, entrepreneurs, and more. That's the theme of my newsletter, come give it a read."
+        url="newsletter"
       />
       <PageHero
-        title="My Blog"
-        body="Here are all my latest writings; web development, online business, content creation, and more..."
+        title="My Newsletter"
+        body="Thoughts, stories, questions, and actionable advise for developers, entrepreneurs, and more..."
       />
       <HeaderBackground bg="bg-white" />
       <div className="flex flex-row items-center justify-center mb-72 md:mb-12">
@@ -132,14 +136,14 @@ const BlogPage: NextPage<BlogPageProps> = ({
           <PageSidebar data={tagsCats} />
         </div>
       </div>
-      <PagePagination pageCount={pageCount} currentPage={blogPage} />
+      <PagePagination pageCount={pageCount} currentPage={newsletterPage} />
       <Testimonials testimonials={testimonials} />
     </>
   );
 };
 
-// Page to show for /blog/x where x is a slug of a blog post.
-const BlogPost: NextPage<BlogPostProps> = ({ post, latestPosts }) => {
+// Page to show for /newsletter/x where x is a slug of a newsletter post.
+const NewsletterPost: NextPage<PostProps> = ({ post, latestPosts }) => {
   const { content, headings, data: frontmatter, filePath } = post;
   const {
     title,
@@ -185,13 +189,17 @@ const BlogPost: NextPage<BlogPostProps> = ({ post, latestPosts }) => {
 };
 
 // This controls which page to show based off the isPostGridPage prop
-const Blog: NextPage<IProps> = ({ isPostGridPage, ...params }) => {
-  return isPostGridPage ? <BlogPage {...params} /> : <BlogPost {...params} />;
+const Newsletter: NextPage<IProps> = ({ isPostGridPage, ...params }) => {
+  return isPostGridPage ? (
+    <NewsletterPage {...params} />
+  ) : (
+    <NewsletterPost {...params} />
+  );
 };
 
 export const getStaticPaths: GetStaticPaths<IParams> = async () => {
-  // Get all post paths for BLOG POSTTYPE including generic blog pages, post pages, tag and category pages
-  const paths = await getPostPaths({ postType: POSTTYPES.BLOG });
+  // Get all post paths for NEWSLETTER POSTTYPE including generic newsletter pages, post pages, tag and category pages
+  const paths = await getPostPaths({ postType: POSTTYPES.NEWSLETTER });
 
   return {
     paths,
@@ -201,7 +209,7 @@ export const getStaticPaths: GetStaticPaths<IParams> = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const postsPerPage = parseInt(process.env.POSTS_PER_PAGE);
-  const postType = POSTTYPES.BLOG;
+  const postType = POSTTYPES.NEWSLETTER;
   const postData = await getAllPosts({ postType });
   const { slug } = params as IParams;
 
@@ -224,7 +232,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slugInt = parseInt(slugVal);
   const slugFilterPageInt = parseInt(slugFilterPage);
 
-  // Check if slugVal stars with a number not in a word to indicate if its blog page pagination or not
+  // Check if slugVal stars with a number not in a word to indicate if its newsletter page pagination or not
   const isPostGridPage = slugVal.match(/^[0-9]*$/gm);
 
   // Check if the first slug value is included in categories, if so return the required props for it
@@ -241,7 +249,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       props: {
         isPostGridPage: true,
         pageCount: Math.ceil(postsLength / postsPerPage),
-        blogPage: slugFilterPageInt,
+        newsletterPage: slugFilterPageInt,
         posts,
         tagsCats: { categories, tags },
         testimonials,
@@ -265,7 +273,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       props: {
         isPostGridPage: true,
         pageCount: Math.ceil(postsLength / postsPerPage),
-        blogPage: slugFilterPageInt,
+        newsletterPage: slugFilterPageInt,
         posts,
         tagsCats: { categories, tags },
         testimonials,
@@ -275,9 +283,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
   }
 
-  // If it is overall blog page pagination return props for it
+  // If it is overall newsletter page pagination return props for it
   if (isPostGridPage) {
-    // Work out the number of blog posts required to skip for the page accessed. E.g. page 2 skip the first 8 posts and return from 9 to 16.
+    // Work out the number of newsletter posts required to skip for the page accessed. E.g. page 2 skip the first 8 posts and return from 9 to 16.
     const skip = slugInt ? (slugInt - 1) * postsPerPage : 0;
 
     const posts = postData.slice(skip, skip + postsPerPage);
@@ -286,7 +294,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       props: {
         isPostGridPage,
         pageCount: Math.ceil(postData.length / postsPerPage),
-        blogPage: slugInt,
+        newsletterPage: slugInt,
         posts,
         tagsCats: { categories, tags },
         testimonials,
@@ -295,7 +303,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
   }
 
-  // If it is a blog post return props for it
+  // If it is a newsletter post return props for it
   const post = await getPost({ slug: slugVal, postType });
   let content;
   let headings;
@@ -314,4 +322,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   };
 };
 
-export default Blog;
+export default Newsletter;
