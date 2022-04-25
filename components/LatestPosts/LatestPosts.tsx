@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { Post } from '../../types';
-import { PostCard } from '../Blog';
+import { PostCard } from '../Post';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
 
 interface IProps {

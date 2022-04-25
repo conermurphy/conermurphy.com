@@ -1,20 +1,21 @@
 import React from 'react';
 import Img from 'next/image';
 import Link from 'next/link';
-import { PostFrontMatter } from '../../../types';
+import { PostFrontMatter, POSTTYPES } from '../../../types';
 import Tags from '../Tags/Tags';
 
 interface IProps {
   post: PostFrontMatter;
+  postType: POSTTYPES;
 }
 
-export default function PostCard({ post }: IProps): JSX.Element {
+export default function PostCard({ post, postType }: IProps): JSX.Element {
   const { title, date, tags, slug, image, description } = post;
 
   return (
-    <Link href={`/blog/${slug}`} passHref>
+    <Link href={`/${postType}/${slug}`} passHref>
       <article className="flex flex-col gap-y-6 max-w-[272px] lg:max-w-[350px] cursor-pointer">
-        <div className="relative w-full h-full max-w-[350px] rounded-2xl overflow-hidden">
+        <div className="relative w-full max-w-[350px] rounded-2xl overflow-hidden">
           <Img
             src={image}
             alt={title}

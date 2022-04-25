@@ -25,6 +25,7 @@ export default function NavBar({ isMobile = false }: IProps): JSX.Element {
     >
       <CustomLink href="/" value="Home" />
       <CustomLink href="/blog" value="Blog" />
+      <CustomLink href="/newsletter" value="Newsletter" />
       <CustomLink href="/contact" value="Contact" />
     </nav>
   );

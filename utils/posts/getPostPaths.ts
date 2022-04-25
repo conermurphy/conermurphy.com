@@ -90,7 +90,7 @@ export default async function getPostPaths({ postType }: IProps): ReturnType {
 
   // Find the total number of posts and calculate the number of pages required to show them.
   const postsLength = postData.length;
-  const pages = postsLength / postsPerPage;
+  const pages = Math.ceil(postsLength / postsPerPage);
 
   // Create the routes for each  page and then add the post paths onto the array
   const paths = Array.from({ length: pages }).map((_, i) => {
