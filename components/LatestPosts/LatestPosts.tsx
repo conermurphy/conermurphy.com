@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { Post } from '../../types';
+import { Post, POSTTYPES } from '../../types';
 import { PostCard } from '../Post';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
 
@@ -20,7 +20,7 @@ export default function LatestPosts({ posts }: IProps): JSX.Element {
         {posts.map(({ data }) => {
           return (
             <li key={data.id}>
-              <PostCard post={data} />
+              <PostCard post={data} postType={POSTTYPES.BLOG} />
             </li>
           );
         })}
