@@ -13,9 +13,11 @@ interface CodeBlockProps {
 }
 
 export default function Code({ children }: CodeBlockProps): JSX.Element {
-  // Pull the className
-  const [language, fileName, icon]: Language | string[] =
+  const [language, lines, fileName, icon]: Language | string[] =
     children.props.className?.replace(/language-/, '')?.split(':') || '';
+
+  const highlightedLines =
+    lines !== undefined ? (JSON.parse(lines) as number[]) : [];
 
   return (
     <Highlight
@@ -44,14 +46,24 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
               >
                 {tokens.map((line, index) => {
                   const lineProps = getLineProps({ line, key: index });
+                  const lineNumber = index + 1;
+                  const isLineHighlighted =
+                    highlightedLines.includes(lineNumber);
+
                   return (
                     <div
                       key={`item-${index}`}
-                      className={lineProps.className}
+                      className={`${lineProps.className} ${
+                        isLineHighlighted ? 'line-highlighted' : ''
+                      }`}
                       style={lineProps.style}
                     >
-                      <span className="pr-4 opacity-75 select-none">
-                        {index + 1}
+                      <span
+                        className={`pr-4 opacity-75 select-none ${
+                          isLineHighlighted ? 'pl-3' : 'pl-4'
+                        }`}
+                      >
+                        {lineNumber}
                       </span>
                       {line.map((token, key) => {
                         const tokenProps = getTokenProps({ token, key });

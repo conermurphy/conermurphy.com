@@ -30,7 +30,8 @@
  
  /* Code blocks */
  pre[class*="language-"] {
-   padding: 1em;
+   padding-top: 2em;
+   padding-bottom: 1em;
    overflow: auto;
    border:0;
  }
@@ -72,10 +73,6 @@
    font-style:italic;
  }
  
- .token.punctuation {
-   color: #f8f8f2;
- }
- 
  .namespace {
    opacity: .7;
  }
@@ -87,6 +84,10 @@
  .token.deleted {
    color: #f92672;
  }
+
+ .token.punctuation {
+  color: #f8f8f2;
+}
  
  .token.boolean,
  .token.number {
@@ -256,4 +257,3 @@
  .language-scss .function {
    color:#fff;
  }
- 
