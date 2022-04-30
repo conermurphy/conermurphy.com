@@ -6,3 +6,5 @@ export { default as getHeadings } from './getHeadings/getHeadings';
 export { default as getHeadingLink } from './getHeadingsLink/getHeadingLink';
 export { default as getAllTagsCategories } from './getAllTagsCategories/getAllTagsCategories';
 export { default as getPostPaths } from './getPostPaths';
+export { default as createFilterPostPage } from './createFilterPostPage';
+export { default as sourcePostPage } from './sourcePostPage';
