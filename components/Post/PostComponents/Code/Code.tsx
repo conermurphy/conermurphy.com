@@ -13,7 +13,7 @@ interface CodeBlockProps {
 }
 
 export default function Code({ children }: CodeBlockProps): JSX.Element {
-  const [language, lines, fileName, icon]: Language | string[] =
+  const [language, lines = '[]', fileName, icon]: Language | string[] =
     children.props.className?.replace(/language-/, '')?.split(':') || '';
 
   const highlightedLines =
