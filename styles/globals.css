@@ -112,3 +112,10 @@ blockquote > p {
   width: max-content !important;
   padding-right: 14px;
 }
+
+ /* Custom styles for line highlighting in code blocks */
+ .line-highlighted {
+  background-color: rgba(248, 248, 250,.25);
+  width: 100% !important;
+  border-left: 4px solid var(--accent);
+}

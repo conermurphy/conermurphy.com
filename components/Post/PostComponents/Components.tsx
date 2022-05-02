@@ -4,6 +4,7 @@ import BlockQuoteAuthor from './BlockQuoteAuthor/BlockQuoteAuthor';
 import ImageCaption from './ImageCaption/ImageCaption';
 import Tweet from './Tweet/Tweet';
 import { getHeadingLink } from '../../../utils/posts';
+import { copyToClipboard } from '../../../utils';
 
 interface IProps {
   children: string;
@@ -15,21 +16,17 @@ interface ImageProps {
   alt?: string;
 }
 
-async function copyToClip() {
-  await navigator.clipboard.writeText(window?.location?.href);
-}
-
 const components = {
   h2: ({ children }: IProps): JSX.Element => {
     return (
       <h2
         id={getHeadingLink(children)}
-        className="font-semibold text-2xl md:text-32 mb-1.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
+        className="font-semibold text-2xl md:text-32 mb-1.5 mt-6 md:mt-16 scroll-mt-20"
       >
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {
-            return copyToClip();
+            return copyToClipboard(window?.location?.href);
           }}
         >
           {children}
@@ -41,12 +38,12 @@ const components = {
     return (
       <h3
         id={getHeadingLink(children)}
-        className="font-semibold text-xl md:text-2xl mb-1.5.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
+        className="font-semibold text-xl md:text-2xl mb-1.5.5 mt-6 md:mt-16 scroll-mt-20"
       >
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {
-            return copyToClip();
+            return copyToClipboard(window?.location?.href);
           }}
         >
           {children}
@@ -58,12 +55,12 @@ const components = {
     return (
       <h4
         id={getHeadingLink(children)}
-        className="font-semibold text-lg md:text-xl mb-1.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
+        className="font-semibold text-lg md:text-xl mb-1.5 mt-6 md:mt-16 scroll-mt-20"
       >
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {
-            return copyToClip();
+            return copyToClipboard(window?.location?.href);
           }}
         >
           {children}
@@ -75,12 +72,12 @@ const components = {
     return (
       <h5
         id={getHeadingLink(children)}
-        className="font-semibold text-base md:text-lg mb-1.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
+        className="font-semibold text-base md:text-lg mb-1.5 mt-6 md:mt-16 scroll-mt-20"
       >
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {
-            return copyToClip();
+            return copyToClipboard(window?.location?.href);
           }}
         >
           {children}
@@ -92,12 +89,12 @@ const components = {
     return (
       <h6
         id={getHeadingLink(children)}
-        className="font-semibold text-sm md:text-base mb-1.5 mt-6 md:mt-16 scroll-mt-20 md:scroll-mt-32"
+        className="font-semibold text-sm md:text-base mb-1.5 mt-6 md:mt-16 scroll-mt-20"
       >
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {
-            return copyToClip();
+            return copyToClipboard(window?.location?.href);
           }}
         >
           {children}

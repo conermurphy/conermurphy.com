@@ -9,6 +9,7 @@ import {
   FaEnvelope,
   FaReddit,
   FaAlignJustify,
+  FaCheck,
 } from 'react-icons/fa';
 import { MdCode, MdKeyboard, MdShare } from 'react-icons/md';
 import {
@@ -94,10 +95,21 @@ export default function getIcon({
         <FiCopy
           size={size}
           color={color}
-          title="Copy link icon"
+          title="Copy icon"
           data-testid="share-icon"
           role="img"
-          aria-label="copy link icon"
+          aria-label="copy icon"
+        />
+      );
+    case ICONS.TICK.name:
+      return (
+        <FaCheck
+          size={size}
+          color={color}
+          title="Tick icon"
+          data-testid="tick-icon"
+          role="img"
+          aria-label="tick icon"
         />
       );
     case ICONS.TWITTER.name:

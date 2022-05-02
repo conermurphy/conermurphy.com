@@ -15,6 +15,7 @@ export const ICONS: Icons = {
   YOUTUBE: { name: 'YOUTUBE' },
   REDDIT: { name: 'REDDIT' },
   COPY: { name: 'COPY' },
+  TICK: { name: 'TICK' },
   GRAPHQL: { name: 'GRAPHQL', color: 'hsl(319, 100%, 44%)' },
   REACT: { name: 'REACT', color: 'hsl(193, 95%, 68%)' },
   NEXTJS: { name: 'NEXTJS', color: 'hsl(0, 0%, 7%)' },

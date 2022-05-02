@@ -8,16 +8,12 @@ import {
 } from 'react-share';
 import { ICONS } from '../../../constants';
 import { PostHeading } from '../../../types';
-import { getIcon } from '../../../utils';
+import { copyToClipboard, getIcon } from '../../../utils';
 import Newsletter from '../../Newsletter/Newsleter';
 
 interface IProps {
   headings: PostHeading[];
   title: string;
-}
-
-async function copyToClip() {
-  await navigator.clipboard.writeText(window?.location?.href);
 }
 
 function getHeadingClasses(level: number): string {
@@ -73,7 +69,9 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
           <button
             type="button"
             className={shareIconClasses}
-            onClick={copyToClip}
+            onClick={() => {
+              return copyToClipboard(window?.location?.href);
+            }}
           >
             {getIcon({ icon: ICONS.COPY.name })}
           </button>

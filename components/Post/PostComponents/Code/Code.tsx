@@ -1,7 +1,8 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
+import React, { useState } from 'react';
 import Highlight, { defaultProps, Language } from 'prism-react-renderer';
-import { getIcon } from '../../../../utils';
+import { copyToClipboard, getIcon } from '../../../../utils';
+import { ICONS } from '../../../../constants';
 
 interface CodeBlockProps {
   children: {
@@ -13,15 +14,21 @@ interface CodeBlockProps {
 }
 
 export default function Code({ children }: CodeBlockProps): JSX.Element {
-  // Pull the className
-  const [language, fileName, icon]: Language | string[] =
+  const [isCodeCopied, setCodeCopied] = useState(false);
+
+  const [language, lines = '[]', fileName, icon]: Language | string[] =
     children.props.className?.replace(/language-/, '')?.split(':') || '';
+
+  const highlightedLines =
+    lines !== undefined ? (JSON.parse(lines) as number[]) : [];
+
+  const code = children.props.children.trim();
 
   return (
     <Highlight
       Prism={defaultProps.Prism}
       theme={undefined}
-      code={children.props.children.trim()}
+      code={code}
       language={language as Language}
     >
       {({ className, style, tokens, getLineProps, getTokenProps }) => {
@@ -35,7 +42,7 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
                 </div>
               </div>
             ) : null}
-            <div className="relative mb-6">
+            <div className="relative group mb-6">
               <pre
                 className={`${className} ${fileName ? '' : 'my-6 md:my-8'} ${
                   fileName ? 'rounded-b-lg' : 'rounded-lg'
@@ -44,14 +51,24 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
               >
                 {tokens.map((line, index) => {
                   const lineProps = getLineProps({ line, key: index });
+                  const lineNumber = index + 1;
+                  const isLineHighlighted =
+                    highlightedLines.includes(lineNumber);
+
                   return (
                     <div
                       key={`item-${index}`}
-                      className={lineProps.className}
+                      className={`${lineProps.className} ${
+                        isLineHighlighted ? 'line-highlighted' : ''
+                      }`}
                       style={lineProps.style}
                     >
-                      <span className="pr-4 opacity-75 select-none">
-                        {index + 1}
+                      <span
+                        className={`pr-4 opacity-75 select-none ${
+                          isLineHighlighted ? 'pl-3' : 'pl-4'
+                        }`}
+                      >
+                        {lineNumber}
                       </span>
                       {line.map((token, key) => {
                         const tokenProps = getTokenProps({ token, key });
@@ -72,6 +89,22 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
               <span className="absolute top-1.5 right-3 select-none text-[#f8f8f2] text-xs md:text-sm">
                 {language}
               </span>
+              <button
+                type="button"
+                className="hidden group-hover:block absolute bottom-3 right-3 bg-primaryBg p-1.5 rounded-md"
+                onClick={async () => {
+                  await copyToClipboard(code);
+
+                  setCodeCopied(true);
+                  setTimeout(() => {
+                    setCodeCopied(false);
+                  }, 1500);
+                }}
+              >
+                {isCodeCopied
+                  ? getIcon({ icon: ICONS.TICK.name, size: '18px' })
+                  : getIcon({ icon: ICONS.COPY.name, size: '18px' })}
+              </button>
             </div>
           </>
         );
