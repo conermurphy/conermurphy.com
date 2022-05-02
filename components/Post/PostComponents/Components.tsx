@@ -4,6 +4,7 @@ import BlockQuoteAuthor from './BlockQuoteAuthor/BlockQuoteAuthor';
 import ImageCaption from './ImageCaption/ImageCaption';
 import Tweet from './Tweet/Tweet';
 import { getHeadingLink } from '../../../utils/posts';
+import { copyToClipboard } from '../../../utils';
 
 interface IProps {
   children: string;
@@ -13,10 +14,6 @@ interface IProps {
 interface ImageProps {
   src: string;
   alt?: string;
-}
-
-async function copyToClip() {
-  await navigator.clipboard.writeText(window?.location?.href);
 }
 
 const components = {
@@ -29,7 +26,7 @@ const components = {
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {
-            return copyToClip();
+            return copyToClipboard(window?.location?.href);
           }}
         >
           {children}
@@ -46,7 +43,7 @@ const components = {
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {
-            return copyToClip();
+            return copyToClipboard(window?.location?.href);
           }}
         >
           {children}
@@ -63,7 +60,7 @@ const components = {
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {
-            return copyToClip();
+            return copyToClipboard(window?.location?.href);
           }}
         >
           {children}
@@ -80,7 +77,7 @@ const components = {
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {
-            return copyToClip();
+            return copyToClipboard(window?.location?.href);
           }}
         >
           {children}
@@ -97,7 +94,7 @@ const components = {
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {
-            return copyToClip();
+            return copyToClipboard(window?.location?.href);
           }}
         >
           {children}
