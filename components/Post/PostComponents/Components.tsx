@@ -112,6 +112,9 @@ const components = {
       </p>
     );
   },
+  hr: (): JSX.Element => {
+    return <hr className="mb-6" />;
+  },
   code: ({ children }: IProps): JSX.Element => {
     return (
       <code className=" opacity-100 p-1 font-extrabold">`{children}`</code>
