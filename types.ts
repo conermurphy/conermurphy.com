@@ -120,6 +120,7 @@ export interface PostPageProps {
     filePath: string;
   };
   latestPosts: Post[];
+  postType: POSTTYPES;
 }
 
 export interface BlogNewsletterProps extends PostGridPageProps, PostPageProps {

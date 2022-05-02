@@ -44,6 +44,14 @@ export const CATEGORIES: PostCategories = {
     name: 'Life',
     link: 'life',
   },
+  PRODUCTIVITY: {
+    name: 'Productivity',
+    link: 'productivity',
+  },
+  MARKETING: {
+    name: 'Marketing',
+    link: 'marketing',
+  },
 };
 
 export const TECHS = [

@@ -57,11 +57,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           ...props,
           pageHeroData,
           metaDescription,
+          postType,
         },
       }
     : {
         props: {
           ...props,
+          postType,
           post: {
             ...post,
             content: post?.rawContent ? await serialize(post?.rawContent) : '',
