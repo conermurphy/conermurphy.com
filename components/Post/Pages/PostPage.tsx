@@ -1,14 +1,19 @@
 import { NextPage } from 'next';
 import { MDXRemote } from 'next-mdx-remote';
 import React from 'react';
-import { PostPageProps } from '../../../types';
+import { PostPageProps, POSTTYPES } from '../../../types';
 import { HeaderBackground } from '../../Header/components';
 import LatestPosts from '../../LatestPosts/LatestPosts';
 import SEO from '../../SEO/SEO';
-import { Components, GitHubCTA, PostHeader } from '../PostComponents';
+import {
+  Components,
+  GitHubCTA,
+  NewsletterCloseout,
+  PostHeader,
+} from '../PostComponents';
 import PostSidebar from '../PostSidebar/PostSidebar';
 
-const PostPage: NextPage<PostPageProps> = ({ post, latestPosts }) => {
+const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
   const { content, headings, data: frontmatter, filePath } = post;
   const {
     title,
@@ -40,6 +45,9 @@ const PostPage: NextPage<PostPageProps> = ({ post, latestPosts }) => {
                 {/*  eslint-disable-next-line */}
                 {/* @ts-ignore */}
                 <MDXRemote {...content} components={Components} />
+                {postType === POSTTYPES.NEWSLETTER ? (
+                  <NewsletterCloseout />
+                ) : null}
                 <hr />
                 <GitHubCTA postPath={filePath} />
               </div>
