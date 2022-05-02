@@ -1,4 +1,6 @@
+import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import StaticImageData from 'next/image';
+import { ParsedUrlQuery } from 'querystring';
 
 export enum THEMES {
   LIGHT = 'LIGHT',
@@ -94,3 +96,37 @@ export type PostTagsCats = {
   tags: string[];
   categories: string[];
 };
+
+export interface PostGridPageProps {
+  pageNumber: number;
+  pageCount: number;
+  testimonials: Testimonial[];
+  posts: Post[];
+  tagsCats: PostTagsCats;
+  filterItem: string;
+  postType: POSTTYPES;
+  pageHeroData: {
+    title: string;
+    body: string;
+  };
+  metaDescription: string;
+}
+
+export interface PostPageProps {
+  post: {
+    content: MDXRemoteSerializeResult;
+    data: PostFrontMatter;
+    headings: PostHeading[];
+    filePath: string;
+  };
+  latestPosts: Post[];
+  postType: POSTTYPES;
+}
+
+export interface BlogNewsletterProps extends PostGridPageProps, PostPageProps {
+  isPostGridPage: boolean;
+}
+
+export interface BlogNewsletterParams extends ParsedUrlQuery {
+  slug: string[];
+}

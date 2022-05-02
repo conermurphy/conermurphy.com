@@ -1,0 +1,112 @@
+---
+id: 27
+title: "#27 - Build, Ship, Learn, Repeat"
+description: "Not all features and ideas need to be delivered prior to a product going live. This week I grapple with this exact thought while working on my website."
+date: "2022-04-10"
+tags: [""]
+categories: ["ENTREPRENEURSHIP"]
+slug: build-ship-learn-repeat
+image: /images/generic/workshop.jpg
+published: true
+canonical_url: ""
+---
+
+Hey Friends 👋
+
+Welcome back to another edition of Sunday Summaries, this week I want to talk about an issue I had while redesigning my website this last week and how upon reflection, it's not just an issue for my website but rather something much further reaching.
+
+Over the last week, I've been building out the blog page and blog post pages of my new website and overall they're coming along very nicely.
+
+While working on the blog page, I decided it would be good to add a small sidebar next to the posts that the user can use to filter the posts on the website by the tags or categories the posts are assigned. In theory, this would allow a user to find a blog post they are interested in faster by going to the single category/tag they are interested in and not having to click through multiple pages of posts they're not interested in.
+
+But, when I started to build this sidebar, my mind went rampant with ideas and one of them I liked a lot; "what about letting the user select multiple categories or tags?".
+
+In my mind, this was a 💡 moment and I became instantly fixated on implementing it.
+
+The trouble is I didn't know how to implement it efficiently, I wanted to stick with Static Generation in Next.js but this requires all the routes to be created ahead of time which isn't ideal.
+
+At the time of writing this newsletter while the site is still in development, I have four categories and five tags but this will likely grow a fair amount once the site is live and I'm publishing regularly.
+
+So, in this situation to use Static Generation, I would need to develop a way of programmatically generating every permutation of the tags and categories combined, ensuring there is no duplication and regardless of how the tags/categories are selected, the right path is used.
+
+In short, no small feat to achieve. (If you have suggestions for implementing this, I'm all ears. 👂)
+
+So, the next option was to use SSR (Server-Side Rendering) and use URL query parameters to generate the pages on demand. A lot less taxing on the upfront generation as we don't need all of the permutations and the order we select them in doesn't matter as much.
+
+But, unfortunately, this isn't all sunshine and rainbows either, with SSR I couldn't find a way of implementing pagination ahead of time on the server as I want to avoid client-side work as much as possible. And, of course, with SSR we also have increased display times due to the server needing to render the page before sending it to the user.
+
+## What I Did 💭
+
+I didn't implement the feature... Not yet anyway...
+
+Now, before calling me a defeatist, let me explain my position and reasoning.
+
+I have given myself the (semi) reasonable deadline of 22nd April for the MVP release of my new website, this will include the home page, blog page, blog posts pages and the contact page.
+
+Between now and then I still have a fair amount of work to go, as shown on the [milestone page of my GitHub repo.](https://github.com/conermurphy/conermurphy.com/milestone/1)
+
+So, I had to make a judgement call; do I decide to include this new feature of filtering posts by multiple tags/categories and push the release date back to an even later date, more than likely in May.
+
+Or, do I backlog the feature for post-MVP, get the website out the door as soon as possible for people to start using and allow me to focus on creating content again?
+
+It was an easy choice; kick the feature down the road and deal with it later.
+
+This feature isn't experience breaking; it's very much a nice to have and doesn't impact the user experience all that much besides possibly taking a little bit longer to find a blog post they might be interested in.
+
+I'd rather spend the time between now and the release date working on bugs and features that will genuinely have an impact on the user.
+
+For example, right now as of writing, the website's contact form is just UI; there is no logic handling the submission.
+
+I think that takes priority over filtering the blog posts in different ways. 😅
+
+Overall this experience has left me with three lessons I'd like to share.
+
+## 1: Downscale ideas to the bare minimum for release.
+
+You don't need all-signing, all-dancing ideas for the initial release of a new website, application, product or whatever else it may be. Instead, get the minimum experience complete and out the door for people to use and feedback on.
+
+In my situation, my website is primarily a blog to advertise and share my work, once that blog is built and usable by people, I need to get it out the door.
+
+## 2: Ship fast and improve later.
+
+Just because something isn't in the MVP, doesn't mean it won't get completed later. After all, this is why we have backlogs, decide what is needed for your product to get it working/usable and put the rest into the backlog.
+
+Once the product is out the door, return to the backlog and see what you can implement to improve the product.
+
+## 3: Don't get hung up on perfection.
+
+Perfection is subjective and in my opinion, very rarely if ever is achieved. Building an MVP is the same as content creation, you can always tweak, add, remove and improve things but there comes a point when you need to push publish and get the product out the door for the world to see and use.
+
+---
+
+Chasing perfection is an ongoing project, not something you can achieve in one sprint so don't worry about your product not being perfect, get it out there and fix the issues as they appear while it's in use.
+
+I hope you found this week's edition helpful in some way. If so, I'd love to chat and find out more; you can find all the various ways to get in touch with me at the bottom of this newsletter.
+
+As always, my friends, I hope you have a great week and I look forward to talking with you again next Sunday.
+
+Thank you for reading,
+
+Coner x
+
+## Personal Website Redesign 💻
+
+This week, a lot of progress has been made on the website eight issues were closed [(view them here if you're interested in the details).](https://github.com/conermurphy/conermurphy.com/issues?q=is%3Aissue+sort%3Aupdated-desc+is%3Aclosed)
+
+The blog page is pretty much complete, the only large piece of work left to complete is creating the tag/category pages. Then outside the blog, the only major things left to complete are:
+
+- Home page header
+- Contact page submission logic
+- Site header bar/mobile nav menu
+
+Then it's just resolving bugs and testing the site for performance, accessibility and SEO. I'm confident I can hit the 22nd April deadline, which is just under two weeks away now.
+
+Overall, it's been a great experience in seriously managing a project and trying to stick to delivery deadlines. Although there is no penalty for missing the deadline, I'm treating it as there is so I'm incentivised to get it out the door on time.
+
+I can't wait to share the new website with you all and get feedback. 🙌
+
+## Thought, Question, Challenge 🤔
+
+- **Thought:** Perfection can rarely be achieved; its definition changes from one person to the next. So, don't get hung up on achieving it.
+- **Question:** Has there been a time where you've delayed something due to it not being perfect? Was it worth it? How could you avoid it happening again?
+- **Challenge:** This coming week, take a project you're working on and outline the bare minimum you need to complete for it to be usable by people. Then set a date for the release and start working on the list.
