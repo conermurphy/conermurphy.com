@@ -6,7 +6,7 @@ const nextConfig = {
   reactStrictMode: true,
   webpack5: true,
   webpack: (config) => {
-    config.resolve.fallback = { fs: false, path: false, process: false, buffer: false };
+    config.resolve.fallback = { fs: false, path: false, process: false, buffer: false, os: false};
     config.resolve.alias = {
         ...config.resolve.alias,
         // fixes next-mdx-remote: Package path ./jsx-runtime.js is not exported from package react

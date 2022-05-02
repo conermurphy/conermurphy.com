@@ -9,11 +9,13 @@ describe('NavBar', () => {
     const links = screen.queryAllByRole('link').length;
     const homeLink = screen.queryByText(/home/i);
     const blogLink = screen.queryByText(/blog/i);
+    const newsletterLink = screen.queryByText(/newsletter/i);
     const contactLink = screen.queryByText(/contact/i);
 
-    expect(links).toEqual(3);
+    expect(links).toEqual(4);
     expect(homeLink).toBeVisible();
     expect(blogLink).toBeVisible();
+    expect(newsletterLink).toBeVisible();
     expect(contactLink).toBeVisible();
   });
 });
