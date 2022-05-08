@@ -1,6 +1,6 @@
 import 'isomorphic-fetch';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { ApolloQueryResult, FetchResult, gql } from '@apollo/client';
+import { FetchResult, gql } from '@apollo/client';
 import { client } from '../../apollo-client';
 import { EngagementCountData, EngagementCounterProps } from '../../types';
 
@@ -11,7 +11,6 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 type EngagementCountReturnData = {
   incrementPostView?: EngagementCountData;
   addPost?: EngagementCountData;
-  getPost?: EngagementCountData;
 };
 
 export default async function EngagementCount(
@@ -28,32 +27,23 @@ export default async function EngagementCount(
     return;
   }
 
-  // 2: Check if UUID exists in DB.
-  const { data: getData }: ApolloQueryResult<EngagementCountReturnData> =
-    await client.query({
-      query: gql`
-        query getPost($UUID: String!) {
-          getPost(UUID: $UUID) {
-            UUID
-          }
-        }
-      `,
-      variables: { UUID },
-    });
-
-  if (getData.getPost?.UUID) {
-    // 2a: If UUID exists in DB already, increment viewCount by 1
+  try {
+    // 2a: Try to increment the viewCount by 1
     const { data }: FetchResult<EngagementCountReturnData> =
       await client.mutate({
         mutation: gql`
-          mutation IncrementViewCount($UUID: String!) {
-            incrementPostView(UUID: $UUID) {
+          mutation IncrementViewCount(
+            $UUID: String!
+            $postType: String!
+            $slug: String!
+          ) {
+            incrementPostView(UUID: $UUID, postType: $postType, slug: $slug) {
               UUID
               viewCount
             }
           }
         `,
-        variables: { UUID },
+        variables: { UUID, postType, slug },
       });
 
     return res.status(200).json({
@@ -62,35 +52,36 @@ export default async function EngagementCount(
         UUID,
       },
     });
+  } catch (e) {
+    // 2b: If errors, then create a new entry with 1 as viewCount
+    const { data }: FetchResult<EngagementCountReturnData> =
+      await client.mutate({
+        mutation: gql`
+          mutation AddPost(
+            $UUID: String!
+            $viewCount: Int!
+            $postType: String!
+            $slug: String!
+          ) {
+            addPost(
+              UUID: $UUID
+              viewCount: $viewCount
+              postType: $postType
+              slug: $slug
+            ) {
+              UUID
+              viewCount
+            }
+          }
+        `,
+        variables: { UUID, viewCount: 1, postType, slug },
+      });
+
+    return res.status(200).json({
+      data: {
+        viewCount: data?.addPost?.viewCount,
+        UUID,
+      },
+    });
   }
-
-  // 2b: If UUID doesn't exist, create a new post with a viewCount of 1.
-  const { data }: FetchResult<EngagementCountReturnData> = await client.mutate({
-    mutation: gql`
-      mutation AddPost(
-        $UUID: String!
-        $viewCount: Int!
-        $postType: String!
-        $slug: String!
-      ) {
-        addPost(
-          UUID: $UUID
-          viewCount: $viewCount
-          postType: $postType
-          slug: $slug
-        ) {
-          UUID
-          viewCount
-        }
-      }
-    `,
-    variables: { UUID, viewCount: 1, postType, slug },
-  });
-
-  return res.status(200).json({
-    data: {
-      viewCount: data?.addPost?.viewCount,
-      UUID,
-    },
-  });
 }
