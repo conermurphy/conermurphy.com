@@ -7,6 +7,7 @@ import LatestPosts from '../../LatestPosts/LatestPosts';
 import SEO from '../../SEO/SEO';
 import {
   Components,
+  EngagementCounter,
   GitHubCTA,
   NewsletterCloseout,
   PostHeader,
@@ -16,6 +17,7 @@ import PostSidebar from '../PostSidebar/PostSidebar';
 const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
   const { content, headings, data: frontmatter, filePath } = post;
   const {
+    UUID,
     title,
     description,
     slug,
@@ -50,6 +52,12 @@ const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
                 ) : null}
                 <hr />
                 <GitHubCTA postPath={filePath} />
+                <hr />
+                <EngagementCounter
+                  UUID={UUID}
+                  postType={postType}
+                  slug={slug}
+                />
               </div>
               <PostSidebar headings={headings} title={title} />
             </div>

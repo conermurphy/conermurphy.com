@@ -1,3 +1,4 @@
+import { ApolloError } from '@apollo/client';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import StaticImageData from 'next/image';
 import { ParsedUrlQuery } from 'querystring';
@@ -41,6 +42,7 @@ export type UseFormValues = {
 };
 
 export type PostFrontMatter = {
+  UUID: string;
   id: number;
   title: string;
   date: string;
@@ -129,4 +131,21 @@ export interface BlogNewsletterProps extends PostGridPageProps, PostPageProps {
 
 export interface BlogNewsletterParams extends ParsedUrlQuery {
   slug: string[];
+}
+
+export type EngagementCountData = {
+  viewCount: number;
+  UUID: string;
+};
+
+export type EngagementCount = {
+  data: EngagementCountData;
+  loading: boolean;
+  error: ApolloError | undefined;
+};
+
+export interface EngagementCounterProps {
+  UUID: string;
+  postType: POSTTYPES;
+  slug: string;
 }

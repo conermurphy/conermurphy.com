@@ -16,9 +16,9 @@ const Newsletter: NextPage<BlogNewsletterProps> = ({
   ...params
 }) => {
   return isPostGridPage ? (
-    <PostGridPage {...params} />
+    <PostGridPage {...params} postType={postType} />
   ) : (
-    <PostPage {...params} />
+    <PostPage {...params} postType={postType} />
   );
 };
 
