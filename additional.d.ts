@@ -10,6 +10,10 @@ declare global {
       POSTS_PER_PAGE: string;
       CONTACT_FORM_ENDPOINT: string;
       CONTACT_FORM_API_KEY: string;
+      APPSYNC_API_URL: string;
+      APPSYNC_API_KEY: string;
+      AWS_API_REGION: string;
+      APPSYNC_API_AUTH_TYPE: 'API_KEY';
     }
   }
 }
