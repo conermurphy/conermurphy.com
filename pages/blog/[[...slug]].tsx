@@ -13,9 +13,9 @@ const postType = POSTTYPES.BLOG;
 // This controls which page to show based off the isPostGridPage prop
 const Blog: NextPage<BlogNewsletterProps> = ({ isPostGridPage, ...params }) => {
   return isPostGridPage ? (
-    <PostGridPage {...params} />
+    <PostGridPage {...params} postType={postType} />
   ) : (
-    <PostPage {...params} />
+    <PostPage {...params} postType={postType} />
   );
 };
 
