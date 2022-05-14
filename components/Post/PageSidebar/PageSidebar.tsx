@@ -38,7 +38,7 @@ export default function PageSidebar({ data }: IProps): JSX.Element {
                       className={`font-semibold text-sm p-3 rounded-md ${
                         asPath.includes(link)
                           ? 'bg-[rgba(249,115,22,25%)]'
-                          : 'bg-[rgba(17,24,39,10%)]'
+                          : 'bg-primaryBg'
                       }`}
                     >
                       {name}
