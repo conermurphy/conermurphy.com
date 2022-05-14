@@ -67,3 +67,23 @@ export const HOME_TYPEWRITER_TEXT = [
   'Technical Writer',
   'Content Creator',
 ];
+
+export const THEMES = {
+  light: {
+    '--primaryBackground': 'rgba(248, 248, 250,1)',
+    '--secondaryBackground': 'rgb(255,255,255,1)',
+    '--primaryText': 'rgba(17,24,39,1)',
+    '--accentBackground': 'rgba(249, 115, 22, .5)',
+    '--accent': 'rgb(249, 115, 22)',
+    '--primaryBorder': 'hsla(221, 39%, 11%, 0.25)',
+  },
+  dark: {
+    '--primaryBackground': 'rgba(17, 24, 39,1)',
+    '--secondaryBackground': 'rgb(12,18,29,1)',
+    '--primaryText': 'rgba(248, 248, 250,1)',
+    '--primaryTextDimmed': 'rgba(248, 248, 250,.75)',
+    '--accentBackground': 'rgba(249, 115, 22, .5)',
+    '--accent': 'rgb(249, 115, 22)',
+    '--primaryBorder': 'hsla(221, 40%, 96%, 0.25)',
+  },
+};
