@@ -10,6 +10,8 @@ import {
   FaReddit,
   FaAlignJustify,
   FaCheck,
+  FaSun,
+  FaMoon,
 } from 'react-icons/fa';
 import { MdCode, MdKeyboard, MdShare } from 'react-icons/md';
 import {
@@ -32,9 +34,31 @@ interface IProps {
 export default function getIcon({
   icon,
   size = '24px',
-  color = 'var(--primaryText)',
+  color,
 }: IProps): ReactNode {
   switch (icon) {
+    case ICONS.SUN.name:
+      return (
+        <FaSun
+          size={size}
+          color={color}
+          title="Light Theme Toggle Icon"
+          data-testid="theme-icon"
+          role="img"
+          aria-label="Light theme toggle icon"
+        />
+      );
+    case ICONS.MOON.name:
+      return (
+        <FaMoon
+          size={size}
+          color={color}
+          title="Dark Theme Toggle Icon"
+          data-testid="theme-icon"
+          role="img"
+          aria-label="Dark theme toggle icon"
+        />
+      );
     case ICONS.JUSTIFY.name:
       return (
         <FaAlignJustify
@@ -231,6 +255,7 @@ export default function getIcon({
           data-testid="tech-icon"
           role="img"
           aria-label="Next.js logo"
+          className={ICONS.NEXTJS.invertDark ? 'dark:invert' : 'dark:invert-0'}
         />
       );
     case ICONS.TYPESCRIPT.name:

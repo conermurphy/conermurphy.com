@@ -16,7 +16,9 @@ export default function ComponentWrapper({
   children,
   ...props
 }: IProps): JSX.Element {
-  const bg = pageHeader ? 'bg-primaryBg' : 'bg-secondaryBg';
+  const bg = pageHeader
+    ? 'bg-primaryBg dark:bg-primaryBgDark'
+    : 'bg-secondaryBg dark:bg-secondaryBgDark';
   const contentMargin = pageHeader ? 'mb-12 md:mb-72' : 'mb-8';
   const padding = pageHeader ? 'pb-10 md:pb-72 pt-8' : 'pb-72 pt-0';
   const negativeMargin = pageHeader ? '-mt-16' : '';
@@ -31,7 +33,7 @@ export default function ComponentWrapper({
       }`}
     >
       <HeaderBackground bg={bg} />
-      <section className="md:max-w-[1372px] px-6 md:px-20 lg:px-106 w-full text-primaryText">
+      <section className="md:max-w-[1372px] px-6 md:px-20 w-full text-primaryText dark:text-primaryTextDark">
         {pageHeader ? (
           <h1 className="text-32 md:text-40">{title}</h1>
         ) : (
@@ -44,7 +46,7 @@ export default function ComponentWrapper({
           </h2>
         )}
         <p
-          className={`text-base md:text-xl mt-2.5 lg:mt-1 text-primaryText ${subTitleMaxWidth} ${contentMargin} ${textStyles} ${
+          className={`text-base md:text-xl mt-2.5 lg:mt-1 text-primaryText dark:text-primaryTextDark ${subTitleMaxWidth} ${contentMargin} ${textStyles} ${
             props?.textClasses || ''
           }`}
         >

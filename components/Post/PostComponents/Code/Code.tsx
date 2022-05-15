@@ -91,7 +91,7 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
               </span>
               <button
                 type="button"
-                className="hidden group-hover:block absolute bottom-3 right-3 bg-primaryBg p-1.5 rounded-md"
+                className="hidden group-hover:block absolute bottom-3 right-3 bg-primaryBg dark:bg-primaryBgDark p-1.5 rounded-md"
                 onClick={async () => {
                   await copyToClipboard(code);
 

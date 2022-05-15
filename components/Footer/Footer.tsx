@@ -5,8 +5,8 @@ import Socials from '../Socials/Socials';
 
 export default function Footer(): JSX.Element {
   return (
-    <div className="flex flex-col items-center py-10 md:pt-72 md:pb-11 bg-primaryBg">
-      <footer className="lg:max-w-[1372px] w-full px-6 md:px-20 lg:px-106">
+    <div className="flex flex-col items-center py-10 md:pt-72 md:pb-11 bg-primaryBg dark:bg-primaryBgDark">
+      <footer className="lg:max-w-[1372px] w-full px-6 md:px-20">
         <section className="flex gap-y-10 justify-start mb-8 md:mb-72 flex-row flex-wrap sm:justify-between">
           <div className="w-full sm:max-w-[300px] lg:max-w-[420px]">
             <h2 className="text-2xl lg:text-32 mb-3">Coner Murphy</h2>

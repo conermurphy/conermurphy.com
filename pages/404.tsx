@@ -29,7 +29,7 @@ function Custom404({ testimonials, latestPosts }: IProps): JSX.Element {
         body="Sorry that page could not be found. Think this is an error? Let me know using the form below."
         showNewsletter={false}
       />
-      <HeaderBackground bg="bg-secondaryBg" />
+      <HeaderBackground bg="bg-secondaryBg dark:bg-secondaryBgDark" />
       <ContactForm />
       <LatestPosts posts={latestPosts} />
       <Testimonials testimonials={testimonials} />

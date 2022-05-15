@@ -104,13 +104,15 @@ const components = {
   },
   p: ({ children }: IProps): JSX.Element => {
     return (
-      <p className="text-sm md:text-base mb-6 opacity-100 text-primaryTextDimmed">
+      <p className="text-sm md:text-base mb-6 opacity-100 text-primaryTextDimmed dark:text-primaryTextDimmedDark">
         {children}
       </p>
     );
   },
   hr: (): JSX.Element => {
-    return <hr className="mb-6 text-primaryTextDimmed" />;
+    return (
+      <hr className="mb-6 text-primaryTextDimmed dark:text-primaryTextDimmedDark" />
+    );
   },
   code: ({ children }: IProps): JSX.Element => {
     return (

@@ -4,8 +4,8 @@ import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import * as Fathom from 'fathom-client';
+import { ThemeProvider } from 'next-themes';
 import { Layout } from '../components';
-import { ThemeProvider } from '../contexts/theme-context';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -28,9 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <ThemeProvider>
-      {/* eslint-disable-next-line */}
-      <script src="./theme-detector.js" />
+    <ThemeProvider attribute="class">
       <Layout>
         <Component {...pageProps} />
       </Layout>

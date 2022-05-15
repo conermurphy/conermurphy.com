@@ -1,3 +1,4 @@
+import { useTheme } from 'next-themes';
 import React from 'react';
 import { Service } from '../../types';
 import { getIcon } from '../../utils';
@@ -8,6 +9,7 @@ interface IProps {
 }
 
 export default function Services({ services }: IProps): JSX.Element {
+  const { theme } = useTheme();
   return (
     <ComponentWrapper
       data={{
@@ -20,13 +22,16 @@ export default function Services({ services }: IProps): JSX.Element {
           const iconSVG = getIcon({
             icon,
             size: '22px',
-            color: 'var(--primaryBackground)',
+            color:
+              theme === 'light'
+                ? 'var(--primaryBackground)'
+                : 'var(--primaryBackgroundDark)',
           });
           return (
             <li key={title}>
-              <article className="flex flex-col gap-6 h-full justify-between md:max-w-[360px] bg-primaryBg rounded-lg px-6 sm:px-8 py-6">
+              <article className="flex flex-col gap-6 h-full justify-between md:max-w-[360px] bg-primaryBg dark:bg-primaryBgDark rounded-lg px-6 sm:px-8 py-6">
                 <div className="flex flex-row items-center gap-3">
-                  <div className="w-10 h-10 flex items-center justify-center bg-primaryText text-primaryBg rounded-lg">
+                  <div className="w-10 h-10 flex items-center justify-center bg-primaryText dark:bg-primaryTextDark text-primaryBg dark:text-primaryBgDark rounded-lg">
                     {iconSVG}
                   </div>
                   <h3 className="text-sm sm:text-lg font-semibold">{title}</h3>

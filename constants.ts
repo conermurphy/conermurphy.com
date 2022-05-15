@@ -1,6 +1,8 @@
 import { Icons, PostCategories } from './types';
 
 export const ICONS: Icons = {
+  MOON: { name: 'MOON' },
+  SUN: { name: 'SUN' },
   JUSTIFY: { name: 'JUSTIFY' },
   CLOSE: { name: 'CLOSE' },
   CODE: { name: 'CODE' },
@@ -18,7 +20,7 @@ export const ICONS: Icons = {
   TICK: { name: 'TICK' },
   GRAPHQL: { name: 'GRAPHQL', color: 'hsl(319, 100%, 44%)' },
   REACT: { name: 'REACT', color: 'hsl(193, 95%, 68%)' },
-  NEXTJS: { name: 'NEXTJS', color: 'hsl(0, 0%, 7%)' },
+  NEXTJS: { name: 'NEXTJS', color: 'hsl(0, 0%, 7%)', invertDark: true },
   TYPESCRIPT: { name: 'TYPESCRIPT', color: 'hsl(211, 60%, 48%)' },
   JAVASCRIPT: { name: 'JAVASCRIPT', color: 'hsl(53, 93%, 54%)' },
 };
@@ -67,23 +69,3 @@ export const HOME_TYPEWRITER_TEXT = [
   'Technical Writer',
   'Content Creator',
 ];
-
-export const THEMES = {
-  light: {
-    '--primaryBackground': 'rgba(248, 248, 250,1)',
-    '--secondaryBackground': 'rgb(255,255,255,1)',
-    '--primaryText': 'rgba(17,24,39,1)',
-    '--accentBackground': 'rgba(249, 115, 22, .5)',
-    '--accent': 'rgb(249, 115, 22)',
-    '--primaryBorder': 'hsla(221, 39%, 11%, 0.25)',
-  },
-  dark: {
-    '--primaryBackground': 'rgba(17, 24, 39,1)',
-    '--secondaryBackground': 'rgb(12,18,29,1)',
-    '--primaryText': 'rgba(248, 248, 250,1)',
-    '--primaryTextDimmed': 'rgba(248, 248, 250,.75)',
-    '--accentBackground': 'rgba(249, 115, 22, .5)',
-    '--accent': 'rgb(249, 115, 22)',
-    '--primaryBorder': 'hsla(221, 40%, 96%, 0.25)',
-  },
-};
