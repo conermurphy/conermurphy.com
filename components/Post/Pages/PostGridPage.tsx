@@ -38,9 +38,9 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
         url={postType}
       />
       <PageHero title={title} body={body} />
-      <HeaderBackground bg="bg-white" />
-      <div className="flex flex-row items-center justify-center mb-72 md:mb-12">
-        <div className="flex flex-col items-center justify-center gap-y-14 gap-x-20 w-full md:px-20 lg:px-106 xl:flex-row-reverse xl:items-start">
+      <HeaderBackground bg="bg-secondaryBg dark:bg-secondaryBgDark" />
+      <div className="flex flex-row items-center justify-center pb-72 md:pb-12 bg-secondaryBg dark:bg-secondaryBgDark">
+        <div className="flex flex-col items-center justify-center gap-y-14 gap-x-20 w-full md:px-20 xl:flex-row-reverse xl:items-start xl:justify-between md:max-w-[1372px]">
           <PostCardGrid posts={posts} postType={postType} />
           <PageSidebar data={tagsCats} />
         </div>

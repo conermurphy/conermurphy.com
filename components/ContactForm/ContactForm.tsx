@@ -21,7 +21,7 @@ export default function ContactForm(): JSX.Element {
   const inputContainerStyles = 'flex flex-col items-start';
   const labelStyles = 'font-semibold opacity-75 mb-1';
   const twoColInputStyles =
-    'rounded-lg border-primaryBorder md:max-w-[217px] text-xs bg-secondaryBg w-full md:w-[217px]';
+    'rounded-lg border-primaryBorder dark:primaryBorderDark md:max-w-[217px] text-xs bg-primaryBg dark:bg-primaryBgDark w-full md:w-[217px]';
 
   return (
     <ComponentWrapper
@@ -83,7 +83,7 @@ export default function ContactForm(): JSX.Element {
                 placeholder="Your email"
                 onChange={updateValue}
                 value={email}
-                className="rounded-lg border-primaryBorder md:max-w-[450px] text-xs bg-secondaryBg w-full"
+                className="rounded-lg border-primaryBorder dark:primaryBorderDark md:max-w-[450px] text-xs bg-primaryBg dark:bg-primaryBgDark w-full"
               />
             </div>
             <div className={inputContainerStyles}>
@@ -97,12 +97,12 @@ export default function ContactForm(): JSX.Element {
                 placeholder="Your message"
                 onChange={updateValue}
                 value={message}
-                className="rounded-lg border-primaryBorder md:max-w-[450px] min-h-[132px] text-xs bg-secondaryBg w-full resize-none"
+                className="rounded-lg border-primaryBorder dark:primaryBorderDark md:max-w-[450px] min-h-[132px] text-xs bg-primaryBg dark:bg-primaryBgDark w-full resize-none"
               />
             </div>
             <button
               type="submit"
-              className="bg-primaryText text-primaryBg text-xs rounded-lg py-3 px-5"
+              className="bg-primaryText dark:bg-primaryTextDark text-primaryBg dark:text-primaryBgDark text-xs rounded-lg py-3 px-5"
             >
               {loading ? 'Sending..' : 'Send Message'}
             </button>

@@ -51,7 +51,7 @@ export default function Newsletter({
           placeholder="Enter your email"
           onChange={updateValue}
           value={values.email}
-          className={`rounded-lg border-primaryBorder sm:max-w-[272px] text-xs bg-secondaryBg ${textSize}`}
+          className={`rounded-lg border-primaryBorder dark:primaryBorderDark sm:max-w-[272px] text-xs bg-secondaryBg dark:bg-secondaryBgDark ${textSize}`}
         />
         <input
           type="text"
@@ -62,7 +62,7 @@ export default function Newsletter({
         />
         <button
           type="submit"
-          className={`bg-primaryText text-primaryBg text-xs rounded-lg py-3 px-5 ${textSize}`}
+          className={`bg-primaryText dark:bg-primaryTextDark text-primaryBg dark:text-primaryBgDark text-xs rounded-lg py-3 px-5 ${textSize}`}
         >
           {loading ? 'Subscribing..' : 'Subscribe'}
         </button>

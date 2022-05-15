@@ -14,7 +14,7 @@ export enum POSTTYPES {
 }
 
 export type Icons = {
-  [key: string]: { name: string; color?: string };
+  [key: string]: { name: string; color?: string; invertDark?: boolean };
 };
 
 export type Service = {
@@ -149,3 +149,9 @@ export interface EngagementCounterProps {
   postType: POSTTYPES;
   slug: string;
 }
+
+export type Company = {
+  icon: typeof import('*.svg');
+  alt: string;
+  invertDark: boolean;
+};

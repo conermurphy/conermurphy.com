@@ -1,4 +1,5 @@
 module.exports = {
+  darkMode: 'class',
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
@@ -10,9 +11,15 @@ module.exports = {
         primaryBg: 'var(--primaryBackground)',
         secondaryBg: 'var(--secondaryBackground)',
         primaryText: 'var(--primaryText)',
+        primaryTextDimmed: 'var(--primaryTextDimmed)',
         accentBg: 'var(--accentBackground)',
         accent: 'var(--accent)',
         primaryBorder: 'var(--primaryBorder)',
+        primaryBgDark: 'var(--primaryBackgroundDark)',
+        secondaryBgDark: 'var(--secondaryBackgroundDark)',
+        primaryTextDark: 'var(--primaryTextDark)',
+        primaryTextDimmedDark: 'var(--primaryTextDimmedDark)',
+        primaryBorderDark: 'var(--primaryBorderDark)',
       },
       spacing: {
         106: '6.625rem',

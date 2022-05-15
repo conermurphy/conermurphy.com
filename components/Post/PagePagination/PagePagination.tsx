@@ -83,8 +83,8 @@ export default function PagePagination({
   };
 
   return (
-    <div className="flex flex-row items-center justify-center">
-      <nav className="flex flex-row justify-between md:max-w-[1372px] md:px-20 lg:px-106 px-6 pt-6 w-full text-lg">
+    <div className="flex flex-row items-center justify-center bg-secondaryBg dark:bg-secondaryBgDark">
+      <nav className="flex flex-row justify-between md:max-w-[1372px] md:px-20 px-6 pt-6 w-full text-lg">
         <Link href={prevLink} passHref>
           <a
             className={`font-semibold ${

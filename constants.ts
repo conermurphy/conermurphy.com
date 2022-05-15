@@ -1,6 +1,8 @@
 import { Icons, PostCategories } from './types';
 
 export const ICONS: Icons = {
+  MOON: { name: 'MOON' },
+  SUN: { name: 'SUN' },
   JUSTIFY: { name: 'JUSTIFY' },
   CLOSE: { name: 'CLOSE' },
   CODE: { name: 'CODE' },
@@ -18,7 +20,7 @@ export const ICONS: Icons = {
   TICK: { name: 'TICK' },
   GRAPHQL: { name: 'GRAPHQL', color: 'hsl(319, 100%, 44%)' },
   REACT: { name: 'REACT', color: 'hsl(193, 95%, 68%)' },
-  NEXTJS: { name: 'NEXTJS', color: 'hsl(0, 0%, 7%)' },
+  NEXTJS: { name: 'NEXTJS', color: 'hsl(0, 0%, 7%)', invertDark: true },
   TYPESCRIPT: { name: 'TYPESCRIPT', color: 'hsl(211, 60%, 48%)' },
   JAVASCRIPT: { name: 'JAVASCRIPT', color: 'hsl(53, 93%, 54%)' },
 };
