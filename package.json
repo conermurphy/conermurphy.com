@@ -18,6 +18,7 @@
     "aws-appsync-auth-link": "^3.0.7",
     "aws-appsync-subscription-link": "^3.0.11",
     "fathom-client": "^3.4.1",
+    "feed": "^4.2.2",
     "graphql": "^16.4.0",
     "gray-matter": "^4.0.3",
     "isomorphic-fetch": "^3.0.0",
@@ -30,7 +31,7 @@
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
     "react-share": "^4.4.0",
-    "sharp": "^0.30.3",
+    "sharp": "^0.30.5",
     "tailwindcss": "^3.0.23",
     "typewriter-effect": "^2.18.2",
     "uuid": "^8.3.2"

@@ -6,3 +6,4 @@ export { default as useOutsideClick } from './useOutsideClick';
 export { default as useContactForm } from './useContactForm';
 export { default as copyToClipboard } from './copyToClipboard';
 export { default as useEngagementCount } from './useEngagementCount';
+export { default as generateRssFeeds } from './generateRssFeeds';

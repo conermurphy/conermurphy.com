@@ -8,7 +8,7 @@ import {
   Testimonials,
 } from '../components';
 import { Post, Service, Testimonial } from '../types';
-import { pageDataSource } from '../utils';
+import { generateRssFeeds, pageDataSource } from '../utils';
 
 interface IProps {
   services: Service[];
@@ -33,6 +33,8 @@ const Home: NextPage<IProps> = ({ services, testimonials, latestPosts }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
+  await generateRssFeeds();
+
   const { services, testimonials, latestPosts } = await pageDataSource({
     services: true,
     testimonials: true,
