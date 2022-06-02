@@ -80,6 +80,7 @@ export default async function generateRssFeeds() {
   });
 
   // 5: Write the feeds out to files
+  await fsPromises.mkdir('./public/rss');
   await fsPromises.writeFile('./public/rss/blog.xml', blogFeed.rss2());
   await fsPromises.writeFile('./public/rss/blog.json', blogFeed.json1());
   await fsPromises.writeFile(
