@@ -5,12 +5,14 @@ interface IProps {
   src: string;
   alt?: string;
   caption?: string;
+  objectFit?: 'contain' | 'cover';
 }
 
 export default function ImageCaption({
   src,
   alt,
   caption,
+  objectFit = 'cover',
 }: IProps): JSX.Element {
   return (
     <figure className="my-6 md:my-8">
@@ -20,7 +22,7 @@ export default function ImageCaption({
         width={650}
         height={366}
         layout="responsive"
-        objectFit="contain"
+        objectFit={objectFit}
         className="rounded-xl drop-shadow-[0px_0px_4px_rgba(0,0,0,0.25)]"
       />
       {caption ? (
