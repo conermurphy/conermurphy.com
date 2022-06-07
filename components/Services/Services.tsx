@@ -22,10 +22,6 @@ export default function Services({ services }: IProps): JSX.Element {
           const iconSVG = getIcon({
             icon,
             size: '22px',
-            color:
-              theme === 'light'
-                ? 'var(--primaryBackground)'
-                : 'var(--primaryBackgroundDark)',
           });
           return (
             <li key={title}>

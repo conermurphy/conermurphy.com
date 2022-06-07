@@ -23,6 +23,7 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
             height={197}
             layout="responsive"
             objectFit="contain"
+            priority
           />
         </div>
         <div className="flex flex-col gap-y-3">

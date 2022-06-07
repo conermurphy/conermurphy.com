@@ -39,9 +39,9 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
   const url = `https://conermurphy.com${asPath}`;
 
   const sectionClasses =
-    'border-t border-primaryBorder dark:primaryBorderDark py-6';
+    'border-t border-primaryBorder dark:border-primaryBorderDark py-6';
   const shareIconClasses =
-    'flex items-center justify-center border border-primaryBorder dark:primaryBorderDark p-2 rounded opacity-50 w-10 h-10';
+    'flex items-center justify-center border border-primaryBorder dark:border-primaryBorderDark p-2 rounded opacity-50 w-10 h-10';
 
   return (
     <aside className="hidden lg:block sticky h-min top-16 max-w-[272px] lg:max-w-[300px]">

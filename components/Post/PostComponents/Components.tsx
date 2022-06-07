@@ -21,7 +21,7 @@ const components = {
     return (
       <h2
         id={getHeadingLink(children)}
-        className="font-semibold text-2xl md:text-32 mb-1.5 mt-6 md:mt-16 scroll-mt-20"
+        className="font-semibold text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-20"
       >
         <a
           href={`#${getHeadingLink(children)}`}
@@ -38,7 +38,7 @@ const components = {
     return (
       <h3
         id={getHeadingLink(children)}
-        className="font-semibold text-xl md:text-2xl mb-1.5.5 mt-6 md:mt-16 scroll-mt-20"
+        className="font-semibold text-xl md:text-2xl mb-2.5 mt-6 md:mt-16 scroll-mt-20"
       >
         <a
           href={`#${getHeadingLink(children)}`}
@@ -55,7 +55,7 @@ const components = {
     return (
       <h4
         id={getHeadingLink(children)}
-        className="font-semibold text-lg md:text-xl mb-1.5 mt-6 md:mt-16 scroll-mt-20"
+        className="font-semibold text-lg md:text-xl mb-2 mt-6 md:mt-16 scroll-mt-20"
       >
         <a
           href={`#${getHeadingLink(children)}`}
@@ -72,7 +72,7 @@ const components = {
     return (
       <h5
         id={getHeadingLink(children)}
-        className="font-semibold text-base md:text-lg mb-1.5 mt-6 md:mt-16 scroll-mt-20"
+        className="font-semibold text-base md:text-lg mb-2 mt-6 md:mt-16 scroll-mt-20"
       >
         <a
           href={`#${getHeadingLink(children)}`}
@@ -89,7 +89,7 @@ const components = {
     return (
       <h6
         id={getHeadingLink(children)}
-        className="font-semibold text-sm md:text-base mb-1.5 mt-6 md:mt-16 scroll-mt-20"
+        className="font-semibold text-sm md:text-base mb-2 mt-6 md:mt-16 scroll-mt-20"
       >
         <a
           href={`#${getHeadingLink(children)}`}
@@ -140,14 +140,14 @@ const components = {
   },
   ul: ({ children }: IProps): JSX.Element => {
     return (
-      <ul className="mb-6 md:mb-8 opacity-75 list-disc pl-4 text-sm md:text-base">
+      <ul className="mb-6 md:mb-8 list-disc pl-4 text-sm md:text-base text-primaryTextDimmed dark:text-primaryTextDimmedDark">
         {children}
       </ul>
     );
   },
   ol: ({ children }: IProps): JSX.Element => {
     return (
-      <ol className="mb-6 md:mb-8 opacity-75 list-decimal pl-4 text-sm md:text-base">
+      <ol className="mb-6 md:mb-8 list-decimal pl-4 text-sm md:text-base text-primaryTextDimmed dark:text-primaryTextDimmedDark">
         {children}
       </ol>
     );
