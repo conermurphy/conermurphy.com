@@ -35,7 +35,7 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
         return (
           <>
             {fileName ? (
-              <div className="bg-[#111827] select-none pt-3 rounded-t-lg">
+              <div className="bg-primaryBgDark dark:bg-secondaryBgDark select-none pt-3 rounded-t-lg">
                 <div className="flex flex-row items-center gap-2 w-min bg-[#223545] pb-2 pt-2 px-4 ml-4 rounded-t-md">
                   {icon ? getIcon({ icon, size: '12px' }) : null}
                   <span className="text-xs text-[#f8f8f2]">{fileName}</span>

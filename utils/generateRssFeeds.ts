@@ -79,8 +79,14 @@ export default async function generateRssFeeds() {
     });
   });
 
+  try {
+    await fs.promises.access('./public/rss');
+    // The check succeeded
+  } catch (error) {
+    await fsPromises.mkdir('./public/rss');
+  }
+
   // 5: Write the feeds out to files
-  await fsPromises.mkdir('./public/rss');
   await fsPromises.writeFile('./public/rss/blog.xml', blogFeed.rss2());
   await fsPromises.writeFile('./public/rss/blog.json', blogFeed.json1());
   await fsPromises.writeFile(

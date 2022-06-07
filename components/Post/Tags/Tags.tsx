@@ -54,6 +54,21 @@ export const POST_TAGS: PostTags = {
       },
     },
   },
+  NEXTJS: {
+    name: 'Next.js',
+    link: 'nextjs',
+    colors: {
+      nonActive: {
+        bg: 'bg-blue-100',
+        text: 'text-blue-700',
+        border: 'border-blue-700',
+      },
+      active: {
+        bg: 'bg-blue-700',
+        text: 'text-blue-100',
+      },
+    },
+  },
   NODEJS: {
     name: 'NodeJS',
     link: 'nodejs',
