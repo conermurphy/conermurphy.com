@@ -19,7 +19,7 @@ export default function LatestPosts({ posts }: IProps): JSX.Element {
       <ul className="flex flex-wrap gap-6 flex-row w-full items-start justify-center xl:justify-start">
         {posts.map(({ data }) => {
           return (
-            <li key={data.id}>
+            <li key={data.UUID}>
               <PostCard post={data} postType={POSTTYPES.BLOG} />
             </li>
           );
