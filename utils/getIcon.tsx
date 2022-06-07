@@ -20,6 +20,7 @@ import {
   SiNextdotjs,
   SiReact,
   SiTypescript,
+  SiTailwindcss,
 } from 'react-icons/si';
 import { IoMdClose } from 'react-icons/io';
 import { FiCopy } from 'react-icons/fi';
@@ -278,6 +279,17 @@ export default function getIcon({
           data-testid="tech-icon"
           role="img"
           aria-label="JavaScript logo"
+        />
+      );
+    case ICONS.TAILWINDCSS.name:
+      return (
+        <SiTailwindcss
+          size={size}
+          color={ICONS.TAILWINDCSS.color}
+          title="TailwindCSS logo"
+          data-testid="tech-icon"
+          role="img"
+          aria-label="TailwindCSS logo"
         />
       );
     default:

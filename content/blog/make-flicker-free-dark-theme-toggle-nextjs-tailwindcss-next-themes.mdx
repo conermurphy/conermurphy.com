@@ -9,7 +9,7 @@ slug: make-flicker-free-dark-theme-toggle-nextjs-tailwindcss-next-themes
 image: /images/generic/dark-lightning.jpg
 published: true
 canonical_url: ""
-description: ""
+description: "Here's how to build a dark/light theme toggle in Next.js using TailwindCSS and the next-themes npm package to make it load and transition flicker-free."
 ---
 
 Have you ever added a theme toggle to a website? Have you also tried to remember the user's preference so they see the same theme when they visit again?
@@ -20,7 +20,10 @@ Well, in this blog post I'm going to show you how to resolve just that. Today, w
 
 Here is an example of what we will be creating from [my website.](https://conermurphy.com)
 
-> // Insert gif of theme changing on my website
+<ImageCaption
+  src="/images/blog/make-flicker-free-dark-theme-toggle-nextjs-tailwindcss-next-themes/conermurphy-example.gif"
+  alt="conermurphy.com theme switching example."
+/>
 
 ## Next.js and TailwindCSS initial setup
 
@@ -34,7 +37,7 @@ Now with your Next.js application working and TailwindCSS installed, we're ready
 
 For this tutorial we are going to be showcasing a basic home page design that switches colors based on the theme we are in. Once, we're finished it will look something like this.
 
-> // Insert gif of the finished tutorial page
+![Finished tutorial theme switching.](/images/blog/make-flicker-free-dark-theme-toggle-nextjs-tailwindcss-next-themes/finished-tutorial.gif "Finished tutorial theme switching.")
 
 If you wish you can create a more detailed home page to switch between light and dark themes but the premise of toggling themes will remain the same. So, for this tutorial, a simple example page will suffice.
 
@@ -70,7 +73,7 @@ However, for this tutorial, this doesn't quite cover everything we need. So, we'
 
 To configure theme toggling, we need to amend our `tailwind.config.js` file at the root of our project. We need to add in the below line of code to tell Tailwind we want to manually control the enabling and disabling of a dark theme.
 
-```js:[2]:tailwind.config.js
+```js:[2]:tailwind.config.js:TAILWINDCSS
 module.exports = {
   darkMode: "class",
   // rest of the config
@@ -126,7 +129,9 @@ Now, we have verified the themes work, let's now add a toggle to our Next.js app
 
 ## Making the `Toggle` component
 
-Before jumping into building the toggle, I want to briefly talk about how we will persist the theme a user selects across page reloads and multiple visits. Typically, this is done via the `localstorage` API in the browser, upon page load we would run a script which detects if there is a `localstorage` item previously set to take the value from. If there is then great, if not then we fall back to `window.matchMedia('(prefers-color-scheme: dark)')` to dictate the theme.
+Before jumping into building the toggle, I want to briefly talk about how we will persist the theme a user selects across page reloads and multiple visits.
+
+Typically, this is done via the `localstorage` API in the browser, upon page load we would run a script which detects if there is a `localstorage` item previously set to take the value from. If there is then great, if not then we fall back to `window.matchMedia('(prefers-color-scheme: dark)')` to dictate the theme.
 
 This method works and has been used countless times but there is one issue with it. It relies on the page loading before running the script that sets the theme, this is what gives us the flash of content in the wrong theme if the user's preferred theme doesn't align with the default.
 
@@ -239,7 +244,7 @@ export default Home;
 
 And, just like that our application is complete and we should now be able to change back and forth between light and dark themes in Next.js using TailwindCSS flicker free including on page reloads and revisits.
 
-> // Insert Gif of finished application toggling.
+![Finished tutorial theme switching.](/images/blog/make-flicker-free-dark-theme-toggle-nextjs-tailwindcss-next-themes/finished-tutorial.gif "Finished tutorial theme switching.")
 
 ## Conclusion
 
