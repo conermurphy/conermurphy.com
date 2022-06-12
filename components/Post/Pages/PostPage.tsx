@@ -26,15 +26,17 @@ const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
     canonical_url: canonicalUrl,
   } = frontmatter;
 
+  const postURL = `${postType}/${slug}`;
+
   return (
     <>
       <SEO
         metaTitle={title}
         metaDescription={description}
-        url={slug}
+        url={postURL}
         date={date}
         metaImage={image}
-        canonicalUrl={canonicalUrl}
+        canonicalUrl={canonicalUrl ?? postURL}
         article
       />
       <div className="flex flex-col items-center pb-10 bg-primaryBg dark:bg-primaryBgDark px-0">
