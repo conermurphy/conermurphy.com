@@ -1,9 +1,11 @@
 import { render, screen } from '@testing-library/react';
+import { POSTTYPES } from '../../../types';
 import PostCardGrid from './PostCardGrid';
 
 const mockData = [
   {
     data: {
+      UUID: 'hhjhjhhj',
       id: 1,
       title: 'Example Post 1',
       date: '2022-03-26',
@@ -20,6 +22,7 @@ const mockData = [
   },
   {
     data: {
+      UUID: 'dsfdggd',
       id: 2,
       title: 'Example Post 1',
       date: '2022-03-26',
@@ -36,6 +39,7 @@ const mockData = [
   },
   {
     data: {
+      UUID: 'fef3ffda',
       id: 3,
       title: 'Example Post 1',
       date: '2022-03-26',
@@ -67,7 +71,7 @@ jest.mock('next/router', () => {
 
 describe('PostCardGrid', () => {
   it('should match length', () => {
-    render(<PostCardGrid posts={mockData} />);
+    render(<PostCardGrid posts={mockData} postType={POSTTYPES.BLOG} />);
 
     const title = screen.getAllByText(/example post 1/i);
 
