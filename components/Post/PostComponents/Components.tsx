@@ -4,7 +4,8 @@ import BlockQuoteAuthor from './BlockQuoteAuthor/BlockQuoteAuthor';
 import ImageCaption from './ImageCaption/ImageCaption';
 import Tweet from './Tweet/Tweet';
 import { getHeadingLink } from '../../../utils/posts';
-import { copyToClipboard } from '../../../utils';
+import { copyToClipboard, getIcon } from '../../../utils';
+import { ICONS } from '../../../constants';
 
 interface IProps {
   children: string;
@@ -16,13 +17,28 @@ interface ImageProps {
   alt?: string;
 }
 
+function Link({
+  top = 'top-1',
+  size = '20px',
+}: {
+  top?: string;
+  size?: string;
+}): JSX.Element {
+  return (
+    <span className={`absolute -left-8 ${top} hidden md:group-hover:block`}>
+      {getIcon({ icon: ICONS.LINK.name, size })}
+    </span>
+  );
+}
+
 const components = {
   h2: ({ children }: IProps): JSX.Element => {
     return (
       <h2
         id={getHeadingLink(children)}
-        className="font-semibold text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-20"
+        className="group relative font-semibold text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-20"
       >
+        <Link top="top-3" />
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {
@@ -38,8 +54,9 @@ const components = {
     return (
       <h3
         id={getHeadingLink(children)}
-        className="font-semibold text-xl md:text-2xl mb-2.5 mt-6 md:mt-16 scroll-mt-20"
+        className="group relative font-semibold text-xl md:text-2xl mb-2.5 mt-6 md:mt-16 scroll-mt-20"
       >
+        <Link top="top-2" />
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {
@@ -55,8 +72,9 @@ const components = {
     return (
       <h4
         id={getHeadingLink(children)}
-        className="font-semibold text-lg md:text-xl mb-2 mt-6 md:mt-16 scroll-mt-20"
+        className="group relative font-semibold text-lg md:text-xl mb-2 mt-6 md:mt-16 scroll-mt-20"
       >
+        <Link top="top-1.5" size="18px" />
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {
@@ -72,8 +90,9 @@ const components = {
     return (
       <h5
         id={getHeadingLink(children)}
-        className="font-semibold text-base md:text-lg mb-2 mt-6 md:mt-16 scroll-mt-20"
+        className="group relative font-semibold text-base md:text-lg mb-2 mt-6 md:mt-16 scroll-mt-20"
       >
+        <Link size="18px" />
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {
@@ -89,8 +108,9 @@ const components = {
     return (
       <h6
         id={getHeadingLink(children)}
-        className="font-semibold text-sm md:text-base mb-2 mt-6 md:mt-16 scroll-mt-20"
+        className="group relative font-semibold text-sm md:text-base mb-2 mt-6 md:mt-16 scroll-mt-20"
       >
+        <Link size="16px" />
         <a
           href={`#${getHeadingLink(children)}`}
           onClick={() => {

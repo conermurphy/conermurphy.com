@@ -12,6 +12,7 @@ import {
   FaCheck,
   FaSun,
   FaMoon,
+  FaLink,
 } from 'react-icons/fa';
 import { MdCode, MdKeyboard, MdShare } from 'react-icons/md';
 import {
@@ -69,6 +70,17 @@ export default function getIcon({
           data-testid="menu-icon"
           role="img"
           aria-label="mobile menu open icon"
+        />
+      );
+    case ICONS.LINK.name:
+      return (
+        <FaLink
+          size={size}
+          color={color}
+          title="Link Icon"
+          data-testid="link-icon"
+          role="img"
+          aria-label="link icon"
         />
       );
     case ICONS.CLOSE.name:
