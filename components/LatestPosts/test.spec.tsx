@@ -4,6 +4,7 @@ import LatestPosts from './LatestPosts';
 const mockData = [
   {
     data: {
+      UUID: 'hhjhjhhj',
       id: 1,
       title: 'Example Post 1',
       date: '2022-03-26',
@@ -20,6 +21,7 @@ const mockData = [
   },
   {
     data: {
+      UUID: 'dsfdggd',
       id: 2,
       title: 'Example Post 1',
       date: '2022-03-26',
@@ -36,6 +38,7 @@ const mockData = [
   },
   {
     data: {
+      UUID: 'fef3ffda',
       id: 3,
       title: 'Example Post 1',
       date: '2022-03-26',
