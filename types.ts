@@ -1,6 +1,6 @@
 import { ApolloError } from '@apollo/client';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
-import StaticImageData from 'next/image';
+import { StaticImageData } from 'next/image';
 import { ParsedUrlQuery } from 'querystring';
 
 export enum THEMES {

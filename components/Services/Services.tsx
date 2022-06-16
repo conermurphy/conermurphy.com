@@ -1,4 +1,3 @@
-import { useTheme } from 'next-themes';
 import React from 'react';
 import { Service } from '../../types';
 import { getIcon } from '../../utils';
@@ -9,7 +8,6 @@ interface IProps {
 }
 
 export default function Services({ services }: IProps): JSX.Element {
-  const { theme } = useTheme();
   return (
     <ComponentWrapper
       data={{

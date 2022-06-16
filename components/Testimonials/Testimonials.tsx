@@ -32,7 +32,7 @@ export default function Testimonials({ testimonials }: IProps): JSX.Element {
                     <div className="relative w-full h-full max-w-[50px] rounded-lg overflow-hidden">
                       <div className="shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.10)] h-full w-full relative z-10" />
                       <Img
-                        src={image}
+                        src={image.src}
                         alt={name}
                         width={50}
                         height={50}
