@@ -8,3 +8,4 @@ export { default as getAllTagsCategories } from './getAllTagsCategories/getAllTa
 export { default as getPostPaths } from './getPostPaths';
 export { default as createFilterPostPage } from './createFilterPostPage';
 export { default as sourcePostPage } from './sourcePostPage';
+export { default as linkBuilder } from './linkBuilder';

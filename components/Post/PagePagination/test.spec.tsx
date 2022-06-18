@@ -16,7 +16,13 @@ jest.mock('next/router', () => {
 
 describe('PagePagination', () => {
   it('Should render all items correctly', () => {
-    render(<PagePagination pageCount={5} currentPage={2} />);
+    render(
+      <PagePagination
+        pageCount={5}
+        currentPage={2}
+        pageQueries={{ page: '1', queries: [] }}
+      />
+    );
 
     const previousPage = screen.getByRole('link', {
       name: '< ← Previous Page',
@@ -26,10 +32,10 @@ describe('PagePagination', () => {
     });
 
     expect(previousPage).toBeVisible();
-    expect(previousPage.getAttribute('href')).toContain('/blog');
+    expect(previousPage.getAttribute('href')).toContain('/');
 
     expect(nextPage).toBeVisible();
-    expect(nextPage.getAttribute('href')).toContain('/blog/3');
+    expect(nextPage.getAttribute('href')).toContain('/?page=3');
 
     const paginationNumbers = screen.getAllByTestId('pagination-number');
     const ellipses = screen.queryByTestId('pagination-ellipses');
@@ -44,23 +50,29 @@ describe('PagePagination', () => {
     const page5 = screen.getByRole('link', { name: '5' });
 
     expect(page1).toBeVisible();
-    expect(page1.getAttribute('href')).toContain('/blog');
+    expect(page1.getAttribute('href')).toContain('/');
 
     expect(page2).toBeVisible();
-    expect(page2.getAttribute('href')).toContain('/blog/2');
+    expect(page2.getAttribute('href')).toContain('/?page=2');
 
     expect(page3).toBeVisible();
-    expect(page3.getAttribute('href')).toContain('/blog/3');
+    expect(page3.getAttribute('href')).toContain('/?page=3');
 
     expect(page4).toBeVisible();
-    expect(page4.getAttribute('href')).toContain('/blog/4');
+    expect(page4.getAttribute('href')).toContain('/?page=4');
 
     expect(page5).toBeVisible();
-    expect(page5.getAttribute('href')).toContain('/blog/5');
+    expect(page5.getAttribute('href')).toContain('/?page=5');
   });
 
   it('Should render all items correctly with 6 or above pages', () => {
-    render(<PagePagination pageCount={6} currentPage={2} />);
+    render(
+      <PagePagination
+        pageCount={6}
+        currentPage={2}
+        pageQueries={{ page: '1', queries: [] }}
+      />
+    );
 
     const paginationNumbers = screen.getAllByTestId('pagination-number');
     const ellipses = screen.queryByTestId('pagination-ellipses');
@@ -76,18 +88,18 @@ describe('PagePagination', () => {
     const page6 = screen.getByRole('link', { name: '6' });
 
     expect(page1).toBeVisible();
-    expect(page1.getAttribute('href')).toContain('/blog');
+    expect(page1.getAttribute('href')).toContain('/');
 
     expect(page2).toBeVisible();
-    expect(page2.getAttribute('href')).toContain('/blog/2');
+    expect(page2.getAttribute('href')).toContain('/?page=2');
 
     expect(page3).toBeNull();
     expect(page4).toBeNull();
 
     expect(page5).toBeVisible();
-    expect(page5.getAttribute('href')).toContain('/blog/5');
+    expect(page5.getAttribute('href')).toContain('/?page=5');
 
     expect(page6).toBeVisible();
-    expect(page6.getAttribute('href')).toContain('/blog/6');
+    expect(page6.getAttribute('href')).toContain('/?page=6');
   });
 });

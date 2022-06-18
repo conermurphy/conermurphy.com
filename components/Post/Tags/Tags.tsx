@@ -3,9 +3,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { PostTags } from '../../../types';
 import NoScrollLink from '../../NoScrollLink/NoScrollLink';
+import { linkBuilder } from '../../../utils/posts';
 
 interface IProps {
   tags: string[];
+  pageQueries?: { page: string; queries: string[] };
 }
 
 // Possible issue with TailwindCSS where styles aren't included in the final bundle if they are kept in an external file so keeping them here for the styles to work. https://github.com/tailwindlabs/tailwindcss/discussions/7956
@@ -132,38 +134,39 @@ export const POST_TAGS: PostTags = {
   },
 };
 
-function Tag({ tag }: { tag: string }): JSX.Element | null {
-  const { asPath } = useRouter();
+function Tag({
+  tag,
+  pageQueries = {
+    page: '',
+    queries: [],
+  },
+}: {
+  tag: string;
+  pageQueries?: { page: string; queries: string[] };
+}): JSX.Element | null {
+  const { pathname } = useRouter();
 
   if (!tag) return null;
-  let linkHref = '';
-
-  const baseRoute = asPath.split('/').slice(0, 2).join('/');
 
   const {
     name,
-    link,
     colors: {
       active: { bg: activeBg, text: activeText },
       nonActive: { bg, text, border },
     },
-  } = POST_TAGS[tag.toUpperCase()];
+  } = POST_TAGS[tag];
 
-  const tagActive = asPath.split('/').slice(-2).includes(link);
-
-  if (tagActive) {
-    linkHref = baseRoute;
-  } else if (baseRoute !== 'blog' && baseRoute !== 'newsletter') {
-    linkHref = `/blog/${link}`;
-  } else {
-    linkHref = `${baseRoute}${link}`;
-  }
+  const { linkHref, activeItem } = linkBuilder({
+    pageQueries,
+    item: tag,
+    pathname,
+  });
 
   return (
     <NoScrollLink key={tag} href={linkHref} passHref>
       <motion.a
         className={`text-xs px-3 py-1 ${
-          tagActive ? `${activeBg} ${activeText}` : `${bg} ${text}`
+          activeItem ? `${activeBg} ${activeText}` : `${bg} ${text}`
         } ${border} border font-semibold w-max rounded opacity-100`}
         whileHover={{ scale: 0.9, filter: 'grayscale(100%)' }}
       >
@@ -173,11 +176,11 @@ function Tag({ tag }: { tag: string }): JSX.Element | null {
   );
 }
 
-export default function Tags({ tags }: IProps): JSX.Element {
+export default function Tags({ tags, pageQueries }: IProps): JSX.Element {
   return (
     <div className="flex flex-row flex-wrap gap-x-3 gap-y-2">
       {tags.map((tag) => {
-        return <Tag key={tag} tag={tag} />;
+        return <Tag key={tag} tag={tag} pageQueries={pageQueries} />;
       })}
     </div>
   );

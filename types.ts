@@ -112,6 +112,7 @@ export interface PostGridPageProps {
     body: string;
   };
   metaDescription: string;
+  pageQueries?: { page: string; queries: string[] };
 }
 
 export interface PostPageProps {

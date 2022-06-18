@@ -1,6 +1,5 @@
 import { POSTTYPES } from '../../types';
 import { pageDataSource } from '..';
-import createFilterPostPage from './createFilterPostPage';
 import getAllPosts from './getAllPosts';
 import getAllTagsCategories from './getAllTagsCategories/getAllTagsCategories';
 import getHeadings from './getHeadings/getHeadings';
@@ -9,16 +8,23 @@ import getPost from './getPost';
 interface IProps {
   postsPerPage: number;
   postType: POSTTYPES;
-  slug: string | string[] | undefined;
+  pageQueries?: {
+    page?: string;
+    q?: string;
+  };
+  slug?: string;
 }
 
 export default async function sourcePostPage({
   postsPerPage,
   postType,
-  slug = [],
+  pageQueries = {
+    page: '',
+    q: '',
+  },
+  slug = '',
 }: IProps) {
   const postData = await getAllPosts({ postType });
-
   // Source data for extra sections being displayed on the page
   const { latestPosts, testimonials } = await pageDataSource({
     latestPosts: true,
@@ -30,61 +36,22 @@ export default async function sourcePostPage({
     postType,
   });
 
-  // If slug is an array, take the first value, otherwise return '0' to indidicate page 0
-  const slugVal = slug?.length ? slug[0] : '0';
-  // If slug is an array and has a length of 2, take the second item otherwise '0'
-  const slugFilterPage = slug?.length === 2 ? slug[1] : '0';
-
-  const slugInt = parseInt(slugVal);
-  const slugFilterPageInt = parseInt(slugFilterPage);
-
-  // Check if slugVal stars with a number not in a word to indicate if its page pagination or not
-  const isPostGridPage = slugVal.match(/^[0-9]*$/gm);
-
-  const isCategoryPage = categories.includes(slugVal.toUpperCase());
-  const isTagPage = tags.includes(slugVal.toUpperCase());
-
-  if (isCategoryPage || isTagPage) {
-    let filterType: 'tags' | 'categories' = 'tags';
-
-    if (isCategoryPage) {
-      filterType = 'categories';
-    }
-
-    const { postsLength, posts, filterItem } = createFilterPostPage({
-      slug: slugVal,
-      posts: postData,
-      postsPerPage,
-      slugPage: slugFilterPageInt,
-      filterType,
-    });
-
-    return {
-      props: {
-        isPostGridPage: true,
-        pageCount: Math.ceil(postsLength / postsPerPage),
-        pageNumber: slugFilterPageInt,
-        posts,
-        tagsCats: { categories, tags },
-        testimonials,
-        filterItem,
-        postType,
-      },
-    };
-  }
-
-  // If it is overall page pagination return props for it
-  if (isPostGridPage) {
+  // If the page has no page or queries in the URL query params
+  if (
+    !pageQueries?.page &&
+    !pageQueries?.q &&
+    ['blog', 'newsletter'].includes(slug)
+  ) {
+    const pageNumber = pageQueries?.page ? parseInt(pageQueries?.page) : 0;
     // Work out the number of  posts required to skip for the page accessed. E.g. page 2 skip the first 8 posts and return from 9 to 16.
-    const skip = slugInt ? (slugInt - 1) * postsPerPage : 0;
+    const skip = pageNumber ? (pageNumber - 1) * postsPerPage : 0;
 
     const posts = postData.slice(skip, skip + postsPerPage);
 
     return {
       props: {
-        isPostGridPage,
         pageCount: Math.ceil(postData.length / postsPerPage),
-        pageNumber: slugInt,
+        pageNumber,
         posts,
         tagsCats: { categories, tags },
         testimonials,
@@ -93,8 +60,72 @@ export default async function sourcePostPage({
     };
   }
 
-  //   If it is a post return props for it
-  const post = await getPost({ slug: slugVal, postType });
+  // If the page has no queries but a page URL query param
+  if (pageQueries?.page && !pageQueries?.q) {
+    const pageNumber = pageQueries?.page ? parseInt(pageQueries?.page) : 0;
+    // Work out the number of  posts required to skip for the page accessed. E.g. page 2 skip the first 8 posts and return from 9 to 16.
+    const skip = pageNumber ? (pageNumber - 1) * postsPerPage : 0;
+
+    const posts = postData.slice(skip, skip + postsPerPage);
+
+    return {
+      props: {
+        pageCount: Math.ceil(postData.length / postsPerPage),
+        pageNumber,
+        posts,
+        tagsCats: { categories, tags },
+        testimonials,
+        postType,
+        pageQueries: {
+          page: pageQueries?.page ?? '',
+          queries: [],
+        },
+      },
+    };
+  }
+
+  // If the page has query URL query params
+  if (pageQueries?.q) {
+    const queries = pageQueries?.q.toUpperCase().split(' ');
+
+    // Filter all the posts to the ones for the selected tags or categories.
+    const filteredPosts = postData.filter(({ data }) => {
+      return (
+        data.tags.some((tag) => {
+          return queries.includes(tag);
+        }) ||
+        data.categories.some((cat) => {
+          return queries.includes(cat);
+        })
+      );
+    });
+
+    const numberOfPosts = filteredPosts.length;
+
+    const pageNumber = pageQueries?.page ? parseInt(pageQueries?.page) : 0;
+    // Work out the number of  posts required to skip for the page accessed. E.g. page 2 skip the first 8 posts and return from 9 to 16.
+    const skip = pageNumber ? (pageNumber - 1) * postsPerPage : 0;
+
+    const posts = filteredPosts.slice(skip, skip + postsPerPage);
+
+    return {
+      props: {
+        pageCount: Math.ceil(numberOfPosts / postsPerPage),
+        pageNumber,
+        posts,
+        tagsCats: { categories, tags },
+        testimonials,
+        postType,
+        pageQueries: {
+          page: pageQueries?.page ?? '',
+          queries,
+        },
+      },
+    };
+  }
+
+  // If it is a post return props for it
+  const post = await getPost({ slug, postType });
   let rawContent;
   let headings;
 
@@ -105,7 +136,6 @@ export default async function sourcePostPage({
 
   return {
     props: {
-      isPostGridPage,
       latestPosts,
       post: { rawContent, headings, data: post.data, filePath: post.filePath },
     },

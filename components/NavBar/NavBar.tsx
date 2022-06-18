@@ -14,7 +14,7 @@ interface CustomLinkProps {
 
 function CustomLink({ href, value, activeLink }: CustomLinkProps): JSX.Element {
   return (
-    <div className="block">
+    <div className="block w-max">
       <NoScrollLink href={href} passHref>
         <a className="font-semibold opacity-75">{value}</a>
       </NoScrollLink>
