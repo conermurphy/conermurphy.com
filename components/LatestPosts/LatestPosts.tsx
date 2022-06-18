@@ -1,8 +1,8 @@
-import Link from 'next/link';
 import React from 'react';
 import { Post, POSTTYPES } from '../../types';
 import { PostCard } from '../Post';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
+import NoScrollLink from '../NoScrollLink/NoScrollLink';
 
 interface IProps {
   posts: Post[];
@@ -28,7 +28,7 @@ export default function LatestPosts({ posts }: IProps): JSX.Element {
       <div className="flex gap-1 mt-10 text-lg flex-row lg:text-xl justify-center xl:justify-start flex-wrap">
         <p>Want to read more?</p>
         <span className="font-semibold">
-          <Link href="/blog">View all posts here</Link>
+          <NoScrollLink href="/blog">View all posts here</NoScrollLink>
         </span>
       </div>
     </ComponentWrapper>

@@ -1,10 +1,10 @@
 import { useTheme } from 'next-themes';
-import Link from 'next/link';
 import React from 'react';
 import TypewriterComponent from 'typewriter-effect';
 import { HOME_TYPEWRITER_TEXT, TECHS } from '../../constants';
 import { getIcon } from '../../utils';
 import { HeaderBackground } from '../Header/components';
+import NoScrollLink from '../NoScrollLink/NoScrollLink';
 
 export default function HomeHero(): JSX.Element {
   const { theme } = useTheme();
@@ -57,16 +57,16 @@ export default function HomeHero(): JSX.Element {
           </p>
         </div>
         <div className="flex flex-row items-center gap-x-4 sm:gap-x-10">
-          <Link href="/contact" passHref>
+          <NoScrollLink href="/contact" passHref>
             <a className="bg-primaryText dark:bg-primaryTextDark text-primaryBg dark:text-primaryBgDark text-base sm:text-xl rounded-lg py-3 px-7 sm:px-12 font-semibold">
               Hire Me
             </a>
-          </Link>
-          <Link href="/blog" passHref>
+          </NoScrollLink>
+          <NoScrollLink href="/blog" passHref>
             <a className="text-base sm:text-xl font-semibold">
               Latest Blog Posts
             </a>
-          </Link>
+          </NoScrollLink>
         </div>
       </section>
     </div>

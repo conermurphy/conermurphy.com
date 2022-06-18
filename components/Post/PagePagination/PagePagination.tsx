@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import NoScrollLink from '../../NoScrollLink/NoScrollLink';
 
 interface IProps {
   pageCount: number;
@@ -31,7 +31,7 @@ function PageNumber({
     (Number.isNaN(activePageNumber) && pageNumber === 1);
 
   return (
-    <Link
+    <NoScrollLink
       href={`${
         pageNumber === 1 ? `${routeBase}` : `${routeBase}/${pageNumber}`
       }`}
@@ -46,7 +46,7 @@ function PageNumber({
       >
         {pageNumber}
       </a>
-    </Link>
+    </NoScrollLink>
   );
 }
 
@@ -85,7 +85,7 @@ export default function PagePagination({
   return (
     <div className="flex flex-row items-center justify-center bg-secondaryBg dark:bg-secondaryBgDark">
       <nav className="flex flex-row justify-between md:max-w-[1372px] md:px-20 px-6 pt-6 w-full text-lg">
-        <Link href={prevLink} passHref>
+        <NoScrollLink href={prevLink} passHref>
           <a
             className={`font-semibold ${
               !hasPrevLink ? disabledLinkStyles : enabledLinkStyles
@@ -95,7 +95,7 @@ export default function PagePagination({
             <span className="md:hidden">{'<'}</span>
             <span className="hidden md:block">&#8592; Previous Page</span>
           </a>
-        </Link>
+        </NoScrollLink>
         <div className="flex-row gap-2 hidden md:flex">
           {pageCount <= 5 ? (
             pageNumbers.map((page) => {
@@ -154,7 +154,7 @@ export default function PagePagination({
           of <span className="font-semibold">{pageCount}</span>
         </p>
 
-        <Link href={nextLink} passHref>
+        <NoScrollLink href={nextLink} passHref>
           <a
             className={`font-semibold ${
               !hasNextLink ? disabledLinkStyles : enabledLinkStyles
@@ -164,7 +164,7 @@ export default function PagePagination({
             <span className="md:hidden">{'>'}</span>
             <span className="hidden md:block">Next Page &#8594;</span>
           </a>
-        </Link>
+        </NoScrollLink>
       </nav>
     </div>
   );

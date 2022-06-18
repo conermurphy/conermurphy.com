@@ -7,7 +7,7 @@ import {
   Testimonials,
 } from '../components';
 import { Post, Service, Testimonial } from '../types';
-import { pageDataSource } from '../utils';
+import { pageDataSource, useScrollToTop } from '../utils';
 
 interface IProps {
   services: Service[];
@@ -16,6 +16,8 @@ interface IProps {
 }
 
 const Home: NextPage<IProps> = ({ testimonials, latestPosts }) => {
+  useScrollToTop();
+
   return (
     <>
       <SEO

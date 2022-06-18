@@ -10,7 +10,7 @@ import {
 } from '../components';
 import { HeaderBackground } from '../components/Header/components';
 import { Post, Testimonial } from '../types';
-import { pageDataSource } from '../utils';
+import { pageDataSource, useScrollToTop } from '../utils';
 
 interface IProps {
   testimonials: Testimonial[];
@@ -18,6 +18,8 @@ interface IProps {
 }
 
 function Custom404({ testimonials, latestPosts }: IProps): JSX.Element {
+  useScrollToTop();
+
   const { asPath } = useRouter();
   const path = asPath.split('/')[1];
 

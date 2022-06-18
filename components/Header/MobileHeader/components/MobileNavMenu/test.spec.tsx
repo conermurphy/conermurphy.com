@@ -1,6 +1,19 @@
 import { render, screen } from '@testing-library/react';
 import MobileNavMenu from './MobileNavMenu';
 
+jest.mock('next/router', () => {
+  return {
+    useRouter() {
+      return {
+        route: '/',
+        pathname: '',
+        query: '',
+        asPath: '/',
+      };
+    },
+  };
+});
+
 describe('MobileNavMenu', () => {
   it('Should render null when isOpen is false', () => {
     const { container } = render(<MobileNavMenu isOpen={false} />);
