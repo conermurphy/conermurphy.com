@@ -6,7 +6,7 @@ import NoScrollLink from '../../NoScrollLink/NoScrollLink';
 import { MobileNavMenu } from './components';
 
 export default function MobileHeader(): JSX.Element {
-  const { asPath } = useRouter();
+  const { asPath, events } = useRouter();
   const headerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -22,6 +22,11 @@ export default function MobileHeader(): JSX.Element {
   useEffect(() => {
     handleIsOpen();
   }, [asPath, handleIsOpen]);
+
+  // This is used to close the menu on a route change, including if you goto the same page.
+  useEffect(() => {
+    events.on('routeChangeStart', handleIsOpen);
+  }, []);
 
   useOutsideClick({ ref: headerRef, callback: handleIsOpen });
 

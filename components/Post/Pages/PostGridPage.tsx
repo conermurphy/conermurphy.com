@@ -20,6 +20,10 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
   postType,
   pageHeroData: { title, body },
   metaDescription,
+  pageQueries = {
+    page: '',
+    queries: [],
+  },
 }) => {
   useScrollToTop();
 
@@ -45,10 +49,14 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
       <div className="flex flex-row items-center justify-center pb-72 md:pb-12 bg-secondaryBg dark:bg-secondaryBgDark">
         <div className="flex flex-col items-center justify-center gap-y-14 gap-x-20 w-full md:px-20 xl:flex-row-reverse xl:items-start xl:justify-between md:max-w-[1372px]">
           <PostCardGrid posts={posts} postType={postType} />
-          <PageSidebar data={tagsCats} />
+          <PageSidebar data={tagsCats} pageQueries={pageQueries} />
         </div>
       </div>
-      <PagePagination pageCount={pageCount} currentPage={pageNumber} />
+      <PagePagination
+        pageCount={pageCount}
+        currentPage={pageNumber}
+        pageQueries={pageQueries}
+      />
       <Testimonials testimonials={testimonials} />
     </>
   );

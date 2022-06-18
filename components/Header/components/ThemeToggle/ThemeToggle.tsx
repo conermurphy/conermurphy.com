@@ -13,7 +13,9 @@ export default function ThemeToggle() {
   }, []);
 
   if (!mounted) {
-    return null;
+    return (
+      <div className="h-5 pr-11 border-r-2 border-primaryBorder dark:border-primaryBorderDark" />
+    );
   }
 
   return (
@@ -27,7 +29,7 @@ export default function ThemeToggle() {
         }}
         type="button"
         whileTap={{ rotate: 360, scale: 0.8 }}
-        className="opacity-75 px-6"
+        className="opacity-75 pr-6"
       >
         {theme === 'light'
           ? getIcon({ icon: ICONS.MOON.name, size: '20px' })

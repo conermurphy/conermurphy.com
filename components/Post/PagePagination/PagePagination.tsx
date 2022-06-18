@@ -5,13 +5,13 @@ import NoScrollLink from '../../NoScrollLink/NoScrollLink';
 interface IProps {
   pageCount: number;
   currentPage: number;
+  pageQueries: { page: string; queries: string[] };
 }
 
 interface PageNumberProps {
   pageNumber: number;
   routeBase: string;
-  path: string;
-  activePageNumber: number;
+  pageQueries: { page: string; queries: string[] };
 }
 
 const disabledLinkStyles =
@@ -20,20 +20,37 @@ const enabledLinkStyles = 'opacity-75';
 const pageNumberStyles =
   'flex items-center justify-center rounded w-8 h-8 opacity-75';
 
+// Function to generate the URL version of the queries.
+const queriesLink = (queries: string[]) => {
+  return queries?.length
+    ? `${queries
+        .map((q) => {
+          return q.toLowerCase();
+        })
+        .join('+')}`
+    : '';
+};
+
 function PageNumber({
   pageNumber,
   routeBase,
-  path,
-  activePageNumber,
+  pageQueries,
 }: PageNumberProps): JSX.Element {
+  const { page, queries } = pageQueries;
+
   const activePage =
-    path.includes(pageNumber.toString()) ||
-    (Number.isNaN(activePageNumber) && pageNumber === 1);
+    page === pageNumber.toString() || (page === '' && pageNumber === 1);
+
+  const queryLink = queriesLink(queries);
 
   return (
     <NoScrollLink
       href={`${
-        pageNumber === 1 ? `${routeBase}` : `${routeBase}/${pageNumber}`
+        pageNumber === 1
+          ? `${routeBase}${queryLink ? `?q=${queryLink}` : ''}`
+          : `${routeBase}?page=${pageNumber}${
+              queryLink ? `&q=${queryLink}` : ''
+            }`
       }`}
       key={pageNumber}
       passHref
@@ -53,24 +70,29 @@ function PageNumber({
 export default function PagePagination({
   pageCount,
   currentPage,
+  pageQueries,
 }: IProps): JSX.Element {
-  const { asPath } = useRouter();
-  const lastURLRoute = asPath.split('/')[asPath.split('/').length - 1];
-  const activePageNumber = parseInt(lastURLRoute ?? '0');
-  const routeBase = !Number.isNaN(activePageNumber)
-    ? asPath.split('/').slice(0, -1).join('/')
-    : asPath;
+  const { pathname } = useRouter();
+  const { queries } = pageQueries;
+
+  const queryLink = queriesLink(queries);
 
   const hasPrevLink = currentPage !== 0;
   const hasNextLink = pageCount >= 2 && currentPage !== pageCount;
 
-  const prevLink = `${routeBase}/${
-    currentPage - 1 <= 1 ? '' : currentPage - 1
+  const prevLink = `${pathname}${
+    currentPage - 1 <= 1
+      ? `${queryLink ? `?q=${queryLink}` : ''}`
+      : `?page=${currentPage - 1}${queryLink ? `&q=${queryLink}` : ''}`
   }`;
   const nextLink =
     currentPage + 1 === 1
-      ? `${routeBase}/${currentPage + 2}`
-      : `${routeBase}/${currentPage + 1}`;
+      ? `${pathname}?page=${currentPage + 2}${
+          queryLink ? `&q=${queryLink}` : ''
+        }`
+      : `${pathname}?page=${currentPage + 1}${
+          queryLink ? `&q=${queryLink}` : ''
+        }`;
 
   const pageNumbers = Array.from({ length: pageCount }).map((_, i) => {
     return i + 1;
@@ -98,33 +120,31 @@ export default function PagePagination({
         </NoScrollLink>
         <div className="flex-row gap-2 hidden md:flex">
           {pageCount <= 5 ? (
-            pageNumbers.map((page) => {
+            pageNumbers.map((num) => {
               return (
                 <PageNumber
-                  key={page}
-                  pageNumber={page}
-                  routeBase={routeBase}
-                  path={asPath}
-                  activePageNumber={activePageNumber}
+                  key={num}
+                  pageNumber={num}
+                  routeBase={pathname}
+                  pageQueries={pageQueries}
                 />
               );
             })
           ) : (
             <>
-              {firstPageNumbers.map((page) => {
+              {firstPageNumbers.map((num) => {
                 return (
                   <PageNumber
-                    key={page}
-                    pageNumber={page}
-                    routeBase={routeBase}
-                    path={asPath}
-                    activePageNumber={activePageNumber}
+                    key={num}
+                    pageNumber={num}
+                    routeBase={pathname}
+                    pageQueries={pageQueries}
                   />
                 );
               })}
               <span
                 className={`text-sm font-semibold ${pageNumberStyles} ${
-                  showEllipse(activePageNumber)
+                  showEllipse(currentPage)
                     ? 'bg-accentBg'
                     : 'bg-[rgba(17,24,39,10%)]'
                 }`}
@@ -132,14 +152,13 @@ export default function PagePagination({
               >
                 ...
               </span>
-              {lastPageNumbers.map((page) => {
+              {lastPageNumbers.map((num) => {
                 return (
                   <PageNumber
-                    key={page}
-                    pageNumber={page}
-                    routeBase={routeBase}
-                    path={asPath}
-                    activePageNumber={activePageNumber}
+                    key={num}
+                    pageNumber={num}
+                    routeBase={pathname}
+                    pageQueries={pageQueries}
                   />
                 );
               })}

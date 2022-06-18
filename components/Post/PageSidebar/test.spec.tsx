@@ -38,15 +38,15 @@ describe('PageSidebar', () => {
     expect(jsTag).toBeVisible();
     expect(nodeTag).toBeVisible();
 
-    expect(jsTag.getAttribute('href')).toContain('/blog/javascript');
-    expect(nodeTag.getAttribute('href')).toContain('/blog/nodejs');
+    expect(jsTag.getAttribute('href')).toContain('/?q=javascript');
+    expect(nodeTag.getAttribute('href')).toContain('/?q=nodejs');
 
     expect(designCategory).toBeVisible();
     expect(developmentCategory).toBeVisible();
 
-    expect(designCategory.getAttribute('href')).toContain('/blog/design');
+    expect(designCategory.getAttribute('href')).toContain('/?q=design');
     expect(developmentCategory.getAttribute('href')).toContain(
-      '/blog/development'
+      '/?q=development'
     );
   });
 });
