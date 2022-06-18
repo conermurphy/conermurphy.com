@@ -169,14 +169,79 @@ const nextConfig = {
       },
       {
         source: '/blog/web-development',
-        destination: '/blog/development',
+        destination: '/blog?q=development',
         permanent: true,
       },
       {
         source: '/notes/javascript',
-        destination: '/blog/javascript',
+        destination: '/blog?q=javascript',
         permanent: true,
       },
+      {
+        source: '/javascript-higher-order-functions-overview',
+        destination: '/blog/javascript-higher-order-functions-overview',
+        permanent: true,
+      },
+      {
+        source: '/gatsbyjs-pagination-tutorial',
+        destination: '/blog/gatsbyjs-pagination-tutorial',
+        permanent: true,
+      },
+      {
+        source: '/content-creation-workflow-overview',
+        destination: '/blog/content-creation-workflow-overview',
+        permanent: true,
+      },
+      {
+        source: '/truthy-falsy-values-explained',
+        destination: '/blog/truthy-falsy-values-explained',
+        permanent: true,
+      },
+      {
+        source: '/three-tools-increase-productivity',
+        destination: '/blog/three-tools-increase-productivity',
+        permanent: true,
+      },
+      {
+        source: '/five-ways-improve-writing-developer',
+        destination: '/blog/five-ways-improve-writing-developer',
+        permanent: true,
+      },
+      {
+        source: '/open-graph-twitter-meta-tags-missing-gatsbyjs-production',
+        destination: '/blog/open-graph-twitter-meta-tags-missing-gatsbyjs-production',
+        permanent: true,
+      },
+      {
+        source: '/installing-mutliple-nodejs-versions-nvm',
+        destination: '/blog/installing-mutliple-nodejs-versions-nvm',
+        permanent: true,
+      },
+      {
+        source: '/custom-email-signup-form-conertkit-gatsbyjs',
+        destination: '/blog/custom-email-signup-form-conertkit-gatsbyjs',
+        permanent: true,
+      },
+      {
+        source: '/maximising-blog-post-impressions-cross-posting-correct-way',
+        destination: '/blog/maximising-blog-post-impressions-cross-posting-correct-way',
+        permanent: true,
+      },
+      {
+        source: '/css-animation-overview',
+        destination: '/blog/css-animation-overview',
+        permanent: true,
+      },
+      {
+        source: '/3-reasons-why-you-need-design-components-not-pages',
+        destination: '/blog/3-reasons-why-you-need-design-components-not-pages',
+        permanent: true,
+      },
+      {
+        source: '/css-keyframes-overview',
+        destination: '/blog/css-keyframes-overview',
+        permanent: true,
+      }
     ];
   },
 };
