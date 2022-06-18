@@ -1,7 +1,9 @@
 import { render, screen } from '@testing-library/react';
+import { POSTTYPES } from '../../../types';
 import PostCard from './PostCard';
 
 const mockData = {
+  UUID: 'hfdjkhfjhd',
   id: 1,
   title: 'Example Post 1',
   date: '2022-03-26',
@@ -31,7 +33,9 @@ jest.mock('next/router', () => {
 
 describe('PostCard', () => {
   it('Should contain all revelant elements', () => {
-    const { container } = render(<PostCard post={mockData} />);
+    const { container } = render(
+      <PostCard post={mockData} postType={POSTTYPES.BLOG} />
+    );
 
     const image = container.querySelectorAll('img');
     const title = screen.getByText(/example post 1/i);
@@ -40,9 +44,9 @@ describe('PostCard', () => {
     const description = screen.getByText(/This is a description of a post/i);
 
     expect(image).toHaveLength(1);
-    expect(title).toBeVisible();
-    expect(date).toBeVisible();
-    expect(tags).toBeVisible();
-    expect(description).toBeVisible();
+    expect(title).toBeInTheDocument();
+    expect(date).toBeInTheDocument();
+    expect(tags).toBeInTheDocument();
+    expect(description).toBeInTheDocument();
   });
 });

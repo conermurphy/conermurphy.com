@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import React from 'react';
 import { PostGridPageProps } from '../../../types';
+import { useScrollToTop } from '../../../utils';
 import { HeaderBackground } from '../../Header/components';
 import PageHero from '../../PageHero/PageHero';
 import SEO from '../../SEO/SEO';
@@ -20,6 +21,8 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
   pageHeroData: { title, body },
   metaDescription,
 }) => {
+  useScrollToTop();
+
   const pageName = postType.charAt(0).toUpperCase() + postType.slice(1);
 
   return (

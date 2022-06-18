@@ -19,6 +19,7 @@
     "aws-appsync-subscription-link": "^3.0.11",
     "fathom-client": "^3.5.0",
     "feed": "^4.2.2",
+    "framer-motion": "^6.3.11",
     "graphql": "^16.5.0",
     "gray-matter": "^4.0.3",
     "isomorphic-fetch": "^3.0.0",

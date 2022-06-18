@@ -13,3 +13,4 @@ export { default as ComponentWrapper } from './ComponentWrapper/ComponentWrapper
 export { default as ContactHeader } from './ContactHeader/ContactHeader';
 export { default as ContactForm } from './ContactForm/ContactForm';
 export { default as HomeHero } from './HomeHero/HomeHero';
+export { default as NoScrollLink } from './NoScrollLink/NoScrollLink';

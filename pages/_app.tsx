@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import * as Fathom from 'fathom-client';
 import { ThemeProvider } from 'next-themes';
 import { Layout } from '../components';
+import { DesktopHeader, MobileHeader } from '../components/Header';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -29,6 +30,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ThemeProvider attribute="class">
+      <DesktopHeader />
+      <MobileHeader />
       <Layout>
         <Component {...pageProps} />
       </Layout>

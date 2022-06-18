@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
 import Highlight, { defaultProps, Language } from 'prism-react-renderer';
+import { motion } from 'framer-motion';
 import { copyToClipboard, getIcon } from '../../../../utils';
 import { ICONS } from '../../../../constants';
 
@@ -89,8 +90,9 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
               <span className="absolute top-1.5 right-3 select-none text-[#f8f8f2] text-xs md:text-sm">
                 {language}
               </span>
-              <button
+              <motion.button
                 type="button"
+                whileTap={{ scale: 0.8 }}
                 className="hidden group-hover:block absolute bottom-3 right-3 bg-primaryBg dark:bg-primaryBgDark p-1.5 rounded-md"
                 onClick={async () => {
                   await copyToClipboard(code);
@@ -104,7 +106,7 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
                 {isCodeCopied
                   ? getIcon({ icon: ICONS.TICK.name, size: '18px' })
                   : getIcon({ icon: ICONS.COPY.name, size: '18px' })}
-              </button>
+              </motion.button>
             </div>
           </>
         );

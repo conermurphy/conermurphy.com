@@ -2,6 +2,19 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import DesktopHeader from './DesktopHeader';
 
+jest.mock('next/router', () => {
+  return {
+    useRouter() {
+      return {
+        route: '/',
+        pathname: '',
+        query: '',
+        asPath: '/',
+      };
+    },
+  };
+});
+
 describe('DesktopHeader', () => {
   it('Should render the site title', () => {
     render(<DesktopHeader />);

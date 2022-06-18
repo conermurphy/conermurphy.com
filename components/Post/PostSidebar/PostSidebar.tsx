@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   FacebookShareButton,
   LinkedinShareButton,
   TwitterShareButton,
   RedditShareButton,
 } from 'react-share';
+import { motion } from 'framer-motion';
 import { ICONS } from '../../../constants';
 import { PostHeading } from '../../../types';
 import { copyToClipboard, getIcon } from '../../../utils';
@@ -34,6 +35,7 @@ function getHeadingClasses(level: number): string {
 }
 
 export default function PostSidebar({ headings, title }: IProps): JSX.Element {
+  const [isCopied, setIsCopied] = useState(false);
   const { asPath } = useRouter();
 
   const url = `https://conermurphy.com${asPath}`;
@@ -66,37 +68,44 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
         <Newsletter forceMobile />
       </div>
       <ul className={`flex flex-row gap-x-4 ${sectionClasses}`}>
-        <li>
+        <motion.li whileTap={{ scale: 0.8 }}>
           <button
             type="button"
             className={shareIconClasses}
-            onClick={() => {
-              return copyToClipboard(window?.location?.href);
+            onClick={async () => {
+              await copyToClipboard(window?.location?.href);
+
+              setIsCopied(true);
+              setTimeout(() => {
+                setIsCopied(false);
+              }, 1500);
             }}
           >
-            {getIcon({ icon: ICONS.COPY.name })}
+            {isCopied
+              ? getIcon({ icon: ICONS.TICK.name })
+              : getIcon({ icon: ICONS.COPY.name })}
           </button>
-        </li>
-        <li className={shareIconClasses}>
+        </motion.li>
+        <motion.li whileTap={{ scale: 0.8 }} className={shareIconClasses}>
           <TwitterShareButton url={url} title={title} via="MrConerMurphy">
             {getIcon({ icon: ICONS.TWITTER.name, size: '20px' })}
           </TwitterShareButton>
-        </li>
-        <li className={shareIconClasses}>
+        </motion.li>
+        <motion.li whileTap={{ scale: 0.8 }} className={shareIconClasses}>
           <FacebookShareButton url={url}>
             {getIcon({ icon: ICONS.FACEBOOK.name, size: '20px' })}
           </FacebookShareButton>
-        </li>
-        <li className={shareIconClasses}>
+        </motion.li>
+        <motion.li whileTap={{ scale: 0.8 }} className={shareIconClasses}>
           <LinkedinShareButton url={url}>
             {getIcon({ icon: ICONS.LINKEDIN.name, size: '20px' })}
           </LinkedinShareButton>
-        </li>
-        <li className={shareIconClasses}>
+        </motion.li>
+        <motion.li whileTap={{ scale: 0.8 }} className={shareIconClasses}>
           <RedditShareButton url={url}>
             {getIcon({ icon: ICONS.REDDIT.name, size: '20px' })}
           </RedditShareButton>
-        </li>
+        </motion.li>
       </ul>
     </aside>
   );

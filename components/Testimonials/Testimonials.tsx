@@ -1,7 +1,9 @@
 import React from 'react';
 import Img from 'next/image';
+import { motion } from 'framer-motion';
 import { Testimonial } from '../../types';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
+import { postComponent, viewportSettings } from '../../constants';
 
 interface IProps {
   testimonials: Testimonial[];
@@ -20,11 +22,15 @@ export default function Testimonials({ testimonials }: IProps): JSX.Element {
           .slice(0, 3)
           .map(({ copy, quotee: { name, jobTitle, company, image } }) => {
             return (
-              <li
+              <motion.li
                 key={`${name.replace(/ /g, '-')}-${jobTitle.replace(
                   / /g,
                   '-'
                 )}-${company.replace(/ /g, '-')}`}
+                initial="offscreen"
+                whileInView="onscreen"
+                variants={postComponent}
+                viewport={{ ...viewportSettings, amount: 0.2 }}
               >
                 <article className="flex flex-col gap-8 h-full justify-between md:max-w-[425px] bg-primaryBg dark:bg-primaryBgDark rounded-lg px-8 py-6">
                   <p className="text-sm md:text-base">{copy}</p>
@@ -50,7 +56,7 @@ export default function Testimonials({ testimonials }: IProps): JSX.Element {
                     </div>
                   </div>
                 </article>
-              </li>
+              </motion.li>
             );
           })}
       </ul>

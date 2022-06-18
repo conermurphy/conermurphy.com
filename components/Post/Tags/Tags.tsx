@@ -1,7 +1,8 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { motion } from 'framer-motion';
 import { PostTags } from '../../../types';
+import NoScrollLink from '../../NoScrollLink/NoScrollLink';
 
 interface IProps {
   tags: string[];
@@ -159,15 +160,16 @@ function Tag({ tag }: { tag: string }): JSX.Element | null {
   }
 
   return (
-    <Link key={tag} href={linkHref}>
-      <a
+    <NoScrollLink key={tag} href={linkHref} passHref>
+      <motion.a
         className={`text-xs px-3 py-1 ${
           tagActive ? `${activeBg} ${activeText}` : `${bg} ${text}`
         } ${border} border font-semibold w-max rounded opacity-100`}
+        whileHover={{ scale: 0.9, filter: 'grayscale(100%)' }}
       >
         {name}
-      </a>
-    </Link>
+      </motion.a>
+    </NoScrollLink>
   );
 }
 

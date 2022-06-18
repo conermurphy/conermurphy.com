@@ -1,9 +1,10 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { motion } from 'framer-motion';
 import { CATEGORIES } from '../../../constants';
 import { PostTagsCats } from '../../../types';
 import Tags from '../Tags/Tags';
+import { NoScrollLink } from '../..';
 
 interface IProps {
   data: PostTagsCats;
@@ -33,17 +34,20 @@ export default function PageSidebar({ data }: IProps): JSX.Element {
                 }
 
                 return (
-                  <Link href={linkHref} key={link} passHref>
-                    <a
+                  <NoScrollLink href={linkHref} key={link} passHref>
+                    <motion.a
                       className={`font-semibold text-sm p-3 rounded-md ${
                         asPath.includes(link)
                           ? 'bg-[rgba(249,115,22,25%)]'
                           : 'bg-primaryBg dark:bg-primaryBgDark'
                       }`}
+                      whileHover={{
+                        backgroundColor: 'rgba(249,115,22,25%)',
+                      }}
                     >
                       {name}
-                    </a>
-                  </Link>
+                    </motion.a>
+                  </NoScrollLink>
                 );
               })}
             </div>

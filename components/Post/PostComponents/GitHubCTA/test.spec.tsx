@@ -7,7 +7,7 @@ describe('GitHubCTA', () => {
 
     const link = screen.getByRole('link', { name: 'Edit post on GitHub' });
 
-    expect(link).toBeVisible();
+    expect(link).toBeInTheDocument();
     expect(link.getAttribute('href')).toContain(
       'https://github.com/conermurphy/conermurphy.com/tree/main/content/blog/example.mdx'
     );
