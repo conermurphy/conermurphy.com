@@ -9,9 +9,14 @@ import { postComponent, viewportSettings } from '../../../constants';
 interface IProps {
   post: PostFrontMatter;
   postType: POSTTYPES;
+  pageQueries?: { page: string; queries: string[] };
 }
 
-export default function PostCard({ post, postType }: IProps): JSX.Element {
+export default function PostCard({
+  post,
+  postType,
+  pageQueries,
+}: IProps): JSX.Element {
   const { title, date, tags, slug, image, description } = post;
 
   return (
@@ -46,7 +51,7 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
               <h2 className="text-xl lg:text-2xl">{title}</h2>
               <p className="text-sm lg:text-base">{description}</p>
             </div>
-            <Tags tags={tags} />
+            <Tags tags={tags} pageQueries={pageQueries} />
           </div>
         </article>
       </NoScrollLink>
