@@ -6,9 +6,7 @@ import { HeaderBackground } from '../../Header/components';
 import PageHero from '../../PageHero/PageHero';
 import SEO from '../../SEO/SEO';
 import Testimonials from '../../Testimonials/Testimonials';
-import PagePagination from '../PagePagination/PagePagination';
-import PageSidebar from '../PageSidebar/PageSidebar';
-import PostCardGrid from '../PostCardGrid/PostCardGrid';
+import { PagePagination, PageSidebar, PostCardGrid } from '..';
 
 const PostGridPage: NextPage<PostGridPageProps> = ({
   pageNumber,
@@ -47,16 +45,26 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
       <PageHero title={title} body={body} />
       <HeaderBackground bg="bg-secondaryBg dark:bg-secondaryBgDark" />
       <div className="flex flex-row items-center justify-center pb-72 md:pb-12 bg-secondaryBg dark:bg-secondaryBgDark">
-        <div className="flex flex-col items-center justify-center gap-y-14 gap-x-20 w-full md:px-20 xl:flex-row-reverse xl:items-start xl:justify-between md:max-w-[1372px]">
-          <PostCardGrid posts={posts} postType={postType} />
+        <div
+          className={`flex flex-col items-center justify-center gap-y-14 gap-x-20 w-full md:px-20 xl:flex-row-reverse xl:items-start md:max-w-[1372px] ${
+            posts?.length ? 'xl:justify-between' : 'xl:justify-end'
+          }`}
+        >
+          <PostCardGrid
+            posts={posts}
+            postType={postType}
+            pageQueries={pageQueries}
+          />
           <PageSidebar data={tagsCats} pageQueries={pageQueries} />
         </div>
       </div>
-      <PagePagination
-        pageCount={pageCount}
-        currentPage={pageNumber}
-        pageQueries={pageQueries}
-      />
+      {posts?.length ? (
+        <PagePagination
+          pageCount={pageCount}
+          currentPage={pageNumber}
+          pageQueries={pageQueries}
+        />
+      ) : null}
       <Testimonials testimonials={testimonials} />
     </>
   );

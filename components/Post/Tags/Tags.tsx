@@ -7,6 +7,13 @@ import { linkBuilder } from '../../../utils/posts';
 
 interface IProps {
   tags: string[];
+  forceStyle?: 'active' | 'nonActive';
+  pageQueries?: { page: string; queries: string[] };
+}
+
+interface TagProps {
+  tag: string;
+  forceStyle?: 'active' | 'nonActive';
   pageQueries?: { page: string; queries: string[] };
 }
 
@@ -136,14 +143,12 @@ export const POST_TAGS: PostTags = {
 
 function Tag({
   tag,
+  forceStyle,
   pageQueries = {
     page: '',
     queries: [],
   },
-}: {
-  tag: string;
-  pageQueries?: { page: string; queries: string[] };
-}): JSX.Element | null {
+}: TagProps): JSX.Element | null {
   const { pathname } = useRouter();
 
   if (!tag) return null;
@@ -162,12 +167,20 @@ function Tag({
     pathname,
   });
 
+  let colorStyles = '';
+
+  if (forceStyle === 'active') {
+    colorStyles = `${activeBg} ${activeText}`;
+  } else if (forceStyle === 'nonActive') {
+    colorStyles = `${bg} ${text}`;
+  } else {
+    colorStyles = activeItem ? `${activeBg} ${activeText}` : `${bg} ${text}`;
+  }
+
   return (
     <NoScrollLink key={tag} href={linkHref} passHref>
       <motion.a
-        className={`text-xs px-3 py-1 ${
-          activeItem ? `${activeBg} ${activeText}` : `${bg} ${text}`
-        } ${border} border font-semibold w-max rounded opacity-100`}
+        className={`text-xs px-3 py-1 ${colorStyles} ${border} border font-semibold w-max rounded opacity-100`}
         whileHover={{ scale: 0.9, filter: 'grayscale(100%)' }}
       >
         {name}
@@ -176,11 +189,22 @@ function Tag({
   );
 }
 
-export default function Tags({ tags, pageQueries }: IProps): JSX.Element {
+export default function Tags({
+  tags,
+  forceStyle,
+  pageQueries,
+}: IProps): JSX.Element {
   return (
     <div className="flex flex-row flex-wrap gap-x-3 gap-y-2">
       {tags.map((tag) => {
-        return <Tag key={tag} tag={tag} pageQueries={pageQueries} />;
+        return (
+          <Tag
+            key={tag}
+            tag={tag}
+            pageQueries={pageQueries}
+            forceStyle={forceStyle}
+          />
+        );
       })}
     </div>
   );

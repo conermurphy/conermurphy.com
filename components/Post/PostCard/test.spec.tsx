@@ -34,7 +34,11 @@ jest.mock('next/router', () => {
 describe('PostCard', () => {
   it('Should contain all revelant elements', () => {
     const { container } = render(
-      <PostCard post={mockData} postType={POSTTYPES.BLOG} />
+      <PostCard
+        post={mockData}
+        postType={POSTTYPES.BLOG}
+        pageQueries={{ page: '', queries: [] }}
+      />
     );
 
     const image = container.querySelectorAll('img');

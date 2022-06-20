@@ -71,7 +71,13 @@ jest.mock('next/router', () => {
 
 describe('PostCardGrid', () => {
   it('should match length', () => {
-    render(<PostCardGrid posts={mockData} postType={POSTTYPES.BLOG} />);
+    render(
+      <PostCardGrid
+        posts={mockData}
+        postType={POSTTYPES.BLOG}
+        pageQueries={{ page: '', queries: [] }}
+      />
+    );
 
     const title = screen.getAllByText(/example post 1/i);
 
