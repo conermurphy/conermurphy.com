@@ -51,7 +51,11 @@ export default function PostCard({
               <h2 className="text-xl lg:text-2xl">{title}</h2>
               <p className="text-sm lg:text-base">{description}</p>
             </div>
-            <Tags tags={tags} pageQueries={pageQueries} />
+            <Tags
+              tags={tags}
+              pageQueries={pageQueries}
+              forceStyle="nonActive"
+            />
           </div>
         </article>
       </NoScrollLink>
