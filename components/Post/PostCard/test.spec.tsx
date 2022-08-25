@@ -18,39 +18,31 @@ const mockData = {
   timeToRead: 10,
 };
 
-jest.mock('next/router', () => {
-  return {
-    useRouter() {
-      return {
-        route: '/',
-        pathname: '',
-        query: '',
-        asPath: 'example-post-title',
-      };
-    },
-  };
-});
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: 'example-post-title',
+    };
+  },
+}));
 
 describe('PostCard', () => {
   it('Should contain all revelant elements', () => {
     const { container } = render(
-      <PostCard
-        post={mockData}
-        postType={POSTTYPES.BLOG}
-        pageQueries={{ page: '', queries: [] }}
-      />
+      <PostCard post={mockData} postType={POSTTYPES.BLOG} />
     );
 
     const image = container.querySelectorAll('img');
     const title = screen.getByText(/example post 1/i);
     const date = screen.getByText(/26 mar 2022/i);
-    const tags = screen.getByText(/javascript/i);
     const description = screen.getByText(/This is a description of a post/i);
 
     expect(image).toHaveLength(1);
     expect(title).toBeInTheDocument();
     expect(date).toBeInTheDocument();
-    expect(tags).toBeInTheDocument();
     expect(description).toBeInTheDocument();
   });
 });

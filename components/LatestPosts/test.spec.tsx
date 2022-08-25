@@ -55,28 +55,24 @@ const mockData = [
   },
 ];
 
-jest.mock('next/router', () => {
-  return {
-    useRouter() {
-      return {
-        route: '/',
-        pathname: '',
-        query: '',
-        asPath: 'example-post-title',
-      };
-    },
-  };
-});
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: 'example-post-title',
+    };
+  },
+}));
 
 describe('LatestPosts', () => {
   it('should have correct title and subtitle', () => {
     render(<LatestPosts posts={mockData} />);
 
-    const title = screen.queryByText(/Latest Content.../i);
-    const subtitle = screen.queryByText(/What I’m up to and more./i);
+    const title = screen.queryByText(/Latest Posts/i);
 
     expect(title).toBeVisible();
-    expect(subtitle).toBeVisible();
   });
 
   it('should match the length provided', () => {

@@ -21,19 +21,11 @@ function getFrontmatterData({
 }: GetFrontmatterDataProps): string[] {
   const uniqueValues = [
     ...new Set(
-      posts.flatMap(({ data }) => {
-        return data[type as keyof PostFrontMatter];
-      })
+      posts.flatMap(({ data }) => data[type as keyof PostFrontMatter])
     ),
   ];
 
-  return uniqueValues
-    .map((value) => {
-      return value.toString();
-    })
-    .filter((value) => {
-      return value;
-    });
+  return uniqueValues.map((value) => value.toString()).filter((value) => value);
 }
 
 export default async function getAllTagsCategories({

@@ -12,7 +12,6 @@ export default function Services({ services }: IProps): JSX.Element {
     <ComponentWrapper
       data={{
         title: 'Services',
-        subTitle: 'Let me help you, here’s how.',
       }}
     >
       <ul className="flex flex-wrap gap-6 flex-row w-full items-start justify-center xl:justify-start">

@@ -89,16 +89,11 @@ export default async function sourcePostPage({
     const queries = pageQueries?.q.toUpperCase().split(' ');
 
     // Filter all the posts to the ones for the selected tags or categories.
-    const filteredPosts = postData.filter(({ data }) => {
-      return (
-        data.tags.some((tag) => {
-          return queries.includes(tag);
-        }) ||
-        data.categories.some((cat) => {
-          return queries.includes(cat);
-        })
-      );
-    });
+    const filteredPosts = postData.filter(
+      ({ data }) =>
+        data.tags.some((tag) => queries.includes(tag)) ||
+        data.categories.some((cat) => queries.includes(cat))
+    );
 
     const numberOfPosts = filteredPosts.length;
 

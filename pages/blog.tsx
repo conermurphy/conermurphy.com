@@ -6,9 +6,9 @@ import { PostGridPage } from '../components/Post/Pages';
 const postType = POSTTYPES.BLOG;
 
 // This controls which page to show based off the isPostGridPage prop
-const Blog: NextPage<BlogNewsletterProps> = ({ isPostGridPage, ...params }) => {
-  return <PostGridPage {...params} postType={postType} />;
-};
+const Blog: NextPage<BlogNewsletterProps> = ({ isPostGridPage, ...params }) => (
+  <PostGridPage {...params} postType={postType} />
+);
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const postsPerPage = parseInt(process.env.POSTS_PER_PAGE);

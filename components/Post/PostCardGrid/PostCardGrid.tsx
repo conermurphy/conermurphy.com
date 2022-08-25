@@ -6,26 +6,14 @@ import PostCard from '../PostCard/PostCard';
 interface IProps {
   posts: Post[];
   postType: POSTTYPES;
-  pageQueries?: { page: string; queries: string[] };
 }
 
-export default function PostCardGrid({
-  posts,
-  postType,
-  pageQueries,
-}: IProps): JSX.Element {
+export default function PostCardGrid({ posts, postType }: IProps): JSX.Element {
   return posts?.length ? (
-    <section className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-10">
-      {posts.map(({ data }) => {
-        return (
-          <PostCard
-            key={data.UUID}
-            post={data}
-            postType={postType}
-            pageQueries={pageQueries}
-          />
-        );
-      })}
+    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+      {posts.map(({ data }) => (
+        <PostCard key={data.UUID} post={data} postType={postType} />
+      ))}
     </section>
   ) : (
     <NoContentFound />

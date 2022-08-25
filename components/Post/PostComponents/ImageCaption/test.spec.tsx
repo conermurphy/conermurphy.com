@@ -13,9 +13,9 @@ describe('ImageCaption', () => {
 
     const image = container.querySelectorAll('img').length;
     const caption = screen.getByText(/this is an image/i);
-    const altText = [...container.querySelectorAll('img')].map(({ alt }) => {
-      return alt;
-    });
+    const altText = [...container.querySelectorAll('img')].map(
+      ({ alt }) => alt
+    );
 
     expect(image).toEqual(1);
     expect(altText).toContain('Test Image');
@@ -26,9 +26,9 @@ describe('ImageCaption', () => {
     const { container } = render(<ImageCaption src="/test-image.png" />);
 
     const image = container.querySelectorAll('img').length;
-    const altText = [...container.querySelectorAll('img')].map(({ alt }) => {
-      return alt;
-    });
+    const altText = [...container.querySelectorAll('img')].map(
+      ({ alt }) => alt
+    );
     const caption = screen.queryByText(/this is an image/i);
 
     expect(image).toEqual(1);

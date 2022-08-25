@@ -40,9 +40,7 @@ export default function MobileHeader(): JSX.Element {
           <button
             type="button"
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
-            onClick={() => {
-              return setIsOpen(!isOpen);
-            }}
+            onClick={() => setIsOpen(!isOpen)}
           >
             {!isOpen
               ? getIcon({ icon: ICONS.JUSTIFY.name, size: '20px' })

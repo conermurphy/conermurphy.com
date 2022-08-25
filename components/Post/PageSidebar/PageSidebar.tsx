@@ -1,7 +1,5 @@
 import { useRouter } from 'next/router';
 import React from 'react';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
 import { CATEGORIES } from '../../../constants';
 import { PostTagsCats } from '../../../types';
 import Tags, { POST_TAGS } from '../Tags/Tags';
@@ -26,18 +24,15 @@ function CategoryLink({
 }: CategoryLinkProps): JSX.Element {
   return (
     <NoScrollLink href={linkHref} passHref>
-      <motion.a
-        className={`font-semibold text-sm p-3 rounded-md ${
+      <a
+        className={`font-semibold text-sm p-3 rounded-md ease-in-out transition-all duration-150 ${
           activeItem
-            ? 'bg-[rgba(249,115,22,25%)]'
-            : 'bg-primaryBg dark:bg-primaryBgDark'
+            ? 'bg-accent/25'
+            : ' hover:bg-accent hover:dark:bg-accent bg-secondaryBg dark:bg-secondaryBgDark'
         }`}
-        whileHover={{
-          backgroundColor: 'rgba(249,115,22,25%)',
-        }}
       >
         {name}
-      </motion.a>
+      </a>
     </NoScrollLink>
   );
 }
@@ -54,10 +49,12 @@ export default function PageSidebar({
   const { queries } = pageQueries;
 
   return (
-    <aside className="sticky grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-8 gap-x-20 w-full px-6 md:px-0 md:max-w-[624px] lg:max-w-[780px] xl:max-w-[272px] top-16">
+    <aside className="grid grid-cols-4 gap-8 w-full px-6 pt-12 md:pt-0 md:pb-12 md:px-0 border-t-4 md:border-t-0 md:border-b-4 border-primaryBorderDark">
       {categories?.length ? (
         <div>
-          <h2 className="text-lg font-semibold mb-3">Categories</h2>
+          <h2 className="text-lg font-semibold mb-3 border-b-2 border-accent w-max">
+            Categories
+          </h2>
           <div className="flex flex-col gap-3">
             {categories.map((category) => {
               const { name } = CATEGORIES[category];
@@ -84,7 +81,9 @@ export default function PageSidebar({
       {tags?.length ? (
         <div className="w-full flex flex-col gap-3">
           <div>
-            <h2 className="text-lg font-semibold mb-3">Tags</h2>
+            <h2 className="text-lg font-semibold mb-3 border-b-2 border-accent w-max">
+              Tags
+            </h2>
             <Tags tags={tags} pageQueries={pageQueries} />
           </div>
         </div>
@@ -92,7 +91,9 @@ export default function PageSidebar({
 
       {queries?.length ? (
         <div className="flex flex-col gap-3">
-          <h2 className="text-lg font-semibold">Active Filters</h2>
+          <h2 className="text-lg font-semibold border-b-2 border-accent w-max">
+            Active Filters
+          </h2>
           <div className="flex flex-row flex-wrap gap-3">
             {queries.map((q) => {
               const uppercaseQuery = q.toUpperCase();
@@ -104,7 +105,7 @@ export default function PageSidebar({
               return (
                 <p
                   key={q}
-                  className="font-semibold text-xs p-3 rounded-md bg-primaryBg dark:bg-primaryBgDark opacity-100"
+                  className="font-semibold text-xs p-3 rounded-md bg-secondaryBg dark:bg-secondaryBgDark opacity-100"
                 >
                   {displayName}
                 </p>
@@ -116,7 +117,9 @@ export default function PageSidebar({
 
       {queries?.length ? (
         <div className="flex flex-col gap-3">
-          <h2 className="text-lg font-semibold">Other</h2>
+          <h2 className="text-lg font-semibold border-b-2 border-accent w-max">
+            Other
+          </h2>
           <CategoryLink
             linkHref={pathname}
             activeItem={false}

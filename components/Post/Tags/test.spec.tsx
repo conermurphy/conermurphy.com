@@ -1,18 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import Tags from './Tags';
 
-jest.mock('next/router', () => {
-  return {
-    useRouter() {
-      return {
-        route: '/',
-        pathname: '',
-        query: '',
-        asPath: 'example-post-title',
-      };
-    },
-  };
-});
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: 'example-post-title',
+    };
+  },
+}));
 
 describe('Tags', () => {
   it('tags passed should display', () => {

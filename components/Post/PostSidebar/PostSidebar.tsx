@@ -50,18 +50,16 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
       <div className="pb-6">
         <h2 className="text-lg text-accent mb-1.5">In this article</h2>
         <ul>
-          {headings.map(({ text, link, level }) => {
-            return (
-              <li key={link}>
-                <a
-                  href={link}
-                  className={`opacity-75 text-sm ${getHeadingClasses(level)}`}
-                >
-                  {text}
-                </a>
-              </li>
-            );
-          })}
+          {headings.map(({ text, link, level }) => (
+            <li key={link}>
+              <a
+                href={link}
+                className={`opacity-75 text-sm ${getHeadingClasses(level)}`}
+              >
+                {text}
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
       <div className={sectionClasses}>

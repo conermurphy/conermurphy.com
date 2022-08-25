@@ -2,18 +2,16 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import DesktopHeader from './DesktopHeader';
 
-jest.mock('next/router', () => {
-  return {
-    useRouter() {
-      return {
-        route: '/',
-        pathname: '',
-        query: '',
-        asPath: '/',
-      };
-    },
-  };
-});
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: '/',
+    };
+  },
+}));
 
 describe('DesktopHeader', () => {
   it('Should render the site title', () => {
@@ -55,6 +53,6 @@ describe('DesktopHeader', () => {
     expect(linkedInIcon).toBeVisible();
     expect(emailIcon).toBeVisible();
     expect(themeIcon).toBeVisible();
-    expect(icons).toEqual(4);
+    expect(icons).toEqual(5);
   });
 });

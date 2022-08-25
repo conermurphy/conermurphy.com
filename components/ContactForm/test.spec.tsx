@@ -2,18 +2,6 @@ import { render, screen } from '@testing-library/react';
 import ContactForm from './ContactForm';
 
 describe('ContactForm', () => {
-  it('Should render header text correctly', () => {
-    render(<ContactForm />);
-
-    const header = screen.getByText(/get in touch/i);
-    const text = screen.getByText(
-      /Fill out the form below and let’s get talking./i
-    );
-
-    expect(header).toBeVisible();
-    expect(text).toBeVisible();
-  });
-
   it('Should render all inputs correctly', () => {
     render(<ContactForm />);
 

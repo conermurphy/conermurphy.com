@@ -48,6 +48,7 @@ export default function getIcon({
           data-testid="theme-icon"
           role="img"
           aria-label="Light theme toggle icon"
+          className="hover:fill-accent"
         />
       );
     case ICONS.MOON.name:
@@ -59,6 +60,7 @@ export default function getIcon({
           data-testid="theme-icon"
           role="img"
           aria-label="Dark theme toggle icon"
+          className="hover:fill-accent"
         />
       );
     case ICONS.JUSTIFY.name:
@@ -70,6 +72,7 @@ export default function getIcon({
           data-testid="menu-icon"
           role="img"
           aria-label="mobile menu open icon"
+          className="hover:fill-accent"
         />
       );
     case ICONS.LINK.name:
@@ -81,6 +84,7 @@ export default function getIcon({
           data-testid="link-icon"
           role="img"
           aria-label="link icon"
+          className="hover:fill-accent"
         />
       );
     case ICONS.CLOSE.name:
@@ -92,6 +96,7 @@ export default function getIcon({
           data-testid="menu-icon"
           role="img"
           aria-label="mobile menu close icon"
+          className="hover:fill-accent"
         />
       );
     case ICONS.KEYBOARD.name:
@@ -103,6 +108,7 @@ export default function getIcon({
           data-testid="services-icon"
           role="img"
           aria-label="Keyboard icon"
+          className="hover:fill-accent"
         />
       );
     case ICONS.CODE.name:
@@ -114,6 +120,7 @@ export default function getIcon({
           data-testid="services-icon"
           role="img"
           aria-label="< > symbols"
+          className="hover:fill-accent"
         />
       );
     case ICONS.SOCIALS.name:
@@ -125,6 +132,7 @@ export default function getIcon({
           data-testid="services-icon"
           role="img"
           aria-label="Social media share icon"
+          className="hover:fill-accent"
         />
       );
     case ICONS.COPY.name:
@@ -136,6 +144,7 @@ export default function getIcon({
           data-testid="share-icon"
           role="img"
           aria-label="copy icon"
+          className="hover:fill-accent"
         />
       );
     case ICONS.TICK.name:
@@ -147,6 +156,7 @@ export default function getIcon({
           data-testid="tick-icon"
           role="img"
           aria-label="tick icon"
+          className="hover:fill-accent"
         />
       );
     case ICONS.TWITTER.name:
@@ -158,6 +168,7 @@ export default function getIcon({
           data-testid="socials-icon"
           role="img"
           aria-label="Twitter logo"
+          className="hover:fill-accent"
         />
       );
     case ICONS.LINKEDIN.name:
@@ -169,6 +180,7 @@ export default function getIcon({
           data-testid="socials-icon"
           role="img"
           aria-label="LinkedIn logo"
+          className="hover:fill-accent"
         />
       );
     case ICONS.EMAIL.name:
@@ -180,6 +192,7 @@ export default function getIcon({
           data-testid="socials-icon"
           role="img"
           aria-label="Email icon"
+          className="hover:fill-accent"
         />
       );
     case ICONS.FACEBOOK.name:
@@ -191,6 +204,7 @@ export default function getIcon({
           data-testid="socials-icon"
           role="img"
           aria-label="Facebook logo"
+          className="hover:fill-accent"
         />
       );
     case ICONS.GITHUB.name:
@@ -202,6 +216,7 @@ export default function getIcon({
           data-testid="socials-icon"
           role="img"
           aria-label="GitHub logo"
+          className="hover:fill-accent"
         />
       );
     case ICONS.INSTAGRAM.name:
@@ -213,6 +228,7 @@ export default function getIcon({
           data-testid="socials-icon"
           role="img"
           aria-label="Instagram logo"
+          className="hover:fill-accent"
         />
       );
     case ICONS.YOUTUBE.name:
@@ -224,6 +240,7 @@ export default function getIcon({
           data-testid="socials-icon"
           role="img"
           aria-label="YouTube logo"
+          className="hover:fill-accent"
         />
       );
     case ICONS.REDDIT.name:
@@ -235,6 +252,7 @@ export default function getIcon({
           data-testid="socials-icon"
           role="img"
           aria-label="Reddit logo"
+          className="hover:fill-accent"
         />
       );
     case ICONS.GRAPHQL.name:

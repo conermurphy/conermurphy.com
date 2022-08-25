@@ -196,16 +196,14 @@ export default function Tags({
 }: IProps): JSX.Element {
   return (
     <div className="flex flex-row flex-wrap gap-x-3 gap-y-2">
-      {tags.map((tag) => {
-        return (
-          <Tag
-            key={tag}
-            tag={tag}
-            pageQueries={pageQueries}
-            forceStyle={forceStyle}
-          />
-        );
-      })}
+      {tags.map((tag) => (
+        <Tag
+          key={tag}
+          tag={tag}
+          pageQueries={pageQueries}
+          forceStyle={forceStyle}
+        />
+      ))}
     </div>
   );
 }

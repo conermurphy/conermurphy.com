@@ -19,18 +19,16 @@ const mockHeadings = [
   },
 ];
 
-jest.mock('next/router', () => {
-  return {
-    useRouter() {
-      return {
-        route: '/',
-        pathname: '',
-        query: '',
-        asPath: '/blog',
-      };
-    },
-  };
-});
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: '/blog',
+    };
+  },
+}));
 
 describe('PostSidebar', () => {
   it('should render contents section correctly', () => {

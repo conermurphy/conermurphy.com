@@ -26,9 +26,9 @@ export default function createFilterPostPage({
   const skip = slugPage ? (slugPage - 1) * postsPerPage : 0;
 
   // Filter all posts to just the ones matching the provided tag/category
-  const filteredPosts = posts.filter(({ data }) => {
-    return data[filterType].includes(upperSlug);
-  });
+  const filteredPosts = posts.filter(({ data }) =>
+    data[filterType].includes(upperSlug)
+  );
 
   // Paginate the posts off the skip value and the postsPerPage value
   const paginatedPosts = filteredPosts.slice(skip, skip + postsPerPage);

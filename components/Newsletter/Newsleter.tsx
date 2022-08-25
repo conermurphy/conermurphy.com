@@ -51,7 +51,7 @@ export default function Newsletter({
           placeholder="Enter your email"
           onChange={updateValue}
           value={values.email}
-          className={`rounded-lg border-primaryBorder dark:primaryBorderDark sm:max-w-[272px] text-xs bg-secondaryBg dark:bg-secondaryBgDark ${textSize}`}
+          className={`rounded-lg border-primaryBorder dark:primaryBorderDark sm:max-w-[272px] text-xs bg-primaryBg dark:bg-primaryBgDark ${textSize}`}
         />
         <input
           type="text"

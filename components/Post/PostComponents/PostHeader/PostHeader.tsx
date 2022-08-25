@@ -1,7 +1,6 @@
 import React from 'react';
 import Img from 'next/image';
 import { PostFrontMatter } from '../../../../types';
-import { HeaderBackground } from '../../../Header/components';
 import { Tags } from '../..';
 
 interface IProps {
@@ -13,7 +12,6 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
 
   return (
     <header className="flex flex-col items-center -mt-16 pb-0 lg:pb-3 bg-primaryBg dark:bg-primaryBgDark">
-      <HeaderBackground bg="bg-primaryBg dark:bg-primaryBgDark" />
       <div className="max-w-full sm:max-w-[1100px] w-full px-4 pb-4 md:pb-10 z-[1] pt-10 md:pt-72">
         <p className="text-xs md:text-base font-semiBold text-primaryText dark:text-primaryTextDark opacity-75 mb-1">
           {`Published on

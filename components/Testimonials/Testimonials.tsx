@@ -1,9 +1,7 @@
 import React from 'react';
 import Img from 'next/image';
-import { motion } from 'framer-motion';
 import { Testimonial } from '../../types';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
-import { postComponent, viewportSettings } from '../../constants';
 
 interface IProps {
   testimonials: Testimonial[];
@@ -14,41 +12,51 @@ export default function Testimonials({ testimonials }: IProps): JSX.Element {
     <ComponentWrapper
       data={{
         title: 'Testimonials',
-        subTitle: 'Don’t take my word for it.',
       }}
     >
-      <ul className="flex flex-col flex-wrap gap-6 md:flex-row w-full items-start justify-center xl:justify-start">
+      <ul className="flex flex-col flex-wrap gap-12 w-full items-start justify-center xl:justify-start">
         {testimonials
           .slice(0, 3)
-          .map(({ copy, quotee: { name, jobTitle, company, image } }) => {
+          .map(({ copy, quotee: { name, jobTitle, company, image } }, i) => {
+            const alignLeft = i % 2 === 0;
+
             return (
-              <motion.li
+              <li
                 key={`${name.replace(/ /g, '-')}-${jobTitle.replace(
                   / /g,
                   '-'
                 )}-${company.replace(/ /g, '-')}`}
-                initial="offscreen"
-                whileInView="onscreen"
-                variants={postComponent}
-                viewport={{ ...viewportSettings, amount: 0.2 }}
               >
-                <article className="flex flex-col gap-8 h-full justify-between md:max-w-[425px] bg-primaryBg dark:bg-primaryBgDark rounded-lg px-8 py-6">
-                  <p className="text-sm md:text-base">{copy}</p>
-                  <div className="flex flex-row items-center gap-2">
-                    <div className="relative w-full h-full max-w-[50px] rounded-lg overflow-hidden">
-                      <div className="shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.10)] h-full w-full relative z-10" />
-                      <Img
-                        src={image.src}
-                        alt={name}
-                        width={50}
-                        height={50}
-                        layout="responsive"
-                        objectFit="cover"
-                      />
-                    </div>
-                    <div>
+                <article
+                  className={`relative flex ${
+                    alignLeft
+                      ? 'flex-row after:left-9'
+                      : 'flex-row-reverse after:right-9'
+                  } gap-12 w-full items-center justify-between bg-secondaryBg dark:bg-secondaryBgDark rounded-md px-12 py-10 after:content-[''] after:border-transparent after:border-t-secondaryBg after:dark:border-t-secondaryBgDark after:-bottom-10 after:border-[20px] after:absolute after:border-solid after:hidden after:lg:block`}
+                >
+                  <div className="relative h-full w-full max-w-[150px] rounded-2xl overflow-hidden drop-shadow-md">
+                    <Img
+                      src={image.src}
+                      alt={name}
+                      width="100%"
+                      height="100%"
+                      layout="responsive"
+                      objectFit="cover"
+                    />
+                  </div>
+                  <div
+                    className={`flex flex-col gap-8 text-primaryText dark:text-primaryTextDark ${
+                      alignLeft ? 'text-left' : 'text-right'
+                    }`}
+                  >
+                    <p className="text-sm md:text-lg">{copy}</p>
+                    <div
+                      className={`flex flex-col ${
+                        alignLeft ? 'justify-start' : 'justify-end'
+                      }`}
+                    >
                       <p className="text-xs sm:text-sm md:text-base font-bold opacity-100">
-                        {name}
+                        - {name}
                       </p>
                       <p className="text-xs md:text-sm">
                         {jobTitle} @ {company}
@@ -56,7 +64,7 @@ export default function Testimonials({ testimonials }: IProps): JSX.Element {
                     </div>
                   </div>
                 </article>
-              </motion.li>
+              </li>
             );
           })}
       </ul>

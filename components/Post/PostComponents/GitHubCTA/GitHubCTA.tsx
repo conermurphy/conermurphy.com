@@ -11,7 +11,7 @@ export default function GitHubCTA({ postPath }: IProps): JSX.Element {
   const basePath =
     'https://github.com/conermurphy/conermurphy.com/tree/main/content';
   return (
-    <aside className="my-6 text-sm md:text-base text-primaryTextDimmed dark:text-primaryTextDimmedDark">
+    <aside className="my-6 text-sm md:text-base">
       <motion.p
         initial="offscreen"
         whileInView="onscreen"
@@ -37,7 +37,7 @@ export default function GitHubCTA({ postPath }: IProps): JSX.Element {
         whileInView="onscreen"
         variants={postComponent}
         viewport={viewportSettings}
-        className="flex flex-row gap-x-2 mt-5 pb-2 font-semibold w-max border-b border-accent text-primaryTextDimmed dark:text-primaryTextDimmedDark opacity-100"
+        className="flex flex-row gap-x-2 mt-5 pb-2 font-semibold w-max border-b border-accent opacity-100"
         href={`${basePath}${postPath}`}
         aria-label="Edit post on GitHub"
         target="_blank"

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useContactForm, useForm } from '../../utils';
-import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
 
 export default function ContactForm(): JSX.Element {
   const { values, updateValue, resetValues } = useForm({
@@ -19,97 +18,92 @@ export default function ContactForm(): JSX.Element {
   });
 
   const inputContainerStyles = 'flex flex-col items-start';
-  const labelStyles = 'font-semibold opacity-75 mb-1';
+  const labelStyles = 'font-bold mb-1';
   const twoColInputStyles =
-    'rounded-lg border-primaryBorder dark:primaryBorderDark md:max-w-[217px] text-xs bg-primaryBg dark:bg-primaryBgDark w-full md:w-[217px]';
+    'rounded-lg border-primaryBorder text-md bg-primaryBg w-full ';
 
   return (
-    <ComponentWrapper
-      data={{
-        title: 'Get in touch',
-        subTitle: 'Fill out the form below and let’s get talking.',
-      }}
-      textClasses="xl:text-center"
-      id="contact-form"
-    >
-      <div className="flex flex-col justify-center items-center">
-        <form
-          onSubmit={submitContactForm}
-          className="md:max-w-[450px] w-full"
-          data-testid="contact-form"
+    <div className="flex flex-col justify-start items-center bg-secondaryBg dark:bg-secondaryBgDark p-8 rounded-md h-full">
+      <form
+        onSubmit={submitContactForm}
+        className="flex flex-col gap-4 md:gap-6 w-full"
+        data-testid="contact-form"
+      >
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className={inputContainerStyles}>
+            <label htmlFor="firstName" className={labelStyles}>
+              First Name
+            </label>
+            <input
+              type="text"
+              name="firstName"
+              id="firstName"
+              required
+              placeholder="Your first name"
+              onChange={updateValue}
+              value={firstName}
+              className={twoColInputStyles}
+            />
+          </div>
+          <div className={inputContainerStyles}>
+            <label htmlFor="lastName" className={labelStyles}>
+              Last Name
+            </label>
+            <input
+              type="text"
+              name="lastName"
+              id="lastName"
+              required
+              placeholder="Your last name"
+              onChange={updateValue}
+              value={lastName}
+              className={twoColInputStyles}
+            />
+          </div>
+        </div>
+        <div className={inputContainerStyles}>
+          <label htmlFor="email" className={labelStyles}>
+            Email Address
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            required
+            placeholder="Your email"
+            onChange={updateValue}
+            value={email}
+            className="rounded-lg border-primaryBorder  text-md bg-primaryBg w-full"
+          />
+        </div>
+        <div className={inputContainerStyles}>
+          <label htmlFor="message" className={labelStyles}>
+            Message
+          </label>
+          <textarea
+            name="message"
+            id="message"
+            required
+            placeholder="Your message"
+            onChange={updateValue}
+            value={message}
+            className="rounded-lg border-primaryBorder  min-h-[200px] text-md bg-primaryBg w-full resize-none"
+          />
+        </div>
+        <button
+          type="submit"
+          className="bg-primaryBg dark:bg-primaryBgDark text-primaryText dark:text-primaryTextDark text-base font-bold rounded-md py-3 px-5"
         >
-          <fieldset className="flex flex-col gap-4 md:gap-6">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className={inputContainerStyles}>
-                <label htmlFor="firstName" className={labelStyles}>
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  name="firstName"
-                  id="firstName"
-                  required
-                  placeholder="Your first name"
-                  onChange={updateValue}
-                  value={firstName}
-                  className={twoColInputStyles}
-                />
-              </div>
-              <div className={inputContainerStyles}>
-                <label htmlFor="lastName" className={labelStyles}>
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  name="lastName"
-                  id="lastName"
-                  required
-                  placeholder="Your last name"
-                  onChange={updateValue}
-                  value={lastName}
-                  className={twoColInputStyles}
-                />
-              </div>
-            </div>
-            <div className={inputContainerStyles}>
-              <label htmlFor="email" className={labelStyles}>
-                Email Address
-              </label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                required
-                placeholder="Your email"
-                onChange={updateValue}
-                value={email}
-                className="rounded-lg border-primaryBorder dark:primaryBorderDark md:max-w-[450px] text-xs bg-primaryBg dark:bg-primaryBgDark w-full"
-              />
-            </div>
-            <div className={inputContainerStyles}>
-              <label htmlFor="message" className={labelStyles}>
-                Message
-              </label>
-              <textarea
-                name="message"
-                id="message"
-                required
-                placeholder="Your message"
-                onChange={updateValue}
-                value={message}
-                className="rounded-lg border-primaryBorder dark:primaryBorderDark md:max-w-[450px] min-h-[132px] text-xs bg-primaryBg dark:bg-primaryBgDark w-full resize-none"
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-primaryText dark:bg-primaryTextDark text-primaryBg dark:text-primaryBgDark text-xs rounded-lg py-3 px-5"
-            >
-              {loading ? 'Sending..' : 'Send Message'}
-            </button>
-          </fieldset>
-        </form>
-        <p className="text-xs lg:text-base mt-6">{outputMessage}</p>
-      </div>
-    </ComponentWrapper>
+          {loading ? 'Sending..' : 'Send Message'}
+        </button>
+      </form>
+      <p
+        className={`text-xs lg:text-base mt-6 ${
+          !outputMessage ? 'animate-pulse' : ''
+        }`}
+      >
+        {outputMessage || 'Awaiting Submission...'}
+      </p>
+    </div>
   );
 }

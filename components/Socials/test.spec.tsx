@@ -36,6 +36,6 @@ describe('Socials', () => {
     expect(instagramIcon).toBeVisible();
     expect(youtubeIcon).toBeVisible();
 
-    expect(icons).toEqual(6);
+    expect(icons).toEqual(7);
   });
 });

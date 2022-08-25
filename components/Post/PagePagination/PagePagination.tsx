@@ -21,15 +21,8 @@ const pageNumberStyles =
   'flex items-center justify-center rounded w-8 h-8 opacity-75';
 
 // Function to generate the URL version of the queries.
-const queriesLink = (queries: string[]) => {
-  return queries?.length
-    ? `${queries
-        .map((q) => {
-          return q.toLowerCase();
-        })
-        .join('+')}`
-    : '';
-};
+const queriesLink = (queries: string[]) =>
+  queries?.length ? `${queries.map((q) => q.toLowerCase()).join('+')}` : '';
 
 function PageNumber({
   pageNumber,
@@ -57,7 +50,9 @@ function PageNumber({
     >
       <a
         className={`text-sm font-semibold ${pageNumberStyles} ${
-          activePage ? 'bg-accentBg' : 'bg-[rgba(17,24,39,10%)]'
+          activePage
+            ? 'bg-accent dark:bg-accent/75'
+            : 'bg-primaryBgDark/10 hover:bg-accent hover:dark:bg-accent/75'
         }`}
         data-testid="pagination-number"
       >
@@ -94,19 +89,16 @@ export default function PagePagination({
           queryLink ? `&q=${queryLink}` : ''
         }`;
 
-  const pageNumbers = Array.from({ length: pageCount }).map((_, i) => {
-    return i + 1;
-  });
+  const pageNumbers = Array.from({ length: pageCount }).map((_, i) => i + 1);
   const firstPageNumbers = [1, 2];
   const lastPageNumbers = pageNumbers.slice(pageNumbers.length - 2);
 
-  const showEllipse = (pageNum: number): boolean => {
-    return pageNum > 2 && pageNum < pageCount - 1;
-  };
+  const showEllipse = (pageNum: number): boolean =>
+    pageNum > 2 && pageNum < pageCount - 1;
 
   return (
-    <div className="flex flex-row items-center justify-center bg-secondaryBg dark:bg-secondaryBgDark">
-      <nav className="flex flex-row justify-between md:max-w-[1372px] md:px-20 px-6 pt-6 w-full text-lg">
+    <div className="flex flex-row items-center justify-center bg-primaryBg dark:bg-primaryBgDark">
+      <nav className="flex flex-row justify-between md:max-w-7xl md:px-0 px-6 pt-6 w-full text-lg">
         <NoScrollLink href={prevLink} passHref>
           <a
             className={`font-semibold ${
@@ -120,48 +112,42 @@ export default function PagePagination({
         </NoScrollLink>
         <div className="flex-row gap-2 hidden md:flex">
           {pageCount <= 5 ? (
-            pageNumbers.map((num) => {
-              return (
+            pageNumbers.map((num) => (
+              <PageNumber
+                key={num}
+                pageNumber={num}
+                routeBase={pathname}
+                pageQueries={pageQueries}
+              />
+            ))
+          ) : (
+            <>
+              {firstPageNumbers.map((num) => (
                 <PageNumber
                   key={num}
                   pageNumber={num}
                   routeBase={pathname}
                   pageQueries={pageQueries}
                 />
-              );
-            })
-          ) : (
-            <>
-              {firstPageNumbers.map((num) => {
-                return (
-                  <PageNumber
-                    key={num}
-                    pageNumber={num}
-                    routeBase={pathname}
-                    pageQueries={pageQueries}
-                  />
-                );
-              })}
+              ))}
               <span
                 className={`text-sm font-semibold ${pageNumberStyles} ${
                   showEllipse(currentPage)
-                    ? 'bg-accentBg'
-                    : 'bg-[rgba(17,24,39,10%)]'
+                    ? 'bg-accent dark:bg-accent/5'
+                    : 'bg-primaryBgDark/10 dark:bg-primaryBgDark'
                 }`}
                 data-testid="pagination-ellipses"
               >
                 ...
               </span>
-              {lastPageNumbers.map((num) => {
-                return (
-                  <PageNumber
-                    key={num}
-                    pageNumber={num}
-                    routeBase={pathname}
-                    pageQueries={pageQueries}
-                  />
-                );
-              })}
+              {lastPageNumbers.map((num) => (
+                <PageNumber
+                  key={num}
+                  pageNumber={num}
+                  routeBase={pathname}
+                  pageQueries={pageQueries}
+                />
+              ))}
             </>
           )}
         </div>

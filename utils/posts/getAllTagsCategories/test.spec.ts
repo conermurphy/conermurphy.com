@@ -55,11 +55,9 @@ const mockPosts = [
   },
 ];
 
-jest.mock('../getAllPosts', () => {
-  return jest.fn(async () => {
-    return Promise.resolve(mockPosts);
-  });
-});
+jest.mock('../getAllPosts', () =>
+  jest.fn(async () => Promise.resolve(mockPosts))
+);
 
 describe('getAllTagsCategories', () => {
   it('Should return all tags and categories from provided posts', async () => {

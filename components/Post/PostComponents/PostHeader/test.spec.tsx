@@ -17,18 +17,16 @@ const frontmatter = {
   timeToRead: 10,
 };
 
-jest.mock('next/router', () => {
-  return {
-    useRouter() {
-      return {
-        route: '/',
-        pathname: '',
-        query: '',
-        asPath: '/blog',
-      };
-    },
-  };
-});
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: '/blog',
+    };
+  },
+}));
 
 describe('PostHeader', () => {
   it('should render all items', () => {

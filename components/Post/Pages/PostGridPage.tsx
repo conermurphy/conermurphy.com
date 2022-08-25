@@ -2,7 +2,6 @@ import { NextPage } from 'next';
 import React from 'react';
 import { PostGridPageProps } from '../../../types';
 import { useScrollToTop } from '../../../utils';
-import { HeaderBackground } from '../../Header/components';
 import PageHero from '../../PageHero/PageHero';
 import SEO from '../../SEO/SEO';
 import Testimonials from '../../Testimonials/Testimonials';
@@ -16,7 +15,7 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
   tagsCats,
   filterItem,
   postType,
-  pageHeroData: { title, body },
+  pageHeroData: { title },
   metaDescription,
   pageQueries = {
     page: '',
@@ -42,19 +41,14 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
         metaDescription={metaDescription}
         url={postType}
       />
-      <PageHero title={title} body={body} />
-      <HeaderBackground bg="bg-secondaryBg dark:bg-secondaryBgDark" />
-      <div className="flex flex-row items-center justify-center pb-72 md:pb-12 bg-secondaryBg dark:bg-secondaryBgDark">
+      <PageHero title={title} />
+      <div className="flex flex-row items-center justify-center pb-12 bg-primaryBg dark:bg-primaryBgDark">
         <div
-          className={`flex flex-col items-center justify-center gap-y-14 gap-x-20 w-full md:px-20 xl:flex-row-reverse xl:items-start md:max-w-[1372px] ${
+          className={`flex flex-col items-center gap-12 justify-between w-full md:flex-col-reverse md:items-start max-w-7xl px-6 md:px-0 ${
             posts?.length ? 'xl:justify-between' : 'xl:justify-end'
           }`}
         >
-          <PostCardGrid
-            posts={posts}
-            postType={postType}
-            pageQueries={pageQueries}
-          />
+          <PostCardGrid posts={posts} postType={postType} />
           <PageSidebar data={tagsCats} pageQueries={pageQueries} />
         </div>
       </div>

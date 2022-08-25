@@ -9,9 +9,9 @@ export default function getHeadings(source: string): PostHeading[] {
 
   // Get each line individually, and filter out anything that
   // isn't a heading.
-  const headingLines = source.split('\n').filter((line) => {
-    return line.match(headingRegex);
-  });
+  const headingLines = source
+    .split('\n')
+    .filter((line) => line.match(headingRegex));
 
   // Transform the string '## Some text' into an object
   // with the shape '{ text: 'Some text', level: 2 }'

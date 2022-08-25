@@ -17,14 +17,10 @@ export default async function getAllPostsNames({
     .readdir(dir, {
       withFileTypes: true,
     })
-    .then((data) => {
-      return data.flatMap(({ name }) => {
-        return name.includes('.mdx') ? name : [];
-      });
-    });
+    .then((data) =>
+      data.flatMap(({ name }) => (name.includes('.mdx') ? name : []))
+    );
 
   // Remove any posts that are undefined from not containing .mdx in the filename above
-  return postFileNames.filter((post) => {
-    return post;
-  });
+  return postFileNames.filter((post) => post);
 }

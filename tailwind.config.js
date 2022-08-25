@@ -8,22 +8,15 @@ module.exports = {
     extend: {
       colors: {
         transparent: 'transparent',
-        primaryBg: 'var(--primaryBackground)',
-        secondaryBg: 'var(--secondaryBackground)',
-        primaryText: 'var(--primaryText)',
-        primaryTextDimmed: 'var(--primaryTextDimmed)',
-        accentBg: 'var(--accentBackground)',
-        accent: 'var(--accent)',
-        primaryBorder: 'var(--primaryBorder)',
-        primaryBgDark: 'var(--primaryBackgroundDark)',
-        secondaryBgDark: 'var(--secondaryBackgroundDark)',
-        primaryTextDark: 'var(--primaryTextDark)',
-        primaryTextDimmedDark: 'var(--primaryTextDimmedDark)',
-        primaryBorderDark: 'var(--primaryBorderDark)',
-      },
-      spacing: {
-        106: '6.625rem',
-        72: '4.5rem',
+        primaryBg: 'hsl(240, 25%, 98%)',
+        primaryText: 'hsl(240, 4%, 14%)',
+        secondaryBg: 'hsl(0, 0%, 90%)',
+        accent: 'hsl(10, 94%, 60%)',
+        primaryBorder: 'hsla(221, 39%, 11%, 0.25)',
+        primaryBgDark: 'hsl(240, 4%, 14%)',
+        secondaryBgDark: 'hsl(240, 4%, 24%)',
+        primaryTextDark: 'hsl(240, 25%, 98%)',
+        primaryBorderDark: 'hsla(221, 40%, 96%, 0.25)',
       },
       fontSize: {
         32: ['2rem', { letterSpacing: '', lineHeight: '40px' }],
@@ -31,17 +24,17 @@ module.exports = {
       },
       keyframes: {
         blink: {
-          "0%, 40%": {opacity: 1},
-          "60%, 100%": {opacity: 0},
-        }
+          '0%, 40%': { opacity: 1 },
+          '60%, 100%': { opacity: 0 },
+        },
       },
       animation: {
-        blink: 'blink .6s linear infinite alternate'
-      }
-    },
-    fontFamily: {
-      display: ['Poppins'],
-      body: ['Poppins'],
+        blink: 'blink .6s linear infinite alternate',
+      },
+      fontFamily: {
+        heading: ['Inter', 'sans-serif'],
+        body: ['Nunito', 'sans-serif'],
+      },
     },
   },
   plugins: [require('@tailwindcss/forms')],

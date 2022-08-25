@@ -13,18 +13,22 @@ export default function Layout({ children }: IProps): JSX.Element {
   useTheme();
 
   return (
-    <AnimatePresence exitBeforeEnter>
-      <motion.div
-        key={Math.random()}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        variants={pageTransition}
-        transition={{ type: 'ease', duration: 0.2 }}
-      >
-        <main>{children}</main>
-        <Footer />
-      </motion.div>
-    </AnimatePresence>
+    <div className="bg-primaryBg dark:bg-primaryBgDark">
+      <AnimatePresence exitBeforeEnter initial={false}>
+        <motion.div
+          key={Math.random()}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={pageTransition}
+          transition={{ type: 'ease', duration: 0.2 }}
+        >
+          <main className="text-primaryText dark:text-primaryTextDark">
+            {children}
+            <Footer />
+          </main>
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
 }

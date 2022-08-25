@@ -2,21 +2,19 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 import MobileHeader from './MobileHeader';
 
-jest.mock('next/router', () => {
-  return {
-    useRouter() {
-      return {
-        route: '/',
-        pathname: '',
-        query: '',
-        asPath: '/',
-        events: {
-          on: jest.fn(),
-        },
-      };
-    },
-  };
-});
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: '/',
+      events: {
+        on: jest.fn(),
+      },
+    };
+  },
+}));
 
 describe('MobileHeader', () => {
   it('Should render site title with link to homepage and open menu button', () => {

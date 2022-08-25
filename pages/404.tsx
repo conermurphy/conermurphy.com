@@ -8,7 +8,6 @@ import {
   LatestPosts,
   Testimonials,
 } from '../components';
-import { HeaderBackground } from '../components/Header/components';
 import { Post, Testimonial } from '../types';
 import { pageDataSource, useScrollToTop } from '../utils';
 
@@ -26,12 +25,7 @@ function Custom404({ testimonials, latestPosts }: IProps): JSX.Element {
   return (
     <>
       <SEO metaTitle="404 - Page Not Found" metaDescription="" url={path} />
-      <PageHero
-        title="404 - Page Not Found"
-        body="Sorry that page could not be found. Think this is an error? Let me know using the form below."
-        showNewsletter={false}
-      />
-      <HeaderBackground bg="bg-secondaryBg dark:bg-secondaryBgDark" />
+      <PageHero title="404 - Page Not Found" showNewsletter={false} />
       <ContactForm />
       <LatestPosts posts={latestPosts} />
       <Testimonials testimonials={testimonials} />
