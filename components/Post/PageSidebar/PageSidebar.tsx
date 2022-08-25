@@ -25,7 +25,7 @@ function CategoryLink({
   return (
     <NoScrollLink href={linkHref} passHref>
       <a
-        className={`font-semibold text-sm p-3 rounded-md ease-in-out transition-all duration-150 ${
+        className={`font-semibold text-sm p-3 w-max rounded-md ease-in-out transition-all duration-150 ${
           activeItem
             ? 'bg-accent/25'
             : ' hover:bg-accent hover:dark:bg-accent bg-secondaryBg dark:bg-secondaryBgDark'
@@ -49,13 +49,11 @@ export default function PageSidebar({
   const { queries } = pageQueries;
 
   return (
-    <aside className="grid grid-cols-4 gap-8 w-full px-6 pt-12 md:pt-0 md:pb-12 md:px-0 border-t-4 md:border-t-0 md:border-b-4 border-primaryBorderDark">
+    <aside className="grid grid-cols-4 gap-8 w-full px-6 pt-12 md:pt-0 md:px-0">
       {categories?.length ? (
         <div>
-          <h2 className="text-lg font-semibold mb-3 border-b-2 border-accent w-max">
-            Categories
-          </h2>
-          <div className="flex flex-col gap-3">
+          <p className="text-lg font-semibold mb-3">Search posts by topics</p>
+          <div className="flex flex-row flex-wrap gap-3">
             {categories.map((category) => {
               const { name } = CATEGORIES[category];
 

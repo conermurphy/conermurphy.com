@@ -1,6 +1,6 @@
 import React from 'react';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
-import Newsletter from '../Newsletter/Newsleter';
+import Newsletter from '../Newsletter/Newsletter';
 
 interface IProps {
   title: string;
@@ -18,7 +18,12 @@ export default function PageHero({
         pageHeader: true,
       }}
     >
-      {showNewsletter ? <Newsletter breakpoint="md" /> : null}
+      <div className="flex flex-row justify-between">
+        <p className="text-2xl">
+          Get all my posts and exclusive weekly content in your inbox
+        </p>
+        {showNewsletter ? <Newsletter breakpoint="md" /> : null}
+      </div>
     </ComponentWrapper>
   );
 }

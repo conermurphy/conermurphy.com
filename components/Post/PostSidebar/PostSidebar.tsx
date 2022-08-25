@@ -10,7 +10,7 @@ import { motion } from 'framer-motion';
 import { ICONS } from '../../../constants';
 import { PostHeading } from '../../../types';
 import { copyToClipboard, getIcon } from '../../../utils';
-import Newsletter from '../../Newsletter/Newsleter';
+import Newsletter from '../../Newsletter/Newsletter';
 
 interface IProps {
   headings: PostHeading[];
@@ -63,7 +63,7 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
         </ul>
       </div>
       <div className={sectionClasses}>
-        <Newsletter forceMobile />
+        <Newsletter />
       </div>
       <ul className={`flex flex-row gap-x-4 ${sectionClasses}`}>
         <motion.li whileTap={{ scale: 0.8 }}>

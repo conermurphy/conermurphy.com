@@ -32,13 +32,13 @@ export default function Newsletter({
 
   return (
     <div className={`flex flex-col gap-3 sm:max-w-[272px] ${widthGap}`}>
-      <div>
+      {/* <div>
         <p className="font-bold opacity-100">Stay up to date</p>
         <p className={`text-xs ${textSize}`}>
           Get exclusive content and be notified of my content before anyone else
           by subscribing to my newsletter below.
         </p>
-      </div>
+      </div> */}
       <form
         onSubmit={submitEmail}
         className={`flex flex-col gap-y-2 gap-x-4 ${formDirectionStyles}`}
@@ -51,7 +51,7 @@ export default function Newsletter({
           placeholder="Enter your email"
           onChange={updateValue}
           value={values.email}
-          className={`rounded-lg border-primaryBorder dark:primaryBorderDark sm:max-w-[272px] text-xs bg-primaryBg dark:bg-primaryBgDark ${textSize}`}
+          className={`rounded-lg border-primaryBorder dark:border-primaryBorderDark sm:max-w-[272px] text-xs bg-primaryBg dark:bg-secondaryBgDark ${textSize}`}
         />
         <input
           type="text"

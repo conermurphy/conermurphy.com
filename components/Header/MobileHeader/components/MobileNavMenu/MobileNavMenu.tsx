@@ -1,6 +1,5 @@
 import React from 'react';
 import NavBar from '../../../../NavBar/NavBar';
-import Newsletter from '../../../../Newsletter/Newsleter';
 import Socials from '../../../../Socials/Socials';
 import { ThemeToggle } from '../../../components';
 
@@ -15,7 +14,6 @@ export default function MobileNavMenu({ isOpen }: IProps): JSX.Element | null {
         <NavBar isMobile />
       </div>
       <div className="p-6 sm:px-20 bg-primaryBg dark:bg-primaryBgDark">
-        <Newsletter />
         <div className="flex gap-8 my-6">
           <ThemeToggle />
           <Socials compact />

@@ -14,16 +14,13 @@ export default function ComponentWrapper({
   children,
   ...props
 }: IProps): JSX.Element {
-  const bg = 'bg-primaryBg dark:bg-primaryBgDark';
-  const padding = pageHeader ? 'pb-10 pd:pb-24 pt-8' : 'py-32';
-
   const headerStyles =
     'text-2xl md:text-3xl border-b-4 border-accent w-max mb-12 pb-4 font-bold';
 
   return (
     <div
       id={props?.id}
-      className={`flex flex-col items-center justify-center ${bg} ${padding} ${
+      className={`flex flex-col items-center justify-center py-32 bg-primaryBg dark:bg-primaryBgDark ${
         props?.className || ''
       }`}
     >
