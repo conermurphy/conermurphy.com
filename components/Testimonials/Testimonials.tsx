@@ -36,7 +36,7 @@ export default function Testimonials({ testimonials }: IProps): JSX.Element {
                 >
                   <div className="relative h-full w-full max-w-[150px] rounded-2xl overflow-hidden drop-shadow-md">
                     <Img
-                      src={image.src}
+                      src={image}
                       alt={name}
                       width="100%"
                       height="100%"

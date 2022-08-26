@@ -13,3 +13,4 @@ export { default as ContactSection } from './ContactSection/ContactSection';
 export { default as ContactForm } from './ContactForm/ContactForm';
 export { default as NoScrollLink } from './NoScrollLink/NoScrollLink';
 export { default as HomeHero } from './HomeHero/HomeHero';
+export { default as Projects } from './Projects/Projects';

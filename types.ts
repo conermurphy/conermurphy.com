@@ -1,6 +1,5 @@
 import { ApolloError } from '@apollo/client';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
-import { StaticImageData } from 'next/image';
 import { ParsedUrlQuery } from 'querystring';
 
 export enum THEMES {
@@ -13,8 +12,14 @@ export enum POSTTYPES {
   NEWSLETTER = 'newsletter',
 }
 
+export type Icon = {
+  name: string;
+  color?: string;
+  invertDark?: boolean;
+};
+
 export type Icons = {
-  [key: string]: { name: string; color?: string; invertDark?: boolean };
+  [key: string]: Icon;
 };
 
 export type Service = {
@@ -23,13 +28,23 @@ export type Service = {
   icon: string;
 };
 
+export type Project = {
+  title: string;
+  description: string;
+  image: string;
+  isFeatured: boolean;
+  url: string;
+  githubUrl?: string;
+  technologies: string[];
+};
+
 export type Testimonial = {
   copy: string;
   quotee: {
     name: string;
     jobTitle: string;
     company: string;
-    image: StaticImageData;
+    image: string;
   };
 };
 
@@ -72,6 +87,7 @@ export type Topics = {
   [key: string]: {
     name: string;
     link: string;
+    icon?: Icon;
   };
 };
 

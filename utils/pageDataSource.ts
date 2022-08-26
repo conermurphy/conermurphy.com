@@ -1,9 +1,10 @@
-import { servicesData, testimonialsData } from '../content';
-import { Post, POSTTYPES, Service, Testimonial } from '../types';
+import { servicesData, testimonialsData, projectsData } from '../content';
+import { Post, POSTTYPES, Project, Service, Testimonial } from '../types';
 import { getAllPosts } from './posts';
 
 interface IProps {
   services?: boolean;
+  projects?: boolean;
   latestBlogs?: boolean;
   latestNewsletters?: boolean;
   testimonials?: boolean;
@@ -11,6 +12,7 @@ interface IProps {
 
 interface ReturnType {
   services: false | Service[];
+  projects: false | Project[];
   testimonials: false | Testimonial[];
   latestBlogs: false | Post[];
   latestNewsletters: false | Post[];
@@ -18,6 +20,7 @@ interface ReturnType {
 
 export default async function pageDataSource({
   services = false,
+  projects = false,
   testimonials = false,
   latestBlogs = false,
   latestNewsletters = false,
@@ -30,6 +33,7 @@ export default async function pageDataSource({
 
   return {
     services: services && servicesData,
+    projects: projects && projectsData,
     testimonials: testimonials && testimonialsData,
     latestBlogs: latestBlogs && blogPosts,
     latestNewsletters: latestNewsletters && newsletterPosts,

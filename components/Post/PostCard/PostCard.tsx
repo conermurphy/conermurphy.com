@@ -24,7 +24,7 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
       <NoScrollLink href={`/${postType}/${slug}`} passHref>
         <a className="group relative flex flex-col max-w-xs lg:max-w-sm cursor-pointer bg-secondaryBg dark:bg-secondaryBgDark rounded-md overflow-hidden h-full">
           <article>
-            <div className="absolute h-full w-full items-center justify-center flex group-hover:border-2 border-accent transition-all duration-300 ease-in-out z-10 bg-primaryBgDark/50 group-hover:opacity-100 opacity-0">
+            <div className="absolute h-full w-full items-center justify-center flex group-hover:border-2 border-accent transition-all duration-300 ease-in-out z-10 bg-primaryBgDark/50 group-hover:opacity-100 opacity-0 rounded-md">
               <p className="flex flex-row gap-2 items-center bg-accent px-4 py-2 font-bold rounded-sm">
                 Read more
               </p>

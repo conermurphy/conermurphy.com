@@ -60,26 +60,37 @@ export const TOPICS: Topics = {
   JAVASCRIPT: {
     name: 'JavaScript',
     link: 'javascript',
+    icon: ICONS.JAVASCRIPT,
   },
   TYPESCRIPT: {
     name: 'TypeScript',
     link: 'typescript',
+    icon: ICONS.TYPESCRIPT,
   },
   GATSBYJS: {
     name: 'GatsbyJS',
     link: 'gatsbyjs',
+    icon: ICONS.GATSBYJS,
   },
   NEXTJS: {
     name: 'Next.js',
     link: 'nextjs',
+    icon: ICONS.NEXTJS,
   },
   NODEJS: {
     name: 'NodeJS',
     link: 'nodejs',
+    icon: ICONS.NODEJS,
   },
   CSS: {
     name: 'CSS',
     link: 'css',
+    icon: ICONS.CSS,
+  },
+  TAILWINDCSS: {
+    name: 'TailwindCSS',
+    link: 'tailwindcss',
+    icon: ICONS.TAILWINDCSS,
   },
   UI: {
     name: 'UI',
