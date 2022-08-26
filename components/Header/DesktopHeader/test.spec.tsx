@@ -53,6 +53,6 @@ describe('DesktopHeader', () => {
     expect(linkedInIcon).toBeVisible();
     expect(emailIcon).toBeVisible();
     expect(themeIcon).toBeVisible();
-    expect(icons).toEqual(5);
+    expect(icons).toEqual(6);
   });
 });

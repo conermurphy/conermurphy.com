@@ -6,16 +6,21 @@ import {
   ContactSection,
   HomeHero,
 } from '../components';
-import { Post, Service, Testimonial } from '../types';
+import { Post, POSTTYPES, Service, Testimonial } from '../types';
 import { generateRssFeeds, pageDataSource, useScrollToTop } from '../utils';
 
 interface IProps {
   services: Service[];
   testimonials: Testimonial[];
-  latestPosts: Post[];
+  latestBlogs: Post[];
+  latestNewsletters: Post[];
 }
 
-const Home: NextPage<IProps> = ({ testimonials, latestPosts }) => {
+const Home: NextPage<IProps> = ({
+  testimonials,
+  latestBlogs,
+  latestNewsletters,
+}) => {
   useScrollToTop();
 
   return (
@@ -26,7 +31,8 @@ const Home: NextPage<IProps> = ({ testimonials, latestPosts }) => {
       />
       <HomeHero />
       <Testimonials testimonials={testimonials} />
-      <LatestPosts posts={latestPosts} />
+      <LatestPosts posts={latestBlogs} postType={POSTTYPES.BLOG} />
+      <LatestPosts posts={latestNewsletters} postType={POSTTYPES.NEWSLETTER} />
       <ContactSection />
     </>
   );
@@ -35,14 +41,16 @@ const Home: NextPage<IProps> = ({ testimonials, latestPosts }) => {
 export const getStaticProps: GetStaticProps = async () => {
   await generateRssFeeds();
 
-  const { services, testimonials, latestPosts } = await pageDataSource({
-    services: true,
-    testimonials: true,
-    latestPosts: true,
-  });
+  const { services, testimonials, latestBlogs, latestNewsletters } =
+    await pageDataSource({
+      services: true,
+      testimonials: true,
+      latestBlogs: true,
+      latestNewsletters: true,
+    });
 
   return {
-    props: { services, testimonials, latestPosts },
+    props: { services, testimonials, latestBlogs, latestNewsletters },
   };
 };
 

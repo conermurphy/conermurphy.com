@@ -46,8 +46,7 @@ export type PostFrontMatter = {
   id: number;
   title: string;
   date: string;
-  tags: string[];
-  categories: string[];
+  topics: string[];
   slug: string;
   image: string;
   published: boolean;
@@ -69,34 +68,11 @@ export type Post = {
   filePath?: string;
 };
 
-export type PostTags = {
-  [key: string]: {
-    name: string;
-    link: string;
-    colors: {
-      active: {
-        bg: string;
-        text: string;
-      };
-      nonActive: {
-        bg: string;
-        text: string;
-        border: string;
-      };
-    };
-  };
-};
-
-export type PostCategories = {
+export type Topics = {
   [key: string]: {
     name: string;
     link: string;
   };
-};
-
-export type PostTagsCats = {
-  tags: string[];
-  categories: string[];
 };
 
 export interface PostGridPageProps {
@@ -104,7 +80,7 @@ export interface PostGridPageProps {
   pageCount: number;
   testimonials: Testimonial[];
   posts: Post[];
-  tagsCats: PostTagsCats;
+  topics: string[];
   filterItem: string;
   postType: POSTTYPES;
   pageHeroData: {

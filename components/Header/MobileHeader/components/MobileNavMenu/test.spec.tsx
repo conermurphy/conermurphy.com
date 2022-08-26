@@ -29,9 +29,5 @@ describe('MobileNavMenu', () => {
     expect(homeLink).toBeVisible();
     expect(blogLink).toBeVisible();
     expect(contactLink).toBeVisible();
-
-    const newsletter = screen.getByTestId('newsletter-form');
-
-    expect(newsletter).toBeVisible();
   });
 });

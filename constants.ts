@@ -1,5 +1,5 @@
 import { Variants } from 'framer-motion';
-import { Icons, PostCategories } from './types';
+import { Icons, Topics } from './types';
 
 export const ICONS: Icons = {
   MOON: { name: 'MOON' },
@@ -28,7 +28,7 @@ export const ICONS: Icons = {
   TAILWINDCSS: { name: 'TAILWINDCSS', color: 'rgb(14, 165, 233)' },
 };
 
-export const CATEGORIES: PostCategories = {
+export const TOPICS: Topics = {
   ENTREPRENEURSHIP: {
     name: 'Entrepreneurship',
     link: 'entrepreneurship',
@@ -57,21 +57,35 @@ export const CATEGORIES: PostCategories = {
     name: 'Marketing',
     link: 'marketing',
   },
+  JAVASCRIPT: {
+    name: 'JavaScript',
+    link: 'javascript',
+  },
+  TYPESCRIPT: {
+    name: 'TypeScript',
+    link: 'typescript',
+  },
+  GATSBYJS: {
+    name: 'GatsbyJS',
+    link: 'gatsbyjs',
+  },
+  NEXTJS: {
+    name: 'Next.js',
+    link: 'nextjs',
+  },
+  NODEJS: {
+    name: 'NodeJS',
+    link: 'nodejs',
+  },
+  CSS: {
+    name: 'CSS',
+    link: 'css',
+  },
+  UI: {
+    name: 'UI',
+    link: 'ui',
+  },
 };
-
-export const TECHS = [
-  ICONS.GRAPHQL.name,
-  ICONS.REACT.name,
-  ICONS.NEXTJS.name,
-  ICONS.TYPESCRIPT.name,
-  ICONS.JAVASCRIPT.name,
-];
-
-export const HOME_TYPEWRITER_TEXT = [
-  'TypeScript Developer',
-  'Technical Writer',
-  'Content Creator',
-];
 
 // ANIMATION VARIANTS
 

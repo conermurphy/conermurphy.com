@@ -1,5 +1,6 @@
 import { POSTTYPES } from '../../../types';
-import getAllTagsCategories from './getAllTagsCategories';
+import getAllTopics from './getAllTopics';
+import getAllTagsCategories from './getAllTopics';
 
 const mockPosts = [
   {
@@ -7,12 +8,11 @@ const mockPosts = [
       id: 1,
       title: 'Example Post 1',
       date: '2022-03-26',
-      tags: ['JAVASCRIPT'],
+      topics: ['JAVASCRIPT'],
       slug: 'example-post-1',
       image:
         '/images/blog/complete-2021-guide-to-http-status-codes-their-seo-influence.png',
       description: 'This is a description of a post',
-      categories: [''],
       published: true,
       canonical_url: '',
       timeToRead: 10,
@@ -24,12 +24,11 @@ const mockPosts = [
       id: 2,
       title: 'Example Post 1',
       date: '2022-03-26',
-      tags: ['GATSBYJS'],
+      topics: ['GATSBYJS', 'CONTENT-CREATION'],
       slug: 'example-post-1',
       image:
         '/images/blog/complete-2021-guide-to-http-status-codes-their-seo-influence.png',
       description: 'This is a description of a post',
-      categories: ['CONTENT-CREATION'],
       published: true,
       canonical_url: '',
       timeToRead: 10,
@@ -41,12 +40,11 @@ const mockPosts = [
       id: 3,
       title: 'Example Post 1',
       date: '2022-03-26',
-      tags: ['CSS'],
+      topics: ['CSS', 'DESIGN'],
       slug: 'example-post-1',
       image:
         '/images/blog/complete-2021-guide-to-http-status-codes-their-seo-influence.png',
       description: 'This is a description of a post',
-      categories: ['DESIGN'],
       published: true,
       canonical_url: '',
       timeToRead: 10,
@@ -61,11 +59,16 @@ jest.mock('../getAllPosts', () =>
 
 describe('getAllTagsCategories', () => {
   it('Should return all tags and categories from provided posts', async () => {
-    const { tags, categories } = await getAllTagsCategories({
+    const { topics } = await getAllTopics({
       postType: POSTTYPES.BLOG,
     });
 
-    expect(tags).toEqual(['JAVASCRIPT', 'GATSBYJS', 'CSS']);
-    expect(categories).toEqual(['CONTENT-CREATION', 'DESIGN']);
+    expect(topics).toEqual([
+      'JAVASCRIPT',
+      'GATSBYJS',
+      'CONTENT-CREATION',
+      'CSS',
+      'DESIGN',
+    ]);
   });
 });

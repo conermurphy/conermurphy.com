@@ -12,7 +12,7 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
   pageCount,
   testimonials,
   posts,
-  tagsCats,
+  topics,
   filterItem,
   postType,
   pageHeroData: { title },
@@ -49,7 +49,7 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
           }`}
         >
           <PostCardGrid posts={posts} postType={postType} />
-          <PageSidebar data={tagsCats} pageQueries={pageQueries} />
+          <PageSidebar data={topics} pageQueries={pageQueries} />
         </div>
       </div>
       {posts?.length ? (

@@ -4,26 +4,34 @@ import { getAllPosts } from './posts';
 
 interface IProps {
   services?: boolean;
-  latestPosts?: boolean;
+  latestBlogs?: boolean;
+  latestNewsletters?: boolean;
   testimonials?: boolean;
 }
 
 interface ReturnType {
   services: false | Service[];
   testimonials: false | Testimonial[];
-  latestPosts: false | Post[];
+  latestBlogs: false | Post[];
+  latestNewsletters: false | Post[];
 }
 
 export default async function pageDataSource({
   services = false,
   testimonials = false,
-  latestPosts = false,
+  latestBlogs = false,
+  latestNewsletters = false,
 }: IProps): Promise<ReturnType> {
-  const posts = await getAllPosts({ limit: 3, postType: POSTTYPES.BLOG });
+  const blogPosts = await getAllPosts({ limit: 3, postType: POSTTYPES.BLOG });
+  const newsletterPosts = await getAllPosts({
+    limit: 3,
+    postType: POSTTYPES.NEWSLETTER,
+  });
 
   return {
     services: services && servicesData,
     testimonials: testimonials && testimonialsData,
-    latestPosts: latestPosts && posts,
+    latestBlogs: latestBlogs && blogPosts,
+    latestNewsletters: latestNewsletters && newsletterPosts,
   };
 }

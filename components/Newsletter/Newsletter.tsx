@@ -2,13 +2,11 @@ import React from 'react';
 import { useEmail, useForm } from '../../utils';
 
 interface IProps {
-  breakpoint?: 'md' | 'lg';
-  forceMobile?: boolean;
+  isAltDesign?: boolean;
 }
 
 export default function Newsletter({
-  breakpoint = 'md',
-  forceMobile = false,
+  isAltDesign = false,
 }: IProps): JSX.Element {
   const { values, updateValue } = useForm({
     email: '',
@@ -17,31 +15,13 @@ export default function Newsletter({
 
   const { loading, message, submitEmail } = useEmail({ values });
 
-  let formDirectionStyles = '';
-  let textSize = '';
-  let widthGap = '';
-
-  if (!forceMobile) {
-    formDirectionStyles = breakpoint === 'md' ? 'md:flex-row' : 'lg:flex-row';
-    textSize = breakpoint === 'md' ? 'md:text-sm' : 'lg:text-sm';
-    widthGap =
-      breakpoint === 'md'
-        ? 'md:max-w-[372px] md:gap-4'
-        : 'lg:max-w-[372px] lg:gap-4';
-  }
-
   return (
-    <div className={`flex flex-col gap-3 sm:max-w-[272px] ${widthGap}`}>
-      {/* <div>
-        <p className="font-bold opacity-100">Stay up to date</p>
-        <p className={`text-xs ${textSize}`}>
-          Get exclusive content and be notified of my content before anyone else
-          by subscribing to my newsletter below.
-        </p>
-      </div> */}
+    <div className="flex flex-col gap-3 md:gap-4">
       <form
         onSubmit={submitEmail}
-        className={`flex flex-col gap-y-2 gap-x-4 ${formDirectionStyles}`}
+        className={`flex flex-col gap-y-2 gap-x-4 ${
+          isAltDesign ? '' : 'md:flex-row'
+        }`}
         data-testid="newsletter-form"
       >
         <input
@@ -51,7 +31,9 @@ export default function Newsletter({
           placeholder="Enter your email"
           onChange={updateValue}
           value={values.email}
-          className={`rounded-lg border-primaryBorder dark:border-primaryBorderDark sm:max-w-[272px] text-xs bg-primaryBg dark:bg-secondaryBgDark ${textSize}`}
+          className={`rounded-md border-primaryBorder dark:border-primaryBorderDark text-xs bg-primaryBg ${
+            isAltDesign ? 'dark:text-primaryText' : 'dark:bg-secondaryBgDark'
+          } py-3 px-4 md:text-sm`}
         />
         <input
           type="text"
@@ -62,18 +44,12 @@ export default function Newsletter({
         />
         <button
           type="submit"
-          className={`bg-primaryText dark:bg-primaryTextDark text-primaryBg dark:text-primaryBgDark text-xs rounded-lg py-3 px-5 ${textSize}`}
+          className="bg-primaryText dark:bg-primaryTextDark text-primaryBg dark:text-primaryBgDark text-xs rounded-md py-3 px-4 md:text-sm font-bold"
         >
           {loading ? 'Subscribing..' : 'Subscribe'}
         </button>
       </form>
-      <p
-        className={`text-xs ${
-          breakpoint === 'md' ? 'md:text-sm' : 'lg:text-sm'
-        }`}
-      >
-        {message}
-      </p>
+      {message ? <p className="text-xs md:text-sm">{message}</p> : null}
     </div>
   );
 }

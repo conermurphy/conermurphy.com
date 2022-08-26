@@ -1,14 +1,13 @@
 import React from 'react';
 import Img from 'next/image';
 import { PostFrontMatter } from '../../../../types';
-import { Tags } from '../..';
 
 interface IProps {
   frontmatter: PostFrontMatter;
 }
 
 export default function PostHeader({ frontmatter }: IProps): JSX.Element {
-  const { date, timeToRead, title, description, tags, image } = frontmatter;
+  const { date, timeToRead, title, description, image } = frontmatter;
 
   return (
     <header className="flex flex-col items-center -mt-16 pb-0 lg:pb-3 bg-primaryBg dark:bg-primaryBgDark">
@@ -28,7 +27,6 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
         <p className="text-base md:text-lg text-primaryText dark:text-primaryTextDark opacity-75 mb-3 max-w-2xl">
           {description}
         </p>
-        <Tags tags={tags} />
       </div>
       <div className="block max-w-[1100px] h-full w-full px-4">
         <Img

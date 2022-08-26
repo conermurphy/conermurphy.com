@@ -23,10 +23,10 @@ export default function ContactForm(): JSX.Element {
     'rounded-lg border-primaryBorder text-md bg-primaryBg w-full ';
 
   return (
-    <div className="flex flex-col justify-start items-center bg-secondaryBg dark:bg-secondaryBgDark p-8 rounded-md h-full">
+    <div className="flex flex-col justify-start items-center bg-secondaryBg dark:bg-secondaryBgDark p-8 rounded-md h-full col-span-2">
       <form
         onSubmit={submitContactForm}
-        className="flex flex-col gap-4 md:gap-6 w-full"
+        className="flex flex-col gap-4 md:gap-6 w-full grow"
         data-testid="contact-form"
       >
         <div className="flex flex-col md:flex-row gap-4">
@@ -76,7 +76,7 @@ export default function ContactForm(): JSX.Element {
             className="rounded-lg border-primaryBorder  text-md bg-primaryBg w-full"
           />
         </div>
-        <div className={inputContainerStyles}>
+        <div className={`grow ${inputContainerStyles}`}>
           <label htmlFor="message" className={labelStyles}>
             Message
           </label>
@@ -87,12 +87,12 @@ export default function ContactForm(): JSX.Element {
             placeholder="Your message"
             onChange={updateValue}
             value={message}
-            className="rounded-lg border-primaryBorder  min-h-[200px] text-md bg-primaryBg w-full resize-none"
+            className="rounded-lg border-primaryBorder text-md bg-primaryBg w-full resize-none h-full"
           />
         </div>
         <button
           type="submit"
-          className="bg-primaryBg dark:bg-primaryBgDark text-primaryText dark:text-primaryTextDark text-base font-bold rounded-md py-3 px-5"
+          className="bg-primaryBgDark dark:bg-primaryBg text-primaryTextDark dark:text-primaryText text-base font-bold rounded-md py-3 px-5"
         >
           {loading ? 'Sending..' : 'Send Message'}
         </button>

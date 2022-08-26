@@ -11,8 +11,7 @@ interface IProps {
 }
 
 interface ReturnType {
-  tags: string[];
-  categories: string[];
+  topics: string[];
 }
 
 function getFrontmatterData({
@@ -25,19 +24,15 @@ function getFrontmatterData({
     ),
   ];
 
-  return uniqueValues.map((value) => value.toString()).filter((value) => value);
+  return uniqueValues.filter((value) => value).map((value) => value.toString());
 }
 
-export default async function getAllTagsCategories({
+export default async function getAllTopics({
   postType,
 }: IProps): Promise<ReturnType> {
   const posts = await getAllPosts({ postType });
 
-  const tags = getFrontmatterData({ posts, type: 'tags' });
-  const categories = getFrontmatterData({
-    posts,
-    type: 'categories',
-  });
+  const topics = getFrontmatterData({ posts, type: 'topics' });
 
-  return { tags, categories };
+  return { topics };
 }
