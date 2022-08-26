@@ -46,15 +46,19 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
     'flex items-center justify-center border border-primaryBorder dark:border-primaryBorderDark p-2 rounded opacity-50 w-10 h-10';
 
   return (
-    <aside className="hidden lg:block sticky h-min top-16 max-w-[272px] lg:max-w-[300px]">
+    <aside className="hidden lg:block sticky h-min top-28 lg:max-w-lg">
       <div className="pb-6">
-        <h2 className="text-lg text-accent mb-1.5">In this article</h2>
+        <h2 className="text-lg text-accent mb-1.5 capitalize">
+          In this article
+        </h2>
         <ul>
           {headings.map(({ text, link, level }) => (
             <li key={link}>
               <a
                 href={link}
-                className={`opacity-75 text-sm ${getHeadingClasses(level)}`}
+                className={`opacity-75 text-sm hover:text-accent transition-all ease-in-out duration-150 ${getHeadingClasses(
+                  level
+                )}`}
               >
                 {text}
               </a>
@@ -63,6 +67,10 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
         </ul>
       </div>
       <div className={sectionClasses}>
+        <p className="pb-4 opacity-75">
+          Subscribe to my newsletter to get the latest posts and exclusive
+          content.
+        </p>
         <Newsletter />
       </div>
       <ul className={`flex flex-row gap-x-4 ${sectionClasses}`}>

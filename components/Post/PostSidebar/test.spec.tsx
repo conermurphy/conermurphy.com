@@ -49,25 +49,9 @@ describe('PostSidebar', () => {
     render(<PostSidebar headings={mockHeadings} title="example post title" />);
 
     const input = screen.queryByPlaceholderText(/Enter your email/i);
-    const button = screen.queryByText(/subscribe/i);
+    const button = screen.getByText('Subscribe');
 
     expect(input).toBeVisible();
     expect(button).toBeVisible();
-  });
-
-  it('should render share section correctly', () => {
-    render(<PostSidebar headings={mockHeadings} title="example post title" />);
-
-    const copyIcon = screen.getByLabelText('copy icon');
-    const twitterIcon = screen.getByLabelText('Twitter logo');
-    const linkedInIcon = screen.getByLabelText('LinkedIn logo');
-    const facebookIcon = screen.getByLabelText('Facebook logo');
-    const redditIcon = screen.getByLabelText('Reddit logo');
-
-    expect(copyIcon).toBeVisible();
-    expect(twitterIcon).toBeVisible();
-    expect(linkedInIcon).toBeVisible();
-    expect(facebookIcon).toBeVisible();
-    expect(redditIcon).toBeVisible();
   });
 });

@@ -38,21 +38,4 @@ describe('DesktopHeader', () => {
 
     expect(nav).toBeVisible();
   });
-
-  it('Should render all icons', () => {
-    render(<DesktopHeader />);
-
-    const icons = screen.queryAllByRole('img').length;
-
-    const twitterIcon = screen.getByLabelText('Twitter logo');
-    const linkedInIcon = screen.getByLabelText('LinkedIn logo');
-    const emailIcon = screen.getByLabelText('Email icon');
-    const themeIcon = screen.getByTestId('theme-icon');
-
-    expect(twitterIcon).toBeVisible();
-    expect(linkedInIcon).toBeVisible();
-    expect(emailIcon).toBeVisible();
-    expect(themeIcon).toBeVisible();
-    expect(icons).toEqual(6);
-  });
 });

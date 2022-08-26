@@ -40,7 +40,7 @@ const components = {
       whileInView="onscreen"
       variants={postComponent}
       viewport={viewportSettings}
-      className="group relative font-semibold text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-20"
+      className="group relative font-semibold text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-28 capitalize"
     >
       <Link top="top-3" />
       <a
@@ -58,7 +58,7 @@ const components = {
       whileInView="onscreen"
       variants={postComponent}
       viewport={viewportSettings}
-      className="group relative font-semibold text-xl md:text-2xl mb-2.5 mt-6 md:mt-16 scroll-mt-20"
+      className="group relative font-semibold text-xl md:text-2xl mb-2.5 mt-6 md:mt-16 scroll-mt-28"
     >
       <Link top="top-2" />
       <a
@@ -76,7 +76,7 @@ const components = {
       whileInView="onscreen"
       variants={postComponent}
       viewport={viewportSettings}
-      className="group relative font-semibold text-lg md:text-xl mb-2 mt-6 md:mt-16 scroll-mt-20"
+      className="group relative font-semibold text-lg md:text-xl mb-2 mt-6 md:mt-16 scroll-mt-28"
     >
       <Link top="top-1.5" size="18px" />
       <a
@@ -94,7 +94,7 @@ const components = {
       whileInView="onscreen"
       variants={postComponent}
       viewport={viewportSettings}
-      className="group relative font-semibold text-base md:text-lg mb-2 mt-6 md:mt-16 scroll-mt-20"
+      className="group relative font-semibold text-base md:text-lg mb-2 mt-6 md:mt-16 scroll-mt-28"
     >
       <Link size="18px" />
       <a
@@ -112,7 +112,7 @@ const components = {
       whileInView="onscreen"
       variants={postComponent}
       viewport={viewportSettings}
-      className="group relative font-semibold text-sm md:text-base mb-2 mt-6 md:mt-16 scroll-mt-20"
+      className="group relative font-semibold text-sm md:text-base mb-2 mt-6 md:mt-16 scroll-mt-28"
     >
       <Link size="16px" />
       <a
@@ -199,11 +199,11 @@ const components = {
     <Img
       src={src}
       alt={alt}
-      width={650}
-      height={366}
+      width={480}
+      height={270}
       layout="responsive"
       objectFit="contain"
-      className="rounded-xl"
+      className="rounded-lg"
     />
   ),
   pre: Code,

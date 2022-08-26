@@ -1,6 +1,22 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { postComponent, viewportSettings } from '../../../../constants';
+import { ICONS, postComponent, viewportSettings } from '../../../../constants';
+import { getHeadingLink } from '../../../../utils/posts';
+import { copyToClipboard, getIcon } from '../../../../utils';
+
+function Link({
+  top = 'top-1',
+  size = '20px',
+}: {
+  top?: string;
+  size?: string;
+}): JSX.Element {
+  return (
+    <span className={`absolute -left-8 ${top} hidden md:group-hover:block`}>
+      {getIcon({ icon: ICONS.LINK.name, size })}
+    </span>
+  );
+}
 
 export default function NewsletterCloseout() {
   return (
@@ -10,9 +26,16 @@ export default function NewsletterCloseout() {
         whileInView="onscreen"
         variants={postComponent}
         viewport={viewportSettings}
-        className="font-semibold text-2xl md:text-32 mb-1.5 mt-6 md:mt-16 scroll-mt-20"
+        className="group relative font-semibold text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-28 capitalize"
+        id={getHeadingLink('Enjoyed This Newsletter')}
       >
-        Enjoyed This Newsletter?
+        <Link top="top-3" />
+        <a
+          href={`#${getHeadingLink('Enjoyed This Newsletter')}`}
+          onClick={() => copyToClipboard(window?.location?.href)}
+        >
+          Enjoyed This Newsletter?
+        </a>
       </motion.h2>
       <motion.p
         initial="offscreen"
@@ -83,9 +106,16 @@ export default function NewsletterCloseout() {
         whileInView="onscreen"
         variants={postComponent}
         viewport={viewportSettings}
-        className="font-semibold text-2xl md:text-32 mb-1.5 mt-6 md:mt-16 scroll-mt-20"
+        className="group relative font-semibold text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-28 capitalize"
+        id={getHeadingLink('Questions')}
       >
-        Questions
+        <Link top="top-3" />
+        <a
+          href={`#${getHeadingLink('Questions')}`}
+          onClick={() => copyToClipboard(window?.location?.href)}
+        >
+          Questions
+        </a>
       </motion.h2>
       <motion.p
         initial="offscreen"
