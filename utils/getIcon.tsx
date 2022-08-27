@@ -22,6 +22,7 @@ import {
   SiReact,
   SiTypescript,
   SiTailwindcss,
+  SiCss3,
 } from 'react-icons/si';
 import { IoMdClose } from 'react-icons/io';
 import { FiCopy } from 'react-icons/fi';
@@ -228,11 +229,11 @@ export default function getIcon({
           data-testid="tech-icon"
         />
       );
-    case ICONS.REACT.name:
+    case ICONS.REACTJS.name:
       return (
         <SiReact
           size={size}
-          color={ICONS.REACT.color}
+          color={ICONS.REACTJS.color}
           title="ReactJS logo"
           data-testid="tech-icon"
         />
@@ -244,7 +245,6 @@ export default function getIcon({
           color={ICONS.NEXTJS.color}
           title="Next.js logo"
           data-testid="tech-icon"
-          className={ICONS.NEXTJS.invertDark ? 'dark:invert' : 'dark:invert-0'}
         />
       );
     case ICONS.TYPESCRIPT.name:
@@ -262,6 +262,15 @@ export default function getIcon({
           size={size}
           color={ICONS.JAVASCRIPT.color}
           title="JavaScript logo"
+          data-testid="tech-icon"
+        />
+      );
+    case ICONS.CSS.name:
+      return (
+        <SiCss3
+          size={size}
+          color={ICONS.CSS.color}
+          title="CSS logo"
           data-testid="tech-icon"
         />
       );

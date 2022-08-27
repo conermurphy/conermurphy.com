@@ -21,11 +21,12 @@ export const ICONS: Icons = {
   TICK: { name: 'TICK' },
   LINK: { name: 'LINK' },
   GRAPHQL: { name: 'GRAPHQL', color: 'hsl(319, 100%, 44%)' },
-  REACT: { name: 'REACT', color: 'hsl(193, 95%, 68%)' },
+  REACTJS: { name: 'REACTJS', color: 'hsl(193, 95%, 68%)' },
   NEXTJS: { name: 'NEXTJS', color: 'hsl(0, 0%, 7%)', invertDark: true },
   TYPESCRIPT: { name: 'TYPESCRIPT', color: 'hsl(211, 60%, 48%)' },
   JAVASCRIPT: { name: 'JAVASCRIPT', color: 'hsl(53, 93%, 54%)' },
   TAILWINDCSS: { name: 'TAILWINDCSS', color: 'rgb(14, 165, 233)' },
+  CSS: { name: 'CSS' },
 };
 
 export const TOPICS: Topics = {
@@ -91,6 +92,11 @@ export const TOPICS: Topics = {
     name: 'TailwindCSS',
     link: 'tailwindcss',
     icon: ICONS.TAILWINDCSS,
+  },
+  REACTJS: {
+    name: 'ReactJS',
+    link: 'reactjs',
+    icon: ICONS.REACTJS,
   },
   UI: {
     name: 'UI',

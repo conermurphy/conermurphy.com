@@ -31,10 +31,10 @@ export default function Projects({ projects }: IProps): JSX.Element {
   return (
     <ComponentWrapper
       data={{
-        title: 'My Projects',
+        title: 'Featured Projects',
       }}
     >
-      <ul className="grid grid-cols-3 gap-6 w-full items-start justify-between">
+      <ul className="grid grid-cols-2 gap-6 w-full items-start justify-between">
         {featured.map((project) => (
           <li key={project.title} className="h-full">
             <FeaturedProjectCard project={project} />
@@ -42,9 +42,9 @@ export default function Projects({ projects }: IProps): JSX.Element {
         ))}
       </ul>
       {nonFeatured?.length ? (
-        <div>
-          <h3>My Other Projects</h3>
-          <ul className="grid lg:grid-cols-3 gap-6 w-full items-start justify-between">
+        <div className="mt-12 flex flex-col gap-12">
+          <h3 className="text-3xl font-bold">My Other Projects</h3>
+          <ul className="grid grid-cols-4 gap-6 w-full items-start justify-between">
             {nonFeatured.map((project) => (
               <li key={project.title} className="h-full">
                 <ProjectCard />

@@ -9,7 +9,7 @@ const projects: Project[] = [
     url: 'https://squares.so',
     githubUrl: 'https://github.com/conermurphy/squares',
     image: '/images/projects/squares-app-signin.png',
-    technologies: ['JAVASCRIPT'],
+    technologies: ['TAILWINDCSS', 'REACTJS', 'NEXTJS'],
   },
   {
     isFeatured: false,
