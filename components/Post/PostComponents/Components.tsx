@@ -125,7 +125,7 @@ const components = {
   ),
   p: ({ children }: IProps): JSX.Element => (
     <motion.p
-      className="text-sm md:text-base mb-6 opacity-100"
+      className="text-md md:text-base mb-8 leading-relaxed"
       initial="offscreen"
       whileInView="onscreen"
       variants={postComponent}
@@ -145,7 +145,7 @@ const components = {
   ),
   code: ({ children }: IProps): JSX.Element => (
     <motion.code
-      className=" opacity-100 p-1 font-extrabold"
+      className="p-1 font-extrabold"
       initial="offscreen"
       whileInView="onscreen"
       variants={postComponent}
@@ -175,7 +175,7 @@ const components = {
   ),
   ul: ({ children }: IProps): JSX.Element => (
     <motion.ul
-      className="mb-6 md:mb-8 list-disc pl-4 text-sm md:text-base"
+      className="mb-8 list-disc pl-4 text-md md:text-base leading-relaxed"
       initial="offscreen"
       whileInView="onscreen"
       variants={postComponent}
@@ -186,7 +186,7 @@ const components = {
   ),
   ol: ({ children }: IProps): JSX.Element => (
     <motion.ol
-      className="mb-6 md:mb-8 list-decimal pl-4 text-sm md:text-base"
+      className="mb-6 md:mb-8 list-decimal pl-4 text-md md:text-base leading-relaxed"
       initial="offscreen"
       whileInView="onscreen"
       variants={postComponent}

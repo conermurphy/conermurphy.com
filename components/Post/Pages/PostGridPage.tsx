@@ -44,7 +44,7 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
       <PageHero title={title} />
       <div className="flex flex-row items-center justify-center pb-12 bg-primaryBg dark:bg-primaryBgDark">
         <div
-          className={`flex flex-col items-center gap-12 justify-between w-full md:flex-col-reverse md:items-start max-w-7xl px-6 md:px-0 ${
+          className={`flex flex-col items-center gap-12 justify-between w-full md:flex-col-reverse md:items-start max-w-7xl px-6 lg:px-12 2xl:px-0 ${
             posts?.length ? 'xl:justify-between' : 'xl:justify-end'
           }`}
         >

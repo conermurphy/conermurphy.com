@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function NoContentFound() {
   return (
-    <div className="flex flex-col gap-3 max-w-lg md:max-w-xl px-6">
+    <div className="flex flex-col gap-3 max-w-lg md:max-w-xl">
       <h2 className="text-3xl font-normal md:text-4xl">
         Sorry, no posts were found...
       </h2>

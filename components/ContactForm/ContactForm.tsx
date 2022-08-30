@@ -17,19 +17,18 @@ export default function ContactForm(): JSX.Element {
     resetValues,
   });
 
-  const inputContainerStyles = 'flex flex-col items-start';
-  const labelStyles = 'font-bold mb-1';
-  const twoColInputStyles =
-    'rounded-lg border-primaryBorder text-md bg-primaryBg w-full ';
+  const inputContainerStyles =
+    'flex flex-col items-start dark:text-primaryText';
+  const labelStyles = 'font-bold mb-1 dark:text-primaryTextDark';
 
   return (
-    <div className="flex flex-col justify-start items-center bg-secondaryBg dark:bg-secondaryBgDark p-8 rounded-md h-full col-span-2">
+    <div className="flex flex-col justify-start items-center bg-secondaryBg dark:bg-secondaryBgDark p-6 rounded-md h-full col-span-5 xl:col-span-2">
       <form
         onSubmit={submitContactForm}
         className="flex flex-col gap-4 md:gap-6 w-full grow"
         data-testid="contact-form"
       >
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-4">
           <div className={inputContainerStyles}>
             <label htmlFor="firstName" className={labelStyles}>
               First Name
@@ -42,7 +41,7 @@ export default function ContactForm(): JSX.Element {
               placeholder="Your first name"
               onChange={updateValue}
               value={firstName}
-              className={twoColInputStyles}
+              className="rounded-lg border-primaryBorder text-md bg-primaryBg w-full"
             />
           </div>
           <div className={inputContainerStyles}>
@@ -57,7 +56,7 @@ export default function ContactForm(): JSX.Element {
               placeholder="Your last name"
               onChange={updateValue}
               value={lastName}
-              className={twoColInputStyles}
+              className="rounded-lg border-primaryBorder text-md bg-primaryBg w-full"
             />
           </div>
         </div>
@@ -73,7 +72,7 @@ export default function ContactForm(): JSX.Element {
             placeholder="Your email"
             onChange={updateValue}
             value={email}
-            className="rounded-lg border-primaryBorder  text-md bg-primaryBg w-full"
+            className="rounded-lg border-primaryBorder text-md bg-primaryBg w-full"
           />
         </div>
         <div className={`grow ${inputContainerStyles}`}>
@@ -87,7 +86,7 @@ export default function ContactForm(): JSX.Element {
             placeholder="Your message"
             onChange={updateValue}
             value={message}
-            className="rounded-lg border-primaryBorder text-md bg-primaryBg w-full resize-none h-full"
+            className="rounded-lg border-primaryBorder text-md bg-primaryBg w-full resize-none h-full min-h-[150px]"
           />
         </div>
         <button
@@ -98,7 +97,7 @@ export default function ContactForm(): JSX.Element {
         </button>
       </form>
       <p
-        className={`text-xs lg:text-base mt-6 ${
+        className={`text-md lg:text-base mt-6 ${
           !outputMessage ? 'animate-pulse' : ''
         }`}
       >

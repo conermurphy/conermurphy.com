@@ -1,5 +1,4 @@
 import React from 'react';
-import Img from 'next/image';
 import Link from 'next/link';
 import NavBar from '../../NavBar/NavBar';
 import NoScrollLink from '../../NoScrollLink/NoScrollLink';
@@ -9,7 +8,7 @@ import Logo from '../../Logo/Logo';
 
 export default function DesktopHeader(): JSX.Element {
   return (
-    <div className="sticky top-0 z-20 hidden lg:block bg-primaryBg dark:bg-primaryBgDark">
+    <div className="sticky top-0 z-20 hidden lg:block bg-primaryBg dark:bg-primaryBgDark px-4 sm:px-6 lg:px-9 2xl:px-0 drop-shadow-lg">
       <header className="max-w-[1440px] flex flex-row items-center justify-between h-20 md:px-0 m-auto">
         <div className="flex flex-row items-center gap-12">
           <NoScrollLink href="/" passHref>

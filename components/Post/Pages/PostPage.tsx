@@ -41,12 +41,12 @@ const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
         canonicalUrl={canonicalUrl ?? postURL}
         article
       />
-      <div className="flex flex-col items-center pb-10 bg-primaryBg dark:bg-primaryBgDark px-0">
+      <div className="flex flex-col items-center pb-10 bg-primaryBg dark:bg-primaryBgDark px-6 xl:px-0">
         <article className="flex flex-col gap-6 w-full">
           <PostHeader frontmatter={frontmatter} />
           <div>
-            <div className="relative flex flex-row justify-center lg:justify-between xl:justify-center gap-0 xl:gap-24 w-full max-w-5xl m-auto">
-              <div className="max-w-2xl mx-4 lg:mx-0">
+            <div className="relative flex flex-row justify-center lg:justify-between xl:justify-center gap-0 lg:gap-12 xl:gap-24 w-full max-w-5xl m-auto">
+              <div className="max-w-2xl w-full">
                 {/*  eslint-disable-next-line */}
                 {/* @ts-ignore */}
                 <MDXRemote {...content} components={Components} />

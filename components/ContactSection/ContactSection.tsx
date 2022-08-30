@@ -8,7 +8,7 @@ import Socials from '../Socials/Socials';
 
 export default function ContactSection(): JSX.Element {
   const itemContainerStyles =
-    'flex flex-col gap-6 bg-secondaryBg dark:bg-secondaryBgDark rounded-lg py-8 px-6';
+    'flex flex-col gap-6 bg-secondaryBg dark:bg-secondaryBgDark rounded-lg p-6';
 
   return (
     <ComponentWrapper
@@ -17,9 +17,9 @@ export default function ContactSection(): JSX.Element {
       }}
       id="contact"
     >
-      <div className="grid grid-cols-5 gap-12">
+      <div className="grid grid-cols-5 gap-6 md:gap-12">
         <ContactForm />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 col-span-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 col-span-5 xl:col-span-3">
           <div className={itemContainerStyles}>
             <div className="p-3 bg-accent text-primaryTextDark rounded-md w-max">
               {getIcon({ icon: ICONS.EMAIL.name, size: '18px' })}

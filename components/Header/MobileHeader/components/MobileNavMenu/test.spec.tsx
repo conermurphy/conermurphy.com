@@ -13,12 +13,6 @@ jest.mock('next/router', () => ({
 }));
 
 describe('MobileNavMenu', () => {
-  it('Should render null when isOpen is false', () => {
-    const { container } = render(<MobileNavMenu isOpen={false} />);
-
-    expect(container.firstChild).toBe(null);
-  });
-
   it('Should render nav and newsletter when isOpen is true', () => {
     render(<MobileNavMenu isOpen />);
 

@@ -20,11 +20,11 @@ export default function ComponentWrapper({
   return (
     <div
       id={props?.id}
-      className={`flex flex-col items-center justify-center py-32 bg-primaryBg dark:bg-primaryBgDark ${
+      className={`flex flex-col items-center justify-center py-16 lg:py-32 bg-primaryBg dark:bg-primaryBgDark px-4 sm:px-6 lg:px-12 2xl:px-0 ${
         props?.className || ''
       }`}
     >
-      <section className="md:max-w-7xl px-6 md:px-0 w-full">
+      <section className="md:max-w-7xl w-full">
         {pageHeader ? (
           <h1 className={headerStyles}>{title}</h1>
         ) : (

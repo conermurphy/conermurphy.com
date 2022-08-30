@@ -8,17 +8,21 @@ interface IProps {
 }
 
 export default function MobileNavMenu({ isOpen }: IProps): JSX.Element | null {
-  return isOpen ? (
-    <div className="fixed top-16 w-full border-b border-primaryBorder dark:border-primaryBorderDark">
-      <div className="p-6 sm:px-20 bg-primaryBg dark:bg-primaryBgDark">
+  return (
+    <div
+      className={`fixed w-full h-full bg-primaryBg dark:bg-primaryBgDark transition-all duration-300 ease-in-out top-20 ${
+        isOpen ? 'opacity-100 left-0' : 'opacity-0 -left-full'
+      }`}
+    >
+      <div className="p-6 sm:px-12 bg-primaryBg dark:bg-primaryBgDark text-2xl lg:text-base">
         <NavBar isMobile />
       </div>
-      <div className="p-6 sm:px-20 bg-primaryBg dark:bg-primaryBgDark">
+      <div className="p-6 sm:px-12 bg-primaryBg dark:bg-primaryBgDark">
         <div className="flex gap-8 my-6">
           <ThemeToggle />
           <Socials compact />
         </div>
       </div>
     </div>
-  ) : null;
+  );
 }

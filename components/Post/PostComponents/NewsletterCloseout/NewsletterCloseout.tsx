@@ -42,12 +42,12 @@ export default function NewsletterCloseout() {
         whileInView="onscreen"
         variants={postComponent}
         viewport={viewportSettings}
-        className="text-sm md:text-base mb-6 opacity-100"
+        className="text-md md:text-base mb-6 leading-relaxed"
       >
         If you have enjoyed this edition and want to see more of my content
         please consider checking out my various socials below:
       </motion.p>
-      <ul className="mb-6 md:mb-8 list-disc pl-4 text-sm md:text-base opacity-100">
+      <ul className="mb-6 md:mb-8 list-disc pl-4 text-md md:text-base leading-relaxed">
         <motion.li
           initial="offscreen"
           whileInView="onscreen"
@@ -122,7 +122,7 @@ export default function NewsletterCloseout() {
         whileInView="onscreen"
         variants={postComponent}
         viewport={viewportSettings}
-        className="text-sm md:text-base mb-6 opacity-100"
+        className="text-md md:text-base mb-6 leading-relaxed"
       >
         If you have a question you&apos;d like me to ask me then I&apos;d ask
         you to consider publically tweeting me it so others may be able to learn

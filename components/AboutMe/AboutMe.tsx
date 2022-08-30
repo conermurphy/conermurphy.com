@@ -9,7 +9,7 @@ export default function AboutMe() {
         title: 'About Me',
       }}
     >
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-col-reverse md:flex-row justify-between gap-8">
         <div className="flex flex-col">
           <p>Some text about me, repeated a few times.</p>
           <p>Some text about me, repeated a few times.</p>
@@ -20,11 +20,12 @@ export default function AboutMe() {
           <p>Some text about me, repeated a few times.</p>
           <p>Some text about me, repeated a few times.</p>
         </div>
-        <div className="relative h-96 w-96 -rotate-2 border-accent border-[12px] rounded-md">
+        <div className="relative max-w-[400px] sm:max-w-[300px] lg:max-w-[400px] w-full -rotate-2 border-accent border-8 lg:border-[12px] rounded-md">
           <Img
             src="/self-portrait.png"
-            layout="fill"
-            objectFit="contain"
+            layout="responsive"
+            width="100%"
+            height="100%"
             className="rotate-2 scale-105"
           />
         </div>

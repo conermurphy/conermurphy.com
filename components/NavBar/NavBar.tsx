@@ -46,7 +46,9 @@ export default function NavBar({ isMobile = false }: IProps): JSX.Element {
   return (
     <nav aria-label="primary">
       <ul
-        className={`flex gap-x-8 gap-y-4 ${isMobile ? 'flex-col' : 'flex-row'}`}
+        className={`flex gap-x-8 flex-wrap gap-y-4 ${
+          isMobile ? 'flex-col' : 'flex-row'
+        }`}
       >
         <CustomLink href="/" value="Home" activeLink={asPath === '/'} key="/" />
         <CustomLink

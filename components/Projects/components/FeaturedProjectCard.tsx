@@ -22,7 +22,7 @@ export default function FeaturedProjectCard({ project }: IProps) {
         />
       </div>
       <div className="flex flex-col gap-4 justify-start">
-        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row flex-wrap justify-between items-center">
           <h3 className="text-2xl font-bold border-b-4 pb-2 border-accent w-max">
             {project.title}
           </h3>

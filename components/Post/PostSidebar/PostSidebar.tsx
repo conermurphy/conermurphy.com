@@ -46,7 +46,7 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
     'flex items-center justify-center border border-primaryBorder dark:border-primaryBorderDark p-2 rounded opacity-50 w-10 h-10';
 
   return (
-    <aside className="hidden lg:block sticky h-min top-28 lg:max-w-lg">
+    <aside className="hidden lg:block sticky h-min top-28 right-0 max-w-md xl:max-w-lg">
       <div className="pb-6">
         <h2 className="text-lg text-accent mb-1.5 capitalize">
           In this article
@@ -71,7 +71,7 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
           Subscribe to my newsletter to get the latest posts and exclusive
           content.
         </p>
-        <Newsletter />
+        <Newsletter isAltDesign />
       </div>
       <ul className={`flex flex-row gap-x-4 ${sectionClasses}`}>
         <motion.li whileTap={{ scale: 0.8 }}>

@@ -10,7 +10,7 @@ export default function Socials({ compact = true }: IProps): JSX.Element {
   const size = compact ? '20px' : '22px';
   const classes = compact
     ? 'flex flex-row gap-8 opacity-75'
-    : 'flex flex-row gap-x-5';
+    : 'flex flex-row gap-x-5 gap-y-2.5 flex-wrap';
 
   return (
     <address className={classes}>

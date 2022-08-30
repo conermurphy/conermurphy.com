@@ -30,11 +30,11 @@ export default function Testimonials({ testimonials }: IProps): JSX.Element {
                 <article
                   className={`relative flex ${
                     alignLeft
-                      ? 'flex-row after:left-9'
-                      : 'flex-row-reverse after:right-9'
-                  } gap-12 w-full items-center justify-between bg-secondaryBg dark:bg-secondaryBgDark rounded-md px-12 py-10 after:content-[''] after:border-transparent after:border-t-secondaryBg after:dark:border-t-secondaryBgDark after:-bottom-10 after:border-[20px] after:absolute after:border-solid after:hidden after:lg:block`}
+                      ? 'flex-col md:flex-row after:left-9'
+                      : 'flex-col md:flex-row-reverse after:right-9'
+                  } gap-6 md:gap-12 w-full items-start md:items-center justify-between bg-secondaryBg dark:bg-secondaryBgDark rounded-md p-10 after:content-[''] after:border-transparent after:border-t-secondaryBg after:dark:border-t-secondaryBgDark after:-bottom-10 after:border-[20px] after:absolute after:border-solid after:block`}
                 >
-                  <div className="relative h-full w-full max-w-[150px] rounded-2xl overflow-hidden drop-shadow-md">
+                  <div className="relative h-full w-full max-w-[75px] md:max-w-[150px] rounded-lg md:rounded-2xl overflow-hidden">
                     <Img
                       src={image}
                       alt={name}
@@ -46,19 +46,21 @@ export default function Testimonials({ testimonials }: IProps): JSX.Element {
                   </div>
                   <div
                     className={`flex flex-col gap-8 text-primaryText dark:text-primaryTextDark ${
-                      alignLeft ? 'text-left' : 'text-right'
+                      alignLeft ? 'text-left' : 'text-left md:text-right'
                     }`}
                   >
-                    <p className="text-sm md:text-lg">{copy}</p>
+                    <p className="md:text-lg">{copy}</p>
                     <div
                       className={`flex flex-col ${
-                        alignLeft ? 'justify-start' : 'justify-end'
+                        alignLeft
+                          ? 'justify-start'
+                          : 'justify-start md:justify-end'
                       }`}
                     >
-                      <p className="text-xs sm:text-sm md:text-base font-bold opacity-100">
+                      <p className="text-sm md:text-base font-bold opacity-100">
                         - {name}
                       </p>
-                      <p className="text-xs md:text-sm">
+                      <p className="text-sm md:text-md">
                         {jobTitle} @ {company}
                       </p>
                     </div>

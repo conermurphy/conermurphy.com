@@ -50,7 +50,7 @@ export default function PageSidebar({
   const { pathname } = useRouter();
 
   return (
-    <aside className="flex flex-row gap-8 w-full px-6 pt-12 md:pt-0 md:px-0">
+    <aside className="flex flex-row gap-8 w-full  pt-12 md:pt-0">
       {data?.length ? (
         <div>
           <p className="text-lg font-semibold mb-3">Search posts by topics:</p>

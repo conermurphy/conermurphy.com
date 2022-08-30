@@ -11,7 +11,7 @@ export default function GitHubCTA({ postPath }: IProps): JSX.Element {
   const basePath =
     'https://github.com/conermurphy/conermurphy.com/tree/main/content';
   return (
-    <aside className="my-6 text-sm md:text-base">
+    <aside className="my-6 text-md md:text-base leading-relaxed">
       <motion.p
         initial="offscreen"
         whileInView="onscreen"
