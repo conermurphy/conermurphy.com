@@ -5,20 +5,20 @@ const projects: Project[] = [
     isFeatured: true,
     title: 'Squares',
     description:
-      "Whether it be an AWS project you need help with, or a frontend built out. I'm a full stack TypeScript developer and always open to discussing new opportunities or projects where I can help.",
+      'As part of the Hashnode/PlanetScale hackathon in July 2022, I made Squares which is a GitHub analyitcs app to let people inspect their repos and commits in one central location.',
     url: 'https://squares.so',
     githubUrl: 'https://github.com/conermurphy/squares',
     image: '/images/projects/squares-app-signin.png',
-    technologies: ['TAILWINDCSS', 'REACTJS', 'NEXTJS'],
+    technologies: ['TAILWINDCSS', 'NEXTJS', 'PRISMA', 'PLANETSCALE'],
   },
   {
     isFeatured: false,
     title: 'Murphy Wedding',
     description:
-      "Whether it be documentation, explanations, or tutorials. I'm able to accomodate your needs and deliver high-quality technical articles that your platform and audience will love.",
+      "Getting married is an organisational nightmare so as a web developer I decided to make mine and my fiancée's life a bit easier by building a custom application for guests to manage their details through.",
     url: 'https://murphy.wedding',
     image: '/images/projects/murphy-wedding.png',
-    technologies: ['JAVASCRIPT'],
+    technologies: ['TAILWINDCSS', 'NEXTJS', 'PRISMA', 'PLANETSCALE'],
   },
 ];
 

@@ -18,7 +18,11 @@ export default function ProjectLanguages({ project }: IProps) {
             key={name}
             className="group flex flex-row items-center w-max p-2.5 bg-primaryBgDark/80 rounded-sm"
           >
-            <div className={`grayscale ${tech === 'NEXTJS' ? 'invert' : ''}`}>
+            <div
+              className={`grayscale ${
+                ['NEXTJS', 'PLANETSCALE'].includes(tech) ? 'invert' : ''
+              }`}
+            >
               {icon ? getIcon({ icon: icon.name, size: '18px' }) : null}
             </div>
           </div>

@@ -11,7 +11,7 @@ interface IProps {
 export default function ProjectCard({ project }: IProps) {
   return (
     <article className="flex flex-col gap-6 rounded-md overflow-hidden bg-secondaryBg dark:bg-secondaryBgDark p-6">
-      <div className="flex flex-row justify-between items-center">
+      <div className="flex flex-row flex-wrap gap-6 justify-between items-center">
         <Logo classes="w-12 h-12" />
         <ProjectLanguages project={project} />
       </div>

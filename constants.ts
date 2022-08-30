@@ -27,6 +27,8 @@ export const ICONS: Icons = {
   JAVASCRIPT: { name: 'JAVASCRIPT', color: 'hsl(53, 93%, 54%)' },
   TAILWINDCSS: { name: 'TAILWINDCSS', color: 'rgb(14, 165, 233)' },
   CSS: { name: 'CSS' },
+  PRISMA: { name: 'PRISMA' },
+  PLANETSCALE: { name: 'PLANETSCALE' },
 };
 
 export const TOPICS: Topics = {
@@ -97,6 +99,16 @@ export const TOPICS: Topics = {
     name: 'ReactJS',
     link: 'reactjs',
     icon: ICONS.REACTJS,
+  },
+  PRISMA: {
+    name: 'Prisma',
+    link: 'prisma',
+    icon: ICONS.PRISMA,
+  },
+  PLANETSCALE: {
+    name: 'PlanetScale',
+    link: 'planetscale',
+    icon: ICONS.PLANETSCALE,
   },
   UI: {
     name: 'UI',

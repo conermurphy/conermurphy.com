@@ -23,9 +23,11 @@ import {
   SiTypescript,
   SiTailwindcss,
   SiCss3,
+  SiPrisma,
 } from 'react-icons/si';
 import { IoMdClose } from 'react-icons/io';
 import { FiCopy } from 'react-icons/fi';
+import Img from 'next/image';
 import { ICONS } from '../constants';
 
 interface IProps {
@@ -279,6 +281,25 @@ export default function getIcon({
           title="TailwindCSS logo"
           data-testid="tech-icon"
         />
+      );
+    case ICONS.PRISMA.name:
+      return (
+        <SiPrisma
+          size={size}
+          color={ICONS.PRISMA.color}
+          title="Prisma logo"
+          data-testid="tech-icon"
+        />
+      );
+    case ICONS.PLANETSCALE.name:
+      return (
+        <div className="relative" style={{ width: size, height: size }}>
+          <Img
+            src="/images/companies/planetscale.svg"
+            layout="fill"
+            title="PlanetScale logo"
+          />
+        </div>
       );
     default:
       return null;

@@ -23,7 +23,7 @@ export default function PageHero({
       {showNewsletter ? (
         <div className="flex flex-col sm:flex-row justify-between gap-6">
           <p className="text-lg md:text-2xl">
-            Get all my posts and exclusive weekly content in your inbox
+            Get all my posts and exclusive weekly content in your inbox.
           </p>
           <Newsletter />
         </div>

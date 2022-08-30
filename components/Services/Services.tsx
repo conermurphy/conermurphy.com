@@ -39,7 +39,9 @@ export default function Services({ services }: IProps): JSX.Element {
       <div className="flex gap-1 mt-10 text-lg flex-row lg:text-xl justify-start flex-wrap">
         <p>Want to work with me on a project?</p>
         <span className="font-semibold border-b-2 border-transparent hover:border-accent pb-1">
-          <NoScrollLink href="/#contact">Get in touch here</NoScrollLink>
+          <NoScrollLink href="/#contact">
+            Click here to get in touch.
+          </NoScrollLink>
         </span>
       </div>
     </ComponentWrapper>

@@ -30,7 +30,7 @@ export default function LatestPosts({ posts, postType }: IProps): JSX.Element {
           <NoScrollLink
             href={postType === POSTTYPES.BLOG ? '/blog' : '/newsletter'}
           >
-            View all posts here
+            View all my posts here
           </NoScrollLink>
         </span>
       </div>
