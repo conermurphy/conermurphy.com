@@ -1,20 +1,11 @@
 import React from 'react';
-import Img from 'next/image';
+import Logo from '../Logo/Logo';
 
 export default function HomeHero() {
   return (
     <div className="flex flex-col items-center justify-center pt-16 pb-32">
       <section className="flex flex-col items-center gap-36 md:max-w-7xl px-6 md:px-0 w-full">
-        <div className="block dark:hidden relative w-24 h-24">
-          <Img src="/standalone-icon.svg" layout="fill" objectFit="contain" />
-        </div>
-        <div className="hidden dark:block relative w-24 h-24">
-          <Img
-            src="/standalone-icon-dark.svg"
-            layout="fill"
-            objectFit="contain"
-          />
-        </div>
+        <Logo classes="w-24 h-24" />
         <div className="flex flex-row gap-8 items-center">
           <div className="flex flex-col gap-4 items-end">
             <div className="w-12 border-b-4 border-accent rounded-full" />

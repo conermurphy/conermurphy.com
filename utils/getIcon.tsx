@@ -97,7 +97,6 @@ export default function getIcon({
           color={color}
           title="keyboard icon"
           data-testid="services-icon"
-          className="hover:text-accent"
         />
       );
     case ICONS.CODE.name:
@@ -107,7 +106,6 @@ export default function getIcon({
           color={color}
           title="< > symbols"
           data-testid="services-icon"
-          className="hover:text-accent"
         />
       );
     case ICONS.SOCIALS.name:
@@ -117,7 +115,6 @@ export default function getIcon({
           color={color}
           title="Social media share icon"
           data-testid="services-icon"
-          className="hover:text-accent"
         />
       );
     case ICONS.COPY.name:

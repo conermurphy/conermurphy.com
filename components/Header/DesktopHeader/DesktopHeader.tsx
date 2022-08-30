@@ -5,6 +5,7 @@ import NavBar from '../../NavBar/NavBar';
 import NoScrollLink from '../../NoScrollLink/NoScrollLink';
 import Socials from '../../Socials/Socials';
 import { ThemeToggle } from '../components';
+import Logo from '../../Logo/Logo';
 
 export default function DesktopHeader(): JSX.Element {
   return (
@@ -13,20 +14,7 @@ export default function DesktopHeader(): JSX.Element {
         <div className="flex flex-row items-center gap-12">
           <NoScrollLink href="/" passHref>
             <a className="flex flex-row gap-4 items-center text-xl font-bold font-heading">
-              <div className="block dark:hidden relative w-10 h-10">
-                <Img
-                  src="/standalone-icon.svg"
-                  layout="fill"
-                  objectFit="contain"
-                />
-              </div>
-              <div className="hidden dark:block relative w-10 h-10">
-                <Img
-                  src="/standalone-icon-dark.svg"
-                  layout="fill"
-                  objectFit="contain"
-                />
-              </div>
+              <Logo classes="w-10 h-10" />
               <span>Coner Murphy</span>
             </a>
           </NoScrollLink>

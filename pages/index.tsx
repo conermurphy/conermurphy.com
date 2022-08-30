@@ -6,6 +6,8 @@ import {
   ContactSection,
   HomeHero,
   Projects,
+  AboutMe,
+  Services,
 } from '../components';
 import { Post, POSTTYPES, Project, Service, Testimonial } from '../types';
 import { generateRssFeeds, pageDataSource, useScrollToTop } from '../utils';
@@ -20,6 +22,7 @@ interface IProps {
 
 const Home: NextPage<IProps> = ({
   testimonials,
+  services,
   projects,
   latestBlogs,
   latestNewsletters,
@@ -33,6 +36,8 @@ const Home: NextPage<IProps> = ({
         metaDescription="Whether it be TypeScript/JavaScript development you need support on or a technical article written, come check out how Coner Murphy can help you."
       />
       <HomeHero />
+      <AboutMe />
+      <Services services={services} />
       <Projects projects={projects} />
       <Testimonials testimonials={testimonials} />
       <LatestPosts posts={latestBlogs} postType={POSTTYPES.BLOG} />
