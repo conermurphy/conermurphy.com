@@ -2,7 +2,6 @@ import { NextPage } from 'next';
 import { MDXRemote } from 'next-mdx-remote';
 import React from 'react';
 import { PostPageProps, POSTTYPES } from '../../../types';
-import { useScrollToTop } from '../../../utils';
 import LatestPosts from '../../LatestPosts/LatestPosts';
 import SEO from '../../SEO/SEO';
 import {
@@ -27,8 +26,6 @@ const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
   } = frontmatter;
 
   const postURL = `${postType}/${slug}`;
-
-  useScrollToTop();
 
   return (
     <>

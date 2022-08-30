@@ -21,7 +21,8 @@ export default function Layout({ children }: IProps): JSX.Element {
           animate="animate"
           exit="exit"
           variants={pageTransition}
-          transition={{ type: 'ease', duration: 0.2 }}
+          transition={{ type: 'linear' }}
+          onAnimationComplete={() => window.scrollTo(0, 0)}
         >
           <main className="text-primaryText dark:text-primaryTextDark">
             {children}

@@ -41,7 +41,7 @@ export default function ContactForm(): JSX.Element {
               placeholder="Your first name"
               onChange={updateValue}
               value={firstName}
-              className="rounded-lg border-primaryBorder text-md bg-primaryBg w-full"
+              className="rounded-md border-primaryBorder text-md bg-primaryBg w-full"
             />
           </div>
           <div className={inputContainerStyles}>
@@ -56,7 +56,7 @@ export default function ContactForm(): JSX.Element {
               placeholder="Your last name"
               onChange={updateValue}
               value={lastName}
-              className="rounded-lg border-primaryBorder text-md bg-primaryBg w-full"
+              className="rounded-md border-primaryBorder text-md bg-primaryBg w-full"
             />
           </div>
         </div>
@@ -72,7 +72,7 @@ export default function ContactForm(): JSX.Element {
             placeholder="Your email"
             onChange={updateValue}
             value={email}
-            className="rounded-lg border-primaryBorder text-md bg-primaryBg w-full"
+            className="rounded-md border-primaryBorder text-md bg-primaryBg w-full"
           />
         </div>
         <div className={`grow ${inputContainerStyles}`}>
@@ -86,7 +86,7 @@ export default function ContactForm(): JSX.Element {
             placeholder="Your message"
             onChange={updateValue}
             value={message}
-            className="rounded-lg border-primaryBorder text-md bg-primaryBg w-full resize-none h-full min-h-[150px]"
+            className="rounded-md border-primaryBorder text-md bg-primaryBg w-full resize-none h-full min-h-[150px]"
           />
         </div>
         <button

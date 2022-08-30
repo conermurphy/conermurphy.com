@@ -64,10 +64,10 @@ export default function NavBar({ isMobile = false }: IProps): JSX.Element {
           key="/newsletter"
         />
         <CustomLink
-          href="/#contact"
+          href="/contact"
           value="Contact"
-          activeLink={asPath.includes('#contact')}
-          key="/#contact"
+          activeLink={asPath.includes('contact')}
+          key="/contact"
           shouldScroll
         />
       </ul>

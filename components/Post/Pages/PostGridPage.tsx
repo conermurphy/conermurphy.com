@@ -1,7 +1,6 @@
 import { NextPage } from 'next';
 import React from 'react';
 import { PostGridPageProps } from '../../../types';
-import { useScrollToTop } from '../../../utils';
 import PageHero from '../../PageHero/PageHero';
 import SEO from '../../SEO/SEO';
 import Testimonials from '../../Testimonials/Testimonials';
@@ -22,8 +21,6 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
     queries: [],
   },
 }) => {
-  useScrollToTop();
-
   const pageName = postType.charAt(0).toUpperCase() + postType.slice(1);
 
   return (

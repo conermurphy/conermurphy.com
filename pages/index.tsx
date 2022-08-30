@@ -10,7 +10,7 @@ import {
   Services,
 } from '../components';
 import { Post, POSTTYPES, Project, Service, Testimonial } from '../types';
-import { generateRssFeeds, pageDataSource, useScrollToTop } from '../utils';
+import { generateRssFeeds, pageDataSource } from '../utils';
 
 interface IProps {
   services: Service[];
@@ -26,26 +26,22 @@ const Home: NextPage<IProps> = ({
   projects,
   latestBlogs,
   latestNewsletters,
-}) => {
-  useScrollToTop();
-
-  return (
-    <>
-      <SEO
-        metaTitle="Home"
-        metaDescription="Whether it be TypeScript/JavaScript development you need support on or a technical article written, come check out how Coner Murphy can help you."
-      />
-      <HomeHero />
-      <AboutMe />
-      <Services services={services} />
-      <Projects projects={projects} />
-      <Testimonials testimonials={testimonials} />
-      <LatestPosts posts={latestBlogs} postType={POSTTYPES.BLOG} />
-      <LatestPosts posts={latestNewsletters} postType={POSTTYPES.NEWSLETTER} />
-      <ContactSection />
-    </>
-  );
-};
+}) => (
+  <>
+    <SEO
+      metaTitle="Home"
+      metaDescription="Whether it be TypeScript/JavaScript development you need support on or a technical article written, come check out how Coner Murphy can help you."
+    />
+    <HomeHero />
+    <AboutMe />
+    <Services services={services} />
+    <Projects projects={projects} />
+    <Testimonials testimonials={testimonials} />
+    <LatestPosts posts={latestBlogs} postType={POSTTYPES.BLOG} />
+    <LatestPosts posts={latestNewsletters} postType={POSTTYPES.NEWSLETTER} />
+    <ContactSection />
+  </>
+);
 
 export const getStaticProps: GetStaticProps = async () => {
   await generateRssFeeds();

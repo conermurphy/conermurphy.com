@@ -18,7 +18,7 @@ export default function DesktopHeader(): JSX.Element {
             </a>
           </NoScrollLink>
           <NavBar />
-          <Link href="/#contact" passHref>
+          <Link href="/contact" passHref>
             <a className="font-semibold bg-accent text-primaryTextDark px-4 py-2 rounded-sm">
               Hire Me
             </a>

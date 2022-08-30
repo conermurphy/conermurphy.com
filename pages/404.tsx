@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { SEO, PageHero, LatestPosts, ContactSection } from '../components';
 import { Post, POSTTYPES } from '../types';
-import { pageDataSource, useScrollToTop } from '../utils';
+import { pageDataSource } from '../utils';
 
 interface IProps {
   latestBlogs: Post[];
@@ -11,8 +11,6 @@ interface IProps {
 }
 
 function Custom404({ latestBlogs, latestNewsletters }: IProps): JSX.Element {
-  useScrollToTop();
-
   const { asPath } = useRouter();
   const path = asPath.split('/')[1];
 
