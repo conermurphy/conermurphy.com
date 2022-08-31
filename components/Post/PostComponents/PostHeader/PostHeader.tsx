@@ -7,11 +7,19 @@ interface IProps {
 }
 
 export default function PostHeader({ frontmatter }: IProps): JSX.Element {
-  const { date, timeToRead, title, description, image } = frontmatter;
+  const {
+    date,
+    timeToRead,
+    title,
+    description,
+    image,
+    imageCredit,
+    imageLink,
+  } = frontmatter;
 
   return (
-    <header className="flex flex-col items-center pb-0 lg:pb-3 bg-primaryBg dark:bg-primaryBgDark">
-      <div className="max-w-full sm:max-w-6xl w-full pb-4 md:pb-6 z-[1] pt-8 md:pt-16">
+    <header className="flex flex-col items-center pb-0 lg:pb-3 ">
+      <div className="max-w-full sm:max-w-6xl w-full pb-4 z-[1] pt-8 md:pt-16">
         <p className="text-xs md:text-base font-semiBold text-primaryText/75 dark:text-primaryTextDark/75 mb-1">
           {`Published on
               ${new Date(date).toLocaleDateString('en-GB', {
@@ -21,14 +29,28 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
               })}
               | ${timeToRead} Minute Read`}
         </p>
-        <h1 className="text-2xl md:text-40 text-primaryText dark:text-primaryTextDark mb-2 max-w-4xl capitalize">
+        <h1 className="text-2xl md:text-4xl mb-2 max-w-4xl capitalize">
           {title}
         </h1>
-        <p className="text-base md:text-lg text-primaryText dark:text-primaryTextDark opacity-75 max-w-2xl">
+        <p className="text-base md:text-lg opacity-75 max-w-2xl">
           {description}
         </p>
       </div>
-      <div className="block max-w-6xl h-full w-full">
+      <figure className="block max-w-6xl h-full w-full">
+        {imageCredit ? (
+          <figcaption className="text-sm md:text-base mb-3 pt-2 opacity-75 w-max">
+            Photo by{' '}
+            <a
+              href={imageLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-accent"
+            >
+              {imageCredit}
+            </a>{' '}
+            on Unsplash
+          </figcaption>
+        ) : null}
         <Img
           src={image}
           alt={title}
@@ -36,9 +58,9 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
           objectFit="contain"
           width={1100}
           height={619}
-          className="rounded-xl z-[1]"
+          className="rounded-md z-[1]"
         />
-      </div>
+      </figure>
     </header>
   );
 }
