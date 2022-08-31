@@ -68,7 +68,6 @@ export type PostFrontMatter = {
   canonical_url: string;
   description: string;
   timeToRead: number;
-  imageCredit: string;
   imageLink: string;
 };
 

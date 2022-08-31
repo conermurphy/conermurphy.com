@@ -1,0 +1,179 @@
+---
+UUID: "bfa3ca98-b8d3-4f91-ad2b-c40b0fd8cb05"
+title: "JavaScript Array Methods: Array.prototype.concat() Explained"
+description: "The Array is one of the most important data types in JavaScript, here is everything you need to know about the Array method Array.prototype.concat()."
+date: "2020-06-01"
+topics: ["DEVELOPMENT", "JAVASCRIPT"]
+slug: javascript-array-methods-prototype-concat-explained
+image: /images/generic/friends-looking-at-cable-car.jpg
+published: true
+canonical_url: ""
+imageLink: "https://unsplash.com/photos/Cecb0_8Hx-o"
+---
+
+## Series Introduction
+
+The JavaScript Array data type currently has 37 methods on it according to the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) and in this series we are going to cover them all one by one explaining each one with examples as we work our way down the list.
+
+If you have any questions regarding anything in this series please get in contact with me by using the methods listed at the bottom of this post and if you think I've got something wrong please create a pull request on GitHub to correct the information (link at the bottom of the article).
+
+This is post #4 in this series if you're interested in reading the other posts in this series you will find a complete list with links at the bottom of this post.
+
+---
+
+## Method #4: Array.prototype.concat()
+
+The .concat() method can be called on any existing array and allows you to concatenate or join multiple arrays together by appending passed arrays or values to the end of the array the method was called upon.
+
+## Syntax
+
+```jsx
+const new_array = old_array.concat([value1[, value2[, ...[, valueN]]]])
+```
+
+There is no limit for the amount of arrays or values, you can pass into the method as arguments, they will always get appended to the end of the last array passed. For example, you could do the following:
+
+```jsx
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+const arr3 = ["a", "b", "c"];
+
+const arr4 = arr1.concat(arr2, arr3);
+console.log(arr4); // [1, 2, 3, 4, 5, 6, 'a', 'b', 'c']
+```
+
+Also, you can pass non-array values into the .concat() method and they will be joined onto the array like they were part of an array, for example let's join 2 arrays of numbers and pass the letter 'z' in the middle of them:
+
+```jsx
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+const arr3 = arr1.concat("z", arr2);
+console.log(arr3); // [ 1, 2, 3, "z", 4, 5, 6 ]
+```
+
+So as you can see the .contact() method isn't just limited to passing in arrays of items, you can also pass in values on there own to add them into the array.
+
+Furthermore, it's also worth mentioning that all of the arguments to this method are completely optional, in fact you can omit them all together and what will be returned is a shallow copy of the array you call the method on.
+
+What this looks like in code is:
+
+```jsx
+const arr = [1, 2, 3];
+const arr2 = arr.concat();
+console.log(arr); // [1,2,3]
+console.log(arr2); // [1,2,3]
+```
+
+Now even if we we're to push some items into the new array, the original one would remain untouched because .concat() creates a shallow copy of the original array it was called upon.
+
+By creating a shallow copy, it means we are taking the top layer of the array and copying & pasting all the values into the new array and any changes made to either the original or the new copied array will happen independently of each other.
+
+However, you may have noticed that I said the top layer will be copied to the new array. Any nested objects (inc. arrays as they're objects) will have their references copied to the new array using .concat() so they are still shown in the new array and can be accessed and manipulated but any changes made to a nested items in the new array will also reflect for the nested items in the original array plus any other array those nested items are in.
+
+To prevent this happening you will need something called a deep copy as opposed to the shallow copy we just went over. Deep copies are out of the scope of this article but if you're interested in learning more I found this [article on shallow and deep coping by Flavio Copes](https://flaviocopes.com/how-to-clone-javascript-object/) which describes both very well.
+
+## Examples
+
+Let's look at some different examples to further see what this method can do:
+
+### Concatenating multiple arrays
+
+As we saw earlier you can concatenate multiple arrays into one array using .concat() like so:
+
+```jsx
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+const arr3 = ["a", "b", "c"];
+
+const arr4 = arr1.concat(arr2, arr3);
+console.log(arr4); // [1, 2, 3, 4, 5, 6, 'a', 'b', 'c']
+```
+
+### Concatenating values into arrays
+
+We also covered earlier how you can use .concat() to concatenate single values into arrays like so:
+
+```jsx
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+const arr3 = arr1.concat("z", arr2);
+console.log(arr3); // [ 1, 2, 3, "z", 4, 5, 6 ]
+```
+
+### Concatenating nested arrays
+
+When it comes to working with nested arrays we need to be careful to remember that the nested items are only referenced in the copied arrays and they aren't actually copied over into the array like the top layer values are. You can see this illustrated better in the example below:
+
+```jsx
+const arr1 = [[1, 2]];
+const arr2 = [3, [4, 5]];
+const arr3 = arr1.concat(arr2);
+
+console.log(arr3); // [ [1, 2], 3, [4, 5] ]
+```
+
+At this point we have a new array with the top level being shallow copied so we can do what we want to it without the worry that it will impact other arrays. For example, we could remove the 3 in the middle of the array and arr2 won't be impacted by this change.
+
+```jsx
+const arr4 = arr3.filter((a) => a !== 3);
+console.log(arr4); // [ [1, 2], [4, 5] ]
+console.log(arr2); // [3, [4, 5] ]
+```
+
+But, now let's look adding a new value into that 'arr1' nested array and see what happens:
+
+```jsx
+arr1[0].push(6);
+console.log(arr1); // [ [1, 2, 6] ]
+console.log(arr4); // [ [1, 2, 6], [4, 5] ]
+```
+
+This better illustrates the possible implications of shallow copying arrays using .concat(), overall it's nothing to be scared of but we need to make sure to remember that the nested objects are linked throughout all the places they are referenced and they don't become actual values that we can change without rippling effects.
+
+### Concatenating arrays with objects
+
+For our final example let's look arrays containing objects and how they work with .concat() and shallow copies once again.
+
+```jsx
+const obj = {
+  1: "hello",
+  2: "world",
+};
+const arr1 = [obj, 3];
+console.log(arr1); // [ {1: 'hello', 2: 'world'}, 3]
+```
+
+Now, let's concat this with another object:
+
+```jsx
+const obj2 = {
+  3: "This is a great example",
+};
+const arr2 = arr1.concat(obj2);
+console.log(arr2); // [ {1: 'hello', 2: 'world'}, 3, {3: 'This is a great example'}]
+```
+
+Now, let's manipulate our original obj by adding a new property and see what happens:
+
+```jsx
+obj[4] = "wowwwwww!";
+console.log(obj); // {1: 'hello', 2: 'world', 4: 'wowwwwww!'}
+console.log(arr1); // [ {1: 'hello', 2: 'world', 4: 'wowwwwww!'}, 3]
+```
+
+So far so good, all is going as you would think, now let's take a look at 'arr2' the one we used .concat() to create:
+
+```jsx
+console.log(arr2); // [ {1: 'hello', 2: 'world', 4: 'wowwwwww!'}, 3, {3: 'This is a great example'}]
+```
+
+That's right you guessed it, because the object was a nested object of the copied array it's reference is only copied over and not the values themselves, further reinforcing why we need to be careful when we are adding and removing values to and from objects and arrays when we are working with .concat() and shallow copies in general.
+
+I hope you enjoyed this article and found it helpful. If you did I would greatly appreciated it if you would consider sharing it with others who may also find it helpful. If you have any questions then please get in touch with me via one of the links below and I'd be happy to answer them for you.
+
+## Series post links
+
+- [#1: Array.from()](https://conermurphy.com/javascript-array-methods-from-explained)
+- [#2: Array.isArray()](https://conermurphy.com/javascript-array-methods-isarray-explained)
+- [#3: Array.of()](https://conermurphy.com/javascript-array-methods-of-explained)
+- [#4: Array.prototype.concat()](https://conermurphy.com/javascript-array-methods-prototype-concat-explained)

@@ -7,15 +7,8 @@ interface IProps {
 }
 
 export default function PostHeader({ frontmatter }: IProps): JSX.Element {
-  const {
-    date,
-    timeToRead,
-    title,
-    description,
-    image,
-    imageCredit,
-    imageLink,
-  } = frontmatter;
+  const { date, timeToRead, title, description, image, imageLink } =
+    frontmatter;
 
   return (
     <header className="flex flex-col items-center pb-0 lg:pb-3 ">
@@ -37,18 +30,17 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
         </p>
       </div>
       <figure className="block max-w-6xl h-full w-full">
-        {imageCredit ? (
+        {imageLink ? (
           <figcaption className="text-sm md:text-base mb-3 pt-2 opacity-75 w-max">
-            Photo by{' '}
+            Photo from{' '}
             <a
               href={imageLink}
               target="_blank"
               rel="noopener noreferrer"
               className="underline text-accent"
             >
-              {imageCredit}
-            </a>{' '}
-            on Unsplash
+              Unsplash
+            </a>
           </figcaption>
         ) : null}
         <Img

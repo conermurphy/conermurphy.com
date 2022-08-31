@@ -40,7 +40,7 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
                 priority
               />
             </div>
-            <div className="flex flex-col gap-y-3 p-8 md:p-10">
+            <div className="flex flex-col gap-y-3 p-8 md:p-10 break-words">
               <p className="font-bold text-sm opacity-100 border-b-2 w-max pb-2 border-accent">
                 {new Date(date).toLocaleDateString('en-GB', {
                   year: 'numeric',
