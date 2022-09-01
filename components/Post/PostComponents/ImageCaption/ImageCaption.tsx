@@ -19,11 +19,11 @@ export default function ImageCaption({
       <Img
         src={src}
         alt={alt}
-        width={650}
-        height={366}
+        width={480}
+        height={270}
         layout="responsive"
         objectFit={objectFit}
-        className="rounded-xl drop-shadow-[0px_0px_4px_rgba(0,0,0,0.25)]"
+        className="rounded-lg drop-shadow-[0px_0px_4px_rgba(0,0,0,0.25)]"
       />
       {caption ? (
         <figcaption className="opacity-75 text-xs md:text-sm">

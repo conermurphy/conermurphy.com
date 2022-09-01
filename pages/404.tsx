@@ -1,52 +1,38 @@
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import {
-  SEO,
-  PageHero,
-  ContactForm,
-  LatestPosts,
-  Testimonials,
-} from '../components';
-import { HeaderBackground } from '../components/Header/components';
-import { Post, Testimonial } from '../types';
-import { pageDataSource, useScrollToTop } from '../utils';
+import { SEO, PageHero, LatestPosts, ContactSection } from '../components';
+import { Post, POSTTYPES } from '../types';
+import { pageDataSource } from '../utils';
 
 interface IProps {
-  testimonials: Testimonial[];
-  latestPosts: Post[];
+  latestBlogs: Post[];
+  latestNewsletters: Post[];
 }
 
-function Custom404({ testimonials, latestPosts }: IProps): JSX.Element {
-  useScrollToTop();
-
+function Custom404({ latestBlogs, latestNewsletters }: IProps): JSX.Element {
   const { asPath } = useRouter();
   const path = asPath.split('/')[1];
 
   return (
     <>
       <SEO metaTitle="404 - Page Not Found" metaDescription="" url={path} />
-      <PageHero
-        title="404 - Page Not Found"
-        body="Sorry that page could not be found. Think this is an error? Let me know using the form below."
-        showNewsletter={false}
-      />
-      <HeaderBackground bg="bg-secondaryBg dark:bg-secondaryBgDark" />
-      <ContactForm />
-      <LatestPosts posts={latestPosts} />
-      <Testimonials testimonials={testimonials} />
+      <PageHero title="404 - Page Not Found" showNewsletter={false} is404Page />
+      <ContactSection />
+      <LatestPosts posts={latestBlogs} postType={POSTTYPES.BLOG} />
+      <LatestPosts posts={latestNewsletters} postType={POSTTYPES.NEWSLETTER} />
     </>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { testimonials, latestPosts } = await pageDataSource({
-    testimonials: true,
-    latestPosts: true,
+  const { latestBlogs, latestNewsletters } = await pageDataSource({
+    latestBlogs: true,
+    latestNewsletters: true,
   });
 
   return {
-    props: { testimonials, latestPosts },
+    props: { latestBlogs, latestNewsletters },
   };
 };
 

@@ -1,7 +1,7 @@
 import { POSTTYPES } from '../../types';
 import { pageDataSource } from '..';
 import getAllPosts from './getAllPosts';
-import getAllTagsCategories from './getAllTagsCategories/getAllTagsCategories';
+import getAllTopics from './getAllTopics/getAllTopics';
 import getHeadings from './getHeadings/getHeadings';
 import getPost from './getPost';
 
@@ -26,13 +26,16 @@ export default async function sourcePostPage({
 }: IProps) {
   const postData = await getAllPosts({ postType });
   // Source data for extra sections being displayed on the page
-  const { latestPosts, testimonials } = await pageDataSource({
-    latestPosts: true,
-    testimonials: true,
-  });
+  const { latestBlogs, testimonials, latestNewsletters } = await pageDataSource(
+    {
+      latestBlogs: true,
+      latestNewsletters: true,
+      testimonials: true,
+    }
+  );
 
-  // Get all tags and categories used on the POSTTYPE
-  const { categories, tags } = await getAllTagsCategories({
+  // Get all topics used on the POSTTYPE
+  const { topics } = await getAllTopics({
     postType,
   });
 
@@ -53,7 +56,7 @@ export default async function sourcePostPage({
         pageCount: Math.ceil(postData.length / postsPerPage),
         pageNumber,
         posts,
-        tagsCats: { categories, tags },
+        topics,
         testimonials,
         postType,
       },
@@ -73,7 +76,7 @@ export default async function sourcePostPage({
         pageCount: Math.ceil(postData.length / postsPerPage),
         pageNumber,
         posts,
-        tagsCats: { categories, tags },
+        topics,
         testimonials,
         postType,
         pageQueries: {
@@ -88,17 +91,10 @@ export default async function sourcePostPage({
   if (pageQueries?.q) {
     const queries = pageQueries?.q.toUpperCase().split(' ');
 
-    // Filter all the posts to the ones for the selected tags or categories.
-    const filteredPosts = postData.filter(({ data }) => {
-      return (
-        data.tags.some((tag) => {
-          return queries.includes(tag);
-        }) ||
-        data.categories.some((cat) => {
-          return queries.includes(cat);
-        })
-      );
-    });
+    // Filter all the posts to the ones for the selected topics.
+    const filteredPosts = postData.filter(({ data }) =>
+      data.topics.some((topic) => queries.includes(topic))
+    );
 
     const numberOfPosts = filteredPosts.length;
 
@@ -113,7 +109,7 @@ export default async function sourcePostPage({
         pageCount: Math.ceil(numberOfPosts / postsPerPage),
         pageNumber,
         posts,
-        tagsCats: { categories, tags },
+        topics,
         testimonials,
         postType,
         pageQueries: {
@@ -136,7 +132,8 @@ export default async function sourcePostPage({
 
   return {
     props: {
-      latestPosts,
+      latestPosts:
+        postType === POSTTYPES.BLOG ? latestBlogs : latestNewsletters,
       post: { rawContent, headings, data: post.data, filePath: post.filePath },
     },
   };

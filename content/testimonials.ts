@@ -1,6 +1,4 @@
 import { Testimonial } from '../types';
-import graceMiller from './assets/testimonials/grace-miller.jpg';
-import emilyKochanekKetner from './assets/testimonials/emily-kochanek-ketner.png';
 
 const testimonials: Testimonial[] = [
   {
@@ -9,7 +7,7 @@ const testimonials: Testimonial[] = [
       name: 'Grace Miller',
       jobTitle: 'Content Strategist',
       company: 'Prismic',
-      image: graceMiller,
+      image: '/images/testimonials/grace-miller.jpg',
     },
   },
   {
@@ -18,7 +16,7 @@ const testimonials: Testimonial[] = [
       name: 'Emily Kochanek Ketner ',
       jobTitle: 'Content Marketing Manager',
       company: 'LogRocket',
-      image: emilyKochanekKetner,
+      image: '/images/testimonials/emily-kochanek-ketner.png',
     },
   },
 ];

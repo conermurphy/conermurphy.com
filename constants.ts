@@ -1,5 +1,5 @@
 import { Variants } from 'framer-motion';
-import { Icons, PostCategories } from './types';
+import { Icons, Topics } from './types';
 
 export const ICONS: Icons = {
   MOON: { name: 'MOON' },
@@ -21,14 +21,17 @@ export const ICONS: Icons = {
   TICK: { name: 'TICK' },
   LINK: { name: 'LINK' },
   GRAPHQL: { name: 'GRAPHQL', color: 'hsl(319, 100%, 44%)' },
-  REACT: { name: 'REACT', color: 'hsl(193, 95%, 68%)' },
+  REACTJS: { name: 'REACTJS', color: 'hsl(193, 95%, 68%)' },
   NEXTJS: { name: 'NEXTJS', color: 'hsl(0, 0%, 7%)', invertDark: true },
   TYPESCRIPT: { name: 'TYPESCRIPT', color: 'hsl(211, 60%, 48%)' },
   JAVASCRIPT: { name: 'JAVASCRIPT', color: 'hsl(53, 93%, 54%)' },
   TAILWINDCSS: { name: 'TAILWINDCSS', color: 'rgb(14, 165, 233)' },
+  CSS: { name: 'CSS' },
+  PRISMA: { name: 'PRISMA' },
+  PLANETSCALE: { name: 'PLANETSCALE' },
 };
 
-export const CATEGORIES: PostCategories = {
+export const TOPICS: Topics = {
   ENTREPRENEURSHIP: {
     name: 'Entrepreneurship',
     link: 'entrepreneurship',
@@ -57,21 +60,61 @@ export const CATEGORIES: PostCategories = {
     name: 'Marketing',
     link: 'marketing',
   },
+  JAVASCRIPT: {
+    name: 'JavaScript',
+    link: 'javascript',
+    icon: ICONS.JAVASCRIPT,
+  },
+  TYPESCRIPT: {
+    name: 'TypeScript',
+    link: 'typescript',
+    icon: ICONS.TYPESCRIPT,
+  },
+  GATSBYJS: {
+    name: 'GatsbyJS',
+    link: 'gatsbyjs',
+    icon: ICONS.GATSBYJS,
+  },
+  NEXTJS: {
+    name: 'Next.js',
+    link: 'nextjs',
+    icon: ICONS.NEXTJS,
+  },
+  NODEJS: {
+    name: 'NodeJS',
+    link: 'nodejs',
+    icon: ICONS.NODEJS,
+  },
+  CSS: {
+    name: 'CSS',
+    link: 'css',
+    icon: ICONS.CSS,
+  },
+  TAILWINDCSS: {
+    name: 'TailwindCSS',
+    link: 'tailwindcss',
+    icon: ICONS.TAILWINDCSS,
+  },
+  REACTJS: {
+    name: 'ReactJS',
+    link: 'reactjs',
+    icon: ICONS.REACTJS,
+  },
+  PRISMA: {
+    name: 'Prisma',
+    link: 'prisma',
+    icon: ICONS.PRISMA,
+  },
+  PLANETSCALE: {
+    name: 'PlanetScale',
+    link: 'planetscale',
+    icon: ICONS.PLANETSCALE,
+  },
+  UI: {
+    name: 'UI',
+    link: 'ui',
+  },
 };
-
-export const TECHS = [
-  ICONS.GRAPHQL.name,
-  ICONS.REACT.name,
-  ICONS.NEXTJS.name,
-  ICONS.TYPESCRIPT.name,
-  ICONS.JAVASCRIPT.name,
-];
-
-export const HOME_TYPEWRITER_TEXT = [
-  'TypeScript Developer',
-  'Technical Writer',
-  'Content Creator',
-];
 
 // ANIMATION VARIANTS
 

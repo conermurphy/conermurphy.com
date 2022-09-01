@@ -1,50 +1,62 @@
 import type { GetStaticProps, NextPage } from 'next';
 import {
-  HomeHero,
   LatestPosts,
   SEO,
-  Services,
-  Companies,
   Testimonials,
+  ContactSection,
+  HomeHero,
+  Projects,
+  AboutMe,
+  Services,
 } from '../components';
-import { Post, Service, Testimonial } from '../types';
-import { generateRssFeeds, pageDataSource, useScrollToTop } from '../utils';
+import { Post, POSTTYPES, Project, Service, Testimonial } from '../types';
+import { generateRssFeeds, pageDataSource } from '../utils';
 
 interface IProps {
   services: Service[];
+  projects: Project[];
   testimonials: Testimonial[];
-  latestPosts: Post[];
+  latestBlogs: Post[];
+  latestNewsletters: Post[];
 }
 
-const Home: NextPage<IProps> = ({ services, testimonials, latestPosts }) => {
-  useScrollToTop();
-
-  return (
-    <>
-      <SEO
-        metaTitle="Home"
-        metaDescription="Whether it be TypeScript/JavaScript development you need support on or a technical article written, come check out how Coner Murphy can help you."
-      />
-      <HomeHero />
-      <Services services={services} />
-      <Companies />
-      <LatestPosts posts={latestPosts} />
-      <Testimonials testimonials={testimonials} />
-    </>
-  );
-};
+const Home: NextPage<IProps> = ({
+  testimonials,
+  services,
+  projects,
+  latestBlogs,
+  latestNewsletters,
+}) => (
+  <>
+    <SEO
+      metaTitle="Home"
+      metaDescription="Whether it be TypeScript/JavaScript development you need support on or a technical article written, come check out how Coner Murphy can help you."
+    />
+    <HomeHero />
+    <AboutMe />
+    <Services services={services} />
+    <Projects projects={projects} />
+    <Testimonials testimonials={testimonials} />
+    <LatestPosts posts={latestBlogs} postType={POSTTYPES.BLOG} />
+    <LatestPosts posts={latestNewsletters} postType={POSTTYPES.NEWSLETTER} />
+    <ContactSection />
+  </>
+);
 
 export const getStaticProps: GetStaticProps = async () => {
   await generateRssFeeds();
 
-  const { services, testimonials, latestPosts } = await pageDataSource({
-    services: true,
-    testimonials: true,
-    latestPosts: true,
-  });
+  const { services, testimonials, latestBlogs, latestNewsletters, projects } =
+    await pageDataSource({
+      services: true,
+      projects: true,
+      testimonials: true,
+      latestBlogs: true,
+      latestNewsletters: true,
+    });
 
   return {
-    props: { services, testimonials, latestPosts },
+    props: { services, projects, testimonials, latestBlogs, latestNewsletters },
   };
 };
 

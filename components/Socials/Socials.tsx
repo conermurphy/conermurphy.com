@@ -7,74 +7,66 @@ interface IProps {
 }
 
 export default function Socials({ compact = true }: IProps): JSX.Element {
-  return compact ? (
-    <address className="flex flex-row gap-8 opacity-75">
+  const size = compact ? '20px' : '22px';
+  const classes = compact
+    ? 'flex flex-row gap-8 opacity-75'
+    : 'flex flex-row gap-x-5 gap-y-2.5 flex-wrap';
+
+  return (
+    <address className={classes}>
       <a
         href="https://twitter.com/MrConerMurphy"
         target="_blank"
         rel="noopener noreferrer"
       >
-        {getIcon({ icon: ICONS.TWITTER.name, size: '20px' })}
+        {getIcon({ icon: ICONS.TWITTER.name, size })}
       </a>
       <a
         href="https://www.linkedin.com/in/conermurphy/"
         target="_blank"
         rel="noopener noreferrer"
       >
-        {getIcon({ icon: ICONS.LINKEDIN.name, size: '20px' })}
+        {getIcon({ icon: ICONS.LINKEDIN.name, size })}
       </a>
       <a
         href="mailto:hey@conermurphy.com"
         target="_blank"
         rel="noopener noreferrer"
       >
-        {getIcon({ icon: ICONS.EMAIL.name, size: '20px' })}
+        {getIcon({ icon: ICONS.EMAIL.name, size })}
       </a>
-    </address>
-  ) : (
-    <address className="flex flex-row gap-x-5">
-      <a
-        href="https://twitter.com/MrConerMurphy"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {getIcon({ icon: ICONS.TWITTER.name, size: '22px' })}
-      </a>
-      <a
-        href="https://www.linkedin.com/in/conermurphy/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {getIcon({ icon: ICONS.LINKEDIN.name, size: '22px' })}
-      </a>
-      <a
-        href="https://github.com/conermurphy"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {getIcon({ icon: ICONS.GITHUB.name, size: '22px' })}
-      </a>
-      <a
-        href="https://www.youtube.com/channel/UCKbxBnz1xuyGAPMCOZQRdVw"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {getIcon({ icon: ICONS.YOUTUBE.name, size: '22px' })}
-      </a>
-      <a
-        href="https://www.facebook.com/MrConerMurphy"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {getIcon({ icon: ICONS.FACEBOOK.name, size: '22px' })}
-      </a>
-      <a
-        href="https://www.instagram.com/mrconermurphy/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {getIcon({ icon: ICONS.INSTAGRAM.name, size: '22px' })}
-      </a>
+      {!compact ? (
+        <>
+          <a
+            href="https://github.com/conermurphy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {getIcon({ icon: ICONS.GITHUB.name, size })}
+          </a>
+          <a
+            href="https://www.youtube.com/channel/UCKbxBnz1xuyGAPMCOZQRdVw"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {getIcon({ icon: ICONS.YOUTUBE.name, size })}
+          </a>
+          <a
+            href="https://www.facebook.com/MrConerMurphy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {getIcon({ icon: ICONS.FACEBOOK.name, size })}
+          </a>
+          <a
+            href="https://www.instagram.com/mrconermurphy/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {getIcon({ icon: ICONS.INSTAGRAM.name, size })}
+          </a>
+        </>
+      ) : null}
     </address>
   );
 }

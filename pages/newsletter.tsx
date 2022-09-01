@@ -9,9 +9,7 @@ const postType = POSTTYPES.NEWSLETTER;
 const Newsletter: NextPage<BlogNewsletterProps> = ({
   isPostGridPage,
   ...params
-}) => {
-  return <PostGridPage {...params} postType={postType} />;
-};
+}) => <PostGridPage {...params} postType={postType} />;
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const postsPerPage = parseInt(process.env.POSTS_PER_PAGE);

@@ -6,9 +6,9 @@ import { PostGridPage } from '../components/Post/Pages';
 const postType = POSTTYPES.BLOG;
 
 // This controls which page to show based off the isPostGridPage prop
-const Blog: NextPage<BlogNewsletterProps> = ({ isPostGridPage, ...params }) => {
-  return <PostGridPage {...params} postType={postType} />;
-};
+const Blog: NextPage<BlogNewsletterProps> = ({ isPostGridPage, ...params }) => (
+  <PostGridPage {...params} postType={postType} />
+);
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const postsPerPage = parseInt(process.env.POSTS_PER_PAGE);
@@ -21,11 +21,11 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
   const pageHeroData = {
     title: 'My Blog',
-    body: 'Here are all my latest writings; web development, online business, content creation, and more...',
+    body: 'Here are all my latest blog posts; web development, tech, productivity, content creation, and more...',
   };
 
   const metaDescription =
-    "Whether it's JavaScript, TypeScript, ReactJS or something else web development related, there's a post here for you. Come see Coner Murphy's latest posts.";
+    'Here are all my latest blog posts; web development, tech, productivity, content creation, and more.';
 
   return {
     props: {

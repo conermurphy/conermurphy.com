@@ -19,18 +19,16 @@ const mockHeadings = [
   },
 ];
 
-jest.mock('next/router', () => {
-  return {
-    useRouter() {
-      return {
-        route: '/',
-        pathname: '',
-        query: '',
-        asPath: '/blog',
-      };
-    },
-  };
-});
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: '/blog',
+    };
+  },
+}));
 
 describe('PostSidebar', () => {
   it('should render contents section correctly', () => {
@@ -50,32 +48,10 @@ describe('PostSidebar', () => {
   it('should render newsletter section correctly', () => {
     render(<PostSidebar headings={mockHeadings} title="example post title" />);
 
-    const title = screen.queryByText(/stay up to date/i);
-    const copy = screen.queryByText(
-      /Get exclusive content and be notified of my content before anyone else by subscribing to my newsletter below./i
-    );
     const input = screen.queryByPlaceholderText(/Enter your email/i);
-    const button = screen.queryByText(/subscribe/i);
+    const button = screen.getByText('Subscribe');
 
-    expect(title).toBeVisible();
-    expect(copy).toBeVisible();
     expect(input).toBeVisible();
     expect(button).toBeVisible();
-  });
-
-  it('should render share section correctly', () => {
-    render(<PostSidebar headings={mockHeadings} title="example post title" />);
-
-    const copyIcon = screen.getByLabelText('copy icon');
-    const twitterIcon = screen.getByLabelText('Twitter logo');
-    const linkedInIcon = screen.getByLabelText('LinkedIn logo');
-    const facebookIcon = screen.getByLabelText('Facebook logo');
-    const redditIcon = screen.getByLabelText('Reddit logo');
-
-    expect(copyIcon).toBeVisible();
-    expect(twitterIcon).toBeVisible();
-    expect(linkedInIcon).toBeVisible();
-    expect(facebookIcon).toBeVisible();
-    expect(redditIcon).toBeVisible();
   });
 });

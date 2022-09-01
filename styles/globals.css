@@ -2,70 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Poppins";
-  src: url("/fonts/poppins-regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Poppins";
-  src: url("/fonts/poppins-italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Poppins";
-  src: url("/fonts/poppins-semiBold.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Poppins";
-  src: url("/fonts/poppins-bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Inconsolata";
-  src: url("/fonts/inconsolata-regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Inconsolata";
-  src: url("/fonts/inconsolata-extraBold.woff2") format("woff2");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-:root {
-  /* Light Theme Colours */
-  --primaryBackground: rgba(248, 248, 250,1);
-  --secondaryBackground: rgb(255,255,255,1);
-  --primaryText: rgba(17,24,39,1);
-  --primaryTextDimmed: rgba(17,24,39,.9);
-  --accentBackground: rgba(249, 115, 22, .5);
-  --accent: rgb(249, 115, 22);
-  --primaryBorder: hsla(221, 39%, 11%, 0.25);
-  /* Dark Theme Colours */
-  --primaryBackgroundDark: rgba(17, 24, 39,1);
-  --secondaryBackgroundDark: rgb(12,18,29,1);
-  --primaryTextDark: rgba(248, 248, 250,1);
-  --primaryTextDimmedDark: rgba(248, 248, 250,.75);
-  --primaryBorderDark: hsla(221, 40%, 96%, 0.25);
-}
 
 html {
   box-sizing: border-box;
@@ -79,7 +15,7 @@ body {
   font-size: 1rem;
   width: 100vw;
   overflow-x: hidden;
-  font-family: "Poppins", --apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  font-family: "Nunito", --apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
@@ -89,18 +25,20 @@ body {
   box-sizing: inherit;
 }
 
+
 h1,
 h2 {
   font-weight: bold;
+  text-transform: uppercase;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'Inter';
 }
 
 a {
   color: inherit;
   text-decoration: none;
-}
-
-p {
-  opacity: 75%;
 }
 
 code {
@@ -122,5 +60,5 @@ blockquote > p {
  .line-highlighted {
   background-color: rgba(248, 248, 250,.25);
   width: 100% !important;
-  border-left: 4px solid var(--accent);
+  border-left: 4px solid rgb(249, 87, 56);
 }

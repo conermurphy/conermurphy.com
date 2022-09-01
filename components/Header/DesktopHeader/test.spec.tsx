@@ -2,18 +2,16 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import DesktopHeader from './DesktopHeader';
 
-jest.mock('next/router', () => {
-  return {
-    useRouter() {
-      return {
-        route: '/',
-        pathname: '',
-        query: '',
-        asPath: '/',
-      };
-    },
-  };
-});
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: '/',
+    };
+  },
+}));
 
 describe('DesktopHeader', () => {
   it('Should render the site title', () => {
@@ -39,22 +37,5 @@ describe('DesktopHeader', () => {
     const nav = screen.getByRole('navigation');
 
     expect(nav).toBeVisible();
-  });
-
-  it('Should render all icons', () => {
-    render(<DesktopHeader />);
-
-    const icons = screen.queryAllByRole('img').length;
-
-    const twitterIcon = screen.getByLabelText('Twitter logo');
-    const linkedInIcon = screen.getByLabelText('LinkedIn logo');
-    const emailIcon = screen.getByLabelText('Email icon');
-    const themeIcon = screen.getByTestId('theme-icon');
-
-    expect(twitterIcon).toBeVisible();
-    expect(linkedInIcon).toBeVisible();
-    expect(emailIcon).toBeVisible();
-    expect(themeIcon).toBeVisible();
-    expect(icons).toEqual(4);
   });
 });

@@ -1,72 +1,41 @@
-import { useTheme } from 'next-themes';
 import React from 'react';
-import TypewriterComponent from 'typewriter-effect';
-import { HOME_TYPEWRITER_TEXT, TECHS } from '../../constants';
-import { getIcon } from '../../utils';
-import { HeaderBackground } from '../Header/components';
-import NoScrollLink from '../NoScrollLink/NoScrollLink';
+import Logo from '../Logo/Logo';
 
-export default function HomeHero(): JSX.Element {
-  const { theme } = useTheme();
-
+export default function HomeHero() {
   return (
-    <div className="flex flex-col items-center justify-center bg-primaryBg dark:bg-primaryBgDark -mt-16">
-      <HeaderBackground bg="bg-primaryBg dark:bg-primaryBgDark" />
-      <section className="sm:max-w-[1372px] px-6 sm:px-20 w-full text-primaryText dark:text-primaryTextDark pb-10 sm:pb-72 pt-8 sm:pt-72">
-        <p
-          className="font-semibold text-xl sm:text-2xl md:text-3xl lg:text-5xl"
-          data-testid="hey-text"
-        >
-          Hey, I&apos;m Coner Murphy 👋
-        </p>
-        <ul className="flex flex-row flex-wrap sm:flex-nowrap items-center gap-6 mb-8 mt-6 sm:mb-12 sm:mt-8">
-          {TECHS.map((tech) => {
-            return (
-              <li key={`${tech}-icon`}>
-                {getIcon({
-                  icon: tech,
-                  size: '32px',
-                  color:
-                    theme === 'light'
-                      ? 'var(--primaryText)'
-                      : 'var(--primaryTextDark)',
-                })}
-              </li>
-            );
-          })}
-        </ul>
-        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl mt-6 sm:mt-12 min-h-[32px] sm:min-h-[40px] md:min-h-[48px] lg:min-h-[60px] xl:min-h-[72px] 2xl:min-h-[96px]">
-          <TypewriterComponent
-            options={{
-              strings: HOME_TYPEWRITER_TEXT,
-              autoStart: true,
-              loop: true,
-            }}
-          />
-        </h1>
-        <div className="flex flex-row items-center mt-6 mb-8 sm:mb-72 sm:mt-12 gap-3">
-          <p className="hidden md:flex flex-row items-center font-semibold text-[200px] opacity-100 max-h-[150px]">
-            <span>&gt;</span>
-            <span className="ml-[-50px]">&gt;</span>
-          </p>
-          <p className="text-base sm:text-xl lg:text-2xl">
-            I&apos;m a TypeScript developer from the United Kingdom 🇬🇧. I
-            regularly write technical articles and create content on social
-            media around web development, content creation and running an online
-            business to help others on their journies.
-          </p>
+    <div className="flex flex-col items-center justify-center pt-6 md:pt-16 pb-16 md:pb-32 text-center overflow-x-hidden">
+      <section className="flex flex-col items-center gap-24 md:gap-36 md:max-w-7xl px-6 md:px-0 w-full">
+        <Logo classes="w-24 h-24" />
+        <div className="flex flex-row gap-4 md:gap-8 items-center">
+          <div className="flex flex-col gap-4 items-end">
+            <div className="w-12 border-b-4 border-accent rounded-full" />
+            <div className="w-12 border-b-4 border-secondaryBgDark dark:border-secondaryBg rounded-full mx-4" />
+            <div className="w-12 border-b-4 border-accent rounded-full mx-8" />
+            <div className="w-12 border-b-4 border-secondaryBgDark dark:border-secondaryBg rounded-full mx-4" />
+            <div className="w-12 border-b-4 border-accent rounded-full" />
+          </div>
+          <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl tracking-wider">
+            Web Dev<span className="text-accent">. </span>
+            Tech<span className="text-accent">. </span>
+            Productivity<span className="text-accent">.</span>
+          </h1>
+          <div className="flex flex-col gap-4 items-start">
+            <div className="w-12 border-b-4 border-accent rounded-full" />
+            <div className="w-12 border-b-4 border-secondaryBgDark dark:border-secondaryBg rounded-full mx-4" />
+            <div className="w-12 border-b-4 border-accent rounded-full mx-8" />
+            <div className="w-12 border-b-4 border-secondaryBgDark dark:border-secondaryBg rounded-full mx-4" />
+            <div className="w-12 border-b-4 border-accent rounded-full" />
+          </div>
         </div>
-        <div className="flex flex-row items-center gap-x-4 sm:gap-x-10">
-          <NoScrollLink href="/contact" passHref>
-            <a className="bg-primaryText dark:bg-primaryTextDark text-primaryBg dark:text-primaryBgDark text-base sm:text-xl rounded-lg py-3 px-7 sm:px-12 font-semibold">
-              Hire Me
-            </a>
-          </NoScrollLink>
-          <NoScrollLink href="/blog" passHref>
-            <a className="text-base sm:text-xl font-semibold">
-              Latest Blog Posts
-            </a>
-          </NoScrollLink>
+        <div className="flex flex-col items-center gap-4">
+          <h2 className="text-2xl uppercase tracking-widest">Coner Murphy</h2>
+          <div className="flex flex-row gap-4">
+            <div className="w-6 border-b-4 border-accent rounded-full" />
+            <div className="w-12 border-b-4 border-secondaryBgDark dark:border-secondaryBg rounded-full" />
+            <div className="w-3 border-b-4 border-accent rounded-full" />
+            <div className="w-12 border-b-4 border-secondaryBgDark dark:border-secondaryBg rounded-full" />
+            <div className="w-6 border-b-4 border-accent rounded-full" />
+          </div>
         </div>
       </section>
     </div>

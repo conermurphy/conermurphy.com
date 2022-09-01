@@ -14,9 +14,7 @@ const postType = POSTTYPES.NEWSLETTER;
 const NewsletterPost: NextPage<BlogNewsletterProps> = ({
   isPostGridPage,
   ...params
-}) => {
-  return <PostPage {...params} postType={postType} />;
-};
+}) => <PostPage {...params} postType={postType} />;
 
 export const getStaticPaths: GetStaticPaths<
   BlogNewsletterParams

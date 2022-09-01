@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { POSTTYPES } from '../../types';
 import LatestPosts from './LatestPosts';
 
 const mockData = [
@@ -8,12 +9,11 @@ const mockData = [
       id: 1,
       title: 'Example Post 1',
       date: '2022-03-26',
-      tags: ['JAVASCRIPT'],
+      topics: ['JAVASCRIPT'],
       slug: 'example-post-1',
       image:
         '/images/blog/complete-2021-guide-to-http-status-codes-their-seo-influence.png',
       description: 'This is a description of a post',
-      categories: [''],
       published: true,
       canonical_url: '',
       timeToRead: 10,
@@ -25,12 +25,11 @@ const mockData = [
       id: 2,
       title: 'Example Post 1',
       date: '2022-03-26',
-      tags: ['JAVASCRIPT'],
+      topics: ['JAVASCRIPT'],
       slug: 'example-post-1',
       image:
         '/images/blog/complete-2021-guide-to-http-status-codes-their-seo-influence.png',
       description: 'This is a description of a post',
-      categories: [''],
       published: true,
       canonical_url: '',
       timeToRead: 10,
@@ -42,12 +41,11 @@ const mockData = [
       id: 3,
       title: 'Example Post 1',
       date: '2022-03-26',
-      tags: ['JAVASCRIPT'],
+      topics: ['JAVASCRIPT'],
       slug: 'example-post-1',
       image:
         '/images/blog/complete-2021-guide-to-http-status-codes-their-seo-influence.png',
       description: 'This is a description of a post',
-      categories: [''],
       published: true,
       canonical_url: '',
       timeToRead: 10,
@@ -55,32 +53,28 @@ const mockData = [
   },
 ];
 
-jest.mock('next/router', () => {
-  return {
-    useRouter() {
-      return {
-        route: '/',
-        pathname: '',
-        query: '',
-        asPath: 'example-post-title',
-      };
-    },
-  };
-});
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: 'example-post-title',
+    };
+  },
+}));
 
 describe('LatestPosts', () => {
   it('should have correct title and subtitle', () => {
-    render(<LatestPosts posts={mockData} />);
+    render(<LatestPosts posts={mockData} postType={POSTTYPES.BLOG} />);
 
-    const title = screen.queryByText(/Latest Content.../i);
-    const subtitle = screen.queryByText(/What I’m up to and more./i);
+    const title = screen.queryByText(/Latest Blogs/i);
 
     expect(title).toBeVisible();
-    expect(subtitle).toBeVisible();
   });
 
   it('should match the length provided', () => {
-    render(<LatestPosts posts={mockData} />);
+    render(<LatestPosts posts={mockData} postType={POSTTYPES.BLOG} />);
 
     const posts = screen.queryAllByText('Example Post 1');
 

@@ -1,21 +1,19 @@
 import React from 'react';
 import Img from 'next/image';
 import { PostFrontMatter } from '../../../../types';
-import { HeaderBackground } from '../../../Header/components';
-import { Tags } from '../..';
 
 interface IProps {
   frontmatter: PostFrontMatter;
 }
 
 export default function PostHeader({ frontmatter }: IProps): JSX.Element {
-  const { date, timeToRead, title, description, tags, image } = frontmatter;
+  const { date, timeToRead, title, description, image, imageLink } =
+    frontmatter;
 
   return (
-    <header className="flex flex-col items-center -mt-16 pb-0 lg:pb-3 bg-primaryBg dark:bg-primaryBgDark">
-      <HeaderBackground bg="bg-primaryBg dark:bg-primaryBgDark" />
-      <div className="max-w-full sm:max-w-[1100px] w-full px-4 pb-4 md:pb-10 z-[1] pt-10 md:pt-72">
-        <p className="text-xs md:text-base font-semiBold text-primaryText dark:text-primaryTextDark opacity-75 mb-1">
+    <header className="flex flex-col items-center pb-0 lg:pb-3 ">
+      <div className="max-w-full sm:max-w-6xl w-full pb-4 z-[1] pt-8 md:pt-16">
+        <p className="text-xs md:text-base font-semiBold text-primaryText/75 dark:text-primaryTextDark/75 mb-1">
           {`Published on
               ${new Date(date).toLocaleDateString('en-GB', {
                 year: 'numeric',
@@ -24,15 +22,27 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
               })}
               | ${timeToRead} Minute Read`}
         </p>
-        <h1 className="text-2xl md:text-40 text-primaryText dark:text-primaryTextDark mb-2 max-w-4xl">
+        <h1 className="text-2xl md:text-4xl mb-2 max-w-4xl capitalize">
           {title}
         </h1>
-        <p className="text-base md:text-lg text-primaryText dark:text-primaryTextDark opacity-75 mb-3 max-w-2xl">
+        <p className="text-base md:text-lg opacity-75 max-w-2xl">
           {description}
         </p>
-        <Tags tags={tags} />
       </div>
-      <div className="block max-w-[1100px] h-full w-full px-4">
+      <figure className="block max-w-6xl h-full w-full">
+        {imageLink ? (
+          <figcaption className="text-sm md:text-base mb-3 pt-2 opacity-75 w-max">
+            Photo from{' '}
+            <a
+              href={imageLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-accent"
+            >
+              Unsplash
+            </a>
+          </figcaption>
+        ) : null}
         <Img
           src={image}
           alt={title}
@@ -40,9 +50,9 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
           objectFit="contain"
           width={1100}
           height={619}
-          className="rounded-xl z-[1]"
+          className="rounded-md z-[1]"
         />
-      </div>
+      </figure>
     </header>
   );
 }

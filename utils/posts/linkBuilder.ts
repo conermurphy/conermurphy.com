@@ -41,7 +41,7 @@ export default function linkBuilder({ pageQueries, item, pathname }: IProps): {
     if (page && activeItem) {
       linkHref = `?page=${page}`;
     } else if (!page && activeItem) {
-      linkHref = `/${pathname}`;
+      linkHref = `${pathname}`;
     } else if (page && !activeItem) {
       linkHref = `?q=${newQueries}`;
     } else if (!page) {

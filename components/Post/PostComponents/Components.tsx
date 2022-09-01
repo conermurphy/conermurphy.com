@@ -33,215 +33,179 @@ function Link({
 }
 
 const components = {
-  h2: ({ children }: IProps): JSX.Element => {
-    return (
-      <motion.h2
-        id={getHeadingLink(children)}
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
-        className="group relative font-semibold text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-20"
-      >
-        <Link top="top-3" />
-        <a
-          href={`#${getHeadingLink(children)}`}
-          onClick={() => {
-            return copyToClipboard(window?.location?.href);
-          }}
-        >
-          {children}
-        </a>
-      </motion.h2>
-    );
-  },
-  h3: ({ children }: IProps): JSX.Element => {
-    return (
-      <motion.h3
-        id={getHeadingLink(children)}
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
-        className="group relative font-semibold text-xl md:text-2xl mb-2.5 mt-6 md:mt-16 scroll-mt-20"
-      >
-        <Link top="top-2" />
-        <a
-          href={`#${getHeadingLink(children)}`}
-          onClick={() => {
-            return copyToClipboard(window?.location?.href);
-          }}
-        >
-          {children}
-        </a>
-      </motion.h3>
-    );
-  },
-  h4: ({ children }: IProps): JSX.Element => {
-    return (
-      <motion.h4
-        id={getHeadingLink(children)}
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
-        className="group relative font-semibold text-lg md:text-xl mb-2 mt-6 md:mt-16 scroll-mt-20"
-      >
-        <Link top="top-1.5" size="18px" />
-        <a
-          href={`#${getHeadingLink(children)}`}
-          onClick={() => {
-            return copyToClipboard(window?.location?.href);
-          }}
-        >
-          {children}
-        </a>
-      </motion.h4>
-    );
-  },
-  h5: ({ children }: IProps): JSX.Element => {
-    return (
-      <motion.h5
-        id={getHeadingLink(children)}
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
-        className="group relative font-semibold text-base md:text-lg mb-2 mt-6 md:mt-16 scroll-mt-20"
-      >
-        <Link size="18px" />
-        <a
-          href={`#${getHeadingLink(children)}`}
-          onClick={() => {
-            return copyToClipboard(window?.location?.href);
-          }}
-        >
-          {children}
-        </a>
-      </motion.h5>
-    );
-  },
-  h6: ({ children }: IProps): JSX.Element => {
-    return (
-      <motion.h6
-        id={getHeadingLink(children)}
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
-        className="group relative font-semibold text-sm md:text-base mb-2 mt-6 md:mt-16 scroll-mt-20"
-      >
-        <Link size="16px" />
-        <a
-          href={`#${getHeadingLink(children)}`}
-          onClick={() => {
-            return copyToClipboard(window?.location?.href);
-          }}
-        >
-          {children}
-        </a>
-      </motion.h6>
-    );
-  },
-  p: ({ children }: IProps): JSX.Element => {
-    return (
-      <motion.p
-        className="text-sm md:text-base mb-6 opacity-100 text-primaryTextDimmed dark:text-primaryTextDimmedDark"
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
+  h2: ({ children }: IProps): JSX.Element => (
+    <motion.h2
+      id={getHeadingLink(children)}
+      initial="offscreen"
+      whileInView="onscreen"
+      variants={postComponent}
+      viewport={viewportSettings}
+      className="group relative font-semibold text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-28 capitalize"
+    >
+      <Link top="top-3" />
+      <a
+        href={`#${getHeadingLink(children)}`}
+        onClick={() => copyToClipboard(window?.location?.href)}
       >
         {children}
-      </motion.p>
-    );
-  },
-  hr: (): JSX.Element => {
-    return (
-      <motion.hr
-        className="mb-6 text-primaryTextDimmed dark:text-primaryTextDimmedDark"
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
-      />
-    );
-  },
-  code: ({ children }: IProps): JSX.Element => {
-    return (
-      <motion.code
-        className=" opacity-100 p-1 font-extrabold"
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
-      >
-        `{children}`
-      </motion.code>
-    );
-  },
-  blockquote: ({ children }: IProps): JSX.Element => {
-    return (
-      <blockquote className="flex flex-col gap-3 italic border-l-[3px] border-accent pl-7 py-6 mb-6 md:mb-8 text-sm md:text-base">
-        {children}
-      </blockquote>
-    );
-  },
-  a: ({ children, href }: IProps): JSX.Element => {
-    return (
-      <motion.a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
-        className="font-semibold underline"
+      </a>
+    </motion.h2>
+  ),
+  h3: ({ children }: IProps): JSX.Element => (
+    <motion.h3
+      id={getHeadingLink(children)}
+      initial="offscreen"
+      whileInView="onscreen"
+      variants={postComponent}
+      viewport={viewportSettings}
+      className="group relative font-semibold text-xl md:text-2xl mb-2.5 mt-6 md:mt-16 scroll-mt-28"
+    >
+      <Link top="top-2" />
+      <a
+        href={`#${getHeadingLink(children)}`}
+        onClick={() => copyToClipboard(window?.location?.href)}
       >
         {children}
-      </motion.a>
-    );
-  },
-  ul: ({ children }: IProps): JSX.Element => {
-    return (
-      <motion.ul
-        className="mb-6 md:mb-8 list-disc pl-4 text-sm md:text-base text-primaryTextDimmed dark:text-primaryTextDimmedDark"
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
+      </a>
+    </motion.h3>
+  ),
+  h4: ({ children }: IProps): JSX.Element => (
+    <motion.h4
+      id={getHeadingLink(children)}
+      initial="offscreen"
+      whileInView="onscreen"
+      variants={postComponent}
+      viewport={viewportSettings}
+      className="group relative font-semibold text-lg md:text-xl mb-2 mt-6 md:mt-16 scroll-mt-28"
+    >
+      <Link top="top-1.5" size="18px" />
+      <a
+        href={`#${getHeadingLink(children)}`}
+        onClick={() => copyToClipboard(window?.location?.href)}
       >
         {children}
-      </motion.ul>
-    );
-  },
-  ol: ({ children }: IProps): JSX.Element => {
-    return (
-      <motion.ol
-        className="mb-6 md:mb-8 list-decimal pl-4 text-sm md:text-base text-primaryTextDimmed dark:text-primaryTextDimmedDark"
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
+      </a>
+    </motion.h4>
+  ),
+  h5: ({ children }: IProps): JSX.Element => (
+    <motion.h5
+      id={getHeadingLink(children)}
+      initial="offscreen"
+      whileInView="onscreen"
+      variants={postComponent}
+      viewport={viewportSettings}
+      className="group relative font-semibold text-base md:text-lg mb-2 mt-6 md:mt-16 scroll-mt-28"
+    >
+      <Link size="18px" />
+      <a
+        href={`#${getHeadingLink(children)}`}
+        onClick={() => copyToClipboard(window?.location?.href)}
       >
         {children}
-      </motion.ol>
-    );
-  },
-  img: ({ src, alt }: ImageProps): JSX.Element => {
-    return (
-      <Img
-        src={src}
-        alt={alt}
-        width={650}
-        height={366}
-        layout="responsive"
-        objectFit="contain"
-        className="rounded-xl"
-      />
-    );
-  },
+      </a>
+    </motion.h5>
+  ),
+  h6: ({ children }: IProps): JSX.Element => (
+    <motion.h6
+      id={getHeadingLink(children)}
+      initial="offscreen"
+      whileInView="onscreen"
+      variants={postComponent}
+      viewport={viewportSettings}
+      className="group relative font-semibold text-sm md:text-base mb-2 mt-6 md:mt-16 scroll-mt-28"
+    >
+      <Link size="16px" />
+      <a
+        href={`#${getHeadingLink(children)}`}
+        onClick={() => copyToClipboard(window?.location?.href)}
+      >
+        {children}
+      </a>
+    </motion.h6>
+  ),
+  p: ({ children }: IProps): JSX.Element => (
+    <motion.p
+      className="text-md md:text-base mb-8 leading-relaxed"
+      initial="offscreen"
+      whileInView="onscreen"
+      variants={postComponent}
+      viewport={viewportSettings}
+    >
+      {children}
+    </motion.p>
+  ),
+  hr: (): JSX.Element => (
+    <motion.hr
+      className="mb-6"
+      initial="offscreen"
+      whileInView="onscreen"
+      variants={postComponent}
+      viewport={viewportSettings}
+    />
+  ),
+  code: ({ children }: IProps): JSX.Element => (
+    <motion.code
+      className="p-1 font-extrabold"
+      initial="offscreen"
+      whileInView="onscreen"
+      variants={postComponent}
+      viewport={viewportSettings}
+    >
+      `{children}`
+    </motion.code>
+  ),
+  blockquote: ({ children }: IProps): JSX.Element => (
+    <blockquote className="flex flex-col gap-3 italic border-l-[3px] border-accent pl-7 py-6 mb-6 md:mb-8 text-sm md:text-base">
+      {children}
+    </blockquote>
+  ),
+  a: ({ children, href }: IProps): JSX.Element => (
+    <motion.a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial="offscreen"
+      whileInView="onscreen"
+      variants={postComponent}
+      viewport={viewportSettings}
+      className="font-semibold underline"
+    >
+      {children}
+    </motion.a>
+  ),
+  ul: ({ children }: IProps): JSX.Element => (
+    <motion.ul
+      className="mb-8 list-disc pl-4 text-md md:text-base leading-relaxed"
+      initial="offscreen"
+      whileInView="onscreen"
+      variants={postComponent}
+      viewport={viewportSettings}
+    >
+      {children}
+    </motion.ul>
+  ),
+  ol: ({ children }: IProps): JSX.Element => (
+    <motion.ol
+      className="mb-6 md:mb-8 list-decimal pl-4 text-md md:text-base leading-relaxed"
+      initial="offscreen"
+      whileInView="onscreen"
+      variants={postComponent}
+      viewport={viewportSettings}
+    >
+      {children}
+    </motion.ol>
+  ),
+  img: ({ src, alt }: ImageProps): JSX.Element => (
+    <Img
+      src={src}
+      alt={alt}
+      width={480}
+      height={270}
+      layout="responsive"
+      objectFit="contain"
+      className="rounded-lg"
+    />
+  ),
   pre: Code,
   BlockQuoteAuthor,
   ImageCaption,

@@ -1,14 +1,10 @@
 import { render } from '@testing-library/react';
 import SEO from './SEO';
 
-jest.mock('next/head', () => {
-  return {
-    __esModule: true,
-    default: ({ children }: { children: Array<React.ReactElement> }) => {
-      return children;
-    },
-  };
-});
+jest.mock('next/head', () => ({
+  __esModule: true,
+  default: ({ children }: { children: Array<React.ReactElement> }) => children,
+}));
 
 describe('SEO', () => {
   it('should render title correctly with prop', () => {

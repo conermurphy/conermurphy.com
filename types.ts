@@ -1,6 +1,5 @@
 import { ApolloError } from '@apollo/client';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
-import { StaticImageData } from 'next/image';
 import { ParsedUrlQuery } from 'querystring';
 
 export enum THEMES {
@@ -13,8 +12,14 @@ export enum POSTTYPES {
   NEWSLETTER = 'newsletter',
 }
 
+export type Icon = {
+  name: string;
+  color?: string;
+  invertDark?: boolean;
+};
+
 export type Icons = {
-  [key: string]: { name: string; color?: string; invertDark?: boolean };
+  [key: string]: Icon;
 };
 
 export type Service = {
@@ -23,13 +28,23 @@ export type Service = {
   icon: string;
 };
 
+export type Project = {
+  title: string;
+  description: string;
+  image: string;
+  isFeatured: boolean;
+  url: string;
+  githubUrl?: string;
+  technologies: string[];
+};
+
 export type Testimonial = {
   copy: string;
   quotee: {
     name: string;
     jobTitle: string;
     company: string;
-    image: StaticImageData;
+    image: string;
   };
 };
 
@@ -46,14 +61,14 @@ export type PostFrontMatter = {
   id: number;
   title: string;
   date: string;
-  tags: string[];
-  categories: string[];
+  topics: string[];
   slug: string;
   image: string;
   published: boolean;
   canonical_url: string;
   description: string;
   timeToRead: number;
+  imageLink: string;
 };
 
 export type PostHeading = {
@@ -69,34 +84,12 @@ export type Post = {
   filePath?: string;
 };
 
-export type PostTags = {
+export type Topics = {
   [key: string]: {
     name: string;
     link: string;
-    colors: {
-      active: {
-        bg: string;
-        text: string;
-      };
-      nonActive: {
-        bg: string;
-        text: string;
-        border: string;
-      };
-    };
+    icon?: Icon;
   };
-};
-
-export type PostCategories = {
-  [key: string]: {
-    name: string;
-    link: string;
-  };
-};
-
-export type PostTagsCats = {
-  tags: string[];
-  categories: string[];
 };
 
 export interface PostGridPageProps {
@@ -104,7 +97,7 @@ export interface PostGridPageProps {
   pageCount: number;
   testimonials: Testimonial[];
   posts: Post[];
-  tagsCats: PostTagsCats;
+  topics: string[];
   filterItem: string;
   postType: POSTTYPES;
   pageHeroData: {

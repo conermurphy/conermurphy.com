@@ -1,0 +1,153 @@
+---
+UUID: "51f5d43c-2ed2-4b7a-931f-391f10fbb714"
+title: "JavaScript Fundamentals: Getters & Setters"
+description: "JavaScript Getters and Setters are often misunderstood. In this post, I explain the fundamentals of Getters and Setters in JavaScript."
+date: "2020-01-17"
+topics: ["DEVELOPMENT", "JAVASCRIPT"]
+slug: javascript-fundamentals-getters-setters
+image: /images/generic/clapboard.jpg
+published: true
+canonical_url: ""
+imageLink: "https://unsplash.com/photos/CiUR8zISX60"
+---
+
+To Get or To Set? That is the question
+
+In the 2nd article of our JavaScript Fundamentals series, we're going to take a look at 'Getters' and 'Setters'. Two terms often thrown about in the JS world to refer to either one or two things:
+
+- The Get and Set syntax, or
+- The idea of setting or getting values
+
+Let's take a look at both, starting with the syntax.
+
+## Getters - The 'Get' Syntax
+
+Simply put, the 'Get' keyword, gets data... _surprising... I know_ . Normally, the data is in the from an object. To better illustrate this, let's look at an example:
+
+```jsx
+const pet = {
+  name: "barny",
+  type: "dog",
+  breed: "Poodle",
+  get breed() {
+    return this.breed;
+  },
+};
+
+console.log(pet.breed); // poodle
+```
+
+Now, aside from this being a simple example, it actually shows the 'get' syntax beautifully.
+
+The 'get' syntax is used to create a pseudo-property on the 'pet' object. Which, when accessed returns the value on the 'breed' property via the `return this.breed` code.
+
+An easy way of thinking about the 'get' syntax is: we already have the data, we just need a way of accessing it.
+
+I mean, in a simple example like this we could just access the property on the object and that would be fine. But, if this was a more complicated example where the property of an object is dependent on multiple other values, get comes into a world of it's own.
+
+You see, the 'get' syntax has been made by default to not calculate the properties contained within an object it until it is accessed. Which unlike properties set on an object via the conventional means there is the little to no impact on your code on initial load. Essentially, the 'get' syntax calculates what needs to be done on load, but doesn't actually do anything until instructed to, meaning you only use resources on objects you need to.
+
+This is just one feature of the 'get' syntax that benefits performance, in fact there is another version of the 'get' syntax that is even more performance oriented. Let's take a look at those next.
+
+### Smart / Lazy Getters
+
+_Smart getters calculate the value of their property once (on the first call) and then cache this response for future use should it be called again removing the need for the getter to recalculate._
+
+Essentially, smart getters are great for situations where the property isn't expected to change or where the code resource intensive. But, if you expect the property to change it's value beyond the initial run then you should stick to the normal 'get' syntax.
+
+When it comes to defining lazy getters, you can use:
+
+```jsx
+XPCOMUtils.defineLazyGetter();
+```
+
+Essentially, this is a method that takes three arguments: 1: The object to add the lazy getter to, 2: A name of the getter function and 3: A function that returns the value the getter returns.
+
+Now, as this is a fundamentals series, I want to keep this a relatively high level overview of more advanced concepts like this one. I would say it's good to know these things exist and if you come across one what they are able to do but I don't think it's necessarily key that you understand all the details regarding them. So, for this reason I've linked the MDN docs at the bottom of this article that discusses this further.
+
+## Setters
+
+Following on from the world of getters we have their partners in crime; setters.
+
+So, if a getter, gets data, I'm sure you've guessed that a setter... Sets data.
+
+And, in the case of the 'set' syntax, here's how we can do that:
+
+```jsx
+const pet = {
+  name: "barny",
+  type: "dog",
+  breed: "",
+  set breedSet(breedVal) {
+    this.breed = breedVal;
+  },
+};
+
+pet.breedSet = "poodle";
+console.log(pet.breed); // poodle
+```
+
+In reality, the 'set' syntax is quite similar to the 'get' syntax we saw earlier, the key difference being the change in keyword from 'get' to 'set' and the fact that we're not trying to retrieve data and instead update data that stored within the referenced object.
+
+Looking once again at our 'pet' object, instead of retrieving the 'breed' property, let set it because this time it's empty.
+
+So, to set our data to this property we call our pseudo-property 'breedSet' which is then assigned a value '= "poodle"'.
+
+Upon calling this pseudo-property, it accesses the 'breed' property using 'this.breed' and sets it equal to the value we passed to the original pseudo-property, in this case that value is "poodle". So, now when we call 'pet.breed' it returns the updated value that we set via the 'set' syntax.
+
+## In Summary
+
+The 'Set' and 'Get' syntax are very similar in terms of syntax and in the process of how they work. And, although we only looked at basic examples in this article, the concepts used stay the same in more advanced use-cases, you're either setting a value or getting one. All that changes is the value and the performance savings 🔥.
+
+With this being said, there is one thing I want to touch on that I eluded to earlier.
+
+Firstly, you can have a 'getter' without using the 'get' syntax. For example, this is a getter:
+
+```jsx
+document.URL;
+```
+
+If you ran this code on a webpage it would return the current URL of the page. And, to get this information, what did the code need to do?
+
+'Get' the information of course, therefore this piece of code is by definition a 'getter'.
+
+Similarly, if you ran the following code on the Google Homepage:
+
+```jsx
+document.querySelector(".gLFyf").value = "JS is Awesome";
+```
+
+This code changes value of the search box to say `"JS is Awesome"` or if you would prefer, it sets the value.
+
+So, while there are plenty of applications for the 'get' and 'set' syntax, in reality most of the time people when people say it's a 'getter' or it's a 'setter', this is normally what they're referring to unless of course there is the syntax for 'get' or 'set' present...
+
+Finally, if you would like to support me and my blog then I would greatly appreciate you:
+
+```jsx
+const value = {
+  followers: 0,
+  set current(x) {
+    this.followers + x;
+  },
+};
+
+value.current = 1;
+console.log(value.followers);
+```
+
+If you found this topic interesting or wish to learn more about it then I have linked some further reading material below from W3Schools and MDN.
+
+---
+
+If you enjoyed this article, then please share this article. | It would mean a lot to me for others to be able to read this as well.
+
+Want to discuss this article? Or, just say hi:
+
+[Twitter 🐦](https://twitter.com/MrConerMurphy) | [Instagram 📷](https://www.instagram.com/MrConerMurphy/)
+
+## Further Reading / Sources
+
+- [W3Schools - JavaScript Accessors (Getters and Setters)](https://www.w3schools.com/js/js_object_accessors.asp)
+- [MDN Setter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set)
+- [MDN Getter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get)
+- [MDN Lazy Getter](https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/XPCOMUtils.jsm#defineLazyGetter)

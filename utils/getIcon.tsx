@@ -22,9 +22,12 @@ import {
   SiReact,
   SiTypescript,
   SiTailwindcss,
+  SiCss3,
+  SiPrisma,
 } from 'react-icons/si';
 import { IoMdClose } from 'react-icons/io';
 import { FiCopy } from 'react-icons/fi';
+import Img from 'next/image';
 import { ICONS } from '../constants';
 
 interface IProps {
@@ -46,8 +49,7 @@ export default function getIcon({
           color={color}
           title="Light Theme Toggle Icon"
           data-testid="theme-icon"
-          role="img"
-          aria-label="Light theme toggle icon"
+          className="hover:text-accent"
         />
       );
     case ICONS.MOON.name:
@@ -57,8 +59,7 @@ export default function getIcon({
           color={color}
           title="Dark Theme Toggle Icon"
           data-testid="theme-icon"
-          role="img"
-          aria-label="Dark theme toggle icon"
+          className="hover:text-accent"
         />
       );
     case ICONS.JUSTIFY.name:
@@ -68,8 +69,7 @@ export default function getIcon({
           color={color}
           title="Mobile Menu Open Icon"
           data-testid="menu-icon"
-          role="img"
-          aria-label="mobile menu open icon"
+          className="hover:text-accent"
         />
       );
     case ICONS.LINK.name:
@@ -79,8 +79,7 @@ export default function getIcon({
           color={color}
           title="Link Icon"
           data-testid="link-icon"
-          role="img"
-          aria-label="link icon"
+          className="hover:text-accent"
         />
       );
     case ICONS.CLOSE.name:
@@ -90,8 +89,7 @@ export default function getIcon({
           color={color}
           title="Mobile Menu Close Icon"
           data-testid="menu-icon"
-          role="img"
-          aria-label="mobile menu close icon"
+          className="hover:text-accent"
         />
       );
     case ICONS.KEYBOARD.name:
@@ -101,8 +99,6 @@ export default function getIcon({
           color={color}
           title="keyboard icon"
           data-testid="services-icon"
-          role="img"
-          aria-label="Keyboard icon"
         />
       );
     case ICONS.CODE.name:
@@ -112,8 +108,6 @@ export default function getIcon({
           color={color}
           title="< > symbols"
           data-testid="services-icon"
-          role="img"
-          aria-label="< > symbols"
         />
       );
     case ICONS.SOCIALS.name:
@@ -123,8 +117,6 @@ export default function getIcon({
           color={color}
           title="Social media share icon"
           data-testid="services-icon"
-          role="img"
-          aria-label="Social media share icon"
         />
       );
     case ICONS.COPY.name:
@@ -134,8 +126,7 @@ export default function getIcon({
           color={color}
           title="Copy icon"
           data-testid="share-icon"
-          role="img"
-          aria-label="copy icon"
+          className="hover:text-accent"
         />
       );
     case ICONS.TICK.name:
@@ -145,8 +136,7 @@ export default function getIcon({
           color={color}
           title="Tick icon"
           data-testid="tick-icon"
-          role="img"
-          aria-label="tick icon"
+          className="hover:text-accent"
         />
       );
     case ICONS.TWITTER.name:
@@ -156,8 +146,7 @@ export default function getIcon({
           color={color}
           title="Twitter logo"
           data-testid="socials-icon"
-          role="img"
-          aria-label="Twitter logo"
+          className="hover:text-accent"
         />
       );
     case ICONS.LINKEDIN.name:
@@ -167,8 +156,7 @@ export default function getIcon({
           color={color}
           title="LinkedIn logo"
           data-testid="socials-icon"
-          role="img"
-          aria-label="LinkedIn logo"
+          className="hover:text-accent"
         />
       );
     case ICONS.EMAIL.name:
@@ -178,8 +166,7 @@ export default function getIcon({
           color={color}
           title="Envelope icon"
           data-testid="socials-icon"
-          role="img"
-          aria-label="Email icon"
+          className="hover:text-accent"
         />
       );
     case ICONS.FACEBOOK.name:
@@ -189,8 +176,7 @@ export default function getIcon({
           color={color}
           title="Facebook logo"
           data-testid="socials-icon"
-          role="img"
-          aria-label="Facebook logo"
+          className="hover:text-accent"
         />
       );
     case ICONS.GITHUB.name:
@@ -200,8 +186,7 @@ export default function getIcon({
           color={color}
           title="GitHub logo"
           data-testid="socials-icon"
-          role="img"
-          aria-label="GitHub logo"
+          className="hover:text-accent"
         />
       );
     case ICONS.INSTAGRAM.name:
@@ -211,8 +196,7 @@ export default function getIcon({
           color={color}
           title="Instagram logo"
           data-testid="socials-icon"
-          role="img"
-          aria-label="Instagram logo"
+          className="hover:text-accent"
         />
       );
     case ICONS.YOUTUBE.name:
@@ -222,8 +206,7 @@ export default function getIcon({
           color={color}
           title="YouTube logo"
           data-testid="socials-icon"
-          role="img"
-          aria-label="YouTube logo"
+          className="hover:text-accent"
         />
       );
     case ICONS.REDDIT.name:
@@ -233,8 +216,7 @@ export default function getIcon({
           color={color}
           title="Reddit logo"
           data-testid="socials-icon"
-          role="img"
-          aria-label="Reddit logo"
+          className="hover:text-accent"
         />
       );
     case ICONS.GRAPHQL.name:
@@ -244,19 +226,15 @@ export default function getIcon({
           color={ICONS.GRAPHQL.color}
           title="GraphQL logo"
           data-testid="tech-icon"
-          role="img"
-          aria-label="GraphQL logo"
         />
       );
-    case ICONS.REACT.name:
+    case ICONS.REACTJS.name:
       return (
         <SiReact
           size={size}
-          color={ICONS.REACT.color}
+          color={ICONS.REACTJS.color}
           title="ReactJS logo"
           data-testid="tech-icon"
-          role="img"
-          aria-label="React logo"
         />
       );
     case ICONS.NEXTJS.name:
@@ -266,9 +244,6 @@ export default function getIcon({
           color={ICONS.NEXTJS.color}
           title="Next.js logo"
           data-testid="tech-icon"
-          role="img"
-          aria-label="Next.js logo"
-          className={ICONS.NEXTJS.invertDark ? 'dark:invert' : 'dark:invert-0'}
         />
       );
     case ICONS.TYPESCRIPT.name:
@@ -278,8 +253,6 @@ export default function getIcon({
           color={ICONS.TYPESCRIPT.color}
           title="TypeScript logo"
           data-testid="tech-icon"
-          role="img"
-          aria-label="TypeScript logo"
         />
       );
     case ICONS.JAVASCRIPT.name:
@@ -289,8 +262,15 @@ export default function getIcon({
           color={ICONS.JAVASCRIPT.color}
           title="JavaScript logo"
           data-testid="tech-icon"
-          role="img"
-          aria-label="JavaScript logo"
+        />
+      );
+    case ICONS.CSS.name:
+      return (
+        <SiCss3
+          size={size}
+          color={ICONS.CSS.color}
+          title="CSS logo"
+          data-testid="tech-icon"
         />
       );
     case ICONS.TAILWINDCSS.name:
@@ -300,9 +280,26 @@ export default function getIcon({
           color={ICONS.TAILWINDCSS.color}
           title="TailwindCSS logo"
           data-testid="tech-icon"
-          role="img"
-          aria-label="TailwindCSS logo"
         />
+      );
+    case ICONS.PRISMA.name:
+      return (
+        <SiPrisma
+          size={size}
+          color={ICONS.PRISMA.color}
+          title="Prisma logo"
+          data-testid="tech-icon"
+        />
+      );
+    case ICONS.PLANETSCALE.name:
+      return (
+        <div className="relative" style={{ width: size, height: size }}>
+          <Img
+            src="/images/companies/planetscale.svg"
+            layout="fill"
+            title="PlanetScale logo"
+          />
+        </div>
       );
     default:
       return null;

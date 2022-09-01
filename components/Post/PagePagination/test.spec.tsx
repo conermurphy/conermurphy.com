@@ -1,18 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import PagePagination from './PagePagination';
 
-jest.mock('next/router', () => {
-  return {
-    useRouter() {
-      return {
-        route: '/',
-        pathname: '',
-        query: '',
-        asPath: '/blog',
-      };
-    },
-  };
-});
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: '/blog',
+    };
+  },
+}));
 
 describe('PagePagination', () => {
   it('Should render all items correctly', () => {

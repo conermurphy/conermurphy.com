@@ -1,0 +1,185 @@
+---
+UUID: "aa8c813c-11b2-44ea-bbb1-5a19e6b100b8"
+title: "JavaScript Array Methods: Array.prototype.entries() Explained"
+description: "The Array is one of the most important data types in JavaScript, here is everything you need to know about the Array method Array.prototype.entries()."
+date: "2020-06-05"
+topics: ["DEVELOPMENT", "JAVASCRIPT"]
+slug: javascript-array-methods-prototype-entries-explained
+image: /images/generic/twisting-roads.jpg
+published: true
+canonical_url: ""
+imageLink: "https://unsplash.com/photos/KBqnxve73BE"
+---
+
+## Series Introduction
+
+The JavaScript Array data type currently has 37 methods on it according to the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) and in this series we are going to cover them all one by one explaining each with examples as we work our way down the list.
+
+If you have any questions regarding anything in this series please get in contact with me by using the methods listed at the bottom of this post and if you think I've got something wrong please create a pull request on GitHub to correct the information (link at the bottom of the article).
+
+This is **post #6** in the series. If you're interested in reading any of the other posts in this series, there is a up-to-date list at the bottom of this post.
+
+---
+
+## Method #6: Array.prototype.entries()
+
+.entries() is another one of the quicker, smaller Array methods as it takes in no arguments and returns us one thing, an 'Array Iterator' object.
+
+Now, you may be asking yourself what is an Array Iterator object and it'll be easier to explain with some examples but essentially it's an object we can store in a variable and call the .next() method on to progress through the original array we called .entries() on.
+
+I understand this might not make much sense but let's take a look at an example and it should fall into place.
+
+```jsx
+const array1 = ["a", "b", "c"];
+
+const iterator1 = array1.entries();
+
+console.log(iterator1.next().value);
+// expected output: Array [0, "a"]
+
+console.log(iterator1.next().value);
+// expected output: Array [1, "b"]
+```
+
+_Example from [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/entries)_
+
+So, what's happening in this example?
+
+Well, we have a new array being set to the 'array1' variable on line 1, then we take this array1 variable and call .entries() on it, we store the output of this into a new variable called 'iterator1'.
+
+Now, if we we're to console.log 'iterator1' one at this point we would get:
+
+```jsx
+Array Iterator { }
+```
+
+Huh, an empty Array Iterator object, that makes sense? Right? 🤔
+
+You'd be forgiven for thinking it should return something else. E.g. the first item of the array, after all it is an 'iterator'.
+
+But, this is where the following line of code comes in:
+
+```jsx
+console.log(iterator1.next().value);
+```
+
+A better way of thinking of it, is when we call .entries() on an array we get a new Array Iterator object back which is pointed at the array we called it on. Nothing has happened yet but we have created our Iterator and told it, you see that array over there, when we tell you too, start iterating over that.
+
+Then, when we're ready to start iterating over our chosen array, we call the .next() method on the iterator and it selects the first value in the array and iterates over it. So, if we where to call:
+
+```jsx
+console.log(iterator1.next().value);
+```
+
+We would be returned:
+
+```jsx
+// Array [0, "a"]
+```
+
+Now, even though our original array only had 3 items in ( a - c ), when we iterate over the array using .entries(), we actually get a new value inserted into our retuned array, this is the index of that item in the original array we called .entries() on to.
+
+So, if we called .next() two more times like so, we would get the following outputs:
+
+```jsx
+console.log(iterator1.next().value); // Array [1, "b"]
+console.log(iterator1.next().value); // Array [2, "c"]
+```
+
+Now, we have reached the end of our array, if we were to call .next() one more time, it would simply return an undefined error like so:
+
+```jsx
+console.log(iterator1.next().value); // undefined
+```
+
+## The Iterator Object
+
+Now, the keen eyed among you may have realised that above we were calling:
+
+```jsx
+console.log(iterator1.next().value);
+```
+
+Notice, the .value at the end? This implies that .next() is returning us an object and within that object there could be more properties than just .value. And, you would be absolutely correct!
+
+If we were to console.log just:
+
+```jsx
+console.log(iterator1.next());
+```
+
+Then we would get the below returned to us:
+
+```jsx
+Object {
+    done: false,
+    value: Array [ 0, "a" ]
+ }
+```
+
+So, there's the 'value' property we have been calling to access the iterated arrays each time but there is also this 'done' property and well, I think you've guessed it. But, the 'done' property returns either true or false depending on if the iterator has completed iterating over the array.
+
+In the example we have been using, when do you think done returns true? On the retuned value?
+
+While it may seem this way, in fact it isn't and this is where our 'undefined' value comes into play from earlier.
+
+While there is still data to be iterated over, the .next() method will always will return false but as soon as the iterator has iterated over all the data, on the first undefined it returns, the 'done' property will return true.
+
+Here is our example doing this:
+
+```jsx
+console.log(iterator1.next()); // Object { value: Array [0, "a"], done: false }
+console.log(iterator1.next()); // Object { value: Array [1, "b"], done: false }
+console.log(iterator1.next()); // Object { value: Array [2, "c"], done: false }
+console.log(iterator1.next()); // Object { value: undefined, done: true }
+console.log(iterator1.next()); // Object { value: undefined, done: true }
+```
+
+This key/value pair of undefined and true will then always be returned for that iterator no matter how many times we call .next() as shown above. To get around this if you want to reiterate over the same array again, we need to declare a new variable of a different name and store the iterator into that variable to consume again.
+
+## Examples
+
+Now, it can get very tedious calling .next() several times to process an entire iterator, so it's good news that you can process these operators using some of the standard looping methods for objects in JS as shown below:
+
+### Iterating with Index and Element
+
+```jsx
+const a = ["a", "b", "c"];
+
+for (const [index, element] of a.entries()) console.log(index, element);
+
+// 0 'a'
+// 1 'b'
+// 2 'c'
+```
+
+### Iterating with a for...of loop
+
+```jsx
+var a = ["a", "b", "c"];
+var iterator = a.entries();
+
+for (let e of iterator) {
+  console.log(e);
+}
+// [0, 'a']
+// [1, 'b']
+// [2, 'c']
+```
+
+_Examples from [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/entries)_
+
+However, you cannot use looping methods of Arrays like .forEach() because the .entries() method returns a Array Iterator which in itself has a prototype of an Object therefore we cannot use any of our array prototype methods on it. Such a shame....👎
+
+But, that's about all there is to .entries(), if you have any questions you can contact me via the links below where I would be happy to answer them for you. If you enjoyed this post I would greatly appreciate it if you would consider sharing this post with someone else who might find it helpful.
+
+See you in the next post. 😃
+
+## Series post links
+
+- [#1: Array.from()](https://conermurphy.com/javascript-array-methods-from-explained)
+- [#2: Array.isArray()](https://conermurphy.com/javascript-array-methods-isarray-explained)
+- [#3: Array.of()](https://conermurphy.com/javascript-array-methods-of-explained)
+- [#4: Array.prototype.concat()](https://conermurphy.com/javascript-array-methods-prototype-concat-explained)
+- [#5: Array.prototype.copyWithin()](https://conermurphy.com/javascript-array-methods-prototype-copywithin-explained)
+- [#6: Array.prototype.entries()](https://conermurphy.com/javascript-array-methods-prototype-entries-explained)

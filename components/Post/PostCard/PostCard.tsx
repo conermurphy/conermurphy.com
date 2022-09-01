@@ -2,22 +2,16 @@ import React from 'react';
 import Img from 'next/image';
 import { motion } from 'framer-motion';
 import { PostFrontMatter, POSTTYPES } from '../../../types';
-import Tags from '../Tags/Tags';
 import NoScrollLink from '../../NoScrollLink/NoScrollLink';
 import { postComponent, viewportSettings } from '../../../constants';
 
 interface IProps {
   post: PostFrontMatter;
   postType: POSTTYPES;
-  pageQueries?: { page: string; queries: string[] };
 }
 
-export default function PostCard({
-  post,
-  postType,
-  pageQueries,
-}: IProps): JSX.Element {
-  const { title, date, tags, slug, image, description } = post;
+export default function PostCard({ post, postType }: IProps): JSX.Element {
+  const { title, date, slug, image, description } = post;
 
   return (
     <motion.div
@@ -25,39 +19,40 @@ export default function PostCard({
       whileInView="onscreen"
       variants={postComponent}
       viewport={{ ...viewportSettings, amount: 0.2 }}
+      className="contents"
     >
       <NoScrollLink href={`/${postType}/${slug}`} passHref>
-        <article className="flex flex-col gap-y-6 max-w-[272px] lg:max-w-[350px] cursor-pointer">
-          <div className="relative w-full max-w-[350px] rounded-2xl overflow-hidden">
-            <Img
-              src={image}
-              alt={title}
-              width={350}
-              height={197}
-              layout="responsive"
-              objectFit="contain"
-              priority
-            />
-          </div>
-          <div className="flex flex-col gap-y-3">
-            <div className="flex flex-col gap-y-1">
-              <p className="font-semibold text-sm opacity-100">
+        <a className="group relative flex flex-col max-w-xs lg:max-w-sm cursor-pointer bg-secondaryBg dark:bg-secondaryBgDark rounded-md overflow-hidden h-full w-full min-w-full sm:min-w-0">
+          <article>
+            <div className="absolute h-full w-full items-center justify-center flex group-hover:border-2 border-accent transition-all duration-300 ease-in-out z-10 bg-primaryBgDark/50 group-hover:opacity-100 opacity-0 rounded-md">
+              <p className="flex flex-row gap-2 items-center bg-accent px-4 py-2 font-bold rounded-sm">
+                Read more
+              </p>
+            </div>
+            <div className="relative w-full rounded-md overflow-hidden">
+              <Img
+                src={image}
+                alt={title}
+                width="100%"
+                height="100%"
+                layout="responsive"
+                objectFit="cover"
+                priority
+              />
+            </div>
+            <div className="flex flex-col gap-y-3 p-8 md:p-10 break-words">
+              <p className="font-bold text-sm opacity-100 border-b-2 w-max pb-2 border-accent">
                 {new Date(date).toLocaleDateString('en-GB', {
                   year: 'numeric',
                   month: 'short',
                   day: 'numeric',
                 })}
               </p>
-              <h2 className="text-xl lg:text-2xl">{title}</h2>
-              <p className="text-sm lg:text-base">{description}</p>
+              <h3 className="text-lg md:text-xl lg:text-2xl">{title}</h3>
+              <p className="text-sm lg:text-base opacity-75">{description}</p>
             </div>
-            <Tags
-              tags={tags}
-              pageQueries={pageQueries}
-              forceStyle="nonActive"
-            />
-          </div>
-        </article>
+          </article>
+        </a>
       </NoScrollLink>
     </motion.div>
   );
