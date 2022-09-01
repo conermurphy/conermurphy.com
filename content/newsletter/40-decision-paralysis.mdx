@@ -1,0 +1,69 @@
+---
+UUID: "8121f4b8-d036-4d94-b7af-8edebc257e4c"
+title: "#40 - Decision Paralysis"
+description: ""
+date: "2022-07-10"
+topics: []
+slug: decision-paralysis
+image:
+published: true
+canonical_url: ""
+imageLink:
+---
+
+Hey Friends 👋
+
+This edition is one of the few editions where I'm going to be sharing with you something that happened to me today instead of some insight or thought I've had over the last week. 😅
+
+While working on my Hashnode Hackathon project for July, I came across two situations where in the past I would've delayed working on the project because of the decisions that needed to be made. Thankfully, I can report that didn't happen this time and instead, I've powered through and carried on making progress instead of umming and ahhing about a decision.
+
+## Situation 1
+
+The first of these situations was the name of the new product. Now, as I've covered in previous editions of this newsletter, I'm abysmal at naming things. Some people have the innate ability to come up with awesome names in seconds, I'm 100% not one of those people. 😂
+
+So, bearing this in mind, it's easy to see why I can spend days, weeks, or even longer, deciding on the "perfect" name for my new project, product, or idea. But, with this hackathon having a tight deadline of July 31st, I knew spending time debating names wasn't an option and instead, I needed to make a decision and move on.
+
+Thankfully, that's what I managed to do, admittedly it wasn't easy but keeping two things in mind helped make this decision easier:
+
+1. I've spent too much time debating names in the past, I need to practice making a decision and moving on instead of sitting on the decision and not working on the project.
+2. Very little is permanent in this world, if I want to rename the product later on I can, the only expense is a new domain name and some time to update the code. In the grand scheme of things, it's not a massive loss.
+
+## Situation 2
+
+When it came to the second situation it was a bit more nuanced but the same logic applied. This time it was related to how the project will handle the deployment to staging environments and how the authentication workflow will integrate.
+
+I won't go into the details here as it probably warrants a blog post itself but essentially when you deploy to a preview environment on Vercel, it generates a random URL for you to view it on. The issue is my authentication method needs a static URL to work with and there lies my issue. In short, the solution was to assign a domain alias to the latest preview deployment via Vercel's API which solves my issues with authentication (kinda).
+
+The issue with this approach is the URL is only assigned to the latest deployment so if multiple builds were triggered from different pull requests, the domain would assign to the latest one only. Essentially, this solution would be a pain for multi-author projects as they'd have to ensure no one is relying on the previous preview deployment before pushing their own.
+
+So, why did I still choose this solution?
+
+Because at the moment I only need the preview deployments to work for me and I know I won't be triggering multiple different builds at the same time so it isn't an issue. Plus, the other reason is there is a chance no one else will pick up the project and work on it full time with me so the multi-author issue may never become an issue.
+
+So, much in the same way as the name decision earlier, I didn't want to spend extra time, thinking of and implementing a solution for something that may never be needed. Plus, much like the name, in the future, if it is needed, I can always go back and come up with and implement a new solution to the problem, the solution right now isn't set in stone forever.
+
+## Summary
+
+I hope these two situations show that we shouldn't spend more time than is needed making decisions. Ultimately, in the vast majority of cases, if we need to, we can go back and change our decision, so don't let decision paralysis stop you from making progress towards your goals.
+
+Instead, of debating a decision forever, think through your options and what option is best for you and your project right now, then commit to it.
+
+I hope you enjoyed this week's edition, and as always, thank you for reading.
+
+Coner x
+
+## Hackathon Update 💻
+
+As alluded to above, I've committed to a name and project for the [Hashnode Hackathon](https://townhall.hashnode.com/planetscale-hackathon). My project is going to be called Squares and it's going to be a GitHub data and analytics app.
+
+Squares is an application that people can sign into with their GitHub account and then get various statistics and insights into their GitHub account and the repositories within it. My end goal for the application is to give people interesting insights into their work, behaviors, and actions on the platform and let people look up others on the platform. Maybe this could be good for hiring/recruitment? 🤔
+
+I'd love to hear what you think of the project and if there's anything you'd like to see within it. So, if you're up for sharing your thoughts with me, let me know them over on [Twitter](https://twitter.com/mrConerMurphy/) or by replying to this email. 💬
+
+Finally, one of the requirements for the hackathon is for the project to be open source so if you're interested, check out the [monorepo here.](https://github.com/conermurphy/squares)
+
+## Thought, Question, Challenge 🤔
+
+- **Thought**: Any decision is better than no decision, don't delay making a choice just because it may not be the perfect one.
+- **Question**: Has progress ever stopped towards one of your goals or projects because a decision couldn't be made?
+- **Challenge**: This coming week, if you need to make any decisions on a project, try thinking of your options and then committing to one. Don't let decision paralysis stop you from making progress.
