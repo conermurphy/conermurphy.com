@@ -49,12 +49,14 @@ export default async function emailSignup(
     body: JSON.stringify({
       email: body.email,
       api_key: APIKey,
-      tags: ['Website'],
+      tags: [3235828],
     }),
     headers: {
       'Content-Type': 'application/json',
       charset: 'utf-8',
     },
   });
-  res.status(200).json({ message: 'Success! Thank you for subscribing!' });
+  res.status(200).json({
+    message: 'Thank you for subscribing! Please check your email to confirm.',
+  });
 }

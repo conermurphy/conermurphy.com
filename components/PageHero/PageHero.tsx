@@ -22,8 +22,9 @@ export default function PageHero({
     >
       {showNewsletter ? (
         <div className="flex flex-col sm:flex-row justify-between gap-6">
-          <p className="text-lg md:text-2xl">
-            Get all my posts and exclusive weekly content in your inbox.
+          <p className="text-lg md:text-2xl max-w-2xl">
+            Thoughts, stories, and actionable advice for creators, builders,
+            entrepreneurs, and more straight to your inbox weekly.
           </p>
           <Newsletter />
         </div>

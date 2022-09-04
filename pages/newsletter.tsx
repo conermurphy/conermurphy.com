@@ -21,12 +21,12 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   });
 
   const pageHeroData = {
-    title: 'My Newsletter',
-    body: 'Thoughts, stories, questions, and actionable advise for developers, entrepreneurs, and more...',
+    title: 'Sunday Solotor',
+    body: 'Thoughts, stories, and actionable advice for creators, builders, entrepreneurs, and more...',
   };
 
   const metaDescription =
-    "Thoughts, stories, questions, and actionable advise for developers, entrepreneurs, and more. That's the theme of my newsletter, come give it a read.";
+    "Thoughts, stories, and actionable advice for creators, builders, entrepreneurs, and more. That's the theme of my newsletter, come give it a read.";
 
   return {
     props: {
