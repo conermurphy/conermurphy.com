@@ -67,9 +67,10 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
         </ul>
       </div>
       <div className={sectionClasses}>
-        <p className="pb-4 opacity-75">
-          Subscribe to my newsletter to get the latest posts and exclusive
-          content.
+        <p className="pb-4 opacity-75 max-w-md text-sm">
+          Subscribe to my newsletter and get thoughts, stories, and actionable
+          advice for creators, builders, entrepreneurs, and more straight to
+          your inbox weekly.
         </p>
         <Newsletter isAltDesign />
       </div>
