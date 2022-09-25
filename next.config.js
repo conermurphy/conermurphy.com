@@ -21,6 +21,9 @@ const nextConfig = {
 
     return config;
   },
+  images: {
+    domains: ["media.giphy.com"]
+  },
   async redirects() {
     return [
       {
