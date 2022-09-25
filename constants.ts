@@ -29,6 +29,8 @@ export const ICONS: Icons = {
   CSS: { name: 'CSS' },
   PRISMA: { name: 'PRISMA' },
   PLANETSCALE: { name: 'PLANETSCALE' },
+  NPM: { name: 'NPM', color: '#cb0000' },
+  NODEJS: { name: 'NODEJS', color: '#215732' },
 };
 
 export const TOPICS: Topics = {
@@ -109,6 +111,16 @@ export const TOPICS: Topics = {
     name: 'PlanetScale',
     link: 'planetscale',
     icon: ICONS.PLANETSCALE,
+  },
+  NPM: {
+    name: 'NPM',
+    link: 'npm',
+    icon: ICONS.NPM,
+  },
+  GITHUB: {
+    name: 'GitHub',
+    link: 'github',
+    icon: ICONS.GITHUB,
   },
   UI: {
     name: 'UI',

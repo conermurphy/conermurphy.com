@@ -24,6 +24,8 @@ import {
   SiTailwindcss,
   SiCss3,
   SiPrisma,
+  SiNpm,
+  SiNodedotjs,
 } from 'react-icons/si';
 import { IoMdClose } from 'react-icons/io';
 import { FiCopy } from 'react-icons/fi';
@@ -288,6 +290,24 @@ export default function getIcon({
           size={size}
           color={ICONS.PRISMA.color}
           title="Prisma logo"
+          data-testid="tech-icon"
+        />
+      );
+    case ICONS.NPM.name:
+      return (
+        <SiNpm
+          size={size}
+          color={ICONS.NPM.color}
+          title="NPM logo"
+          data-testid="tech-icon"
+        />
+      );
+    case ICONS.NODEJS.name:
+      return (
+        <SiNodedotjs
+          size={size}
+          color={ICONS.NODEJS.color}
+          title="Node.js logo"
           data-testid="tech-icon"
         />
       );
