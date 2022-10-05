@@ -13,8 +13,8 @@ export default function AboutMe() {
       <div className="flex flex-col-reverse md:flex-row justify-between gap-8">
         <div className="flex flex-col max-w-2xl gap-6 opacity-90 lg:text-lg">
           <p>
-            Hello, I&apos;m Coner, a full-stack developer, freelancer, and
-            content creator from Norwich, UK.
+            Hello, I&apos;m Coner, a full-stack developer, freelancer, technical
+            writer, and content creator from Norwich, UK.
           </p>
           <p>
             From my early teens, I&apos;ve always had a passion for technology

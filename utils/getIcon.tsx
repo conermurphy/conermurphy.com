@@ -36,12 +36,14 @@ interface IProps {
   icon: string;
   size?: string;
   color?: string;
+  disableHoverAnimation?: boolean;
 }
 
 export default function getIcon({
   icon,
   size = '24px',
   color,
+  disableHoverAnimation = false,
 }: IProps): ReactNode {
   switch (icon) {
     case ICONS.SUN.name:
@@ -168,7 +170,7 @@ export default function getIcon({
           color={color}
           title="Envelope icon"
           data-testid="socials-icon"
-          className="hover:text-accent"
+          className={`${!disableHoverAnimation ? 'hover:text-accent' : ''}`}
         />
       );
     case ICONS.FACEBOOK.name:

@@ -40,7 +40,7 @@ const components = {
       whileInView="onscreen"
       variants={postComponent}
       viewport={viewportSettings}
-      className="group relative font-semibold text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-28 capitalize"
+      className="group relative font-semibold text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-28"
     >
       <Link top="top-3" />
       <a

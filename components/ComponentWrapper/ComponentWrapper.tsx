@@ -26,7 +26,7 @@ export default function ComponentWrapper({
     >
       <section className="md:max-w-7xl w-full">
         {pageHeader ? (
-          <h1 className={headerStyles}>{title}</h1>
+          <h1 className={`${headerStyles} uppercase`}>{title}</h1>
         ) : (
           <h2 className={`${headerStyles} ${props?.textClasses || ''}`}>
             {title}

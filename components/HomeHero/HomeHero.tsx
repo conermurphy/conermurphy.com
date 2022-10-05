@@ -14,7 +14,7 @@ export default function HomeHero() {
             <div className="w-12 border-b-4 border-secondaryBgDark dark:border-secondaryBg rounded-full mx-4" />
             <div className="w-12 border-b-4 border-accent rounded-full" />
           </div>
-          <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl tracking-wider">
+          <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl tracking-wider uppercase">
             Web Dev<span className="text-accent">. </span>
             Tech<span className="text-accent">. </span>
             Productivity<span className="text-accent">.</span>

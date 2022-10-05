@@ -22,7 +22,11 @@ export default function ContactSection(): JSX.Element {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 col-span-5 xl:col-span-3">
           <div className={itemContainerStyles}>
             <div className="p-3 bg-accent text-primaryTextDark rounded-md w-max">
-              {getIcon({ icon: ICONS.EMAIL.name, size: '18px' })}
+              {getIcon({
+                icon: ICONS.EMAIL.name,
+                size: '18px',
+                disableHoverAnimation: true,
+              })}
             </div>
             <div className="grow">
               <h3 className="text-lg">Email me</h3>
@@ -47,7 +51,11 @@ export default function ContactSection(): JSX.Element {
           </div>
           <div className={itemContainerStyles}>
             <div className="p-3 bg-accent text-primaryTextDark rounded-md w-max">
-              {getIcon({ icon: ICONS.EMAIL.name, size: '18px' })}
+              {getIcon({
+                icon: ICONS.EMAIL.name,
+                size: '18px',
+                disableHoverAnimation: true,
+              })}
             </div>
             <div className="grow">
               <h3 className="text-lg">Contact form</h3>
@@ -61,7 +69,11 @@ export default function ContactSection(): JSX.Element {
           </div>
           <div className={itemContainerStyles}>
             <div className="p-3 bg-accent text-primaryTextDark rounded-md w-max">
-              {getIcon({ icon: ICONS.EMAIL.name, size: '18px' })}
+              {getIcon({
+                icon: ICONS.EMAIL.name,
+                size: '18px',
+                disableHoverAnimation: true,
+              })}
             </div>
             <div className="grow">
               <h3 className="text-lg">Newsletter</h3>
