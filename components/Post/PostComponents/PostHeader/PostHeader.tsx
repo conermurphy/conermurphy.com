@@ -10,6 +10,11 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
   const { date, timeToRead, title, description, image, imageLink } =
     frontmatter;
 
+  const wrappedTitle = title.replace(
+    /`(.*?)`/g,
+    '<code class="p-1 font-extrabold">$&</code>'
+  );
+
   return (
     <header className="flex flex-col items-center pb-0 lg:pb-3 ">
       <div className="max-w-full sm:max-w-6xl w-full pb-4 z-[1] pt-8 md:pt-16">
@@ -22,9 +27,10 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
               })}
               | ${timeToRead} Minute Read`}
         </p>
-        <h1 className="text-2xl md:text-4xl mb-2 max-w-4xl capitalize">
-          {title}
-        </h1>
+        <h1
+          className="text-2xl md:text-4xl mb-2 max-w-4xl"
+          dangerouslySetInnerHTML={{ __html: wrappedTitle }}
+        />
         <p className="text-base md:text-lg opacity-75 max-w-2xl">
           {description}
         </p>

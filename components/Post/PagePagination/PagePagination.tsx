@@ -98,7 +98,7 @@ export default function PagePagination({
 
   return (
     <div className="flex flex-row items-center justify-center bg-primaryBg dark:bg-primaryBgDark">
-      <nav className="flex flex-row justify-between md:max-w-7xl 2xl:px-0 px-6 pt-6 w-full text-lg lg:px-12 2xl:px-0">
+      <nav className="flex flex-row justify-between md:max-w-7xl px-6 pt-6 w-full text-lg lg:px-12 2xl:px-0">
         <NoScrollLink href={prevLink} passHref>
           <a
             className={`font-semibold ${
@@ -133,7 +133,7 @@ export default function PagePagination({
               <span
                 className={`text-sm font-semibold ${pageNumberStyles} ${
                   showEllipse(currentPage)
-                    ? 'bg-accent dark:bg-accent/5'
+                    ? 'bg-accent dark:bg-accent/75'
                     : 'bg-primaryBgDark/10 dark:bg-primaryBgDark'
                 }`}
                 data-testid="pagination-ellipses"

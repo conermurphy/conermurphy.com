@@ -13,6 +13,11 @@ interface IProps {
 export default function PostCard({ post, postType }: IProps): JSX.Element {
   const { title, date, slug, image, description } = post;
 
+  const wrappedTitle = title.replace(
+    /`(.*?)`/g,
+    '<code class="p-1 font-extrabold lowercase">$&</code>'
+  );
+
   return (
     <motion.div
       initial="offscreen"
@@ -48,7 +53,10 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
                   day: 'numeric',
                 })}
               </p>
-              <h3 className="text-lg md:text-xl lg:text-2xl">{title}</h3>
+              <h3
+                className="text-lg md:text-xl lg:text-2xl"
+                dangerouslySetInnerHTML={{ __html: wrappedTitle }}
+              />
               <p className="text-sm lg:text-base opacity-75">{description}</p>
             </div>
           </article>

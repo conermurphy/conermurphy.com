@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import NavBar from '../../NavBar/NavBar';
 import NoScrollLink from '../../NoScrollLink/NoScrollLink';
 import Socials from '../../Socials/Socials';
@@ -18,11 +17,9 @@ export default function DesktopHeader(): JSX.Element {
             </a>
           </NoScrollLink>
           <NavBar />
-          <Link href="/contact" passHref>
-            <a className="font-semibold bg-accent text-primaryTextDark px-4 py-2 rounded-sm">
-              Hire Me
-            </a>
-          </Link>
+          <span className="font-semibold bg-accent text-primaryTextDark px-4 py-2 rounded-sm">
+            <NoScrollLink href="/contact">Hire Me</NoScrollLink>
+          </span>
         </div>
         <div className="flex gap-8">
           <ThemeToggle />
