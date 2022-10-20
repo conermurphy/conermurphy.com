@@ -10,6 +10,7 @@ export enum THEMES {
 export enum POSTTYPES {
   BLOG = 'blog',
   NEWSLETTER = 'newsletter',
+  TECHNICAL_WRITING = 'technical-writing',
 }
 
 export type Icon = {
