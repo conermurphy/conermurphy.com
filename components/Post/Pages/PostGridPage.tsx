@@ -5,6 +5,7 @@ import PageHero from '../../PageHero/PageHero';
 import SEO from '../../SEO/SEO';
 import Testimonials from '../../Testimonials/Testimonials';
 import { PagePagination, PageSidebar, PostCardGrid } from '..';
+import { toUpper } from '../../../utils';
 
 const PostGridPage: NextPage<PostGridPageProps> = ({
   pageNumber,
@@ -14,14 +15,14 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
   topics,
   filterItem,
   postType,
-  pageHeroData: { title },
+  pageHeroData: { title, body },
   metaDescription,
   pageQueries = {
     page: '',
     queries: [],
   },
 }) => {
-  const pageName = postType.charAt(0).toUpperCase() + postType.slice(1);
+  const pageName = toUpper(postType.replaceAll('-', ' '));
 
   return (
     <>
@@ -38,7 +39,7 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
         metaDescription={metaDescription}
         url={postType}
       />
-      <PageHero title={title} />
+      <PageHero title={title} description={body} />
       <div className="flex flex-row items-center justify-center pb-12 bg-primaryBg dark:bg-primaryBgDark">
         <div
           className={`flex flex-col items-center gap-12 justify-between w-full md:flex-col-reverse md:items-start max-w-7xl px-6 lg:px-12 2xl:px-0 ${

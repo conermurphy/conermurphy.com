@@ -43,7 +43,7 @@ export default async function sourcePostPage({
   if (
     !pageQueries?.page &&
     !pageQueries?.q &&
-    ['blog', 'newsletter'].includes(slug)
+    ['blog', 'newsletter', 'technical-writing'].includes(slug)
   ) {
     const pageNumber = pageQueries?.page ? parseInt(pageQueries?.page) : 0;
     // Work out the number of  posts required to skip for the page accessed. E.g. page 2 skip the first 8 posts and return from 9 to 16.

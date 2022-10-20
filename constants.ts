@@ -126,6 +126,14 @@ export const TOPICS: Topics = {
     name: 'UI',
     link: 'ui',
   },
+  PRISMIC: {
+    name: 'Prismic',
+    link: 'prismic',
+  },
+  LOGROCKET: {
+    name: 'LogRocket',
+    link: 'logrocket',
+  },
 };
 
 // ANIMATION VARIANTS

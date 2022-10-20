@@ -3,7 +3,8 @@ import Img from 'next/image';
 import { motion } from 'framer-motion';
 import { PostFrontMatter, POSTTYPES } from '../../../types';
 import NoScrollLink from '../../NoScrollLink/NoScrollLink';
-import { postComponent, viewportSettings } from '../../../constants';
+import { postComponent, TOPICS, viewportSettings } from '../../../constants';
+import { toUpper } from '../../../utils';
 
 interface IProps {
   post: PostFrontMatter;
@@ -18,6 +19,8 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
     '<code class="p-1 font-extrabold lowercase">$&</code>'
   );
 
+  const isTechnicalWriting = postType === POSTTYPES.TECHNICAL_WRITING;
+
   return (
     <motion.div
       initial="offscreen"
@@ -26,7 +29,10 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
       viewport={{ ...viewportSettings, amount: 0.2 }}
       className="contents"
     >
-      <NoScrollLink href={`/${postType}/${slug}`} passHref>
+      <NoScrollLink
+        href={!isTechnicalWriting ? `/${postType}/${slug}` : post.canonical_url}
+        passHref
+      >
         <a className="group relative flex flex-col max-w-xs lg:max-w-sm cursor-pointer bg-secondaryBg dark:bg-secondaryBgDark rounded-md overflow-hidden h-full w-full min-w-full sm:min-w-0">
           <article>
             <div className="absolute h-full w-full items-center justify-center flex group-hover:border-2 border-accent transition-all duration-300 ease-in-out z-10 bg-primaryBgDark/50 group-hover:opacity-100 opacity-0 rounded-md">
@@ -34,25 +40,43 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
                 Read more
               </p>
             </div>
-            <div className="relative w-full rounded-md overflow-hidden">
-              <Img
-                src={image}
-                alt={title}
-                width="100%"
-                height="100%"
-                layout="responsive"
-                objectFit="cover"
-                priority
-              />
-            </div>
+            {image ? (
+              <div className="relative w-full rounded-md overflow-hidden">
+                <Img
+                  src={image}
+                  alt={title}
+                  width="100%"
+                  height="100%"
+                  layout="responsive"
+                  objectFit="cover"
+                  priority
+                />
+              </div>
+            ) : null}
             <div className="flex flex-col gap-y-3 p-8 md:p-10 break-words">
-              <p className="font-bold text-sm opacity-100 border-b-2 w-max pb-2 border-accent">
-                {new Date(date).toLocaleDateString('en-GB', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                })}
-              </p>
+              <div className="flex flex-row gap-6 justify-between">
+                <p className="font-bold text-sm opacity-100 border-b-2 w-max pb-2 border-accent">
+                  {new Date(date).toLocaleDateString('en-GB', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </p>
+                {isTechnicalWriting
+                  ? post.topics.map((topic) => {
+                      const { name } = TOPICS[topic];
+
+                      return (
+                        <p
+                          key={`${topic}-${slug}`}
+                          className="text-sm bg-accent font-bold h-min px-2 py-1.5 rounded-sm"
+                        >
+                          {name}
+                        </p>
+                      );
+                    })
+                  : null}
+              </div>
               <h3
                 className="text-lg md:text-xl lg:text-2xl"
                 dangerouslySetInnerHTML={{ __html: wrappedTitle }}

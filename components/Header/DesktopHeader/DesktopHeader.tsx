@@ -23,7 +23,9 @@ export default function DesktopHeader(): JSX.Element {
         </div>
         <div className="flex gap-8">
           <ThemeToggle />
-          <Socials compact />
+          <div className="hidden xl:block">
+            <Socials compact />
+          </div>
         </div>
       </header>
     </div>

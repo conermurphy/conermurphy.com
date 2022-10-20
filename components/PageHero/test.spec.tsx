@@ -14,7 +14,7 @@ describe('PageHero', () => {
     render(<PageHero title="" />);
 
     const input = screen.queryByPlaceholderText(/Enter your email/i);
-    const button = screen.queryByText(/subscribe/i);
+    const button = screen.queryByRole('button');
 
     expect(input).toBeVisible();
     expect(button).toBeVisible();
@@ -24,7 +24,7 @@ describe('PageHero', () => {
     render(<PageHero title="" showNewsletter={false} />);
 
     const input = screen.queryByPlaceholderText(/Enter your email/i);
-    const button = screen.queryByText(/subscribe/i);
+    const button = screen.queryByRole('button');
 
     expect(input).toBeNull();
     expect(button).toBeNull();

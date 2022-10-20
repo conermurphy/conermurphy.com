@@ -14,19 +14,21 @@ jest.mock('next/router', () => ({
 }));
 
 describe('NavBar', () => {
-  it('3 links should be rendered', () => {
+  it('links should be rendered', () => {
     render(<NavBar />);
 
     const links = screen.queryAllByRole('link').length;
     const homeLink = screen.queryByText(/home/i);
     const blogLink = screen.queryByText(/blog/i);
     const newsletterLink = screen.queryByText(/newsletter/i);
+    const technicalWritingLink = screen.queryByText(/technical writing/i);
     const contactLink = screen.queryByText(/contact/i);
 
-    expect(links).toEqual(4);
+    expect(links).toEqual(5);
     expect(homeLink).toBeVisible();
     expect(blogLink).toBeVisible();
     expect(newsletterLink).toBeVisible();
+    expect(technicalWritingLink).toBeVisible();
     expect(contactLink).toBeVisible();
   });
 });

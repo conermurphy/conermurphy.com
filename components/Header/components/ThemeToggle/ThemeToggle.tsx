@@ -18,7 +18,7 @@ export default function ThemeToggle() {
   }
 
   return (
-    <div className="flex flex-row items-center border-primaryBorder dark:border-primaryBorderDark border-r-2">
+    <div className="flex flex-row items-center border-primaryBorder dark:border-primaryBorderDark xl:border-r-2">
       <button
         onClick={() => {
           if (theme === 'light') {
