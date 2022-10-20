@@ -3,7 +3,7 @@ import Img from 'next/image';
 import { motion } from 'framer-motion';
 import { PostFrontMatter, POSTTYPES } from '../../../types';
 import NoScrollLink from '../../NoScrollLink/NoScrollLink';
-import { postComponent, viewportSettings } from '../../../constants';
+import { postComponent, TOPICS, viewportSettings } from '../../../constants';
 import { toUpper } from '../../../utils';
 
 interface IProps {
@@ -63,14 +63,18 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
                   })}
                 </p>
                 {isTechnicalWriting
-                  ? post.topics.map((topic) => (
-                      <p
-                        key={`${topic}-${slug}`}
-                        className="text-sm bg-accent font-bold h-min px-2 py-1.5 rounded-sm"
-                      >
-                        {toUpper(topic)}
-                      </p>
-                    ))
+                  ? post.topics.map((topic) => {
+                      const { name } = TOPICS[topic];
+
+                      return (
+                        <p
+                          key={`${topic}-${slug}`}
+                          className="text-sm bg-accent font-bold h-min px-2 py-1.5 rounded-sm"
+                        >
+                          {name}
+                        </p>
+                      );
+                    })
                   : null}
               </div>
               <h3
