@@ -24,7 +24,9 @@ export default async function EngagementCount(
 
   // 1: If in development, then return and don't query API.
   if (process.env.NODE_ENV !== 'production') {
-    return;
+    return res
+      .status(400)
+      .json({ message: 'Error, not running in production' });
   }
 
   try {
