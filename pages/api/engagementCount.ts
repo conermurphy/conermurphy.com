@@ -19,7 +19,7 @@ export default async function EngagementCount(
 ) {
   // 0: Get UUID from request
   const {
-    body: { UUID, postType, slug },
+    query: { UUID, postType, slug },
   } = req;
 
   // 1: If in development, then return and don't query API.
@@ -49,10 +49,7 @@ export default async function EngagementCount(
       });
 
     return res.status(200).json({
-      data: {
-        viewCount: data?.incrementPostView?.viewCount,
-        UUID,
-      },
+      viewCount: data?.incrementPostView?.viewCount,
     });
   } catch (e) {
     // 2b: If errors, then create a new entry with 1 as viewCount
@@ -80,10 +77,7 @@ export default async function EngagementCount(
       });
 
     return res.status(200).json({
-      data: {
-        viewCount: data?.addPost?.viewCount,
-        UUID,
-      },
+      viewCount: data?.addPost?.viewCount,
     });
   }
 }

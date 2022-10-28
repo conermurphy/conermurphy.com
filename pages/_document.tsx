@@ -19,10 +19,6 @@ export default class MyDocument extends Document {
           <meta name="Content-Type" content="text/html; charset=UTF-8" />
           <meta property="og:locale" content="en-GB" />
           <meta lang="en-GB" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&family=Inconsolata:wght@400;800&family=Nunito:ital,wght@0,400;0,700;1,400&display=swap"
-            rel="stylesheet"
-          />
         </Head>
         <body>
           <Main />
