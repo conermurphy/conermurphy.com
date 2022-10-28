@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { PostFrontMatter, POSTTYPES } from '../../../types';
 import NoScrollLink from '../../NoScrollLink/NoScrollLink';
 import { postComponent, TOPICS, viewportSettings } from '../../../constants';
-import { toUpper } from '../../../utils';
 
 interface IProps {
   post: PostFrontMatter;

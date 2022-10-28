@@ -53,7 +53,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         engagementData: engagementData || 0,
       },
     },
-    revalidate: 10,
+    revalidate: 1,
   };
 };
 
