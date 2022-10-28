@@ -115,7 +115,6 @@ export interface PostPageProps {
     data: PostFrontMatter;
     headings: PostHeading[];
     filePath: string;
-    engagementData: EngagementCountData;
   };
   latestPosts: Post[];
   postType: POSTTYPES;

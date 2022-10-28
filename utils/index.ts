@@ -7,4 +7,3 @@ export { default as useContactForm } from './useContactForm';
 export { default as copyToClipboard } from './copyToClipboard';
 export { default as generateRssFeeds } from './generateRssFeeds';
 export { default as toUpper } from './toUpper';
-export { default as fetchEngagementData } from './fetchEngagementData';

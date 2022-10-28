@@ -7,7 +7,6 @@ import {
 } from '../../types';
 import { getPostPaths, sourcePostPage } from '../../utils/posts';
 import { PostPage } from '../../components/Post/Pages';
-import { fetchEngagementData } from '../../utils';
 
 const postType = POSTTYPES.NEWSLETTER;
 
@@ -38,22 +37,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const { post } = props;
 
-  const { data: engagementData } = await fetchEngagementData({
-    UUID: post?.data.UUID || '',
-    slug: post?.data.slug || '',
-    postType,
-  });
-
   return {
     props: {
       ...props,
       post: {
         ...post,
         content: post?.rawContent ? await serialize(post?.rawContent) : '',
-        engagementData: engagementData || 0,
       },
     },
-    revalidate: 1,
   };
 };
 

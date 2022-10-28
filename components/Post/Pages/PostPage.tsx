@@ -14,14 +14,9 @@ import {
 import PostSidebar from '../PostSidebar/PostSidebar';
 
 const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
+  const { content, headings, data: frontmatter, filePath } = post;
   const {
-    content,
-    headings,
-    data: frontmatter,
-    filePath,
-    engagementData,
-  } = post;
-  const {
+    UUID,
     title,
     description,
     slug,
@@ -58,7 +53,11 @@ const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
                 <hr />
                 <GitHubCTA postPath={filePath} />
                 <hr />
-                <EngagementCounter {...engagementData} />
+                <EngagementCounter
+                  UUID={UUID}
+                  postType={postType}
+                  slug={slug}
+                />
               </div>
               <PostSidebar headings={headings} title={title} />
             </div>
