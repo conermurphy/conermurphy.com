@@ -134,6 +134,10 @@ export const TOPICS: Topics = {
     name: 'LogRocket',
     link: 'logrocket',
   },
+  SNAPPIFY: {
+    name: 'snappify',
+    link: 'snappify',
+  },
 };
 
 // ANIMATION VARIANTS

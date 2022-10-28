@@ -1,17 +1,12 @@
 import React from 'react';
-import { EngagementCounterProps } from '../../../../types';
-import { useEngagementCount } from '../../../../utils';
+import { EngagementCountData } from '../../../../types';
 
 export default function EngagementCounter({
-  UUID,
-  postType,
-  slug,
-}: EngagementCounterProps): JSX.Element {
-  const { data } = useEngagementCount({ UUID, postType, slug });
-
+  viewCount,
+}: EngagementCountData): JSX.Element {
   return (
     <p className="mt-6 text-xl">
-      <strong>👥 {data?.viewCount}</strong>
+      <strong>👥 {viewCount}</strong>
     </p>
   );
 }
