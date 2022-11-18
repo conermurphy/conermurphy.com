@@ -24,7 +24,7 @@ describe('Footer', () => {
   it('SubFooter is present', () => {
     render(<Footer />);
     const subFooterText = screen.queryByText(
-      /© 2022 - Designed and developed by Coner Murphy. All Rights Reserved./i
+      /© 2023 - Designed and developed by Coner Murphy. All Rights Reserved./i
     );
 
     expect(subFooterText).toBeInTheDocument();
