@@ -31,6 +31,7 @@ export const ICONS: Icons = {
   PLANETSCALE: { name: 'PLANETSCALE' },
   NPM: { name: 'NPM', color: '#cb0000' },
   NODEJS: { name: 'NODEJS', color: '#215732' },
+  AWS: { name: 'AWS', color: '#ec7211' },
 };
 
 export const TOPICS: Topics = {
@@ -137,6 +138,11 @@ export const TOPICS: Topics = {
   SNAPPIFY: {
     name: 'snappify',
     link: 'snappify',
+  },
+  AWS: {
+    name: 'AWS',
+    link: 'aws',
+    icon: ICONS.AWS,
   },
 };
 
