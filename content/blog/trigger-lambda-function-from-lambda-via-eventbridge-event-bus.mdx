@@ -1,0 +1,314 @@
+---
+UUID: "25e1d71d-ab7b-4b95-872c-caa93c890e34"
+title: "How to Trigger a Lambda Function From Another Lambda Function Using an AWS EventBridge Event Bus"
+date: "2023-02-10"
+topics: ["DEVELOPMENT", "AWS", "TYPESCRIPT"]
+slug: trigger-lambda-function-from-lambda-via-eventbridge-event-bus
+image: /images/generic/paper-flowchart.jpg
+published: true
+description: "It’s a quite common to need to trigger a lambda function from another lambda and there's many ways to do it. But, today we'll explore how to do it with an AWS EventBridge event bus."
+canonical_url: ""
+imageLink: "https://unsplash.com/photos/lFtttcsx5Vk"
+---
+
+It’s a quite common scenario to need to trigger a lambda function from another lambda function. This might be because you need to trigger another action to occur unrelated to your original function or it could be to split up the processing of some data, for example, one lambda per user. So, now we have an idea of why you might want to trigger a lambda from another lambda, let’s talk about how we can do it. There are quite a few ways you can do it but the one we’ll be focusing on in this post is doing it via an AWS EventBridge event bus.
+
+So, by the end of this tutorial, you’ll have created and deployed an AWS CDK stack that allows a single lambda function to trigger one of two possible lambda functions based on a criterion via an event bus.
+
+The project we’ll be building is a random number generator and depending on if the number generated is odd or even, it will trigger a different lambda function with different actions. So, we’ll need three lambda functions in total and an event bus.
+
+## Prerequisites
+
+Prior to jumping into this tutorial, there are a few prerequisites you’ll need to have ticked off. These are having an AWS account created as well as having the AWS CLI configured and a CDK environment bootstrapped on your machine for the region you want to deploy to. Below are some links to help if you haven’t done these already.
+
+- [AWS account setup](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
+- [AWS CLI setup](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
+- [AWS CDK getting started and bootstrapping guide](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html)
+
+Finally, while it’s not a necessity, I do recommend you have at least a basic understanding of AWS Lambda and AWS EventBridge including event buses. So, if these are both new services to you, check out their product pages below to get a brief overview of what they do before returning to this tutorial.
+
+- [AWS Lambda](https://aws.amazon.com/lambda/)
+- [AWS EventBridge](https://aws.amazon.com/eventbridge/)
+
+## Building Our CDK Stack
+
+Before we get started, I just want to note that throughout a lot of this post, the CDK class definition code and imports are omitted for brevity (excluding the first code snippet for our event bus definition). But, all our code (unless otherwise mentioned) will be happening in our stack file which can be found in your `lib` directory. If you create a new CDK stack for this tutorial, it’ll be the only file in that directory.
+
+With that out the way, let’s jump into building our CDK project!
+
+### `EventBus` Definition
+
+To get started you can either use an existing CDK project or [create a new one](https://docs.aws.amazon.com/cdk/v2/guide/work-with-cdk-typescript.html). The first thing we need to do in our CDK project is to define our event bus which can be done by adding the below code into your stack.
+
+```ts:[]:./lib/your-cdk-stack-file.ts:TYPESCRIPT
+export class CDKStackName extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    // 👇 Defining our Event Bus
+    const eventBus = new EventBus(this, "eventBus", {
+      eventBusName: "event-bus",
+    });
+
+    // ... rest of our defintions
+  }
+}
+```
+
+### Defining Our Lambda Functions
+
+Now our event bus is defined we need to define our lambda functions. At this point, we’re just defining our lambda functions and not actually adding the code that they will execute but we’ll cover that in a later step.
+
+As mentioned in the intro we’ll need three lambda functions, these are.
+
+1. `number-generator`
+2. `even-processor`
+3. `odd-processor`
+
+`number-generator` will be triggered manually by us via the AWS CLI but then depending on if the number generated is odd or even an event will be created on our event bus that will trigger the relevant lambda function and pass the number generated to it.
+
+So, to define our lambda functions, add the below code to the file we just added our event bus definition to.
+
+```ts:[]:./lib/your-cdk-stack-file.ts:TYPESCRIPT
+// ...event bus definition
+
+// 👇 Defining our number generator Lambda function
+const numberGeneratorHandler = new NodejsFunction(
+  this,
+  "NumberGeneratorHandler",
+  {
+    runtime: Runtime.NODEJS_16_X,
+    entry: "./resources/number-generator.ts",
+    handler: "handler",
+    timeout: Duration.seconds(30),
+    environment: {
+      EVENT_BUS_ARN: eventBus.eventBusArn,
+    },
+  }
+);
+
+// 👇 Defining our odd number processor Lambda function
+const oddNumberProcessorHandler = new NodejsFunction(
+  this,
+  "OddNumberProcessorHandler",
+  {
+    runtime: Runtime.NODEJS_16_X,
+    entry: "./resources/odd-processor.ts",
+    handler: "handler",
+    timeout: Duration.seconds(30),
+  }
+);
+
+// 👇 Defining our even number processor Lambda function
+const evenNumberProcessorHandler = new NodejsFunction(
+  this,
+  "EvenNumberProcessorHandler",
+  {
+    runtime: Runtime.NODEJS_16_X,
+    entry: "./resources/even-processor.ts",
+    handler: "handler",
+    timeout: Duration.seconds(30),
+  }
+);
+```
+
+In these definitions, we’re creating three NodeJS lambda functions and pointing each one to their own files in our repository, these will contain the code for the lambdas to run. These files don’t exist right now but don’t worry we’ll be creating them in a moment.
+
+### Lambda Permissions
+
+Before our `number-generator` lambda can put new events onto our event bus, we need to give it `PutEvents` permission on our event bus. Luckily this can be done in a quick one-liner so add the following line below our lambda definitions.
+
+```ts:[]:./lib/your-cdk-stack-file.ts:TYPESCRIPT
+// 👇 Granting the number generator lambda put events
+eventBus.grantPutEventsTo(numberGeneratorHandler);
+```
+
+### Event Bus Rules
+
+For our event bus to know how to handle events created on it, we need to define a series of events that cover each event type. In this case, we’ll need two rules, one for odd numbers and one for even. To create these rules, add the below code below the `PutEvents` line you just added.
+
+```ts:[]:./lib/your-cdk-stack-file.ts:TYPESCRIPT
+// 👇 Define a rule for the event bus to trigger the odd number processor lambda
+new Rule(this, "OddNumberEventRule", {
+  eventBus,
+  eventPattern: {
+    source: ["example-source"],
+    detailType: ["odd"],
+  },
+}).addTarget(new LambdaFunction(oddNumberProcessorHandler));
+
+// 👇 Define a rule for the event bus to trigger the even number processor lambda
+new Rule(this, "EvenNumberEventRule", {
+  eventBus,
+  eventPattern: {
+    source: ["example-source"],
+    detailType: ["even"],
+  },
+}).addTarget(new LambdaFunction(evenNumberProcessorHandler));
+```
+
+There are a couple of key things we need to pay attention to in these rule definitions. The first is the `eventPattern` object, this is the data that is used to match against events on the event bus. If an event is found on the event bus with matching `source` and `detailType` properties then the event is passed to the target and the target is invoked.
+
+That brings us nicely to the second important piece in the rule definition and that’s the `addTarget` method we chain onto the end of the rule. This method lets us say if an event is matched by this rule, trigger this target which for us is the lambda functions we just defined.
+
+### Writing Our Lambda Functions
+
+#### `number-generator`
+
+Earlier we defined our lambda functions but right now they don’t have any code in them so let’s change that. First, let’s write the code for our `number-generator` lambda so create a new file at `./resources/number-generator.ts` and add in the below code.
+
+```ts:[]:./resources/number-generator.ts:TYPESCRIPT
+import { EventBridge } from "aws-sdk";
+
+const eventBridge = new EventBridge();
+
+function randomNumber(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+export const handler = async () => {
+  const { EVENT_BUS_ARN } = process.env;
+
+  // Generate a random number between 0 and 10
+  const number = randomNumber(0, 10);
+
+  // eslint-disable-next-line no-console
+  console.log(`=== NUMBER GENERATOR OUTPUT: ${number} ===`);
+
+  // Create a new event on the eventBridge
+  await eventBridge
+    .putEvents({
+      Entries: [
+        {
+          Source: "example-source",
+          DetailType: number % 2 ? "odd" : "even",
+          EventBusName: EVENT_BUS_ARN,
+          Detail: JSON.stringify({
+            generatedNumber: number,
+          }),
+        },
+      ],
+    })
+    .promise();
+};
+```
+
+There are a few key things to note in this code. First, is the `eventBridge` we create at the top of the file from the `aws-sdk` import. This is what allows us to put the events onto the event bus we defined.
+
+You can see that we also get the ARN for our event bus from the environment variables passed in when we defined our lambda function. This ARN lets us tell EventBridge which event bus we want to create the events on which is important because we need to create the events on the same event bus that we defined the rules on.
+
+Also in our `Entries` array for `putEvents` we include the `Source` and `DetailType` properties. These are important because as mentioned earlier these are what the rules are looking for in an event. If we didn’t include these or didn’t include the ones the rules were looking for, no targets would be triggered from our events.
+
+In our `DetailType` we perform a quick check to see if the number generated is even or not which then changes the value passed to the created event. In turn, this changes the rule that will be matched and then the lambda function that is run in turn.
+
+Finally, we use the `Detail` property to pass the data we want to include in the event. This is important because this data will be passed to the target lambda function later on when it is triggered. This is the piece of code that lets us pass data between lambdas.
+
+#### `even-processor`
+
+With our `number-generator` lambda code now defined, let’s change our focus and define our `event-processor` lambda. For this create a new file at `./resources/even-processor.ts` and add the below code.
+
+```ts:[]:./resources/even-processor.ts:TYPESCRIPT
+import { EventBridgeEvent } from "aws-lambda";
+
+export const handler = (
+  event: EventBridgeEvent<
+    string,
+    {
+      generatedNumber: number;
+    }
+  >
+) => {
+  // 👇 Retrieve our generated number from the event detail that triggered the function
+  const {
+    detail: { generatedNumber },
+  } = event;
+
+  const numberCubed = generatedNumber * generatedNumber * generatedNumber;
+
+  // eslint-disable-next-line no-console
+  console.log(`=== EVEN NUMBER OUTPUT: ${numberCubed} ===`);
+};
+```
+
+This is a much shorter function than our `number-generator` lambda from the last step. In this lambda, we take the `generatedNumber` from the event detail passed in from the event in the `number-generator` lambda and then we cube the number and log it out.
+
+#### `odd-processor`
+
+To finish off our lambda code, let’s do our `odd-processor` function. It’s very similar to our `even-processor` from the last step but instead of cubing the number, we square it. So, to add this code, create a new file at `./resources/odd-processor.ts` and paste the below code into the file.
+
+```ts:[]:./resources/odd-processor.ts:TYPESCRIPT
+import { EventBridgeEvent } from "aws-lambda";
+
+export const handler = (
+  event: EventBridgeEvent<
+    string,
+    {
+      generatedNumber: number;
+    }
+  >
+) => {
+  // 👇 Retrieve our generated number from the event detail that triggered the function
+  const {
+    detail: { generatedNumber },
+  } = event;
+
+  const numberSquared = generatedNumber * generatedNumber;
+
+  // eslint-disable-next-line no-console
+  console.log(`=== ODD NUMBER OUTPUT: ${numberSquared} ===`);
+};
+```
+
+## Deploying and Testing Our Stack
+
+We’ve now finished everything needed for our CDK stack so let’s deploy it to our AWS account by running `cdk deploy` in our terminal and accepting the prompts it gives us for permissions.
+
+Once the stack is finished deploying, we need to manually trigger our `number-generator` function. To do this, we need to get the name of our lambda function which we can fetch from either the CLI or the AWS dashboard. Your lambda name should look something similar to this `CDKStackName-NumberGeneratorHandlerAE-tR7DPVtxkhzg`. Once you have the lambda name, run the following CLI command, swapping out `LAMBDA_NAME` with the one you just got.
+
+```bash
+aws lambda invoke --function-name LAMBDA_NAME --invocation-type Event -
+```
+
+This will then trigger the lambda in your AWS account and if everything worked as planned it should’ve generated a number and triggered either the odd or even lambda which will process it and log the output.
+
+To confirm this for yourself, head over to AWS CloudWatch in your AWS Dashboard and have a look at the logs for your lambda functions under the “log groups” option from the sidebar.
+
+If everything worked fine, you should see similar to the outputs below but with most likely different numbers. Also, depending on what numbers were generated you may see either the `even-generator`, `odd-generator`, or both of them in your logs if you run it multiple times.
+
+```:[2,7]:number-generator
+START RequestId: cbb7f2e1-2fc2-419f-a5ca-baaff4ee4ffc Version: $LATEST
+2023-02-08T21:10:39.837Z cbb7f2e1-2fc2-419f-a5ca-baaff4ee4ffc INFO === NUMBER GENERATOR OUTPUT: 9 ===
+END RequestId: cbb7f2e1-2fc2-419f-a5ca-baaff4ee4ffc
+REPORT RequestId: cbb7f2e1-2fc2-419f-a5ca-baaff4ee4ffc	Duration: 657.63 ms	Billed Duration: 658 ms	Memory Size: 128 MB	Max Memory Used: 82 MB	Init Duration: 425.63 ms
+
+START RequestId: 205fe9cb-b429-4737-9ee8-cddb378904be Version: $LATEST
+205fe9cb-b429-4737-9ee8-cddb378904be	INFO	=== NUMBER GENERATOR OUTPUT: 2 ===
+END RequestId: 205fe9cb-b429-4737-9ee8-cddb378904be
+REPORT RequestId: 205fe9cb-b429-4737-9ee8-cddb378904be	Duration: 556.17 ms	Billed Duration: 557 ms	Memory Size: 128 MB	Max Memory Used: 83 MB
+```
+
+```:[2]:even-generator
+START RequestId: 896aa4d2-aa1e-4a3a-bb9d-59cb6db6c648 Version: $LATEST
+2023-02-08T21:11:08.746Z 896aa4d2-aa1e-4a3a-bb9d-59cb6db6c648 INFO **=== EVEN NUMBER OUTPUT: 8 ===**
+END RequestId: 896aa4d2-aa1e-4a3a-bb9d-59cb6db6c648
+REPORT RequestId: 896aa4d2-aa1e-4a3a-bb9d-59cb6db6c648	Duration: 1.34 ms	Billed Duration: 2 ms	Memory Size: 128 MB	Max Memory Used: 58 MB
+```
+
+```:[2]:odd-generator
+START RequestId: b9803b6b-0563-49e8-a91b-da4700301eb5 Version: $LATEST
+2023-02-08T21:10:41.037Z b9803b6b-0563-49e8-a91b-da4700301eb5 INFO **=== ODD NUMBER OUTPUT: 81 ===**
+END RequestId: b9803b6b-0563-49e8-a91b-da4700301eb5
+REPORT RequestId: b9803b6b-0563-49e8-a91b-da4700301eb5	Duration: 5.49 ms	Billed Duration: 6 ms	Memory Size: 128 MB	Max Memory Used: 57 MB	Init Duration: 137.40 ms
+```
+
+A lot of the contents of these logs are things we don’t need to worry about but what you can see in the logs is that we generated two numbers, a `9` and `2`. These then triggered their corresponding odd or even lambda functions and then outputted the final numbers after they had been processed into `8` and `81`. This means our project worked and our number generator lambda function created events that were detected by our event bus rules and then our target lambdas were triggered and data was successfully passed between them!
+
+## Destroying Your Stack
+
+Finally, once you’ve finished with your stack and you no longer need it, make sure to destroy it from your AWS account using the command `cdk destroy` to ensure all the provisioned resources are removed and you’re not charged for resources you’re not using.
+
+## Closing Thoughts
+
+So to conclude in this post we’ve covered how to trigger a lambda function from another lambda function using AWS EventBridge event buses. If you would like to see my finished example code for this project, you can [see the full repository here](https://github.com/conermurphy/cdk-tutorials/tree/main/triggering-lambdas-eventbus). As always, I hope you found this tutorial helpful.
+
+Thank you for reading.
