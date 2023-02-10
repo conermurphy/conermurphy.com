@@ -1,5 +1,6 @@
 import Img from 'next/image';
 import { motion } from 'framer-motion';
+import { ReactElement } from 'react';
 import Code from './Code/Code';
 import BlockQuoteAuthor from './BlockQuoteAuthor/BlockQuoteAuthor';
 import ImageCaption from './ImageCaption/ImageCaption';
@@ -9,7 +10,7 @@ import { copyToClipboard, getIcon } from '../../../utils';
 import { ICONS, postComponent, viewportSettings } from '../../../constants';
 
 interface IProps {
-  children: string;
+  children: string | ReactElement | (string | ReactElement)[];
   href?: string;
 }
 

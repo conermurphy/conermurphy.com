@@ -112,6 +112,6 @@ blockquote > p {
  /* Custom styles for line highlighting in code blocks */
  .line-highlighted {
   background-color: rgba(248, 248, 250,.25);
-  width: 100% !important;
+  width: max-content !important;
   border-left: 4px solid rgb(249, 87, 56);
 }

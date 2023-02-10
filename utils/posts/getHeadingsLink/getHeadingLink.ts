@@ -1,9 +1,35 @@
-export default function getHeadingLink(children: string): string {
-  if (typeof children !== 'string') return '';
+import { ReactElement } from 'react';
 
-  const returnString = children
+export default function getHeadingLink(
+  children: string | ReactElement | (string | ReactElement)[]
+): string {
+  let stringToProcess = '';
+
+  if (Array.isArray(children)) {
+    stringToProcess = children
+      .map((child) => {
+        if (typeof child === 'string') {
+          return child;
+        }
+
+        const childProps = child.props as { children: string };
+        return childProps.children;
+      })
+      .join('');
+  }
+
+  if (typeof children !== 'string' && !Array.isArray(children)) {
+    const childProps = children.props as { children: string };
+    stringToProcess = childProps.children;
+  }
+
+  if (typeof children === 'string' && !Array.isArray(children)) {
+    stringToProcess = children;
+  }
+
+  const returnString = stringToProcess
     // Regex to remove all punctionation from the original string
-    .replace(/['!"#$%&\\'()\\*+,\-\\.\\/:;<=>?@\\[\\\]\\^_`{|}~']/g, '')
+    .replace(/['!"#$%&\\'()\\*+,\\.\\/:;<=>?@\\[\\\]\\^_`{|}~']/g, '')
     // Convert any spaces to '-'
     .replace(/ /g, '-')
     // Replace any '--' to a '-'
