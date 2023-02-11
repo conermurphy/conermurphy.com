@@ -1,0 +1,124 @@
+---
+UUID: "01c0e5b3-252c-4f59-b0bb-67e2d12a8b9a"
+title: "How I Setup a JavaScript Repository for Clean, Reusable, and Efficient Development"
+date: "2023-02-11"
+topics: ["DEVELOPMENT", "JAVASCRIPT", "TYPESCRIPT"]
+slug: setup-a-javascript-repository-for-clean-reusable-efficient-development
+image: /images/generic/scrambled-letters.jpg
+published: true
+description: "As I’ve been asked by a few people how I structure my projects, I wanted to take a moment to put together a quick blog post covering the tooling I use."
+canonical_url: ""
+imageLink: "https://unsplash.com/photos/BVyNlchWqzs"
+---
+
+Who doesn’t love a good developer experience? There’s nothing worse than loading up a new project and finding that files are formatted differently depending on the author, random commit messages are used, or `any` types are being cast in a TypeScript project. And, if you’re anything like me that sounds like hell so that’s why all my projects where possible are set up with a bunch of tooling to handle these problems and force me (and the other developers I work with, sorry-not-sorry 👀) to use code best practices all the time.
+
+As I’ve been asked by a few people how I structure my projects, I wanted to take a moment to put together a quick blog post covering the tooling I use. Now, this isn’t a definitive list, I don’t always include every tool mentioned if it’s not relevant to the project I’m working on but most of the time I use the vast majority of this list.
+
+So, without further ado let’s get started.
+
+## ESLint/prettier
+
+The first stop on our list is [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/), I use these tools together to both format my code to look, well pretty, and highlight/resolve any warnings and errors that I have configured in my ESLint configuration. Now, creating an ESLint configuration is a fairly personal choice as everyone has their own opinions on what rules should and shouldn’t be enforced. But for those starting out on this journey, you can install pre-defined configurations from the likes of [airbnb](https://www.npmjs.com/package/eslint-config-airbnb), [Wes Bos](https://www.npmjs.com/package/eslint-config-wesbos), or [yours truly](https://www.npmjs.com/package/eslint-config-conermurphy).
+
+Regardless of the config you go for (or if you decide to make your own), the setup is pretty similar. In the root of your project, make sure you have a `package.json` file and then create a new file called `.eslintrc.json`, install your configuration package from NPM and then add your ESLint configuration to the config file you created. For example, if you were to use Wes Bos’s configuration, you’d include the below code.
+
+```json:[]:.eslintrc.json
+{
+  "extends": ["wesbos"]
+}
+```
+
+If you want a more in-depth breakdown of setting up ESLint on a project I recommend reading [Wes Bos’s ESLint guide here.](https://github.com/wesbos/eslint-config-wesbos)
+
+In regards to Prettier, my preferred way to configure it is via [its ESLint plugin](https://github.com/prettier/eslint-plugin-prettier) which lets you run Prettier like it is an ESLint plugin which has worked great so far.
+
+## commitlint
+
+[commitlint](https://commitlint.js.org/#/) is a great tool that lets you format commit messages so you can ensure they always meet the requirements placed upon them. I don’t do any crazy customizations with this and just use the [conventional commits plugin](https://www.npmjs.com/package/@commitlint/config-conventional). If you don’t know what conventional commits are, I highly recommend you [check them out](https://www.conventionalcommits.org/en/v1.0.0/) and use them on your project as they can be the key to some other powerful tooling like Semantic Release covered later in this post.
+
+To setup this up on your project is pretty easy, install commitlint and the conventional commit plugin with the command `npm install -g @commitlint/cli @commitlint/config-conventional`. Then create a new config file in the root of your project called `commitlint.config.js` and paste the below code into it.
+
+```js:[]:./commitlint.config.js:JAVASCRIPT
+module.exports = { extends: ["@commitlint/config-conventional"] };
+```
+
+With commitlint setup, we’ll later look at how we can pair it with Husky to lint our commit messages on every commit we make!
+
+## lint-staged
+
+[lint-staged](https://github.com/okonet/lint-staged) is another great tool we can use in our repositories to catch linting and formatting errors before they slip into our code base. I use this tool to run my ESLint and Prettier configurations from earlier against every commit’s staged files before the commits are made. What this means is if any errors are detected and can’t be fixed by ESLint the commit is aborted and I need to fix it before progressing.
+
+To install lint-staged run the command `npm install --save-dev lint-staged` and then create a config file called `.lintstagedrc` in the root of your project and add in the below code.
+
+```json
+{
+  "**/*.{json,css}": ["prettier --write"],
+  "**/*.{ts,tsx,js,jsx}": ["prettier --write", "eslint --fix"]
+}
+```
+
+This configuration will run Prettier on your CSS and JSON files while also running ESLint on your JavaScript and TypeScript files. You may now be asking how can we run it on our commits as we make them and that’s where our next tool comes in.
+
+## Husky
+
+[Husky](https://typicode.github.io/husky/#/) is a tool that lets us run scripts that are triggered by git hooks such as creating commits, pushing commits, commit messages, and more; you can see a list of [all the git hooks here](https://git-scm.com/docs/githooks). So, because Husky lets us run normal `sh` files and commands, we can do some pretty powerful things like running tests, linting commit messages (commitlint), linting our code (lint-staged), etc. For example, run lint-staged on every commit using the `pre-commit` hook.
+
+I won’t describe the installation and setup steps here as Husky has a great [getting-started guide](https://typicode.github.io/husky/#/?id=automatic-recommended) that covers it and more. I will however list the files and setups I typically use with Husky.
+
+```bash
+# commit-msg
+
+npx --no -- commitlint --edit ${1}
+```
+
+```bash
+# pre-commit
+
+npx lint-staged --allow-empty
+```
+
+Also, if I’m in a project with tests configured, I’ll also include a `pre-push` hook that runs the tests in the project for me but to avoid excessive waiting times this would be configured to run just the tests that have been impacted by my branch compared to the `main` branch.
+
+## TypeScript
+
+Does TypeScript need any introduction in 2023? If you’re not using TypeScript in your projects I highly recommend it for a variety of reasons but the chief one, of course, is the type safety you get with it. With TS you no longer need to worry about what type a piece of data is or if it could be undefined. If you want to write clean, efficient, and error-free code then TypeScript is a must.
+
+I won’t try to explain how to install and get started with TS as that ultimately is dependent on your project and what you’re doing but there will most likely be a guide for converting a JS project to a TS project on Google for you.
+
+## Testing Tools
+
+Testing is a huge part of software development and when implemented well it can stop bugs from happening and can stop faulty code from being merged or even pushed (if coupled with something like Husky) to a project.
+
+Now, testing is definitely a larger topic then one section allows but ideally you would want to have three types of tests in your project, End-to-End (E2E), integration, and unit tests. There are also many different tools out there for writing your tests, two of the best and my personal favorites are [Cypress](https://www.cypress.io/) and [Jest](https://jestjs.io/).
+
+Something to bare in mind is the setup for these tools will differ depending on what you’re doing. For example, if you’re testing backend code with Jest you won’t need to configure things like [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) but if you’re testing a React project this is a must! For this reason, I won’t give specific instructions on setting up these tools but there will almost certainly be guides out there for configuring these tools for your project, they might even come pre-installed like with AWS CDK projects.
+
+## Semantic Release
+
+[Semantic Release](https://github.com/semantic-release/semantic-release) is a tool that we can use to automatically version and publish NPM packages and repositories based on our commit messages and the types of them we use, this is where commitlint and the conventional commits plugin can help a tonne. So, if you’re making an NPM package that will be publicly released or you want to version your repository this tool is an absolute must in my opinion!
+
+To get started I highly recommend checking out [their docs](https://semantic-release.gitbook.io/semantic-release/usage/installation) and also checking out this tutorial I [wrote on versioning and publishing a package using Semantic Release](https://conermurphy.com/blog/automatically-publish-maintain-npm-package-semantic-release).
+
+## GitHub Actions
+
+Finally, we have one of my favorite tools and that’s [GitHub Actions](https://github.com/features/actions). I host every project I make on GitHub for lots of reasons but one of the bigger ones is GitHub Actions, their CI/CD tool. With GitHub Actions, we can replicate what we do locally with Husky (and more) in GitHub for each PR we create and push to a branch.
+
+For solo projects, the benefits of PRs can be disputed. But, I personally love using PRs for solo projects because it lets me validate my changes and make sure my linters, tests, and build pipelines all pass prior to merging in new code to the production branch. GitHub Actions and CI pipelines in general are how you become more confident that your new code and changes won’t break production!
+
+The way you configure and set up your GitHub Actions will ultimately depend on what you want to do in your CI pipeline. But, generally, it all starts with creating a `.github/workflows` directory at the root of your project and then adding `*.yml` files inside that folder for the different pipelines you’d like to run. For example, [here is a pipeline](https://github.com/conermurphy/squares/blob/main/.github/workflows/ci.yml) I run on one of my projects that checks my Next.js build passes, runs my Jest tests, ESLint config, and commitlint config, as well as triggers a build on Vercel for me, assigning aliases in the process.
+
+If you’re interested in learning more about GitHub Actions [check out their docs here.](https://docs.github.com/en/actions)
+
+## Closing Thoughts
+
+And, that’s it! The tools and packages I’ve mentioned in this post are the ones I use in the vast majority of my projects, sometimes it’s all of them and sometimes it’s just a few but these are the ones I use. If you’d like to see some example projects of mine where these tools are implemented check out the below public repositories on GitHub.
+
+- [Squares](https://github.com/conermurphy/squares)
+- [eslint-config-conermurphy](https://github.com/conermurphy/eslint-config-conermurphy)
+- [conermurphy.com](https://github.com/conermurphy/conermurphy.com)
+- [cdk-tutorials](https://github.com/conermurphy/cdk-tutorials/)
+
+Finally, I’d love to hear how many of these tools you use on your projects or if you use different ones and why you use them. And, as always, I hope you enjoyed this post and found it helpful.
+
+Thank you for reading.
