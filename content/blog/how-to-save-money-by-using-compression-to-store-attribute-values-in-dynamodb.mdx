@@ -1,0 +1,305 @@
+---
+UUID: cd3b226c-451e-40e2-9ede-faa28dac0cc8
+title: "How to Save Money by Using Compression to Store Attribute Values in Dynamodb."
+date: "2023-03-03"
+topics: ["DEVELOPMENT", "NEXTJS", "AWS", "TYPESCRIPT"]
+slug: save-money-using-compression-to-store-attribute-values-in-dynamodb
+image: /images/generic/clamp.jpg
+published: true
+description: "AWS DynamoDB places size constraints on us to ensure the platform remains fast. We can use compression to store our attribute values to meet these constraints as well as save money!"
+canonical_url: ""
+imageLink: "https://unsplash.com/photos/7_zxKAWCDQI"
+---
+
+AWS DynamoDB is a fully managed NoSQL database that offers fast and scalable performance regardless of the size of your application. To make this possible DynamoDB places some constraints on you as the developer/user. The two key constraints that you need to pay attention to are.
+
+1. Any individual item in a table cannot exceed 400 KB in size.
+2. Query and Scan operations are limited to 1 MB of data scanned (After that, you’ll need to paginate your data to retrieve further data).
+
+This means if your application handles large amounts of data it is very easy to hit these limits without thinking about it so it’s important we consider these limits when designing our application and storing data.
+
+Besides meeting these constraints, there is another reason we want to keep the size of our items small and that’s cost. For every Write/Read Capacity Unit (W/RCU) we use, we pay for it along with the total amount of space consumed in the database. So, in short, the less space we use overall and per item, the more money we save in the long run!
+
+But luckily, AWS has already thought about this and has listed some [best practices we can follow](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-use-s3-too.html) when working with large items in DynamoDB, and today, we’ll be taking a closer look at one of those in particular, compression. So, by the end of this post, you’ll have a better understanding of why it’s useful to compress attributes on items in DynamoDB as well as how to do it with an example application.
+
+Let’s get into it.
+
+## Defining Our Infrastructure
+
+For our example, we’re going to be building a small blog-like application that stores the author, title, content, and date for each item. This is a helpful example because blogs and their posts can quickly grow in size especially as posts grow in length. But, the information covered in this post will apply to any project type using DynamoDB.
+
+So, to get started [create a new CDK project](https://docs.aws.amazon.com/cdk/v2/guide/work-with-cdk-typescript.html), and then in the `*-stack.ts` file in the `lib` directory, we’ll want to define a new DynamoDB table using the below code.
+
+```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+// 👇 Define the DynamoDB Instance
+const dbTable = new Table(this, `DynamoDBTable`, {
+  partitionKey: { name: "author", type: AttributeType.STRING },
+  sortKey: { name: "title", type: AttributeType.STRING },
+  timeToLiveAttribute: "expires",
+  removalPolicy: RemovalPolicy.DESTROY,
+  billingMode: BillingMode.PAY_PER_REQUEST,
+});
+```
+
+Then with our new table defined, we want to define two Lambda functions, one for writing to the table and one for reading from it so let’s define them next.
+
+```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+// 👇 Define the Write Lambda
+const writeHandler = new NodejsFunction(this, "WriteHandler", {
+  runtime: Runtime.NODEJS_18_X,
+  entry: "./resources/write-handler.ts",
+  handler: "handler",
+  timeout: Duration.seconds(30),
+  environment: {
+    TABLE_NAME: dbTable.tableName,
+  },
+});
+
+// 👇 Define the Read Lambda
+const readHandler = new NodejsFunction(this, "ReadHandler", {
+  runtime: Runtime.NODEJS_18_X,
+  entry: "./resources/read-handler.ts",
+  handler: "handler",
+  timeout: Duration.seconds(30),
+  environment: {
+    TABLE_NAME: dbTable.tableName,
+  },
+});
+```
+
+Finally, the last thing we need to do in our `*-stack.ts` file is grant permissions for the Lambda functions to perform their relevant interactions with the database. We can define these by adding two more lines of code at the bottom of the file.
+
+```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+// 👇 Give write permissions to lambdas
+dbTable.grantWriteData(writeHandler);
+
+// 👇 Give read permissions to lambdas
+dbTable.grantReadData(readHandler);
+```
+
+And, that’s it, all our infrastructure for our test is defined and we just need to make our lambda code so let’s do that next.
+
+### Lambda Code
+
+Let’s start with the `write-handler.ts` lambda first so create a new file at `./resources/write-handler.ts` and add in the below code.
+
+```ts:[]:./resources/write-handler.ts:TYPESCRIPT
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
+import { PutCommand } from "@aws-sdk/lib-dynamodb";
+import { loremIpsum } from "lorem-ipsum";
+import { gzipSync } from "zlib";
+
+const dynamodb = new DynamoDB({});
+
+export const handler = async () => {
+  const { TABLE_NAME } = process.env;
+
+  const date = new Date();
+  const todayISO = date.toISOString().split("T")[0];
+
+  const text = loremIpsum({
+    count: 100,
+    units: "paragraph",
+    format: "plain",
+  });
+
+  const compressedText = gzipSync(text);
+
+  // Uncompressed write to DB
+  const { ConsumedCapacity: uncompressedConsumedCapacity } =
+    await dynamodb.send(
+      new PutCommand({
+        TableName: TABLE_NAME,
+        Item: {
+          author: "cmurphy",
+          title: "uncompressed",
+          content: text,
+          date: todayISO,
+        },
+        ReturnConsumedCapacity: "TOTAL",
+      })
+    );
+
+  // Compressed write to DB
+  const { ConsumedCapacity: compressedConsumedCapacity } = await dynamodb.send(
+    new PutCommand({
+      TableName: TABLE_NAME,
+      Item: {
+        author: "cmurphy",
+        title: "compressed",
+        content: compressedText,
+        date: todayISO,
+      },
+      ReturnConsumedCapacity: "TOTAL",
+    })
+  );
+
+  /* eslint-disable no-console */
+  console.log(
+    `UNCOMPRESSED: Consumed WCU's => ${uncompressedConsumedCapacity?.CapacityUnits}`
+  );
+  console.log(`UNCOMPRESSED: data size ~ ${Math.round(text.length / 1024)} KB`);
+  console.log(
+    `COMPRESSED: Consumed WCU's => ${compressedConsumedCapacity?.CapacityUnits}`
+  );
+  console.log(
+    `COMPRESSED: data size ~ ${Math.round(compressedText.length / 1024)} KB`
+  );
+  /* eslint-enable no-console */
+};
+```
+
+In this lambda, we generate a large block of text using the `lorem-ipsum` NPM package and then we store it in the database twice, one as the raw, uncompressed version and one as the compressed version using `gzipSync` from `zlib`. We then output the size of the data for both versions as well as the consumed WCUs that were used to write to DynamoDB. These console logs are what we’ll be referring to in the next section when we run our code and see the results in AWS CloudWatch.
+
+But, before we get to that let’s finish defining our lambda functions by creating our `read-handler.ts` so create a new file at `./resources/read-handler.ts` and add in the below code.
+
+```ts:[]:./resources/read-handler.ts:TYPESCRIPT
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
+import { GetCommand } from "@aws-sdk/lib-dynamodb";
+import { gunzipSync } from "zlib";
+
+const dynamodb = new DynamoDB({});
+
+export const handler = async () => {
+  const { TABLE_NAME } = process.env;
+
+  // Uncompressed read to DB
+  const {
+    ConsumedCapacity: uncompressedConsumedCapacity,
+    Item: uncompressedItem,
+  } = await dynamodb.send(
+    new GetCommand({
+      TableName: TABLE_NAME,
+      Key: {
+        author: "cmurphy",
+        title: "uncompressed",
+      },
+      ReturnConsumedCapacity: "TOTAL",
+    })
+  );
+
+  // Compressed read to DB
+  const { ConsumedCapacity: compressedConsumedCapacity, Item: compressedItem } =
+    await dynamodb.send(
+      new GetCommand({
+        TableName: TABLE_NAME,
+        Key: {
+          author: "cmurphy",
+          title: "compressed",
+        },
+        ReturnConsumedCapacity: "TOTAL",
+      })
+    );
+
+  const compressedTextOutput = gunzipSync(
+    compressedItem?.content as Buffer
+  ).toString();
+
+  /* eslint-disable no-console */
+  console.log(
+    `UNCOMPRESSED: Consumed RCU's => ${uncompressedConsumedCapacity?.CapacityUnits}`
+  );
+  console.log(
+    `UNCOMPRESSED: length of text => ${
+      (uncompressedItem?.content as string)?.length
+    } characters`
+  );
+  console.log(
+    `COMPRESSED: Consumed RCU's => ${compressedConsumedCapacity?.CapacityUnits}`
+  );
+  console.log(
+    `COMPRESSED: length of text => ${compressedTextOutput?.length} characters`
+  );
+  /* eslint-enable no-console */
+};
+```
+
+The `read-handler.ts` lambda is much the same as the `write-handler.ts` one but this time instead of writing data to the database, we’re reading it and instead of compressing the data, we’re uncompressing it.
+
+We’re also doing some more console logs at the end of the lambda to show the RCUs being consumed to read the data as well as the length of the text content to show no data has been lost in the compressing/uncompressing process compared to the never compressed version.
+
+Finally, with everything defined and ready to go, let’s deploy our stack using `cdk deploy` and after accepting any prompts given to us, our new DynamoDB database and Lambda functions should be defined and ready to go. So, let’s now move on to testing them and seeing the compression in action.
+
+## Running our tests
+
+### Write
+
+The first test we’re going to run is writing data into the database, to do this, trigger your lambda with the AWS CLI using the command `aws lambda invoke --function-name <LAMBDA_NAME> --invocation-type Event`; make sure to switch out the `<LAMBDA_NAME>` with the name of your deployed lambda function. If you don’t know the name of your function you can find it by running the command `aws lambda list-functions`.
+
+With your lambda triggered, head over to AWS CloudWatch in your AWS Dashboard and inspect the logs under “log groups” on the left sidebar. You should see something similar to the one below but the numbers will likely differ due to `lorem-ipsum` generating a different length of text.
+
+```
+UNCOMPRESSED: Consumed WCU's => 34
+UNCOMPRESSED: data size ~ 32 KB
+COMPRESSED: Consumed WCU's => 9
+COMPRESSED: data size ~ 8 KB
+```
+
+So as you can see the uncompressed version consumed ~275% more WCUs than the compressed version of the text which is a lot and could be costly in the long run.
+
+### Read
+
+Now, with our data written into the database let’s try reading it back out and see how many RCUs are consumed in the process. To trigger the `read-handler.ts` lambda, we’re going to use the same command we did for the `write-handler.ts` one but switch out the `<LAMBDA_NAME>` for the `read-handler.ts` name. After triggering, the lambda, inspect the logs for it again on AWS CloudWatch and you should see something similar to the one below.
+
+```
+UNCOMPRESSED: Consumed RCU's => 4
+UNCOMPRESSED: length of text => 32533 characters
+COMPRESSED: Consumed RCU's => 1.5
+COMPRESSED: length of text => 32533 characters
+```
+
+It’s not quite as big an increase this time but it’s still a ~165% difference between uncompressed and compressed which would still add up in the long term and at the end of the day, it’s always good to cut the cost. We can also see that no data was lost in the compression process which is great news!
+
+## Global Secondary Indexes (GSIs)
+
+Before closing out there is one last test to be run and that is using Global Secondary Indexes (GSIs) on DynamoDB. GSIs are a way you can query your data efficiently using attributes that aren’t the originally defined partition and sort keys for the table. You can [read more about them here](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) if you’re interested. To define a GSI for our table, go back into your `*-stack.ts` file in your `lib` directory and add the below code below the original DynamoDB table definition.
+
+```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+// 👇 Add Global Secondary Index for the dbTable
+dbTable.addGlobalSecondaryIndex({
+  indexName: "GSI1",
+  partitionKey: { name: "date", type: AttributeType.STRING },
+  sortKey: { name: "author", type: AttributeType.STRING },
+});
+```
+
+This code defines a new GSI on our table called `GSI1` with the `partitionKey` of the GSI being `date` and the `sortKey` being `author`. This means we could now query using those attributes instead of the originally defined ones earlier. However, for our purposes, this isn’t important. What we’re interested in is how AWS manages updates to DynamoDB tables that have GSIs.
+
+So, let’s test this out by deploying our stack again with `cdk deploy` and then triggering the write and read lambdas again using the same commands you used earlier. Then head back to CloudWatch and check out the new logs that have been generated.
+
+**Write Lambda**
+
+```
+UNCOMPRESSED: Consumed WCU's => 64
+UNCOMPRESSED: data size ~ 32 KB
+COMPRESSED: Consumed WCU's => 18
+COMPRESSED: data size ~ 8 KB
+```
+
+**Read Lambda**
+
+```
+UNCOMPRESSED: Consumed RCU's => 4.5
+UNCOMPRESSED: length of text => 33082 characters
+COMPRESSED: Consumed RCU's => 1.5
+COMPRESSED: length of text => 33082 characters
+```
+
+Looking at the numbers nothing much has changed for the `read-handler.ts` lambda, they’re pretty much the same given that we’re reading slightly more text than last time due to more text being generated. But, where it’s getting interesting is the `write-handler.ts` lambda; we’re writing a similar amount of text (+/- 500 words) but we’re consuming 2 times the amount of WCUs. What’s going on here?
+
+So, this is actually because of the GSI we implemented and is the reason I wanted to include this section. AWS [documents it more here](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html#GSI.StorageConsiderations) but what’s happening is because we’re writing an item to the table and the GSI of the table includes the attributes we’re updating, two writes are required; one to remove the old item from the index and one to add the new item into the index. These two writes are what lead to twice the WCUs being consumed than when we had no GSIs.
+
+## Destroying Your Stack
+
+Once you’ve finished with your stack and you no longer need it, make
+sure to destroy it from your AWS account using the command `cdk destroy` to ensure all the provisioned resources are removed and you’re not charged for resources you’re not using.
+
+## Closing Thoughts
+
+In this post, we covered why using compression is a useful tool to save money when working with DynamoDB. We also looked at how to implement it when writing and reading items using `zlib` as well as the percentage changes between uncompressed and compressed reads and writes.
+
+Finally, if you’re interested in seeing the entire code for this CDK project, you can [see it here on my GitHub repo](https://github.com/conermurphy/cdk-tutorials/tree/main/dynamodb-compression) along with all of my other CDK tutorials and examples.
+
+And, until next time.
+
+Thank you for reading.
