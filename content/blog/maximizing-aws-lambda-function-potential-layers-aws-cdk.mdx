@@ -1,0 +1,276 @@
+---
+UUID: "4d6ae5fe-c5cf-48a4-b4e9-607d7317f2b6"
+title: "Maximizing Your AWS Lambda Function's Potential with Layers and the AWS CDK"
+date: "2023-03-11"
+topics: ["DEVELOPMENT", "AWS", "TYPESCRIPT"]
+slug: maximizing-aws-lambda-function-potential-layers-aws-cdk
+image: /images/generic/sticky-notes.jpg
+published: true
+description: "Learn how to maximize AWS Lambda performance with Layers in AWS CDK using TypeScript. Improve deployment time and shrink deployment size."
+canonical_url: ""
+imageLink: "https://unsplash.com/photos/Rl_ceSSjnuQ"
+---
+
+A common approach to working with AWS lambdas in the AWS CDK with TypeScript is to bundle your external dependencies and reused code into the final compiled JavaScript that is deployed to the lambda function. Often this is achieved by using something like the `NodeJsFunction` construct but this comes with its downsides such as increased bundle size leading to potentially slower deployment times.
+
+But, there is a solution to this problem and that’s [layers](https://docs.aws.amazon.com/lambda/latest/dg/invocation-layers.html). Lambda layers allow us to easily reuse code across multiple lambda functions without needing to reinstall, repeat, or bundle the same code multiple times when deploying.
+
+Layers work by defining the common code we want to share across lambdas into a single file that is independently deployed and versioned external to the lambda functions themselves. Then when a lambda is executed, if it uses a layer we’ve defined, both the lambda code and the layer code are copied into their execution environment where the function is executed using the layer code before returning the output.
+
+So, in this post, we’re going to be looking at Lambda layers in more detail, the benefits of using them as well as how we can create our first layer using the AWS CDK and TypeScript. We’ll then conclude the post by looking at how they can shrink our deployment size when using external dependencies and the best practices for using them.
+
+## Benefits of Using Lambda Layers in Serverless Development
+
+Let’s start our journey into Lambda layers by looking at some of the benefits they can bring us.
+
+### Reusability
+
+Because layers allow us to split out shared code and dependencies so they can be used across a number of Lambda functions, it removes the need for us to duplicate common code across lambdas or repeatedly bundle it up into our compiled functions. Over time this allows us to not only save time but also remove the possibility of errors potentially occurring in our lambda functions from inconsistencies between the reused code.
+
+### Faster Deployment Times
+
+The more that is bundled into your Lambda function, the longer it’s going to take to deploy to AWS and be ready for you to use and test. And, one of the quickest ways to increase the size of your Lambda deployment bundle is to include any external dependencies in our compiled Lambdas. But, by using layers we can remove these external dependencies and just have them installed once on AWS removing the need for us to compile them into our code and bloat our deployment bundle size
+
+### Easier External Dependencies Management
+
+Because Lambda layers are self-contained packages with their own dependencies, it allows us to centrally control the version of any consumed external dependencies without needing to worry about if different lambdas are consuming different versions or not. By using layers, we can easily manage and update all of the external dependencies consumed in the layer knowing that those updates will also be applied to the lambda functions that consume the layer.
+
+## Defining an AWS Lambda Layer
+
+Now we’ve covered the benefits of using Lambda layers in our AWS stacks, let’s take a look at defining our first lambda layer using TypeScript and the AWS CDK. You can either use an existing CDK project or create a new one for this guide.
+
+For this example, I’m going to be using the external dependency `lorem-ipsum` to show how we can bundle NPM packages up into a layer for use in lambda. So, to get started in, your stack definition file inside `lib` add the below code.
+
+```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+// 👇 Create the lambda layer
+const loremIpsumLayer = new LayerVersion(this, "LoremIpsumLayer", {
+  code: Code.fromAsset("./resources/layers/loremIpsum"),
+  compatibleRuntimes: [Runtime.NODEJS_16_X],
+  description: "Layer containing lorem ipsum package",
+});
+```
+
+This code snippet uses the `LayerVersion` construct to allow us to define a new layer using the code inside the folder passed to the `code` property which we’ll be defining in a moment. We’re also defining which runtimes this layer will work with so make sure that all the lambda functions you’re going to use this layer with use one of the runtimes defined here.
+
+Next, let’s create the actual layer code, to get started create a series of new directories so you have the folder path `./resources/layers/loremIpsum/nodejs`. Inside this directory is where we’re going to put the actual code for our layer but before doing that let’s look at the folder path we just created. The first directories `./resources/layers` aren’t too important as this could be called anything, the important parts are the `loremIpsum` (the name of our layer) and the `nodejs` (the runtime the layer will use. If you wanted to specify a Node.js version or use a different runtime, [read more here.](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html#configuration-layers-path))
+
+Inside our `nodejs` folder, create a new `package.json` and paste into it the below contents.
+
+```json:[]:./resources/layers/loremIpsum/nodejs/package.json
+{
+  "name": "loreum-ipsum",
+  "version": "0.1.0",
+  "dependencies": {
+    "lorem-ipsum": "^2.0.8"
+  }
+}
+```
+
+At this point, you’ll want to `cd` into the `nodejs` directory and run `npm install` to install these dependencies so you can use them locally. After installing, create a new file in the same directory called `loremIpsum.ts`, and inside it put the following.
+
+```ts:[]:./resources/layers/loremIpsum/nodejs/loremIpsum.ts:TYPESCRIPT
+export { loremIpsum } from "lorem-ipsum";
+```
+
+For our example this is just a simple export as all we want to do is reuse the package in our lambda functions but in theory, this layer could contain and export any code that you want to reuse. And, with that, your layer is defined and we can now look at consuming it in our lambda function.
+
+## Consuming Our Layer in a Lambda Function
+
+Before we can actually use our new layer in our Lambda code, we first need to define our Lambda so back in our stack definition file inside `lib`, add the below code.
+
+```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+// 👇 Create the Layer Lambda
+const layerLambda = new NodejsFunction(this, "LayerLambda", {
+  memorySize: 1024,
+  timeout: Duration.seconds(5),
+  runtime: Runtime.NODEJS_16_X,
+  handler: "handler",
+  entry: `./resources/lambdas/layer-lambda.ts`,
+  bundling: {
+    minify: false,
+    externalModules: ["lorem-ipsum"],
+  },
+  layers: [loremIpsumLayer],
+});
+```
+
+This is largely just a normal lambda definition but the key differences to note are the `bundling` and `layers` properties we’re passing. The `layers` property is doing what you’d expect and is telling the lambda definition what layers are needed inside of this lambda and we just pass in the layer we defined earlier.
+
+For the `bundling` property, we’re saying which external dependencies are going to be used in this lambda and will already be available at runtime so they don’t need to be compiled into the final lambda code.
+
+With that code added, we’ve just attached our new layer to our lambda function but we still need to write our lambda function so let’s do that next. But, first, before we do that we need to take care of some TypeScript configuration.
+
+### Local TypeScript Configuration
+
+For us to work with our layer code locally we need to import the dependencies from the files we defined them in (`"resources/layers/loremIpsum/nodejs”`), the issue is that’s not where they’ll be once they’re deployed to AWS, they’ll be at `"opt/nodejs/loremIpsum"`. Although this isn’t important for this post, the reason for this is because of how layers are copied into the execution environment of a lambda function when one is executed.
+
+So, in our Lambda code locally we need to reference the path they’ll be at once deployed to AWS (`"opt/nodejs/loremIpsum”`) but by default, this will throw a TS error as it’ll be unable to resolve the path. To resolve this, we need to use the `paths` option in our `tsconfig.json` file to tell TypeScript that these two paths are the same allowing us to use the AWS deployed path locally and let TS resolve that to the actual local path needed for the dependencies to be found.
+
+To add this configuration, inside your `tsconfig.json` file, add the below code to your `compilerOptions` object.
+
+```json:[]:./tsconfig.json
+"paths": {
+  "opt/nodejs/loremIpsum": ["resources/layers/loremIpsum/nodejs/loremIpsum"],
+}
+```
+
+With that bit of configuration out the way, let’s define our Lambda function by creating a new `lambdas` folder inside our `resources` folder and then a new file called `layer-lambda.ts` inside that. Inside this new file add the below code.
+
+```ts:[]:./resources/lambdas/layer-lambda.ts:TYPESCRIPT
+import { loremIpsum } from "opt/nodejs/loremIpsum";
+
+export const handler = () => {
+  const loremIpsumText = loremIpsum({
+    count: 3,
+    units: "paragraphs",
+    format: "plain",
+    sentenceLowerBound: 5,
+    sentenceUpperBound: 15,
+    paragraphLowerBound: 3,
+    paragraphUpperBound: 7,
+  });
+
+  // eslint-disable-next-line no-console
+  console.log("text", loremIpsumText);
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      message: loremIpsumText,
+    }),
+  };
+};
+```
+
+It’s a pretty simple function we’re running, we just generate some text using the `loremIpsum` package we exported from our layer and then log it to the console. The important part for this tutorial to note is the directory path we’re importing that package from, it’s the AWS path as we configured above, meaning our TS `paths` configuration is working as expected!
+
+### Testing Our Lambda
+
+Before we can test our Lambda function, we need to deploy our stack and call our Lambda function via the CLI. You can either find the name of your lambda function after deploying it by using the dashboard or the CLI. Or, you can add a `CfnOutput` construct to your stack definition file inside `lib` to have it automatically outputted after the deployment finishes. To do this, add the following to the bottom of the stack definition file.
+
+```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+// 👇 Output the name of the lambda functions to call via the CLI
+new CfnOutput(this, "LayerLambdaFunction", {
+  value: layerLambda.functionName,
+});
+```
+
+Now, deploy using `cdk deploy` in your terminal (make sure you’re running it from the root of your CDK project and not the layer directory from earlier). And, then execute your Lambda using the below CLI command, making sure to switch your lambda name into it.
+
+```bash
+aws lambda invoke --function-name <LAMBDA_NAME> --invocation-type Event
+```
+
+After your deployment has finished, head over to your AWS dashboard and inspect your CloudWatch logs for this lambda function to make sure everything executed as intended. You should see something like the below and have a load of Lorem \*\*\*\*ipsum outputted to your logs.
+
+```
+text Elit reprehenderit in et veniam ullamco et occaecat anim magna. Ullamco nisi non anim excepteur id. In eiusmod consequat amet commodo reprehenderit anim in ullamco ipsum ad. Minim aliquip consequat ullamco labore consectetur excepteur consequat nostrud. Dolore aliqua eiusmod commodo excepteur non consequat Lorem nostrud magna deserunt minim cupidatat culpa.
+Nostrud consectetur ut enim anim minim. Adipisicing laborum magna nisi cillum fugiat fugiat nostrud sit proident ullamco anim dolore. Ut Lorem ipsum ex qui fugiat anim. Ipsum excepteur aute dolore esse ex ad deserunt officia reprehenderit do id sit.
+Lorem labore cupidatat esse ullamco eu ipsum. Sit qui voluptate occaecat sunt mollit veniam reprehenderit deserunt in fugiat nulla voluptate. Et dolore nisi aliquip reprehenderit aute fugiat esse cillum velit pariatur cillum nostrud duis anim.
+```
+
+If you see something similar to the above then congrats that means your Lambda layer works as intended!
+
+## How Lambda Layers Shrink Deployment Size With External Dependencies
+
+As mentioned earlier, using layers can help shrink the deployment size of your lambdas when working with external dependencies because we can omit the packages from our compiled code using the `bundling` property we looked at earlier.
+
+But, instead of just talking about the theory let’s take a look at a practical example. So, what we’re going to do is create a second lambda in our stack that does the same as the first one but this time we’re not going to use the layer we defined; instead, we’re going to bundle the package into the outputted code directly.
+
+So, to get started, install `lorem-ipsum` in your root `package.json` and then create a new file inside your `lambdas` directory called `non-layer-lambda.ts` and paste into it the below code.
+
+```ts:[]:./resources/lambdas/non-layer-lambda.ts:TYPESCRIPT
+import { loremIpsum } from "lorem-ipsum";
+
+export const handler = () => {
+  const loremIpsumText = loremIpsum({
+    count: 3,
+    units: "paragraphs",
+    format: "plain",
+    sentenceLowerBound: 5,
+    sentenceUpperBound: 15,
+    paragraphLowerBound: 3,
+    paragraphUpperBound: 7,
+  });
+
+  // eslint-disable-next-line no-console
+  console.log("text", loremIpsumText);
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      message: loremIpsumText,
+    }),
+  };
+};
+```
+
+This function is identical to the previous one we wrote with the only difference being the package import, this time we’re importing the package directly and not using the layer we defined for it.
+
+To add this Lambda to our CDK stack, in your stack definition file inside `lib` add the below code.
+
+```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+// 👇 Create the Non Layer Lambda
+const nonLayerLambda = new NodejsFunction(this, "NonLayerLambda", {
+  memorySize: 1024,
+  timeout: Duration.seconds(5),
+  runtime: Runtime.NODEJS_16_X,
+  handler: "handler",
+  entry: `./resources/lambdas/non-layer-lambda.ts`,
+});
+```
+
+This defines our new non-layer Lambda and lets us deploy it. Speaking of which let’s now do that with our `cdk deploy` command. But, this time instead of triggering the lambda, we’re going to look at the output in the terminal from `cdk deploy`. Towards the top of the output, you should see something like this.
+
+```
+Bundling asset LambdaLayersStack/LayerLambda/Code/Stage...
+
+cdk.out/bundling-temp-44ec4e5937c7e6a03abb425270c491926a41ca5ac8e3b4da2b8e9c5dd6bdabb4/index.js  1.6kb
+
+⚡ Done in 9ms
+Bundling asset LambdaLayersStack/NonLayerLambda/Code/Stage...
+
+cdk.out/bundling-temp-2fe6392ca8a13c862783183f877b20b916849e81398b84807745eadfaa53334b/index.js  22.4kb
+
+⚡ Done in 4ms
+```
+
+And, if we look to the right of the output we can see the final file sizes of the two lambdas. With the layer lambda only being `1.6kb` and the non-layer lambda being `22.4kb`. Now, neither of these lambdas is large, they’re both pretty tiny but that’s because they’re tiny files using a small NPM package.
+
+But, what we’re interested in is the relative difference in the file sizes which is `20.8kb` or a 1300% increase! This shows how powerful layers can be and the impact they can have on our deployment bundle sizes.
+
+## Best Practices for Using AWS Lambda Layers
+
+So, now we’ve looked at the benefits of Lambda layers as well as how to get started with them in a TypeScript CDK project, let’s finish by looking at some of the best practices for using layers.
+
+### Know the Restrictions of Layers
+
+When working with lambdas and layers it’s important to remember the two key restrictions that are placed on them, they are.
+
+- You can only add up to 5 layers to a lambda function
+- The combined unzipped size of your function and all its consumed layers cannot exceed 250 MB (the unzipped deployment package size quota)
+
+### Keep the Layer Size Small
+
+To make sure your lambdas have fast deployment and cold start times, keep your layer sizes small and avoid including any unnecessary code or dependencies that could bloat your layer size.
+
+### Use Different Layers for Different Libraries
+
+To keep your layers easy to manage and update in the future, keep your layer's contents scoped to their purpose, and don’t include multiple libraries or packages in a single layer unless it’s absolutely required.
+
+### Monitor Your Lambda Layers
+
+Finally, just like any other AWS infrastructure, make sure to monitor your layers for any potential errors or anomalies in their invocation count and/or duration.
+
+## Closing Thoughts
+
+In this post, we’ve covered Lambda layers, what they are, their benefits as well as how to get started with them, and their best practices. Overall layers are a great tool to have and can help us cut down on code duplication and potential errors while also letting us deploy smaller and more efficient lambdas.
+
+I hope you found this post helpful and if you’re interested in reading more about layers you can check out the AWS documentation for them below as well as see the code repo for the example built in this post.
+
+And, as always, thank you for reading.
+
+## Additional Resources
+
+- [AWS Documentation on layers](https://docs.aws.amazon.com/lambda/latest/dg/invocation-layers.html)
+- [Example Code Repo for this post](https://github.com/conermurphy/cdk-tutorials/tree/main/lambda-layers)
