@@ -44,6 +44,7 @@ sitemap-0.xml
 sitemap.xml
 public/rss
 
+<<<<<<< HEAD
 *.js
 !jest.config.js
 *.d.ts
@@ -52,3 +53,7 @@ node_modules
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+=======
+./backend
+./frontend
+>>>>>>> 449641a2b2cf20a512cca8f16649befb6f362d8d
