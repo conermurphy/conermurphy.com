@@ -42,3 +42,6 @@ robots.txt
 sitemap-0.xml
 sitemap.xml
 public/rss
+
+./backend
+./frontend
