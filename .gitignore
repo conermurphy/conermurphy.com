@@ -43,6 +43,7 @@ robots.txt
 sitemap-0.xml
 sitemap.xml
 public/rss
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 *.js
@@ -57,3 +58,5 @@ cdk.out
 ./backend
 ./frontend
 >>>>>>> 449641a2b2cf20a512cca8f16649befb6f362d8d
+=======
+>>>>>>> e886c3245a4ff0fb449748d8aac53d24b6d13d4a
