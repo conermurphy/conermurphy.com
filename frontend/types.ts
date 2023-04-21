@@ -1,4 +1,4 @@
-import { ApolloError } from '@apollo/client';
+// import { ApolloError } from '@apollo/client';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { ParsedUrlQuery } from 'querystring';
 
