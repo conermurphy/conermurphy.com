@@ -29,14 +29,14 @@ So, with all that said and covered, let’s jump into the actual tutorial portio
 
 To get started, use either an existing CDK project or create a new one. Then ensure you have a lambda function or two that you’d like to trigger on a one-off and recurring basis. For this example, I’m going to create two new functions inside a `./resources` folder with the below code.
 
-```ts:[]:./resource/one-off.ts:TYPESCRIPT
-// ./resouces/one-off.ts
+```ts:[]:./resources/one-off.ts:TYPESCRIPT
+// ./resources/one-off.ts
 
 export const handler = () => console.log('one off');
 ```
 
-```ts:[]:./resource/recurring.ts:TYPESCRIPT
-// ./resouces/recurring.ts
+```ts:[]:./resources/recurring.ts:TYPESCRIPT
+// ./resources/recurring.ts
 
 export const handler = () => console.log('recurring');
 ```

@@ -26,6 +26,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+.env
 .env.local
 .env.development.local
 .env.test.local
@@ -42,6 +43,3 @@ robots.txt
 sitemap-0.xml
 sitemap.xml
 public/rss
-
-./backend
-./frontend
