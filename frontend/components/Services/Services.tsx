@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Service } from '../../types';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
-import { getIcon } from '../../utils';
+import FullStackDeveloperGraphic from '../Graphics/Fullstack-Developer';
+import TechWriterGraphic from '../Graphics/Tech-Writer';
+import VideoMakerGraphic from '../Graphics/Video-Maker';
 
 interface IProps {
   services: Service[];
@@ -10,6 +12,23 @@ interface IProps {
 
 export default function Services({ services }: IProps): JSX.Element {
   const [activeService, setActiveService] = useState<Service>(services[0]);
+  const [activeGraphic, setActiveGraphic] = useState<JSX.Element | null>(null);
+
+  useEffect(() => {
+    switch (activeService.title) {
+      case 'Fullstack Developer':
+        setActiveGraphic(<FullStackDeveloperGraphic />);
+        break;
+      case 'Technical Writer':
+        setActiveGraphic(<TechWriterGraphic />);
+        break;
+      case 'Content Creator':
+        setActiveGraphic(<VideoMakerGraphic />);
+        break;
+      default:
+        break;
+    }
+  }, [activeService, services]);
 
   useEffect(() => {
     setInterval(() => {
@@ -35,7 +54,7 @@ export default function Services({ services }: IProps): JSX.Element {
           'Lorem ipsum dolor sit amet consectetur. A arcu amet viverra et ullamcorper eget ac.',
       }}
     >
-      <div className="flex flex-row items-center gap-12">
+      <div className="grid grid-cols-2 w-full justify-items-center items-center ">
         <ul className="max-w-2xl">
           {services.map((service) => (
             <motion.li
@@ -53,7 +72,9 @@ export default function Services({ services }: IProps): JSX.Element {
             </motion.li>
           ))}
         </ul>
-        <div>{getIcon({ icon: activeService.icon, size: '200px' })}</div>
+        <div className="flex flex-row items-center justify-center h-96 w-96">
+          {activeGraphic}
+        </div>
       </div>
     </ComponentWrapper>
   );

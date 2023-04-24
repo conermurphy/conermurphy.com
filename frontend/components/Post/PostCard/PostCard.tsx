@@ -1,9 +1,8 @@
 import React from 'react';
-import Img from 'next/image';
 import { motion } from 'framer-motion';
 import { PostFrontMatter, POSTTYPES } from '../../../types';
 import NoScrollLink from '../../NoScrollLink/NoScrollLink';
-import { postComponent, TOPICS, viewportSettings } from '../../../constants';
+import { postComponent, viewportSettings } from '../../../constants';
 
 interface IProps {
   post: PostFrontMatter;
@@ -11,7 +10,7 @@ interface IProps {
 }
 
 export default function PostCard({ post, postType }: IProps): JSX.Element {
-  const { title, date, slug, image, description } = post;
+  const { title, date, slug, description } = post;
 
   const wrappedTitle = title.replace(
     /`(.*?)`/g,
@@ -28,7 +27,7 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
       viewport={{ ...viewportSettings, amount: 0.2 }}
       className="contents"
     >
-      <div className="flex flex-col gap-y-4 p-8 break-words border-brand border-l-8">
+      <div className="flex flex-col gap-y-4 p-8 break-words border-brand border-l-8 max-w-lg h-full justify-center">
         <p className="text-brand font-heading font-extrabold text-lg">
           {new Date(date).toLocaleDateString('en-GB', {
             year: 'numeric',

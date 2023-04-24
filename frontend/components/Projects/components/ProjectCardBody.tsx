@@ -1,5 +1,7 @@
 import React from 'react';
 import { Project } from '../../../types';
+import { getIcon } from '../../../utils';
+import { ICONS } from '../../../constants';
 
 interface IProps {
   project: Project;
@@ -7,24 +9,23 @@ interface IProps {
 
 export default function ProjectCardBody({ project }: IProps) {
   return (
-    <>
-      <p>{project.description}</p>
-      <div className="grid grid-cols-2 gap-4 font-bold mt-8">
+    <div className="grid grid-cols-8 gap-4 w-full">
+      <a
+        href={project.url}
+        className={`flex flex-row items-center justify-center ${
+          project.githubUrl ? 'col-span-7' : 'col-span-8'
+        } bg-brand w-full p-3 rounded-sm`}
+      >
+        View Project
+      </a>
+      {project.githubUrl ? (
         <a
-          href={project.url}
-          className="flex flex-row items-center justify-center py-2 bg-primaryBgDark/90 rounded-sm border-2 border-transparent hover:border-accent duration-150 transition-all ease-in-out text-primaryTextDark"
+          href={project.githubUrl}
+          className="flex flex-row items-center justify-center col-span-1 w-full p-3 rounded-sm bg-text/10"
         >
-          View Project
+          {getIcon({ icon: ICONS.GITHUB.name, size: '24px' })}
         </a>
-        {project.githubUrl ? (
-          <a
-            href={project.githubUrl}
-            className="flex flex-row items-center justify-center py-2 bg-primaryBgDark/70 rounded-sm border-2 border-transparent hover:border-accent duration-150 transition-all ease-in-out text-primaryTextDark"
-          >
-            Source Code
-          </a>
-        ) : null}
-      </div>
-    </>
+      ) : null}
+    </div>
   );
 }

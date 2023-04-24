@@ -2,6 +2,7 @@ import React, { ReactElement, ReactNode } from 'react';
 
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
+  direction?: 'column' | 'row';
   data?: {
     title?: string;
     tag?: string;
@@ -13,12 +14,17 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
 export default function ComponentWrapper({
   data: { title = '', tag = '', description = '', link } = {},
   children,
+  direction = 'column',
   ...props
 }: IProps): JSX.Element {
   return (
     <div className="flex flex-col items-center justify-center" {...props}>
-      <section className="flex flex-col gap-16 md:max-w-7xl w-full">
-        <div className="flex flex-col items-start gap-2">
+      <section
+        className={`flex ${
+          direction === 'column' ? 'flex-col' : 'flex-row justify-between'
+        } gap-16 md:max-w-7xl w-full`}
+      >
+        <div className="flex flex-col items-start gap-4">
           <p className="text-xl text-brand font-heading font-extrabold">
             {tag}
           </p>

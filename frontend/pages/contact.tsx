@@ -1,5 +1,5 @@
 import type { GetStaticProps, NextPage } from 'next';
-import { SEO, Testimonials, ContactSection, Services } from '../components';
+import { SEO, Services } from '../components';
 import { Service, Testimonial } from '../types';
 import { generateRssFeeds, pageDataSource } from '../utils';
 
@@ -14,7 +14,6 @@ const Contact: NextPage<IProps> = ({ testimonials, services }) => (
       metaTitle="Contact Me"
       metaDescription="Got a question you want to ask? Or, want to team up on an upcoming project? Here's how to get in touch with me."
     />
-    <ContactSection />
     <Services services={services} />
     <Testimonials testimonials={testimonials} />
   </>
@@ -23,13 +22,12 @@ const Contact: NextPage<IProps> = ({ testimonials, services }) => (
 export const getStaticProps: GetStaticProps = async () => {
   await generateRssFeeds();
 
-  const { services, testimonials } = await pageDataSource({
+  const { services } = await pageDataSource({
     services: true,
-    testimonials: true,
   });
 
   return {
-    props: { services, testimonials },
+    props: { services },
   };
 };
 

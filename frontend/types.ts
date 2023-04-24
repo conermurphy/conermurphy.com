@@ -1,6 +1,7 @@
 // import { ApolloError } from '@apollo/client';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { ParsedUrlQuery } from 'querystring';
+import { ReactElement } from 'react';
 
 export enum THEMES {
   LIGHT = 'LIGHT',
@@ -27,7 +28,6 @@ export type Icons = {
 export type Service = {
   title: string;
   copy: string;
-  icon: string;
 };
 
 export type Project = {

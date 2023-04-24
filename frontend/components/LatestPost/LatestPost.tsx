@@ -4,12 +4,23 @@ import { PostCard } from '../Post';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
 import NoScrollLink from '../NoScrollLink/NoScrollLink';
 
-interface IProps {
-  post: Post;
-  postType: POSTTYPES;
-}
+type IProps =
+  | {
+      post: Post;
+      link?: never;
+      postType: POSTTYPES.BLOG;
+    }
+  | {
+      link: string;
+      post?: never;
+      postType: POSTTYPES.VIDEO;
+    };
 
-export default function LatestPost({ post, postType }: IProps): JSX.Element {
+export default function LatestPost({
+  post,
+  postType,
+  link,
+}: IProps): JSX.Element {
   return (
     <ComponentWrapper
       data={{
@@ -36,7 +47,10 @@ export default function LatestPost({ post, postType }: IProps): JSX.Element {
           ),
       }}
     >
-      <PostCard post={post.data} postType={postType} />
+      {postType === POSTTYPES.BLOG ? (
+        <PostCard post={post.data} postType={postType} />
+      ) : null}
+      {postType === POSTTYPES.VIDEO ? <p>{link}</p> : null}
     </ComponentWrapper>
   );
 }

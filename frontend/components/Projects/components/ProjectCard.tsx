@@ -1,6 +1,5 @@
 import React from 'react';
 import { Project } from '../../../types';
-import Logo from '../../Logo/Logo';
 import ProjectCardBody from './ProjectCardBody';
 import ProjectLanguages from './ProjectLanguages';
 
@@ -10,15 +9,15 @@ interface IProps {
 
 export default function ProjectCard({ project }: IProps) {
   return (
-    <article className="flex flex-col gap-6 rounded-md overflow-hidden bg-secondaryBg dark:bg-secondaryBgDark p-6">
+    <article className="flex flex-col gap-8 rounded-md p-6 border-4 border-text/10">
       <div className="flex flex-row flex-wrap gap-6 justify-between items-center">
-        <Logo classes="w-12 h-12" />
         <ProjectLanguages project={project} />
       </div>
-      <div className="flex flex-col gap-4 justify-start">
-        <h3 className="text-xl font-bold border-b-4 pb-2 border-accent w-max">
-          {project.title}
-        </h3>
+      <div className="flex flex-col gap-8 justify-start">
+        <div className="flex flex-col gap-2">
+          <h3 className="font-heading text-xl">{project.title}</h3>
+          <p>{project.description}</p>
+        </div>
         <ProjectCardBody project={project} />
       </div>
     </article>
