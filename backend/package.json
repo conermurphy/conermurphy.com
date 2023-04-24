@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "0.1.0",
   "bin": {
-    "backend": "bin/backend.js"
+    "conermurphy-cdk": "bin/conermurphy-cdk.js"
   },
   "scripts": {
     "build": "tsc",

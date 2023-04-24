@@ -7,11 +7,7 @@ interface IProps {
   [x: string]: string | boolean | ReactNode;
 }
 
-export default function NoScrollLink({
-  href,
-  children,
-  ...props
-}: IProps): JSX.Element {
+export default function NoScrollLink({ href, children, ...props }: IProps) {
   return (
     <Link href={href} scroll={false} {...props}>
       {children}

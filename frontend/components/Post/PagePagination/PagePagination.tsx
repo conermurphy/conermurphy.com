@@ -46,21 +46,20 @@ function PageNumber({
             }`
       }`}
       key={pageNumber}
-      passHref
+      className={`text-sm font-semibold ${pageNumberStyles} ${
+        activePage
+          ? 'bg-accent dark:bg-accent/75'
+          : 'bg-primaryBgDark/10 hover:bg-accent hover:dark:bg-accent/75'
+      }`}
+      data-testid="pagination-number"
     >
-      <a
-        className={`text-sm font-semibold ${pageNumberStyles} ${
-          activePage
-            ? 'bg-accent dark:bg-accent/75'
-            : 'bg-primaryBgDark/10 hover:bg-accent hover:dark:bg-accent/75'
-        }`}
-        data-testid="pagination-number"
-      >
         {pageNumber}
-      </a>
     </NoScrollLink>
   );
 }
+
+
+
 
 export default function PagePagination({
   pageCount,
@@ -99,16 +98,14 @@ export default function PagePagination({
   return (
     <div className="flex flex-row items-center justify-center bg-primaryBg dark:bg-primaryBgDark">
       <nav className="flex flex-row justify-between md:max-w-7xl px-6 pt-6 w-full text-lg lg:px-12 2xl:px-0">
-        <NoScrollLink href={prevLink} passHref>
-          <a
-            className={`font-semibold ${
+        <NoScrollLink href={prevLink} className={`font-semibold ${
               !hasPrevLink ? disabledLinkStyles : enabledLinkStyles
             }`}
-            aria-disabled={!hasPrevLink}
-          >
+            aria-disabled={!hasPrevLink}>
+          
             <span className="md:hidden">{'<'}</span>
             <span className="hidden md:block">&#8592; Previous Page</span>
-          </a>
+         
         </NoScrollLink>
         <div className="flex-row gap-2 hidden md:flex">
           {pageCount <= 5 ? (
@@ -159,16 +156,16 @@ export default function PagePagination({
           of <span className="font-semibold">{pageCount}</span>
         </p>
 
-        <NoScrollLink href={nextLink} passHref>
-          <a
+        <NoScrollLink href={nextLink} 
             className={`font-semibold ${
               !hasNextLink ? disabledLinkStyles : enabledLinkStyles
             }`}
-            aria-disabled={!hasNextLink}
-          >
+            aria-disabled={!hasNextLink}>
+          
+          
             <span className="md:hidden">{'>'}</span>
             <span className="hidden md:block">Next Page &#8594;</span>
-          </a>
+         
         </NoScrollLink>
       </nav>
     </div>

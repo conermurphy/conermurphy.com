@@ -38,8 +38,8 @@ export default function MobileHeader(): JSX.Element {
     >
       <header className="m-auto" ref={headerRef}>
         <div className="flex flex-row items-center justify-between h-20 bg-transparent p-6 sm:px-12">
-          <NoScrollLink href="/" passHref>
-            <a className="font-bold opacity-100 text-xl">Coner Murphy</a>
+          <NoScrollLink href="/" passHref className="font-bold opacity-100 text-xl">
+            Coner Murphy
           </NoScrollLink>
           <button
             type="button"

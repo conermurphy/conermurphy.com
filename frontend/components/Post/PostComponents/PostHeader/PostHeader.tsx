@@ -49,15 +49,7 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
             </a>
           </figcaption>
         ) : null}
-        <Img
-          src={image}
-          alt={title}
-          layout="responsive"
-          objectFit="contain"
-          width={1100}
-          height={619}
-          className="rounded-md z-[1]"
-        />
+        <Img src={image} alt={title} fill className="rounded-md z-[1]" />
       </figure>
     </header>
   );

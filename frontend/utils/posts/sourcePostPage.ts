@@ -26,13 +26,10 @@ export default async function sourcePostPage({
 }: IProps) {
   const postData = await getAllPosts({ postType });
   // Source data for extra sections being displayed on the page
-  const { latestBlogs, testimonials, latestNewsletters } = await pageDataSource(
-    {
-      latestBlogs: true,
-      latestNewsletters: true,
-      testimonials: true,
-    }
-  );
+  const { latestBlogs, latestNewsletters } = await pageDataSource({
+    latestBlogs: true,
+    latestNewsletters: true,
+  });
 
   // Get all topics used on the POSTTYPE
   const { topics } = await getAllTopics({
@@ -57,7 +54,6 @@ export default async function sourcePostPage({
         pageNumber,
         posts,
         topics,
-        testimonials,
         postType,
       },
     };
@@ -77,7 +73,6 @@ export default async function sourcePostPage({
         pageNumber,
         posts,
         topics,
-        testimonials,
         postType,
         pageQueries: {
           page: pageQueries?.page ?? '',
@@ -110,7 +105,6 @@ export default async function sourcePostPage({
         pageNumber,
         posts,
         topics,
-        testimonials,
         postType,
         pageQueries: {
           page: pageQueries?.page ?? '',

@@ -34,8 +34,8 @@ function CategoryLink({
     : `${genericClasses} border-2 border-accent hover:bg-accent`;
 
   return (
-    <NoScrollLink href={linkHref} passHref>
-      <a className={linkClasses}>{name}</a>
+    <NoScrollLink href={linkHref} className={linkClasses}>
+      {name}
     </NoScrollLink>
   );
 }

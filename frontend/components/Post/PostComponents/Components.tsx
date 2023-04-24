@@ -197,15 +197,7 @@ const components = {
     </motion.ol>
   ),
   img: ({ src, alt }: ImageProps): JSX.Element => (
-    <Img
-      src={src}
-      alt={alt}
-      width={480}
-      height={270}
-      layout="responsive"
-      objectFit="contain"
-      className="rounded-lg"
-    />
+    <Img src={src} alt={alt || ''} fill className="rounded-lg" />
   ),
   pre: Code,
   BlockQuoteAuthor,

@@ -15,10 +15,10 @@ interface CustomLinkProps {
 function CustomLink({ href, value, activeLink }: CustomLinkProps): JSX.Element {
   return (
     <li className="block w-max">
-      <span className="font-semibold opacity-75 hover:opacity-100 transition-all ease-in-out duration-150">
+      <span className="font-header font-extrabold opacity-75 hover:opacity-100 transition-all ease-in-out duration-150">
         <NoScrollLink href={href}>{value}</NoScrollLink>
       </span>
-      <div className={activeLink ? 'border-b-2 border-accent' : ''} />
+      <div className={activeLink ? 'border-b-2 border-text' : ''} />
     </li>
   );
 }

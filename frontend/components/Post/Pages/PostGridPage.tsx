@@ -3,14 +3,12 @@ import React from 'react';
 import { PostGridPageProps } from '../../../types';
 import PageHero from '../../PageHero/PageHero';
 import SEO from '../../SEO/SEO';
-import Testimonials from '../../Testimonials/Testimonials';
 import { PagePagination, PageSidebar, PostCardGrid } from '..';
 import { toUpper } from '../../../utils';
 
 const PostGridPage: NextPage<PostGridPageProps> = ({
   pageNumber,
   pageCount,
-  testimonials,
   posts,
   topics,
   filterItem,
@@ -57,7 +55,6 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
           pageQueries={pageQueries}
         />
       ) : null}
-      <Testimonials testimonials={testimonials} />
     </>
   );
 };
