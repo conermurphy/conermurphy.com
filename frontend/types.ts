@@ -11,6 +11,7 @@ export enum POSTTYPES {
   BLOG = 'blog',
   NEWSLETTER = 'newsletter',
   TECHNICAL_WRITING = 'technical-writing',
+  VIDEO = 'video',
 }
 
 export type Icon = {

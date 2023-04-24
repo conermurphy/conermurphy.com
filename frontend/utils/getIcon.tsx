@@ -318,7 +318,8 @@ export default function getIcon({
         <div className="relative" style={{ width: size, height: size }}>
           <Img
             src="/images/companies/planetscale.svg"
-            layout="fill"
+            fill
+            alt="PlanetScale logo"
             title="PlanetScale logo"
           />
         </div>

@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { MDXRemote } from 'next-mdx-remote';
 import React from 'react';
 import { PostPageProps, POSTTYPES } from '../../../types';
-import LatestPosts from '../../LatestPosts/LatestPosts';
+import LatestPosts from '../../LatestPost/LatestPost';
 import SEO from '../../SEO/SEO';
 import {
   Components,

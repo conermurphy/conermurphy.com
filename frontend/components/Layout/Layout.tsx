@@ -33,7 +33,7 @@ export default function Layout({ children }: IProps): JSX.Element {
           onAnimationComplete={() => window.scrollTo(0, 0)}
         >
           <main
-            className={`text-text font-body  ${raleway.variable} ${karla.variable} ${inconsolata.variable} scroll-smooth`}
+            className={`text-text font-body  ${raleway.variable} ${karla.variable} ${inconsolata.variable} scroll-smooth flex flex-col gap-48`}
           >
             {children}
             <Footer />

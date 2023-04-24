@@ -17,13 +17,13 @@ export default function HomeHero() {
             <div className="flex flex-row gap-6 items-center">
               <NoScrollLink
                 href="/contact"
-                className="font-header font-extrabold text-lg"
+                className="font-heading font-extrabold text-lg"
               >
                 Get In Touch
               </NoScrollLink>
               <NoScrollLink
                 href="/blog"
-                className="font-header font-extrabold text-lg text-background bg-brand rounded-lg py-3 px-4"
+                className="font-heading font-extrabold text-lg text-background bg-brand rounded-lg py-3 px-4"
               >
                 Latest Posts
               </NoScrollLink>

@@ -1,6 +1,5 @@
 import type { GetStaticProps, NextPage } from 'next';
 import {
-  LatestPosts,
   SEO,
   ContactSection,
   HomeHero,
@@ -9,6 +8,7 @@ import {
 } from '../components';
 import { Post, POSTTYPES, Project, Service } from '../types';
 import { generateRssFeeds, pageDataSource } from '../utils';
+import LatestPost from '../components/LatestPost/LatestPost';
 
 interface IProps {
   services: Service[];
@@ -30,10 +30,8 @@ const Home: NextPage<IProps> = ({
     />
     <HomeHero />
     <Services services={services} />
+    <LatestPost post={latestBlogs[0]} postType={POSTTYPES.BLOG} />
     <Projects projects={projects} />
-    <LatestPosts posts={latestBlogs} postType={POSTTYPES.BLOG} />
-    <LatestPosts posts={latestNewsletters} postType={POSTTYPES.NEWSLETTER} />
-    <ContactSection />
   </>
 );
 
