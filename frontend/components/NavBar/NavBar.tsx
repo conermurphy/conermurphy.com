@@ -18,7 +18,7 @@ function CustomLink({ href, value, activeLink }: CustomLinkProps): JSX.Element {
       <span className="font-heading text-lg font-extrabold opacity-75 hover:opacity-100 transition-all ease-in-out duration-150">
         <NoScrollLink href={href}>{value}</NoScrollLink>
       </span>
-      <div className={activeLink ? 'border-b-2 border-text' : ''} />
+      <div className={activeLink ? 'border-b-4 border-brand' : ''} />
     </li>
   );
 }

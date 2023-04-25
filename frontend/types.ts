@@ -1,7 +1,5 @@
-// import { ApolloError } from '@apollo/client';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { ParsedUrlQuery } from 'querystring';
-import { ReactElement } from 'react';
 
 export enum THEMES {
   LIGHT = 'LIGHT',
@@ -106,6 +104,7 @@ export interface PostGridPageProps {
     title: string;
     body: string;
   };
+  latestPosts: Post[];
   metaDescription: string;
   pageQueries?: { page: string; queries: string[] };
 }
@@ -132,12 +131,6 @@ export interface BlogNewsletterParams extends ParsedUrlQuery {
 export type EngagementCountData = {
   viewCount: number;
   UUID: string;
-};
-
-export type EngagementCount = {
-  data: EngagementCountData;
-  loading: boolean;
-  error: ApolloError | undefined;
 };
 
 export interface EngagementCounterProps {

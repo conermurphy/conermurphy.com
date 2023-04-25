@@ -14,11 +14,8 @@ interface PageNumberProps {
   pageQueries: { page: string; queries: string[] };
 }
 
-const disabledLinkStyles =
-  'opacity-50 select-none pointer-events-none line-through';
-const enabledLinkStyles = 'opacity-75';
 const pageNumberStyles =
-  'flex items-center justify-center rounded w-8 h-8 opacity-75';
+  'flex items-center justify-center w-12 h-12 border-b-4 duration-300 ease-in-out transition-all';
 
 // Function to generate the URL version of the queries.
 const queriesLink = (queries: string[]) =>
@@ -46,20 +43,16 @@ function PageNumber({
             }`
       }`}
       key={pageNumber}
-      className={`text-sm font-semibold ${pageNumberStyles} ${
+      className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
         activePage
-          ? 'bg-accent dark:bg-accent/75'
-          : 'bg-primaryBgDark/10 hover:bg-accent hover:dark:bg-accent/75'
+          ? ' border-b-brand'
+          : ' border-b-text/10 hover:border-b-brand'
       }`}
-      data-testid="pagination-number"
     >
-        {pageNumber}
+      {pageNumber}
     </NoScrollLink>
   );
 }
-
-
-
 
 export default function PagePagination({
   pageCount,
@@ -96,18 +89,33 @@ export default function PagePagination({
     pageNum > 2 && pageNum < pageCount - 1;
 
   return (
-    <div className="flex flex-row items-center justify-center bg-primaryBg dark:bg-primaryBgDark">
-      <nav className="flex flex-row justify-between md:max-w-7xl px-6 pt-6 w-full text-lg lg:px-12 2xl:px-0">
-        <NoScrollLink href={prevLink} className={`font-semibold ${
-              !hasPrevLink ? disabledLinkStyles : enabledLinkStyles
+    <div className="flex flex-row items-center justify-center">
+      <nav className="flex flex-row justify-center md:max-w-7xl px-6 pt-6 w-full text-lg lg:px-12 2xl:px-0 gap-24">
+        <div className="flex flex-row">
+          <NoScrollLink
+            href={`${pathname}${queryLink ? `?q=${queryLink}` : ''}`}
+            className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
+              hasPrevLink
+                ? 'border-b-text/10 hover:border-b-brand'
+                : 'border-b-text/10 text-text/10 line-through'
             }`}
-            aria-disabled={!hasPrevLink}>
-          
-            <span className="md:hidden">{'<'}</span>
-            <span className="hidden md:block">&#8592; Previous Page</span>
-         
-        </NoScrollLink>
-        <div className="flex-row gap-2 hidden md:flex">
+            aria-disabled={!hasPrevLink}
+          >
+            <span>{'<<'}</span>
+          </NoScrollLink>
+          <NoScrollLink
+            href={prevLink}
+            className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
+              hasPrevLink
+                ? 'border-b-text/10 hover:border-b-brand'
+                : 'border-b-text/10 text-text/10 line-through'
+            }`}
+            aria-disabled={!hasPrevLink}
+          >
+            <span>{'<'}</span>
+          </NoScrollLink>
+        </div>
+        <div className="flex flex-row md:flex">
           {pageCount <= 5 ? (
             pageNumbers.map((num) => (
               <PageNumber
@@ -128,10 +136,10 @@ export default function PagePagination({
                 />
               ))}
               <span
-                className={`text-sm font-semibold ${pageNumberStyles} ${
+                className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
                   showEllipse(currentPage)
-                    ? 'bg-accent dark:bg-accent/75'
-                    : 'bg-primaryBgDark/10 dark:bg-primaryBgDark'
+                    ? 'border-b-brand'
+                    : 'border-b-text/10'
                 }`}
                 data-testid="pagination-ellipses"
               >
@@ -156,17 +164,32 @@ export default function PagePagination({
           of <span className="font-semibold">{pageCount}</span>
         </p>
 
-        <NoScrollLink href={nextLink} 
-            className={`font-semibold ${
-              !hasNextLink ? disabledLinkStyles : enabledLinkStyles
+        <div className="flex flex-row">
+          <NoScrollLink
+            href={nextLink}
+            className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
+              hasNextLink
+                ? 'border-b-text/10 hover:border-b-brand'
+                : 'border-b-text/10 text-text/10 line-through'
             }`}
-            aria-disabled={!hasNextLink}>
-          
-          
-            <span className="md:hidden">{'>'}</span>
-            <span className="hidden md:block">Next Page &#8594;</span>
-         
-        </NoScrollLink>
+            aria-disabled={!hasNextLink}
+          >
+            <span>{'>'}</span>
+          </NoScrollLink>
+          <NoScrollLink
+            href={`${pathname}?page=${pageNumbers.length}${
+              queryLink ? `&q=${queryLink}` : ''
+            }`}
+            className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
+              hasNextLink
+                ? 'border-b-text/10 hover:border-b-brand'
+                : 'border-b-text/10 text-text/10 line-through'
+            }`}
+            aria-disabled={!hasNextLink}
+          >
+            <span>{'>>'}</span>
+          </NoScrollLink>
+        </div>
       </nav>
     </div>
   );

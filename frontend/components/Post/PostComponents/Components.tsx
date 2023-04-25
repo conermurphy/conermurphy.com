@@ -8,6 +8,7 @@ import Tweet from './Tweet/Tweet';
 import { getHeadingLink } from '../../../utils/posts';
 import { copyToClipboard, getIcon } from '../../../utils';
 import { ICONS, postComponent, viewportSettings } from '../../../constants';
+import { PostHeading } from '../../../types';
 
 interface IProps {
   children: string | ReactElement | (string | ReactElement)[];
@@ -33,7 +34,9 @@ function Link({
   );
 }
 
-const components = {
+const components = (
+  headings: (PostHeading & { ref: React.RefObject<HTMLHeadingElement> })[]
+) => ({
   h2: ({ children }: IProps): JSX.Element => (
     <motion.h2
       id={getHeadingLink(children)}
@@ -41,7 +44,8 @@ const components = {
       whileInView="onscreen"
       variants={postComponent}
       viewport={viewportSettings}
-      className="group relative font-semibold text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-28"
+      className="group relative font-extrabold text-heading text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-28"
+      ref={headings.find((heading) => heading.text === children)?.ref}
     >
       <Link top="top-3" />
       <a
@@ -59,7 +63,8 @@ const components = {
       whileInView="onscreen"
       variants={postComponent}
       viewport={viewportSettings}
-      className="group relative font-semibold text-xl md:text-2xl mb-2.5 mt-6 md:mt-16 scroll-mt-28"
+      className="group relative font-extrabold text-heading text-xl md:text-2xl mb-2.5 mt-6 md:mt-16 scroll-mt-28"
+      ref={headings.find((heading) => heading.text === children)?.ref}
     >
       <Link top="top-2" />
       <a
@@ -77,7 +82,8 @@ const components = {
       whileInView="onscreen"
       variants={postComponent}
       viewport={viewportSettings}
-      className="group relative font-semibold text-lg md:text-xl mb-2 mt-6 md:mt-16 scroll-mt-28"
+      className="group relative font-extrabold text-heading text-lg md:text-xl mb-2 mt-6 md:mt-16 scroll-mt-28"
+      ref={headings.find((heading) => heading.text === children)?.ref}
     >
       <Link top="top-1.5" size="18px" />
       <a
@@ -95,7 +101,8 @@ const components = {
       whileInView="onscreen"
       variants={postComponent}
       viewport={viewportSettings}
-      className="group relative font-semibold text-base md:text-lg mb-2 mt-6 md:mt-16 scroll-mt-28"
+      className="group relative font-extrabold text-heading text-base md:text-lg mb-2 mt-6 md:mt-16 scroll-mt-28"
+      ref={headings.find((heading) => heading.text === children)?.ref}
     >
       <Link size="18px" />
       <a
@@ -113,7 +120,8 @@ const components = {
       whileInView="onscreen"
       variants={postComponent}
       viewport={viewportSettings}
-      className="group relative font-semibold text-sm md:text-base mb-2 mt-6 md:mt-16 scroll-mt-28"
+      className="group relative font-extrabold text-heading text-sm md:text-base mb-2 mt-6 md:mt-16 scroll-mt-28"
+      ref={headings.find((heading) => heading.text === children)?.ref}
     >
       <Link size="16px" />
       <a
@@ -126,7 +134,7 @@ const components = {
   ),
   p: ({ children }: IProps): JSX.Element => (
     <motion.p
-      className="text-md md:text-base mb-8 leading-relaxed"
+      className="text-md md:text-base mb-8 leading-relaxed md:leading-loose"
       initial="offscreen"
       whileInView="onscreen"
       variants={postComponent}
@@ -146,7 +154,7 @@ const components = {
   ),
   code: ({ children }: IProps): JSX.Element => (
     <motion.code
-      className="p-1 font-extrabold"
+      className="p-1 font-extrabold text-heading"
       initial="offscreen"
       whileInView="onscreen"
       variants={postComponent}
@@ -169,14 +177,14 @@ const components = {
       whileInView="onscreen"
       variants={postComponent}
       viewport={viewportSettings}
-      className="font-semibold underline"
+      className="font-extrabold text-heading underline"
     >
       {children}
     </motion.a>
   ),
   ul: ({ children }: IProps): JSX.Element => (
     <motion.ul
-      className="mb-8 list-disc pl-4 text-md md:text-base leading-relaxed"
+      className="mb-8 list-disc pl-4 text-md md:text-base leading-relaxed md:leading-loose"
       initial="offscreen"
       whileInView="onscreen"
       variants={postComponent}
@@ -187,7 +195,7 @@ const components = {
   ),
   ol: ({ children }: IProps): JSX.Element => (
     <motion.ol
-      className="mb-6 md:mb-8 list-decimal pl-4 text-md md:text-base leading-relaxed"
+      className="mb-6 md:mb-8 list-decimal pl-4 text-md md:text-base leading-relaxed md:leading-loose"
       initial="offscreen"
       whileInView="onscreen"
       variants={postComponent}
@@ -203,6 +211,6 @@ const components = {
   BlockQuoteAuthor,
   ImageCaption,
   Tweet,
-};
+});
 
 export default components;

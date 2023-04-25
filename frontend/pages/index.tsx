@@ -23,8 +23,10 @@ const Home: NextPage<IProps> = ({
       metaTitle="Home"
       metaDescription="Whether it be TypeScript/JavaScript development you need support on or a technical article written, come check out how Coner Murphy can help you."
     />
-    <HomeHero />
-    <Services services={services} />
+    <div className="flex flex-col gap-24">
+      <HomeHero />
+      <Services services={services} />
+    </div>
     <LatestContent latestBlog={latestBlogs[0]} link="TEST_LINK" />
     <Projects projects={projects} />
     <LatestNewsletterPosts

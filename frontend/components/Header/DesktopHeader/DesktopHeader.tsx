@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import NavBar from '../../NavBar/NavBar';
 import NoScrollLink from '../../NoScrollLink/NoScrollLink';
 import Logo from '../../Logo/Logo';
 
 export default function DesktopHeader(): JSX.Element {
   const [showNav, setShowNav] = useState(false);
+  const { pathname } = useRouter();
 
   useEffect(() => {
+    const valueToDivide = ['/blog', '/newsletter'].includes(pathname) ? 4 : 2;
+
     const onScroll = () => {
-      if (window.scrollY > window.innerHeight / 2) {
+      if (window.scrollY > window.innerHeight / valueToDivide) {
         setShowNav(true);
         return;
       }

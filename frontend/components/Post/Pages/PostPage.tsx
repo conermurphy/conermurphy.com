@@ -2,7 +2,6 @@ import { NextPage } from 'next';
 import { MDXRemote } from 'next-mdx-remote';
 import React from 'react';
 import { PostPageProps, POSTTYPES } from '../../../types';
-import LatestPosts from '../../LatestPost/LatestPost';
 import SEO from '../../SEO/SEO';
 import {
   Components,
@@ -12,6 +11,8 @@ import {
   PostHeader,
 } from '../PostComponents';
 import PostSidebar from '../PostSidebar/PostSidebar';
+import LatestContent from '../../LatestContent';
+import Newsletter from '../../Newsletter/Newsletter';
 
 const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
   const { content, headings, data: frontmatter, filePath } = post;
@@ -27,6 +28,11 @@ const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
 
   const postURL = `${postType}/${slug}`;
 
+  const updatedHeadings = headings.map((heading) => ({
+    ...heading,
+    ref: React.createRef<HTMLHeadingElement>(),
+  }));
+
   return (
     <>
       <SEO
@@ -39,14 +45,17 @@ const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
         article
       />
       <div className="flex flex-col items-center pb-10 bg-primaryBg dark:bg-primaryBgDark px-6 xl:px-0">
-        <article className="flex flex-col gap-6 w-full">
+        <article className="flex flex-col gap-12 w-full">
           <PostHeader frontmatter={frontmatter} />
           <div>
             <div className="relative flex flex-row justify-center lg:justify-between xl:justify-center gap-0 lg:gap-12 xl:gap-24 w-full max-w-5xl m-auto">
               <div className="max-w-2xl w-full">
-                {/*  eslint-disable-next-line */}
-                {/* @ts-ignore */}
-                <MDXRemote {...content} components={Components} />
+                <MDXRemote
+                  {...content}
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  components={Components(updatedHeadings)}
+                />
                 {postType === POSTTYPES.NEWSLETTER ? (
                   <NewsletterCloseout />
                 ) : null}
@@ -59,12 +68,13 @@ const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
                   slug={slug}
                 />
               </div>
-              <PostSidebar headings={headings} title={title} />
+              <PostSidebar headings={updatedHeadings} title={title} />
             </div>
           </div>
         </article>
       </div>
-      <LatestPosts posts={latestPosts} postType={postType} />
+      <LatestContent latestBlog={latestPosts[0]} link="TEST_LINK" />
+      <Newsletter />
     </>
   );
 };

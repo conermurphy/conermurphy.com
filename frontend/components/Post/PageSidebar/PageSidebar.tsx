@@ -23,15 +23,13 @@ function CategoryLink({
   isClearButton = false,
 }: CategoryLinkProps): JSX.Element {
   const genericClasses =
-    'font-semibold text-sm p-3 w-max rounded-sm ease-in-out transition-all duration-150';
+    'font-heading font-extrabold py-2 px-3 w-max rounded-md ease-in-out transition-all duration-150 text-text/70';
 
   const linkClasses = !isClearButton
     ? `${genericClasses} ${
-        activeItem
-          ? 'bg-accent/25'
-          : ' hover:bg-accent hover:dark:bg-accent bg-secondaryBg dark:bg-secondaryBgDark'
+        activeItem ? 'bg-brand' : 'hover:bg-brand bg-transparent'
       }`
-    : `${genericClasses} border-2 border-accent hover:bg-accent`;
+    : `${genericClasses} border-2 border-brand hover:bg-brand`;
 
   return (
     <NoScrollLink href={linkHref} className={linkClasses}>
@@ -46,42 +44,37 @@ export default function PageSidebar({
     page: '',
     queries: [],
   },
-}: IProps): JSX.Element {
+}: IProps) {
   const { pathname } = useRouter();
 
+  if (!data.length) return null;
+
   return (
-    <aside className="flex flex-row gap-8 w-full  pt-12 md:pt-0">
-      {data?.length ? (
-        <div>
-          <p className="text-lg font-semibold mb-3">Search posts by topics:</p>
-          <div className="flex flex-row flex-wrap gap-3">
-            {data.map((topic) => {
-              const { name } = TOPICS[topic];
+    <aside className="flex flex-row items-center justify-center flex-wrap gap-x-6 gap-y-4">
+      <CategoryLink
+        linkHref={pathname}
+        activeItem={false}
+        name="View All"
+        isClearButton
+      />
+      {data.map((topic) => {
+        const { name } = TOPICS[topic];
 
-              const { activeItem, linkHref } = linkBuilder({
-                pageQueries,
-                item: topic,
-                pathname,
-              });
+        const { activeItem, linkHref } = linkBuilder({
+          pageQueries,
+          item: topic,
+          pathname,
+        });
 
-              return (
-                <CategoryLink
-                  key={linkHref}
-                  linkHref={linkHref}
-                  activeItem={activeItem}
-                  name={name}
-                />
-              );
-            })}
-            <CategoryLink
-              linkHref={pathname}
-              activeItem={false}
-              name="Clear filters"
-              isClearButton
-            />
-          </div>
-        </div>
-      ) : null}
+        return (
+          <CategoryLink
+            key={linkHref}
+            linkHref={linkHref}
+            activeItem={activeItem}
+            name={name}
+          />
+        );
+      })}
     </aside>
   );
 }

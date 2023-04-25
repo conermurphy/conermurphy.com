@@ -46,7 +46,7 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
             <pre
               className={`${className} ${fileName ? '' : 'my-6 md:my-8'} ${
                 fileName ? 'rounded-b-lg' : 'rounded-lg'
-              } text-sm md:text-base drop-shadow-lg`}
+              } text-sm drop-shadow-lg leading-relaxed`}
               style={{ ...style }}
             >
               {tokens.map((line, index) => {
@@ -85,13 +85,13 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
                 );
               })}
             </pre>
-            <span className="absolute top-1.5 right-3 select-none text-[#f8f8f2] text-xs md:text-sm">
+            <span className="absolute top-1.5 right-3 select-none text-background text-xs md:text-sm">
               {language}
             </span>
             <motion.button
               type="button"
               whileTap={{ scale: 0.8 }}
-              className="hidden group-hover:block absolute bottom-3 right-3 bg-primaryBg dark:bg-primaryBgDark p-1.5 rounded-md"
+              className="hidden group-hover:block absolute bottom-3 right-3 bg-background p-1.5 rounded-md"
               onClick={async () => {
                 await copyToClipboard(code);
 

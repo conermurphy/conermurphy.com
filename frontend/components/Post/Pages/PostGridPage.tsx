@@ -5,6 +5,8 @@ import PageHero from '../../PageHero/PageHero';
 import SEO from '../../SEO/SEO';
 import { PagePagination, PageSidebar, PostCardGrid } from '..';
 import { toUpper } from '../../../utils';
+import LatestContent from '../../LatestContent';
+import Newsletter from '../../Newsletter/Newsletter';
 
 const PostGridPage: NextPage<PostGridPageProps> = ({
   pageNumber,
@@ -19,6 +21,7 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
     page: '',
     queries: [],
   },
+  latestPosts,
 }) => {
   const pageName = toUpper(postType.replaceAll('-', ' '));
 
@@ -37,24 +40,30 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
         metaDescription={metaDescription}
         url={postType}
       />
-      <PageHero title={title} description={body} />
-      <div className="flex flex-row items-center justify-center pb-12 bg-primaryBg dark:bg-primaryBgDark">
-        <div
-          className={`flex flex-col items-center gap-12 justify-between w-full md:flex-col-reverse md:items-start max-w-7xl px-6 lg:px-12 2xl:px-0 ${
-            posts?.length ? 'xl:justify-between' : 'xl:justify-end'
-          }`}
-        >
-          <PostCardGrid posts={posts} postType={postType} />
-          <PageSidebar data={topics} pageQueries={pageQueries} />
+      <div className="flex flex-col gap-24">
+        <PageHero title={title} description={body} tag="Content" />
+        <div className="flex flex-col gap-24">
+          <div className="flex flex-row items-center justify-center">
+            <div
+              className={`flex flex-col items-center gap-24 justify-between w-full md:flex-col-reverse max-w-7xl px-6 lg:px-12 2xl:px-0 ${
+                posts?.length ? 'xl:justify-between' : 'xl:justify-end'
+              }`}
+            >
+              <PostCardGrid posts={posts} postType={postType} />
+              <PageSidebar data={topics} pageQueries={pageQueries} />
+            </div>
+          </div>
+          {posts?.length ? (
+            <PagePagination
+              pageCount={pageCount}
+              currentPage={pageNumber}
+              pageQueries={pageQueries}
+            />
+          ) : null}
         </div>
       </div>
-      {posts?.length ? (
-        <PagePagination
-          pageCount={pageCount}
-          currentPage={pageNumber}
-          pageQueries={pageQueries}
-        />
-      ) : null}
+      <LatestContent latestBlog={latestPosts[0]} link="TEST_LINK" />
+      <Newsletter />
     </>
   );
 };

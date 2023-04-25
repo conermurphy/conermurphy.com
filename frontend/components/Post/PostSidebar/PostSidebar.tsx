@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FacebookShareButton,
   LinkedinShareButton,
@@ -10,17 +10,16 @@ import { motion } from 'framer-motion';
 import { ICONS } from '../../../constants';
 import { PostHeading } from '../../../types';
 import { copyToClipboard, getIcon } from '../../../utils';
-import Newsletter from '../../Newsletter/Newsletter';
 
 interface IProps {
-  headings: PostHeading[];
+  headings: (PostHeading & { ref: React.RefObject<HTMLHeadingElement> })[];
   title: string;
 }
 
 function getHeadingClasses(level: number): string {
   switch (level) {
     case 2:
-      return 'font-semibold';
+      return '';
     case 3:
       return 'ml-1.5';
     case 4:
@@ -36,29 +35,55 @@ function getHeadingClasses(level: number): string {
 
 export default function PostSidebar({ headings, title }: IProps): JSX.Element {
   const [isCopied, setIsCopied] = useState(false);
+  const [activeHeader, setActiveHeader] = useState<string | null>(null);
   const { asPath } = useRouter();
 
   const url = `https://conermurphy.com${asPath}`;
 
-  const sectionClasses =
-    'border-t border-primaryBorder dark:border-primaryBorderDark py-6';
   const shareIconClasses =
-    'flex items-center justify-center border border-primaryBorder dark:border-primaryBorderDark p-2 rounded opacity-50 w-10 h-10';
+    'flex items-center justify-center p-2 rounded opacity-50 w-10 h-10 hover:opacity-100 transition-all ease-in-out duration-150';
+
+  const headingRefs = headings.map((heading) => heading.ref);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const activeEntry = entries.find((entry) => entry.isIntersecting);
+
+        setActiveHeader(activeEntry?.target?.id || null);
+      },
+      {
+        rootMargin: undefined, // adjust this to fit your needs
+      }
+    );
+
+    headingRefs.forEach((ref) => {
+      if (ref.current) {
+        observer.observe(ref.current as Element);
+      }
+    });
+
+    return () => {
+      headingRefs.forEach((ref) => {
+        if (ref.current) {
+          observer.unobserve(ref.current as Element);
+        }
+      });
+    };
+  }, [headingRefs]);
 
   return (
-    <aside className="hidden lg:block sticky h-min top-28 right-0 max-w-md xl:max-w-lg">
-      <div className="pb-6">
-        <h2 className="text-lg text-accent mb-1.5 capitalize">
-          In this article
-        </h2>
-        <ul>
+    <aside className="hidden lg:flex flex-col gap-12 sticky h-min top-28 right-0 max-w-md xl:max-w-lg border-l-4 border-text/10 px-6 py-4">
+      <div className="flex flex-col gap-8">
+        <h2 className="text-lg text-text/50 uppercase">On This Page</h2>
+        <ul className="flex flex-col gap-1">
           {headings.map(({ text, link, level }) => (
             <li key={link}>
               <a
                 href={link}
-                className={`opacity-75 text-sm hover:text-accent transition-all ease-in-out duration-150 ${getHeadingClasses(
+                className={`text-sm text-text/50 hover:text-text uppercase transition-all ease-in-out font-heading duration-150 ${getHeadingClasses(
                   level
-                )}`}
+                )} ${activeHeader === link.slice(1) ? 'font-extrabold' : ''}`}
               >
                 {text}
               </a>
@@ -66,15 +91,7 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
           ))}
         </ul>
       </div>
-      <div className={sectionClasses}>
-        <p className="pb-4 opacity-75 max-w-md text-sm">
-          Subscribe to my newsletter and get thoughts, stories, and actionable
-          advice for creators, builders, entrepreneurs, and more straight to
-          your inbox weekly.
-        </p>
-        <Newsletter isAltDesign />
-      </div>
-      <ul className={`flex flex-row gap-x-4 ${sectionClasses}`}>
+      <ul className="flex flex-row gap-x-4">
         <motion.li whileTap={{ scale: 0.8 }}>
           <button
             type="button"
