@@ -17,12 +17,11 @@ export default function ContactForm(): JSX.Element {
     resetValues,
   });
 
-  const inputContainerStyles =
-    'flex flex-col items-start dark:text-primaryText';
-  const labelStyles = 'font-bold mb-1 dark:text-primaryTextDark';
+  const inputContainerStyles = 'flex flex-col items-start';
+  const labelStyles = 'font-extrabold mb-1 text-brand font-heading';
 
   return (
-    <div className="flex flex-col justify-start items-center bg-secondaryBg dark:bg-secondaryBgDark p-6 rounded-md h-full col-span-5 xl:col-span-2">
+    <div className="flex flex-col justify-start items-center p-12 rounded-md h-full col-span-5 xl:col-span-2 w-full border-8 border-text/10 max-w-7xl">
       <form
         onSubmit={submitContactForm}
         className="flex flex-col gap-4 md:gap-6 w-full grow"
@@ -41,7 +40,7 @@ export default function ContactForm(): JSX.Element {
               placeholder="Your first name"
               onChange={updateValue}
               value={firstName}
-              className="rounded-md border-primaryBorder text-md bg-primaryBg w-full"
+              className="rounded-md border-text/10 text-md bg-background focus:border-brand border-2 font-heading font-extrabold w-full"
             />
           </div>
           <div className={inputContainerStyles}>
@@ -56,7 +55,7 @@ export default function ContactForm(): JSX.Element {
               placeholder="Your last name"
               onChange={updateValue}
               value={lastName}
-              className="rounded-md border-primaryBorder text-md bg-primaryBg w-full"
+              className="rounded-md border-text/10 text-md bg-background focus:border-brand border-2 font-heading font-extrabold w-full"
             />
           </div>
         </div>
@@ -72,7 +71,7 @@ export default function ContactForm(): JSX.Element {
             placeholder="Your email"
             onChange={updateValue}
             value={email}
-            className="rounded-md border-primaryBorder text-md bg-primaryBg w-full"
+            className="rounded-md border-text/10 text-md bg-background focus:border-brand border-2 font-heading font-extrabold w-full"
           />
         </div>
         <div className={`grow ${inputContainerStyles}`}>
@@ -86,12 +85,12 @@ export default function ContactForm(): JSX.Element {
             placeholder="Your message"
             onChange={updateValue}
             value={message}
-            className="rounded-md border-primaryBorder text-md bg-primaryBg w-full resize-none h-full min-h-[150px]"
+            className="rounded-md border-text/10 text-md bg-background focus:border-brand border-2 font-heading font-extrabold w-full resize-none h-full min-h-[150px]"
           />
         </div>
         <button
           type="submit"
-          className="bg-primaryBgDark dark:bg-primaryBg text-primaryTextDark dark:text-primaryText text-base font-bold rounded-md py-3 px-5"
+          className="bg-brand text-background text-base font-bold rounded-md py-3 px-4"
         >
           {loading ? 'Sending..' : 'Send Message'}
         </button>

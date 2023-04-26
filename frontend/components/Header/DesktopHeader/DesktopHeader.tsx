@@ -9,7 +9,11 @@ export default function DesktopHeader(): JSX.Element {
   const { pathname } = useRouter();
 
   useEffect(() => {
-    const valueToDivide = ['/blog', '/newsletter'].includes(pathname) ? 4 : 2;
+    const valueToDivide = ['/blog', '/newsletter', '/contact'].includes(
+      pathname
+    )
+      ? 6
+      : 2;
 
     const onScroll = () => {
       if (window.scrollY > window.innerHeight / valueToDivide) {

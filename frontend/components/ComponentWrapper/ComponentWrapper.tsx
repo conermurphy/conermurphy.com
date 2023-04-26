@@ -21,7 +21,9 @@ export default function ComponentWrapper({
     <div className="flex flex-col items-center justify-center" {...props}>
       <section
         className={`flex ${
-          direction === 'column' ? 'flex-col' : 'flex-row justify-between'
+          direction === 'column'
+            ? 'flex-col'
+            : 'flex-row justify-between items-center'
         } gap-16 md:max-w-7xl w-full`}
       >
         <div className="flex flex-col items-start gap-4">
