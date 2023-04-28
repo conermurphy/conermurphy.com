@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { BlogNewsletterProps, POSTTYPES } from '../types';
-import { sourcePostPage } from '../utils/posts';
+import sourcePostPage from '../utils/posts/sourcePostPage';
 import { PostGridPage } from '../components/Post/Pages';
 
 const postType = POSTTYPES.TECHNICAL_WRITING;

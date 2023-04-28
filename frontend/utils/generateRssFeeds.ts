@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { Feed } from 'feed';
-import { getAllPosts } from './posts';
+import getAllPosts from './posts/getAllPosts';
 import { server } from '../config';
 import { POSTTYPES } from '../types';
 

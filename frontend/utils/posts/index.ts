@@ -6,5 +6,4 @@ export { default as getHeadings } from './getHeadings/getHeadings';
 export { default as getHeadingLink } from './getHeadingsLink/getHeadingLink';
 export { default as getAllTopics } from './getAllTopics/getAllTopics';
 export { default as getPostPaths } from './getPostPaths';
-export { default as sourcePostPage } from './sourcePostPage';
 export { default as linkBuilder } from './linkBuilder';

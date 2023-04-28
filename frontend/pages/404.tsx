@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { SEO, PageHero } from '../components';
 import { Post } from '../types';
-import { pageDataSource } from '../utils';
+import pageDataSource from '../utils/pageDataSource';
 import LatestContent from '../components/LatestContent';
 
 interface IProps {

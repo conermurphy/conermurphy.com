@@ -1,5 +1,5 @@
 import { POSTTYPES } from '../../types';
-import { pageDataSource } from '..';
+import pageDataSource from '../pageDataSource';
 import getAllPosts from './getAllPosts';
 import getAllTopics from './getAllTopics/getAllTopics';
 import getHeadings from './getHeadings/getHeadings';

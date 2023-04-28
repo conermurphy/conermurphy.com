@@ -1,6 +1,5 @@
 import { POSTTYPES } from '../../../types';
 import getAllTopics from './getAllTopics';
-import getAllTagsCategories from './getAllTopics';
 
 const mockPosts = [
   {

@@ -5,7 +5,8 @@ import {
   BlogNewsletterProps,
   POSTTYPES,
 } from '../../types';
-import { getPostPaths, sourcePostPage } from '../../utils/posts';
+import { getPostPaths } from '../../utils/posts';
+import sourcePostPage from '../../utils/posts/sourcePostPage';
 import { PostPage } from '../../components/Post/Pages';
 
 const postType = POSTTYPES.BLOG;

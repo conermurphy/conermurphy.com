@@ -20,7 +20,7 @@ export default function MobileNavMenu({ isOpen }: IProps): JSX.Element | null {
       <div className="p-6 sm:px-12 bg-primaryBg dark:bg-primaryBgDark">
         <div className="flex gap-8 my-6">
           <ThemeToggle />
-          <Socials compact />
+          <Socials />
         </div>
       </div>
     </div>

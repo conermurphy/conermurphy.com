@@ -1,7 +1,8 @@
 import type { GetStaticProps, NextPage } from 'next';
 import { ContactForm, Newsletter, PageHero, SEO, Socials } from '../components';
 import { Post } from '../types';
-import { generateRssFeeds, pageDataSource } from '../utils';
+import { generateRssFeeds } from '../utils';
+import pageDataSource from '../utils/pageDataSource';
 import LatestContent from '../components/LatestContent';
 import ContactCard from '../components/ContactCard';
 

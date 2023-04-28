@@ -11,7 +11,3 @@ new ConermurphyWebsiteCdkStack(app, 'ConermurphyWebsiteCdkStack', {
     region: config.STACK_REGION,
   },
 });
-
-
-
-

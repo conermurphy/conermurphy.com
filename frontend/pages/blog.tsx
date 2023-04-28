@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { BlogNewsletterProps, POSTTYPES } from '../types';
-import { sourcePostPage } from '../utils/posts';
 import { PostGridPage } from '../components/Post/Pages';
+import sourcePostPage from '../utils/posts/sourcePostPage';
 
 const postType = POSTTYPES.BLOG;
 
