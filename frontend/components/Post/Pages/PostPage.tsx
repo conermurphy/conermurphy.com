@@ -62,11 +62,7 @@ const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
                 <hr />
                 <GitHubCTA postPath={filePath} />
                 <hr />
-                <EngagementCounter
-                  UUID={UUID}
-                  postType={postType}
-                  slug={slug}
-                />
+                <EngagementCounter UUID={UUID} />
               </div>
               <PostSidebar headings={updatedHeadings} title={title} />
             </div>

@@ -1,25 +1,28 @@
-import React from 'react';
-import useSWR, { Fetcher, Key } from 'swr';
-import { EngagementCounterProps, EngagementCountData } from '../../../../types';
+import React, { useEffect } from 'react';
 
-const fetcher: Fetcher<EngagementCountData> = (url: string, queryParams = '') =>
-  fetch(`${url}${queryParams}`).then((res) => res.json());
+export default function EngagementCounter({ UUID }: { UUID: string }) {
+  const [viewCount, setViewCount] = React.useState<null | number>(null);
 
-export default function EngagementCounter({
-  UUID,
-  postType,
-  slug,
-}: EngagementCounterProps): JSX.Element {
-  const endpoint: Key = `/api/engagementCount`;
-  const { data } = useSWR<EngagementCountData>(
-    [endpoint, `?UUID=${UUID}&postType=${postType}&slug=${slug}`],
-    fetcher,
-    { revalidateOnFocus: false }
-  );
+  useEffect(() => {
+    if (!UUID) return;
 
-  return (
+    async function updateData() {
+      const res = await fetch(`/api/engagementCount`, {
+        method: 'PUT',
+        body: JSON.stringify({ UUID }),
+      });
+
+      const data = (await res.json()) as { viewCount: number };
+
+      setViewCount(data.viewCount);
+    }
+
+    updateData();
+  }, [UUID]);
+
+  return viewCount ? (
     <p className="mt-6 text-xl">
-      <strong>👥 {data?.viewCount}</strong>
+      <strong>👥 {viewCount}</strong>
     </p>
-  );
+  ) : null;
 }

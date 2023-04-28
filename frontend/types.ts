@@ -128,17 +128,6 @@ export interface BlogNewsletterParams extends ParsedUrlQuery {
   slug: string[];
 }
 
-export type EngagementCountData = {
-  viewCount: number;
-  UUID: string;
-};
-
-export interface EngagementCounterProps {
-  UUID: string;
-  postType: POSTTYPES;
-  slug: string;
-}
-
 export type Company = {
   icon: typeof import('*.svg');
   alt: string;
