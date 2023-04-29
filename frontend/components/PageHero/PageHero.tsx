@@ -18,7 +18,7 @@ export default function PageHero({
     'Thoughts, stories, and actionable advice for creators, builders, entrepreneurs, and more straight to your inbox weekly.';
 
   return (
-    <section className="relative bg-[url('/grain.png')] bg-brand/40 py-32">
+    <section className="relative bg-[url('/grain.png')] bg-brand/40 py-16 md:py-32">
       <div className="w-full flex items-center justify-center">
         <div className="flex flex-row justify-center items-center w-full max-w-7xl">
           <div className="flex flex-col items-center justify-center">
@@ -28,10 +28,12 @@ export default function PageHero({
                   {tag}
                 </p>
                 <div className="flex flex-col items-center text-center gap-4">
-                  <h2 className="font-heading font-extrabold text-5xl text-text/90">
+                  <h2 className="font-heading font-extrabold text-3xl md:text-5xl text-text/90">
                     {title}
                   </h2>
-                  <p className="text-xl max-w-lg">{pageDescription}</p>
+                  <p className="text-lg md:text-xl max-w-xs md:max-w-lg">
+                    {pageDescription}
+                  </p>
                 </div>
               </div>
               {is404Page ? (

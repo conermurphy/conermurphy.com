@@ -34,14 +34,14 @@ export default function LatestPost({
           postType === POSTTYPES.BLOG ? (
             <NoScrollLink
               href="/posts"
-              className="text-xl text-brand font-heading font-extrabold"
+              className="text-lg md:text-xl text-brand font-heading font-extrabold"
             >
               View All Posts
             </NoScrollLink>
           ) : (
             <a
               href="https://www.youtube.com/@conermurphy/videos"
-              className="text-xl text-brand font-heading font-extrabold"
+              className="text-lg md:text-xl text-brand font-heading font-extrabold"
             >
               View All Videos
             </a>

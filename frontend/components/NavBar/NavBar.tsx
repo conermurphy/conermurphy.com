@@ -29,7 +29,7 @@ export default function NavBar({ isMobile = false }: IProps): JSX.Element {
   return (
     <nav aria-label="primary">
       <ul
-        className={`flex gap-x-8 flex-wrap gap-y-4 ${
+        className={`flex gap-x-8 flex-wrap gap-y-4 justify-center ${
           isMobile ? 'flex-col' : 'flex-row'
         }`}
       >

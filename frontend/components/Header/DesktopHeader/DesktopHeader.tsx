@@ -35,7 +35,7 @@ export default function DesktopHeader(): JSX.Element {
       }`}
     >
       <div className="w-full flex items-center justify-center">
-        <header className="flex flex-row items-center justify-between py-8 w-full max-w-7xl">
+        <header className="flex flex-row items-center justify-between p-8 w-full max-w-7xl">
           <NoScrollLink href="/" className="h-12 w-12">
             <Logo />
           </NoScrollLink>

@@ -44,7 +44,7 @@ export default function Projects({ projects }: IProps): JSX.Element {
         ))}
       </ul>
       {nonFeatured?.length ? (
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full items-start justify-between">
+        <ul className="grid grid-cols-1 lg:grid-cols-2 gap-10 w-full items-start justify-between">
           {nonFeatured.map((project) => (
             <li key={project.title} className="h-full">
               <ProjectCard project={project} />

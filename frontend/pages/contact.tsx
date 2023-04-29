@@ -17,14 +17,14 @@ const Contact: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => (
       metaTitle="Contact Me"
       metaDescription="Got a question you want to ask? Or, want to team up on an upcoming project? Here's how to get in touch with me."
     />
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col gap-12 md:gap-24">
       <PageHero
         title="Say Hi 👋"
         description="Lorem ipsum dolor sit amet consectetur. At nisi suscipit metus etiam a euismod odio viverra amet."
         tag="Contact"
       />
-      <div className="flex flex-col gap-24 items-center justify-center w-full">
-        <section className="flex flex-row items-center justify-between w-full max-w-7xl">
+      <div className="flex flex-col gap-12 md:gap-24 items-center justify-center w-full">
+        <section className="flex flex-col md:flex-row items-center justify-between w-full max-w-7xl p-6 gap-8">
           <ContactCard
             tag="Email Me"
             title="hey@conermurphy.com"
@@ -49,7 +49,9 @@ const Contact: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => (
             }
           />
         </section>
-        <ContactForm />
+        <div className="flex justify-center p-6 w-full">
+          <ContactForm />
+        </div>
       </div>
     </div>
     <LatestContent

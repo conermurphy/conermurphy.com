@@ -11,7 +11,7 @@ export default function Footer(): JSX.Element {
       </div>
       <NavBar />
       <Socials />
-      <p className="text-sm lg:text-lg">
+      <p className="text-sm lg:text-lg max-w-xs md:max-w-lg text-center">
         © {new Date().getFullYear()} - Created by Coner Murphy. All Rights
         Reserved.
       </p>

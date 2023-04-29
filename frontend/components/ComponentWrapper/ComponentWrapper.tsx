@@ -18,23 +18,23 @@ export default function ComponentWrapper({
   ...props
 }: IProps): JSX.Element {
   return (
-    <div className="flex flex-col items-center justify-center" {...props}>
+    <div className="flex flex-col items-center justify-center p-6" {...props}>
       <section
         className={`flex ${
           direction === 'column'
             ? 'flex-col'
-            : 'flex-row justify-between items-center'
-        } gap-16 md:max-w-7xl w-full`}
+            : 'flex-col lg:flex-row justify-between items-center'
+        } gap-16 max-w-md lg:max-w-7xl w-full`}
       >
         <div className="flex flex-col items-start gap-4">
-          <p className="text-xl text-brand font-heading font-extrabold">
+          <p className="text-lg md:text-xl text-brand font-heading font-extrabold">
             {tag}
           </p>
           <div className="flex flex-col items-start gap-1">
-            <h2 className="font-heading font-extrabold text-3xl text-text/90">
+            <h2 className="font-heading font-extrabold text-2xl md:text-3xl text-text/90">
               {title}
             </h2>
-            <p className="text-lg max-w-md">{description}</p>
+            <p className="md:text-lg max-w-md">{description}</p>
           </div>
           {link}
         </div>

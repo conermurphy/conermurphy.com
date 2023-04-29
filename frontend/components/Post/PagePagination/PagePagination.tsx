@@ -90,7 +90,7 @@ export default function PagePagination({
 
   return (
     <div className="flex flex-row items-center justify-center">
-      <nav className="flex flex-row justify-center md:max-w-7xl px-6 pt-6 w-full text-lg lg:px-12 2xl:px-0 gap-24">
+      <nav className="flex flex-row items-center justify-center md:max-w-7xl px-6 pt-6 w-full text-sm md:text-lg lg:px-12 2xl:px-0 gap-6 md:gap-24">
         <div className="flex flex-row">
           <NoScrollLink
             href={`${pathname}${queryLink ? `?q=${queryLink}` : ''}`}
@@ -115,7 +115,7 @@ export default function PagePagination({
             <span>{'<'}</span>
           </NoScrollLink>
         </div>
-        <div className="flex flex-row md:flex">
+        <div className="hidden flex-row md:flex">
           {pageCount <= 5 ? (
             pageNumbers.map((num) => (
               <PageNumber

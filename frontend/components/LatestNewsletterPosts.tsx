@@ -26,7 +26,7 @@ export default function LatestNewsletterPosts({ posts }: IProps): JSX.Element {
         ),
       }}
     >
-      <ul className="grid grid-cols-2 items-center justify-between w-full gap-12">
+      <ul className="grid grid-cols-1 lg:grid-cols-2 items-center justify-between w-full gap-12">
         {posts.map((post) => (
           <li key={post.data.title} className="h-full">
             <PostCard post={post.data} postType={POSTTYPES.NEWSLETTER} />

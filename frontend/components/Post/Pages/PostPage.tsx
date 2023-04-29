@@ -49,11 +49,11 @@ const PostPage: NextPage<PostPageProps> = ({
         canonicalUrl={canonicalUrl ?? postURL}
         article
       />
-      <div className="flex flex-col items-center pb-10 bg-primaryBg dark:bg-primaryBgDark px-6 xl:px-0">
+      <div className="flex flex-col items-center pb-10 bg-background">
         <article className="flex flex-col gap-12 w-full">
           <PostHeader frontmatter={frontmatter} />
           <div>
-            <div className="relative flex flex-row justify-center lg:justify-between xl:justify-center gap-0 lg:gap-12 xl:gap-24 w-full max-w-5xl m-auto">
+            <div className="relative flex flex-row justify-center lg:justify-between xl:justify-center gap-0 lg:gap-12 xl:gap-24 w-full max-w-5xl m-auto px-6 xl:px-0">
               <div className="max-w-2xl w-full">
                 <MDXRemote
                   {...content}

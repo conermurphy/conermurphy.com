@@ -21,7 +21,7 @@ export default function ContactForm(): JSX.Element {
   const labelStyles = 'font-extrabold mb-1 text-brand font-heading';
 
   return (
-    <div className="flex flex-col justify-start items-center p-12 rounded-md h-full col-span-5 xl:col-span-2 w-full border-8 border-text/10 max-w-7xl">
+    <div className="flex flex-col justify-start items-center p-6 md:p-12 rounded-md h-full col-span-5 xl:col-span-2 w-full border-8 border-text/10 max-w-7xl">
       <form
         onSubmit={submitContactForm}
         className="flex flex-col gap-4 md:gap-6 w-full grow"
