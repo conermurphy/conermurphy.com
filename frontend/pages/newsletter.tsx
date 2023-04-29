@@ -11,7 +11,15 @@ const Newsletter: NextPage<BlogNewsletterProps> = ({
   ...params
 }) => <PostGridPage {...params} postType={postType} />;
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  query,
+}) => {
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  );
+
   const postsPerPage = parseInt(process.env.POSTS_PER_PAGE);
   const { props } = await sourcePostPage({
     postsPerPage,
