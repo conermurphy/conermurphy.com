@@ -1,17 +1,17 @@
-import { POSTTYPES, Post } from '../types';
+import { LatestVideo, POSTTYPES, Post } from '../types';
 import LatestPost from './LatestPost/LatestPost';
 
 interface IProps {
   latestBlog: Post;
-  link: string;
+  latestVideo: LatestVideo['items'][0];
 }
 
-export default function LatestContent({ latestBlog, link }: IProps) {
+export default function LatestContent({ latestBlog, latestVideo }: IProps) {
   return (
     <div className="flex flex-row items-start justify-center gap-12 w-full">
       <div className="flex flex-row items-start justify-between w-full max-w-7xl">
         <LatestPost post={latestBlog} postType={POSTTYPES.BLOG} />
-        <LatestPost link={link} postType={POSTTYPES.VIDEO} />
+        <LatestPost video={latestVideo} postType={POSTTYPES.VIDEO} />
       </div>
     </div>
   );

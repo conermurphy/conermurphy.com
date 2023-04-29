@@ -23,7 +23,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['media.giphy.com'],
+    domains: ['media.giphy.com', 'i.ytimg.com'],
   },
   async redirects() {
     return [

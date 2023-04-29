@@ -14,7 +14,12 @@ import PostSidebar from '../PostSidebar/PostSidebar';
 import LatestContent from '../../LatestContent';
 import Newsletter from '../../Newsletter/Newsletter';
 
-const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
+const PostPage: NextPage<PostPageProps> = ({
+  post,
+  latestPosts,
+  postType,
+  latestYouTubeVideo,
+}) => {
   const { content, headings, data: frontmatter, filePath } = post;
   const {
     UUID,
@@ -69,7 +74,10 @@ const PostPage: NextPage<PostPageProps> = ({ post, latestPosts, postType }) => {
           </div>
         </article>
       </div>
-      <LatestContent latestBlog={latestPosts[0]} link="TEST_LINK" />
+      <LatestContent
+        latestBlog={latestPosts[0]}
+        latestVideo={latestYouTubeVideo}
+      />
       <Newsletter />
     </>
   );

@@ -1,6 +1,6 @@
 import type { GetStaticProps, NextPage } from 'next';
 import { ContactForm, Newsletter, PageHero, SEO, Socials } from '../components';
-import { Post } from '../types';
+import { LatestVideo, Post } from '../types';
 import { generateRssFeeds } from '../utils';
 import pageDataSource from '../utils/pageDataSource';
 import LatestContent from '../components/LatestContent';
@@ -8,9 +8,10 @@ import ContactCard from '../components/ContactCard';
 
 interface IProps {
   latestBlogs: Post[];
+  latestYouTubeVideo: LatestVideo['items'][0];
 }
 
-const Contact: NextPage<IProps> = ({ latestBlogs }) => (
+const Contact: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => (
   <>
     <SEO
       metaTitle="Contact Me"
@@ -51,7 +52,10 @@ const Contact: NextPage<IProps> = ({ latestBlogs }) => (
         <ContactForm />
       </div>
     </div>
-    <LatestContent latestBlog={latestBlogs[0]} link="REPLACE_THIS_LINK" />
+    <LatestContent
+      latestBlog={latestBlogs[0]}
+      latestVideo={latestYouTubeVideo}
+    />
     <Newsletter />
   </>
 );
@@ -59,12 +63,13 @@ const Contact: NextPage<IProps> = ({ latestBlogs }) => (
 export const getStaticProps: GetStaticProps = async () => {
   await generateRssFeeds();
 
-  const { latestBlogs } = await pageDataSource({
+  const { latestBlogs, latestYouTubeVideo } = await pageDataSource({
     latestBlogs: true,
+    latestYouTubeVideo: true,
   });
 
   return {
-    props: { latestBlogs },
+    props: { latestBlogs, latestYouTubeVideo },
   };
 };
 

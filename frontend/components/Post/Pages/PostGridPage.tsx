@@ -22,6 +22,7 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
     queries: [],
   },
   latestPosts,
+  latestYouTubeVideo,
 }) => {
   const pageName = toUpper(postType.replaceAll('-', ' '));
 
@@ -62,7 +63,10 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
           ) : null}
         </div>
       </div>
-      <LatestContent latestBlog={latestPosts[0]} link="TEST_LINK" />
+      <LatestContent
+        latestBlog={latestPosts[0]}
+        latestVideo={latestYouTubeVideo}
+      />
       <Newsletter />
     </>
   );

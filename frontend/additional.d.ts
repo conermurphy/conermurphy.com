@@ -15,6 +15,7 @@ declare global {
       AWS_SECRET_KEY: string;
       POST_DB_TABLE_NAME: string;
       SES_DESTINATION_EMAIL: string;
+      YOUTUBE_API_KEY: string;
     }
   }
 }

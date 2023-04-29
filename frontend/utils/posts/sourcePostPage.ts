@@ -26,9 +26,10 @@ export default async function sourcePostPage({
 }: IProps) {
   const postData = await getAllPosts({ postType });
   // Source data for extra sections being displayed on the page
-  const { latestBlogs } = await pageDataSource({
+  const { latestBlogs, latestYouTubeVideo } = await pageDataSource({
     latestBlogs: true,
     latestNewsletters: false,
+    latestYouTubeVideo: true,
   });
 
   // Get all topics used on the POSTTYPE
@@ -56,6 +57,7 @@ export default async function sourcePostPage({
         topics,
         postType,
         latestPosts: latestBlogs,
+        latestYouTubeVideo,
       },
     };
   }
@@ -80,6 +82,7 @@ export default async function sourcePostPage({
           queries: [],
         },
         latestPosts: latestBlogs,
+        latestYouTubeVideo,
       },
     };
   }
@@ -113,6 +116,7 @@ export default async function sourcePostPage({
           queries,
         },
         latestPosts: latestBlogs,
+        latestYouTubeVideo,
       },
     };
   }
@@ -131,6 +135,7 @@ export default async function sourcePostPage({
     props: {
       latestPosts: latestBlogs,
       post: { rawContent, headings, data: post.data, filePath: post.filePath },
+      latestYouTubeVideo,
     },
   };
 }
