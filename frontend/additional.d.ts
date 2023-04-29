@@ -14,6 +14,7 @@ declare global {
       AWS_ACCESS_KEY: string;
       AWS_SECRET_KEY: string;
       POST_DB_TABLE_NAME: string;
+      SES_DESTINATION_EMAIL: string;
     }
   }
 }

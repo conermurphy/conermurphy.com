@@ -1,6 +1,15 @@
 import 'isomorphic-fetch';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import { UseFormValues } from '../../types';
+
+const ses = new SESClient({
+  region: process.env.AWS_API_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+  },
+});
 
 interface ExtendedNextApiRequest extends NextApiRequest {
   body: UseFormValues;
@@ -38,24 +47,29 @@ export default async function contactForm(
     }
   }
 
-  // Setting vars for posting to API
-  const endpoint = process.env.CONTACT_FORM_ENDPOINT;
-
-  // posting to the API
-  await fetch(endpoint, {
-    method: 'post',
-    body: JSON.stringify({
-      firstName: body.firstName,
-      lastName: body.lastName,
-      email: body.email,
-      message: body.message,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': process.env.CONTACT_FORM_API_KEY,
-      charset: 'utf-8',
-    },
-  });
+  // Send the email using SES
+  await ses.send(
+    new SendEmailCommand({
+      Destination: {
+        ToAddresses: [process.env.SES_DESTINATION_EMAIL],
+      },
+      Message: {
+        Body: {
+          Text: {
+            Data: `
+            New message from conermurphy.com:
+            ---
+            Name:${body.firstName} ${body.lastName}
+            Email: ${body.email}
+            Message: ${body.message}
+            `,
+          },
+        },
+        Subject: { Data: `conermurphy.com - Contact Form Message` },
+      },
+      Source: 'hey@conermurphy.com',
+    })
+  );
 
   res.status(200).json({ message: 'Success! Thank you for message!' });
 }
