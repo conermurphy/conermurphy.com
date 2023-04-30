@@ -51,7 +51,7 @@ export default function Services({ services }: IProps): JSX.Element {
         title: 'What I Do',
         tag: 'About Me',
         description:
-          'Lorem ipsum dolor sit amet consectetur. A arcu amet viverra et ullamcorper eget ac.',
+          "Here's a little bit about what I do and how I can help you.",
       }}
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 w-full justify-items-center items-center ">

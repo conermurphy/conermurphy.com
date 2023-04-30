@@ -12,6 +12,15 @@ const projects: Project[] = [
     technologies: ['TAILWINDCSS', 'NEXTJS', 'PRISMA', 'PLANETSCALE'],
   },
   {
+    isFeatured: true,
+    title: 'Harken',
+    description:
+      'Interested in seeing how your Spotify playlists change over time? Want to restore previous playlists? Or, just want to generate your own playlists using AI? Then Harken is the app for you!',
+    url: 'https://harken.so',
+    image: '/images/projects/harken.png',
+    technologies: ['TAILWINDCSS', 'NEXTJS', 'AWS'],
+  },
+  {
     isFeatured: false,
     title: 'Murphy Wedding',
     description:

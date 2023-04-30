@@ -20,7 +20,7 @@ const Contact: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => (
     <div className="flex flex-col gap-12 md:gap-24">
       <PageHero
         title="Say Hi 👋"
-        description="Lorem ipsum dolor sit amet consectetur. At nisi suscipit metus etiam a euismod odio viverra amet."
+        description="Got a question you want to ask? Or, a project you want to team up on? Here's how to get in touch with me."
         tag="Contact"
       />
       <div className="flex flex-col gap-12 md:gap-24 items-center justify-center w-full">
@@ -28,7 +28,7 @@ const Contact: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => (
           <ContactCard
             tag="Email Me"
             title="hey@conermurphy.com"
-            description="Lorem ipsum dolor sit amet consectetur. A arcu amet viverra et ullamcorper eget ac."
+            description="Want to send me an email? Click the link below and say hi!"
             link={
               <a
                 href="mailto:hey@conermurphy.com"
@@ -41,7 +41,7 @@ const Contact: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => (
           <ContactCard
             tag="Socials"
             title={<Socials />}
-            description="Lorem ipsum dolor sit amet consectetur. A arcu amet viverra et ullamcorper eget ac."
+            description="Email not your thing? Come say hi on social media!"
             link={
               <p className="text-brand font-heading font-extrabold text-lg">
                 Follow Me ✅

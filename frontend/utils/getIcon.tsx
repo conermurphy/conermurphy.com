@@ -13,6 +13,7 @@ import {
   FaSun,
   FaMoon,
   FaLink,
+  FaAws,
 } from 'react-icons/fa';
 import { MdCode, MdKeyboard, MdShare } from 'react-icons/md';
 import {
@@ -26,6 +27,7 @@ import {
   SiPrisma,
   SiNpm,
   SiNodedotjs,
+  SiAmazonaws,
 } from 'react-icons/si';
 import { IoMdClose } from 'react-icons/io';
 import { FiCopy } from 'react-icons/fi';
@@ -323,6 +325,15 @@ export default function getIcon({
             title="PlanetScale logo"
           />
         </div>
+      );
+    case ICONS.AWS.name:
+      return (
+        <FaAws
+          size={size}
+          color={ICONS.AWS.color}
+          title="AWS logo"
+          data-testid="aws-icon"
+        />
       );
     default:
       return null;

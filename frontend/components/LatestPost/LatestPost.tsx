@@ -29,7 +29,9 @@ export default function LatestPost({
           postType === POSTTYPES.VIDEO ? 'Latest Video' : 'Latest Blog Post',
         tag: 'Content',
         description:
-          'Lorem ipsum dolor sit amet consectetur. A arcu amet viverra et ullamcorper eget ac.',
+          postType === POSTTYPES.VIDEO
+            ? 'Here is my YouTube Channel and latest video for your enjoyment.'
+            : 'Below is my latest blog post and a link to all of my posts.',
         link:
           postType === POSTTYPES.BLOG ? (
             <NoScrollLink

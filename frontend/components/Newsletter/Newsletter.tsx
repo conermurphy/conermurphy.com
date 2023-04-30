@@ -17,7 +17,7 @@ export default function Newsletter() {
         title: 'Join My Newsletter',
         tag: 'Contact',
         description:
-          'Lorem ipsum dolor sit amet consectetur. A arcu amet viverra et ullamcorper eget ac.',
+          'Subscribe to my weekly newsletter by filling in the form.',
       }}
     >
       <div className="flex flex-col gap-3 max-w-md w-full">

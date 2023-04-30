@@ -15,7 +15,7 @@ export default function LatestNewsletterPosts({ posts }: IProps): JSX.Element {
         title: 'Newsletter',
         tag: 'Content',
         description:
-          'Lorem ipsum dolor sit amet consectetur. A arcu amet viverra et ullamcorper eget ac.',
+          'Below is the latest posts from my weekly newsletter, Sunday Solotor.',
         link: (
           <NoScrollLink
             href="/newsletter"
