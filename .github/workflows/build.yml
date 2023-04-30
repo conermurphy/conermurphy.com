@@ -68,10 +68,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
-      - name: install dependencies
-        run: npm install
-      - name: run linter
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Lint
         run: npm run lint
