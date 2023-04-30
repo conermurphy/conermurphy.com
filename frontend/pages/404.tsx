@@ -2,15 +2,16 @@ import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { SEO, PageHero } from '../components';
-import { Post } from '../types';
+import { LatestVideo, Post } from '../types';
 import pageDataSource from '../utils/pageDataSource';
 import LatestContent from '../components/LatestContent';
 
 interface IProps {
   latestBlogs: Post[];
+  latestYouTubeVideo: LatestVideo['items'][0];
 }
 
-function Custom404({ latestBlogs }: IProps): JSX.Element {
+function Custom404({ latestBlogs, latestYouTubeVideo }: IProps): JSX.Element {
   const { asPath } = useRouter();
   const path = asPath.split('/')[1];
 
@@ -18,19 +19,23 @@ function Custom404({ latestBlogs }: IProps): JSX.Element {
     <>
       <SEO metaTitle="404 - Page Not Found" metaDescription="" url={path} />
       <PageHero title="404 - Page Not Found" />
-      <LatestContent latestBlog={latestBlogs[0]} link="TO_BE_REPLACED" />
+      <LatestContent
+        latestBlog={latestBlogs[0]}
+        latestVideo={latestYouTubeVideo}
+      />
     </>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { latestBlogs } = await pageDataSource({
+  const { latestBlogs, latestYouTubeVideo } = await pageDataSource({
     latestBlogs: true,
     latestNewsletters: false,
+    latestYouTubeVideo: true,
   });
 
   return {
-    props: { latestBlogs },
+    props: { latestBlogs, latestYouTubeVideo },
   };
 };
 
