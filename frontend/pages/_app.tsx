@@ -8,6 +8,7 @@ import { ThemeProvider } from 'next-themes';
 import { MotionConfig } from 'framer-motion';
 import { Layout } from '../components';
 import { DesktopHeader, MobileHeader } from '../components/Header';
+import { TransitionProvider } from '../context/page-transition-context';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -31,13 +32,15 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ThemeProvider attribute="class">
-      <MotionConfig reducedMotion="user">
-        <DesktopHeader />
-        <MobileHeader />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </MotionConfig>
+      <TransitionProvider>
+        <MotionConfig reducedMotion="user">
+          <DesktopHeader />
+          <MobileHeader />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </MotionConfig>
+      </TransitionProvider>
     </ThemeProvider>
   );
 }

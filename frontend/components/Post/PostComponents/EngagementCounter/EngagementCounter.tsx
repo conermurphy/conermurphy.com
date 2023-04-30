@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
+import { useTransition } from '../../../../context/page-transition-context';
 
 export default function EngagementCounter({ UUID }: { UUID: string }) {
   const [viewCount, setViewCount] = React.useState<null | number>(null);
-  const [loading, setLoading] = React.useState(false);
+  const { transitionFinished } = useTransition();
 
   useEffect(() => {
-    if (loading) return;
+    if (!transitionFinished || !UUID) return;
 
     async function updateData() {
-      setLoading(true);
       const res = await fetch(`/api/engagementCount`, {
         method: 'PUT',
         body: JSON.stringify({ UUID }),
@@ -18,7 +18,6 @@ export default function EngagementCounter({ UUID }: { UUID: string }) {
 
       if (data) {
         setViewCount(data.viewCount);
-        setLoading(false);
       }
     }
 
