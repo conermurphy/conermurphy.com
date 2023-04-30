@@ -7,8 +7,8 @@ export const server = dev ? 'http://localhost:3000' : 'https://conermurphy.com';
 
 const dynamoConfig = {
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_KEY,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_KEY_VALUE,
   },
   region: process.env.AWS_API_REGION,
 } as {

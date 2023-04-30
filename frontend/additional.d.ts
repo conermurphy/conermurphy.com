@@ -11,8 +11,8 @@ declare global {
       CONTACT_FORM_ENDPOINT: string;
       CONTACT_FORM_API_KEY: string;
       AWS_API_REGION: string;
-      AWS_ACCESS_KEY: string;
-      AWS_SECRET_KEY: string;
+      AWS_ACCESS_KEY_ID: string;
+      AWS_SECRET_KEY_VALUE: string;
       POST_DB_TABLE_NAME: string;
       SES_DESTINATION_EMAIL: string;
       YOUTUBE_API_KEY: string;
