@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 
 export default function EngagementCounter({ UUID }: { UUID: string }) {
   const [viewCount, setViewCount] = React.useState<null | number>(null);
+  const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
-    if (!UUID) return;
+    if (loading) return;
 
     async function updateData() {
+      setLoading(true);
       const res = await fetch(`/api/engagementCount`, {
         method: 'PUT',
         body: JSON.stringify({ UUID }),
@@ -14,11 +16,14 @@ export default function EngagementCounter({ UUID }: { UUID: string }) {
 
       const data = (await res.json()) as { viewCount: number };
 
-      setViewCount(data.viewCount);
+      if (data) {
+        setViewCount(data.viewCount);
+        setLoading(false);
+      }
     }
 
     updateData();
-  }, [UUID]);
+  }, []);
 
   return viewCount ? (
     <p className="mt-6 text-xl">
