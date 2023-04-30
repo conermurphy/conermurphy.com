@@ -1,9 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { LatestVideo, Post, POSTTYPES } from '../../types';
 import { PostCard } from '../Post';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
-import NoScrollLink from '../NoScrollLink/NoScrollLink';
 
 type IProps =
   | {
@@ -34,12 +34,12 @@ export default function LatestPost({
             : 'Below is my latest blog post and a link to all of my posts.',
         link:
           postType === POSTTYPES.BLOG ? (
-            <NoScrollLink
+            <Link
               href="/posts"
               className="text-lg md:text-xl text-brand font-heading font-extrabold"
             >
               View All Posts
-            </NoScrollLink>
+            </Link>
           ) : (
             <a
               href="https://www.youtube.com/@conermurphy/videos"

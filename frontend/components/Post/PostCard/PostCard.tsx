@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { PostFrontMatter, POSTTYPES } from '../../../types';
-import NoScrollLink from '../../NoScrollLink/NoScrollLink';
 import { postComponent, viewportSettings } from '../../../constants';
 
 interface IProps {
@@ -27,7 +27,7 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
       viewport={{ ...viewportSettings, amount: 0.2 }}
       className="contents"
     >
-      <NoScrollLink
+      <Link
         href={!isTechnicalWriting ? `/${postType}/${slug}` : post.canonical_url}
       >
         <div className="flex flex-col gap-y-4 p-8 break-words border-text/10 hover:border-brand border-l-8 max-w-lg h-full justify-center duration-300 ease-in-out transition-all">
@@ -49,7 +49,7 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
             Read More ➡️
           </p>
         </div>
-      </NoScrollLink>
+      </Link>
     </motion.article>
   );
 }

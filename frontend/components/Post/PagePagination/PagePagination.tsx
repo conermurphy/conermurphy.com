@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react';
-import NoScrollLink from '../../NoScrollLink/NoScrollLink';
+import Link from 'next/link';
 
 interface IProps {
   pageCount: number;
@@ -34,7 +34,7 @@ function PageNumber({
   const queryLink = queriesLink(queries);
 
   return (
-    <NoScrollLink
+    <Link
       href={`${
         pageNumber === 1
           ? `${routeBase}${queryLink ? `?q=${queryLink}` : ''}`
@@ -50,7 +50,7 @@ function PageNumber({
       }`}
     >
       {pageNumber}
-    </NoScrollLink>
+    </Link>
   );
 }
 
@@ -92,7 +92,7 @@ export default function PagePagination({
     <div className="flex flex-row items-center justify-center">
       <nav className="flex flex-row items-center justify-center md:max-w-7xl px-6 pt-6 w-full text-sm md:text-lg lg:px-12 2xl:px-0 gap-6 md:gap-24">
         <div className="flex flex-row">
-          <NoScrollLink
+          <Link
             href={`${pathname}${queryLink ? `?q=${queryLink}` : ''}`}
             className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
               hasPrevLink
@@ -102,8 +102,8 @@ export default function PagePagination({
             aria-disabled={!hasPrevLink}
           >
             <span>{'<<'}</span>
-          </NoScrollLink>
-          <NoScrollLink
+          </Link>
+          <Link
             href={prevLink}
             className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
               hasPrevLink
@@ -113,7 +113,7 @@ export default function PagePagination({
             aria-disabled={!hasPrevLink}
           >
             <span>{'<'}</span>
-          </NoScrollLink>
+          </Link>
         </div>
         <div className="hidden flex-row md:flex">
           {pageCount <= 5 ? (
@@ -165,7 +165,7 @@ export default function PagePagination({
         </p>
 
         <div className="flex flex-row">
-          <NoScrollLink
+          <Link
             href={nextLink}
             className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
               hasNextLink
@@ -175,8 +175,8 @@ export default function PagePagination({
             aria-disabled={!hasNextLink}
           >
             <span>{'>'}</span>
-          </NoScrollLink>
-          <NoScrollLink
+          </Link>
+          <Link
             href={`${pathname}?page=${pageNumbers.length}${
               queryLink ? `&q=${queryLink}` : ''
             }`}
@@ -188,7 +188,7 @@ export default function PagePagination({
             aria-disabled={!hasNextLink}
           >
             <span>{'>>'}</span>
-          </NoScrollLink>
+          </Link>
         </div>
       </nav>
     </div>

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
+import Link from 'next/link';
 import { TOPICS } from '../../../constants';
-import { NoScrollLink } from '../..';
 import { linkBuilder } from '../../../utils/posts';
 
 interface IProps {
@@ -32,9 +32,9 @@ function CategoryLink({
     : `${genericClasses} border-2 border-brand hover:bg-brand`;
 
   return (
-    <NoScrollLink href={linkHref} className={linkClasses}>
+    <Link href={linkHref} className={linkClasses}>
       {name}
-    </NoScrollLink>
+    </Link>
   );
 }
 

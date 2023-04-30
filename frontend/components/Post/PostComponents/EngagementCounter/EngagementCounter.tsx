@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { useTransition } from '../../../../context/page-transition-context';
 
 export default function EngagementCounter({ UUID }: { UUID: string }) {
   const [viewCount, setViewCount] = React.useState<null | number>(null);
-  const { transitionFinished } = useTransition();
 
   useEffect(() => {
-    if (!transitionFinished || !UUID) return;
+    if (!UUID) return;
 
     async function updateData() {
       const res = await fetch(`/api/engagementCount`, {
@@ -22,7 +20,7 @@ export default function EngagementCounter({ UUID }: { UUID: string }) {
     }
 
     updateData();
-  }, []);
+  }, [UUID]);
 
   return viewCount ? (
     <p className="mt-6 text-xl">

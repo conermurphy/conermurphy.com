@@ -1,7 +1,7 @@
 import React from 'react';
+import Link from 'next/link';
 import ComponentWrapper from './ComponentWrapper/ComponentWrapper';
 import { POSTTYPES, Post } from '../types';
-import NoScrollLink from './NoScrollLink/NoScrollLink';
 import { PostCard } from './Post';
 
 interface IProps {
@@ -17,12 +17,12 @@ export default function LatestNewsletterPosts({ posts }: IProps): JSX.Element {
         description:
           'Below is the latest posts from my weekly newsletter, Sunday Solotor.',
         link: (
-          <NoScrollLink
+          <Link
             href="/newsletter"
             className="text-xl text-brand font-heading font-extrabold"
           >
             View Past Editions
-          </NoScrollLink>
+          </Link>
         ),
       }}
     >

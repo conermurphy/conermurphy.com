@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import Image from 'next/image';
-import NoScrollLink from '../NoScrollLink/NoScrollLink';
+import Link from 'next/link';
 
 export function HomeHeroWrapper({
   children,
@@ -26,18 +26,18 @@ export default function HomeHero() {
             technical writer, and content creator from Norwich, UK.
           </p>
           <div className="flex flex-row gap-6 items-center">
-            <NoScrollLink
+            <Link
               href="/contact"
               className="font-heading font-extrabold text-lg"
             >
               Get In Touch
-            </NoScrollLink>
-            <NoScrollLink
+            </Link>
+            <Link
               href="/blog"
               className="font-heading font-extrabold text-lg text-background bg-brand rounded-lg py-3 px-4"
             >
               Latest Posts
-            </NoScrollLink>
+            </Link>
           </div>
         </div>
         <Image

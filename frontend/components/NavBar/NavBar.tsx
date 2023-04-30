@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react';
-import NoScrollLink from '../NoScrollLink/NoScrollLink';
+import Link from 'next/link';
 
 interface IProps {
   isMobile?: boolean;
@@ -16,7 +16,7 @@ function CustomLink({ href, value, activeLink }: CustomLinkProps): JSX.Element {
   return (
     <li className="block w-max">
       <span className="font-heading text-lg font-extrabold opacity-75 hover:opacity-100 transition-all ease-in-out duration-150">
-        <NoScrollLink href={href}>{value}</NoScrollLink>
+        <Link href={href}>{value}</Link>
       </span>
       <div className={activeLink ? 'border-b-4 border-brand' : ''} />
     </li>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import NavBar from '../../NavBar/NavBar';
-import NoScrollLink from '../../NoScrollLink/NoScrollLink';
+
 import Logo from '../../Logo/Logo';
 
 export default function DesktopHeader(): JSX.Element {
@@ -36,9 +37,9 @@ export default function DesktopHeader(): JSX.Element {
     >
       <div className="w-full flex items-center justify-center">
         <header className="flex flex-row items-center justify-between p-8 w-full max-w-7xl">
-          <NoScrollLink href="/" className="h-12 w-12">
+          <Link href="/" className="h-12 w-12">
             <Logo />
-          </NoScrollLink>
+          </Link>
           <NavBar />
         </header>
       </div>

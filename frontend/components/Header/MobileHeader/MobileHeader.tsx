@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { ICONS } from '../../../constants';
 import { getIcon, useOutsideClick } from '../../../utils';
-import NoScrollLink from '../../NoScrollLink/NoScrollLink';
 import { MobileNavMenu } from './components';
 import Logo from '../../Logo/Logo';
 
@@ -61,15 +61,11 @@ export default function MobileHeader(): JSX.Element {
     >
       <header className="m-auto" ref={headerRef}>
         <div className="flex flex-row items-center justify-between h-20 bg-background p-6 sm:px-12">
-          <NoScrollLink
-            href="/"
-            passHref
-            className="font-bold opacity-100 text-xl"
-          >
+          <Link href="/" passHref className="font-bold opacity-100 text-xl">
             <div className="w-8 h-8">
               <Logo />
             </div>
-          </NoScrollLink>
+          </Link>
           <button
             type="button"
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
