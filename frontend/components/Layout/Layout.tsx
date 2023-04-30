@@ -22,24 +22,12 @@ export default function Layout({ children }: IProps): JSX.Element {
 
   return (
     <div className="bg-background">
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={Math.random()}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          variants={pageTransition}
-          transition={{ type: 'linear' }}
-          onAnimationComplete={() => window.scrollTo(0, 0)}
-        >
-          <main
-            className={`text-text font-body  ${raleway.variable} ${karla.variable} ${inconsolata.variable} scroll-smooth flex flex-col gap-24 pb-24 md:gap-64 md:pb-64`}
-          >
-            {children}
-            <Footer />
-          </main>
-        </motion.div>
-      </AnimatePresence>
+      <main
+        className={`text-text font-body  ${raleway.variable} ${karla.variable} ${inconsolata.variable} scroll-smooth flex flex-col gap-24 pb-24 md:gap-64 md:pb-64`}
+      >
+        {children}
+        <Footer />
+      </main>
     </div>
   );
 }
