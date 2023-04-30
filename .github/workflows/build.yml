@@ -7,24 +7,6 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  build_frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "16"
-      - name: install dependencies
-        run: npm install
-
-      - name: install packages dependencies
-        run: npm install
-        working-directory: ./frontend
-
-      - name: build frontend
-        run: npm run build
-        working-directory: ./frontend
-
   tests_frontend:
     runs-on: ubuntu-latest
     steps:

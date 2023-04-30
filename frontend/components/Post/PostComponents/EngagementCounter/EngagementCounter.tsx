@@ -18,7 +18,7 @@ export default function EngagementCounter({ UUID }: { UUID: string }) {
     }
 
     updateData();
-  }, []);
+  }, [UUID]);
 
   return viewCount ? (
     <p className="mt-6 text-xl">
