@@ -1,4 +1,11 @@
-module.exports = {
+import nextJest from 'next/jest.js';
+
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: './',
+});
+
+const config = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
   testEnvironment: 'jsdom',
@@ -14,3 +21,5 @@ module.exports = {
     '\\.(svg|jpg|png)$': '<rootDir>/imageTransformer.js',
   },
 };
+
+export default createJestConfig(config);
