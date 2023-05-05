@@ -71,6 +71,8 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
             alt={title}
             height={680}
             width={1208}
+            priority
+            placeholder="blur"
             className="rounded-lg z-20 drop-shadow-lg"
           />
         </figure>
