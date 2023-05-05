@@ -9,9 +9,9 @@ export function HomeHeroWrapper({
 }): JSX.Element {
   return (
     <section className="relative bg-brand/40 py-16 lg:py-32">
-      <Image src="/grain.png" alt="" fill priority placeholder="blur" />
-      <div className="absolute bottom-0 left-0 right-0 border-transparent border-x-[50vw] border-y-[10vh] border-b-background border-r-background z-10" />
       <div className="w-full flex items-center justify-center">{children}</div>
+      <Image src="/grain.png" alt="" fill priority placeholder="blur" />
+      <div className="absolute bottom-0 left-0 right-0 border-transparent border-x-[50vw] border-y-[10vh] border-b-background border-r-background" />
     </section>
   );
 }

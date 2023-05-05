@@ -20,7 +20,7 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
 
   return (
     <HomeHeroWrapper>
-      <header className="relative flex flex-col items-center justify-center gap-8 px-6 xl:px-0">
+      <header className="relative flex flex-col items-center justify-center gap-8 px-6 xl:px-0 z-10">
         <div className="max-w-md sm:max-w-6xl w-full flex flex-col items-center justify-center text-center gap-8">
           <p className="text-xs md:text-base font-extrabold font-heading flex flex-row flex-wrap max-w-xs sm:max-w-full items-center justify-center gap-3 px-3 py-2 rounded-lg w-max bg-brand">
             {topics.map((topic) => {
