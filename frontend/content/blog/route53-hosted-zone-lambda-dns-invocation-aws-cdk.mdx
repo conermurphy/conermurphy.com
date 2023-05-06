@@ -1,0 +1,152 @@
+---
+UUID: "d9204500-c580-462e-be4b-1024454ac2da"
+title: "Invoking Lambda Functions Via DNS Requests With a Route 53 Hosted Zone Using the AWS CDK"
+date: "2023-05-06"
+topics: ["AWS", "TYPESCRIPT"]
+slug: route53-hosted-zone-lambda-dns-invocation-aws-cdk
+description: "There are many ways you can invoke an AWS Lambda function but in this post, we're going to look at how we can invoke one with a DNS request to a Route 53 hosted zone!"
+image: /images/generic/laptop-in-window.jpg
+published: true
+canonical_url: ""
+imageLink: "https://unsplash.com/photos/vpOeXr5wmR4"
+---
+
+There are many ways you can invoke lambda functions but one of the more out-there methods I’ve seen is triggering a lambda function by sending a request to a URL. And, in this post that’s exactly what I’m going to show you how to set up and deploy in AWS.
+
+But, first, you may be asking why would you need to do such a thing. Truth be told in most cases, you probably won’t need anything like this but in some niche circumstances, it can prove helpful.
+
+For example, the other day I was asked to spin up a new Minecraft server for some people to play on. Now, sure I could’ve just rented a server from a company but that’s no fun so instead I built it on AWS ECS using a Fargate Spot Instance but that’s not important for this post. What is important is how the ECS instance hosting the server is started by a lambda function that is invoked by users in Minecraft pinging the server’s domain name to connect to it. 🤯
+
+So, yes while this is a niche setup and not something you’ll do every day, it can be helpful. Anyway, for this tutorial, we’ll be using a couple of AWS services, obviously Lambda but we’ll also be using Route 53 to host our domain and CloudWatch to handle the invoking of our Lambdas.
+
+One final thing to note before we jump into the tutorial portion of this post is that you’ll need to deploy your CDK stack to the `us-east-1` region. This is because Route 53 is a global service that is actually stored in that region so we’ll also need our CloudWatch logs and Lambda functions located there as well.
+
+With that all covered let’s jump into the actual tutorial!
+
+## Configuring Our CDK Stack
+
+The first thing we need to do is to configure our CDK stack to deploy to the `us-east-1` region as explained above. So, unless that if your default region, you’ll need to add the below code to where your stack is defined inside the `bin` directory.
+
+```ts:[]:./bin/*.ts:TYPESCRIPT
+new Route53DnsTriggerLambdaStack(app, "Route53DnsTriggerLambdaStack", {
+  // This code 👇
+  env: {
+    region: "us-east-1",
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+  },
+});
+```
+
+## Creating Our Lambda Function
+
+With that small piece of configuration covered, we can now get started with provisioning resources. So, the first thing we want to create is our Lambda function which we can do by creating a new file at the path `./resources/test-lambda.ts` and adding the below code to it.
+
+```ts:[]:./resources/test-lambda.ts:TYPESCRIPT
+export const handler = () => {
+  // eslint-disable-next-line no-console
+  console.log("hello world");
+};
+```
+
+This is just a small example lambda that we can trigger and see the logs for in CloudWatch to make sure everything is working as intended.
+
+Then head over to where your CDK stack resources are defined in your `lib` directory and add in the below code to define your Lambda function in the stack.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+const testLambda = new NodejsFunction(this, "TestLambda", {
+  runtime: Runtime.NODEJS_16_X,
+  handler: "handler",
+  entry: `./resources/test-lambda.ts`,
+});
+```
+
+And, with that, we’ve finished defining our Lambda function so let’s move on to the interesting part of the post, configuring our domain to trigger it!
+
+## Configuring Our Domain Logging
+
+The first thing we need to do when configuring our logs for our domain requests to populate is to create the log group in CloudWatch. To do this, add the below code to the same file in your `lib` directory.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// Domain we plan on monitoring the logs for and want to trigger the lambda function for
+const domain = "";
+
+// Defining the log group that will record the requests to the domain
+const logGroup = new LogGroup(this, "LogGroup", {
+  logGroupName: `/aws/route53/${domain}`,
+  retention: RetentionDays.THREE_DAYS,
+  removalPolicy: RemovalPolicy.DESTROY,
+});
+```
+
+_NOTE: Make sure you add the domain name that you want to use to trigger your Lambda function into the code._
+
+The next thing we need to do is allow Route 53 to write into that log group by adding in the below code.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// Grant permissions to Route53 to write to the log group
+logGroup.grantWrite(new ServicePrincipal("route53.amazonaws.com"));
+```
+
+This then finishes off the initial configuration of our log group in CloudWatch and allows Route 53 to write into that log group. Next, let’s move on to configuring our hosted zone in Route 53 and getting the new name servers we need to point our domain to.
+
+## Creating our Hosted Zone
+
+To create the hosted zone for our domain in Route 53 use the below code to define a new hosted zone for the domain as well as connect the log group to it that we just defined.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// Define the Route53 hosted zone for our domain
+const domainHostedZone = new HostedZone(this, "DomainHostedZone", {
+  zoneName: domain,
+  queryLogsLogGroupArn: logGroup.logGroupArn,
+});
+```
+
+While we’re working with the hosted zone, let’s also add a `CfnOutput` statement to log out the name servers of the hosted zone so that when we deploy our CDK stack we don’t need to use the dashboard to find them.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// Output the hosted zone name servers so we can update the domain registrar with them
+const nameServers = domainHostedZone.hostedZoneNameServers || [];
+// We use the Fn.join and Fn.select to avoid the error "throw new Error('Found an encoded list token string in a scalar string context. Use \'Fn.select(0, list)\' (not \'list[0]\') to extract elements from token lists.');" when outputting the name servers with CfnOutput
+const joinedNameServers = Fn.join(", ", nameServers);
+
+new CfnOutput(this, "HostedZoneNameServers", {
+  value: Fn.select(0, joinedNameServers.split(",")) || "",
+  description: "The name servers for the domain's hosted zone",
+});
+```
+
+With that configured, we’ve finished off our Route 53 configuration so now any requests that come into that domain are automatically logged to CloudWatch. So, all we need to do now is link up CloudWatch and our Lambda function, and then we’re ready to deploy!
+
+## Linking It All Up
+
+To link our CloudWatch Log Group with our Lambda function, we’re going to use a subscription filter that will check our log group for a term, and if a match is found, it invokes the given Lambda. In our case, the Lambda is the one we defined earlier and the term we’ll be looking for is our domain name.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// Add a subscription filter to check the logs for the domain and trigger the lambda function if a request is made to it
+logGroup.addSubscriptionFilter("SubscriptionFilter", {
+  destination: new LambdaDestination(testLambda),
+  filterPattern: FilterPattern.anyTerm(domain),
+});
+```
+
+With the subscription filter setup, we’ve completed our CDK stack and we’re ready to deploy so let’s do that.
+
+## Deploying and Testing
+
+Before deploying make sure you have `esbuild` installed which you can do with `npm i esbuild`, this is because we’re using the `NodeJsFunction` construct and without `esbuild` our deployment will fail on this construct.
+
+With that dependency taken care of, run `cdk deploy` in your terminal and accept any prompts you’re given. After your deployment has finished, take note of the name servers printed out for your new Route 53 hosted zone. Then head over to the service or platform where your domain is configured and update your name servers to be the ones AWS has given you.
+
+Once your name servers have updated (this can take up to 24 hours to propagate but is normally quicker), you’ll be able to see all of the requests to your domain name in your CloudWatch log group. You should also see that the Lambda function we defined also get’s triggered each time a request is received, pretty cool! 🔥
+
+## Closing Thoughts
+
+And, with our stack now deployed and everything working as expected we’ve reached the end of this tutorial. In this post, we’ve learned how to invoke Lambda functions by sending requests to a Route 53 hosted zone by using CloudWatch and subscription filters. If you’d like to see the full example code for this project, [head over to the GitHub repository here.](https://github.com/conermurphy/cdk-tutorials/tree/main/route-53-dns-trigger-lambda)
+
+I hope you found this post helpful until next time.
+
+Thank you for reading.
+
+---
+
+_P.S. If you don’t plan on keeping this stack, remember to run `cdk destroy` to remove the provisioned resources so you don’t get any unexpected bills!_

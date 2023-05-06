@@ -30,7 +30,7 @@ For our example, we’re going to be building a small blog-like application that
 
 So, to get started [create a new CDK project](https://docs.aws.amazon.com/cdk/v2/guide/work-with-cdk-typescript.html), and then in the `*-stack.ts` file in the `lib` directory, we’ll want to define a new DynamoDB table using the below code.
 
-```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
 // 👇 Define the DynamoDB Instance
 const dbTable = new Table(this, `DynamoDBTable`, {
   partitionKey: { name: "author", type: AttributeType.STRING },
@@ -43,7 +43,7 @@ const dbTable = new Table(this, `DynamoDBTable`, {
 
 Then with our new table defined, we want to define two Lambda functions, one for writing to the table and one for reading from it so let’s define them next.
 
-```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
 // 👇 Define the Write Lambda
 const writeHandler = new NodejsFunction(this, "WriteHandler", {
   runtime: Runtime.NODEJS_18_X,
@@ -69,7 +69,7 @@ const readHandler = new NodejsFunction(this, "ReadHandler", {
 
 Finally, the last thing we need to do in our `*-stack.ts` file is grant permissions for the Lambda functions to perform their relevant interactions with the database. We can define these by adding two more lines of code at the bottom of the file.
 
-```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
 // 👇 Give write permissions to lambdas
 dbTable.grantWriteData(writeHandler);
 
@@ -254,7 +254,7 @@ It’s not quite as big an increase this time but it’s still a ~165% differenc
 
 Before closing out there is one last test to be run and that is using Global Secondary Indexes (GSIs) on DynamoDB. GSIs are a way you can query your data efficiently using attributes that aren’t the originally defined partition and sort keys for the table. You can [read more about them here](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) if you’re interested. To define a GSI for our table, go back into your `*-stack.ts` file in your `lib` directory and add the below code below the original DynamoDB table definition.
 
-```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
 // 👇 Add Global Secondary Index for the dbTable
 dbTable.addGlobalSecondaryIndex({
   indexName: "GSI1",

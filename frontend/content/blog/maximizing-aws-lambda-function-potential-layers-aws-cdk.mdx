@@ -41,7 +41,7 @@ Now we’ve covered the benefits of using Lambda layers in our AWS stacks, let�
 
 For this example, I’m going to be using the external dependency `lorem-ipsum` to show how we can bundle NPM packages up into a layer for use in lambda. So, to get started in, your stack definition file inside `lib` add the below code.
 
-```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
 // 👇 Create the lambda layer
 const loremIpsumLayer = new LayerVersion(this, "LoremIpsumLayer", {
   code: Code.fromAsset("./resources/layers/loremIpsum"),
@@ -78,7 +78,7 @@ For our example this is just a simple export as all we want to do is reuse the p
 
 Before we can actually use our new layer in our Lambda code, we first need to define our Lambda so back in our stack definition file inside `lib`, add the below code.
 
-```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
 // 👇 Create the Layer Lambda
 const layerLambda = new NodejsFunction(this, "LayerLambda", {
   memorySize: 1024,
@@ -148,7 +148,7 @@ It’s a pretty simple function we’re running, we just generate some text usin
 
 Before we can test our Lambda function, we need to deploy our stack and call our Lambda function via the CLI. You can either find the name of your lambda function after deploying it by using the dashboard or the CLI. Or, you can add a `CfnOutput` construct to your stack definition file inside `lib` to have it automatically outputted after the deployment finishes. To do this, add the following to the bottom of the stack definition file.
 
-```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
 // 👇 Output the name of the lambda functions to call via the CLI
 new CfnOutput(this, "LayerLambdaFunction", {
   value: layerLambda.functionName,
@@ -209,7 +209,7 @@ This function is identical to the previous one we wrote with the only difference
 
 To add this Lambda to our CDK stack, in your stack definition file inside `lib` add the below code.
 
-```ts:[]:./lib/*-stack/.ts:TYPESCRIPT
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
 // 👇 Create the Non Layer Lambda
 const nonLayerLambda = new NodejsFunction(this, "NonLayerLambda", {
   memorySize: 1024,
