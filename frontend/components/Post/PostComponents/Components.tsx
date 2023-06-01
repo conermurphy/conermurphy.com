@@ -205,7 +205,9 @@ const components = (
     </motion.ol>
   ),
   img: ({ src, alt }: ImageProps): JSX.Element => (
-    <Img src={src} alt={alt || ''} fill className="rounded-lg" />
+    <p className="relative w-full h-64 sm:h-96">
+      <Img src={src} alt={alt || ''} fill className="rounded-lg" />
+    </p>
   ),
   pre: Code,
   BlockQuoteAuthor,
