@@ -20,8 +20,22 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
   const [language, lines = '[]', fileName, icon]: Language | string[] =
     children.props.className?.replace(/language-/, '')?.split(':') || '';
 
-  const highlightedLines =
-    lines !== undefined ? (JSON.parse(lines) as number[]) : [];
+  let highlightedLines: number[] = [];
+
+  if (lines.includes('-')) {
+    const range = lines.slice(1, -1);
+    const [start, end] = range.split('-').map(Number);
+
+    if (!Number.isNaN(start) && !Number.isNaN(end) && start <= end) {
+      highlightedLines = Array.from(
+        { length: end - start + 1 },
+        (_, i) => start + i
+      );
+    }
+  } else {
+    highlightedLines =
+      lines !== undefined ? (JSON.parse(lines) as number[]) : [];
+  }
 
   const code = children.props.children.trim();
 
