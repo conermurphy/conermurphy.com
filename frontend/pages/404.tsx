@@ -18,7 +18,7 @@ function Custom404({ latestBlogs, latestYouTubeVideo }: IProps): JSX.Element {
   return (
     <>
       <SEO metaTitle="404 - Page Not Found" metaDescription="" url={path} />
-      <PageHero title="404 - Page Not Found" />
+      <PageHero title="Page Not Found" tag="404" />
       <LatestContent
         latestBlog={latestBlogs[0]}
         latestVideo={latestYouTubeVideo}

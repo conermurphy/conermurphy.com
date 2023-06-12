@@ -27,7 +27,6 @@ import {
   SiPrisma,
   SiNpm,
   SiNodedotjs,
-  SiAmazonaws,
 } from 'react-icons/si';
 import { IoMdClose } from 'react-icons/io';
 import { FiCopy } from 'react-icons/fi';
