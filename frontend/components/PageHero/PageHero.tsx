@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 interface IProps {
@@ -18,11 +19,11 @@ export default function PageHero({
     'Thoughts, stories, and actionable advice for creators, builders, entrepreneurs, and more straight to your inbox weekly.';
 
   return (
-    <section className="relative bg-[url('/grain.png')] bg-brand/40 py-16 md:py-32">
+    <section className="relative bg-brand/40 py-16 md:py-32">
       <div className="w-full flex items-center justify-center">
         <div className="flex flex-row justify-center items-center w-full max-w-7xl">
           <div className="flex flex-col items-center justify-center">
-            <section className="flex flex-col gap-16 md:max-w-7xl w-full">
+            <section className="flex flex-col gap-16 md:max-w-7xl w-full z-10">
               <div className="flex flex-col items-center gap-6">
                 <p className="text-text bg-brand py-2 px-3 rounded-md font-heading font-extrabold">
                   {tag}
@@ -45,6 +46,9 @@ export default function PageHero({
             </section>
           </div>
         </div>
+      </div>
+      <div className="z-0">
+        <Image src="/grain.png" alt="" fill priority />
       </div>
     </section>
   );

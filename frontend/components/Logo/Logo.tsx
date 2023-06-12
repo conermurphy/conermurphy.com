@@ -1,6 +1,11 @@
 export default function Logo() {
   return (
-    <svg viewBox="0 0 65 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      viewBox="0 0 65 52"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="Two Slanted Orange Lines - Logo"
+    >
       <path
         d="M27.7779 45.6708C26.7702 48.2908 28.7041 51.1068 31.5113 51.1068H42.5964C44.2515 51.1068 45.7356 50.0874 46.3298 48.5427L62.9093 5.43591C63.917 2.81591 61.983 0 59.1759 0H48.0908C46.4357 0 44.9515 1.01931 44.3574 2.56408L27.7779 45.6708Z"
         fill="#E6806B"

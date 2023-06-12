@@ -5,6 +5,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  productionBrowserSourceMaps: true,
   webpack: (config) => {
     config.resolve.fallback = {
       fs: false,
