@@ -24,14 +24,17 @@ export default function ComponentWrapper({
           direction === 'column'
             ? 'flex-col'
             : 'flex-col lg:flex-row justify-between items-center'
-        } gap-16 max-w-md lg:max-w-7xl w-full`}
+        } gap-16 max-w-md lg:max-w-7xl w-full first:pt-12 first:md:pt-24`}
       >
         <div className="flex flex-col items-start gap-4">
           <p className="text-lg md:text-xl text-brand font-heading font-extrabold">
             {tag}
           </p>
           <div className="flex flex-col items-start gap-1">
-            <h2 className="font-heading font-extrabold text-2xl md:text-3xl text-text/90">
+            <h2
+              className="font-heading font-extrabold text-2xl md:text-3xl text-text/90"
+              id={title.replaceAll(' ', '-').toLowerCase()}
+            >
               {title}
             </h2>
             <p className="md:text-lg max-w-md">{description}</p>

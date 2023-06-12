@@ -53,6 +53,12 @@ export default function NavBar({ isMobile = false }: IProps): JSX.Element {
           key="/technical-writing"
         />
         <CustomLink
+          href="/links"
+          value="Links"
+          activeLink={asPath.includes('links')}
+          key="/links"
+        />
+        <CustomLink
           href="/contact"
           value="Contact"
           activeLink={asPath.includes('contact')}
