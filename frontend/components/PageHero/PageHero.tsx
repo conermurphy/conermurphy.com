@@ -46,9 +46,6 @@ export default function PageHero({
           </div>
         </div>
       </div>
-      {/* <div className="z-0">
-        <Image src="/grain.png" alt="" fill priority />
-      </div> */}
     </section>
   );
 }
