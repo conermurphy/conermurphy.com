@@ -24,9 +24,6 @@ export default async function sourcePostPage({
   },
   slug = '',
 }: IProps) {
-  // eslint-disable-next-line no-console
-  console.time('sourcePostPage');
-
   const postData = await getAllPosts({ postType });
   // Source data for extra sections being displayed on the page
   const { latestBlogs, latestYouTubeVideo } = await pageDataSource({
@@ -51,9 +48,6 @@ export default async function sourcePostPage({
     const skip = pageNumber ? (pageNumber - 1) * postsPerPage : 0;
 
     const posts = postData.slice(skip, skip + postsPerPage);
-
-    // eslint-disable-next-line no-console
-    console.timeEnd('sourcePostPage');
 
     return {
       props: {

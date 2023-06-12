@@ -6,7 +6,6 @@ import SEO from '../../SEO/SEO';
 import { PagePagination, PageSidebar, PostCardGrid } from '..';
 import { toUpper } from '../../../utils';
 import LatestContent from '../../LatestContent';
-import Newsletter from '../../Newsletter/Newsletter';
 
 const PostGridPage: NextPage<PostGridPageProps> = ({
   pageNumber,
@@ -67,7 +66,6 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
         latestBlog={latestPosts[0]}
         latestVideo={latestYouTubeVideo}
       />
-      <Newsletter />
     </>
   );
 };

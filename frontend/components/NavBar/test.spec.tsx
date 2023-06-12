@@ -24,7 +24,7 @@ describe('NavBar', () => {
     const technicalWritingLink = screen.queryByText(/technical writing/i);
     const contactLink = screen.queryByText(/contact/i);
 
-    expect(links).toEqual(5);
+    expect(links).toEqual(6);
     expect(homeLink).toBeVisible();
     expect(blogLink).toBeVisible();
     expect(newsletterLink).toBeVisible();

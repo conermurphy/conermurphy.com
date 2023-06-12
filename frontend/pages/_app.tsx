@@ -4,7 +4,6 @@ import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import * as Fathom from 'fathom-client';
-import { ThemeProvider } from 'next-themes';
 import { MotionConfig } from 'framer-motion';
 import { Layout } from '../components';
 import { DesktopHeader, MobileHeader } from '../components/Header';
@@ -30,15 +29,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <ThemeProvider attribute="class">
-      <MotionConfig reducedMotion="user">
-        <DesktopHeader />
-        <MobileHeader />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </MotionConfig>
-    </ThemeProvider>
+    <MotionConfig reducedMotion="user">
+      <DesktopHeader />
+      <MobileHeader />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </MotionConfig>
   );
 }
 
