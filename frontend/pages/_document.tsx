@@ -20,7 +20,7 @@ export default class MyDocument extends Document {
           <meta property="og:locale" content="en-GB" />
           <meta lang="en-GB" />
         </Head>
-        <body>
+        <body className="bg-background">
           <Main />
           <NextScript />
         </body>

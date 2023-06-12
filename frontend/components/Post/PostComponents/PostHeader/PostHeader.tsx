@@ -1,6 +1,5 @@
 import React from 'react';
 import Img from 'next/image';
-import { spawn } from 'child_process';
 import { PostFrontMatter } from '../../../../types';
 import { HomeHeroWrapper } from '../../../HomeHero/HomeHero';
 import { TOPICS } from '../../../../constants';
