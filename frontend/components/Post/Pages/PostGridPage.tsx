@@ -16,13 +16,8 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
   postType,
   pageHeroData: { title, body },
   metaDescription,
-  pageQueries = {
-    page: '',
-    queries: [],
-  },
   latestPosts,
   latestYouTubeVideo,
-  isLoading,
 }) => {
   const pageName = toUpper(postType.replaceAll('-', ' '));
 
@@ -50,20 +45,12 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
                 posts?.length ? 'xl:justify-between' : 'xl:justify-end'
               }`}
             >
-              <PostCardGrid
-                posts={posts}
-                postType={postType}
-                isLoading={isLoading}
-              />
-              <PageSidebar data={topics} pageQueries={pageQueries} />
+              <PostCardGrid posts={posts} postType={postType} />
+              {/* <PageSidebar data={topics} /> */}
             </div>
           </div>
           {posts?.length ? (
-            <PagePagination
-              pageCount={pageCount}
-              currentPage={pageNumber}
-              pageQueries={pageQueries}
-            />
+            <PagePagination pageCount={pageCount} currentPage={pageNumber} />
           ) : null}
         </div>
       </div>
