@@ -7,7 +7,7 @@ import {
 } from '../../types';
 import { getPostPaths } from '../../utils/posts';
 
-import { PostGridPage, PostPage } from '../../components/Post/Pages';
+import { PostGridPage } from '../../components/Post/Pages';
 import sourcePostPage from '../../utils/posts/sourcePostPage';
 
 const postType = POSTTYPES.TECHNICAL_WRITING;
@@ -16,12 +16,7 @@ const postType = POSTTYPES.TECHNICAL_WRITING;
 const TechnicalWriting: NextPage<BlogNewsletterProps> = ({
   isPostGridPage,
   ...params
-}) =>
-  isPostGridPage ? (
-    <PostGridPage {...params} postType={postType} />
-  ) : (
-    <PostPage {...params} postType={postType} />
-  );
+}) => <PostGridPage {...params} postType={postType} />;
 
 export const getStaticPaths: GetStaticPaths<
   BlogNewsletterParams
@@ -42,8 +37,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     slug: params?.slug,
   });
 
-  const { isPostGridPage, post } = props;
-
   const pageHeroData = {
     title: 'Technical Writing',
     body: 'Here are all of my commissioned blog posts. Want to work with me on a post for your company? Get in touch today.',
@@ -52,23 +45,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const metaDescription =
     'Here are all of my commissioned blog posts. Want to work with me on a post for your company? Get in touch today.';
 
-  return isPostGridPage
-    ? {
-        props: {
-          ...props,
-          pageHeroData,
-          metaDescription,
-        },
-      }
-    : {
-        props: {
-          ...props,
-          post: {
-            ...post,
-            content: post?.rawContent ? await serialize(post?.rawContent) : '',
-          },
-        },
-      };
+  return {
+    props: {
+      ...props,
+      pageHeroData,
+      metaDescription,
+    },
+  };
 };
 
 export default TechnicalWriting;

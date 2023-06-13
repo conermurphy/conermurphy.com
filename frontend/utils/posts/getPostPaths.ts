@@ -19,23 +19,26 @@ export default async function getPostPaths({ postType }: IProps): ReturnType {
   const postData = await getAllPosts({ postType });
 
   // Get all post slugs
-  const postPaths = postData.map((post) => {
-    const { slug, published } = post.data;
+  const postPaths =
+    postType !== POSTTYPES.TECHNICAL_WRITING
+      ? postData.map((post) => {
+          const { slug, published } = post.data;
 
-    if (!dev && !published) {
-      return {
-        params: {
-          slug: [''],
-        },
-      };
-    }
+          if (!dev && !published) {
+            return {
+              params: {
+                slug: [''],
+              },
+            };
+          }
 
-    return {
-      params: {
-        slug: [slug],
-      },
-    };
-  });
+          return {
+            params: {
+              slug: [slug],
+            },
+          };
+        })
+      : [];
 
   const postsLength = postData.length;
   const pages = Math.ceil(postsLength / postsPerPage);
