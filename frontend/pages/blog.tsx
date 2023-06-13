@@ -20,11 +20,17 @@ const Blog: NextPage<BlogNewsletterProps> = ({ isPostGridPage, ...params }) => {
   const { data, isLoading: isDataLoading } = useSWR<
     PostGridDataSourceProps,
     Error
-  >(`/api/posts?type=${postType}&${searchParams.toString()}`, fetcher, {
-    fallbackData: params.fallback['/api/posts'],
-  });
+  >(
+    `/api/posts?type=${postType}${
+      searchParams.toString() ? `&${searchParams.toString()}` : ''
+    }`,
+    fetcher,
+    {
+      fallbackData: params.fallback['/api/posts'],
+    }
+  );
 
-  const isLoading = !data && isDataLoading;
+  const isLoading = isDataLoading || !data;
 
   return (
     <SWRConfig value={{ fallback: params.fallback }}>
