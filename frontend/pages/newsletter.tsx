@@ -1,7 +1,15 @@
-import { GetServerSideProps, NextPage } from 'next';
-import { BlogNewsletterProps, POSTTYPES } from '../types';
-import sourcePostPage from '../utils/posts/sourcePostPage';
+import { GetStaticProps, NextPage } from 'next';
+import { useSearchParams } from 'next/navigation';
+import useSWR, { SWRConfig } from 'swr';
+import {
+  BlogNewsletterProps,
+  POSTTYPES,
+  PostGridDataSourceProps,
+} from '../types';
 import { PostGridPage } from '../components/Post/Pages';
+import { getAllPosts, getAllTopics } from '../utils/posts';
+import pageDataSource from '../utils/pageDataSource';
+import fetcher from '../config';
 
 const postType = POSTTYPES.NEWSLETTER;
 
@@ -9,24 +17,44 @@ const postType = POSTTYPES.NEWSLETTER;
 const Newsletter: NextPage<BlogNewsletterProps> = ({
   isPostGridPage,
   ...params
-}) => <PostGridPage {...params} postType={postType} />;
-
-export const getServerSideProps: GetServerSideProps = async ({
-  res,
-  query,
 }) => {
-  res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=10, stale-while-revalidate=59'
+  const searchParams = useSearchParams();
+
+  const { data } = useSWR<PostGridDataSourceProps, Error>(
+    `/api/posts?type=${postType}&${searchParams.toString()}`,
+    fetcher,
+    {
+      fallbackData: params.fallback['/api/posts'],
+    }
   );
 
+  return (
+    <SWRConfig value={{ fallback: params.fallback }}>
+      <PostGridPage
+        {...params}
+        posts={data?.posts || params.posts}
+        pageCount={data?.pageCount || params.pageCount}
+        pageNumber={data?.pageNumber || params.pageNumber}
+        pageQueries={data?.pageQueries || params.pageQueries}
+        postType={postType}
+      />
+    </SWRConfig>
+  );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
   const postsPerPage = parseInt(process.env.POSTS_PER_PAGE);
-  const { props } = await sourcePostPage({
-    postsPerPage,
-    postType,
-    pageQueries: query,
-    slug: 'newsletter',
+  const postData = await getAllPosts({ postType });
+  const { latestBlogs, latestYouTubeVideo } = await pageDataSource({
+    latestBlogs: true,
+    latestNewsletters: false,
+    latestYouTubeVideo: true,
   });
+  const { topics } = await getAllTopics({
+    postType,
+  });
+  const posts = postData.slice(0, 0 + postsPerPage);
+  const pageCount = Math.ceil(postData.length / postsPerPage);
 
   const pageHeroData = {
     title: 'Sunday Solotor',
@@ -38,7 +66,20 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   return {
     props: {
-      ...props,
+      fallback: {
+        '/api/posts': {
+          posts,
+          pageNumber: 0,
+          pageCount,
+        },
+      },
+      posts,
+      topics,
+      pageNumber: 0,
+      pageCount,
+      postType,
+      latestPosts: latestBlogs,
+      latestYouTubeVideo,
       pageHeroData,
       metaDescription,
     },

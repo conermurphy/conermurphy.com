@@ -2,7 +2,7 @@ import { NextApiResponse, NextApiRequest } from 'next';
 import { getAllPosts } from '../../../utils/posts';
 import { POSTTYPES } from '../../../types';
 
-export default async function blogPosts(
+export default async function postsGenerate(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

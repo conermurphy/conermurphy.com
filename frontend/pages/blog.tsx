@@ -18,10 +18,10 @@ const Blog: NextPage<BlogNewsletterProps> = ({ isPostGridPage, ...params }) => {
   const searchParams = useSearchParams();
 
   const { data } = useSWR<PostGridDataSourceProps, Error>(
-    `/api/blog?type=${postType}&${searchParams.toString()}`,
+    `/api/posts?type=${postType}&${searchParams.toString()}`,
     fetcher,
     {
-      fallbackData: params.fallback['/api/blog'],
+      fallbackData: params.fallback['/api/posts'],
     }
   );
 
@@ -64,7 +64,7 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       fallback: {
-        '/api/blog': {
+        '/api/posts': {
           posts,
           pageNumber: 0,
           pageCount,
