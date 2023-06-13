@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { TOPICS } from '../../../constants';
 import { linkBuilder } from '../../../utils/posts';
 
 interface IProps {
   data: string[];
-  pageQueries?: { page: string; queries: string[] };
 }
 
 interface CategoryLinkProps {
@@ -38,14 +38,9 @@ function CategoryLink({
   );
 }
 
-export default function PageSidebar({
-  data,
-  pageQueries = {
-    page: '',
-    queries: [],
-  },
-}: IProps) {
+export default function PageSidebar({ data }: IProps) {
   const { pathname } = useRouter();
+  const searchParams = useSearchParams();
 
   if (!data.length) return null;
 
@@ -61,9 +56,8 @@ export default function PageSidebar({
         const { name } = TOPICS[topic];
 
         const { activeItem, linkHref } = linkBuilder({
-          pageQueries,
-          item: topic,
-          pathname,
+          pageQueries: searchParams,
+          item: topic.toLowerCase(),
         });
 
         return (

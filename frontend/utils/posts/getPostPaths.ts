@@ -15,6 +15,7 @@ type ReturnType = Promise<
 >;
 
 export default async function getPostPaths({ postType }: IProps): ReturnType {
+  const postsPerPage = parseInt(process.env.POSTS_PER_PAGE);
   const postData = await getAllPosts({ postType });
 
   // Get all post slugs
@@ -36,5 +37,15 @@ export default async function getPostPaths({ postType }: IProps): ReturnType {
     };
   });
 
-  return postPaths;
+  const postsLength = postData.length;
+  const pages = Math.ceil(postsLength / postsPerPage);
+
+  // Create the routes for each  page and then add the post paths onto the array
+  const paths = Array.from({ length: pages }).map((_, i) => ({
+    params: {
+      slug: [`${i !== 0 ? i + 1 : ''}`],
+    },
+  }));
+
+  return [...paths, ...postPaths];
 }

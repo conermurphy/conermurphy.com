@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true,
   },
-  "include": ["frontend/next-env.d.ts", "**/*.ts", "**/*.tsx", "frontend/additional.d.ts"],
+  "include": ["frontend/next-env.d.ts", "**/*.ts", "**/*.tsx", "frontend/additional.d.ts", "pages/blog/[...slug].old", "pages/blog.old"],
   "exclude": ["node_modules"]
 }
