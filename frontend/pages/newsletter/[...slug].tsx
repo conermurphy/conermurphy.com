@@ -30,9 +30,7 @@ export const getStaticPaths: GetStaticPaths<
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const postsPerPage = parseInt(process.env.POSTS_PER_PAGE);
   const { props } = await sourcePostPage({
-    postsPerPage,
     postType,
     slug: Array.isArray(params?.slug) ? params?.slug[0] : params?.slug,
   });

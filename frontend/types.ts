@@ -92,6 +92,16 @@ export type Topics = {
   };
 };
 
+export interface PostGridDataSourceProps {
+  posts: Post[];
+  pageCount: number;
+  pageNumber: number;
+  pageQueries?: {
+    page: string;
+    queries: string[];
+  };
+}
+
 export interface PostGridPageProps {
   pageNumber: number;
   pageCount: number;
@@ -108,6 +118,7 @@ export interface PostGridPageProps {
   latestYouTubeVideo: LatestVideo['items'][0];
   metaDescription: string;
   pageQueries?: { page: string; queries: string[] };
+  isLoading: boolean;
 }
 
 export interface PostPageProps {
@@ -124,6 +135,9 @@ export interface PostPageProps {
 
 export interface BlogNewsletterProps extends PostGridPageProps, PostPageProps {
   isPostGridPage: boolean;
+  fallback: {
+    [key: string]: PostGridDataSourceProps;
+  };
 }
 
 export interface BlogNewsletterParams extends ParsedUrlQuery {

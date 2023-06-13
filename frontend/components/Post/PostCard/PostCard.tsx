@@ -7,15 +7,35 @@ import { postComponent, viewportSettings } from '../../../constants';
 interface IProps {
   post: PostFrontMatter;
   postType: POSTTYPES;
+  isLoading?: boolean;
 }
 
-export default function PostCard({ post, postType }: IProps): JSX.Element {
+function PostCardSekelton(): JSX.Element {
+  return (
+    <div className="flex flex-col gap-y-4 p-8 max-w-lg w-full animate-pulse border-l-8 border-gray-200">
+      <div className="w-full bg-gray-200 h-5" />
+      <div className="flex flex-col gap-2">
+        <div className="w-full h-10 bg-gray-200" />
+        <div className="w-full h-16 bg-gray-200" />
+      </div>
+      <div className="w-full h-5 bg-gray-200" />
+    </div>
+  );
+}
+
+export default function PostCard({
+  post,
+  postType,
+  isLoading = false,
+}: IProps): JSX.Element {
   const { title, date, slug, description } = post;
 
   const wrappedTitle = title.replace(
     /`(.*?)`/g,
     '<code class="p-1 font-extrabold lowercase">$&</code>'
   );
+
+  if (isLoading) return <PostCardSekelton />;
 
   const isTechnicalWriting = postType === POSTTYPES.TECHNICAL_WRITING;
 

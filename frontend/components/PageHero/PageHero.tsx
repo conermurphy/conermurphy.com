@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 interface IProps {
@@ -43,6 +44,7 @@ export default function PageHero({
                 </p>
               ) : null}
             </section>
+            <Image src="/grain.png" alt="" fill priority />
           </div>
         </div>
       </div>
