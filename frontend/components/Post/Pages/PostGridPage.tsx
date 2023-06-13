@@ -22,6 +22,7 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
   },
   latestPosts,
   latestYouTubeVideo,
+  isLoading,
 }) => {
   const pageName = toUpper(postType.replaceAll('-', ' '));
 
@@ -49,7 +50,11 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
                 posts?.length ? 'xl:justify-between' : 'xl:justify-end'
               }`}
             >
-              <PostCardGrid posts={posts} postType={postType} />
+              <PostCardGrid
+                posts={posts}
+                postType={postType}
+                isLoading={isLoading}
+              />
               <PageSidebar data={topics} pageQueries={pageQueries} />
             </div>
           </div>

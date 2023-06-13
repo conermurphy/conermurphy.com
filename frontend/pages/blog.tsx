@@ -17,13 +17,14 @@ const postType = POSTTYPES.BLOG;
 const Blog: NextPage<BlogNewsletterProps> = ({ isPostGridPage, ...params }) => {
   const searchParams = useSearchParams();
 
-  const { data } = useSWR<PostGridDataSourceProps, Error>(
-    `/api/posts?type=${postType}&${searchParams.toString()}`,
-    fetcher,
-    {
-      fallbackData: params.fallback['/api/posts'],
-    }
-  );
+  const { data, isLoading: isDataLoading } = useSWR<
+    PostGridDataSourceProps,
+    Error
+  >(`/api/posts?type=${postType}&${searchParams.toString()}`, fetcher, {
+    fallbackData: params.fallback['/api/posts'],
+  });
+
+  const isLoading = !data && isDataLoading;
 
   return (
     <SWRConfig value={{ fallback: params.fallback }}>
@@ -34,6 +35,7 @@ const Blog: NextPage<BlogNewsletterProps> = ({ isPostGridPage, ...params }) => {
         pageNumber={data?.pageNumber || params.pageNumber}
         pageQueries={data?.pageQueries || params.pageQueries}
         postType={postType}
+        isLoading={isLoading || false}
       />
     </SWRConfig>
   );

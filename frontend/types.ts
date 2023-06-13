@@ -118,6 +118,7 @@ export interface PostGridPageProps {
   latestYouTubeVideo: LatestVideo['items'][0];
   metaDescription: string;
   pageQueries?: { page: string; queries: string[] };
+  isLoading: boolean;
 }
 
 export interface PostPageProps {
