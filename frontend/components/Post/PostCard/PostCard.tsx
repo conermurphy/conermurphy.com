@@ -7,7 +7,7 @@ import { postComponent, viewportSettings } from '../../../constants';
 interface IProps {
   post: PostFrontMatter;
   postType: POSTTYPES;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 function PostCardSekelton(): JSX.Element {
@@ -26,7 +26,7 @@ function PostCardSekelton(): JSX.Element {
 export default function PostCard({
   post,
   postType,
-  isLoading = true,
+  isLoading = false,
 }: IProps): JSX.Element {
   const { title, date, slug, description } = post;
 
