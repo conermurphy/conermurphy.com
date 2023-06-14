@@ -11,6 +11,7 @@ interface IProps {
   authorTwitterHandle?: string;
   canonicalUrl?: string;
   date?: string;
+  addNoIndex?: boolean;
 }
 
 export default function SEO({
@@ -22,6 +23,7 @@ export default function SEO({
   authorTwitterHandle = '@MrConerMurphy',
   canonicalUrl = '',
   date = '',
+  addNoIndex = false,
 }: IProps) {
   const absoluteUrl = `${server}/${url}`;
   const image = metaImage ? `${server}${metaImage}` : `${server}/favicon.png`;
@@ -58,6 +60,8 @@ export default function SEO({
       <meta name="twitter:description" content={metaDescription} />
       <meta name="twitter:image" content={image} />
       <meta name="twitter:image:alt" content={metaTitle} />
+
+      {addNoIndex ? <meta name="robots" content="noindex" /> : null}
     </Head>
   );
 }

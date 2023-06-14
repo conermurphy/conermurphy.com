@@ -35,6 +35,7 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
         }`}
         metaDescription={metaDescription}
         url={postType}
+        addNoIndex={pageNumber > 1}
       />
       <div className="flex flex-col gap-24">
         <PageHero title={title} description={body} tag="Content" />
