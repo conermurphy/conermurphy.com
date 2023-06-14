@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import React from 'react';
+import { useSearchParams } from 'next/navigation';
 import { PostGridPageProps } from '../../../types';
 import PageHero from '../../PageHero/PageHero';
 import SEO from '../../SEO/SEO';
@@ -19,6 +20,7 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
   latestPosts,
   latestYouTubeVideo,
 }) => {
+  const urlSearchParams = useSearchParams();
   const pageName = toUpper(postType.replaceAll('-', ' '));
 
   return (
@@ -35,7 +37,7 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
         }`}
         metaDescription={metaDescription}
         url={postType}
-        addNoIndex={pageNumber > 1}
+        addNoIndex={pageNumber > 1 || urlSearchParams.toString() !== ''}
       />
       <div className="flex flex-col gap-24">
         <PageHero title={title} description={body} tag="Content" />

@@ -78,6 +78,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/deleting-files-node-js',
+        destination: '/blog/deleting-files-node-js-promises',
+        permanent: true,
+      },
+      {
         source: '/javascript-array-methods-of-explained',
         destination: '/blog/javascript-array-methods-of-explained',
         permanent: true,
@@ -143,6 +148,11 @@ const nextConfig = {
       },
       {
         source: '/notes',
+        destination: '/blog',
+        permanent: true,
+      },
+      {
+        source: '/posts',
         destination: '/blog',
         permanent: true,
       },
