@@ -63,41 +63,44 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
               } text-sm drop-shadow-lg leading-relaxed`}
               style={{ ...style }}
             >
-              {tokens.map((line, index) => {
-                const lineProps = getLineProps({ line, key: index });
-                const lineNumber = index + 1;
-                const isLineHighlighted = highlightedLines.includes(lineNumber);
+              <code>
+                {tokens.map((line, index) => {
+                  const lineProps = getLineProps({ line, key: index });
+                  const lineNumber = index + 1;
+                  const isLineHighlighted =
+                    highlightedLines.includes(lineNumber);
 
-                return (
-                  <div
-                    key={`item-${index}`}
-                    className={`${lineProps.className} ${
-                      isLineHighlighted ? 'line-highlighted' : ''
-                    }`}
-                    style={lineProps.style}
-                  >
-                    <span
-                      className={`pr-4 opacity-75 select-none ${
-                        isLineHighlighted ? 'pl-3' : 'pl-4'
+                  return (
+                    <div
+                      key={`item-${index}`}
+                      className={`${lineProps.className} ${
+                        isLineHighlighted ? 'line-highlighted' : ''
                       }`}
+                      style={lineProps.style}
                     >
-                      {lineNumber}
-                    </span>
-                    {line.map((token, key) => {
-                      const tokenProps = getTokenProps({ token, key });
-                      return (
-                        <span
-                          key={`line-${key}`}
-                          style={tokenProps.style}
-                          className={tokenProps.className}
-                        >
-                          {tokenProps.children}
-                        </span>
-                      );
-                    })}
-                  </div>
-                );
-              })}
+                      <span
+                        className={`pr-4 opacity-75 select-none ${
+                          isLineHighlighted ? 'pl-3' : 'pl-4'
+                        }`}
+                      >
+                        {lineNumber}
+                      </span>
+                      {line.map((token, key) => {
+                        const tokenProps = getTokenProps({ token, key });
+                        return (
+                          <span
+                            key={`line-${key}`}
+                            style={tokenProps.style}
+                            className={tokenProps.className}
+                          >
+                            {tokenProps.children}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </code>
             </pre>
             <span className="absolute top-1.5 right-3 select-none text-background text-xs md:text-sm">
               {language}
