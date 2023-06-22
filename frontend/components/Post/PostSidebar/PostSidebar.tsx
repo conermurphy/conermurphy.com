@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   FacebookShareButton,
   LinkedinShareButton,
@@ -35,7 +35,14 @@ function getHeadingClasses(level: number): string {
 
 export default function PostSidebar({ headings, title }: IProps): JSX.Element {
   const [isCopied, setIsCopied] = useState(false);
-  const [activeHeader, setActiveHeader] = useState<string | null>(null);
+  const [activeHeader, setActiveHeader] = useState<HTMLHeadingElement | null>(
+    null
+  );
+  const [previousHeader, setPreviousHeader] =
+    useState<HTMLHeadingElement | null>(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [scrollingUp, setScrollingUp] = useState(false);
+
   const { asPath } = useRouter();
 
   const url = `https://conermurphy.com${asPath}`;
@@ -45,12 +52,50 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
 
   const headingRefs = headings.map((heading) => heading.ref);
 
+  const handleScroll = useCallback(() => {
+    const currentPosition = window.pageYOffset;
+
+    setScrollingUp(currentPosition < scrollPosition);
+    setScrollPosition(currentPosition);
+  }, [scrollPosition]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        const activeEntry = entries.find((entry) => entry.isIntersecting);
+        const firstEntryIndex = entries.findIndex(
+          (entry) => entry.isIntersecting
+        );
+        const lastEntryIndex = entries.findLastIndex(
+          (entry) => entry.isIntersecting
+        );
 
-        setActiveHeader(activeEntry?.target?.id || null);
+        if (scrollingUp) {
+          if (firstEntryIndex >= 0) {
+            setActiveHeader(
+              entries[firstEntryIndex].target as HTMLHeadingElement
+            );
+          }
+        } else if (lastEntryIndex >= 0) {
+          setActiveHeader(entries[lastEntryIndex].target as HTMLHeadingElement);
+        }
+
+        const activeEntryIndex = entries.findIndex(
+          (entry) => entry.target.id === activeHeader?.id
+        );
+        const activeEntry = activeEntryIndex ? entries[activeEntryIndex] : null;
+
+        if (activeEntry) {
+          const previousEntry = entries[activeEntryIndex - 1];
+
+          setPreviousHeader(previousEntry?.target as HTMLHeadingElement);
+        }
       },
       {
         rootMargin: undefined, // adjust this to fit your needs
@@ -77,18 +122,24 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
       <div className="flex flex-col gap-8">
         <h2 className="text-lg text-text/50 uppercase">On This Page</h2>
         <ul className="flex flex-col gap-1">
-          {headings.map(({ text, link, level }) => (
-            <li key={link}>
-              <a
-                href={link}
-                className={`text-sm text-text/50 hover:text-text uppercase transition-all ease-in-out font-heading duration-150 ${getHeadingClasses(
-                  level
-                )} ${activeHeader === link.slice(1) ? 'font-extrabold' : ''}`}
-              >
-                {text}
-              </a>
-            </li>
-          ))}
+          {headings.map(({ text, link, level }) => {
+            const isHighlighted = scrollingUp
+              ? previousHeader?.id === link.slice(1)
+              : activeHeader?.id === link.slice(1);
+
+            return (
+              <li key={link}>
+                <a
+                  href={link}
+                  className={`text-sm text-text/50 hover:text-text uppercase transition-all ease-in-out font-heading duration-150 ${getHeadingClasses(
+                    level
+                  )} ${isHighlighted ? 'font-extrabold' : ''}`}
+                >
+                  {text}
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
       <ul className="flex flex-row gap-x-4">

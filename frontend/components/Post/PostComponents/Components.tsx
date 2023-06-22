@@ -47,7 +47,7 @@ const components = (
       className="group relative font-extrabold text-heading text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-28"
       ref={headings.find((heading) => heading.text === children)?.ref}
     >
-      <Link top="top-3" />
+      <Link top="top-2" />
       <a
         href={`#${getHeadingLink(children)}`}
         onClick={() => copyToClipboard(window?.location?.href)}
@@ -208,6 +208,29 @@ const components = (
     <p className="relative w-full h-64 sm:h-96">
       <Img src={src} alt={alt || ''} fill className="rounded-lg" />
     </p>
+  ),
+  table: ({ children }: IProps): JSX.Element => (
+    <motion.table
+      className="table-auto my-6 md:my-8 w-full"
+      initial="offscreen"
+      whileInView="onscreen"
+      variants={postComponent}
+      viewport={viewportSettings}
+    >
+      {children}
+    </motion.table>
+  ),
+  thead: ({ children }: IProps): JSX.Element => (
+    <thead className="border-b-2">{children}</thead>
+  ),
+  tr: ({ children }: IProps): JSX.Element => <tr className="">{children}</tr>,
+  th: ({ children }: IProps): JSX.Element => (
+    <th className="pb-3 pl-2 text-left">{children}</th>
+  ),
+  td: ({ children }: IProps): JSX.Element => (
+    <td className="py-3 pl-2 text-left border-b border-r last:border-r-0">
+      {children}
+    </td>
   ),
   pre: Code,
   BlockQuoteAuthor,

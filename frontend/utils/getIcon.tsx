@@ -84,7 +84,7 @@ export default function getIcon({
           color={color}
           title="Link Icon"
           data-testid="link-icon"
-          className="hover:text-accent"
+          className="hover:text-accent overflow-visible"
         />
       );
     case ICONS.CLOSE.name:

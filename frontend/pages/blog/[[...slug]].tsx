@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { serialize } from 'next-mdx-remote/serialize';
+import remarkGfm from 'remark-gfm';
 import {
   BlogNewsletterParams,
   BlogNewsletterProps,
@@ -61,7 +62,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           ...props,
           post: {
             ...post,
-            content: post?.rawContent ? await serialize(post?.rawContent) : '',
+            content: post?.rawContent
+              ? await serialize(post?.rawContent, {
+                  mdxOptions: { remarkPlugins: [[remarkGfm]] },
+                })
+              : '',
           },
         },
       };
