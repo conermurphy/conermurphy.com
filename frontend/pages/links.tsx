@@ -47,6 +47,12 @@ const Links: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => {
       internal: false,
     },
     {
+      title: 'Threads App',
+      url: 'https://www.threads.net/@mrconermurphy',
+      icon: <IoGlobeOutline />,
+      internal: false,
+    },
+    {
       title: 'TikTok',
       url: 'https://www.tiktok.com/@conermurphy',
       icon: <IoLogoTiktok />,

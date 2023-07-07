@@ -17,10 +17,10 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
   );
 
   return (
-    <section className="relative py-16">
+    <section className="relative pt-16 pb-0 md:py-16">
       <header className="relative flex flex-col items-center justify-center gap-8 px-6 xl:px-0 z-10">
-        <div className="max-w-md sm:max-w-6xl w-full flex flex-col items-center justify-center text-center gap-8">
-          <p className="text-xs md:text-base font-extrabold font-heading flex flex-row flex-wrap max-w-xs sm:max-w-full items-center justify-center gap-3 px-3 py-2 rounded-lg w-max">
+        <div className="max-w-md sm:max-w-6xl w-full flex flex-col items-center justify-center text-center gap-2 md:gap-8">
+          <p className="font-extrabold font-heading flex flex-row flex-wrap max-w-xs sm:max-w-full items-center justify-center gap-3 px-3 py-2 rounded-lg w-max">
             {topics.map((topic) => {
               const { name } = TOPICS[topic];
 

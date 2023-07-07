@@ -44,7 +44,7 @@ export default function PageHero({
                 </p>
               ) : null}
             </section>
-            <Image src="/grain.png" alt="" fill priority />
+            <Image src="/grain.png" alt="" fill priority className="!h-auto" />
           </div>
         </div>
       </div>

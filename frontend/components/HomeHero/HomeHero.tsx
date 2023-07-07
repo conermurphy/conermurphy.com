@@ -8,9 +8,9 @@ export function HomeHeroWrapper({
   children: ReactElement;
 }): JSX.Element {
   return (
-    <section className="relative bg-brand/40 py-16">
+    <section className="relative bg-brand/40 py-6 lg:py-16">
       <div className="w-full flex items-center justify-center">{children}</div>
-      <Image src="/grain.png" alt="" fill priority />
+      <Image src="/grain.png" alt="" fill priority className="!h-auto" />
       <div className="absolute bottom-0 left-0 right-0 border-transparent border-x-[50vw] border-y-[10vh] border-b-background border-r-background" />
     </section>
   );
@@ -19,8 +19,8 @@ export function HomeHeroWrapper({
 export default function HomeHero() {
   return (
     <HomeHeroWrapper>
-      <div className="flex flex-col lg:flex-row justify-between items-center w-full max-w-7xl z-20 p-6 gap-8">
-        <div className="max-w-xl lg:max-w-md flex flex-col gap-6">
+      <div className="flex flex-col lg:flex-row justify-between items-center w-full max-w-7xl p-6 gap-8 z-20">
+        <div className="max-w-xl lg:max-w-md flex flex-col gap-6 z-30">
           <h1 className="text-3xl md:text-5xl">Coner Murphy</h1>
           <p className="text-lg md:text-xl">
             Hey 👋, I&apos;m Coner, a full-stack developer, freelancer,

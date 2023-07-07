@@ -5,7 +5,7 @@ import Image from 'next/image';
 import NavBar from '../../NavBar/NavBar';
 import Logo from '../../Logo/Logo';
 
-function processPathname(pathnames: string[]) {
+export function processPathname(pathnames: string[]) {
   const targetPaths = ['blog', 'newsletter', 'technical-writing', 'contact'];
 
   if (!pathnames[0]) {
@@ -33,7 +33,7 @@ export default function DesktopHeader(): JSX.Element {
 
   return (
     <div
-      className={` lg:block text-text w-full z-30 duration-300 transition-all ease-in-out translate-y-0 ${
+      className={`relative hidden lg:block text-text w-full z-30 duration-300 transition-all ease-in-out overflow-hidden ${
         isWhiteBg ? 'bg-background' : 'bg-brand/40'
       }`}
     >
@@ -45,7 +45,9 @@ export default function DesktopHeader(): JSX.Element {
           <NavBar />
         </header>
       </div>
-      {!isWhiteBg ? <Image src="/grain.png" alt="" fill priority /> : null}
+      {!isWhiteBg ? (
+        <Image src="/grain.png" alt="" fill priority className="!h-auto" />
+      ) : null}
     </div>
   );
 }
