@@ -189,8 +189,6 @@ To create our mapping templates, we’ll create a new `resolvers` directory insi
 With the `getPost` query, we perform a `GetItem` operation which will retrieve the item in the database that has an id that matches the one passed into the request. We then take the result of that operation and pass it back to the requester using `$util.toJson`.
 
 ```vtl:[]:./graphql/resolvers/Query.getPost.req.vtl
-// ./graphql/resolvers/Query.getPost.req.vtl
-
 {
   "version": "2017-02-28",
   "operation": "GetItem",
@@ -201,8 +199,6 @@ With the `getPost` query, we perform a `GetItem` operation which will retrieve t
 ```
 
 ```vtl:[]:./graphql/resolvers/Query.getPost.res.vtl
-// ./graphql/resolvers/Query.getPost.res.vtl
-
 $util.toJson($context.result);
 ```
 
@@ -211,8 +207,6 @@ $util.toJson($context.result);
 For `getAllPosts`, we do a similar thing to `getPost` but instead of doing a `GetItem` operation, we do a `Scan` operation to read all of the items in the database. We then take the result of that `Scan` operation and check if there are any post items in the returned data, if so we return them to the requester using `$util.toJson`. Otherwise, we return an empty array.
 
 ```vtl:[]:./graphql/resolvers/Query.getAllPosts.req.vtl
-// ./graphql/resolvers/Query.getAllPosts.req.vtl
-
 {
   "version": "2017-02-28",
   "operation": "Scan"
@@ -220,8 +214,6 @@ For `getAllPosts`, we do a similar thing to `getPost` but instead of doing a `Ge
 ```
 
 ```vtl:[]:./graphql/resolvers/Query.getAllPosts.res.vtl
-// ./graphql/resolvers/Query.getAllPosts.res.vtl
-
 #if($ctx.result && $ctx.result.items)
   $util.toJson($ctx.result.items)
 #else
@@ -236,8 +228,6 @@ For `createPost`, we perform a `PutItem` operation to create a new item in our d
 After we create the new item in the database, we return the attributes of that item back to the requester, including the generated ID.
 
 ```vtl:[]:./graphql/resolvers/Mutation.createPost.req.vtl
-// ./graphql/resolvers/Mutation.createPost.req.vtl
-
 {
   "version": "2017-02-28",
   "operation": "PutItem",
@@ -254,8 +244,6 @@ After we create the new item in the database, we return the attributes of that i
 ```
 
 ```vtl:[]:./graphql/resolvers/Mutation.createPost.res.vtl
-// ./graphql/resolvers/Mutation.createPost.res.vtl
-
 $util.toJson($context.result);
 ```
 
@@ -264,8 +252,6 @@ $util.toJson($context.result);
 Finally, for `deletePost`, we use the `DeleteItem` operation to delete the item that matches the ID passed into the request from the database. After the operation has been performed, we return the id of the item deleted back to the requester.
 
 ```vtl:[]:./graphql/resolvers/Mutation.deletePost.req.vtl
-// ./graphql/resolvers/Mutation.deletePost.req.vtl
-
 {
   "version": "2017-02-28",
   "operation": "DeleteItem",
@@ -276,8 +262,6 @@ Finally, for `deletePost`, we use the `DeleteItem` operation to delete the item 
 ```
 
 ```vtl:[]:./graphql/resolvers/Mutation.deletePost.res.vtl
-// ./graphql/resolvers/Mutation.deletePost.res.vtl
-
 $util.toJson($context.args.id);
 ```
 
