@@ -19,7 +19,7 @@ export default function PageHero({
     'Thoughts, stories, and actionable advice for creators, builders, entrepreneurs, and more straight to your inbox weekly.';
 
   return (
-    <section className="relative bg-brand/40 py-16 md:pb-32">
+    <section className="relative bg-brand/40 py-16 md:pb-32 overflow-hidden">
       <div className="w-full flex items-center justify-center">
         <div className="flex flex-row justify-center items-center w-full max-w-7xl">
           <div className="flex flex-col items-center justify-center">
