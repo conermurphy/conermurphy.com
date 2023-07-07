@@ -1,41 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import NavBar from '../../NavBar/NavBar';
-
 import Logo from '../../Logo/Logo';
 
+export function processPathname(pathnames: string[]) {
+  const targetPaths = ['blog', 'newsletter', 'technical-writing', 'contact'];
+
+  if (!pathnames[0]) {
+    return false;
+  }
+
+  if (targetPaths.includes(pathnames[0]) && parseInt(pathnames[1]) > 0) {
+    return false;
+  }
+
+  if (targetPaths.includes(pathnames[0]) && !pathnames[1]) {
+    return false;
+  }
+
+  return true;
+}
+
 export default function DesktopHeader(): JSX.Element {
-  const [showNav, setShowNav] = useState(false);
-  const { pathname } = useRouter();
+  const pathname = usePathname();
 
-  useEffect(() => {
-    const valueToDivide = ['/blog', '/newsletter', '/contact'].includes(
-      pathname
-    )
-      ? 6
-      : 2;
+  const splitPathname = pathname.split('/');
+  splitPathname.shift();
 
-    const onScroll = () => {
-      if (window.scrollY > window.innerHeight / valueToDivide) {
-        setShowNav(true);
-        return;
-      }
-      setShowNav(false);
-    };
-
-    window.addEventListener('scroll', onScroll);
-
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  const isWhiteBg = processPathname(splitPathname);
 
   return (
     <div
-      className={`fixed top-0 hidden lg:block bg-background text-text w-full z-30 duration-300 transition-all ease-in-out ${
-        showNav ? 'translate-y-0' : '-translate-y-40'
+      className={`relative hidden lg:block text-text w-full z-30 duration-300 transition-all ease-in-out overflow-hidden ${
+        isWhiteBg ? 'bg-background' : 'bg-brand/40'
       }`}
     >
-      <div className="w-full flex items-center justify-center">
+      <div className="w-full flex items-center justify-center z-30 relative">
         <header className="flex flex-row items-center justify-between p-8 w-full max-w-7xl">
           <Link href="/" className="h-12 w-12">
             <Logo />
@@ -43,6 +45,9 @@ export default function DesktopHeader(): JSX.Element {
           <NavBar />
         </header>
       </div>
+      {!isWhiteBg ? (
+        <Image src="/grain.png" alt="" fill priority className="!h-auto" />
+      ) : null}
     </div>
   );
 }

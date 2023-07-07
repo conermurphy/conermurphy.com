@@ -1,7 +1,6 @@
 import React from 'react';
 import Img from 'next/image';
 import { PostFrontMatter } from '../../../../types';
-import { HomeHeroWrapper } from '../../../HomeHero/HomeHero';
 import { TOPICS } from '../../../../constants';
 
 interface IProps {
@@ -18,17 +17,17 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
   );
 
   return (
-    <HomeHeroWrapper>
+    <section className="relative pt-16 pb-0 md:py-16">
       <header className="relative flex flex-col items-center justify-center gap-8 px-6 xl:px-0 z-10">
-        <div className="max-w-md sm:max-w-6xl w-full flex flex-col items-center justify-center text-center gap-8">
-          <p className="text-xs md:text-base font-extrabold font-heading flex flex-row flex-wrap max-w-xs sm:max-w-full items-center justify-center gap-3 px-3 py-2 rounded-lg w-max bg-brand">
+        <div className="max-w-md sm:max-w-6xl w-full flex flex-col items-center justify-center text-center gap-2 md:gap-8">
+          <p className="font-extrabold font-heading flex flex-row flex-wrap max-w-xs sm:max-w-full items-center justify-center gap-3 px-3 py-2 rounded-lg w-max">
             {topics.map((topic) => {
               const { name } = TOPICS[topic];
 
               return (
                 <span
                   key={name}
-                  className="bg-background/60 text-text/70 py-1 px-2 rounded-md"
+                  className=" text-text py-1 px-2 rounded-md bg-brand"
                 >
                   {name}
                 </span>
@@ -75,6 +74,6 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
           />
         </figure>
       </header>
-    </HomeHeroWrapper>
+    </section>
   );
 }
