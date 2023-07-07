@@ -53,7 +53,7 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
   const headingRefs = headings.map((heading) => heading.ref);
 
   const handleScroll = useCallback(() => {
-    const currentPosition = window.pageYOffset;
+    const currentPosition = window.scrollY;
 
     setScrollingUp(currentPosition < scrollPosition);
     setScrollPosition(currentPosition);

@@ -175,4 +175,4 @@ export const postComponent: Variants = {
   },
 };
 
-export const viewportSettings = { once: true, amount: 0.8 };
+export const viewportSettings = { once: true, amount: 0.2 };

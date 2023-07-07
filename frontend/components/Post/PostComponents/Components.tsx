@@ -34,6 +34,30 @@ function Link({
   );
 }
 
+function getHeadingContent(children: IProps['children']) {
+  if (typeof children === 'string') {
+    return children;
+  }
+
+  if (Array.isArray(children)) {
+    return children[0];
+  }
+
+  const childProps = children?.props as { children: string };
+
+  return getHeadingLink(childProps?.children);
+}
+
+function getHeadingRef(headings: PostHeading[], children: IProps['children']) {
+  return headings.find((heading) => {
+    if (typeof children === 'string') {
+      return heading.text === getHeadingContent(children);
+    }
+
+    return getHeadingLink(heading.text) === getHeadingContent(children);
+  })?.ref;
+}
+
 const components = (
   headings: (PostHeading & { ref: React.RefObject<HTMLHeadingElement> })[]
 ) => ({
@@ -45,7 +69,7 @@ const components = (
       variants={postComponent}
       viewport={viewportSettings}
       className="group relative font-extrabold text-heading text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-28"
-      ref={headings.find((heading) => heading.text === children)?.ref}
+      ref={getHeadingRef(headings, children)}
     >
       <Link top="top-2" />
       <a
@@ -64,7 +88,7 @@ const components = (
       variants={postComponent}
       viewport={viewportSettings}
       className="group relative font-extrabold text-heading text-xl md:text-2xl mb-2.5 mt-6 md:mt-16 scroll-mt-28"
-      ref={headings.find((heading) => heading.text === children)?.ref}
+      ref={getHeadingRef(headings, children)}
     >
       <Link top="top-2" />
       <a
@@ -83,7 +107,7 @@ const components = (
       variants={postComponent}
       viewport={viewportSettings}
       className="group relative font-extrabold text-heading text-lg md:text-xl mb-2 mt-6 md:mt-16 scroll-mt-28"
-      ref={headings.find((heading) => heading.text === children)?.ref}
+      ref={getHeadingRef(headings, children)}
     >
       <Link top="top-1.5" size="18px" />
       <a
@@ -102,7 +126,7 @@ const components = (
       variants={postComponent}
       viewport={viewportSettings}
       className="group relative font-extrabold text-heading text-base md:text-lg mb-2 mt-6 md:mt-16 scroll-mt-28"
-      ref={headings.find((heading) => heading.text === children)?.ref}
+      ref={getHeadingRef(headings, children)}
     >
       <Link size="18px" />
       <a
@@ -121,7 +145,7 @@ const components = (
       variants={postComponent}
       viewport={viewportSettings}
       className="group relative font-extrabold text-heading text-sm md:text-base mb-2 mt-6 md:mt-16 scroll-mt-28"
-      ref={headings.find((heading) => heading.text === children)?.ref}
+      ref={getHeadingRef(headings, children)}
     >
       <Link size="16px" />
       <a

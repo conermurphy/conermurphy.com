@@ -75,6 +75,7 @@ export type PostHeading = {
   text: string;
   level: number;
   link: string;
+  ref: React.RefObject<HTMLHeadingElement>;
 };
 
 export type Post = {
