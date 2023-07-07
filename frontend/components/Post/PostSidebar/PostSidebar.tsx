@@ -131,7 +131,7 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
               <li key={link}>
                 <a
                   href={link}
-                  className={`text-sm text-text/50 hover:text-text uppercase transition-all ease-in-out font-heading duration-150 ${getHeadingClasses(
+                  className={`text-text/50 hover:text-text transition-all ease-in-out font-heading duration-150 ${getHeadingClasses(
                     level
                   )} ${isHighlighted ? 'font-extrabold' : ''}`}
                 >
