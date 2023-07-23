@@ -38,7 +38,7 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
         metaDescription={metaDescription}
         url={postType}
         metaImage={{
-          title: `Blog | Page ${pageNumber}`,
+          title: `${title} ${pageNumber ? `| Page ${pageNumber}` : ''}`,
           description: metaDescription,
         }}
         addNoIndex={pageNumber > 1 || urlSearchParams.toString() !== ''}
