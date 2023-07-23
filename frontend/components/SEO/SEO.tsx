@@ -35,12 +35,15 @@ export default function SEO({
   date = '',
   addNoIndex = false,
 }: IProps) {
+  const ogImageParams = new URLSearchParams();
+
+  ogImageParams.append('title', metaImage.title);
+  ogImageParams.append('description', metaImage.description);
+  if (metaImage.date) ogImageParams.append('date', metaImage.date);
+  if (metaImage.ttr) ogImageParams.append('ttr', metaImage.ttr);
+
   const absoluteUrl = `${server}/${url}`;
-  const image = `${server}/api/og?title=${metaImage.title}&description=${
-    metaImage.description
-  }${metaImage.date ? `&date=${metaImage.date}` : ''}${
-    metaImage.ttr ? `&ttr=${metaImage.ttr}` : ''
-  }`;
+  const image = `${server}/api/og?${ogImageParams.toString()}`;
   const title = metaTitle ? `${metaTitle} | Coner Murphy` : 'Coner Murphy';
 
   return (
