@@ -37,6 +37,10 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
         }`}
         metaDescription={metaDescription}
         url={postType}
+        metaImage={{
+          title: `Blog | Page ${pageNumber}`,
+          description: metaDescription,
+        }}
         addNoIndex={pageNumber > 1 || urlSearchParams.toString() !== ''}
       />
       <div className="flex flex-col gap-24">

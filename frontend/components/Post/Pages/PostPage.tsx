@@ -45,7 +45,12 @@ const PostPage: NextPage<PostPageProps> = ({
         metaDescription={description}
         url={postURL}
         date={date}
-        metaImage={image}
+        metaImage={{
+          title,
+          description,
+          date,
+          ttr: frontmatter.timeToRead.toString(),
+        }}
         canonicalUrl={canonicalUrl ?? postURL}
         article
       />

@@ -86,6 +86,11 @@ const Links: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => {
       <SEO
         metaTitle="Links"
         metaDescription="Want to find out more about Coner Murphy? Check out all my links and platforms here."
+        metaImage={{
+          title: 'Coner Murphy | Links',
+          description:
+            'Here are all the places you can find me online and get in touch with me.',
+        }}
       />
       <ComponentWrapper
         data={{

@@ -16,6 +16,7 @@
     "@aws-sdk/client-ses": "^3.321.1",
     "@aws-sdk/lib-dynamodb": "^3.321.1",
     "@tailwindcss/forms": "^0.5.3",
+    "@vercel/og": "^0.5.9",
     "fathom-client": "^3.5.0",
     "feed": "^4.2.2",
     "framer-motion": "^10.12.4",

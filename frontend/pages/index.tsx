@@ -25,6 +25,11 @@ const Home: NextPage<IProps> = ({
     <SEO
       metaTitle="Home"
       metaDescription="Whether it be TypeScript/JavaScript development you need support on or a technical article written, come check out how Coner Murphy can help you."
+      metaImage={{
+        title: 'Coner Murphy',
+        description:
+          'Fullstack Web Developer, Content Creator and Indie Hacker.',
+      }}
     />
     <div className="flex flex-col gap-24">
       <HomeHero />

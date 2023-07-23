@@ -5,7 +5,12 @@ import { server } from '../../config';
 interface IProps {
   metaTitle: string;
   metaDescription: string;
-  metaImage?: string;
+  metaImage?: {
+    title: string;
+    description: string;
+    date?: string;
+    ttr?: string;
+  };
   url?: string;
   article?: boolean;
   authorTwitterHandle?: string;
@@ -17,7 +22,12 @@ interface IProps {
 export default function SEO({
   metaTitle,
   metaDescription,
-  metaImage = '',
+  metaImage = {
+    title: '',
+    description: '',
+    date: '',
+    ttr: '',
+  },
   url = '',
   article = false,
   authorTwitterHandle = '@MrConerMurphy',
@@ -26,7 +36,11 @@ export default function SEO({
   addNoIndex = false,
 }: IProps) {
   const absoluteUrl = `${server}/${url}`;
-  const image = metaImage ? `${server}${metaImage}` : `${server}/favicon.png`;
+  const image = `${server}/api/og?title=${metaImage.title}&description=${
+    metaImage.description
+  }${metaImage.date ? `&date=${metaImage.date}` : ''}${
+    metaImage.ttr ? `&ttr=${metaImage.ttr}` : ''
+  }`;
   const title = metaTitle ? `${metaTitle} | Coner Murphy` : 'Coner Murphy';
 
   return (
