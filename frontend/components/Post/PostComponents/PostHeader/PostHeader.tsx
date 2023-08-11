@@ -1,5 +1,4 @@
 import React from 'react';
-import Img from 'next/image';
 import { PostFrontMatter } from '../../../../types';
 import { TOPICS } from '../../../../constants';
 
@@ -8,8 +7,7 @@ interface IProps {
 }
 
 export default function PostHeader({ frontmatter }: IProps): JSX.Element {
-  const { date, timeToRead, title, description, image, imageLink, topics } =
-    frontmatter;
+  const { date, timeToRead, title, description, topics } = frontmatter;
 
   const wrappedTitle = title.replace(
     /`(.*?)`/g,
@@ -50,29 +48,6 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
             <p className="text-base md:text-lg max-w-2xl">{description}</p>
           </div>
         </div>
-        <figure className="block max-w-6xl h-full w-full z-20">
-          {imageLink ? (
-            <figcaption className="text-sm md:text-base mb-3 pt-2 opacity-75 w-max">
-              Photo from{' '}
-              <a
-                href={imageLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline text-accent"
-              >
-                Unsplash
-              </a>
-            </figcaption>
-          ) : null}
-          <Img
-            src={image}
-            alt={title}
-            height={680}
-            width={1208}
-            priority
-            className="rounded-lg z-20 drop-shadow-lg"
-          />
-        </figure>
       </header>
     </section>
   );

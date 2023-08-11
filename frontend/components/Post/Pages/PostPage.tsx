@@ -27,7 +27,6 @@ const PostPage: NextPage<PostPageProps> = ({
     description,
     slug,
     date,
-    image,
     canonical_url: canonicalUrl,
   } = frontmatter;
 

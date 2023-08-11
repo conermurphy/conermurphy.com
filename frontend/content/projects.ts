@@ -2,7 +2,7 @@ import { Project } from '../types';
 
 const projects: Project[] = [
   {
-    isFeatured: true,
+    isFeatured: false,
     title: 'Squares',
     description:
       'As part of the Hashnode/PlanetScale hackathon in July 2022, I made Squares which is a GitHub analyitcs app to let people inspect their repos and commits in one central location.',
@@ -10,6 +10,15 @@ const projects: Project[] = [
     githubUrl: 'https://github.com/conermurphy/squares',
     image: '/images/projects/squares-app-signin.png',
     technologies: ['TAILWINDCSS', 'NEXTJS', 'PRISMA', 'PLANETSCALE'],
+  },
+  {
+    isFeatured: true,
+    title: 'Crossable',
+    description:
+      'Are you a blogger? Want to make cross-posting your work a breeze? Then Crossable is the app for you! Crossable allows you to cross-post your content to multiple platforms with ease.',
+    url: 'https://crossable.io',
+    image: '/images/projects/crossable.jpg',
+    technologies: ['TAILWINDCSS', 'NEXTJS', 'AWS'],
   },
   {
     isFeatured: true,
