@@ -1,0 +1,65 @@
+---
+UUID: e533fc23-3a14-4359-be65-79cc81193c46
+title: "How to Fix Undefined Environment Variable (ENV) Type Issues in TypeScript"
+date: "2023-08-24"
+topics: ["DEVELOPMENT", "TYPESCRIPT"]
+slug: fixing-undefined-environment-variable-type-issues-typescript
+image:
+published: true
+description: "Learn how to correctly type and add auto-complete functionality to your Environment Variables in your TypeSript projects via one simple file!"
+canonical_url: ""
+imageLink: ""
+---
+
+When working with environment variables (ENVs) inside a TypeScript application, you’ll likely come across an error such as this one `Invalid type "string | undefined" of template literal expression`. This is because TypeScript can’t be 100% sure the value will be present when the code is run so therefore the value has the potential of being `undefined`.
+
+However, if we’re 100% sure the ENV will be defined when the code is run whether that be in production or local development, we can resolve this issue and have our ENVs always typed correctly without `undefined`. We can do this by adding a new type declaration file to our project which will tell TypeScript the type it’ll be 100% of the time and remove the potential of it being `undefined`.
+
+Also, by doing this, we’ll gain the ability to be able to autocomplete our ENV values in our IDE because TypeScript will become aware of the potential values present in our environment variables. So, without further ado, let’s look at how to implement this.
+
+## Creating our Type Declaration File
+
+To create the type declaration file we’ll need for this, create a new file in the root of your project called `env.d.ts` and add the below code to it.
+
+```ts:[]:./env.d.ts:TYPESCRIPT
+declare namespace NodeJS {
+  export interface ProcessEnv {
+    // 👇 Replace with your ENV names and types
+    YOUR_ENV_NAME: YOUR_ENV_TYPE;
+  }
+}
+```
+
+Inside this file, you can add your ENVs and their respective types to the `ProcessEnv` interface. For example, you could do something like this.
+
+```ts:[]:./env.d.ts:TYPESCRIPT
+declare namespace NodeJS {
+  export interface ProcessEnv {
+    ACCESS_TOKEN: string;
+    SESSION_TOKEN: string;
+    ENVRIONMENT: "development" | "production";
+  }
+}
+```
+
+## Updating our `tsconfig.json`
+
+The final step we need to perform is to update our `tsconfig.json` file to include our new type declaration file (`env.d.ts`), this will allow TypeScript to use our new type declaration file to type the ENVs present in our environment. To include the file in your `tsconfig.json`, add the below code to your `tsconfig.json` file.
+
+```json:[]:./tsconfig.json:JSON
+{
+  "include": ["env.d.ts"]
+}
+```
+
+It’s worth noting that this step might not be required depending on your current `tsconfig.json` configuration. If you already have an “include” value such as `"**/*.ts"` then the `env.d.ts` should already be included and you won’t need to specifically add the file again.
+
+## Closing Thoughts
+
+In this quick tutorial, we looked at how we can resolve the issue of undefined ENVs in a TypeScript project by using a custom type declaration file to update the values and their types present in our `ProcessEnv` interface. We also covered how doing this allows us to auto-complete our ENVs in our IDE at the same time.
+
+I hope you found this tutorial helpful and until next time.
+
+Thank you for reading.
+
+Coner
