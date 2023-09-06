@@ -1,0 +1,226 @@
+---
+UUID: d3a0e88a-7375-4cfb-90e1-326cfa0a08bf
+title: "Implementing Auth.js (NextAuth.js) Into a Next.js App Router Application"
+date: "2023-09-06"
+topics: ["NEXTJS", "TYPESCRIPT"]
+slug: implementing-authjs-nextauthjs-nextjs-app-router-application
+image:
+published: true
+description: "Learn how to implement Auth.js (formally NextAuth.js) for GitHub authentication within your Next.js app router project."
+canonical_url: ""
+imageLink:
+---
+
+When it comes to implementing authentication into a project it’s important that we handle it correctly. But, luckily for us the days of manually implementing our own authentication solutions are long gone and there are some great packages and products out there for handling authentication.
+
+One of those packages is [Auth.js](https://authjs.dev/), formally called [NextAuth.js](https://next-auth.js.org/) and that’s the package we’re going to be looking at in this post. By the end of this tutorial, we’ll have built an example Next.js project (using the app router) with GitHub authentication implemented via Auth.js (NextAuth.js)!
+
+## Creating Our Next.js project
+
+The first thing we want to do is to create a new Next.js project using the app router. You can do this by running the command `npx create-next-app@latest --ts` in your terminal and following the prompts given to you. To follow along with this tutorial, you can use the same answers as me.
+
+```
+What is your project named? YOUR_PROJECT_NAME
+Would you like to use ESLint? Yes
+Would you like to use Tailwind CSS? Yes
+Would you like to use `src/` directory? No
+Would you like to use App Router? (recommended) Yes
+Would you like to customize the default import alias? No
+```
+
+With your new Next.js project created, `cd` into the directory that was created for you and then install the `next-auth` package with the command `npm i next-auth`. After that is installed, we’re ready to move on to the next step, creating our GitHub application.
+
+## GitHub OAuth Setup
+
+As mentioned earlier, for our example project we’re going to be using GitHub authentication so users can sign in with their GitHub account. [Auth.js does offer a lot more than just GitHub](https://next-auth.js.org/providers/) but for simplicity purposes, we’re only going to focus on GitHub for this tutorial.
+
+To get started creating a new GitHub application, head over to GitHub in your browser and sign in. Once signed into your account, go to the settings page by clicking on your user icon in the top right and then clicking on “Settings”. Once on the settings page, click on “Developer settings” from the options presented to you and then click on “OAuth Apps” on the sidebar and then “New OAuth App”.
+
+Fill in the form displayed making sure to pay attention to the “Authorization callback URL” field as this needs to be `http://localhost:3000/api/auth/callback/github` for local development and for production, you should change the `http://localhost:3000` portion of the URL to the URL your app is deployed to. Here are the settings I used for my project.
+
+```
+Application Name: Auth.js App
+Homepage URL: http://localhost:3000
+Application description <empty>
+Authorization callback URL: http://localhost:3000/api/auth/callback/github
+Enable Device Flow: false (unchecked)
+```
+
+Once you’ve created your new application you should be taken to its settings page, if not click on the name of your new application from your “OAuth Apps” page. Once on the settings page of your application, generate a new client secret by clicking on the “Generate a new client secret” button. Now, take note of the secret generated as well as your “Client ID” which you can find on your app’s settings page.
+
+Once you have those two values you’re ready to move on to the next step.
+
+## Configuring Our Environment Variables
+
+Back in our Next.js project, create a new file in the root of the project called `.env.local` and add into the file the below three values.
+
+```
+NEXTAUTH_SECRET=""
+GITHUB_APP_CLIENT_ID=""
+GITHUB_APP_CLIENT_SECRET=""
+```
+
+You can populate the values for `GITHUB_APP_CLIENT_ID` and `GITHUB_APP_CLIENT_SECRET` with the values you just retrieved from your GitHub settings a moment ago. For the `NEXTAUTH_SECRET` value, however, you’ll need to run the command `openssl rand -base64 32` and use the value outputted. You can read more about this command and the `NEXTAUTH_SECRET` environment variable [in their documentation here.](https://next-auth.js.org/configuration/options#secret)
+
+We’re now ready to move on to configuring Auth.js (NextAuth.js).
+
+> _NOTE: If you experience any TypeScript issues with your environment variables being typed as potentially `undefined`, you can learn [how to resolve them in this blog post.](https://conermurphy.com/blog/fixing-undefined-environment-variable-type-issues-typescript)_
+
+## Configuring Auth.js (NextAuth.js)
+
+The first thing we need to do for configuring Auth.js in our project is create a new file at `./app/lib/auth.ts` and add in the below code, these are the configuration options and settings for Auth.js.
+
+```tsx:[]:./app/lib/auth.ts:TYPESCRIPT
+import { NextAuthOptions } from "next-auth";
+import GithubProvider from "next-auth/providers/github";
+
+export const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
+  providers: [
+    GithubProvider({
+      clientId: process.env.GITHUB_APP_CLIENT_ID,
+      clientSecret: process.env.GITHUB_APP_CLIENT_SECRET,
+    }),
+  ],
+  pages: {
+    signIn: "/auth/signin",
+  },
+};
+```
+
+In this code, we configure our GitHub provider using the new environment variables we added a moment ago. We also configure the URL for our custom sign-in page which we’ll be adding in the next section.
+
+However, for now, let’s finish configuring Auth.js by adding a new API route to handle the callbacks from GitHub, we can do this by creating the file `./app/api/auth/[...nextauth]/route.ts` and adding the below code.
+
+```tsx:[]:./app/api/auth/[...nextauth]/route.ts:TYPESCRIPT
+import NextAuth from "next-auth";
+import { authOptions } from "@/app/lib/auth";
+
+const handler = NextAuth(authOptions) as unknown;
+export { handler as GET, handler as POST };
+```
+
+This is quite a simple file as it’s just passing in the settings we configured above to `NextAuth` and configuring it to run for both `GET` and `POST` requests to this endpoint, the rest is all handled by Auth.js for us.
+
+## Updating Our UI
+
+With our API endpoint and settings now configured, all we need to do is update our UI so we can sign in to our application. The first thing we’re going to do is create a couple of reusable buttons that will allow us to sign in and out of our application. To create these buttons, create a new file at `./app/components/AuthButtons.tsx` and add the below code to it.
+
+```tsx:[]:./app/components/AuthButtons.tsx:TYPESCRIPT
+"use client";
+
+import {
+  ClientSafeProvider,
+  LiteralUnion,
+  signIn,
+  signOut,
+} from "next-auth/react";
+
+interface IProps {
+  providers: Record<LiteralUnion<string, string>, ClientSafeProvider>;
+}
+
+const buttonStyles =
+  "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded";
+
+export function SignIn({ providers }: IProps) {
+  return Object.values(providers).map((provider) => (
+    <div key={provider.name}>
+      <button
+        onClick={() => signIn(provider.id)}
+        type="button"
+        className={buttonStyles}
+      >
+        Sign in with {provider.name}
+      </button>
+    </div>
+  ));
+}
+
+export function SignOut() {
+  return (
+    <button onClick={() => signOut()} type="button" className={buttonStyles}>
+      Sign Out
+    </button>
+  );
+}
+```
+
+It’s worth noting that these buttons are also separated into their own file because we need to make them client components by adding `'use client'` to the file, this is so we can make use of the `signIn` and `signOut` functions from `next-auth/react`.
+
+### Sign In Page
+
+With our `SignIn` and `SignOut` buttons now taken care of, let’s now handle the custom sign-in page we defined earlier in our settings. To create this page, add a new file at `./app/auth/signin/page.tsx` and add the below code to it.
+
+```tsx:[]:./app/auth/signin/page.tsx:TYPESCRIPT
+import { getProviders } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { SignIn } from "@/app/components/AuthButtons";
+
+export default async function Page() {
+  const session = await getServerSession();
+  const providers = await getProviders();
+
+  if (session) {
+    redirect("/");
+  }
+
+  if (!providers) {
+    return <div>Sign in is not available</div>;
+  }
+
+  return <SignIn providers={providers} />;
+}
+```
+
+In this file, we fetch the user’s current session by using `getServerSession` as well as the list of providers that have been configured in our Auth.js configuration from earlier using the `getProviders` function.
+
+We then check if the user has a current session and redirect them to the home page if they do. If they don’t have a current session then we display the `SignIn` button we just created which will loop over our providers and display a sign-in button for each (in the case of this example, just GitHub will display).
+
+### Home Page
+
+With our custom sign-in page now configured, let’s finish off our application by updating our home page at `./app/page.tsx` with the below code.
+
+```tsx:[]:./app/page.tsx:TYPESCRIPT
+import { getServerSession } from "next-auth";
+import Link from "next/link";
+import { SignOut } from "./components/AuthButtons";
+
+export default async function Page() {
+  const session = await getServerSession();
+
+  if (!session) {
+    return <Link href="/auth/signin">Sign In</Link>;
+  }
+
+  return (
+    <>
+      <p className="text-3xl">
+        Welcome to the App, {session?.user?.name}! You&apos;re authenticated!
+      </p>
+      <SignOut />
+    </>
+  );
+}
+```
+
+With this code, we once again fetch the current session of the user and if they have a session, we display their name along with a welcome message. However, if they don’t have a session, we display a link that will take them to our custom sign-in page for them to authenticate using GitHub.
+
+## Testing Our Application
+
+To test your new Next.js application and make sure the GitHub authentication is working as expected, start up the development server using `npm run dev` and then head to `http://localhost:3000` in your browser.
+
+You should then be displayed a link to sign in which once pressed should redirect you to the custom sign-in page with an option to “Sign in with GitHub”. Once this button is pressed, you’ll be redirected to GitHub where you’ll be asked to grant permission for your application to access your GitHub account.
+
+After the permission is granted you’ll be redirected back to your application and should now be on the home page seeing the welcome message we configured. If so, congrats! Everything worked as expected and you now have a fully working Next.js app router project configured with Auth.js (NextAuth.js) using a GitHub provider.
+
+## Closing Thoughts
+
+In this tutorial, we’ve taken a deep dive into configuring a Next.js app router project with Auth.js (NextAuth.js) and adding authentication with a GitHub account as well as setting up some basic redirects and conditional UI based on whether the user has a current session or not.
+
+I hope you found this post helpful and if you’d like to see the full example code for this post, [you can see it on my GitHub here](https://github.com/conermurphy/nextjs-authjs-tutorial). If you’d like to [read further about Auth.js you can here.](https://authjs.dev/) And, if you have any questions or issues, [please feel free to reach out to me.](https://conermurphy.com/contact)
+
+Thank you for reading and until next time.
+
+Coner
