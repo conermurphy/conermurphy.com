@@ -57,19 +57,24 @@ export default async function sourcePostPage({
 
   // If it is a post return props for it
   const post = await getPost({ slug: slugVal, postType });
-  let rawContent;
+  let content;
   let headings;
 
   if (post.content) {
-    headings = getHeadings(post.content);
-    rawContent = post.content;
+    headings = getHeadings(post.content.toString());
+    content = post.content;
   }
 
   return {
     props: {
       isPostGridPage,
       latestPosts: latestBlogs,
-      post: { rawContent, headings, data: post.data, filePath: post.filePath },
+      post: {
+        content,
+        headings,
+        frontmatter: post.frontmatter,
+        filePath: post.filePath,
+      },
       latestYouTubeVideo,
     },
   };

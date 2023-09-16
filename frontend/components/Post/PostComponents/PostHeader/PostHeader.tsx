@@ -6,7 +6,7 @@ interface IProps {
   frontmatter: PostFrontMatter;
 }
 
-export default function PostHeader({ frontmatter }: IProps): JSX.Element {
+export function PostHeader({ frontmatter }: IProps): JSX.Element {
   const { date, timeToRead, title, description, topics } = frontmatter;
 
   const wrappedTitle = title.replace(

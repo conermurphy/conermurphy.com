@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -26,10 +28,10 @@ export function processPathname(pathnames: string[]) {
 export default function DesktopHeader(): JSX.Element {
   const pathname = usePathname();
 
-  const splitPathname = pathname.split('/');
-  splitPathname.shift();
+  const splitPathname = pathname?.split('/');
+  splitPathname?.shift();
 
-  const isWhiteBg = processPathname(splitPathname);
+  const isWhiteBg = processPathname(splitPathname || []);
 
   return (
     <div

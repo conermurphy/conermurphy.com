@@ -51,7 +51,7 @@ export default function LatestPost({
       }}
     >
       {postType === POSTTYPES.BLOG ? (
-        <PostCard post={post.data} postType={postType} />
+        <PostCard post={post.frontmatter} postType={postType} />
       ) : null}
       {postType === POSTTYPES.VIDEO && video ? (
         <a

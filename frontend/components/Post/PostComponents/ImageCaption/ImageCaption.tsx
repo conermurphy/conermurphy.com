@@ -7,11 +7,7 @@ interface IProps {
   caption?: string;
 }
 
-export default function ImageCaption({
-  src,
-  alt,
-  caption,
-}: IProps): JSX.Element {
+export function ImageCaption({ src, alt, caption }: IProps): JSX.Element {
   return (
     <figure className="my-6 md:my-8">
       <Img

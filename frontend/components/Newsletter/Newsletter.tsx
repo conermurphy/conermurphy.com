@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { useEmail, useForm } from '../../utils';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';

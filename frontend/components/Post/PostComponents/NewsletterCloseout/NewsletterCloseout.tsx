@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ICONS, postComponent, viewportSettings } from '../../../../constants';
@@ -18,7 +20,7 @@ function Link({
   );
 }
 
-export default function NewsletterCloseout() {
+export function NewsletterCloseout() {
   return (
     <>
       <motion.h2

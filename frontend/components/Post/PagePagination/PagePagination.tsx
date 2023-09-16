@@ -1,6 +1,8 @@
-import { useRouter } from 'next/router';
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface IProps {
   pageCount: number;
@@ -48,13 +50,13 @@ export default function PagePagination({
   pageCount,
   currentPage,
 }: IProps): JSX.Element {
-  const { asPath, pathname } = useRouter();
+  const pathname = usePathname();
 
-  const lastURLRoute = asPath.split('/')[asPath.split('/').length - 1];
+  const lastURLRoute = pathname.split('/')[pathname.split('/').length - 1];
   const activePageNumber = parseInt(lastURLRoute ?? '0');
   const routeBase = !Number.isNaN(activePageNumber)
-    ? asPath.split('/').slice(0, -1).join('/')
-    : asPath;
+    ? pathname.split('/').slice(0, -1).join('/')
+    : pathname;
 
   const hasPrevLink = currentPage !== 0;
   const hasNextLink = pageCount >= 2 && currentPage !== pageCount;
@@ -107,8 +109,8 @@ export default function PagePagination({
               <PageNumber
                 key={num}
                 pageNumber={num}
-                routeBase={pathname}
-                path={asPath}
+                routeBase={routeBase}
+                path={pathname}
                 activePageNumber={activePageNumber}
               />
             ))
@@ -118,8 +120,8 @@ export default function PagePagination({
                 <PageNumber
                   key={num}
                   pageNumber={num}
-                  routeBase={pathname}
-                  path={asPath}
+                  routeBase={routeBase}
+                  path={pathname}
                   activePageNumber={activePageNumber}
                 />
               ))}
@@ -137,8 +139,8 @@ export default function PagePagination({
                 <PageNumber
                   key={num}
                   pageNumber={num}
-                  routeBase={pathname}
-                  path={asPath}
+                  routeBase={routeBase}
+                  path={pathname}
                   activePageNumber={activePageNumber}
                 />
               ))}

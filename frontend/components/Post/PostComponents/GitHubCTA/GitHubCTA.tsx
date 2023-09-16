@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ICONS, postComponent, viewportSettings } from '../../../../constants';
@@ -7,7 +9,7 @@ interface IProps {
   postPath: string;
 }
 
-export default function GitHubCTA({ postPath }: IProps): JSX.Element {
+export function GitHubCTA({ postPath }: IProps): JSX.Element {
   const basePath =
     'https://github.com/conermurphy/conermurphy.com/tree/main/content';
   return (

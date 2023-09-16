@@ -11,23 +11,6 @@ import { DesktopHeader, MobileHeader } from '../components/Header';
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
-  useEffect(() => {
-    Fathom.load('FBDCDFEY', {
-      includedDomains: ['conermurphy.com, www.conermurphy.com'],
-    });
-
-    function onRouteChangeComplete() {
-      Fathom.trackPageview();
-    }
-    // Record a pageview when route changes
-    router.events.on('routeChangeComplete', onRouteChangeComplete);
-
-    // Unassign event listener
-    return () => {
-      router.events.off('routeChangeComplete', onRouteChangeComplete);
-    };
-  }, []);
-
   return (
     <MotionConfig reducedMotion="user">
       <DesktopHeader />

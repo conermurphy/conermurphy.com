@@ -1,17 +1,16 @@
 import 'isomorphic-fetch';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest } from 'next';
 import { UpdateCommand, UpdateCommandOutput } from '@aws-sdk/lib-dynamodb';
-import { dbClient } from '../../config';
+import { NextResponse } from 'next/server';
+import { dbClient } from '../../../config';
 
-export default async function EngagementCount(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function PUT(req: NextApiRequest) {
   // 0: If in development, then return and don't query API.
   if (process.env.NODE_ENV !== 'production') {
-    return res
-      .status(400)
-      .json({ message: 'Error, not running in production' });
+    return NextResponse.json(
+      { message: 'Error, not running in production' },
+      { status: 400 }
+    );
   }
 
   // 1: Get UUID from request
@@ -37,15 +36,17 @@ export default async function EngagementCount(
       };
     };
 
-    return res.status(200).json({
-      viewCount: Attributes?.viewCount,
-    });
+    return NextResponse.json(
+      { viewCount: Attributes?.viewCount },
+      { status: 200 }
+    );
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(e);
 
-    return res.status(500).json({
-      message: 'Error, could not increment viewCount',
-    });
+    return NextResponse.json(
+      { message: 'Error, could not increment viewCount' },
+      { status: 500 }
+    );
   }
 }

@@ -1,4 +1,6 @@
-import { useRouter } from 'next/router';
+'use client';
+
+import { usePathname } from 'next/navigation';
 import React from 'react';
 import Link from 'next/link';
 
@@ -24,7 +26,7 @@ function CustomLink({ href, value, activeLink }: CustomLinkProps): JSX.Element {
 }
 
 export default function NavBar({ isMobile = false }: IProps): JSX.Element {
-  const { asPath } = useRouter();
+  const pathname = usePathname();
 
   return (
     <nav aria-label="primary">
@@ -33,35 +35,40 @@ export default function NavBar({ isMobile = false }: IProps): JSX.Element {
           isMobile ? 'flex-col' : 'flex-row'
         }`}
       >
-        <CustomLink href="/" value="Home" activeLink={asPath === '/'} key="/" />
+        <CustomLink
+          href="/"
+          value="Home"
+          activeLink={pathname === '/'}
+          key="/"
+        />
         <CustomLink
           href="/blog"
           value="Blog"
-          activeLink={asPath.includes('blog')}
+          activeLink={pathname?.includes('blog') || false}
           key="/blog"
         />
         <CustomLink
           href="/newsletter"
           value="Newsletter"
-          activeLink={asPath.includes('newsletter')}
+          activeLink={pathname?.includes('newsletter') || false}
           key="/newsletter"
         />
         <CustomLink
           href="/technical-writing"
           value="Technical Writing"
-          activeLink={asPath.includes('technical-writing')}
+          activeLink={pathname?.includes('technical-writing') || false}
           key="/technical-writing"
         />
         <CustomLink
           href="/links"
           value="Links"
-          activeLink={asPath.includes('links')}
+          activeLink={pathname?.includes('links') || false}
           key="/links"
         />
         <CustomLink
           href="/contact"
           value="Contact"
-          activeLink={asPath.includes('contact')}
+          activeLink={pathname?.includes('contact') || false}
           key="/contact"
         />
       </ul>

@@ -5,10 +5,14 @@ import { POSTTYPES, Post } from '../types';
 import { PostCard } from './Post';
 
 interface IProps {
-  posts: Post[];
+  posts: Post[] | false;
 }
 
-export default function LatestNewsletterPosts({ posts }: IProps): JSX.Element {
+export default function LatestNewsletterPosts({ posts }: IProps) {
+  if (!posts) {
+    return null;
+  }
+
   return (
     <ComponentWrapper
       data={{
@@ -28,8 +32,8 @@ export default function LatestNewsletterPosts({ posts }: IProps): JSX.Element {
     >
       <ul className="grid grid-cols-1 lg:grid-cols-2 items-center justify-between w-full gap-12">
         {posts.map((post) => (
-          <li key={post.data.title} className="h-full">
-            <PostCard post={post.data} postType={POSTTYPES.NEWSLETTER} />
+          <li key={post.frontmatter.title} className="h-full">
+            <PostCard post={post.frontmatter} postType={POSTTYPES.NEWSLETTER} />
           </li>
         ))}
       </ul>

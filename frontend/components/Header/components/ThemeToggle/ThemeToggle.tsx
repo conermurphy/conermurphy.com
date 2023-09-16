@@ -1,3 +1,5 @@
+'use client';
+
 import { useTheme } from 'next-themes';
 import React, { useEffect, useState } from 'react';
 import { ICONS } from '../../../../constants';

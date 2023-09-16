@@ -51,7 +51,7 @@ export default async function generateRssFeeds() {
   });
 
   // 4: Add posts to their respective feeds.
-  blogPosts.forEach(({ data: post }) => {
+  blogPosts.forEach(({ frontmatter: post }) => {
     const url = `${server}/blog/${post.slug}`;
     blogFeed.addItem({
       title: post.title,
@@ -65,7 +65,7 @@ export default async function generateRssFeeds() {
     });
   });
 
-  newsletterPosts.forEach(({ data: post }) => {
+  newsletterPosts.forEach(({ frontmatter: post }) => {
     const url = `${server}/newsletter/${post.slug}`;
     newsletterFeed.addItem({
       title: post.title,

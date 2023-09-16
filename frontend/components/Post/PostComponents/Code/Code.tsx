@@ -1,3 +1,5 @@
+'use client';
+
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
 import Highlight, { defaultProps, Language } from 'prism-react-renderer';
@@ -14,7 +16,7 @@ interface CodeBlockProps {
   };
 }
 
-export default function Code({ children }: CodeBlockProps): JSX.Element {
+export function Code({ children }: CodeBlockProps): JSX.Element {
   const [isCodeCopied, setCodeCopied] = useState(false);
 
   const [language, lines = '[]', fileName, icon]: Language | string[] =

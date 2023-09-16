@@ -1,5 +1,4 @@
-import { ImageResponse } from '@vercel/og';
-import { NextRequest } from 'next/server';
+import { ImageResponse, NextRequest } from 'next/server';
 import { server } from '../../config';
 import 'isomorphic-fetch';
 
@@ -15,7 +14,7 @@ const karlaFont = fetch(
   new URL(`../../assets/karla.ttf`, import.meta.url)
 ).then((res) => res.arrayBuffer());
 
-export default async function handler(req: NextRequest) {
+export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
 
   const hasTitle = searchParams.has('title');

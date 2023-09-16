@@ -1,5 +1,6 @@
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { ParsedUrlQuery } from 'querystring';
+import { JSXElementConstructor, ReactElement } from 'react';
 
 export enum THEMES {
   LIGHT = 'LIGHT',
@@ -79,7 +80,7 @@ export type PostHeading = {
 };
 
 export type Post = {
-  data: PostFrontMatter;
+  frontmatter: PostFrontMatter;
   content?: string;
   headings?: PostHeading[];
   filePath?: string;
@@ -104,32 +105,28 @@ export interface PostGridDataSourceProps {
 }
 
 export interface PostGridPageProps {
-  pageNumber: number;
-  pageCount: number;
-  testimonials: Testimonial[];
-  posts: Post[];
-  topics: string[];
-  filterItem: string;
+  pageNumber?: number;
+  pageCount?: number;
+  posts?: Post[];
   postType: POSTTYPES;
   pageHeroData: {
     title: string;
     body: string;
   };
-  latestPosts: Post[];
-  latestYouTubeVideo: LatestVideo['items'][0];
-  metaDescription: string;
+  latestPosts: Post[] | false;
+  latestYouTubeVideo: LatestVideo['items'][0] | false;
   pageQueries?: { page: string; queries: string[] };
 }
 
 export interface PostPageProps {
-  post: {
-    content: MDXRemoteSerializeResult;
-    data: PostFrontMatter;
-    headings: PostHeading[];
-    filePath: string;
+  post?: {
+    content?: string;
+    frontmatter: PostFrontMatter;
+    headings?: PostHeading[];
+    filePath?: string;
   };
-  latestPosts: Post[];
-  latestYouTubeVideo: LatestVideo['items'][0];
+  latestPosts: Post[] | false;
+  latestYouTubeVideo: LatestVideo['items'][0] | false;
   postType: POSTTYPES;
 }
 

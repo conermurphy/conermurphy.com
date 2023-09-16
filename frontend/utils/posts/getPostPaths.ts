@@ -8,9 +8,7 @@ interface IProps {
 
 type ReturnType = Promise<
   {
-    params: {
-      slug: string[];
-    };
+    slug: string[];
   }[]
 >;
 
@@ -22,20 +20,16 @@ export default async function getPostPaths({ postType }: IProps): ReturnType {
   const postPaths =
     postType !== POSTTYPES.TECHNICAL_WRITING
       ? postData.map((post) => {
-          const { slug, published } = post.data;
+          const { slug, published } = post.frontmatter;
 
           if (!dev && !published) {
             return {
-              params: {
-                slug: [''],
-              },
+              slug: [''],
             };
           }
 
           return {
-            params: {
-              slug: [slug],
-            },
+            slug: [slug],
           };
         })
       : [];
@@ -45,9 +39,7 @@ export default async function getPostPaths({ postType }: IProps): ReturnType {
 
   // Create the routes for each  page and then add the post paths onto the array
   const paths = Array.from({ length: pages }).map((_, i) => ({
-    params: {
-      slug: [`${i !== 0 ? i + 1 : ''}`],
-    },
+    slug: [`${i !== 0 ? i + 1 : ''}`],
   }));
 
   return [...paths, ...postPaths];

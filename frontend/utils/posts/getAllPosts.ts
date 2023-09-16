@@ -25,13 +25,13 @@ export default async function getAllPosts({
 
   const postsToDisplay = posts
     .filter((post) => {
-      if (!dev && !post.data.published) return null;
+      if (!dev && !post.frontmatter.published) return null;
 
       return post;
     })
     .sort((a, b) => {
-      const { date: aDate, id: aId } = a.data;
-      const { date: bDate, id: bId } = b.data;
+      const { date: aDate, id: aId } = a.frontmatter;
+      const { date: bDate, id: bId } = b.frontmatter;
 
       if (bDate.localeCompare(aDate) !== 0) return bDate.localeCompare(aDate);
 

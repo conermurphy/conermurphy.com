@@ -1,6 +1,6 @@
 import fs from 'fs';
-import matter from 'gray-matter';
 import path from 'path';
+import matter from 'gray-matter';
 import { Post, PostFrontMatter, POSTTYPES } from '../../types';
 
 interface IProps {
@@ -23,27 +23,31 @@ export default async function getAllPostsData({
       const filePath = `${dir}/${post}`;
       const gitHubFilePath = filePath.split('content')[1];
 
-      const { dataWithTTR: data, tempContent: content } = await fsPromises
+      const { frontmatter, content } = await fsPromises
         .readFile(filePath, 'utf-8')
         .then((fileContent) => {
-          const { data: tempData, content: tempContent } = matter(fileContent);
+          const { data: tempFrontmatter, content: tempContent } =
+            matter(fileContent);
 
-          const totalWords = tempContent.trim().split(/\s+/).length;
+          const totalWords = tempContent.toString().trim().split(/\s+/).length;
           const ttr = Math.ceil(
             totalWords / parseInt(process.env.NEXT_PUBLIC_WPM)
           );
 
-          const dataWithTTR = {
-            ...(tempData as PostFrontMatter),
+          const frontmatterWithTtr = {
+            ...(tempFrontmatter as PostFrontMatter),
             timeToRead: ttr,
           };
 
-          return { dataWithTTR, tempContent };
+          return {
+            frontmatter: { ...frontmatterWithTtr, timeToRead: ttr },
+            content: tempContent,
+          };
         });
 
       return getContent
-        ? { data, content, filePath: gitHubFilePath }
-        : { data };
+        ? { frontmatter, content, filePath: gitHubFilePath }
+        : { frontmatter };
     })
   );
 

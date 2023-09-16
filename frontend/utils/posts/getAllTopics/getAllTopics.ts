@@ -20,7 +20,9 @@ function getFrontmatterData({
 }: GetFrontmatterDataProps): string[] {
   const uniqueValues = [
     ...new Set(
-      posts.flatMap(({ data }) => data[type as keyof PostFrontMatter])
+      posts.flatMap(
+        ({ frontmatter }) => frontmatter[type as keyof PostFrontMatter]
+      )
     ),
   ];
 

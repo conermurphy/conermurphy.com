@@ -1,8 +1,9 @@
-import { useRouter } from 'next/router';
+'use client';
+
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { ICONS } from '../../../constants';
 import { getIcon, useOutsideClick } from '../../../utils';
 import { MobileNavMenu } from './components';
@@ -10,14 +11,14 @@ import Logo from '../../Logo/Logo';
 import { processPathname } from '../DesktopHeader/DesktopHeader';
 
 export default function MobileHeader(): JSX.Element {
-  const { asPath, events } = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const headerRef = useRef(null);
 
-  const splitPathname = pathname.split('/');
-  splitPathname.shift();
+  const splitPathname = pathname?.split('/');
+  splitPathname?.shift();
 
-  const isWhiteBg = processPathname(splitPathname);
+  const isWhiteBg = processPathname(splitPathname || []);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -32,12 +33,7 @@ export default function MobileHeader(): JSX.Element {
 
   useEffect(() => {
     handleIsOpen();
-  }, [asPath, handleIsOpen]);
-
-  // This is used to close the menu on a route change, including if you goto the same page.
-  useEffect(() => {
-    events.on('routeChangeStart', handleIsOpen);
-  }, []);
+  }, [pathname, handleIsOpen, searchParams]);
 
   useOutsideClick({ ref: headerRef, callback: handleIsOpen });
 

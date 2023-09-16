@@ -5,10 +5,14 @@ import FeaturedProjectCard from './components/FeaturedProjectCard';
 import ProjectCard from './components/ProjectCard';
 
 interface IProps {
-  projects: Project[];
+  projects: Project[] | false;
 }
 
-export default function Projects({ projects }: IProps): JSX.Element {
+export default function Projects({ projects }: IProps) {
+  if (!projects) {
+    return null;
+  }
+
   const { featured, nonFeatured } = projects.reduce<{
     featured: Project[];
     nonFeatured: Project[];

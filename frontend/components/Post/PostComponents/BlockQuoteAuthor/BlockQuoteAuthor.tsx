@@ -9,7 +9,7 @@ interface IProps {
   };
 }
 
-export default function BlockQuoteAuthor({
+export function BlockQuoteAuthor({
   quote,
   caption,
   cite,

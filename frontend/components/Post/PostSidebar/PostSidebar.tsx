@@ -1,4 +1,5 @@
-import { useRouter } from 'next/router';
+'use client';
+
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   FacebookShareButton,
@@ -7,6 +8,7 @@ import {
   RedditShareButton,
 } from 'react-share';
 import { motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 import { ICONS } from '../../../constants';
 import { PostHeading } from '../../../types';
 import { copyToClipboard, getIcon } from '../../../utils';
@@ -43,9 +45,9 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [scrollingUp, setScrollingUp] = useState(false);
 
-  const { asPath } = useRouter();
+  const pathname = usePathname();
 
-  const url = `https://conermurphy.com${asPath}`;
+  const url = `https://conermurphy.com${pathname}`;
 
   const shareIconClasses =
     'flex items-center justify-center p-2 rounded opacity-50 w-10 h-10 hover:opacity-100 transition-all ease-in-out duration-150';

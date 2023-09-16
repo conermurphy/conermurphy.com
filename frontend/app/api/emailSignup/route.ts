@@ -1,30 +1,22 @@
 import 'isomorphic-fetch';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { UseFormValues } from '../../types';
 
-interface ExtendedNextApiRequest extends NextApiRequest {
-  body: UseFormValues;
-}
-
-interface ExtendedNextApiResponse extends NextApiResponse {
-  message: string;
-}
+import { NextResponse } from 'next/server';
 
 type TBodyFields = {
   [key: string]: string;
 };
 
-export default async function emailSignup(
-  req: ExtendedNextApiRequest,
-  res: ExtendedNextApiResponse
-) {
-  const { body }: { body: TBodyFields } = req;
+export default async function POST(req: Request) {
+  const { body } = req as unknown as {
+    body: TBodyFields;
+  };
 
   // If the honeypot chilliIsCool has been populated then return error.
   if (body.chilliIsCool) {
-    res
-      .status(400)
-      .json({ message: 'Boop beep bop zssss good bye. Error Code: A1234' });
+    return NextResponse.json(
+      { message: 'Boop beep bop zssss good bye. Error Code: A9876' },
+      { status: 400 }
+    );
   }
 
   // Checking we have data from the email input
@@ -32,9 +24,12 @@ export default async function emailSignup(
 
   for (const field of requiredFields) {
     if (!body[field]) {
-      res.status(400).json({
-        message: `Oops! You are missing the ${field} field, please fill it in and retry.`,
-      });
+      return NextResponse.json(
+        {
+          message: `Oops! You are missing the ${field} field, please fill it in and retry.`,
+        },
+        { status: 400 }
+      );
     }
   }
 
@@ -56,7 +51,11 @@ export default async function emailSignup(
       charset: 'utf-8',
     },
   });
-  res.status(200).json({
-    message: 'Thank you for subscribing! Please check your email to confirm.',
-  });
+
+  return NextResponse.json(
+    {
+      message: 'Thank you for subscribing! Please check your email to confirm.',
+    },
+    { status: 200 }
+  );
 }

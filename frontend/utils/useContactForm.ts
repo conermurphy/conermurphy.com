@@ -1,3 +1,5 @@
+'use client';
+
 import { SyntheticEvent, useState } from 'react';
 import { server } from '../config';
 import { UseFormValues } from '../types';

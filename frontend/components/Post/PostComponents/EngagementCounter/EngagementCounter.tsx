@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useEffect } from 'react';
 
-export default function EngagementCounter({ UUID }: { UUID: string }) {
+export function EngagementCounter({ UUID }: { UUID: string }) {
   const [viewCount, setViewCount] = React.useState<null | number>(null);
 
   useEffect(() => {
