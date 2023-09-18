@@ -53,7 +53,35 @@ export default function metadataGenerator({
     alternates: {
       canonical: canonicalUrl || absoluteUrl,
     },
+    icons: [
+      {
+        url: '/favicon.png',
+        sizes: 'any',
+        type: 'image/png',
+        rel: 'shortcut icon',
+      },
+      {
+        url: '/favicon.png',
+        sizes: 'any',
+        type: 'image/png',
+        rel: 'apple-touch-icon',
+      },
+    ],
+    manifest: '/manifest.webmanifest',
+    themeColor: '#222225',
+    appleWebApp: {
+      title: 'Coner Murphy',
+      capable: true,
+    },
+    applicationName: 'Coner Murphy',
+    other: {
+      'Content-Type': 'text/html; charset=UTF-8',
+      charSet: 'UTF-8',
+      'mobile-web-app-capable': 'yes',
+      'msapplication-starturl': '/',
+    },
     openGraph: {
+      locale: 'en_GB',
       title,
       description: metaDescription,
       type: article ? 'article' : 'website',

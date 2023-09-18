@@ -4,13 +4,10 @@ import { UpdateCommand, UpdateCommandOutput } from '@aws-sdk/lib-dynamodb';
 import { NextResponse } from 'next/server';
 import { dbClient } from '../../../config';
 
-export default async function PUT(req: NextApiRequest) {
+export async function PUT(req: NextApiRequest) {
   // 0: If in development, then return and don't query API.
   if (process.env.NODE_ENV !== 'production') {
-    return NextResponse.json(
-      { message: 'Error, not running in production' },
-      { status: 400 }
-    );
+    return NextResponse.json({ viewCount: 1 }, { status: 200 });
   }
 
   // 1: Get UUID from request

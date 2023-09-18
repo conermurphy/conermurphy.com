@@ -1,6 +1,6 @@
-import { NextPage } from 'next';
-import { MDXRemote } from 'next-mdx-remote/rsc';
+import { compileMDX } from 'next-mdx-remote/rsc';
 import React from 'react';
+import remarkGfm from 'remark-gfm';
 import { PostPageProps, POSTTYPES } from '../../../types';
 import SEO from '../../SEO/SEO';
 import PostSidebar from '../PostSidebar/PostSidebar';
@@ -12,12 +12,12 @@ import { NewsletterCloseout } from '../PostComponents/NewsletterCloseout/Newslet
 import { components } from '../PostComponents/Components';
 import { PostHeader } from '../PostComponents/PostHeader/PostHeader';
 
-const PostPage: NextPage<PostPageProps> = ({
+const PostPage = async ({
   post,
   latestPosts,
   postType,
   latestYouTubeVideo,
-}) => {
+}: PostPageProps) => {
   if (!post || !post.content) return null;
 
   const { content, headings, frontmatter, filePath } = post;
@@ -36,6 +36,16 @@ const PostPage: NextPage<PostPageProps> = ({
     ...heading,
     ref: React.createRef<HTMLHeadingElement>(),
   }));
+
+  const { content: parsedContent } = await compileMDX({
+    source: content,
+    components: { ...(components(updatedHeadings || []) as object) },
+    options: {
+      mdxOptions: { remarkPlugins: [remarkGfm] },
+      parseFrontmatter: true,
+      scope: frontmatter,
+    },
+  });
 
   return (
     <>
@@ -59,14 +69,7 @@ const PostPage: NextPage<PostPageProps> = ({
           <div>
             <div className="relative flex flex-row justify-center lg:justify-between xl:justify-center gap-0 lg:gap-12 xl:gap-24 w-full max-w-5xl m-auto px-6 xl:px-0">
               <div className="max-w-2xl w-full">
-                {/* eslint-disable */}
-                {/* @ts-ignore */}
-                <MDXRemote
-                  source={content}
-                  //  @ts-ignore
-                  components={components(updatedHeadings)}
-                  />
-                  {/* eslint-enable */}
+                {parsedContent}
                 {postType === POSTTYPES.NEWSLETTER ? (
                   <NewsletterCloseout />
                 ) : null}
