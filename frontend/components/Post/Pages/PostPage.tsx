@@ -64,6 +64,7 @@ const PostPage: NextPage<PostPageProps> = ({
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-ignore
                   components={Components(updatedHeadings)}
+                  lazy
                 />
                 {postType === POSTTYPES.NEWSLETTER ? (
                   <NewsletterCloseout />
