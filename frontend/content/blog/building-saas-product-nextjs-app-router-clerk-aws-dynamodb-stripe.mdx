@@ -1468,8 +1468,6 @@ Now, we add in the part where the “magic” happens so to say, for the `.updat
 
 If you’re configuring subscriptions to cancel at the end of the billing period this isn’t required because the `.updated` and `.deleted` events will be triggered at different times and so don’t have the possibility of overlapping like they do with immediate cancellation. [This is because Stripe doesn’t guarantee the order of webhook event delivery.](https://stripe.com/docs/webhooks#event-ordering)
 
->
-
 ```ts:[]:./app/api/webhooks/stripe/route.ts:TYPESCRIPT
 // Handle a subscription being created or updated
 case 'customer.subscription.updated': {
