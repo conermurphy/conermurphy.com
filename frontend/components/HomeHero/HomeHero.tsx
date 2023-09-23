@@ -18,38 +18,33 @@ export function HomeHeroWrapper({
 
 export default function HomeHero() {
   return (
-    <HomeHeroWrapper>
-      <div className="flex flex-col lg:flex-row justify-between items-center w-full max-w-7xl p-6 gap-8 z-20">
-        <div className="max-w-xl lg:max-w-md flex flex-col gap-6 z-30">
-          <h1 className="text-3xl md:text-5xl">Coner Murphy</h1>
-          <p className="text-lg md:text-xl">
-            Hey 👋, I&apos;m Coner, a full-stack developer, freelancer,
-            technical writer, and content creator from Norwich, UK.
-          </p>
-          <div className="flex flex-row gap-6 items-center">
-            <Link
-              href="/contact"
-              className="font-heading font-extrabold text-lg"
-            >
-              Get In Touch
-            </Link>
-            <Link
-              href="/blog"
-              className="font-heading font-extrabold text-lg text-background bg-brand rounded-lg py-3 px-4"
-            >
-              Latest Posts
-            </Link>
-          </div>
+    <div className="flex flex-col lg:flex-row justify-between items-center w-full max-w-7xl p-6 gap-8 z-20">
+      <div className="max-w-xl lg:max-w-md flex flex-col gap-6 z-30">
+        <h1 className="text-3xl md:text-5xl">Coner Murphy</h1>
+        <p className="text-lg md:text-xl">
+          Hey 👋, I&apos;m Coner, a full-stack developer, freelancer, technical
+          writer, and content creator from Norwich, UK.
+        </p>
+        <div className="flex flex-row gap-6 items-center">
+          <Link href="/contact" className="font-heading font-extrabold text-lg">
+            Get In Touch
+          </Link>
+          <Link
+            href="/blog"
+            className="font-heading font-extrabold text-lg text-background bg-brand rounded-lg py-3 px-4"
+          >
+            Latest Posts
+          </Link>
         </div>
-        <Image
+      </div>
+      {/* <Image
           src="/me.jpg"
           width={580}
           height={580}
           priority
           alt="Selfie of Coner Murphy with a background of plants and bushes in a garden"
           className="drop-shadow-2xl rounded-bl-[96px] rounded-tr-[96px]"
-        />
-      </div>
-    </HomeHeroWrapper>
+        /> */}
+    </div>
   );
 }
