@@ -8,13 +8,19 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
   },
-  "include": ["frontend/next-env.d.ts", "**/*.ts", "**/*.tsx", "frontend/additional.d.ts", "pages/blog/[...slug].old", "pages/blog.old"],
+  "ts-node": {
+    "esm": true,
+    "compilerOptions": {
+      "module": "nodenext",
+    }
+  },
+  "include": ["frontend/next-env.d.ts", "**/*.ts", "**/*.tsx", "frontend/additional.d.ts", "pages/blog/[...slug].old", "pages/blog.old", "utils/generateRssFeeds.ts"],
   "exclude": ["node_modules"]
 }

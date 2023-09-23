@@ -30,7 +30,7 @@ export default async function getAllPostsData({
 
           const totalWords = tempContent.trim().split(/\s+/).length;
           const ttr = Math.ceil(
-            totalWords / parseInt(process.env.NEXT_PUBLIC_WPM)
+            totalWords / parseInt(process.env.NEXT_PUBLIC_WPM || '220')
           );
 
           const dataWithTTR = {

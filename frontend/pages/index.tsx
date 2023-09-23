@@ -1,7 +1,6 @@
 import type { GetStaticProps, NextPage } from 'next';
 import { SEO, HomeHero, Projects, Services, Newsletter } from '../components';
 import { LatestVideo, Post, Project, Service } from '../types';
-import { generateRssFeeds } from '../utils';
 import pageDataSource from '../utils/pageDataSource';
 import LatestNewsletterPosts from '../components/LatestNewsletterPosts';
 import LatestContent from '../components/LatestContent';
@@ -48,8 +47,6 @@ const Home: NextPage<IProps> = ({
 );
 
 export const getStaticProps: GetStaticProps = async () => {
-  await generateRssFeeds();
-
   const {
     services,
     latestBlogs,
