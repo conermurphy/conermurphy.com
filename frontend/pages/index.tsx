@@ -33,16 +33,20 @@ const Home: NextPage<IProps> = ({
     />
     <div className="flex flex-col gap-24">
       <HomeHero />
-      <Services services={services} />
+      {services ? <Services services={services} /> : null}
     </div>
-    <LatestContent
-      latestBlog={latestBlogs[0]}
-      latestVideo={latestYouTubeVideo}
-    />
-    <Projects projects={projects} />
-    <LatestNewsletterPosts
-      posts={latestNewsletters.slice(latestNewsletters.length - 2)}
-    />
+    {latestBlogs && latestYouTubeVideo ? (
+      <LatestContent
+        latestBlog={latestBlogs[0]}
+        latestVideo={latestYouTubeVideo}
+      />
+    ) : null}
+    {projects ? <Projects projects={projects} /> : null}
+    {latestNewsletters ? (
+      <LatestNewsletterPosts
+        posts={latestNewsletters.slice(latestNewsletters.length - 2)}
+      />
+    ) : null}
     <Newsletter />
   </>
 );
