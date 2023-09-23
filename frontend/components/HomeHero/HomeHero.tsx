@@ -10,7 +10,7 @@ export function HomeHeroWrapper({
   return (
     <section className="relative bg-brand/40 py-6 lg:py-16 overflow-hidden">
       <div className="w-full flex items-center justify-center">{children}</div>
-      <Image src="/grain.png" alt="" fill priority className="!h-auto" />
+      {/* <Image src="/grain.png" alt="" fill priority className="!h-auto" /> */}
       <div className="absolute bottom-0 left-0 right-0 border-transparent border-x-[50vw] border-y-[10vh] border-b-background border-r-background" />
     </section>
   );

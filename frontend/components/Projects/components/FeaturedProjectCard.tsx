@@ -14,7 +14,7 @@ export default function FeaturedProjectCard({ project }: IProps) {
       <ProjectLanguages project={project} />
 
       <div className="relative w-full h-32 md:h-72 rounded-md overflow-hidden">
-        <Img src={project.image} alt={project.title} fill priority />
+        <Img src={project.image} alt={project.title} fill />
       </div>
 
       <div className="flex flex-col gap-8 justify-start">
