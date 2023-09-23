@@ -10,7 +10,6 @@ import {
 } from 'react-icons/io5';
 import { ComponentWrapper, SEO } from '../components';
 import { LatestVideo, Post, Project } from '../types';
-import { generateRssFeeds } from '../utils';
 import pageDataSource from '../utils/pageDataSource';
 import LatestContent from '../components/LatestContent';
 
@@ -140,8 +139,6 @@ const Links: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  await generateRssFeeds();
-
   const { latestBlogs, latestYouTubeVideo } = await pageDataSource({
     services: false,
     projects: false,

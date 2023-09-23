@@ -1,7 +1,6 @@
 import type { GetStaticProps, NextPage } from 'next';
 import { ContactForm, Newsletter, PageHero, SEO, Socials } from '../components';
 import { LatestVideo, Post } from '../types';
-import { generateRssFeeds } from '../utils';
 import pageDataSource from '../utils/pageDataSource';
 import LatestContent from '../components/LatestContent';
 import ContactCard from '../components/ContactCard';
@@ -68,8 +67,6 @@ const Contact: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => (
 );
 
 export const getStaticProps: GetStaticProps = async () => {
-  await generateRssFeeds();
-
   const { latestBlogs, latestYouTubeVideo } = await pageDataSource({
     latestBlogs: true,
     latestYouTubeVideo: true,

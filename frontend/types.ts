@@ -144,12 +144,6 @@ export interface BlogNewsletterParams extends ParsedUrlQuery {
   slug: string[];
 }
 
-export type Company = {
-  icon: typeof import('*.svg');
-  alt: string;
-  invertDark: boolean;
-};
-
 export type LatestVideo = {
   kind: string;
   etag: string;
