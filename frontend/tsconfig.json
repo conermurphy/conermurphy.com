@@ -15,12 +15,6 @@
     "jsx": "preserve",
     "incremental": true,
   },
-  "ts-node": {
-    "esm": true,
-    "compilerOptions": {
-      "module": "nodenext",
-    }
-  },
   "include": ["frontend/next-env.d.ts", "**/*.ts", "**/*.tsx", "frontend/additional.d.ts", "pages/blog/[...slug].old", "pages/blog.old", "utils/generateRssFeeds.ts"],
   "exclude": ["node_modules"]
 }

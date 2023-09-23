@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "next-sitemap && npx ts-node ./utils/generateRssFeeds.ts",
+    "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "next lint",
     "test": "jest --passWithNoTests",

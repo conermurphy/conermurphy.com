@@ -4,6 +4,7 @@ import { LatestVideo, Post, Project, Service } from '../types';
 import pageDataSource from '../utils/pageDataSource';
 import LatestNewsletterPosts from '../components/LatestNewsletterPosts';
 import LatestContent from '../components/LatestContent';
+import { generateRssFeeds } from '../utils';
 
 interface IProps {
   services: Service[];
@@ -47,6 +48,8 @@ const Home: NextPage<IProps> = ({
 );
 
 export const getStaticProps: GetStaticProps = async () => {
+  await generateRssFeeds();
+
   const {
     services,
     latestBlogs,

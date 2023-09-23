@@ -98,5 +98,3 @@ export default async function generateRssFeeds() {
     newsletterFeed.json1()
   );
 }
-
-generateRssFeeds();
