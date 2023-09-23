@@ -47,32 +47,32 @@ const Home: NextPage<IProps> = ({
   </>
 );
 
-export const getStaticProps: GetStaticProps = async () => {
+// eslint-disable-next-line @typescript-eslint/require-await
+export const getStaticProps: GetStaticProps = async () =>
   // await generateRssFeeds();
 
-  const {
-    services,
-    latestBlogs,
-    latestNewsletters,
-    projects,
-    latestYouTubeVideo,
-  } = await pageDataSource({
-    services: true,
-    projects: true,
-    latestBlogs: true,
-    latestNewsletters: true,
-    latestYouTubeVideo: true,
-  });
+  // const {
+  //   services,
+  //   latestBlogs,
+  //   latestNewsletters,
+  //   projects,
+  //   latestYouTubeVideo,
+  // } = await pageDataSource({
+  //   services: true,
+  //   projects: true,
+  //   latestBlogs: true,
+  //   latestNewsletters: true,
+  //   latestYouTubeVideo: true,
+  // });
 
-  return {
+  ({
     props: {
-      services,
-      projects,
-      latestBlogs,
-      latestNewsletters,
-      latestYouTubeVideo,
+      services: false,
+      projects: false,
+      latestBlogs: false,
+      latestNewsletters: false,
+      latestYouTubeVideo: false,
     },
-  };
-};
+  });
 
 export default Home;
