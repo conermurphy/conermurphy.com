@@ -19,7 +19,6 @@
     "@vercel/og": "^0.5.9",
     "fathom-client": "^3.5.0",
     "feed": "^4.2.2",
-    "framer-motion": "^10.12.4",
     "graphql": "^16.6.0",
     "gray-matter": "^4.0.3",
     "isomorphic-fetch": "^3.0.0",

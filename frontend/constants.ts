@@ -1,4 +1,3 @@
-import { Variants } from 'framer-motion';
 import { Icons, Topics } from './types';
 
 export const ICONS: Icons = {
@@ -145,34 +144,3 @@ export const TOPICS: Topics = {
     icon: ICONS.AWS,
   },
 };
-
-// ANIMATION VARIANTS
-
-export const pageTransition: Variants = {
-  initial: {
-    opacity: 0,
-  },
-  animate: {
-    opacity: 1,
-  },
-  exit: {
-    opacity: 0,
-  },
-};
-
-export const postComponent: Variants = {
-  offscreen: {
-    y: 25,
-    opacity: 0,
-  },
-  onscreen: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: 'spring',
-      duration: 0.6,
-    },
-  },
-};
-
-export const viewportSettings = { once: true, amount: 0.2 };

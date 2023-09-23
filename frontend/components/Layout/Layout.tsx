@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import { useTheme } from 'next-themes';
 import { Raleway, Karla, Inconsolata } from 'next/font/google';
 import Footer from '../Footer/Footer';
 
@@ -15,9 +14,6 @@ const inconsolata = Inconsolata({
 });
 
 export default function Layout({ children }: IProps): JSX.Element {
-  // This is needed to trigger the theme switch animation.
-  useTheme();
-
   return (
     <div className="bg-background">
       <main

@@ -1,8 +1,6 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { PostFrontMatter, POSTTYPES } from '../../../types';
-import { postComponent, viewportSettings } from '../../../constants';
 
 interface IProps {
   post: PostFrontMatter;
@@ -26,13 +24,7 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
   });
 
   return (
-    <motion.article
-      initial="offscreen"
-      whileInView="onscreen"
-      variants={postComponent}
-      viewport={{ ...viewportSettings, amount: 0.2 }}
-      className="contents"
-    >
+    <article className="contents">
       <Link
         href={!isTechnicalWriting ? `/${postType}/${slug}` : post.canonical_url}
       >
@@ -56,6 +48,6 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
           </p>
         </div>
       </Link>
-    </motion.article>
+    </article>
   );
 }

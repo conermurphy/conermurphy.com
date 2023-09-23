@@ -6,7 +6,6 @@ import {
   TwitterShareButton,
   RedditShareButton,
 } from 'react-share';
-import { motion } from 'framer-motion';
 import { ICONS } from '../../../constants';
 import { PostHeading } from '../../../types';
 import { copyToClipboard, getIcon } from '../../../utils';
@@ -143,7 +142,7 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
         </ul>
       </div>
       <ul className="flex flex-row gap-x-4">
-        <motion.li whileTap={{ scale: 0.8 }}>
+        <li>
           <button
             type="button"
             className={shareIconClasses}
@@ -160,27 +159,27 @@ export default function PostSidebar({ headings, title }: IProps): JSX.Element {
               ? getIcon({ icon: ICONS.TICK.name })
               : getIcon({ icon: ICONS.COPY.name })}
           </button>
-        </motion.li>
-        <motion.li whileTap={{ scale: 0.8 }} className={shareIconClasses}>
+        </li>
+        <li className={shareIconClasses}>
           <TwitterShareButton url={url} title={title} via="MrConerMurphy">
             {getIcon({ icon: ICONS.TWITTER.name, size: '20px' })}
           </TwitterShareButton>
-        </motion.li>
-        <motion.li whileTap={{ scale: 0.8 }} className={shareIconClasses}>
+        </li>
+        <li className={shareIconClasses}>
           <FacebookShareButton url={url}>
             {getIcon({ icon: ICONS.FACEBOOK.name, size: '20px' })}
           </FacebookShareButton>
-        </motion.li>
-        <motion.li whileTap={{ scale: 0.8 }} className={shareIconClasses}>
+        </li>
+        <li className={shareIconClasses}>
           <LinkedinShareButton url={url}>
             {getIcon({ icon: ICONS.LINKEDIN.name, size: '20px' })}
           </LinkedinShareButton>
-        </motion.li>
-        <motion.li whileTap={{ scale: 0.8 }} className={shareIconClasses}>
+        </li>
+        <li className={shareIconClasses}>
           <RedditShareButton url={url}>
             {getIcon({ icon: ICONS.REDDIT.name, size: '20px' })}
           </RedditShareButton>
-        </motion.li>
+        </li>
       </ul>
     </aside>
   );
