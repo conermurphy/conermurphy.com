@@ -14,6 +14,12 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
     '<code class="p-1 font-extrabold">$&</code>'
   );
 
+  const postsDateUI = new Date(date).toLocaleDateString('en-GB', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+
   return (
     <section className="relative pt-16 pb-0 md:py-16">
       <header className="relative flex flex-col items-center justify-center gap-8 px-6 xl:px-0 z-10">
@@ -32,12 +38,8 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
               );
             })}
             <span>
-              {`${new Date(date).toLocaleDateString('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-              })}
-            | ${timeToRead} Min Read`}
+              <time dateTime={date}>{postsDateUI}</time>
+              {` | ${timeToRead} Min Read`}
             </span>
           </p>
           <div className="flex flex-col items-center gap-3">
