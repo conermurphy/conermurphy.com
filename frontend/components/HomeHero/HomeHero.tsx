@@ -41,13 +41,13 @@ export default function HomeHero() {
             </Link>
           </div>
         </div>
-        <Image
+        {/* <Image
           src="/me.jpg"
           width={580}
           height={580}
           alt="Selfie of Coner Murphy with a background of plants and bushes in a garden"
           className="drop-shadow-2xl rounded-bl-[96px] rounded-tr-[96px]"
-        />
+        /> */}
       </div>
     </HomeHeroWrapper>
   );
