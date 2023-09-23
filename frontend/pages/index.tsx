@@ -48,7 +48,7 @@ const Home: NextPage<IProps> = ({
 );
 
 export const getStaticProps: GetStaticProps = async () => {
-  await generateRssFeeds();
+  // await generateRssFeeds();
 
   const {
     services,

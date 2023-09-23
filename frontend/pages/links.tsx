@@ -140,7 +140,7 @@ const Links: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  await generateRssFeeds();
+  // await generateRssFeeds();
 
   const { latestBlogs, latestYouTubeVideo } = await pageDataSource({
     services: false,
