@@ -10,7 +10,6 @@ interface IProps {
   services: Service[];
   projects: Project[];
   latestBlogs: Post[];
-  latestNewsletters: Post[];
   latestYouTubeVideo: LatestVideo['items'][0];
 }
 
@@ -18,7 +17,6 @@ const Home: NextPage<IProps> = ({
   services,
   projects,
   latestBlogs,
-  latestNewsletters,
   latestYouTubeVideo,
 }) => (
   <>
@@ -40,9 +38,6 @@ const Home: NextPage<IProps> = ({
       latestVideo={latestYouTubeVideo}
     />
     <Projects projects={projects} />
-    <LatestNewsletterPosts
-      posts={latestNewsletters.slice(latestNewsletters.length - 2)}
-    />
     <Newsletter />
   </>
 );
@@ -60,7 +55,7 @@ export const getStaticProps: GetStaticProps = async () => {
     services: true,
     projects: true,
     latestBlogs: true,
-    latestNewsletters: true,
+    latestNewsletters: false,
     latestYouTubeVideo: true,
   });
 
