@@ -52,7 +52,7 @@ export default function getIcon({
         <FaSun
           size={size}
           color={color}
-          title="Light Theme Toggle Icon"
+          aria-label="Light Theme Toggle Icon"
           data-testid="theme-icon"
           className="hover:text-accent"
         />
@@ -62,7 +62,7 @@ export default function getIcon({
         <FaMoon
           size={size}
           color={color}
-          title="Dark Theme Toggle Icon"
+          aria-label="Dark Theme Toggle Icon"
           data-testid="theme-icon"
           className="hover:text-accent"
         />
@@ -72,7 +72,7 @@ export default function getIcon({
         <FaAlignJustify
           size={size}
           color={color}
-          title="Mobile Menu Open Icon"
+          aria-label="Mobile Menu Open Icon"
           data-testid="menu-icon"
           className="hover:text-accent"
         />
@@ -82,7 +82,7 @@ export default function getIcon({
         <FaLink
           size={size}
           color={color}
-          title="Link Icon"
+          aria-label="Link Icon"
           data-testid="link-icon"
           className="hover:text-accent overflow-visible"
         />
@@ -92,7 +92,7 @@ export default function getIcon({
         <IoMdClose
           size={size}
           color={color}
-          title="Mobile Menu Close Icon"
+          aria-label="Mobile Menu Close Icon"
           data-testid="menu-icon"
           className="hover:text-accent"
         />
@@ -102,7 +102,7 @@ export default function getIcon({
         <MdKeyboard
           size={size}
           color={color}
-          title="keyboard icon"
+          aria-label="keyboard icon"
           data-testid="services-icon"
         />
       );
@@ -111,7 +111,7 @@ export default function getIcon({
         <MdCode
           size={size}
           color={color}
-          title="< > symbols"
+          aria-label="< > symbols"
           data-testid="services-icon"
         />
       );
@@ -120,7 +120,7 @@ export default function getIcon({
         <MdShare
           size={size}
           color={color}
-          title="Social media share icon"
+          aria-label="Social media share icon"
           data-testid="services-icon"
         />
       );
@@ -129,7 +129,7 @@ export default function getIcon({
         <FiCopy
           size={size}
           color={color}
-          title="Copy icon"
+          aria-label="Copy icon"
           data-testid="share-icon"
           className="hover:text-accent"
         />
@@ -139,7 +139,7 @@ export default function getIcon({
         <FaCheck
           size={size}
           color={color}
-          title="Tick icon"
+          aria-label="Tick icon"
           data-testid="tick-icon"
           className="hover:text-accent"
         />
@@ -149,7 +149,7 @@ export default function getIcon({
         <FaTwitter
           size={size}
           color={color}
-          title="Twitter logo"
+          aria-label="Twitter logo"
           data-testid="socials-icon"
           className="hover:text-accent"
         />
@@ -159,7 +159,7 @@ export default function getIcon({
         <FaLinkedin
           size={size}
           color={color}
-          title="LinkedIn logo"
+          aria-label="LinkedIn logo"
           data-testid="socials-icon"
           className="hover:text-accent"
         />
@@ -169,7 +169,7 @@ export default function getIcon({
         <FaEnvelope
           size={size}
           color={color}
-          title="Envelope icon"
+          aria-label="Envelope icon"
           data-testid="socials-icon"
           className={`${!disableHoverAnimation ? 'hover:text-accent' : ''}`}
         />
@@ -179,7 +179,7 @@ export default function getIcon({
         <FaFacebookSquare
           size={size}
           color={color}
-          title="Facebook logo"
+          aria-label="Facebook logo"
           data-testid="socials-icon"
           className="hover:text-accent"
         />
@@ -189,7 +189,7 @@ export default function getIcon({
         <FaGithub
           size={size}
           color={color}
-          title="GitHub logo"
+          aria-label="GitHub logo"
           data-testid="socials-icon"
           className="hover:text-accent"
         />
@@ -199,7 +199,7 @@ export default function getIcon({
         <FaInstagram
           size={size}
           color={color}
-          title="Instagram logo"
+          aria-label="Instagram logo"
           data-testid="socials-icon"
           className="hover:text-accent"
         />
@@ -209,7 +209,7 @@ export default function getIcon({
         <FaYoutube
           size={size}
           color={color}
-          title="YouTube logo"
+          aria-label="YouTube logo"
           data-testid="socials-icon"
           className="hover:text-accent"
         />
@@ -219,7 +219,7 @@ export default function getIcon({
         <FaReddit
           size={size}
           color={color}
-          title="Reddit logo"
+          aria-label="Reddit logo"
           data-testid="socials-icon"
           className="hover:text-accent"
         />
@@ -229,7 +229,7 @@ export default function getIcon({
         <SiGraphql
           size={size}
           color={ICONS.GRAPHQL.color}
-          title="GraphQL logo"
+          aria-label="GraphQL logo"
           data-testid="tech-icon"
         />
       );
@@ -238,7 +238,7 @@ export default function getIcon({
         <SiReact
           size={size}
           color={ICONS.REACTJS.color}
-          title="ReactJS logo"
+          aria-label="ReactJS logo"
           data-testid="tech-icon"
         />
       );
@@ -247,7 +247,7 @@ export default function getIcon({
         <SiNextdotjs
           size={size}
           color={ICONS.NEXTJS.color}
-          title="Next.js logo"
+          aria-label="Next.js logo"
           data-testid="tech-icon"
         />
       );
@@ -256,7 +256,7 @@ export default function getIcon({
         <SiTypescript
           size={size}
           color={ICONS.TYPESCRIPT.color}
-          title="TypeScript logo"
+          aria-label="TypeScript logo"
           data-testid="tech-icon"
         />
       );
@@ -265,7 +265,7 @@ export default function getIcon({
         <SiJavascript
           size={size}
           color={ICONS.JAVASCRIPT.color}
-          title="JavaScript logo"
+          aria-label="JavaScript logo"
           data-testid="tech-icon"
         />
       );
@@ -274,7 +274,7 @@ export default function getIcon({
         <SiCss3
           size={size}
           color={ICONS.CSS.color}
-          title="CSS logo"
+          aria-label="CSS logo"
           data-testid="tech-icon"
         />
       );
@@ -283,7 +283,7 @@ export default function getIcon({
         <SiTailwindcss
           size={size}
           color={ICONS.TAILWINDCSS.color}
-          title="TailwindCSS logo"
+          aria-label="TailwindCSS logo"
           data-testid="tech-icon"
         />
       );
@@ -292,7 +292,7 @@ export default function getIcon({
         <SiPrisma
           size={size}
           color={ICONS.PRISMA.color}
-          title="Prisma logo"
+          aria-label="Prisma logo"
           data-testid="tech-icon"
         />
       );
@@ -301,7 +301,7 @@ export default function getIcon({
         <SiNpm
           size={size}
           color={ICONS.NPM.color}
-          title="NPM logo"
+          aria-label="NPM logo"
           data-testid="tech-icon"
         />
       );
@@ -310,7 +310,7 @@ export default function getIcon({
         <SiNodedotjs
           size={size}
           color={ICONS.NODEJS.color}
-          title="Node.js logo"
+          aria-label="Node.js logo"
           data-testid="tech-icon"
         />
       );
@@ -321,7 +321,7 @@ export default function getIcon({
             src="/images/companies/planetscale.svg"
             fill
             alt="PlanetScale logo"
-            title="PlanetScale logo"
+            aria-label="PlanetScale logo"
           />
         </div>
       );
@@ -330,7 +330,7 @@ export default function getIcon({
         <FaAws
           size={size}
           color={ICONS.AWS.color}
-          title="AWS logo"
+          aria-label="AWS logo"
           data-testid="aws-icon"
         />
       );
