@@ -26,16 +26,16 @@ export default function PostHeader({ frontmatter }: IProps): JSX.Element {
         <div className="max-w-md sm:max-w-6xl w-full flex flex-col items-center justify-center text-center gap-2 md:gap-8">
           <p className="font-extrabold font-heading flex flex-row flex-wrap max-w-xs sm:max-w-full items-center justify-center gap-3 px-3 py-2 rounded-lg w-max">
             {topics.map((topic) => {
-              const { name } = TOPICS[topic];
+              const selectedTopic = TOPICS?.[topic];
 
-              return (
+              return selectedTopic ? (
                 <span
-                  key={name}
+                  key={selectedTopic.name}
                   className=" text-text py-1 px-2 rounded-md bg-brand"
                 >
-                  {name}
+                  {selectedTopic.name}
                 </span>
-              );
+              ) : null;
             })}
             <span>
               <time dateTime={date}>{postsDateUI}</time>
