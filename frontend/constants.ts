@@ -144,6 +144,61 @@ export const TOPICS: Topics = {
     link: 'aws',
     icon: ICONS.AWS,
   },
+  LAMBDA: {
+    name: 'Lambda',
+    link: 'lambda',
+    icon: ICONS.AWS,
+  },
+  S3: {
+    name: 'S3',
+    link: 's3',
+    icon: ICONS.AWS,
+  },
+  DYNAMODB: {
+    name: 'DynamoDB',
+    link: 'dynamodb',
+    icon: ICONS.AWS,
+  },
+  EVENTBRIDGE: {
+    name: 'EventBridge',
+    link: 'eventbridge',
+    icon: ICONS.AWS,
+  },
+  'API-GATEWAY': {
+    name: 'API Gateway',
+    link: 'api-gateway',
+    icon: ICONS.AWS,
+  },
+  IAM: {
+    name: 'IAM',
+    link: 'iam',
+    icon: ICONS.AWS,
+  },
+  CLOUDWATCH: {
+    name: 'CloudWatch',
+    link: 'cloudwatch',
+    icon: ICONS.AWS,
+  },
+  SNS: {
+    name: 'SNS',
+    link: 'sns',
+    icon: ICONS.AWS,
+  },
+  APPSYNC: {
+    name: 'AppSync',
+    link: 'appsync',
+    icon: ICONS.AWS,
+  },
+  SES: {
+    name: 'SES',
+    link: 'ses',
+    icon: ICONS.AWS,
+  },
+  'ROUTE-53': {
+    name: 'Route 53',
+    link: 'route-53',
+    icon: ICONS.AWS,
+  },
 };
 
 // ANIMATION VARIANTS
