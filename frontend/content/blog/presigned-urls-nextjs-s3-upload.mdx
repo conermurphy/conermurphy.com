@@ -1,0 +1,351 @@
+---
+UUID: "9ace6ebf-71ff-43ff-b3cf-32fe6c0b5437"
+title: "Using Presigned URLs in a Next.js App Router Project to Upload Files to an AWS S3 Bucket"
+description: "Learn how to upload files to an AWS S3 bucket using presigned URLs generated via the AWS SDK inside a Next.js app router application."
+date: "2023-10-06"
+topics: ["AWS", "NEXTJS"]
+slug: presigned-urls-nextjs-s3-upload
+image:
+published: true
+canonical_url: ""
+imageLink:
+---
+
+Often in applications, there will be times when you need to upload files from a user, it might be for profile pictures, icons, or general documents. AWS S3 is a great location to host these files but the process of actually uploading the files to S3 from something like a Next.js application can be a bit of a mystery.
+
+So, in this post, we’re going to help solve that mystery and show how you can easily upload files (in this tutorial example, an image) from a Next.js application to an S3 bucket using presigned URLs that we’ll generate via the AWS SDK on a route handler in our Next.js application.
+
+## Setting Up Our Next.js Project
+
+To get started, let’s create a new Next.js application by running `npx create-next-app@latest --ts` and answering the prompts as per below.
+
+```
+✔ What is your project named? YOUR_NAME
+✔ Would you like to use ESLint? Yes
+✔ Would you like to use Tailwind CSS? Yes
+✔ Would you like to use `src/` directory? No
+✔ Would you like to use App Router? (recommended) Yes
+✔ Would you like to customize the default import alias (@/*)? No
+```
+
+After this process is completed, you should now have a new Next.js project ready for us to work with. It’s important to note for this project, I’ll be using the App Router but if you’re using the older Pages Router the code can easily be adapted to work with that.
+
+## Configuring AWS
+
+With our Next.js project now created, let’s configure our AWS services. For this tutorial, I’ll be using the AWS CDK to deploy my S3 bucket and create a new IAM user with the relevant permissions for uploading to the bucket.
+
+### Initialising Our AWS CDK Project
+
+To get started, let’s add a new AWS CDK project to our existing Next.js project. For this, create a new directory called `cdk` in the root of the Next.js project and `cd` into it. Then run the command `cdk init app --language typescript` to create a new TypeScript project inside the `cdk` directory.
+
+### Creating our S3 bucket
+
+With our CDK project now created, let’s start defining some services. Let’s start by defining our S3 bucket, by adding the below code to our `./cdk/lib/*-stack.ts` file.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// Class definition and constructor omitted for brevity
+
+// 1. Create new S3 Bucket with public read access
+const s3Bucket = new Bucket(this, "YOUR_RESOURCE_ID", {
+  bucketName: "YOUR_BUCKET_NAME",
+  publicReadAccess: true,
+  blockPublicAccess: BlockPublicAccess.BLOCK_ACLS,
+  removalPolicy: cdk.RemovalPolicy.DESTROY,
+  versioned: true,
+  cors: [
+    {
+      allowedHeaders: ["*"],
+      allowedMethods: [HttpMethods.GET, HttpMethods.PUT],
+      allowedOrigins: ["*"],
+      exposedHeaders: [],
+      maxAge: 3000,
+    },
+  ],
+});
+```
+
+> **\*NOTE:** Don’t forget to replace `YOUR_BUCKET_NAME` and `YOUR_RESOURCE_ID` with corresponding values for your S3 bucket.\*
+
+In this definition there are a few important things to call out, the first one is that we’re allowing anyone to read from the bucket by setting `publicReadAccess` to `true`. The second setting to call out is the CORS configuration we add, which allows `GET` and `PUT` methods as we’ll be using both of those methods to upload and retrieve items from the S3 bucket. Without this CORS configuration, all of our requests to the S3 bucket would return a CORS error and prevent us from performing any actions.
+
+### Creating Our IAM User
+
+With our S3 bucket defined and configured, the next step is to define the IAM user will be using to generate the presigned URLs to upload files. We need to do this because we need a set of API keys to generate an S3 client in the route handler where we create the presigned URLs. It’s also best practice to use API keys with only the permissions needed for the actions to be performed so in this case adding items to an S3 bucket.
+
+To create our new IAM user, add the below code under the code we just added for the S3 bucket.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// S3 bucket definition
+
+// 2. Create new IAM User with PutObject access to the S3 Bucket
+const iamUser = new User(this, "FileUploadUser");
+const putObjectPolicy = new PolicyStatement({
+  actions: ["s3:PutObject"],
+  resources: [`${s3Bucket.bucketArn}/*`],
+});
+
+iamUser.addToPolicy(putObjectPolicy);
+```
+
+In this code, we create a new IAM user using the `User` construct and then create a new IAM policy statement that gives permission to that IAM user to perform the `PutObject` action on the S3 bucket.
+
+### Generating Access Keys
+
+With our IAM user configured, we just need to create and log out the access keys we’ll need to connect to AWS from our Next.js application. To do this add the below code under where we just defined our IAM user.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// IAM User definition
+
+// 3. Create and output the Access Key and Secret Key for the IAM User
+const accessKey = new AccessKey(this, "FileUploadAccessKey", {
+  user: iamUser,
+});
+
+new cdk.CfnOutput(this, "S3BucketUrl", {
+  value: s3Bucket.bucketDomainName,
+});
+
+new cdk.CfnOutput(this, "AccessKey", {
+  value: accessKey.accessKeyId,
+});
+
+// NOTE: This is not a good or recommended practice, but for the sake of the demo, we will output the secret key
+new cdk.CfnOutput(this, "SecretAccessKey", {
+  value: accessKey.secretAccessKey.unsafeUnwrap(),
+});
+```
+
+### Deploying Our CDK Stack
+
+With our S3 bucket and IAM user fully configured and defined, all we need to do now is deploy our CDK stack by running `cdk deploy` in our terminal and accept any prompts it gives us. Once the deployment is finished we should have our S3 bucket name, access key ID and secret access key logged out in the terminal ready for us to use in Next.js!
+
+## Configuring Next.js
+
+With our AWS services all provisioned and ready to go, let’s now set up our Next.js project to upload files using presigned URLs and display them! Firstly, we’ll need to install some dependencies for the packages we’re going to be using in the project which we can do by running the command, `npm i react-hook-form @aws-sdk/client-s3 @aws-sdk/s3-request-presigner`.
+
+Then once the packages are installed, we need to configure our environment variables by populating the below values in our `./.env.local` file.
+
+```text:[]:./.env.local
+S3_ACCESS_KEY=""
+S3_SECRET_KEY=""
+S3_BUCKET_NAME=""
+S3_REGION=""
+```
+
+You can populate the first three environment variables by using the values outputted in the terminal from the CDK deployment we did a moment ago. The final environment variable is the AWS region you deployed the S3 bucket to. If you’re unsure which region this is you can check the logs of the CDK deployment or your local AWS profile configuration.
+
+> **\*NOTE:** If you’d like to learn how to resolve the issue of environment variables showing as typed as `undefined` in TypeScript projects, [you can read my blog post here.](https://conermurphy.com/blog/fixing-undefined-environment-variable-type-issues-typescript)\*
+
+### Creating a Route Handler to Generate a Presigned URL
+
+With the initial configuration of our Next.js project completed, it’s time to start adding some logic and functionality to our project. To start with, we’re going to create the route handler that will handle the creation of the presigned URLs that we will use to upload files to our S3 bucket. We can do this by creating a new file at `./app/api/presigned-url/route.ts` and adding the below code.
+
+```ts:[]:./app/api/presigned-url/route.ts:TYPESCRIPT
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { NextRequest } from "next/server";
+
+const client = new S3Client({
+  region: process.env.S3_REGION,
+  credentials: {
+    accessKeyId: process.env.S3_ACCESS_KEY,
+    secretAccessKey: process.env.S3_SECRET_KEY,
+  },
+});
+
+export async function GET(request: NextRequest) {
+  const { searchParams } = request.nextUrl;
+
+  const file = searchParams.get("file");
+
+  if (!file) {
+    return Response.json(
+      { error: "File query parameter is required" },
+      { status: 400 }
+    );
+  }
+
+  const command = new PutObjectCommand({
+    Bucket: process.env.S3_BUCKET_NAME,
+    Key: file,
+  });
+
+  const url = await getSignedUrl(client, command, { expiresIn: 60 });
+
+  return Response.json({ presignedUrl: url });
+}
+```
+
+To start with in this code, we generate the S3 client we mentioned earlier. We then define and export a new `GET` function from our route handler. Inside our `GET` function, we get the `searchParams` from our request and extract the `file` parameter which will contain the name of the file we want to upload.
+
+We then create a new `PutObjectCommand` using the name of the file passed in and our S3 bucket name before finally calling `getSignedUrl` to create a new presigned URL to upload the file. We then close out the function by returning the generated URL to the requester.
+
+### Creating Our File Upload UI
+
+With our route handler created and configured, we can turn our attention to the UI portion of our project and create the UI that will allow users to upload files and display them. To start with let’s define the form and UI before adding the `onSubmit` handler and its logic in the next section.
+
+To start with, create a new file at `./app/components/FileUpload.tsx` and add the below code.
+
+```tsx:[]:./app/components/FileUpload.tsx:TYPESCRIPT
+"use client";
+
+import Image from "next/image";
+import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+type FormValues = {
+  file: FileList;
+};
+
+enum STATUS {
+  "SAVING" = "SAVING",
+  "SUCCESS" = "SUCCESS",
+  "ERROR" = "ERROR",
+  "PENDING" = "PENDING",
+}
+
+export const FileUpload = () => {
+  const [status, setStatus] = useState(STATUS.PENDING);
+  const [fileUrl, setFileUrl] = useState("");
+  const { register, handleSubmit } = useForm<FormValues>();
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {};
+
+  return (
+    <section>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full max-w-sm m-auto py-10 mt-10 px-10 border rounded-lg drop-shadow-md bg-white text-gray-600 flex flex-col gap-6"
+      >
+        <h1 className="text-2xl">Next.js File Upload</h1>
+        <p className="text-md">
+          STATUS: <span className="font-bold">{status}</span>
+        </p>
+        <div className="">
+          <input
+            type="file"
+            {...register("file")}
+            className="w-full text-gray-600 rounded border-gray-300 focus:ring-gray-500 dark:focus:ring-gray-600 border py-2 px-2"
+          />
+        </div>
+        <div className="">
+          <input
+            type="submit"
+            value="Upload"
+            disabled={status === STATUS.SAVING}
+            className={`${
+              status === STATUS.SAVING ? "cursor-not-allowed" : ""
+            } cursor-pointer px-2.5 py-2 font-medium text-gray-900 bg-white rounded-md border border-gray-300 hover:bg-gray-100 hover:text-blue-600  disabled:text-gray-300`}
+          />
+        </div>
+
+        {fileUrl.length ? (
+          <div className="rounded-md overflow-hidden">
+            <Image
+              src={fileUrl}
+              width={350}
+              height={350}
+              objectFit="cover"
+              alt="Uploaded image"
+            />
+          </div>
+        ) : null}
+      </form>
+    </section>
+  );
+};
+```
+
+In this file, we create our form UI as well as some state controlling the status of the form submission and the uploaded file’s URL (this will be our image URL). We also define an empty `onSubmit` handler for us to populate in the next section.
+
+With this initial UI configured, let’s update our home page to display it which we can do by updating the file `./app/page.tsx` to have the below code.
+
+```tsx:[]:./app/page.tsx:TYPESCRIPT
+import { FileUpload } from "./components/FileUpload";
+
+export default function Home() {
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-100">
+      <FileUpload />
+    </main>
+  );
+}
+```
+
+Finally, because we’re uploading an image to our S3 bucket in this example and then displaying it on the page, we need to update the `remotePatterns` property in our `next.config.js` file to allow URLs from AWS. To do this, update your `next.config.js` file to have the below code.
+
+```js:[]:next.config.js:JAVASCRIPT
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.amazonaws.com",
+      },
+    ],
+  },
+};
+
+module.exports = nextConfig;
+```
+
+### Adding Our `onSubmit` Handler
+
+Now, with our form UI rendering nicely on our home page, let’s add in the logic for our `onSubmit` handler to actually process the file we select in the form and upload it to our S3 bucket via our presigned URL before then setting the file’s URL and displaying it.
+
+Here is the completed code for our `onSubmit` handler we defined in the last section.
+
+```tsx:[]:./app/components/FileUpload.tsx:TYPESCRIPT
+const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  if (!data.file[0]) {
+    setStatus(STATUS.ERROR);
+    return;
+  }
+
+  setStatus(STATUS.SAVING);
+
+  const filename = data.file[0].name;
+
+  const res = await fetch(`/api/presigned-url?file=${filename}`);
+
+  const { presignedUrl } = (await res.json()) as { presignedUrl: string };
+
+  const fileUpload = await fetch(presignedUrl, {
+    method: "PUT",
+    body: data.file[0],
+  });
+
+  if (!fileUpload.ok) {
+    setStatus(STATUS.ERROR);
+    return;
+  }
+
+  setFileUrl(`https://YOUR_BUCKET_NAME.s3.amazonaws.com/${filename}`);
+  setStatus(STATUS.SUCCESS);
+};
+```
+
+> **\*NOTE:** Don’t forget to replace `YOUR_BUCKET_NAME` in the file URL we define with the name of your S3 bucket from earlier.\*
+
+In this code, we take the data from the submitted form and check if the file is present in the data, if isn’t we return and set an error status. If the file is present however, we continue by getting the name of the file uploaded and then sending a request to our route handler from earlier to generate a presigned URL for the file.
+
+We then take the presigned URL we get back from the route handler and perform a `PUT` request to it with the file that was submitted in the form. If the `PUT` request was successful then we know the file was uploaded to our S3 bucket successfully and we can set the URL for the file. If not, we can set an error status and return.
+
+## Testing our application
+
+With our `onSubmit` handler now updated, we’ve finished our tutorial and are ready to test it. To test our project, start your development server using `npm run dev` and then visit `http://localhost:3000` in your browser of choice. Then you can use the form displayed on the screen to select an image on your computer that you’d like to upload.
+
+Then after submitting the form and waiting a couple of seconds, you should see the image you uploaded displayed on screen! If so, congrats, everything worked and you successfully uploaded a file to an S3 bucket using a presigned URL from a Next.js app router application.
+
+At this point, if you wanted to validate everything worked further, you could log into your AWS dashboard and inspect the contents of your S3 bucket where you should see the image you just uploaded.
+
+## Closing Thoughts
+
+In this tutorial, we looked at how to deploy an S3 bucket and an IAM user with permission to add items to the S3 bucket via the AWS CDK. We also looked at how to upload files to that S3 bucket from a Next.js application using presigned URLs generated via the AWS SDK on a route handler.
+
+If you would like to, [you can see the full example code for this project on my GitHub here.](https://github.com/conermurphy/nextjs-s3-file-upload)
+
+And, until next time, thanks for reading.
+
+Coner
