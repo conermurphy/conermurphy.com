@@ -64,7 +64,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             ...post,
             content: post?.rawContent
               ? await serialize(post?.rawContent, {
-                  mdxOptions: { remarkPlugins: [remarkGfm] },
+                  mdxOptions: { remarkPlugins: [[remarkGfm]] },
                 })
               : '',
           },
