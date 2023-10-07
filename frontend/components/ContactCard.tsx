@@ -1,6 +1,4 @@
 import React, { ReactElement } from 'react';
-import { motion } from 'framer-motion';
-import { postComponent, viewportSettings } from '../constants';
 
 interface IProps {
   title?: string | ReactElement;
@@ -16,13 +14,7 @@ export default function ContactCard({
   link,
 }: IProps): JSX.Element {
   return (
-    <motion.div
-      initial="offscreen"
-      whileInView="onscreen"
-      variants={postComponent}
-      viewport={{ ...viewportSettings, amount: 0.2 }}
-      className="contents"
-    >
+    <div className="contents">
       <div className="flex flex-col gap-y-4 p-8 break-words border-brand border-l-8 max-w-lg h-full justify-center duration-300 ease-in-out transition-all">
         <p className="text-brand font-heading font-extrabold text-lg">{tag}</p>
         <div className="flex flex-col gap-2">
@@ -37,6 +29,6 @@ export default function ContactCard({
         </div>
         {link}
       </div>
-    </motion.div>
+    </div>
   );
 }

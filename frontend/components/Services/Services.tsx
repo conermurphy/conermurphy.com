@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import { Service } from '../../types';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
 import FullStackDeveloperGraphic from '../Graphics/Fullstack-Developer';
@@ -57,7 +56,7 @@ export default function Services({ services }: IProps): JSX.Element {
       <div className="grid grid-cols-1 lg:grid-cols-2 w-full justify-items-center items-center ">
         <ul className="max-w-md lg:max-w-2xl">
           {services.map((service) => (
-            <motion.li
+            <li
               key={service.title}
               className={`border-l-8 ${
                 activeService.title === service.title
@@ -69,7 +68,7 @@ export default function Services({ services }: IProps): JSX.Element {
                 {service.title}
               </h3>
               <p className="md:text-lg">{service.copy}</p>
-            </motion.li>
+            </li>
           ))}
         </ul>
         <div className="flex flex-row items-center justify-center h-64 w-64 lg:h-96 lg:w-96">

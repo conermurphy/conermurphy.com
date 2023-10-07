@@ -1,6 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { ICONS, postComponent, viewportSettings } from '../../../../constants';
+import { ICONS } from '../../../../constants';
 import { getHeadingLink } from '../../../../utils/posts';
 import { copyToClipboard, getIcon } from '../../../../utils';
 
@@ -21,11 +20,7 @@ function Link({
 export default function NewsletterCloseout() {
   return (
     <>
-      <motion.h2
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
+      <h2
         className="group relative font-semibold text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-28 capitalize"
         id={getHeadingLink('Enjoyed This Newsletter')}
       >
@@ -36,76 +31,46 @@ export default function NewsletterCloseout() {
         >
           Enjoyed This Newsletter?
         </a>
-      </motion.h2>
-      <motion.p
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
-        className="text-md md:text-base mb-6 leading-relaxed"
-      >
+      </h2>
+      <p className="text-md md:text-base mb-6 leading-relaxed">
         If you have enjoyed this edition and want to see more of my content
         please consider checking out my various socials below:
-      </motion.p>
+      </p>
       <ul className="mb-6 md:mb-8 list-disc pl-4 text-md md:text-base leading-relaxed">
-        <motion.li
-          initial="offscreen"
-          whileInView="onscreen"
-          variants={postComponent}
-          viewport={viewportSettings}
-        >
+        <li>
           <a
             href="https://twitter.com/MrConerMurphy/"
             className="font-semibold underline"
           >
             Twitter
           </a>
-        </motion.li>
-        <motion.li
-          initial="offscreen"
-          whileInView="onscreen"
-          variants={postComponent}
-          viewport={viewportSettings}
-        >
+        </li>
+        <li>
           <a
             href="https://www.youtube.com/channel/UCKbxBnz1xuyGAPMCOZQRdVw"
             className="font-semibold underline"
           >
             YouTube
           </a>
-        </motion.li>
-        <motion.li
-          initial="offscreen"
-          whileInView="onscreen"
-          variants={postComponent}
-          viewport={viewportSettings}
-        >
+        </li>
+        <li>
           <a
             href="https://www.twitch.tv/conermurphy"
             className="font-semibold underline"
           >
             Twitch
           </a>
-        </motion.li>
-        <motion.li
-          initial="offscreen"
-          whileInView="onscreen"
-          variants={postComponent}
-          viewport={viewportSettings}
-        >
+        </li>
+        <li>
           <a
             href="https://www.linkedin.com/in/coner-murphy/"
             className="font-semibold underline"
           >
             LinkedIn
           </a>
-        </motion.li>
+        </li>
       </ul>
-      <motion.h2
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
+      <h2
         className="group relative font-semibold text-2xl md:text-32 mb-2 mt-6 md:mt-16 scroll-mt-28 capitalize"
         id={getHeadingLink('Questions')}
       >
@@ -116,14 +81,8 @@ export default function NewsletterCloseout() {
         >
           Questions
         </a>
-      </motion.h2>
-      <motion.p
-        initial="offscreen"
-        whileInView="onscreen"
-        variants={postComponent}
-        viewport={viewportSettings}
-        className="text-md md:text-base mb-6 leading-relaxed"
-      >
+      </h2>
+      <p className="text-md md:text-base mb-6 leading-relaxed">
         If you have a question you&apos;d like me to ask me then I&apos;d ask
         you to consider publically tweeting me it so others may be able to learn
         from it. However, I understand not all questions are suitable for the
@@ -134,7 +93,7 @@ export default function NewsletterCloseout() {
         >
           hey@conermurphy.com
         </a>
-      </motion.p>
+      </p>
     </>
   );
 }
