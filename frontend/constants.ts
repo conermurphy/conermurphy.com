@@ -199,3 +199,11 @@ export const TOPICS: Topics = {
     icon: ICONS.AWS,
   },
 };
+
+export const NAVIGATION = [
+  { name: 'Blog', href: '/blog' },
+  { name: 'Newsletter', href: '/newsletter' },
+  { name: 'Technical Writing', href: '/technical-writing' },
+  { name: 'Links', href: '/links' },
+  { name: 'Contact', href: '/contact' },
+];

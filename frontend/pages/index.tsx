@@ -3,7 +3,6 @@ import { SEO, HomeHero, Projects, Services, Newsletter } from '../components';
 import { LatestVideo, Post, Project, Service } from '../types';
 import { generateRssFeeds } from '../utils';
 import pageDataSource from '../utils/pageDataSource';
-import LatestNewsletterPosts from '../components/LatestNewsletterPosts';
 import LatestContent from '../components/LatestContent';
 
 interface IProps {
@@ -29,7 +28,7 @@ const Home: NextPage<IProps> = ({
           'Fullstack Web Developer, Content Creator and Indie Hacker.',
       }}
     />
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col gap-24 z-10">
       <HomeHero />
       <Services services={services} />
     </div>
