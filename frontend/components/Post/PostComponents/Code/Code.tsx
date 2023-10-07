@@ -1,24 +1,20 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
-import Highlight, { defaultProps, Language } from 'prism-react-renderer';
-import { motion } from 'framer-motion';
+import { Highlight, Language, Prism } from 'prism-react-renderer';
 import { copyToClipboard, getIcon } from '../../../../utils';
 import { ICONS } from '../../../../constants';
 
-interface CodeBlockProps {
-  children: {
-    props: {
-      children: string;
-      className: string;
-    };
-  };
-}
-
-export default function Code({ children }: CodeBlockProps): JSX.Element {
+export function Code({
+  children,
+  className: codeClassName,
+}: {
+  children: string;
+  className?: string;
+}): JSX.Element {
   const [isCodeCopied, setCodeCopied] = useState(false);
 
   const [language, lines = '[]', fileName, icon]: Language | string[] =
-    children.props.className?.replace(/language-/, '')?.split(':') || '';
+    codeClassName?.replace(/language-/, '')?.split(':') || '';
 
   let highlightedLines: number[] = [];
 
@@ -37,15 +33,10 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
       lines !== undefined ? (JSON.parse(lines) as number[]) : [];
   }
 
-  const code = children.props.children.trim();
+  const code = children.trim() || '';
 
   return (
-    <Highlight
-      Prism={defaultProps.Prism}
-      theme={undefined}
-      code={code}
-      language={language as Language}
-    >
+    <Highlight prism={Prism} code={code} language={language || ''}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <div>
           {fileName ? (
@@ -56,12 +47,12 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
               </div>
             </div>
           ) : null}
-          <div className="relative group mb-6">
+          <div className="relative group mb-6" style={{ color: undefined }}>
             <pre
               className={`${className} ${fileName ? '' : 'my-6 md:my-8'} ${
                 fileName ? 'rounded-b-lg' : 'rounded-lg'
               } text-sm drop-shadow-lg leading-relaxed`}
-              style={{ ...style }}
+              style={{ ...style, backgroundColor: undefined, color: undefined }}
             >
               <code>
                 {tokens.map((line, index) => {
@@ -105,9 +96,8 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
             <span className="absolute top-1.5 right-3 select-none text-background text-xs md:text-sm">
               {language}
             </span>
-            <motion.button
+            <button
               type="button"
-              whileTap={{ scale: 0.8 }}
               className="hidden group-hover:block absolute bottom-3 right-3 bg-background p-1.5 rounded-md"
               onClick={async () => {
                 await copyToClipboard(code);
@@ -121,7 +111,7 @@ export default function Code({ children }: CodeBlockProps): JSX.Element {
               {isCodeCopied
                 ? getIcon({ icon: ICONS.TICK.name, size: '18px' })
                 : getIcon({ icon: ICONS.COPY.name, size: '18px' })}
-            </motion.button>
+            </button>
           </div>
         </div>
       )}
