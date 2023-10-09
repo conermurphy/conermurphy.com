@@ -37,15 +37,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <div
-      className={`${raleway.variable} ${karla.variable} ${inconsolata.variable}`}
+      className={`${raleway.variable} ${karla.variable} ${inconsolata.variable} pb-24 md:pb-48`}
     >
       <Header />
-      <div className="bg-background">
-        <main className="text-text font-body scroll-smooth flex flex-col gap-24 pb-24 md:gap-64 md:pb-64">
-          <Component {...pageProps} />
-          <Footer />
-        </main>
-      </div>
+      <main className="bg-background text-text font-body scroll-smooth flex flex-col gap-24 md:gap-48 pb-24 md:pb-48">
+        <Component {...pageProps} />
+      </main>
+      <Footer />
     </div>
   );
 }

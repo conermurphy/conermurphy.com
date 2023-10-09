@@ -28,13 +28,13 @@ export default function HomeHero() {
             <div className="flex flex-row gap-6 items-center">
               <Link
                 href="/contact"
-                className="font-heading font-bold text-lg border-2 border-solid border-slate-700 py-3 px-4 rounded-lg"
+                className="font-heading font-bold text-lg border-2 border-solid border-text/90 py-3 px-4 rounded-lg"
               >
                 Get In Touch
               </Link>
               <Link
                 href="/blog"
-                className="font-heading font-bold text-lg text-background bg-slate-700 rounded-lg py-3 px-4"
+                className="font-heading font-bold text-lg text-background bg-text/90 rounded-lg py-3 px-4"
               >
                 Latest Posts
               </Link>

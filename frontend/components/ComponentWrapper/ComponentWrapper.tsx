@@ -30,15 +30,13 @@ export default function ComponentWrapper({
           <p className="text-lg md:text-xl text-brand font-heading font-extrabold">
             {tag}
           </p>
-          <div className="flex flex-col items-start gap-1">
-            <h2
-              className="font-heading font-extrabold text-2xl md:text-3xl text-text/90"
-              id={title.replaceAll(' ', '-').toLowerCase()}
-            >
-              {title}
-            </h2>
-            <p className="md:text-lg max-w-md">{description}</p>
-          </div>
+          <h2
+            className="text-3xl font-bold tracking-tight text-text/90 sm:text-4xl"
+            id={title.replaceAll(' ', '-').toLowerCase()}
+          >
+            {title}
+          </h2>
+          <p className="md:text-lg max-w-md text-text/75">{description}</p>
           {link}
         </div>
         {children}

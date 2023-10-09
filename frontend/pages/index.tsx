@@ -28,10 +28,8 @@ const Home: NextPage<IProps> = ({
           'Fullstack Web Developer, Content Creator and Indie Hacker.',
       }}
     />
-    <div className="flex flex-col gap-24 z-10">
-      <HomeHero />
-      <Services services={services} />
-    </div>
+    <HomeHero />
+    <Services services={services} />
     <LatestContent
       latestBlog={latestBlogs[0]}
       latestVideo={latestYouTubeVideo}

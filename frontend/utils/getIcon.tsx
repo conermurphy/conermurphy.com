@@ -15,7 +15,7 @@ import {
   FaLink,
   FaAws,
 } from 'react-icons/fa';
-import { MdCode, MdKeyboard, MdShare } from 'react-icons/md';
+import { MdCode, MdKeyboard, MdOutlineKeyboard, MdShare } from 'react-icons/md';
 import {
   SiGraphql,
   SiJavascript,
@@ -28,6 +28,8 @@ import {
   SiNpm,
   SiNodedotjs,
 } from 'react-icons/si';
+import { HiOutlineComputerDesktop } from 'react-icons/hi2';
+import { LuClapperboard } from 'react-icons/lu';
 import { IoMdClose } from 'react-icons/io';
 import { FiCopy } from 'react-icons/fi';
 import Img from 'next/image';
@@ -334,6 +336,12 @@ export default function getIcon({
           data-testid="aws-icon"
         />
       );
+    case ICONS.FULLSTACK_DEV.name:
+      return <HiOutlineComputerDesktop size={size} color={color} />;
+    case ICONS.TECH_WRITER.name:
+      return <MdOutlineKeyboard size={size} color={color} />;
+    case ICONS.CONTENT_CREATOR.name:
+      return <LuClapperboard size={size} color={color} />;
     default:
       return null;
   }

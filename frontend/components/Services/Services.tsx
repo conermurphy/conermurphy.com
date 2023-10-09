@@ -1,78 +1,54 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import Link from 'next/link';
 import { Service } from '../../types';
 import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
-import FullStackDeveloperGraphic from '../Graphics/Fullstack-Developer';
-import TechWriterGraphic from '../Graphics/Tech-Writer';
-import VideoMakerGraphic from '../Graphics/Video-Maker';
+import { getIcon } from '../../utils';
 
 interface IProps {
   services: Service[];
 }
 
 export default function Services({ services }: IProps): JSX.Element {
-  const [activeService, setActiveService] = useState<Service>(services[0]);
-  const [activeGraphic, setActiveGraphic] = useState<JSX.Element | null>(null);
-
-  useEffect(() => {
-    switch (activeService.title) {
-      case 'Fullstack Developer':
-        setActiveGraphic(<FullStackDeveloperGraphic />);
-        break;
-      case 'Technical Writer':
-        setActiveGraphic(<TechWriterGraphic />);
-        break;
-      case 'Content Creator':
-        setActiveGraphic(<VideoMakerGraphic />);
-        break;
-      default:
-        break;
-    }
-  }, [activeService, services]);
-
-  useEffect(() => {
-    setInterval(() => {
-      const currentServiceIndex = services.findIndex(
-        (service) => service.title === activeService.title
-      );
-
-      const nextServiceIndex =
-        currentServiceIndex + 1 > services.length - 1
-          ? 0
-          : currentServiceIndex + 1;
-
-      setActiveService(services[nextServiceIndex]);
-    }, 5000);
-  }, [services, setActiveService, activeService]);
-
   return (
-    <ComponentWrapper
-      data={{
-        title: 'What I Do',
-        tag: 'About Me',
-        description:
-          "Here's a little bit about what I do and how I can help you.",
-      }}
-    >
-      <div className="grid grid-cols-1 lg:grid-cols-2 w-full justify-items-center items-center ">
-        <ul className="max-w-md lg:max-w-2xl">
-          {services.map((service) => (
-            <li
-              key={service.title}
-              className={`border-l-8 ${
-                activeService.title === service.title
-                  ? 'border-brand'
-                  : 'border-text/10'
-              } p-8 flex flex-col gap-2`}
-            >
-              <h3 className="font-heading font-extrabold text-text/90 text-xl lg:text-2xl">
-                {service.title}
-              </h3>
-              <p className="md:text-lg">{service.copy}</p>
-            </li>
-          ))}
-        </ul>
-        <div className="flex flex-row items-center justify-center h-64 w-64 lg:h-96 lg:w-96">
-          {activeGraphic}
+    <ComponentWrapper>
+      <div className="bg-background">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-16 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            <div className="flex flex-col gap-4">
+              <p className="text-lg md:text-xl text-brand font-heading font-extrabold">
+                About Me
+              </p>
+              <h2 className="text-3xl font-bold tracking-tight text-text/90 sm:text-4xl">
+                How I Can Help You
+              </h2>
+              <p className="mt-1 text-base leading-7 text-text/75">
+                Here are all the services I currently offer but if you require
+                something not listed, please get in touch with me and I&apos;d
+                be happy to have a conversation.
+              </p>
+              <Link
+                className="text-lg md:text-xl text-brand font-heading font-extrabold"
+                href="/contact"
+              >
+                Get In Touch ➡️
+              </Link>
+            </div>
+            <dl className="col-span-2 grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2">
+              {services.map((service) => (
+                <div key={service.name}>
+                  <dt className="text-base font-semibold leading-7 text-text/90">
+                    <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-text/90">
+                      {getIcon({ icon: service.icon, color: 'white' })}
+                    </div>
+                    {service.name}
+                  </dt>
+                  <dd className="mt-1 text-base leading-7 text-text/75">
+                    {service.description}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
       </div>
     </ComponentWrapper>

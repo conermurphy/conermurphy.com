@@ -21,7 +21,7 @@ export default function PageHero({
     <section className="bg-background px-6 py-12 lg:px-8 w-full flex justify-center text-center">
       <div className="flex flex-col items-center max-w-7xl">
         <p className="text-lg font-bold leading-7 text-brand">{tag}</p>
-        <h2 className="mt-2 text-4xl font-bold tracking-tight text-slate-700 sm:text-6xl">
+        <h2 className="mt-2 text-4xl font-bold tracking-tight text-text/90 sm:text-6xl">
           {title}
         </h2>
         <p className="mt-6 text-lg leading-8 text-text-90 max-w-lg">
