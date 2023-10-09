@@ -8,6 +8,9 @@ export const ICONS: Icons = {
   CODE: { name: 'CODE' },
   KEYBOARD: { name: 'KEYBOARD' },
   SOCIALS: { name: 'SOCIALS' },
+  FULLSTACK_DEV: { name: 'FULLSTACK_DEV' },
+  TECH_WRITER: { name: 'TECH_WRITER' },
+  CONTENT_CREATOR: { name: 'CONTENT_CREATOR' },
   TWITTER: { name: 'TWITTER', color: 'rgb(29, 161, 242)' },
   LINKEDIN: { name: 'LINKEDIN', color: 'rgb(0, 119, 181)' },
   EMAIL: { name: 'EMAIL' },
@@ -199,3 +202,11 @@ export const TOPICS: Topics = {
     icon: ICONS.AWS,
   },
 };
+
+export const NAVIGATION = [
+  { name: 'Blog', href: '/blog' },
+  { name: 'Newsletter', href: '/newsletter' },
+  { name: 'Technical Writing', href: '/technical-writing' },
+  { name: 'Links', href: '/links' },
+  { name: 'Contact', href: '/contact' },
+];

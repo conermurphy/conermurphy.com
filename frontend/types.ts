@@ -1,5 +1,7 @@
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { ParsedUrlQuery } from 'querystring';
+import { ReactNode } from 'react';
+import { IconType } from 'react-icons';
 
 export enum THEMES {
   LIGHT = 'LIGHT',
@@ -24,8 +26,9 @@ export type Icons = {
 };
 
 export type Service = {
-  title: string;
-  copy: string;
+  name: string;
+  description: string;
+  icon: string;
 };
 
 export type Project = {

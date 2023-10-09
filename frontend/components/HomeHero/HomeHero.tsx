@@ -1,55 +1,48 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
-export function HomeHeroWrapper({
-  children,
-}: {
-  children: ReactElement;
-}): JSX.Element {
-  return (
-    <section className="relative bg-brand/40 py-6 lg:py-16 overflow-hidden">
-      <div className="w-full flex items-center justify-center">{children}</div>
-      <Image src="/grain.png" alt="" fill priority className="!h-auto" />
-      <div className="absolute bottom-0 left-0 right-0 border-transparent border-x-[50vw] border-y-[10vh] border-b-background border-r-background" />
-    </section>
-  );
-}
+import Socials from '../Socials/Socials';
 
 export default function HomeHero() {
   return (
-    <HomeHeroWrapper>
-      <div className="flex flex-col lg:flex-row justify-between items-center w-full max-w-7xl p-6 gap-8 z-20">
-        <div className="max-w-xl lg:max-w-md flex flex-col gap-6 z-30">
-          <h1 className="text-3xl md:text-5xl">Coner Murphy</h1>
-          <p className="text-lg md:text-xl">
-            Hey 👋, I&apos;m Coner, a full-stack developer, freelancer,
-            technical writer, and content creator from Norwich, UK.
-          </p>
-          <div className="flex flex-row gap-6 items-center">
-            <Link
-              href="/contact"
-              className="font-heading font-extrabold text-lg"
-            >
-              Get In Touch
-            </Link>
-            <Link
-              href="/blog"
-              className="font-heading font-extrabold text-lg text-background bg-brand rounded-lg py-3 px-4"
-            >
-              Latest Posts
-            </Link>
-          </div>
-        </div>
+    <section className="flex flex-col items-center w-full mt-24 z-20">
+      <div className="max-w-sm sm:max-w-7xl flex flex-col w-full items-center justify-center gap-12 px-4">
         <Image
-          src="/me.jpg"
-          width={580}
-          height={580}
+          src="/coner-murphy.jpg"
+          height={120}
+          width={120}
           priority
           alt="Selfie of Coner Murphy with a background of plants and bushes in a garden"
-          className="drop-shadow-2xl rounded-bl-[96px] rounded-tr-[96px]"
+          className="drop-shadow-xl rounded-2xl"
         />
+
+        <div className="flex flex-col max-w-5xl items-center text-center gap-12">
+          <div className="flex flex-col items-center gap-6">
+            <h1 className="text-3xl md:text-4xl">Coner Murphy</h1>
+            <p className="text-lg md:text-xl">
+              I&apos;m Coner, a full-stack developer, content creator, and indie
+              hacker based in Norwich, UK 🇬🇧.
+            </p>
+          </div>
+          <div className="flex flex-col gap-8 items-center">
+            <Socials />
+            <div className="flex flex-row gap-6 items-center">
+              <Link
+                href="/contact"
+                className="font-heading font-bold text-lg border-2 border-solid border-text/90 py-3 px-4 rounded-lg"
+              >
+                Get In Touch
+              </Link>
+              <Link
+                href="/blog"
+                className="font-heading font-bold text-lg text-background bg-text/90 rounded-lg py-3 px-4"
+              >
+                Latest Posts
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
-    </HomeHeroWrapper>
+    </section>
   );
 }

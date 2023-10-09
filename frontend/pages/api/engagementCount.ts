@@ -9,9 +9,9 @@ export default async function EngagementCount(
 ) {
   // 0: If in development, then return and don't query API.
   if (process.env.NODE_ENV !== 'production') {
-    return res
-      .status(400)
-      .json({ message: 'Error, not running in production' });
+    return res.status(200).json({
+      viewCount: 1,
+    });
   }
 
   // 1: Get UUID from request
