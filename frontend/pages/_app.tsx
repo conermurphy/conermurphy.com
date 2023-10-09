@@ -5,11 +5,20 @@ import { Raleway, Karla, Inconsolata } from 'next/font/google';
 import Header from '../components/Header';
 import { Footer } from '../components';
 
-const raleway = Raleway({ subsets: ['latin'], variable: '--raleway-font' });
-const karla = Karla({ subsets: ['latin'], variable: '--karla-font' });
+const raleway = Raleway({
+  subsets: ['latin'],
+  variable: '--raleway-font',
+  display: 'swap',
+});
+const karla = Karla({
+  subsets: ['latin'],
+  variable: '--karla-font',
+  display: 'swap',
+});
 const inconsolata = Inconsolata({
   subsets: ['latin'],
   variable: '--inconsolata-font',
+  display: 'swap',
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
