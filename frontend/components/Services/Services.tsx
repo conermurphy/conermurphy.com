@@ -24,7 +24,7 @@ export default function Services({ services }: IProps): JSX.Element {
               <p className="mt-1 text-base leading-7 text-text/75">
                 Here are all the services I currently offer but if you require
                 something not listed, please get in touch with me and I&apos;d
-                be happy to have a conversation.
+                be happy to have a conversation with you.
               </p>
               <Link
                 className="text-lg md:text-xl text-brand font-heading font-extrabold"
