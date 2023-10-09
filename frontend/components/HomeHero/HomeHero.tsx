@@ -8,9 +8,10 @@ export default function HomeHero() {
     <section className="flex flex-col items-center w-full mt-24 z-20">
       <div className="max-w-sm sm:max-w-7xl flex flex-col w-full items-center justify-center gap-12 px-4">
         <Image
-          src="/me.jpg"
+          src="/coner-murphy.jpg"
           height={120}
           width={120}
+          priority
           alt="Selfie of Coner Murphy with a background of plants and bushes in a garden"
           className="drop-shadow-xl rounded-2xl"
         />
