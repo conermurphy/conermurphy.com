@@ -28,14 +28,14 @@ const Home: NextPage<IProps> = ({
           'Fullstack Web Developer, Content Creator and Indie Hacker.',
       }}
     />
-    <HomeHero />
+    {/* <HomeHero />
     <Services services={services} />
     <LatestContent
       latestBlog={latestBlogs[0]}
       latestVideo={latestYouTubeVideo}
     />
     <Projects projects={projects} />
-    <Newsletter />
+    <Newsletter /> */}
   </>
 );
 
