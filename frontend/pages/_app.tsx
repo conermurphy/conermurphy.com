@@ -2,8 +2,11 @@ import '../styles/globals.css';
 import '../styles/cobalt2.prism.css';
 import type { AppProps } from 'next/app';
 import { Raleway, Karla, Inconsolata } from 'next/font/google';
-import Header from '../components/Header';
+import * as Fathom from 'fathom-client';
+import { useEffect } from 'react';
+import Router from 'next/router';
 import { Footer } from '../components';
+import Header from '../components/Header';
 
 const raleway = Raleway({
   subsets: ['latin'],
@@ -21,7 +24,22 @@ const inconsolata = Inconsolata({
   display: 'swap',
 });
 
+Router.events.on(
+  'routeChangeComplete',
+  (as, routeProps: { shallow: boolean }) => {
+    if (!routeProps.shallow) {
+      Fathom.trackPageview();
+    }
+  }
+);
+
 function MyApp({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    Fathom.load('FBDCDFEY', {
+      includedDomains: ['conermurphy.com, www.conermurphy.com'],
+    });
+  }, []);
+
   return (
     <div
       className={`${raleway.variable} ${karla.variable} ${inconsolata.variable} pb-24 md:pb-48`}
