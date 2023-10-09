@@ -5,7 +5,7 @@ import Socials from '../Socials/Socials';
 
 export default function HomeHero() {
   return (
-    <section className="flex flex-col items-center w-full mt-24 z-20">
+    <section className="flex flex-col items-center w-full mt-24 z-10">
       <div className="max-w-sm sm:max-w-7xl flex flex-col w-full items-center justify-center gap-12 px-4">
         <Image
           src="/coner-murphy.jpg"
