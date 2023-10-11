@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { PostFrontMatter, POSTTYPES } from '../../../types';
+import { TOPICS } from '../../../constants';
 
 interface IProps {
   post: PostFrontMatter;
@@ -40,7 +41,7 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
               key={topic}
               className="relative z-10 rounded-full bg-text/10 px-3 py-1.5 font-medium text-text/90 text-xs"
             >
-              {topic}
+              {TOPICS[topic].name}
             </p>
             // </Link>
           ))}
