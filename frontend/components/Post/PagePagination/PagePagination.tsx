@@ -15,7 +15,7 @@ interface PageNumberProps {
 }
 
 const pageNumberStyles =
-  'flex items-center justify-center w-12 h-12 border-b-4 duration-300 ease-in-out transition-all';
+  'flex items-center justify-center w-12 h-12 border-t-2 duration-300 ease-in-out transition-all';
 
 function PageNumber({
   pageNumber,
@@ -33,10 +33,10 @@ function PageNumber({
         pageNumber === 1 ? `${routeBase}` : `${routeBase}/${pageNumber}`
       }`}
       key={pageNumber}
-      className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
+      className={` ${pageNumberStyles} ${
         activePage
-          ? ' border-b-brand'
-          : ' border-b-text/10 hover:border-b-brand'
+          ? ' border-t-brand'
+          : 'border-t-transparent hover:border-text/25'
       }`}
     >
       {pageNumber}
@@ -75,15 +75,13 @@ export default function PagePagination({
     pageNum > 2 && pageNum < pageCount - 1;
 
   return (
-    <div className="flex flex-row items-center justify-center">
-      <nav className="flex flex-row items-center justify-center md:max-w-7xl px-6 pt-6 w-full text-sm md:text-lg lg:px-12 2xl:px-0 gap-6 md:gap-24">
+    <div className="flex flex-row items-center justify-center font-heading text-lg font-medium text-text/50">
+      <nav className="grid grid-cols-6 border-t border-gray-200 px-4 sm:px-0 max-w-7xl w-full">
         <div className="flex flex-row">
           <Link
             href={`${routeBase}`}
-            className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
-              hasPrevLink
-                ? 'border-b-text/10 hover:border-b-brand'
-                : 'border-b-text/10 text-text/10 line-through'
+            className={`border-t-transparent  ${pageNumberStyles} ${
+              hasPrevLink ? ' hover:border-text/25' : ' line-through'
             }`}
             aria-disabled={!hasPrevLink}
           >
@@ -91,17 +89,15 @@ export default function PagePagination({
           </Link>
           <Link
             href={prevLink}
-            className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
-              hasPrevLink
-                ? 'border-b-text/10 hover:border-b-brand'
-                : 'border-b-text/10 text-text/10 line-through'
+            className={`border-t-transparent  ${pageNumberStyles} ${
+              hasPrevLink ? ' hover:border-text/25' : ' line-through'
             }`}
             aria-disabled={!hasPrevLink}
           >
             <span>{'<'}</span>
           </Link>
         </div>
-        <div className="hidden flex-row md:flex">
+        <div className="hidden flex-row md:flex col-span-4 justify-center">
           {pageCount <= 5 ? (
             pageNumbers.map((num) => (
               <PageNumber
@@ -124,10 +120,10 @@ export default function PagePagination({
                 />
               ))}
               <span
-                className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
+                className={`font-medium  ${pageNumberStyles} ${
                   showEllipse(currentPage)
-                    ? 'border-b-brand'
-                    : 'border-b-text/10'
+                    ? 'border-t-brand'
+                    : 'border-t-transparent'
                 }`}
                 data-testid="pagination-ellipses"
               >
@@ -145,37 +141,34 @@ export default function PagePagination({
             </>
           )}
         </div>
-        <p className="block md:hidden text-sm">
-          Page{' '}
-          <span className="font-semibold">
-            {currentPage === 0 ? currentPage + 1 : currentPage}
-          </span>{' '}
-          of <span className="font-semibold">{pageCount}</span>
+        <p className="block md:hidden col-span-4 place-self-center text-text/75">
+          Page <span>{currentPage === 0 ? currentPage + 1 : currentPage}</span>{' '}
+          of <span>{pageCount}</span>
         </p>
 
-        <div className="flex flex-row">
-          <Link
-            href={nextLink}
-            className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
-              hasNextLink
-                ? 'border-b-text/10 hover:border-b-brand'
-                : 'border-b-text/10 text-text/10 line-through'
-            }`}
-            aria-disabled={!hasNextLink}
-          >
-            <span>{'>'}</span>
-          </Link>
-          <Link
-            href={`${routeBase}/${pageCount}`}
-            className={`text-base font-extrabold text-text/50 ${pageNumberStyles} ${
-              hasNextLink
-                ? 'border-b-text/10 hover:border-b-brand'
-                : 'border-b-text/10 text-text/10 line-through'
-            }`}
-            aria-disabled={!hasNextLink}
-          >
-            <span>{'>>'}</span>
-          </Link>
+        <div className="col-start-6 flex flex-row justify-end">
+          {hasNextLink ? (
+            <>
+              <Link
+                href={nextLink}
+                className={`border-t-transparent  ${pageNumberStyles} ${
+                  hasNextLink ? ' hover:border-text/25' : ' line-through'
+                }`}
+                aria-disabled={!hasNextLink}
+              >
+                <span>{'>'}</span>
+              </Link>
+              <Link
+                href={`${routeBase}/${pageCount}`}
+                className={`border-t-transparent  ${pageNumberStyles} ${
+                  hasNextLink ? ' hover:border-text/25' : ' line-through'
+                }`}
+                aria-disabled={!hasNextLink}
+              >
+                <span>{'>>'}</span>
+              </Link>
+            </>
+          ) : null}
         </div>
       </nav>
     </div>
