@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { PostFrontMatter, POSTTYPES } from '../../../types';
+import { TOPICS } from '../../../constants';
 
 interface IProps {
   post: PostFrontMatter;
@@ -8,7 +9,7 @@ interface IProps {
 }
 
 export default function PostCard({ post, postType }: IProps): JSX.Element {
-  const { title, date, slug, description } = post;
+  const { title, date, slug, description, topics } = post;
 
   const wrappedTitle = title.replace(
     /`(.*?)`/g,
@@ -24,30 +25,50 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
   });
 
   return (
-    <article className="contents">
-      <Link
-        href={!isTechnicalWriting ? `/${postType}/${slug}` : post.canonical_url}
-      >
-        <div className="flex flex-col gap-y-4 p-8 break-words border-text/10 hover:border-brand border-l-8 max-w-lg h-full justify-center duration-300 ease-in-out transition-all">
-          <time
-            className="text-brand font-heading font-extrabold text-lg"
-            dateTime={date}
-          >
-            {postsDateUI}
-          </time>
-
-          <div className="flex flex-col gap-2">
-            <h3
-              className="text-lg md:text-xl lg:text-2xl font-heading text-text/90"
-              dangerouslySetInnerHTML={{ __html: wrappedTitle }}
-            />
-            <p>{description}</p>
-          </div>
-          <p className="text-brand font-heading font-extrabold text-lg">
-            Read More ➡️
-          </p>
+    <article className="flex max-w-xl flex-col items-start justify-between">
+      <div className="flex items-center gap-x-4">
+        <time dateTime={date} className="text-text/90 text-sm">
+          {postsDateUI}
+        </time>
+        <div className="flex flex-row gap-2">
+          {topics.map((topic) => (
+            // <Link
+            //   key={topic}
+            //   href={`/${postType}/${topic.toLowerCase()}`}
+            //   className="relative z-10 rounded-full bg-text/10 px-3 py-1.5 font-medium text-text/90 hover:bg-brand/50 text-xs"
+            // >
+            <p
+              key={topic}
+              className="relative z-10 rounded-full bg-text/10 px-3 py-1.5 font-medium text-text/90 text-xs"
+            >
+              {TOPICS[topic].name}
+            </p>
+            // </Link>
+          ))}
         </div>
-      </Link>
+      </div>
+      <div className="group flex flex-col gap-4">
+        <h3 className="mt-3 text-lg font-semibold leading-6 text-text group-hover:opacity-75">
+          <Link
+            href={
+              !isTechnicalWriting ? `/${postType}/${slug}` : post.canonical_url
+            }
+            dangerouslySetInnerHTML={{ __html: wrappedTitle }}
+          />
+        </h3>
+        <p className="mt-2 line-clamp-3 text-sm leading-6 text-gray-600">
+          {description}
+        </p>
+        <Link
+          href={
+            !isTechnicalWriting ? `/${postType}/${slug}` : post.canonical_url
+          }
+        >
+          <p className="text-brand font-body font-normal hover:font-bold text-base ease-in-out transition-all">
+            Read More
+          </p>
+        </Link>
+      </div>
     </article>
   );
 }
