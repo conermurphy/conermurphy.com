@@ -36,7 +36,7 @@ const projects: Project[] = [
       "Getting married is an organisational nightmare so as a web developer I decided to make mine and my fiancée's life a bit easier by building a custom application for guests to manage their details through.",
     url: 'https://murphy.wedding',
     image: '/images/projects/murphy-wedding.png',
-    technologies: ['TAILWINDCSS', 'NEXTJS', 'PRISMA', 'PLANETSCALE'],
+    technologies: ['TAILWINDCSS', 'NEXTJS', 'AWS'],
   },
 ];
 
