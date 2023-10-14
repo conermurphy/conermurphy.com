@@ -35,7 +35,7 @@ export default function LatestPost({
         link:
           postType === POSTTYPES.BLOG ? (
             <Link
-              href="/posts"
+              href="/blog"
               className="text-lg md:text-xl text-brand font-heading font-extrabold"
             >
               View All Posts
@@ -62,7 +62,7 @@ export default function LatestPost({
             width={video.snippet.thumbnails.medium.width}
             height={video.snippet.thumbnails.medium.height}
             src={video.snippet.thumbnails.medium.url}
-            alt=""
+            alt={video.snippet.title}
           />
           <p className="text-text text-lg">{video.snippet.title}</p>
         </a>

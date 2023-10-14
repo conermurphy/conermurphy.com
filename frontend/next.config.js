@@ -183,12 +183,12 @@ const nextConfig = {
       },
       {
         source: '/blog/web-development',
-        destination: '/blog?q=development',
+        destination: '/blog',
         permanent: true,
       },
       {
         source: '/notes/javascript',
-        destination: '/blog?q=javascript',
+        destination: '/blog',
         permanent: true,
       },
       {

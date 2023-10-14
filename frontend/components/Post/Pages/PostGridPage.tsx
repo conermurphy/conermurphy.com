@@ -23,6 +23,11 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
   const urlSearchParams = useSearchParams();
   const pageName = toUpper(postType.replaceAll('-', ' '));
 
+  const canonicalUrl =
+    pageNumber === 0
+      ? postType.toLowerCase()
+      : `${postType.toLowerCase()}/${pageNumber}`;
+
   return (
     <>
       <SEO
@@ -36,7 +41,7 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
           !filterItem && pageNumber ? `- Page ${pageNumber}` : ''
         }`}
         metaDescription={metaDescription}
-        url={postType}
+        url={canonicalUrl}
         metaImage={{
           title: `${title} ${pageNumber ? `| Page ${pageNumber}` : ''}`,
           description: metaDescription,
