@@ -90,6 +90,7 @@ const Links: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => {
           description:
             'Here are all the places you can find me online and get in touch with me.',
         }}
+        url="links"
       />
       <ComponentWrapper
         data={{
@@ -97,6 +98,7 @@ const Links: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => {
           tag: 'Links',
           description:
             "Here's everywhere you can find me online and get in touch with me.",
+          level: 1,
         }}
       >
         <div className="flex flex-row items-center justify-center">

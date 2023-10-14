@@ -170,9 +170,15 @@ const components = (
     </ol>
   ),
   img: ({ src, alt }: ImageProps): JSX.Element => (
-    <p className="relative w-full h-64 sm:h-96">
-      <Img src={src} alt={alt || ''} fill className="rounded-lg" />
-    </p>
+    <div className="relative w-full h-64 sm:h-96">
+      <Img
+        src={src}
+        alt={alt || ''}
+        fill
+        className="rounded-lg"
+        objectFit="contain"
+      />
+    </div>
   ),
   table: ({ children }: IProps): JSX.Element => (
     <table className="table-auto my-6 md:my-8 w-full">{children}</table>

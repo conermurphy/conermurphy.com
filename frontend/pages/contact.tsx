@@ -20,6 +20,7 @@ const Contact: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => (
         description:
           "Got a question you want to ask? Or, want to team up on an upcoming project? Here's how to get in touch with me.",
       }}
+      url="contact"
     />
     <div className="flex flex-col gap-12 md:gap-24">
       <PageHero

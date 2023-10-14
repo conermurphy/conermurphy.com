@@ -8,15 +8,18 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
     tag?: string;
     description?: string;
     link?: ReactElement;
+    level?: number;
   };
 }
 
 export default function ComponentWrapper({
-  data: { title = '', tag = '', description = '', link } = {},
+  data: { title = '', tag = '', description = '', link, level = 2 } = {},
   children,
   direction = 'column',
   ...props
 }: IProps): JSX.Element {
+  const HeaderTag = `h${level}` as keyof JSX.IntrinsicElements;
+
   return (
     <div className="flex flex-col items-center justify-center p-6" {...props}>
       <section
@@ -30,12 +33,13 @@ export default function ComponentWrapper({
           <p className="text-lg md:text-xl text-brand font-heading font-extrabold">
             {tag}
           </p>
-          <h2
+          <HeaderTag
             className="text-3xl font-bold tracking-tight text-text/90 sm:text-4xl"
             id={title.replaceAll(' ', '-').toLowerCase()}
           >
             {title}
-          </h2>
+          </HeaderTag>
+
           <p className="md:text-lg max-w-md text-text/75">{description}</p>
           {link}
         </div>
