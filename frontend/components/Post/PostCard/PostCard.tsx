@@ -30,7 +30,7 @@ export default function PostCard({ post, postType }: IProps): JSX.Element {
         <time dateTime={date} className="text-text/90 text-sm">
           {postsDateUI}
         </time>
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row flex-wrap gap-2">
           {topics.map((topic) => (
             // <Link
             //   key={topic}
