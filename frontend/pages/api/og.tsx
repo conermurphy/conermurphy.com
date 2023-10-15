@@ -53,7 +53,7 @@ export default async function handler(req: NextRequest) {
         <div tw="bg-[#FFFDF5] flex h-full flex-col w-full justify-between rounded-md overflow-hidden">
           <div tw="flex flex-col justify-between h-full p-12">
             <img
-              src={`${server}/me.jpg`}
+              src={`${server}/coner-murphy.jpg`}
               alt="Self portrait of Coner Murphy"
               height={100}
               tw="rounded-xl overflow-hidden"
