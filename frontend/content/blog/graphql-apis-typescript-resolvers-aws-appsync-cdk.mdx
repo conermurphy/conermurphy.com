@@ -1,0 +1,476 @@
+---
+UUID: "e5c9387d-b10b-40c3-ae11-94585c8c81d0"
+title: "Building GraphQL APIs With TypeScript Resolvers Using AWS AppSync and CDK"
+description: "Learn to create powerful and scalable GraphQL APIs using AWS AppSync with TypeScript resolvers via the AWS CDK."
+date: "2023-10-19"
+topics: ["AWS", "APPSYNC", "DYNAMODB"]
+slug: graphql-apis-typescript-resolvers-aws-appsync-cdk
+image:
+published: true
+canonical_url: ""
+imageLink:
+---
+
+In a [previous post we took a look at building a GraphQL API using the AWS CDK](https://conermurphy.com/blog/graphql-api-guide-aws-appsync-dynamodb-aws-cdk), in that post we looked at using VTL to define the resolvers used to process requests to and responses from the API. However, using VTL added an extra hurdle to deploying a GraphQL API via the AWS CDK because it meant learning and becoming comfortable with an entirely new language.
+
+However, there is a solution to this, we can use the [JavaScript resolvers](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-reference-overview-js.html) that are supported by AWS AppSync, meaning our resolvers and CDK stack will all be written in the same language.
+
+So, in this tutorial, we’re going to take a look at how we can build a GraphQL API for fetching and creating blog posts from an AWS DynamoDB database using AWS AppSync and the AWS CDK as well as using TypeScript to write our resolvers for the API.
+
+## Prerequisites
+
+To get started with this tutorial, you’ll of course need an AWS CDK project so make sure to create a new one using `cdk init app --language typescript` if you don’t already have one. Then once your CDK project is set up, we’re ready to get started building!
+
+## Creating a DynamoDB Database
+
+The first thing we’re going to do is create a new DynamoDB database, to do this, add the below code to your stack definition file (`./lib/*-stack.ts`).
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// 1. Create a new DynamoDB table
+const table = new Table(this, 'posts-db', {
+  tableName: 'graphql-posts-db',
+  partitionKey: { name: 'id', type: AttributeType.STRING },
+  removalPolicy: RemovalPolicy.DESTROY,
+});
+```
+
+In this code, we define a new DynamoDB table with the name `graphql-posts-db`, we also add a partition key of `id` and set the database to be destroyed when we destroy the CDK stack.
+
+## Defining an AppSync GraphQL API
+
+With our DynamoDB database now configured and ready to go, let’s turn our attention to the AppSync GraphQL API. To create this, we’re going to add the below code under the code we just added for DynamoDB.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...DynamoDB definition
+
+// 2. Create an AppSync GraphQL API
+const api = new GraphqlApi(this, 'graphql-api', {
+  name: 'graphql-api',
+  schema: SchemaFile.fromAsset('./graphql/schema.graphql'),
+  authorizationConfig: {
+    defaultAuthorization: {
+      authorizationType: AuthorizationType.API_KEY,
+      apiKeyConfig: {
+        expires: Expiration.after(Duration.days(365)),
+      },
+    },
+  },
+});
+```
+
+With this code, we generate a new GraphQL API with the name `graphql-api` and point it to our GraphQL schema (we’ll create this in the next step), then finally we configure our API to use an API key for authorisation.
+
+### Adding a GraphQL Schema
+
+With our GraphQL API now defined, let’s take a look at creating the GraphQL Schema file we linked to the API. To do this, create a new folder in the root of the project called `graphql` and then inside that directory create a new file called `schema.graphql`. Inside that file, add the below code.
+
+```graphql:[]:./graphql/schema.graphql:GRAPHQL
+type Post {
+  id: ID!
+  title: String!
+  description: String!
+  author: String!
+  publicationDate: String!
+}
+
+type Query {
+  getPost(id: ID!): Post
+  getAllPosts: [Post]
+}
+
+type Mutation {
+  createPost(input: CreatePostInput!): Post
+  deletePost(id: ID!): ID
+}
+
+input CreatePostInput {
+  id: ID
+  title: String!
+  description: String!
+  author: String!
+  publicationDate: String!
+}
+```
+
+In our schema, we define the two queries we’ll be using (`getPost` and `getAllPosts`) as well as the two mutations we’ll be using (`createPost` and `deletePost`). We also define the input `CreatePostInput` which is what users of our API will need to provide to create a new post using the `createPost` mutation.
+
+### Linking the Database and GraphQL API
+
+Finally, with our GraphQL API and schema defined, we can link it to our database by adding the below code to our stack definition file under our GraphQL API definition from earlier.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...GraphQL API definition
+
+// 3. Link the GraphQL API with the DynamoDB table
+const dataSource = api.addDynamoDbDataSource('post-db-source', table);
+```
+
+## Generating TypeScript Types From a GraphQL Schema
+
+With our GraphQL API, all set up and configured, it’s almost time for us to write our TypeScript resolvers. But, before we can do this, we need to generate the TypeScript types that we’ll use in the resolvers to type the requests and responses being processed.
+
+Because GraphQL is fully typed via its schema we’re able to generate TypeScript types from it automatically. To do this, we’re going to use the packages `@graphql-codegen/cli`, `@graphql-codegen/typescript`, and `@graphql-codegen/typescript-resolvers` which we can install our project by running `npm install -D @graphql-codegen/cli @graphql-codegen/typescript @graphql-codegen/typescript-resolvers`.
+
+With those packages installed, create a new file called `.graphqlconfig.yml` inside the `graphql` directory alongside our `schema.graphql` file from earlier. Then inside that file, add the below code.
+
+```yaml:[]:./graphql/.graphqlconfig.yml:YAML
+schema: "./schema.graphql"
+generates:
+  ./types/graphql.ts:
+    plugins:
+      - typescript
+```
+
+With this config file, we point the `graphql-codegen` command we’re going to run in a moment to our schema file as well as configure the output file (`./types/graphql.ts`) which will contain all of our generated TypeScript types for us.
+
+Now with the configuration file setup and packages installed, make sure you’re in the `graphql` directory in your terminal and then run the command `npx graphql-codegen --config .graphqlconfig.yml`. Once this command finishes all of your types should be created and available in `./types/graphql.ts`.
+
+## Creating the TypeScript AppSync Resolvers
+
+With the TypeScript types for our GraphQL schema generated, we’re ready to start writing our TypeScript resolvers for our GraphQL API. But, first, we need to install a few more NPM packages to help with this which we can do with the command `npm i -D esbuild glob @aws-appsync/utils`.
+
+### Create
+
+With those packages installed, let’s create our TypeScript resolvers. First of all, create a new directory inside our `graphql` directory called `ts-resolvers` and then inside that directory create a new file called `create-post.ts`. This will be the resolver for our `createPost` mutation and handle any requests sent to the mutation as well as the responses being sent back. Inside our resolver file, add the below code.
+
+```ts:[]:./graphql/ts-resolvers/create-post.ts:TYPESCRIPT
+import { put } from "@aws-appsync/utils/dynamodb";
+import { Context, util } from "@aws-appsync/utils";
+import { MutationCreatePostArgs, Post } from "../types/graphql";
+
+export function request(ctx: Context<MutationCreatePostArgs>) {
+  return put({
+    key: { id: util.autoId() },
+    item: ctx.args.input,
+  });
+}
+
+export function response(ctx: Context) {
+  return ctx.result as Post;
+}
+```
+
+In this file, we export two functions (`request` and `response`) which both handle the action they’re named after. In the `request` function, we call the `put` function from the `@aws-appsync/utils/dynamodb` package which allows us to create new items in our database using the data passed to it from the user’s request which we access via the `ctx` prop. Then in the `response` function, we return the data created in the database from the request.
+
+We then just need to repeat this process for the remaining queries and mutations in our API so we have one resolver file for each of the queries and mutations. Below is the code required for the three remaining resolvers for our API.
+
+### Delete
+
+```ts:[]:./graphql/ts-resolvers/delete-post.ts:TYPESCRIPT
+import { remove } from "@aws-appsync/utils/dynamodb";
+import { Context } from "@aws-appsync/utils";
+import { MutationDeletePostArgs, Post } from "../types/graphql";
+
+export function request(ctx: Context<MutationDeletePostArgs>) {
+  return remove({
+    key: { id: ctx.args.id },
+  });
+}
+
+export function response(ctx: Context) {
+  const result = ctx.result as Post;
+
+  return result.id;
+}
+```
+
+### Get One
+
+```ts:[]:./graphql/ts-resolvers/get-one-post.ts:TYPESCRIPT
+import { get } from "@aws-appsync/utils/dynamodb";
+import { Context } from "@aws-appsync/utils";
+import { Post, QueryGetPostArgs } from "../types/graphql";
+
+export function request(ctx: Context<QueryGetPostArgs>) {
+  return get({
+    key: { id: ctx.args.id },
+  });
+}
+
+export function response(ctx: Context) {
+  return ctx.result as Post;
+}
+```
+
+### Get All
+
+```ts:[]:./graphql/ts-resolvers/get-all-posts.ts:TYPESCRIPT
+import { scan } from "@aws-appsync/utils/dynamodb";
+import { Context } from "@aws-appsync/utils";
+import { Post } from "../types/graphql";
+
+export function request() {
+  return scan({});
+}
+
+export function response(ctx: Context) {
+  const { items } = ctx.result as { items: Post[] };
+
+  return items;
+}
+```
+
+### Building Our TypeScript Resolvers to JavaScript
+
+With the TypeScript resolvers for our GraphQL API written we’ve almost finished with building our API but there is one problem left that we need to overcome. That problem is that AppSync can’t process TypeScript, it can only process JavaScript so if we provide it a TypeScript file as the resolver code it’ll error and not work.
+
+But, there is an easy solution to this, we can build out our TypeScript to JavaScript before we deploy our CDK stack, this is why we installed `esbuild` and `glob` earlier on. To set this up, create a new file in the root of your CDK project called `build.mjs` and add the below code to it.
+
+```js:[]:./build.mjs:JAVASCRIPT
+import { build } from "esbuild";
+import { glob } from "glob";
+
+const files = await glob("graphql/ts-resolvers/**/*.ts");
+
+await build({
+  sourcemap: "inline",
+  sourcesContent: false,
+  format: "esm",
+  target: "esnext",
+  platform: "node",
+  external: ["@aws-appsync/utils"],
+  outdir: "graphql/js-resolvers",
+  entryPoints: files,
+  bundle: true,
+});
+```
+
+This code will build out all of the TypeScript files in our `ts-resolvers` directory to JavaScript files in a new directory called `js-resolvers`, we can check this works smoothly by running `node build.mjs` in the root of the project. And, now with these JavaScript files generated, we can point our resolver definitions to them and everything will run smoothly!
+
+But, before we do that, let’s make a small quality-of-life improvement and add a new `predeploy` step to our `package.json` so we don’t need to remember to run our build file each time manually before deploying. To add this script, add the below line of code to your `scripts` object in your `package.json` file.
+
+```json:[]:./package.json
+{
+  "scripts": {
+    "predeploy": "node build.mjs"
+  }
+}
+```
+
+## Connecting the Resolvers to Our GraphQL API
+
+With our resolvers now written and building out to JavaScript, let’s connect them to our GraphQL API by creating a resolver resource for each one on the data source we created earlier when we connected DynamoDB to our GraphQL API. Below is the code you’ll need to add to your stack definition file for all of the resolvers.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...data source definition
+
+// 4. Defining our AppSync Resolvers
+dataSource.createResolver("getOnePostResolver", {
+  typeName: "Query",
+  fieldName: "getPost",
+  runtime: FunctionRuntime.JS_1_0_0,
+  code: Code.fromAsset(
+    path.join(__dirname, "../graphql/js-resolvers/get-one-post.js")
+  ),
+});
+
+dataSource.createResolver("getAllPostsResolver", {
+  typeName: "Query",
+  fieldName: "getAllPosts",
+  runtime: FunctionRuntime.JS_1_0_0,
+  code: Code.fromAsset(
+    path.join(__dirname, "../graphql/js-resolvers/get-all-posts.js")
+  ),
+});
+
+dataSource.createResolver("createPostResolver", {
+  typeName: "Mutation",
+  fieldName: "createPost",
+  runtime: FunctionRuntime.JS_1_0_0,
+  code: Code.fromAsset(
+    path.join(__dirname, "../graphql/js-resolvers/create-post.js")
+  ),
+});
+
+dataSource.createResolver("deletePostResolver", {
+  typeName: "Mutation",
+  fieldName: "deletePost",
+  runtime: FunctionRuntime.JS_1_0_0,
+  code: Code.fromAsset(
+    path.join(__dirname, "../graphql/js-resolvers/delete-post.js")
+  ),
+});
+```
+
+The most important thing to note in these definitions is the `typeName` property changing based on whether the resolver is for a query or mutation as well as the `fieldName` property which is the action being performed in the API. Finally, we pass the generated JavaScript resolver files to the `code` property.
+
+## Deployment
+
+And, now we’ve finished defining all of the services and resources we’ll need to create our GraphQL API with TypeScript resolvers. But, before we deploy our resources, let’s add a couple of outputs for our API URL and API key so we’re able to easily test our new API.
+
+To add these outputs, add the below code under the resolvers code we just added in the last step in our stack definition file.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...resolvers code
+
+// Misc. Outputs
+new CfnOutput(this, "api-key-output", {
+  value: api.apiKey || "",
+});
+
+new CfnOutput(this, "api-url", {
+  value: api.graphqlUrl || "",
+});
+```
+
+Now, we can deploy our stack by running `npm run deploy` and accepting any prompts given to us. Once the stack has finished deploying you should have your API URL and API key in your terminal in a format like the below.
+
+```
+Outputs:
+<STACK_NAME>.apikeyoutput = <API_KEY>
+<STACK_NAME>.apiurl = <API_URL>
+```
+
+## Testing Our API in Postman
+
+With our API now deployed, let’s make sure it works correctly by testing each of the queries and mutations we’ve defined on our API which we’ll do by performing requests from [Postman](https://www.postman.com/).
+
+To use Postman to perform these tests, we’re going to create a new request using the GraphQL option and then provide the URL returned to us from the deploy command a moment ago. We’re now set up to run the various tests we want to perform.
+
+### Unauthorised Response
+
+The first test we’re going to perform is to make sure the API responds with the correct response when we don’t pass in an API key header to our request. So to do this, send an empty request with no query or headers to your API URL and you should see a response like the one below with a status code of `401`.
+
+```json
+{
+  "errors": [
+    {
+      "errorType": "UnauthorizedException",
+      "message": "You are not authorized to make this call."
+    }
+  ]
+}
+```
+
+Now we know our API authentication works correctly, let’s add our API key header to the request by creating a new entry on the “Headers” page in Postman with a key of `x-api-key` and a value of the API key given to you from the deploy command. With that configured, let’s start testing our queries and mutations to ensure they all return `200` status codes and with the correct data.
+
+### Creating a Post
+
+The first test we’re going to perform is creating a new post, to do this, add the below code to the “Query” tab in Postman.
+
+```graphql
+mutation CreatePost {
+  createPost(
+    input: {
+      title: "Example Post"
+      author: "Myself"
+      description: "Some Description"
+      publicationDate: "today"
+    }
+  ) {
+    id
+  }
+}
+```
+
+After pushing the “Query” button you should then have a response that looks like the one below (with a unique ID value).
+
+```json
+{
+  "data": {
+    "createPost": {
+      "id": "POST_ID"
+    }
+  }
+}
+```
+
+### Getting All Posts
+
+Now we have a post in our database, let’s test our `getAllPosts` query by switching out the code in our “Query” tab on Postman with the below code and running the query again.
+
+```graphql
+query GetAllPosts {
+  getAllPosts {
+    id
+    title
+    description
+    author
+    publicationDate
+  }
+}
+```
+
+You should then see a response like the one below containing an array of all of the posts in your database.
+
+```json
+{
+  "data": {
+    "getAllPosts": [
+      {
+        "id": "POST_ID",
+        "title": "Example Post",
+        "description": "Some Description",
+        "author": "Myself",
+        "publicationDate": "today"
+      }
+    ]
+  }
+}
+```
+
+### Get a Single Post
+
+Let’s now test our ability to fetch a single post by running our `getPost` query by updating our “Query” tab on Postman to use the below code. Don’t forget to update the `POST_ID` value to be equal to the ID you got from the `createPost` mutation earlier.
+
+```graphql
+query GetPost {
+  getPost(id: "POST_ID") {
+    id
+    title
+    description
+    author
+    publicationDate
+  }
+}
+```
+
+Once that query is run, you should see a response that looks like the below but with your ID value in.
+
+```json
+{
+  "data": {
+    "getPost": {
+      "id": "POST_ID",
+      "title": "Example Post",
+      "description": "Some Description",
+      "author": "Myself",
+      "publicationDate": "today"
+    }
+  }
+}
+```
+
+### Deleting a Post
+
+Finally, the last mutation we need to test is the `deletePost` mutation so let’s test that by updating our “Query” page one last time to use the code below. Again, don’t forget to update the `POST_ID` value to be equal to the ID you got from the `createPost` mutation earlier.
+
+```graphql
+mutation DeletePost {
+  deletePost(id: "POST_ID")
+}
+```
+
+Once that query is run, you should see a response like below.
+
+```json
+{
+  "data": {
+    "deletePost": "POST_ID"
+  }
+}
+```
+
+If you wanted to you could also validate the post has been deleted by rerunning the `getAllPosts` query from earlier to check the item has indeed been removed from the database.
+
+And, now, if you’ve received the same response statuses and bodies as shown above then congrats your GraphQL API works perfectly! And with that, we’ve now reached the end of the tutorial so let’s recap what we’ve covered.
+
+## Closing Thoughts
+
+In this post, we’ve looked at how we can create a GraphQL API using AWS AppSync and TypeScript resolvers via the AWS CDK. If you’d like to see the full example code for this project, [you can see it over on my GitHub](https://github.com/conermurphy/cdk-tutorials/tree/main/graphql-api-typescript-resolvers). And, if you’d like to [read more about the benefits of GraphQL or how to create a GraphQL API using VTL resolvers in AWS AppSync, make sure to check out my previous post.](https://conermurphy.com/blog/graphql-api-guide-aws-appsync-dynamodb-aws-cdk)
+
+I hope you found this tutorial helpful. If you did please consider sharing it with others who might find it helpful as well.
+
+Thank you for reading
+
+Coner
