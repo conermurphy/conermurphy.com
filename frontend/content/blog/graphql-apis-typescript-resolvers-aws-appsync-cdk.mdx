@@ -46,7 +46,9 @@ With our DynamoDB database now configured and ready to go, let’s turn our atte
 // 2. Create an AppSync GraphQL API
 const api = new GraphqlApi(this, 'graphql-api', {
   name: 'graphql-api',
-  schema: SchemaFile.fromAsset('./graphql/schema.graphql'),
+  definition: Definition.fromFile(
+    path.join(__dirname, '../graphql/schema.graphql')
+  ),
   authorizationConfig: {
     defaultAuthorization: {
       authorizationType: AuthorizationType.API_KEY,
@@ -109,21 +111,20 @@ const dataSource = api.addDynamoDbDataSource('post-db-source', table);
 
 With our GraphQL API, all set up and configured, it’s almost time for us to write our TypeScript resolvers. But, before we can do this, we need to generate the TypeScript types that we’ll use in the resolvers to type the requests and responses being processed.
 
-Because GraphQL is fully typed via its schema we’re able to generate TypeScript types from it automatically. To do this, we’re going to use the packages `@graphql-codegen/cli`, `@graphql-codegen/typescript`, and `@graphql-codegen/typescript-resolvers` which we can install our project by running `npm install -D @graphql-codegen/cli @graphql-codegen/typescript @graphql-codegen/typescript-resolvers`.
+Because GraphQL is fully typed via its schema we’re able to generate TypeScript types from it automatically. We can do this by running `npx @aws-amplify/cli codegen add` in our `graphql` directory. This helpful command from AWS Amplify will generate us our GraphQL types, queries and mutations. After running the command you’ll be prompted with a bunch of questions, here are the answers you’ll need for them.
 
-With those packages installed, create a new file called `.graphqlconfig.yml` inside the `graphql` directory alongside our `schema.graphql` file from earlier. Then inside that file, add the below code.
-
-```yaml:[]:./graphql/.graphqlconfig.yml:YAML
-schema: "./schema.graphql"
-generates:
-  ./types/graphql.ts:
-    plugins:
-      - typescript
+```
+? Choose the type of app that you're building - javascript
+? What javascript framework are you using - none
+? Choose the code generation language target - typescript
+? Enter the file name pattern of graphql queries, mutations and subscriptions - types/*.ts
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions - Yes
+? Enter maximum statement depth [increase from default if your schema is deeply nested] - 2
+? Enter the file name for the generated code - types/graphql.ts
+? Do you want to generate code for your newly created GraphQL API - Yes
 ```
 
-With this config file, we point the `graphql-codegen` command we’re going to run in a moment to our schema file as well as configure the output file (`./types/graphql.ts`) which will contain all of our generated TypeScript types for us.
-
-Now with the configuration file setup and packages installed, make sure you’re in the `graphql` directory in your terminal and then run the command `npx graphql-codegen --config .graphqlconfig.yml`. Once this command finishes all of your types should be created and available in `./types/graphql.ts`.
+Once this command has finished, you should now have all of queries, mutations, and most importantly types generated from your GraphQL API available inside a new `types` directory inside the `graphql` directory. You’ll also notice that a new `.graphqlconfig.yml` was generated, this file is just the configuration used to generate the types in case we need to re-generate the types which we can do at any point by running `npx @aws-amplify/cli codegen`.
 
 ## Creating the TypeScript AppSync Resolvers
 
@@ -134,11 +135,11 @@ With the TypeScript types for our GraphQL schema generated, we’re ready to sta
 With those packages installed, let’s create our TypeScript resolvers. First of all, create a new directory inside our `graphql` directory called `ts-resolvers` and then inside that directory create a new file called `create-post.ts`. This will be the resolver for our `createPost` mutation and handle any requests sent to the mutation as well as the responses being sent back. Inside our resolver file, add the below code.
 
 ```ts:[]:./graphql/ts-resolvers/create-post.ts:TYPESCRIPT
-import { put } from "@aws-appsync/utils/dynamodb";
-import { Context, util } from "@aws-appsync/utils";
-import { MutationCreatePostArgs, Post } from "../types/graphql";
+import { put } from '@aws-appsync/utils/dynamodb';
+import { Context, util } from '@aws-appsync/utils';
+import { CreatePostMutationVariables, Post } from '../types/graphql';
 
-export function request(ctx: Context<MutationCreatePostArgs>) {
+export function request(ctx: Context<CreatePostMutationVariables>) {
   return put({
     key: { id: util.autoId() },
     item: ctx.args.input,
@@ -157,11 +158,11 @@ We then just need to repeat this process for the remaining queries and mutations
 ### Delete
 
 ```ts:[]:./graphql/ts-resolvers/delete-post.ts:TYPESCRIPT
-import { remove } from "@aws-appsync/utils/dynamodb";
-import { Context } from "@aws-appsync/utils";
-import { MutationDeletePostArgs, Post } from "../types/graphql";
+import { remove } from '@aws-appsync/utils/dynamodb';
+import { Context } from '@aws-appsync/utils';
+import { DeletePostMutationVariables, Post } from '../types/graphql';
 
-export function request(ctx: Context<MutationDeletePostArgs>) {
+export function request(ctx: Context<DeletePostMutationVariables>) {
   return remove({
     key: { id: ctx.args.id },
   });
@@ -177,11 +178,11 @@ export function response(ctx: Context) {
 ### Get One
 
 ```ts:[]:./graphql/ts-resolvers/get-one-post.ts:TYPESCRIPT
-import { get } from "@aws-appsync/utils/dynamodb";
-import { Context } from "@aws-appsync/utils";
-import { Post, QueryGetPostArgs } from "../types/graphql";
+import { get } from '@aws-appsync/utils/dynamodb';
+import { Context } from '@aws-appsync/utils';
+import { Post, GetPostQueryVariables } from '../types/graphql';
 
-export function request(ctx: Context<QueryGetPostArgs>) {
+export function request(ctx: Context<GetPostQueryVariables>) {
   return get({
     key: { id: ctx.args.id },
   });
@@ -195,9 +196,9 @@ export function response(ctx: Context) {
 ### Get All
 
 ```ts:[]:./graphql/ts-resolvers/get-all-posts.ts:TYPESCRIPT
-import { scan } from "@aws-appsync/utils/dynamodb";
-import { Context } from "@aws-appsync/utils";
-import { Post } from "../types/graphql";
+import { scan } from '@aws-appsync/utils/dynamodb';
+import { Context } from '@aws-appsync/utils';
+import { Post } from '../types/graphql';
 
 export function request() {
   return scan({});
