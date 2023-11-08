@@ -1,0 +1,204 @@
+---
+UUID: "28d2bad8-f42e-42d9-91e3-36c838f43e56"
+title: "Throttling API Keys in an API Gateway REST API using Usage Plans"
+description: "Learn about API throttling on AWS API Gateway and how to implement it using usage plans and API keys with an example REST API deployed via the AWS CDK."
+date: "2023-11-08"
+topics: ["AWS", "LAMBDA", "API-GATEWAY"]
+slug: api-gateway-usage-plans-api-key-throttling
+image:
+published: true
+canonical_url: ""
+imageLink: ""
+---
+
+When building an API for a production application, something you need to consider is request rate limiting and throttling. This is for a few reasons but most notably, you want to prevent abuse of the API by potentially malicious users trying to overload your API by sending an excessive number of requests.
+
+So, in this tutorial, we’re going to take a look at how we can implement and test a basic REST API request throttling implementation using rate limiting in AWS API Gateway, deployed via the AWS CDK!
+
+## Types of API Gateway Throttling Limits
+
+Before we jump into the code, we first need to understand the types of request throttling limits that are available to us in API Gateway. There are four of them in total, let’s take a look at each of them below.
+
+- **AWS throttling:** these limits are implemented by AWS and we have no control over them. They’re designed to prevent your API and your account from being overwhelmed by too many requests.
+- **Per-account:** these limits are applied to all APIs in an account in a given region. You’re given a limit by default but these can be increased upon request to AWS although they can’t exceed the AWS throttling limits mentioned above.
+- **Per-API, per-stage:** these limits are applied at the API method level for a given stage. It’s also possible to configure different limits for different methods if you wish but once again they can’t exceed the AWS throttling limits.
+- **Per-client:** these limits are applied to individual API keys that are associated with a usage plan and they can’t exceed the per-account limit above. (_This is the limit we’ll be looking at in this post.)_
+
+Now, that we know about the four types of limits that are applied to our requests in API gateway, let’s take a look at the order they are applied to our requests. The first limit to be applied is our per-client/per-method limit which is set for an API stage with a usage plan. Then it applies any per-method limits set to an API stage and then it’s our account level limit and finally the AWS limit.
+
+Finally, if you would like to [read more about the types of throttling limits, you can do so on the AWS API Gateway documentation.](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-request-throttling.html)
+
+## Rate Limit vs Burst Limit
+
+With the different types of throttling limits available on AWS covered, there is one more concept we need to cover before we can start building our example project. That is rate limit vs burst limit, these are the two types of limits we can configure in API Gateway but they do slightly different things so let’s take a look at each of them below.
+
+- **Rate Limit** represents the number of requests allowed over a specific period (per second)
+- **Burst Limit** represents the maximum number of requests that can be concurrently fulfilled by API gateway.
+
+To better understand this, let’s take a look at an example. You might have a rate limit of 20 requests and a burst limit of 10 requests. This means that if you sent 20 requests to your API at the exact same moment, only 10 of the requests would be fulfilled (due to the burst limit), the other 10 would be throttled and would be returned a `429 Too Many Requests` response indicating they’ve hit the limit.
+
+Then as soon as those first 10 requests have been fulfilled, you would be able to retry the remaining 10 requests as there would then be capacity within the burst limit to allow those requests.
+
+## Creating a Basic REST API
+
+Now we know more about API request throttling with API Gateway let’s build an example REST API that implements request throttling using both rate limits and burst limits. Now, I won’t be going into too much depth on building the REST API but if you’re interested in this, [I have a complete guide on building a REST API and testing it using the AWS CDK.](https://conermurphy.com/blog/build-rest-api-aws-cdk-api-gateway-lambda-dynamodb-api-key-authentication)
+
+To define the REST API, add the below code to your stack definition file.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...imports and class definition
+
+// 1. Create our API Gateway
+const api = new RestApi(this, "REST_API", {
+  restApiName: "REST API",
+  defaultCorsPreflightOptions: {
+    allowOrigins: Cors.ALL_ORIGINS,
+    allowMethods: Cors.ALL_METHODS,
+  },
+  apiKeySourceType: ApiKeySourceType.HEADER,
+});
+
+// 2. Create our API Key
+const apiKey = new ApiKey(this, "API_KEY");
+
+// 3. Create a usage plan and add the API key to it
+const usagePlan = new UsagePlan(this, "USAGE_PLAN", {
+  name: "Usage Plan",
+  apiStages: [
+    {
+      api,
+      stage: api.deploymentStage,
+    },
+  ],
+});
+
+usagePlan.addApiKey(apiKey);
+
+// 4. Create our Lambda functions to handle requests
+const postsLambda = new NodejsFunction(this, "LAMBDA", {
+  entry: "resources/posts.ts",
+  handler: "handler",
+});
+
+// 5. Connect our Lambda functions to our API Gateway endpoints
+const postsIntegration = new LambdaIntegration(postsLambda);
+
+// 6. Define our API Gateway methods
+api.root.addMethod("GET", postsIntegration, {
+  apiKeyRequired: true,
+});
+
+// Misc: Outputs
+new CfnOutput(this, "API Key ID", {
+  value: apiKey.keyId,
+});
+```
+
+And, then to finish off our REST API we just need to create the Lambda function we call when requests come into the API. To do this, create a new file at `./resources/posts.ts` and add the below code to it.
+
+```ts:[]:./resources/posts.ts:TYPESCRIPT
+export const handler = async () => {
+  try {
+    return {
+      statusCode: 200,
+      body: JSON.stringify([
+        {
+          id: "1",
+          title: "My first blog post",
+          content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        },
+        {
+          id: "2",
+          title: "My second blog post",
+          content:
+            "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        },
+      ]),
+    };
+  } catch (error) {
+    console.log(error);
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: error }),
+    };
+  }
+};
+```
+
+For our Lambda function, we have some very simple code where we just return some mock data to the requester to simulate retrieving data from a database. And, now, with our API and Lambda configured, let’s move on to implementing the request throttling into our API definition.
+
+## Configuring Usage Plan Throttling
+
+If we remember back to the start of the post where we covered the four types of throttling limits available on AWS, I mentioned that we’d be looking at the “per-client” **\*\***option. This method of throttling works by limiting the number of requests an API key associated with a usage plan can perform.
+
+So, to implement this throttling limit we need to take a look at our usage plan definition from earlier and more importantly we need to add the `throttle` property to it. This `throttle` property allows us to define the `burstLimit` and the `rateLimit` for our usage plan as well as any API keys that are associated with it.
+
+Here is the updated version of our usage plan definition with the `throttle` property added in and configured.
+
+```ts:[10-13]:./lib/*-stack.ts:TYPESCRIPT
+const usagePlan = new UsagePlan(this, "USAGE_PLAN", {
+  name: "Usage Plan",
+  apiStages: [
+    {
+      api,
+      stage: api.deploymentStage,
+    },
+  ],
+  // NOTE: Throttling is purposefully set low to allow for easier testing of the rate limit
+  throttle: {
+    rateLimit: 2,
+    burstLimit: 1,
+  },
+});
+```
+
+You’ll notice that the limits I’ve defined are quite low but this is just for testing to allow us to hit the rate limit sooner. In reality, you’d likely want this limit to be higher so you don’t accidentally throttle people who have legitimate use cases.
+
+And, that’s it we’ve now implemented API key throttling in an API gateway REST API so let’s now deploy our API using `cdk deploy` and then test it in the next section.
+
+## Testing our API Key Throttling
+
+After your API has finished deploying to AWS, you should have two outputs in the terminal, one is the URL for our REST API and the other is the ID of our new API key. However, before we can test our API we need to fetch our API key’s value from its ID.
+
+To do this, we can use the command `aws apigateway get-api-key --api-key API_KEY_ID --include-value` and switch out `API_KEY_ID` for the ID we were given in the terminal output. Then after running this command, we should be shown our API key value which we can copy and use in a moment.
+
+When it comes to actually testing our API rate limiting you could use a tool like Postman and send multiple requests as fast as you can but in practice it’s unlikely you’ll be able to hit the rate limit as Postman will wait for the response before letting you send a request again.
+
+So, what we need is a custom script to send multiple requests at once, below is one I’ve written to do just that. To use it, create a new file in the root of the project called `rate-limit-test.ts` and then add the code below.
+
+```ts:[]:./rate-limit-test.ts:TYPESCRIPT
+async function rateLimit() {
+  const API_URL = "API_URL";
+  const API_KEY = "API_KEY";
+
+  while (true) {
+    const res = await fetch(API_URL, {
+      headers: {
+        "x-api-key": API_KEY,
+      },
+    });
+
+    console.log(res.status);
+
+    if (res.status === 429) {
+      console.log("Rate limit exceeded");
+      break;
+    }
+  }
+}
+
+rateLimit();
+```
+
+After creating the file, update the `API_URL` and `API_KEY` variables with their respective values from earlier and then in the terminal run the command `npx ts-node rate-limit-test.ts` from the same directory as the file.
+
+Then in your terminal, you should see a few `200` status code responses before then seeing a `429` and the message `Rate limit exceeded`. If this is what you see in your terminal then congrats your API key has been successfully throttled and everything is working as expected.
+
+## Closing Thoughts
+
+So to recap, in this post, we’ve looked at the different types of throttling and rate limiting available on an AWS API Gateway REST API as well as how to implement it into an example REST API deployed using the AWS CDK.
+
+I hope you found this tutorial helpful and if you’d like to [see the full example project’s code, you can see it on GitHub here](https://github.com/conermurphy/cdk-tutorials/tree/main/rest-api-api-key-throttling). And if you’d like to [read more about throttling on AWS here is the official documentation for it](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-request-throttling.html). Finally, if you want to learn more about [creating REST APIs with AWS and testing them, check out my full tutorial here.](https://conermurphy.com/blog/build-rest-api-aws-cdk-api-gateway-lambda-dynamodb-api-key-authentication)
+
+Thank you for reading.
