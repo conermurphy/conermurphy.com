@@ -27,7 +27,7 @@ export default async function pageDataSource({
   latestYouTubeVideo = false,
 }: IProps): Promise<ReturnType> {
   const blogPosts =
-    latestBlogs && (await getAllPosts({ limit: 1, postType: POSTTYPES.BLOG }));
+    latestBlogs && (await getAllPosts({ limit: 2, postType: POSTTYPES.BLOG }));
 
   const newsletterPosts =
     latestNewsletters &&

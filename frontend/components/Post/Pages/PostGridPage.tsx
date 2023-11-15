@@ -67,7 +67,7 @@ const PostGridPage: NextPage<PostGridPageProps> = ({
         </div>
       </div>
       <LatestContent
-        latestBlog={latestPosts[0]}
+        latestBlogs={latestPosts}
         latestVideo={latestYouTubeVideo}
       />
     </>

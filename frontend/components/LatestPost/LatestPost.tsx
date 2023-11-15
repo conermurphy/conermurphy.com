@@ -7,18 +7,18 @@ import ComponentWrapper from '../ComponentWrapper/ComponentWrapper';
 
 type IProps =
   | {
-      post: Post;
+      posts: Post[];
       video?: never;
       postType: POSTTYPES.BLOG;
     }
   | {
       video: LatestVideo['items'][0];
-      post?: never;
+      posts?: never;
       postType: POSTTYPES.VIDEO;
     };
 
 export default function LatestPost({
-  post,
+  posts,
   postType,
   video,
 }: IProps): JSX.Element {
@@ -26,7 +26,7 @@ export default function LatestPost({
     <ComponentWrapper
       data={{
         title:
-          postType === POSTTYPES.VIDEO ? 'Latest Video' : 'Latest Blog Post',
+          postType === POSTTYPES.VIDEO ? 'Latest Video' : 'Latest Blog Posts',
         tag: 'Content',
         description:
           postType === POSTTYPES.VIDEO
@@ -50,9 +50,15 @@ export default function LatestPost({
           ),
       }}
     >
-      {postType === POSTTYPES.BLOG ? (
-        <PostCard post={post.data} postType={postType} />
-      ) : null}
+      {postType === POSTTYPES.BLOG
+        ? posts.map((post) => (
+            <PostCard
+              post={post.data}
+              postType={postType}
+              key={post.data.UUID}
+            />
+          ))
+        : null}
       {postType === POSTTYPES.VIDEO && video ? (
         <a
           href={`https://www.youtube.com/watch?v=${video.id}`}

@@ -59,10 +59,7 @@ const Contact: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => (
         </div>
       </div>
     </div>
-    <LatestContent
-      latestBlog={latestBlogs[0]}
-      latestVideo={latestYouTubeVideo}
-    />
+    <LatestContent latestBlogs={latestBlogs} latestVideo={latestYouTubeVideo} />
     <Newsletter />
   </>
 );

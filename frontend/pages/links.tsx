@@ -133,7 +133,7 @@ const Links: NextPage<IProps> = ({ latestBlogs, latestYouTubeVideo }) => {
         </div>
       </ComponentWrapper>
       <LatestContent
-        latestBlog={latestBlogs[0]}
+        latestBlogs={latestBlogs}
         latestVideo={latestYouTubeVideo}
       />
     </>

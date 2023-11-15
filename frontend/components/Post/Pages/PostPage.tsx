@@ -79,7 +79,7 @@ const PostPage: NextPage<PostPageProps> = ({
         </article>
       </div>
       <LatestContent
-        latestBlog={latestPosts[0]}
+        latestBlogs={latestPosts}
         latestVideo={latestYouTubeVideo}
       />
       <Newsletter />

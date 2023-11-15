@@ -30,10 +30,7 @@ const Home: NextPage<IProps> = ({
     />
     <HomeHero />
     <Services services={services} />
-    <LatestContent
-      latestBlog={latestBlogs[0]}
-      latestVideo={latestYouTubeVideo}
-    />
+    <LatestContent latestBlogs={latestBlogs} latestVideo={latestYouTubeVideo} />
     <Projects projects={projects} />
     <Newsletter />
   </>
