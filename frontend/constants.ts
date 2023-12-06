@@ -171,6 +171,11 @@ export const TOPICS: Topics = {
     link: 'api-gateway',
     icon: ICONS.AWS,
   },
+  WAF: {
+    name: 'WAF',
+    link: 'waf',
+    icon: ICONS.AWS,
+  },
   IAM: {
     name: 'IAM',
     link: 'iam',
