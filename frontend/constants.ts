@@ -206,6 +206,11 @@ export const TOPICS: Topics = {
     link: 'bedrock',
     icon: ICONS.AWS,
   },
+  FARGATE: {
+    name: 'Fargate',
+    link: 'fargate',
+    icon: ICONS.AWS,
+  },
   'ROUTE-53': {
     name: 'Route 53',
     link: 'route-53',
