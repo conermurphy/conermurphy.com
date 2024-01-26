@@ -327,6 +327,17 @@ export default function getIcon({
           />
         </div>
       );
+    case ICONS.SST.name:
+      return (
+        <div className="relative" style={{ width: size, height: size }}>
+          <Img
+            src="/images/companies/sst.svg"
+            fill
+            alt="SST logo"
+            aria-label="SST logo"
+          />
+        </div>
+      );
     case ICONS.AWS.name:
       return (
         <FaAws
