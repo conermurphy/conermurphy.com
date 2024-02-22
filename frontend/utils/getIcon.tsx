@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 import {
   FaTwitter,
   FaLinkedin,
@@ -15,8 +15,8 @@ import {
   FaLink,
   FaAws,
   FaDocker,
-} from "react-icons/fa";
-import { MdCode, MdKeyboard, MdOutlineKeyboard, MdShare } from "react-icons/md";
+} from 'react-icons/fa';
+import { MdCode, MdKeyboard, MdOutlineKeyboard, MdShare } from 'react-icons/md';
 import {
   SiGraphql,
   SiJavascript,
@@ -28,13 +28,13 @@ import {
   SiPrisma,
   SiNpm,
   SiNodedotjs,
-} from "react-icons/si";
-import { HiOutlineComputerDesktop } from "react-icons/hi2";
-import { LuClapperboard } from "react-icons/lu";
-import { IoMdClose } from "react-icons/io";
-import { FiCopy } from "react-icons/fi";
-import Img from "next/image";
-import { ICONS } from "../constants";
+} from 'react-icons/si';
+import { HiOutlineComputerDesktop } from 'react-icons/hi2';
+import { LuClapperboard } from 'react-icons/lu';
+import { IoMdClose } from 'react-icons/io';
+import { FiCopy } from 'react-icons/fi';
+import Img from 'next/image';
+import { ICONS } from '../constants';
 
 interface IProps {
   icon: string;
@@ -45,7 +45,7 @@ interface IProps {
 
 export default function getIcon({
   icon,
-  size = "24px",
+  size = '24px',
   color,
   disableHoverAnimation = false,
 }: IProps): ReactNode {
@@ -174,7 +174,7 @@ export default function getIcon({
           color={color}
           aria-label="Envelope icon"
           data-testid="socials-icon"
-          className={`${!disableHoverAnimation ? "hover:text-accent" : ""}`}
+          className={`${!disableHoverAnimation ? 'hover:text-accent' : ''}`}
         />
       );
     case ICONS.FACEBOOK.name:
