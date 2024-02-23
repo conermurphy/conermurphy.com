@@ -35,6 +35,7 @@ export const ICONS: Icons = {
   NODEJS: { name: 'NODEJS', color: '#215732' },
   AWS: { name: 'AWS', color: '#ec7211' },
   SST: { name: 'SST', color: '#e27152' },
+  DOCKER: { name: 'DOCKER', color: '#1D63ED' },
 };
 
 export const TOPICS: Topics = {
@@ -210,6 +211,11 @@ export const TOPICS: Topics = {
   FARGATE: {
     name: 'Fargate',
     link: 'fargate',
+    icon: ICONS.AWS,
+  },
+  ECS: {
+    name: 'ECS',
+    link: 'ecs',
     icon: ICONS.AWS,
   },
   'ROUTE-53': {

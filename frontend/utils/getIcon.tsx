@@ -14,6 +14,7 @@ import {
   FaMoon,
   FaLink,
   FaAws,
+  FaDocker,
 } from 'react-icons/fa';
 import { MdCode, MdKeyboard, MdOutlineKeyboard, MdShare } from 'react-icons/md';
 import {
@@ -345,6 +346,15 @@ export default function getIcon({
           color={ICONS.AWS.color}
           aria-label="AWS logo"
           data-testid="aws-icon"
+        />
+      );
+    case ICONS.DOCKER.name:
+      return (
+        <FaDocker
+          size={size}
+          color={ICONS.DOCKER.color}
+          aria-label="Docker logo"
+          data-testid="docker-icon"
         />
       );
     case ICONS.FULLSTACK_DEV.name:
