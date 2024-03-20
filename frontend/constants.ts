@@ -31,6 +31,7 @@ export const ICONS: Icons = {
   CSS: { name: 'CSS' },
   PRISMA: { name: 'PRISMA' },
   PLANETSCALE: { name: 'PLANETSCALE' },
+  CLERK: { name: 'CLERK' },
   NPM: { name: 'NPM', color: '#cb0000' },
   NODEJS: { name: 'NODEJS', color: '#215732' },
   AWS: { name: 'AWS', color: '#ec7211' },
@@ -101,6 +102,11 @@ export const TOPICS: Topics = {
     name: 'TailwindCSS',
     link: 'tailwindcss',
     icon: ICONS.TAILWINDCSS,
+  },
+  CLERK: {
+    name: 'Clerk',
+    link: 'clerk',
+    icon: ICONS.CLERK,
   },
   REACTJS: {
     name: 'ReactJS',
