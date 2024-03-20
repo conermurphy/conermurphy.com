@@ -328,6 +328,17 @@ export default function getIcon({
           />
         </div>
       );
+    case ICONS.CLERK.name:
+      return (
+        <div className="relative" style={{ width: size, height: size }}>
+          <Img
+            src="/images/companies/clerk.svg"
+            fill
+            alt="Clerk logo"
+            aria-label="Clerk logo"
+          />
+        </div>
+      );
     case ICONS.SST.name:
       return (
         <div className="relative" style={{ width: size, height: size }}>
