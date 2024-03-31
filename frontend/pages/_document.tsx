@@ -1,5 +1,5 @@
-import Document, { Head, Html, Main, NextScript } from 'next/document';
-import React from 'react';
+import Document, { Head, Html, Main, NextScript } from "next/document";
+import React from "react";
 
 export default class MyDocument extends Document {
   render() {
@@ -9,6 +9,12 @@ export default class MyDocument extends Document {
           <link rel="shortcut icon" href="/favicon.png" sizes="any" />
           <link rel="apple-touch-icon" href="/favicon.png" />
           <link rel="manifest" href="/manifest.webmanifest" />
+          <link
+            rel="alternate"
+            type="application/rss+xml"
+            title="Blog feed"
+            href="/blog/rss"
+          />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="application-name" content="Coner Murphy" />
