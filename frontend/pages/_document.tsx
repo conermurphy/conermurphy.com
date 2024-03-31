@@ -1,5 +1,5 @@
-import Document, { Head, Html, Main, NextScript } from "next/document";
-import React from "react";
+import Document, { Head, Html, Main, NextScript } from 'next/document';
+import React from 'react';
 
 export default class MyDocument extends Document {
   render() {
@@ -12,7 +12,7 @@ export default class MyDocument extends Document {
           <link
             rel="alternate"
             type="application/rss+xml"
-            title="Blog feed"
+            title="RSS blog feed for conermurphy.com"
             href="/blog/rss"
           />
           <meta name="mobile-web-app-capable" content="yes" />
