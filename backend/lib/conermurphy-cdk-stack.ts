@@ -1,11 +1,12 @@
 import * as cdk from 'aws-cdk-lib';
+import { CfnOutput } from 'aws-cdk-lib';
 import {
   BillingMode,
   StreamViewType,
   AttributeType,
   Table,
 } from 'aws-cdk-lib/aws-dynamodb';
-import { EmailIdentity, Identity } from 'aws-cdk-lib/aws-ses';
+import { DkimIdentity, EmailIdentity, Identity } from 'aws-cdk-lib/aws-ses';
 import { StackConfig } from './types';
 
 type ExtendedStackProps = cdk.StackProps & {
@@ -17,7 +18,16 @@ export class ConermurphyWebsiteCdkStack extends cdk.Stack {
     super(scope, id, props);
 
     const verifiedEmail = props?.config.EMAIL_ADDRESS || '';
+    const domain = props?.config.DOMAIN || '';
+
+    const domainIdentity = Identity.domain(domain);
     const identity = Identity.email(verifiedEmail);
+
+    new EmailIdentity(this, 'DomainIdentity', {
+      identity: domainIdentity,
+      dkimSigning: true,
+    });
+
     new EmailIdentity(this, 'SESIdentity', {
       identity,
     });
