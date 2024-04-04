@@ -1,12 +1,11 @@
 import * as cdk from 'aws-cdk-lib';
-import { CfnOutput } from 'aws-cdk-lib';
 import {
   BillingMode,
   StreamViewType,
   AttributeType,
   Table,
 } from 'aws-cdk-lib/aws-dynamodb';
-import { DkimIdentity, EmailIdentity, Identity } from 'aws-cdk-lib/aws-ses';
+import { EmailIdentity, Identity } from 'aws-cdk-lib/aws-ses';
 import { StackConfig } from './types';
 
 type ExtendedStackProps = cdk.StackProps & {
