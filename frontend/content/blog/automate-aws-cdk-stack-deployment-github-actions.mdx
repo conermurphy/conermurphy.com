@@ -99,7 +99,7 @@ jobs:
         run: cdk deploy --all --require-approval never
 ```
 
-In this workflow, we install the AWS CDK along with the dependencies of our repository before using the `[aws-actions/configure-aws-credentials](https://github.com/aws-actions/configure-aws-credentials)` action to configure our AWS credentials and region using the secrets we just created.
+In this workflow, we install the AWS CDK along with the dependencies of our repository before using the [`aws-actions/configure-aws-credentials`](https://github.com/aws-actions/configure-aws-credentials) action to configure our AWS credentials and region using the secrets we just created.
 
 > **Note:** make sure to update `“YOUR_AWS_REGION”` to the AWS region you’d like to deploy to such as `"eu-west-1"`
 
