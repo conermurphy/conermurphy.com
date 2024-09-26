@@ -20,6 +20,9 @@ There are many reasons for this but some of the more important ones are.
 
 So, in this post, I’m going to walk through how we can configure GitHub Actions to deploy an AWS stack for us.
 
+This is not a wholesale solution for automating the process of deploying a new project.
+In particular, you need to have run `cdk bootstrap` earlier in order to be able to run `cdk deploy`.
+
 ## Configuring IAM
 
 To get started with deploying a CDK stack from GitHub Actions we first need to create a new IAM user using a custom policy. To do this head over to IAM in your AWS Dashboard and then click on “Policies” on the left-hand sidebar, followed by “Create Policy” and then switch to the JSON editor and paste in the below policy statement.
