@@ -1,4 +1,7 @@
 ---
+import '@fontsource/arvo'
+import '@fontsource-variable/syne'
+
 import BaseHead from '../components/BaseHead.astro'
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
 
@@ -11,7 +14,7 @@ const { title, description } = Astro.props
 ---
 
 <!doctype html>
-<html lang="en" class="bg-darkest scroll-smooth">
+<html lang="en" class="scroll-smooth bg-darkest">
   <head>
     <BaseHead
       title={title ? `${title} | ${SITE_TITLE}` : SITE_TITLE}
@@ -25,7 +28,7 @@ const { title, description } = Astro.props
       defer
       is:inline></script>
   </head>
-  <body>
+  <body class="bg-darkest font-body text-light">
     <slot />
   </body>
 </html>

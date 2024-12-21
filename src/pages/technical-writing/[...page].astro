@@ -4,7 +4,7 @@ import Header from '../../components/Header.astro'
 import Footer from '../../components/Footer.astro'
 import Layout from '../../layouts/Layout.astro'
 import { getCollection } from 'astro:content'
-import FormattedDate from '../../components/FormattedDate.astro'
+import PostCard from '../../components/PostCard.astro'
 
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = (await getCollection('technicalWriting')).sort(
@@ -19,23 +19,36 @@ const { page } = Astro.props
 
 <Layout title="Technical Writing">
   <Header />
-  <main>
-    <section>
-      <ul>
+
+  <main class="space-y-24 py-24 sm:space-y-40 sm:py-32">
+    <div class="mx-auto max-w-5xl space-y-32 px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl lg:mx-0">
+        <h1
+          class="mt-2 text-5xl font-semibold tracking-tight text-light sm:text-7xl"
+        >
+          Technical Writing
+        </h1>
+        <p class="mt-8 text-pretty text-lg text-mid sm:text-xl/8">
+          Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem
+          cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.
+        </p>
+      </div>
+
+      <section class="grid grid-cols-1 gap-x-16 gap-y-20 md:grid-cols-2">
         {
           page.data.map((post) => (
-            <li>
-              <a href={post.data.url}>
-                <h4 class="title">{post.data.title}</h4>
-                <p class="date">
-                  <FormattedDate date={post.data.date} />
-                </p>
-              </a>
-            </li>
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              url={post.data.url}
+              tags={[post.data.client]}
+            />
           ))
         }
-      </ul>
-    </section>
+      </section>
+    </div>
   </main>
+
   <Footer />
 </Layout>

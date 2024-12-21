@@ -1,63 +1,146 @@
 ---
-import BaseHead from '../components/BaseHead.astro'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
+import Layout from '../layouts/Layout.astro'
+import { SITE_TITLE } from '../consts'
+import { Image } from 'astro:assets'
+import Logo from '../images/logo.svg'
+import { getCollection } from 'astro:content'
+import PostCard from '../components/PostCard.astro'
+
+const projects = await getCollection('projects')
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 4)
+const techWritingPosts = (await getCollection('technicalWriting'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 4)
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-  </head>
-  <body>
-    <Header />
-    <main>
-      <h1>🧑‍🚀 Hello, Astronaut!</h1>
-      <p>
-        Welcome to the official <a href="https://astro.build/">Astro</a> blog starter
-        template. This template serves as a lightweight, minimally-styled starting
-        point for anyone looking to build a personal website, blog, or portfolio
-        with Astro.
-      </p>
-      <p>
-        This template comes with a few integrations already configured in your
-        <code>astro.config.mjs</code> file. You can customize your setup with
-        <a href="https://astro.build/integrations">Astro Integrations</a> to add
-        tools like Tailwind, React, or Vue to your project.
-      </p>
-      <p>Here are a few ideas on how to get started with the template:</p>
-      <ul>
-        <li>Edit this page in <code>src/pages/index.astro</code></li>
-        <li>
-          Edit the site header items in <code>src/components/Header.astro</code>
-        </li>
-        <li>
-          Add your name to the footer in <code
-            >src/components/Footer.astro</code>
-        </li>
-        <li>
-          Check out the included blog posts in <code>src/content/blog/</code>
-        </li>
-        <li>
-          Customize the blog post page layout in <code
-            >src/layouts/BlogPost.astro</code>
-        </li>
-      </ul>
-      <p>
-        Have fun! If you get stuck, remember to <a
-          href="https://docs.astro.build/"
-          >read the docs
-        </a> or <a href="https://astro.build/chat">join us on Discord</a> to ask
-        questions.
-      </p>
-      <p>
-        Looking for a blog template with a bit more personality? Check out <a
-          href="https://github.com/Charca/astro-blog-template"
-          >astro-blog-template
-        </a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-      </p>
-    </main>
-    <Footer />
-  </body>
-</html>
+<Layout>
+  <Header />
+
+  <main class="space-y-24 py-24 sm:space-y-40 sm:py-32">
+    <div class="mx-auto max-w-5xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl lg:mx-0">
+        <a href="/" class="-m-1.5 p-1.5">
+          <span class="sr-only">{SITE_TITLE}</span>
+          <Image class="h-8 w-auto" src={Logo} alt="" />
+        </a>
+        <h1
+          class="mt-2 text-5xl font-semibold tracking-tight text-light sm:text-7xl"
+        >
+          Coner Murphy
+        </h1>
+        <p class="mt-8 text-pretty text-lg text-mid sm:text-xl/8">
+          Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem
+          cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.
+        </p>
+      </div>
+    </div>
+
+    <div class="mx-auto max-w-5xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl lg:mx-0">
+        <h2 class="w-max border-b-2 border-brand text-3xl sm:text-5xl">
+          Projects
+        </h2>
+      </div>
+      <section
+        class="grid w-full grid-cols-1 gap-x-16 gap-y-10 py-12 md:grid-cols-2 md:gap-y-20"
+      >
+        {
+          projects.map(({ data: project }) => (
+            <div class="group relative rounded-lg border border-mid px-3 py-4 transition-colors duration-150 ease-in-out hover:border-brand">
+              <a class="flex h-full flex-col gap-y-2" href={project.url}>
+                <h3 class="text-2xl transition-colors duration-150 ease-in-out group-hover:text-brand">
+                  {project.name}
+                </h3>
+                <p class="flex-grow">{project.description}</p>
+                <div class="mt-2 flex w-max gap-x-2 border-t border-dashed border-t-light pt-2">
+                  {project.tech.map((tech) => (
+                    <p>{tech}</p>
+                  ))}
+                </div>
+              </a>
+
+              {project.github_url ? (
+                <a
+                  href={project.github_url}
+                  class="absolute right-5 top-0 transition-colors duration-150 ease-in-out hover:text-brand"
+                >
+                  <span class="sr-only">GitHub</span>
+                  <svg
+                    class="size-6"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </a>
+              ) : null}
+            </div>
+          ))
+        }
+      </section>
+    </div>
+
+    <div class="mx-auto max-w-5xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl lg:mx-0">
+        <h2 class="w-max border-b-2 border-brand text-3xl sm:text-5xl">Blog</h2>
+      </div>
+      <section
+        class="grid w-full grid-cols-1 gap-x-16 gap-y-20 py-12 md:grid-cols-2"
+      >
+        {
+          posts.map(({ data: post }) => (
+            <PostCard
+              title={post.title}
+              description={post.description}
+              date={post.date}
+              url={`/blog/${post.slug}/`}
+            />
+          ))
+        }
+      </section>
+      <a
+        href="/blog"
+        class="border-t-2 border-dashed border-t-light pt-2 font-bold text-brand"
+        >View all blog posts...</a
+      >
+    </div>
+
+    <div class="mx-auto max-w-5xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl lg:mx-0">
+        <h2 class="w-max border-b-2 border-brand text-3xl sm:text-5xl">
+          Technical Writing
+        </h2>
+      </div>
+      <section
+        class="grid w-full grid-cols-1 gap-x-16 gap-y-20 py-12 md:grid-cols-2"
+      >
+        {
+          techWritingPosts.map(({ data: post }) => (
+            <PostCard
+              title={post.title}
+              description={post.description}
+              date={post.date}
+              url={post.url}
+            />
+          ))
+        }
+      </section>
+      <a
+        href="/technical-writing"
+        class="border-t-2 border-dashed border-t-light pt-2 font-bold text-brand"
+        >View all technical writing...</a
+      >
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
