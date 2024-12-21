@@ -1,0 +1,173 @@
+---
+UUID: '27378961-ef7f-4dae-addf-59a89a8c9abe'
+title: 'Scheduling Events in AWS with the EventBridge Scheduler and AWS CDK'
+description: 'Learn how to create recurring and one-off schedules using the AWS EventBridge Scheduler using the AWS CDK and TypeScript.'
+date: '2023-04-21'
+topics: ['AWS', 'EVENTBRIDGE', 'LAMBDA']
+slug: aws-eventbridge-scheduler-cdk
+image: /images/generic/clapboard.jpg
+published: true
+canonical_url: ''
+imageLink: 'https://unsplash.com/photos/CiUR8zISX60'
+---
+
+AWS introduced the EventBridge Scheduler feature to EventBridge late last year (November 2022) and since then it’s allowed us to easily create both one-time and recurring schedules to invoke other AWS services.
+
+EventBridge Scheduler replaces previous ways of achieving recurring schedules such as cron job event rules in EventBridge ([which I cover in this post](https://conermurphy.com/blog/scheduling-lambda-functions-with-cron-jobs-using-aws-cdk)) as well as things like DynamoDB TTL. In summary, the new EventBridge Scheduler is a much nicer and cleaner way of handling recurring and one-off schedules inside AWS.
+
+So, in this post, we’re going to cover how we can create both one-off and recurring schedules using the EventBridge Scheduler via the AWS CDK and TypeScript.
+
+## EventBridge Scheduler CDK Construct
+
+This will almost certainly change in the future but at the time of writing (April 2023), there is no custom L2 construct for EventBridge Scheduler in the AWS CDK. [There is currently an open GitHub issue](https://github.com/aws/aws-cdk-rfcs/issues/474) but for right now, we’ll need to rely on an L1 construct (`CfnResource`) to deploy EventBridge Scheduler through the CDK.
+
+You may not have seen the `CfnResource` construct before but essentially, it’s a CDK construct that we can use to basically write CloudFormation code in the CDK to deploy resources to AWS. So, while it’s a lot nicer and a much better option to use L2 constructs, not having an L2 construct is not a reason not to use the CDK to deploy your infrastructure.
+
+So, with all that said and covered, let’s jump into the actual tutorial portion of this post!
+
+## Lambda functions
+
+To get started, use either an existing CDK project or create a new one. Then ensure you have a lambda function or two that you’d like to trigger on a one-off and recurring basis. For this example, I’m going to create two new functions inside a `./resources` folder with the below code.
+
+```ts:[]:./resources/one-off.ts:TYPESCRIPT
+// ./resources/one-off.ts
+
+export const handler = () => console.log('one off');
+```
+
+```ts:[]:./resources/recurring.ts:TYPESCRIPT
+// ./resources/recurring.ts
+
+export const handler = () => console.log('recurring');
+```
+
+We’re then going to define the Lambda functions in our CDK stack file inside our `lib` directory with the below code.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+export class EventbridgeSchedulerStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props);
+
+		// 1. Defining our Lambda Functions
+		const recurringLambda = new NodejsFunction(this, 'RecurringLambda', {
+		  entry: './resources/recurring.ts',
+		  handler: 'handler',
+		  runtime: Runtime.NODEJS_16_X,
+		  timeout: Duration.seconds(10),
+		});
+
+		const oneOffLambda = new NodejsFunction(this, 'OneOffLambda', {
+		  entry: './resources/one-off.ts',
+		  handler: 'handler',
+		  runtime: Runtime.NODEJS_16_X,
+		  timeout: Duration.seconds(10),
+		});
+	}
+}
+```
+
+So, now we have two simple Lambda functions that console log a message to show when they’re running. Let’s now move on to the interesting part of this article and get started with setting up our scheduler. 🤩
+
+## IAM Role and Policy
+
+Before we can actually create our scheduler, we need to define a new role for the scheduler to use to invoke our Lambda functions. To get started with this, define a new role that assumes the `scheduler.amazonaws.com` service principal using the code below.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...lambda definitions
+
+// 2. Define the IAM role for the scheduler to invoke our Lambda functions with
+const schedulerRole = new Role(this, 'schedulerRole', {
+  assumedBy: new ServicePrincipal('scheduler.amazonaws.com'),
+});
+```
+
+Then we need to define a new policy that we can attach to our new role. This policy will give the role permission to invoke our Lambda functions by passing in the ARNs of the functions.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...our role definition
+
+// 2a. Create the policy that will allow the role to invoke our functions
+const invokeLambdaPolicy = new Policy(this, 'invokeLambdaPolicy', {
+  document: new PolicyDocument({
+    statements: [
+      new PolicyStatement({
+        actions: ['lambda:InvokeFunction'],
+        resources: [recurringLambda.functionArn, oneOffLambda.functionArn],
+        effect: Effect.ALLOW,
+      }),
+    ],
+  }),
+});
+```
+
+Finally, to finish off our role definition, we need to attach our new policy to the role we created earlier. We can achieve this with the below code.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...our policy definition
+
+// 2b. Attach the policy to the role
+schedulerRole.attachInlinePolicy(invokeLambdaPolicy);
+```
+
+So, at this point, we have our Lambda functions defined as well as the role we’re going to use to invoke them from the scheduler. So, now let’s finish our CDK stack by defining the two schedules we’re going to use.
+
+## Creating Our Schedules
+
+Let’s now create our two schedules using the `CfnResource` construct mentioned earlier. Below the role and policy code you just added, add the below code to define the two schedules.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// 3. Defining our one-off schedule
+new CfnResource(this, 'oneOffSchedule', {
+  type: 'AWS::Scheduler::Schedule',
+  properties: {
+    Name: 'oneOffSchedule',
+    Description: 'Runs a schedule at a fixed time',
+    FlexibleTimeWindow: { Mode: 'OFF' },
+    ScheduleExpression: 'at(2023-04-21T07:20:00)',
+    Target: {
+      Arn: oneOffLambda.functionArn,
+      RoleArn: schedulerRole.roleArn,
+    },
+  },
+});
+
+// 4. Defining our recurring schedule
+new CfnResource(this, 'recurringSchedule', {
+  type: 'AWS::Scheduler::Schedule',
+  properties: {
+    Name: 'recurringSchedule',
+    Description: 'Runs a schedule for every 5 minutes',
+    FlexibleTimeWindow: { Mode: 'OFF' },
+    ScheduleExpression: 'cron(*/5 * * * ? *)',
+    Target: {
+      Arn: recurringLambda.functionArn,
+      RoleArn: schedulerRole.roleArn,
+    },
+  },
+});
+```
+
+The two definitions are largely the same, with the key difference being the `ScheduleExpression` property. With the one-off schedule, we use the `at` value to specify a single time when we want the schedule to run and trigger our Lambda function. Where with the recurring schedule, we use the `cron` value to specify a cron expression to trigger the schedule and invoke our Lambda function. In the case of this example, our cron expression is equal to every 5 minutes.
+
+## Deploying and Testing
+
+Finally, with our stack fully defined and ready to go, make sure to install `esbuild` (as we’re using the `NodeJsFunction` construct for our Lambda functions) with `npm i esbuild` and then run `cdk deploy` to deploy your CDK stack.
+
+Then once your stack is deployed wait for the time required for your schedules to trigger and then check your CloudWatch logs to make sure your Lambda functions have been triggered. If you followed this tutorial you should now see a log group per Lambda function with the relevant message inside the logs.
+
+Once you’re happy that everything is working as intended and you’re finished with this tutorial, make sure to run `cdk destroy` to destroy any resources provisioned to your AWS account to avoid any unexpected bills coming your way in the future.
+
+## Conclusion/Outro
+
+So, to recap, we’ve covered what is the EventBridge Scheduler as well as how we can deploy it via the CDK using the L1 construct `CfnResource` to trigger Lambda functions on both a one-off and recurring basis.
+
+I hope you found this post helpful and if you’d like to see the full example repository for this project make sure to check out the further reading links below.
+
+And, until next time, thank you for reading.
+
+## Further Reading
+
+- [Cloudformation guide for scheduler](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-scheduler-schedule.html)
+- [AWS construct levels explained](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html#constructs_lib)
+- [GitHub repository for this project](https://github.com/conermurphy/cdk-tutorials/tree/main/eventbridge-scheduler)
+- [GitHub issue for L2 construct for EventBridge Scheduler](https://github.com/aws/aws-cdk-rfcs/issues/474)

@@ -1,0 +1,193 @@
+---
+UUID: '7e093fc8-bb6a-4fa8-924b-8c2e96d98199'
+title: 'Accurately Typing DynamoDB Data from the AWS SDK using TypeScript'
+description: 'Learn how to accurately and easily type data retrieved from a DynamoDB table via the AWS SDK using TypeScript and how to avoid using any types!'
+date: '2023-08-10'
+topics: ['AWS', 'DYNAMODB']
+slug: typing-dynamodb-data-typescript-aws-sdk
+image: /images/generic/scrambled-letters.jpg
+published: true
+canonical_url: ''
+imageLink: 'https://unsplash.com/photos/BVyNlchWqzs'
+---
+
+If you’ve ever tried building a project with DynamoDB and used the AWS SDK with TypeScript to read and write data to the database, you’ll probably be familiar with the issues of the SDK not typing the data you retrieve from the database.
+
+This issue makes sense because the SDK has no way of knowing what attributes you have on every item in your database before you’ve retrieved them but this doesn’t make the issue any less annoying from a developer's perspective.
+
+But, don’t worry in this tutorial, I’ll give you a solution so you can keep the power of the SDK and have accurate types from TypeScript for you to use in your application so let’s get into it.
+
+## The Issue
+
+Before we jump into the solution let’s take a quick look at the problem, below is some example code using the `QueryCommand` from the AWS SDK to retrieve all items in the database that match the given `pk` and start with the same `sk` value.
+
+```ts
+const { Items } = await dbClient.send(
+  new QueryCommand({
+    TableName: 'YOUR_TABLE_NAME',
+    ExpressionAttributeValues: {
+      ':p': pk,
+      ':s': sk,
+    },
+    KeyConditionExpression: 'pk = :p and begins_with(sk, :s)',
+  })
+)
+```
+
+The issue with this code is the TypeScript type given to `Items` will be `Record<string, any>[] | undefined` which is far from helpful. If we wanted to access the properties on the items returned from our database, TypeScript would throw an error as it has no idea what is present on the data and what isn’t so let’s fix that so we can access the actual data we retrieve with the correct types.
+
+## The Solution
+
+To resolve the issue with the types not being applied to the data being returned, we first need to do some digging into the SDK package itself. If we dig into the `QueryCommand` we used above, we can actually see the return type being used is the one below.
+
+```ts
+export declare type QueryCommandOutput = Omit<
+  __QueryCommandOutput,
+  'Items' | 'LastEvaluatedKey'
+> & {
+  Items?: Record<string, NativeAttributeValue>[]
+  LastEvaluatedKey?: Record<string, NativeAttributeValue>
+}
+```
+
+This is where we can see the not-very helpful `Record<string, NativeAttributeValue>[] | undefined` is being returned to us. But, what if we could override that with our own types?
+
+What we’re going to do is take the `QueryCommandOutput` type and remove the built-in type for `Items` and instead give it our own type that matches the data we’re retrieving from the database. We can do this with the below code.
+
+```ts
+import { QueryCommandOutput } from '@aws-sdk/lib-dynamodb'
+
+type Item = {
+  prop1: string
+}
+
+const { Items } = (await dbClient.send(
+  new QueryCommand({
+    TableName: 'YOUR_TABLE_NAME',
+    ExpressionAttributeValues: {
+      ':p': pk,
+      ':s': sk,
+    },
+    KeyConditionExpression: 'pk = :p and begins_with(sk, :s)',
+  })
+)) as Omit<QueryCommandOutput, 'Items'> & {
+  Items?: Item[]
+}
+```
+
+As mentioned above, we take the `QueryCommandOutput` type and use it with the `Omit` feature from TypeScript to remove the `Items` type. We then extend that type with our own type for `Items` which will be used for the `Items` property returned from the SDK.
+
+So, in the case of our example above we took our `Items` property from having a type of `Record<string, NativeAttributeValue>[] | undefined` to having a type of `Item[] | undefined` which is a lot nicer to use and work with!
+
+## Making It Reusable With Generics
+
+But, let’s not stop there, we can take this one step further and make our solution easier to reuse across our entire project by pairing it with generics and creating a new standalone type like the one below.
+
+```ts
+export type IQueryCommandOutput<T> = Omit<QueryCommandOutput, 'Items'> & {
+  Items?: T
+}
+```
+
+We can now use this type with any `QueryCommand` in our codebase and provide it with a type to substitute with the generic `T` so we can have nicely typed data for all of our queries. Here is our example updated to use this new abstraction.
+
+```ts:[]:./types.ts:TYPESCRIPT
+import { QueryCommandOutput } from "@aws-sdk/lib-dynamodb";
+
+export type Item = {
+  prop1: string,
+};
+
+export type IQueryCommandOutput<T> = Omit<QueryCommandOutput, "Items"> & {
+  Items?: T,
+};
+```
+
+```ts:[]:./query.ts:TYPESCRIPT
+import { Item, IQueryCommandOutput } from "./types";
+
+const { Items } = (await dbClient.send(
+  new QueryCommand({
+    TableName: "YOUR_TABLE_NAME",
+    ExpressionAttributeValues: {
+      ":p": pk,
+      ":s": sk,
+    },
+    KeyConditionExpression: "pk = :p and begins_with(sk, :s)",
+  })
+)) as IQueryCommandOutput<Item[]>;
+```
+
+## Example Code Snippets
+
+We’ve covered the `QueryCommand` from the AWS SDK throughout this post but here are the snippets you’ll need for the other common commands used when interacting with a DynamoDB table via the AWS SDK.
+
+### Scan
+
+```ts
+export type IScanCommandOutput<T> = Omit<ScanCommandOutput, 'Items'> & {
+  Items?: T
+}
+```
+
+### Query
+
+```ts
+export type IQueryCommandOutput<T> = Omit<QueryCommandOutput, 'Items'> & {
+  Items?: T
+}
+```
+
+### Get
+
+```ts
+export type IGetCommandOutput<T> = Omit<GetCommandOutput, 'Item'> & {
+  Item?: T
+}
+```
+
+### Put
+
+```ts
+export type IPutCommandOutput<T> = Omit<PutCommandOutput, 'Attributes'> & {
+  Attributes?: T
+}
+```
+
+### Delete
+
+```ts
+export type IDeleteCommandOutput<T> = Omit<
+  DeleteCommandOutput,
+  'Attributes'
+> & {
+  Attributes?: T
+}
+```
+
+### Update
+
+```ts
+export type IUpdateCommandOutput<T> = Omit<
+  UpdateCommandOutput,
+  'Attributes'
+> & {
+  Attributes?: T
+}
+```
+
+## Considerations
+
+While this method does work great and all of the values returned to you from the SDK will have the appropriate types you passed to the generic, something you will need to bare in mind is that you’ll need to manually maintain the TypeScript types/interfaces you use.
+
+This is because the types can’t be created from the database items themselves so we need to manually create the types and align them with the data in the database. This of course could introduce some issues if the types aren’t kept up to date or aren’t accurate to the data being stored.
+
+However, I do think this issue is a minor one compared to the benefits of having working types assigned to the data returned from the SDK.
+
+## Closing Thoughts
+
+We’ve now reached the end of this post; in this tutorial, we’ve looked at how to type the data returned to us from a DynamoDB table using the AWS SDK in a TypeScript project. I hope you found this post helpful until next time.
+
+Thank you for reading
+
+Coner

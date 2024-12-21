@@ -1,0 +1,205 @@
+---
+UUID: 'ef6bcae0-2a7c-4b81-a4e0-cf47ad36af8b'
+title: 'How to Update a DNS Record on a Route 53 Hosted Zone Using a Lambda Function & AWS SDK'
+description: 'Learn how to automate Route 53 Hosted Zone DNS record updates with Lambda Functions and the AWS SDK. Save time and money in a few quick steps!'
+date: '2023-06-01'
+topics: ['AWS', 'LAMBDA', 'ROUTE-53']
+slug: update-dns-record-route-53-lambda-aws-sdk
+image: /images/generic/paper-flowchart.jpg
+published: true
+canonical_url: ''
+imageLink: 'https://unsplash.com/photos/lFtttcsx5Vk'
+---
+
+When working with EC2 or ECS instances on AWS, you might want to point a domain name at your service to make it easier for people to connect to it without needing to remember the IP address for it. This can easily be achieved by creating an A record on a domain that has the value of the IP address of the service you want it to connect to.
+
+However, where you’ll run into issues is when your service restarts. This is because it’ll get a new IP address assigned to it that will likely be different from the previous one configured on the A record so the domain will no longer connect to your service.
+
+One solution to this is using Elastic IP addresses from AWS to get a static IP that won’t change between restarts meaning the domain will always point to your service. But, the issue with Elastic IP addresses is that over time the cost can add up, especially if you need a few of them so you might want to avoid this solution if you’re aiming to keep costs down.
+
+A second solution would be to update the A record for your domain each time a new IP address is generated to make sure the domain stays in sync with the service but this is both time-consuming and quite tedious for the person maintaining it. But, what about if we could automate this?
+
+So, in this post, we’re going to look at doing just that and seeing how we can automatically update an A record on a Route 53 Hosted Zone using a Lambda function and the AWS SDK.
+
+Let’s get into it!
+
+## Prerequisites
+
+Before starting this tutorial, you’ll need to have an existing AWS CDK stack to add this code. Alternatively, you can create a new one for this tutorial by running the command `cdk init app --language typescript`.
+
+Once you have your stack, you’ll need to make sure it’s configured to deploy to the region `us-east-1`, this is because we’ll be configuring Route 53 services which are global and are controlled from the `us-east-1` region. You can configure your stack to deploy to the `us-east-1` region by amending your stack definition file in your `bin` directory to look like the one below.
+
+```ts:[3-5]:./bin/*-stack.ts:TYPESCRIPT
+const app = new cdk.App();
+new Route53UpdateDNSRecordStack(app, "Route53UpdateDNSRecordStack", {
+  env: {
+    region: "us-east-1",
+  },
+});
+```
+
+_NOTE: While it is possible to deploy your Route 53 infrastructure to `us-east-1` and your other infrastructure such as Lambda functions to another region, this is out of the scope of this tutorial. So, for simplicity, we’re deploying everything to `us-east-1`._
+
+## Creating our Hosted Zone and A Record
+
+Once your stack is configured to deploy to `us-east-1`, let’s jump into actually configuring our services for this tutorial. The first thing we’re going to define is our Route 53 Hosted Zone. For the sake of this tutorial, I’m going to use an example domain but you can use a domain you own if you would like.
+
+To define your Route 53 Hosted Zone, go into your services definition file in your `lib` directory and add the below code to the constructor inside it.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+const domain = "yourdomain.com";
+
+// Define the Route53 hosted zone for our domain
+const domainHostedZone = new HostedZone(this, "DomainHostedZone", {
+  zoneName: domain,
+});
+```
+
+After we’ve added this code to create our hosted zone, let’s add the code to create the base A record on it so we can update it later on in our lambda function.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...hosted zone code
+
+// Define a new A record for our domain to be updated by our lambda function
+const aRecord = new ARecord(this, "ARecord", {
+  target: {
+    values: ["192.168.1.1"],
+  },
+  recordName: domain,
+  zone: domainHostedZone,
+});
+
+// Add a dependency on the A Record to ensure that is removed first when the stack is deleted.
+aRecord.node.addDependency(domainHostedZone);
+```
+
+Here we define a new A record with an example IP Address of `192.168.1.1` and add a dependency on the A record to the hosted zone so when we destroy the stack, we make sure the A record is removed first before the hosted zone.
+
+## Defining our Lambda function
+
+With our hosted zone and A record configured, let’s now configure the lambda function that will handle the updating of our A record when triggered. To do this, we first need to configure a custom IAM Policy Statement that will allow our lambda function to execute the necessary SDK commands required. To create this policy statement add the below code under the A record code we just added.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...A record code
+
+// Define our IAM permissions for our lambda function
+const route53Permission = new PolicyStatement({
+  actions: [
+    "route53:ListResourceRecordSetsCommand",
+    "route53:ChangeResourceRecordSets",
+    "route53:ListResourceRecordSets",
+  ],
+  resources: [`arn:aws:route53:::hostedzone/${domainHostedZone.hostedZoneId}`],
+});
+```
+
+This IAM policy statement allows us to list records and update them on the hosted zone we defined earlier. After this, we need to define our lambda function and add this new policy to it which we can do with the code below.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...IAM policy code
+
+// Define our lambda to update the IP of our A Record
+const updateRecordLambda = new NodejsFunction(this, "UpdateRecordLambda", {
+  memorySize: 1024,
+  runtime: Runtime.NODEJS_16_X,
+  handler: "handler",
+  entry: `./resources/update-record.ts`,
+  environment: {
+    zoneId: domainHostedZone.hostedZoneId,
+    zoneName: domainHostedZone.zoneName,
+  },
+});
+
+// Add our route53 permissions to our lambda function
+updateRecordLambda.addToRolePolicy(route53Permission);
+```
+
+The important thing to note here is the environment variables we pass to the function, `zoneId` and `zoneNam` as we’ll need these to update the A record in the lambda function. With that code added, we’ve defined our lambda function so we just need to write it. To do that create a new file at `./resources/update-record.ts` and add the below code.
+
+```ts:[]:./resources/update-record.ts:TYPESCRIPT
+import {
+  ChangeResourceRecordSetsCommand,
+  ListResourceRecordSetsCommand,
+  Route53Client,
+} from "@aws-sdk/client-route-53";
+
+const route53 = new Route53Client({});
+
+async function getRecords(zoneId: string) {
+  // Get all of the current records for the hosted zone
+  const { ResourceRecordSets } = await route53.send(
+    new ListResourceRecordSetsCommand({ HostedZoneId: zoneId })
+  );
+
+  if (!ResourceRecordSets) return undefined;
+
+  // Filter the records to only include A records
+  const aRecords = JSON.stringify(
+    ResourceRecordSets?.filter((record) => record.Type === "A")
+  );
+
+  console.log(aRecords);
+}
+
+export const handler = async () => {
+  const { zoneId = "", zoneName = "" } = process.env;
+
+  // Print out all A records for the hosted zone
+  await getRecords(zoneId);
+
+  const params = {
+    HostedZoneId: zoneId,
+    ChangeBatch: {
+      Changes: [
+        {
+          Action: "UPSERT",
+          ResourceRecordSet: {
+            Name: zoneName,
+            ResourceRecords: [
+              {
+                Value: "192.168.1.2",
+              },
+            ],
+            TTL: 1800,
+            Type: "A",
+          },
+        },
+      ],
+    },
+  };
+
+  // Update the A record for the hosted zone
+  await route53.send(new ChangeResourceRecordSetsCommand(params));
+
+  // Print out all A records for the hosted zone
+  await getRecords(zoneId);
+};
+```
+
+In this function, we first get the `zoneId` and `zoneName` from the environment variables passed to the function. We then get all of the current A records on the hosted zone and print them out to the console so we can see the starting values, we then send the `ChangeResourceRecordSetsCommand` with the new IP address to update the A record on our hosted zone. Before, finally printing out the updated A records to confirm the changes were successful.
+
+With this lambda function’s code written, we’ve fully configured our CDK stack and all we need to do is deploy and test it so let’s do that now!
+
+## Deployment and Testing
+
+To deploy our CDK stack to your AWS account, run the command `cdk deploy` in your terminal and accept any prompts presented. Once your stack has finished deploying, log into your AWS dashboard and check the IP address of the A Record on your Route 53 Hosted Zone by going to the Route 53 dashboard.
+
+Once you’ve confirmed the A record has an IP address of `192.168.1.1`, invoke your lambda function via the AWS CLI using the command `aws lambda invoke --function-name YOUR_LAMBDA_NAME --invocation-type Event - --region us-east-1`, make sure to replace `YOUR_LAMBDA_NAME` with the name of your deployed lambda function which you can get from your AWS dashboard.
+
+After invoking your lambda function, head back to your Route 53 dashboard and check the A record again, its IP address should now be `192.168.1.2`, if so your lambda function and stack worked as expected. Another way you can check everything worked is by going to CloudWatch and inspecting the logs for the lambda function we invoked, it should show the IP address previous to the update and after with their respective values.
+
+## Tidying Up
+
+Once you’ve finished testing the stack and no longer require it, you can destroy it by running `cdk destroy` in your terminal.
+
+If you get an error during the destroy process stating _**“The specified hosted zone contains non-required resource record sets and so cannot be deleted.”**_ This will be related to the A record that was changed by the SDK and doesn’t match the value that was deployed by the CDK. To resolve this, manually go to your Route 53 hosted zone and remove the A record, then run `cdk destroy` again and everything should be removed successfully.
+
+## Closing Thoughts
+
+During this post, we’ve looked at how we can update a DNS record on a Route 53 Hosted Zone by using a Lambda function and the AWS SDK. If you’d like to see the full example code for this project as well as all my other CDK tutorials, you can [view the complete GitHub repository here.](https://github.com/conermurphy/cdk-tutorials/tree/main/route-53-update-dns-record)
+
+I hope you found this post helpful and until next time.
+
+Thank you for reading.
+
+Coner

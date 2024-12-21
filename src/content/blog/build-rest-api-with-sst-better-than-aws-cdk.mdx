@@ -1,0 +1,251 @@
+---
+UUID: '0ed40749-5138-4eab-8515-8f8b37cad459'
+title: 'How to Build a REST API With SST: Is It Better Than the AWS CDK?'
+description: 'Discover how to create and deploy a REST API on AWS with SST. As well as, how to test your API and gain insights into its comparison with the AWS CDK.'
+date: '2024-01-25'
+topics: ['AWS', 'LAMBDA', 'API-GATEWAY', 'DYNAMODB', 'SST']
+slug: build-rest-api-with-sst-better-than-aws-cdk
+image:
+published: true
+canonical_url: ''
+imageLink: ''
+---
+
+In a previous post, we [looked at how to create a REST API using the AWS CDK](https://conermurphy.com/blog/build-rest-api-aws-cdk-api-gateway-lambda-dynamodb-api-key-authentication) but the AWS CDK isn’t the only way you can deploy resources to an AWS account. There are many alternatives to the CDK and one of these alternative options, [SST](https://sst.dev/), has gained a lot of popularity and is what we’re going to be taking a closer at today.
+
+So, in this post, we’re going to first understand what is SST before then looking at creating a REST API using it and finally taking a brief look at comparing some of the differences between SST and the CDK when it comes to creating a REST API.
+
+## What is the AWS CDK?
+
+First of all, let’s have a brief recap of the AWS CDK. The CDK (Cloud Development Kit) is a software development framework that developers can use to model and provision resources and services to an AWS account using popular languages like TypeScript, JavaScript, and Python.
+
+[Learn more about the AWS CDK](https://docs.aws.amazon.com/cdk/v2/guide/home.html).
+
+## What is SST?
+
+SST is an alternative framework that builds on top of the foundations laid by the CDK. SST’s goal is to make building and deploying full-stack applications on AWS as easy as possible by allowing you to quickly define new background resources (APIs, databases, etc) and consume them in your frontend applications.
+
+SST gives you access to all of the same constructors you’d use in the CDK but as you’ll see in a moment when we build our REST API, they also have a series of custom constructs that expand upon the native CDK ones to make things even simpler and faster.
+
+[Learn more about SST](https://docs.sst.dev/what-is-sst).
+
+## Creating a REST API with SST
+
+With the introductions now out of the way let’s turn our attention to the REST API we’ll be creating in this post. We’re going to be creating a very simple API that has two endpoints, one that allows us to create new notes in a DynamoDB database (`POST`) and another that allows us to retrieve all of the notes we’ve created (`GET`).
+
+### Creating a New SST Project
+
+However, before we can start writing any code, the first thing we need to do is to create a new SST project which we can do by running the command `npx create-sst@latest YOUR_PROJECT_NAME`. After running this command and accepting any prompts shown, you should have a new SST project created and we’ll be ready to start defining resources.
+
+### Defining a DynamoDB Database
+
+The first thing we’re going to do in our project is clear out the example code given to us by SST in the project we created. To do this, update your `MyStack.ts` file in the `stacks` directory to look like the below code with just an empty function.
+
+```ts:[]:./stacks/MyStack.ts:TYPESCRIPT
+import { StackContext } from "sst/constructs";
+
+export function APIStack({ stack }: StackContext) {}
+```
+
+Then after clearing out the example code, we’re going to add in our DynamoDB database definition by adding in the below code to our `APIStack` function.
+
+```ts:[]:./stacks/MyStack.ts:TYPESCRIPT
+// Don't forget to import 'Table'
+import { StackContext, Table } from "sst/constructs";
+
+export function APIStack({ stack }: StackContext) {
+  const table = new Table(stack, "Notes", {
+    primaryIndex: { partitionKey: "pk", sortKey: "sk" },
+    fields: {
+      pk: "string",
+      sk: "string",
+      author: "string",
+      content: "string",
+    },
+  });
+}
+```
+
+With this code, we create a new DyanmoDB table using the `Table` construct from SST. Then within this definition, we also define the `partitionKey` and `sortKey` for our database as well as the other fields we’re going to store in the database when we create new data with our lambda function handlers later on.
+
+### Defining a REST API
+
+With our database now defined, we’re ready to turn our attention to the REST API. To define our REST API, add the below code under the database definition we just added.
+
+```ts:[]:./stacks/MyStack.ts:TYPESCRIPT
+// Don't forget to import 'Api'
+import { Api, StackContext, Table } from "sst/constructs";
+
+export function APIStack({ stack }: StackContext) {
+  // ...Database definition...
+  const api = new Api(stack, "NotesAPI", {
+    // Bind the table name to our API
+    defaults: {
+      function: {
+        bind: [table],
+      },
+    },
+    routes: {
+      "GET /notes": "packages/functions/src/list.handler",
+      "POST /notes": "packages/functions/src/create.handler",
+    },
+  });
+
+  // Show the API endpoint in the output
+  stack.addOutputs({
+    ApiEndpoint: api.url,
+  });
+
+  return {
+    table,
+    api,
+  };
+}
+```
+
+In this code, we first create our new API using the `Api` construct. Then inside our API definition, we connect our DynamoDB database to all of our route handlers using the `bind` property before defining the various API routes we want to add to our API using the `routes` property.
+
+Before moving on to creating our route handlers, I want to look at the `routes` property a little bit more as it is interesting. This is because unlike in the CDK where we would need multiple lines of code and several definitions to create one API endpoint and link a lambda function to it, the `routes` property allows us to do all of that in just one line!
+
+For example, the line `"GET /notes": "packages/functions/src/list.handler",` creates a new `/notes` endpoint on our API for `GET` requests and defines a new lambda function using the code inside the file `"packages/functions/src/list.handler"` to handle requests to that endpoint. [You can learn more about the `Api` construct.](https://docs.sst.dev/constructs/Api)
+
+Finally, we then add our API URL to our outputs so when we deploy our stack in a moment the URL is outputted to our terminal so we can test it.
+
+### Creating Our API Handlers
+
+Now, with all of our required resources defined, we’re almost ready to deploy our API and test it. But, before we can do that we first need to write the code for our API route handlers to run. To do this, we’ll first need to install a couple of NPM packages for the AWS SDK to allow us to read and write data to DynamoDB, you can install these by running the command `npm i @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb`.
+
+With these packages installed, we’re now ready to write the handlers, to do this, we’re going to add two new files to the `./packages/functions/src` directory called `create.ts` and `list.ts`. At this point, you can also delete the other files and directories that might be present in the `./packages/functions/src` directory as we don’t require them.
+
+With our two new files created, we can add the respective code below to both of them.
+
+#### `create.ts`
+
+```ts:[]:./packages/functions/src/create.ts:TYPESCRIPT
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { PutCommand } from "@aws-sdk/lib-dynamodb";
+import { APIGatewayProxyHandlerV2 } from "aws-lambda";
+import { randomUUID } from "crypto";
+import { Table } from "sst/node/table";
+
+const client = new DynamoDBClient({});
+
+export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+  const { author, content } = JSON.parse(event?.body || "");
+
+  const now = new Date();
+
+  const Item = {
+    pk: `UUID#${randomUUID().toString()}`,
+    sk: `DATE#${now.toISOString()}`,
+    author,
+    content,
+  };
+
+  await client.send(
+    new PutCommand({
+      TableName: Table.Notes.tableName,
+      Item,
+    })
+  );
+
+  return {
+    statusCode: 201,
+    body: JSON.stringify(Item),
+  };
+};
+```
+
+In this code, we take in the `author` and `content` properties from the request body and then add a new item to our database using the `PutCommand` from the AWS SDK before returning the created item to the requester.
+
+Something important to note is the `Table.Notes.tableName` we use for the `TableName` property. Unlike in the AWS CDK where you would need to pass the `TableName` as an environment variable from the stack where the resource is defined, with SST, we can access the `tableName` by using `Table` imported from `"sst/node/table"`, which gives us access to the database we connected to our API earlier using the `bind` property.
+
+This seemingly minor improvement can be a massive help in larger APIs where you could have hundreds of API endpoints that if in the CDK you’d need to remember to pass the `tableName` environment variable to but with SST it’s all automatically done for you.
+
+#### `list.ts`
+
+```ts:[]:./packages/functions/src/list.ts:TYPESCRIPT
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { Table } from "sst/node/table";
+
+const client = new DynamoDBClient({});
+
+export const handler = async () => {
+  const allNotes = await client.send(
+    new ScanCommand({
+      TableName: Table.Notes.tableName,
+    })
+  );
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(allNotes.Items),
+  };
+};
+```
+
+In this code, we perform a `ScanCommand` to find all of the records in our database before then returning them to the user.
+
+### Testing Our API
+
+Finally, we’re now ready to test our API. With SST, we can easily test our API by running the command `npm run dev` and linking our AWS account to our SST console using the onscreen prompts and guide.
+
+Once your AWS account and SST console are linked and your API is deployed to AWS, you should then be able to see your API URL in your terminal logs. We can then use this URL to test our API in a tool like Postman.
+
+To test our new API, we’re going to send a couple of requests to the API, the first one being a `POST` request to `YOUR_API_URL/notes` with the below data in the body.
+
+```json
+{
+  "author": "SOME_AUTHOR",
+  "content": "SOME_CONTENT"
+}
+```
+
+After sending this request you should receive a `201` status code back with a copy of the data that was created in the database. Now, with our `POST` request working, let’s send a `GET` request to the same endpoint and ensure we receive a `200` status code back along with the data we created in our `POST` request.
+
+If both of those requests worked correctly then congrats you’ve just created, deployed, and tested your first API using SST! At this point, if you wanted to you could create a production version of your API using the command `npx sst deploy --stage prod` as the one we’ve been testing is just a `dev` instance. Or, if you’ve finished with this tutorial and want to remove the resources you’ve created, you can run `npx sst remove`.
+
+## Comparing SST and CDK
+
+Now, that we’ve looked at how to create a REST API using SST, let’s finish this post by looking at some of the noticeable differences when creating a REST API with the AWS CDK vs SST.
+
+### Creating API Endpoints and Handlers
+
+**CDK:** Creating an API and its endpoints and handlers in the CDK is quite an in-depth process requiring the definition of multiple resources and linking the correct resources together so that everything works as expected while also remembering to add the required permissions to every handler.
+
+**SST:** SST simplifies the entire process compared to CDK by allowing you to create new endpoints and handlers in just a few lines without needing to worry about linking resources or managing permissions. All of that is handled for you so you can focus on building the API and its business logic.
+
+**Conclusion:** If you’re interested in learning about the different parts of an API and how they work together to create an API on AWS then the CDK is perfect as it allows you to learn about each moving part and the role it plays. On the other hand, if you’re primarily interested in building a working API efficiently and with ease then SST is perfect.
+
+### Lambda Debugging
+
+**CDK:** Debugging lambda issues with the CDK is a bit of a pain, you first need to deploy each of your changes to AWS before then being able to invoke the lambda to test it and check the CloudWatch logs for any new insights. Also, depending on the size of your stack it could easily be 5/10 minutes or more of waiting between deployments slowing down your debugging further.
+
+**SST:** SST makes debugging and inspecting lambda’s a lot simpler, their Live Lambda feature in their console makes the entire process quick and easy. Using this feature, you can easily see the logs in real-time after making any changes by just sending a new request without needing to wait for a manual deployment to AWS.
+
+**Conclusion:** It’s hard to ignore the benefits of the Live Lambda feature in SST, it makes debugging any issues in your lambda’s a lot faster and simpler than just using the CDK.
+
+### Configuring API keys and Usage Plans
+
+**CDK:** Using the CDK, you can easily configure API keys and usage plans on your API by adding new resources to the `RestApi` construct which is used for creating the REST API itself.
+
+**SST:** With SST, it’s still easy to configure these things but there is a small thing to keep in mind. The V2 `Api` constructor from SST doesn’t support API keys and usage plans [but their `ApiGatewayV1Api` construct does.](https://docs.sst.dev/constructs/ApiGatewayV1Api) This means, that if you built your API using the V2 constructor and then needed to add API key support or usage plans, you’d need to migrate your entire API definition to the older V1 constructor.
+
+**Conclusion:** Overall both the CDK and SST make it easy to configure usage plans and API keys but if you’re using SST you need to remember that the V2 constructor doesn’t support these features and you need to use the V1 constructor.
+
+## Closing Thoughts
+
+Ultimately, when it comes down to choosing which framework to use when building a REST API, I think it depends on your end goal. For me, if I was trying to learn more about AWS and how it creates resources and the underlying services involved, then I would pick the AWS CDK.
+
+But, if I was building an API for a production product and needed it done quickly then it would have to be SST as the benefits it provides are hard to ignore. Plus if you wanted to you could [escape from SST’s constructs and use the CDK ones](https://docs.sst.dev/advanced/extending-sst#accessing-cdk-constructs-created-in-an-sst-construct) so you can still do finer-tuned service definitions if you wanted to.
+
+So, to close out, in this post, we’ve looked at SST and the AWS CDK as well as how to create a REST API using SST before finally comparing some of the differences between SST and the AWS CDK when it comes to creating REST API’s using them.
+
+Finally, if you would like to refresh your knowledge on creating a REST API using the CDK as well as compare it to the new SST one we created in this tutorial, make sure to [check out my CDK REST API tutorial.](https://conermurphy.com/blog/build-rest-api-aws-cdk-api-gateway-lambda-dynamodb-api-key-authentication)
+
+I hope you found this post helpful.
+
+Thank you for reading.
+
+Coner

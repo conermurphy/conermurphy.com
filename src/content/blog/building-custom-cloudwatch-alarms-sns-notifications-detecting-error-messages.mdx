@@ -1,0 +1,153 @@
+---
+UUID: 'dd01ba63-43b4-4a30-ad09-79ae512d79bc'
+title: 'Building Custom CloudWatch Alarms with SNS Notifications for Detecting Error Messages'
+description: 'Learn how to create custom AWS CloudWatch alarms to notify you using AWS SNS when target phrases or errors appear in your CloudWatch logs.'
+date: '2023-06-10'
+topics: ['AWS', 'CLOUDWATCH', 'SNS']
+slug: building-custom-cloudwatch-alarms-sns-notifications-detecting-error-messages
+image: /images/generic/filing-cabinet.jpg
+published: true
+canonical_url: ''
+imageLink: 'https://unsplash.com/photos/Q9y3LRuuxmg'
+---
+
+Building and deploying AWS services is often the fun and exciting part but we also need to remember the less exciting and fun part of running infrastructure and that’s monitoring and reporting. Without monitoring being configured we won’t be notified if any of our AWS services encounter issues or produce error messages this could lead to potentially catastrophic results for a business and/or product.
+
+So, in today’s post, we’re going to look at how we can use custom CloudWatch alarms and metrics to email us via SNS when certain errors or phrases are detected in our AWS logs.
+
+To demonstrate this, we’re going to be building an example CDK stack that uses a Lambda function to log out an example error message which will then be detected by our custom CloudWatch alarm before sending us an email via an SNS subscription. It’s worth noting, I’m using a Lambda function in this example but in reality, it could be any AWS service that logs out to CloudWatch.
+
+To get started with this tutorial, you can use either an existing CDK stack or create a new one. Once you have your CDK stack, let’s get started by configuring SNS.
+
+## SNS
+
+To configure SNS, we’ll need to first create a new SNS topic, then we’ll create a new subscription for that topic which will point to our email address. This way when we publish new notifications to our SNS topic, we’ll be notified by email of them via our subscription. To configure this in your stack, add the below code to your services definition file in the `lib` directory, making sure to add the email address you’d like to get notified at.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// The email address to send the SNS notifications to
+const emailAddress = "";
+
+// 1. Define a SNS topic and subscribe to it with our email address
+const emailSnsTopic = new Topic(this, "emailSnsTopic");
+
+new Subscription(this, "emailSubscription", {
+  topic: emailSnsTopic,
+  protocol: SubscriptionProtocol.EMAIL,
+  endpoint: emailAddress,
+});
+```
+
+## Lambda
+
+After configuring the SNS topic and subscription, let’s quickly define the example Lambda function we’ll be using to create the error for our CloudWatch alarm to detect. To define the Lambda function, create a new file at `./resources/example.ts` and add the below code.
+
+```ts:[]:./resources/example.ts:TYPESCRIPT
+export const handler = () => {
+  console.log("ERROR: Example error message");
+};
+```
+
+Then with the code for our Lambda function added, let’s add it to our stack by adding the code below underneath where we just defined our SNS services.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...SNS code
+
+// 2. Define a lambda function for our CloudWatch alarm to monitor the logs of
+const exampleLambda = new NodejsFunction(this, "ExampleLambda", {
+  handler: "handler",
+  runtime: Runtime.NODEJS_16_X,
+  entry: "./resources/example.ts",
+});
+```
+
+With that code added, we’ve defined everything needed for our Lambda function to run and create the error message for CloudWatch to detect. So, now let’s create our CloudWatch infrastructure to monitor the logs of this Lambda function.
+
+## CloudWatch
+
+For CloudWatch to successfully monitor the logs of our Lambda function for error messages, we need to configure a couple of things, a custom metric and a custom alarm that consumes that metric.
+
+Let’s start by defining our custom metric which we can do by adding the code below into our stack file under our Lambda function code.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...Lambda code
+
+// 3. Define our custom metric for monitoring our logs for certain errors and/or phrases
+const customMetric = new MetricFilter(this, "CustomMetric", {
+  logGroup: exampleLambda.logGroup,
+  metricNamespace: "CustomErrors",
+  metricName: "CustomErrorMetric",
+  // We can update this array to include any other phrases we want to monitor and triggering the alarm for
+  filterPattern: FilterPattern.anyTerm(...["ERROR:"]),
+  // If the log contains the target phrases then the metric value will be 1
+  metricValue: "1",
+});
+```
+
+In this code, we create a new `MetricFilter` instance which is configured to monitor the logs of our lambda function. In this metric, we use the `filterPattern` property to configure the phrases we’d like to look for in the logs; in this case, it’s just `ERROR:`. Once this metric detects the target phrases defined, it will update its value to `'1'` which will trigger our alarm.
+
+Speaking of our alarm, let’s now create our new custom CloudWatch alarm to monitor our metric. To define our new alarm, add the code below under the code we just added for the metric.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...Metric code
+
+// 4. Define our CloudWatch alarm to monitor our custom metric
+const customAlarm = new Alarm(this, `CustomAlarm`, {
+  metric: customMetric.metric(),
+  evaluationPeriods: 1,
+  comparisonOperator: ComparisonOperator.GREATER_THAN_THRESHOLD,
+  // Trigger the alarm when the metric value is greater than 0
+  threshold: 0,
+  treatMissingData: TreatMissingData.NOT_BREACHING,
+  alarmName: "CustomAlarm",
+});
+```
+
+With this alarm, we’ve configured it to enter the “ALARM” state whenever the metric value is greater than the threshold we’ve configured. In our case, we’ve configured the metric to have the value of `1` whenever our target phrases are detected in the logs in turn this will exceed the threshold on the alarm which is configured as `0`.
+
+However, there is one piece missing which is the link between CloudWatch and our SNS topic which is what will ultimately send the notification to our target email address. At the moment, when our alarm enters the “ALARM” state nothing happens, so let’s change that by defining a new alarm action to send the notification to SNS.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...Alarm code
+
+// 5. Add an alarm action to trigger our SNS topic when the alarm is triggered
+customAlarm.addAlarmAction(new SnsAction(emailSnsTopic));
+```
+
+Now, when the alarm enters the “ALARM” state because the metric has detected the target phrase, a new notification will be sent to our SNS topic which will in turn be sent to us via the SNS subscription we configured at the start of this tutorial.
+
+## Deploying and Testing
+
+We’ve now written the majority of our CDK stack but before we can deploy and test it we just need to add one final piece which we will need for testing. This is a `CfnOutput` containing our lambda function name so we can invoke it using the CLI to save us from needing to log into the dashboard to find it. To configure this, add the below code under the rest of the services we just defined.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+//...Alarm action code
+
+// Misc. Outputs
+new cdk.CfnOutput(this, "LambdaName", {
+  value: exampleLambda.functionName,
+});
+```
+
+We’ve now finished writing everything needed to allow our stack to function and for us to test it. So, let’s now deploy our stack to our AWS account.
+
+We can do this by first installing `esbuild` using `npm i esbuild`, this is required because we’re using the `NodeJSFunction` construct. After installing `esbuild` we can run `cdk deploy` to deploy our CDK stack to our AWS account.
+
+Once the stack has finished deploying, you should see the name of your Lambda function in your terminal but before we invoke our function, we need to check our email address for an email from SNS asking us to confirm our subscription to the SNS topic we created.
+
+Click on the link inside the email to confirm your subscription to the topic and then invoke your new Lambda function by using the CLI command `aws lambda invoke --function-name LAMBDA_NAME   --invocation-type Event -`, making sure to switch out `LAMBDA_NAME` for the name printed in your terminal.
+
+After you’ve invoked your Lambda function you should receive an email from the SNS topic we created containing the details of the CloudWatch alarm that was triggered. If you did, then congrats, everything is working as expected and you can now receive notifications when custom phrases and errors appear in your AWS services logs.
+
+> _**NOTE:** if you’re finished with this example stack, make sure to remove the services provisioned to avoid any unexpected bills by running the command `cdk destroy`._
+
+## Closing Thoughts
+
+Throughout this post, we’ve looked at how we can use custom CloudWatch metrics and alarms with SNS topics and subscriptions to send us notifications of errors or target phrases appearing in our AWS logs.
+
+If you’d like to see the full example code for this blog post [you can view the GitHub repository here.](https://github.com/conermurphy/cdk-tutorials/tree/main/cloudwatch-alarms-sns-notifications)
+
+I hope you found this post helpful.
+
+Thank you for reading.
+
+Coner

@@ -1,0 +1,165 @@
+---
+UUID: 39207905-4d61-43ac-9b6b-d5ce5b57091e
+title: 'Making Environment Variables Effortless to Use in AWS CDK Stacks!'
+date: '2023-05-22'
+topics: ['AWS']
+slug: making-environment-variables-effortless-aws-cdk-stacks
+image: /images/generic/key.jpg
+published: true
+description: Learn to use environment variables in AWS CDK stacks to store sensitive data and user-specific settings and make them easily consumable inside any stack!
+canonical_url: ''
+imageLink: https://unsplash.com/photos/-o90yRQoXAM
+---
+
+Environment variables are a vital part of any project, they allow us to easily store confidential information like API keys and secrets and user-specific configuration settings such as deployment regions and contact information, etc. So, when it comes to working with AWS CDK stacks, it’s important we use environment variables to ensure we don’t share this sensitive information as well as make it easier for others to set up and deploy the stack should we share it with them.
+
+In this post, we’re going to look at how to configure environment variables to work with AWS CDK stacks and make them easy to consume and use anywhere in the stack with the help of a single configuration file.
+
+## Setting Up Our CDK Stack
+
+The first thing we need to do in our CDK stack is create a new file (`.env`) in the root of our repository to contain our environment variables. Inside this file, we’re going to create two new environment variables.
+
+```
+REGION = "eu-west-2";
+LAMBDA_ENV = "test";
+```
+
+The first one we will use to control the AWS region we want to deploy to and the second one will be a variable we’ll pass through to a lambda function to demonstrate passing an environment variable through to a service configured in our CDK stack.
+
+After this, we’re then going to add this `.env` file to our `.gitignore` file to make sure we don’t commit our environment variables by accident. Once our `.env` file is ignored in git, we’re going to install the `dotenv` package using `npm i dotenv`, this will allow us to read in our environment variables and use them in the project.
+
+With that all sorted, let’s create the file that is going to let us access our environment variables from anywhere in the stack. To do this, create a new file in the `lib` directory called `config.ts` and add the below code.
+
+```ts:[]:./lib/config.ts:TYPESCRIPT
+import * as dotenv from "dotenv";
+import path = require("path");
+
+// 1. Configure dotenv to read from our `.env` file
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
+
+// 2. Define a TS Type to type the returned envs from our function below.
+export type ConfigProps = {
+  REGION: string;
+  LAMBDA_ENV: string;
+};
+
+// 3. Define a function to retrieve our env variables
+export const getConfig = (): ConfigProps => ({
+  REGION: process.env.REGION || "us-east-1",
+  LAMBDA_ENV: process.env.LAMBDA_ENV || "",
+});
+```
+
+This file is pretty simple, we’re first importing `dotenv` and configuring it to read in our environment variables from the `.env` file we created. We’re then defining a TypeScript type that matches the environment variables we return from a `getConfig()` function.
+
+This `getConfig()` function is where everything happens, we can call this function and get access to the values of our `.env` file and if for some reason they’re undefined, we’re able to define a fallback value as we have done with the `REGION` variable to fallback to `us-east-1`.
+
+## Consuming Our Environment Variables
+
+With our stack setup complete, let’s look at how we can consume our environment variables using the `getConfig()` function we just defined. First, let’s edit our stack entry file in our `bin` directory to control the region we’re going to deploy to as well as pass our config through to any stacks defined in the file. To do this, we’re going to use the code below.
+
+```ts:[]:./bin/*-stack.ts:TYPESCRIPT
+#!/usr/bin/env node
+import "source-map-support/register";
+import * as cdk from "aws-cdk-lib";
+import { AwsEnvStack } from "../lib/aws-env-stack";
+import { getConfig } from "../lib/config";
+
+// 1. Retrieving our config and envs
+const config = getConfig();
+
+const app = new cdk.App();
+
+new AwsEnvStack(app, "AwsEnvStack", {
+  env: {
+    // 2. Passing our REGION env to our stack to control the region it's deployed to
+    region: config.REGION,
+  },
+  // 3. Passing our entire config to our stack as a prop for us to use.
+  config,
+});
+```
+
+In this file, we retrieve our configuration using the `getConfig()` function. Then we use our `REGION` environment variable to define the region we’d like the stack to be deployed to. We also then pass our entire config as a prop to our stack so we can retrieve all of our environment variables from props instead of calling the `getConfig()` function again.
+
+At this point, if you’re using TS you might get an error regarding the `config` being passed as a prop and it not being assignable to the type of `StackProps` so let’s sort that out in our stack definition file in our `lib` directory.
+
+To fix the above-mentioned error we need to define a new type and use that to type the props being passed into the stack.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+import { Stack, StackProps } from "aws-cdk-lib";
+import { Construct } from "constructs";
+import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
+import { ConfigProps } from "./config";
+
+// 1. New type for the props adding in our configuration
+type AwsEnvStackProps = StackProps & {
+  config: Readonly<ConfigProps>;
+};
+
+export class AwsEnvStack extends Stack {
+  // 2. Consuming our type for `props` and making props mandatory
+  constructor(scope: Construct, id: string, props: AwsEnvStackProps) {
+    super(scope, id, props);
+
+    // 3. Retrieving our config with our environment variables from the props
+    const { config } = props;
+  }
+}
+```
+
+So, with the above code, we define a new type that extends `StackProps` to also include our `config` object with the type we created earlier as the return type of the `getConfig()` function. We then use this new type to type the props being passed into the stack before pulling our `config` object out of the props.
+
+At this point, we can now use our environment variables from our `config` object inside our CDK stack as well as with the services defined inside our stack. To demonstrate this let’s create an example lambda function to log out our environment variable from earlier. To do this create a new file at `./resources/test-lambda.ts` and add in the below code.
+
+```ts:[]:./resources/test-lambda.ts:TYPESCRIPT
+export const handler = () => {
+  console.log(process.env.LAMBDA_ENV);
+};
+```
+
+Let’s now define our new lambda function inside our CDK stack definition file in our `lib` directory by adding the below code under where we destructured our `config` object earlier.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// ...rest of the stack definition
+const { config } = props;
+
+// Lambda definition
+new NodejsFunction(this, "TestLambda", {
+  entry: "./resources/test-lambda.ts",
+  handler: "handler",
+  environment: {
+    LAMBDA_ENV: config.LAMBDA_ENV,
+  },
+});
+```
+
+The important part to note in this definition is the environment object where you can see we’re passing in the `LAMBDA_ENV` from our `config` object. This is then consumed in the lambda function using `process.env.LAMBDA_ENV` which is then logged out. And, with this lambda function defined and configured, we’ve finished writing our CDK stack so let’s move on to deploying and testing it!
+
+## Deployment and Testing
+
+To deploy our CDK stack run `cdk deploy` in your terminal and accept any prompts given to you by the console.
+
+> **NOTE:** You may need to install the `esbuild` package with `npm i esbuild` as we’re using the `NodejsFunction` construct which requires this package to deploy.
+
+Once your stack has finished deploying you can check if the region environment variable worked as planned by reviewing the deployment logs in your terminal. Towards the top of the logs, you should see mentioned the region you’re deploying to, this should align with the `REGION` environment variable you configured earlier.
+
+To test if the `LAMBDA_ENV` environment variable and all of the setup we did worked as planned, we can invoke the lambda by using the CLI with the command below (make sure to switch out `LAMBDA_NAME` with the name of your deployed lambda which you can get from your AWS dashboard or CLI).
+
+```
+aws lambda invoke --function-name  LAMBDA_NAME   --invocation-type Event -
+```
+
+Once your lambda has been invoked, check the log outputs for it in CloudWatch by using the AWS dashboard and you should see the value of the `LAMBDA_ENV` from earlier logged out. If this is the case, congrats, everything is working as planned and you have environment variables configured in your AWS CDK stack!
+
+## Closing Thoughts
+
+During this post, we’ve looked at why environment variables are important to a project as well as how you can use them inside an AWS CDK stack by using a single configuration file and passing the config to our stacks as props.
+
+If you’d like to see the full example code for this blog post [you can view the GitHub repository here](https://github.com/conermurphy/cdk-tutorials/tree/main/stack-envs). And, if you’d like to see the [accompanying video for this blog post, you can watch it on YouTube here.](https://youtu.be/yJ74jWIH3rc)
+
+I hope you found this post helpful.
+
+Thank you for reading
+
+Coner

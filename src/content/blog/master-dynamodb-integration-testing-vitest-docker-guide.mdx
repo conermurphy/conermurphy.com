@@ -1,0 +1,274 @@
+---
+UUID: '9c967737-590b-4acb-85d3-5d5854a319af'
+title: 'Master DynamoDB Integration Testing with Vitest and Docker: A Step-by-Step Guide'
+description: 'Learn how to master DynamoDB integration testing using Vitest and Docker with this easy, step-by-step guide. Enhance your testing skills today!'
+date: '2024-04-25'
+topics: ['AWS', 'DYNAMODB']
+slug: master-dynamodb-integration-testing-vitest-docker-guide
+image:
+published: true
+canonical_url: ''
+imageLink:
+---
+
+Testing is important to every application regardless of how small or large it may be. Tests allow us to ensure things are working as intended, find bugs sooner, create a higher quality product, and most importantly for this post, develop faster and more effectively.
+
+Tests enable us to do all of these things efficiently because when we make changes we’re able to quickly run the related test suite(s) and ensure everything is working as intended. This method of developing is ideal for developing on AWS when using the CDK because it allows us to iterate quickly where otherwise you’d need to wait for CDK stack redeploys.
+
+This is important because if you’ve ever worked on a large CDK project before, you’ll know redeploys can take up a lot of time depending on the size of your CDK stack. And, for every minute you’re waiting for a CDK stack deployment, you’re further out of your development flow and wasting time that could’ve been spent on improving your application.
+
+So, in this tutorial, we’re going to take a look at how to implement integration testing against a DynamoDB database running in a local Docker container in a TypeScript project using [Vitest](https://vitest.dev) as well as writing an example test for a CRUD action for a fictional books project!
+
+## Configuring DynamoDB in Docker
+
+The first thing you’ll need for this project is Docker, so if you don’t already have Docker installed on your machine, you’ll need to install it. The easiest way to do this is to install [Docker Desktop](https://www.docker.com/products/docker-desktop/) which automatically configures everything else for you.
+
+Once you have Docker installed, we can begin working on our project. The first thing you’ll want to create in your project is a `docker-compose.yml` file in the root of the project and add the below code to it.
+
+```yaml:[]:docker-compose.yml
+version: "3.7"
+
+services:
+  testing-db:
+    container_name: dynamodb
+    image: amazon/dynamodb-local:latest
+    ports:
+      - "8000:8000"
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ."
+```
+
+If you’ve never written a `docker-compose.yml` file before this may look a bit strange but essentially what we’ve added to this file is a Docker container definition that uses [Amazon’s Local DynamoDB Docker image](https://hub.docker.com/r/amazon/dynamodb-local/). We’ve also configured our container to run on port `8000` of our machine and to run the defined command when the container starts which will start the database.
+
+After defining our Docker container, the final thing we need to do for our Docker setup is to add a command to our `package.json` that will allow us to start up our local DynamoDB container when we want to use it for our tests.
+
+To do add this command, add the below line inside your `scripts` property in your `package.json` file.
+
+```json:[]:package.json
+"scripts": {
+	"start:testing:db": "docker compose up testing-db"
+},
+```
+
+With all of this configured you can now run the command we just added to our `package.json` file by running `npm run start:testing:db` in your terminal. Then after a few seconds, you should have a local DynamoDB database running in Docker that we can test against in the coming steps.
+
+## Configuring Vitest
+
+With Docker now configured and our testing database ready to go, let’s turn our attention to configuring Vitest in our project and getting ready to write the tests themselves. The first thing you’ll want to do is to install Vitest itself which can be done by running the command `npm i -D vitest` in your terminal.
+
+Once Vitest is installed in your project, we’ll want to quickly update our `package.json` to add the command we’ll need to use to the tests in our project. To do this, add the command below to your `package.json` file under the one we added previously for starting the testing database.
+
+```json:[]:package.json
+"scripts": {
+	"start:testing:db": "docker compose up testing-db",
+  "test": "vitest"
+},
+```
+
+Then with our `package.json` file configured, we’ll want to turn our attention to creating the configuration file for Vitest which can be done by creating a new file in the root of your project called `vitest.config.ts` and adding the code below to it.
+
+```ts:[]:vitest.config.ts:TYPESCRIPT
+import { defineConfig } from "vitest/config";
+
+export default defineConfig({
+  test: {
+    globalSetup: "./__tests__/global.setup.js",
+  },
+});
+```
+
+In this configuration file, we mostly use the default configuration of Vitest, the only thing we add to it is a custom `globalSetup` file which we’re now going to create.
+
+However, before we can create the `global.setup.js` file, we first need to install the AWS DynamoDB SDKs to allow us to interact with DynamoDB from our code. To install the SDKs run the command `npm i @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb` in your terminal.
+
+### Global Setup
+
+With the SDKs for DynamoDB now installed, we can now turn our attention back to creating our `global.setup.js` file. To create this file, make a new file at `./__tests__/global.setup.js` and add the below code to it.
+
+```js:[]:./__tests__/global.setup.js:JAVASCRIPT
+import {
+  CreateTableCommand,
+  DeleteTableCommand,
+  DescribeTableCommand,
+  DynamoDB,
+  ListTablesCommand,
+} from "@aws-sdk/client-dynamodb";
+
+// NOTE: Using the local endpoint for DynamoDB to connect to our Docker container
+const dynamodb = new DynamoDB({
+  endpoint: 'http://localhost:8000',
+})
+const TableName = "test-db";
+
+async function pollTablesList(tableName) {
+  // Fetch a list of the current tables in the database
+  const tables = await dynamodb.send(new ListTablesCommand());
+
+  // If the current tables includes our table name, keep checking
+  if (tables.TableNames.includes(tableName)) {
+    await pollTablesList(tableName);
+  }
+}
+
+async function pollTable(status) {
+  // Fetch the current table from the database
+  const table = await dynamodb.send(
+    new DescribeTableCommand({
+      TableName,
+    })
+  );
+
+  // If the current status is not the provided status ("ACTIVE") then check again
+  if (table.Table.TableStatus !== status) {
+    await pollTable(status);
+  }
+}
+
+export async function setup() {
+  console.log("Running Setup");
+  try {
+    // When setting up the tests, create a new table on our docker database
+    await dynamodb.send(
+      new CreateTableCommand({
+        TableName,
+        AttributeDefinitions: [
+          {
+            AttributeName: "pk",
+            AttributeType: "S",
+          },
+          {
+            AttributeName: "sk",
+            AttributeType: "S",
+          },
+        ],
+        KeySchema: [
+          {
+            AttributeName: "pk",
+            KeyType: "HASH",
+          },
+          {
+            AttributeName: "sk",
+            KeyType: "RANGE",
+          },
+        ],
+        BillingMode: "PAY_PER_REQUEST",
+      })
+    );
+
+    // Poll the table status to ensure it's ACTIVE before allowing tests to run
+    await pollTable("ACTIVE");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function teardown() {
+  console.log("Running Teardown");
+
+  // Delete the table we created in the setup function
+  await dynamodb.send(
+    new DeleteTableCommand({
+      TableName,
+    })
+  );
+
+  // Poll the table to ensure it's been deleted before exitting
+  await pollTablesList(TableName);
+}
+```
+
+A fair amount is happening in this file so let’s take a dive into it and see what’s going on. From this setup file, we export two functions `setup` and `teardown`, these functions are in turn run by Vitest when we’re either setting up the test environment at the beginning or tearing it down at the end.
+
+#### Setup
+
+Inside the `setup` function at the start of the testing process, we create a new table in our DynamoDB database for us to test against in our tests. This is required because although our database is running on Docker, it contains no tables so we need to create one first before we can test against it.
+
+When we create the table we still need to define the primary and sort keys for the table as you would when creating a DynamoDB table normally. For this project, we create the table with a primary key of `pk` and a sort key of `sk` as is popular in one table architectures.
+
+Finally, in our `setup` function, because the `CreateTableCommand` will exit as soon as the command has been sent, we run a function (`pollTable`) to constantly poll our database status until it’s the status we want (`ACTIVE`). Then once the table is in the `ACTIVE` status, we exit from the function.
+
+#### Teardown
+
+With our `teardown` function we do something similar to the `setup` function but instead of setting up the database table, this time we remove it using the `DeleteTableCommand` SDK command.
+
+Then in a similar way to the `setup` function and needing to poll for the table status, with the `teardown` function, we poll the table to see when it’s been removed from the database using the `pollTablesList` function. Then once the table has been successfully removed from the database, we exit the `teardown` function and finish the testing process.
+
+## Writing Our Tests
+
+With all of the above setups now finished, we’re ready to turn our attention to writing the tests themselves. For this tutorial, we’re going to focus on a singular test which will be the creation of a book in our fictional project. But, if you’re interested in seeing the other CRUD action tests I’ve written for this example project, [check out the entire repository on GitHub.](https://github.com/conermurphy/dynamodb-vitest-testing)
+
+Finally, before we jump into our example test, I wanted to note that I’ll be using Zod in the test for parsing data that comes back from the database. So, if you would like to follow along line for line, you’ll need to install Zod using `npm i zod`.
+
+To create our example test, add a new file at `./__tests__/books/create-book.test.ts` and add the below code to it.
+
+```ts:[]:./__tests__/books/create-book.test.ts:TYPESCRIPT
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
+import { GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
+import { expect, describe, it } from "vitest";
+import { z } from "zod";
+
+const bookSchema = z.object({
+  pk: z.string(),
+  sk: z.string(),
+  author: z.string(),
+  title: z.string(),
+});
+
+// NOTE: Using the local endpoint for DynamoDB to connect to our Docker container
+const dynamodb = new DynamoDB({
+  endpoint: 'http://localhost:8000',
+})
+const TableName = "test-db";
+
+describe("create-book", () => {
+  describe("SUCCESS", () => {
+    it("creates a book", async () => {
+      await dynamodb.send(
+        new PutCommand({
+          TableName,
+          Item: {
+            pk: "USER#3",
+            sk: "BOOK#3",
+            author: "Example Author",
+            title: "Example Title",
+          },
+        })
+      );
+
+      const { Item: book } = await dynamodb.send(
+        new GetCommand({
+          TableName,
+          Key: {
+            pk: "USER#3",
+            sk: "BOOK#3",
+          },
+        })
+      );
+
+      const parsedBook = bookSchema.parse(book);
+
+      expect(parsedBook).toMatchObject({
+        pk: "USER#3",
+        sk: "BOOK#3",
+        author: "Example Author",
+        title: "Example Title",
+      });
+    });
+  });
+});
+```
+
+In this code, we define a couple of nested `describe` blocks from Vitest and then add an example `it` statement which contains our test for the creation of a book in our DynamoDB database.
+
+Inside the test itself, we first create a new book in our table by using the `PutCommand` SDK command. Then to test that the data was correctly stored in the database we use the `GetCommand` SDK command to retrieve it from the database before then parsing it with Zod and asserting against it.
+
+With our test now written, we can run the test using the `test` command we added to our `package.json` file earlier on. So, in one terminal ensure your testing database is still running and then in another run the command `npm run test`. Finally, after the test runs you should see a confirmation screen, confirming that the test passed successfully!
+
+## Closing Thoughts
+
+And, with our test now passing, we’ve finished our tutorial! In this tutorial, we’ve written a Vitest test against a local DynamoDB database running in a Docker container that allows us to develop more efficiently and effectively without needing to wait for timely CDK deployments to check if our changes worked.
+
+If you’re interested in seeing the full code for this tutorial, [make sure to check out the GitHub repository for it here](https://github.com/conermurphy/dynamodb-vitest-testing). And, if you’re interested in seeing my other AWS CDK tutorials, [make sure to check out the GitHub repository for them here](https://github.com/conermurphy/cdk-tutorials).
+
+Finally, if you’re interested in learning about more things you can do with AWS and Docker, why not [check out my tutorial showing how to migrate a Lambda function to an ECS/Fargate instance?](https://conermurphy.com/blog/aws-lambda-to-ecs-fargate-migration-guide)
+
+Thank you for reading.

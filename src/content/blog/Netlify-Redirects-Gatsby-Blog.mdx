@@ -1,0 +1,64 @@
+---
+UUID: 'e06661b4-a6e0-43bb-a421-878b5d83869b'
+title: 'How to set-up Netlify Redirects for a GatsbyJS Website'
+description: "Netlify is a great option for hosting your GatsbyJS website. Netlify even makes it super easy to set-up redirects, here's how."
+date: '2020-06-04'
+topics: ['DEVELOPMENT', 'GATSBYJS']
+slug: netlify-redirects-gatsby-website
+image: /images/generic/road-direction-arrows.jpg
+published: true
+canonical_url: ''
+imageLink: 'https://unsplash.com/photos/IstXvxHGoA4'
+---
+
+## Netlify and GatsbyJS
+
+Netlify and GatsbyJS are a great combination for a website. By using this combination you get blazing fast load times, great SEO and a great developer experience. You could have a GatsbyJS website up and running in an afternoon and pushed live on Netlify in a matter of minutes. But, for any website redirects can be a pain so in today's post we're going to cover how to set-up Netlify redirects for a GatsbyJS website.
+
+## Why would you want to redirect?
+
+There's many reasons why you might want to set-up a redirect. For example, it could be changing a blog posts URL to something new, a page redirect to a new version. Or, it could also be something as major as an entire domain redirect. Either way Netlify have made it easy to set-up so let's get started.
+
+## Getting redirected!
+
+Open your GatsbyJS site in your favourite code editor (I recommend VSCode) and then open up your static folder ( if you don't have this folder then just create a new folder in the root directory called 'static'). Once, inside your static folder, create a new file called: '\_redirects'.
+
+The reason we need to the file inside the static folder and not somewhere else is due to how GatsbyJS handles files. When we serve files from gatsby normally they use what is referred to as the module system which provides a whole host of benefits and is definitely how you should be serving your files. But, unfortunately there is one caveat to using this module system that stops our Netlify redirects from working:
+
+From [GatsbyJS Website](https://www.gatsbyjs.org/docs/static-folder/)
+
+```
+Result filenames include content hashes so you don’t need to worry about browsers caching their old versions.
+```
+
+So, if we placed the \_redirects file anywhere outside of the static folder it would be given a random hash in it's file name therefore preventing it being found by Netlify's systems. So, to get around this we put the file in the static folder so when the site is served, the \_redirects file is copied exactly as is into the public folder and served up.
+
+So, by storing our file in the static folder, Netlify's systems can find our \_redirects file, parse it, and set-up the redirects as stated.
+
+Now, we have our files and folders set-up, we're ready to actually set-up our site's redirects.
+
+The '\_redirects' file has one formatting rule we need to follow to successfully set-up redirects. This is:
+
+```
+/fromUrl /toUrl
+```
+
+That's it! All we need to do is put the URL we wish to redirect on the left and then the URL we want to redirect that URL to on the right, with a space in the middle. How easy is that! Don't you love it when things are made easy for us devs. 😃
+
+Below is the \_redirects file from my website where I had to redirect a couple of my blog posts to their new URLs. This should give you a better example of how to set-up redirects.
+
+```
+# Redirects for changed blog post slugs
+/javascript-array-prototype-methods-from-explained  /javascript-array-methods-from-explained
+/javascript-array-prototype-methods-isarray-explained /javascript-array-methods-isarray-explained
+```
+
+_Note: Anything with # at the start of the line will be ignored as a comment._
+
+## Rounding up.
+
+That's it, a super quick tutorial for a super quick process. However, before finishing this post I should mention that there is another way of creating redirects which gives you more control over each redirect for things like: the status code given, passing query parameters, adding headers and signed proxy redirects. Now, I personally haven't had a need to use this method, but should you wish to read more into it, you can on [Netlify's documentation](https://docs.netlify.com/routing/redirects/#syntax-for-the-netlify-configuration-file).
+
+I would love to hear from you, if you have any questions or just want to say hi you can get in touch with me via the links below.
+
+See you in the next post. 😃

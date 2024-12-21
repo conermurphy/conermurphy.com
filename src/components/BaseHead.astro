@@ -1,0 +1,81 @@
+---
+// Import the global.css file here so that it is included on
+// all pages through the use of the <BaseHead /> component.
+import '../styles/global.css'
+
+interface Props {
+  title: string
+  description: string
+  type?: 'article' | 'website'
+  date?: string
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+
+const { title, description, type = 'website', date } = Astro.props
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
+<meta lang="en-GB" />
+<meta property="og:locale" content="en-GB" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title="RSS blog feed for conermurphy.com"
+  href="/rss/blog.xml"
+/>
+
+<!-- Font preloads -->
+<link
+  rel="preload"
+  href="/fonts/atkinson-regular.woff"
+  as="font"
+  type="font/woff"
+  crossorigin
+/>
+<link
+  rel="preload"
+  href="/fonts/atkinson-bold.woff"
+  as="font"
+  type="font/woff"
+  crossorigin
+/>
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+{
+  date ? (
+    <meta
+      property="article:published_time"
+      content={new Date(date).toISOString()}
+    />
+  ) : null
+}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<!-- TODO: Replace this with OG image generation -->
+<!-- <meta property="og:image" content={new URL(image, Astro.url)} /> -->
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content="Coner Murphy" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<!-- TODO: Replace this with OG image generation -->
+<!-- <meta property="twitter:image" content={new URL(image, Astro.url)} /> -->

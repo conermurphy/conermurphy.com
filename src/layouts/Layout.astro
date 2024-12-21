@@ -1,0 +1,31 @@
+---
+import BaseHead from '../components/BaseHead.astro'
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const { title, description } = Astro.props
+---
+
+<!doctype html>
+<html lang="en" class="bg-darkest scroll-smooth">
+  <head>
+    <BaseHead
+      title={title ? `${title} | ${SITE_TITLE}` : SITE_TITLE}
+      description={description || SITE_DESCRIPTION}
+    />
+
+    <!-- TODO: update this to my tracking code  -->
+    <script
+      src="https://cdn.usefathom.com/script.js"
+      data-site=""
+      defer
+      is:inline></script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

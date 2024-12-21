@@ -1,0 +1,123 @@
+---
+UUID: '332b70d6-cc2f-4b70-b851-c98716a218ad'
+title: 'Configuring DKIM/SPF For AWS SES Email Addresses Using The AWS CDK! Stop Emails Going to Spam and Protect Your Domain!'
+description: 'Set up DKIM/SPF for AWS SES using the AWS CDK to prevent spam and protect your domain! Ensure your emails are trusted and delivered.'
+date: '2024-04-11'
+topics: ['AWS', 'SES']
+slug: configuring-dkim-spf-aws-ses-cdk-spam-prevention-email-protection
+image:
+published: true
+canonical_url: ''
+imageLink:
+---
+
+When it comes to sending emails, you want to take all possible steps to protect yourself from spammers, phishers, and other potential malicious/unauthorised users from trying to send emails from your domain. And, this is exactly the problem that DMARC, DKIM, and SPF look to help solve, they’re authentication methods that help protect your domain and ensure that emails sent from it are legitimate ones from authorised users.
+
+So, in this tutorial, we’re going to take a look at configuring DKIM and SPF for domains and emails in AWS SES via the AWS CDK to allow us to send verified emails from SES.
+
+For this tutorial, we don’t need to understand the in-depth workings of these three authentication methods but [if you are interested in learning more about them, check out this post from Cloudflare](https://www.cloudflare.com/en-gb/learning/email-security/dmarc-dkim-spf/).
+
+However, for our purposes, just know that SPF is a DNS record that contains a list of servers that we expect emails to be sent from and DKIM is a way for us to automatically sign emails we send to prove it came from the right domain. DMARC on the other hand is slightly different to DKIM and SPF and is more like a fallback, it instructs mail servers on what to do should DKIM or SPF fail for some reason.
+
+## Prerequisites
+
+Before we can jump into the tutorial, we first need to tick off some prerequisites, notably, we need to have an AWS account created with the AWS CDK configured and set up on our local machine. We then need to have a CDK project that we want to add our SES configuration to, this can be either an existing one or a new one which you can create using `cdk init app --language typescript`.
+
+Once you have these things sorted, we’re ready to start diving into DKIM, SPF and how to configure them on SES via the CDK.
+
+## How DKIM on SES works
+
+Building on our explanation from earlier, let’s take a moment to understand how DKIM works on SES. For us to configure DKIM for an email address on SES, we first need to configure it at the domain level. After configuring it at the domain level, all email addresses that use that domain will inherit the DKIM configuration.
+
+So, to configure our domain to use DKIM on SES, we will need to add some DNS records provided by SES to our domain. Then after some time, SES will detect these DNS records and complete the verification process and set up DKIM for our domain.
+
+Then, for any email addresses we’ve configured that use that domain, they will automatically sign emails they send with DKIM.
+
+## Implementing DKIM with SES
+
+So, as mentioned, to implement DKIM on SES, we first need to create a domain on SES which is done via creating a domain identity. Then after creating that domain identity, we will want to configure that identity to use DKIM and complete the verification process by adding the DNS records. So, now let’s take a look at how to do all of this for an example domain.
+
+### Creating our domain and email identities
+
+To create the domain identity in your CDK stack, add the below code where we use (rather confusingly) the `EmailIdentity` construct with a domain identity to create our domain on SES.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+const domain = "example.com";
+const domainIdentity = Identity.domain(domain);
+
+// 2. Create the new domain Identity on SES, ensuring `dkimSigning` is true
+const sesDomainIdentity = new EmailIdentity(this, "DomainIdentity", {
+  identity: domainIdentity,
+  dkimSigning: true,
+});
+```
+
+In this case, we’ve used the example domain `example.com` so make sure to switch this out for the actual domain you want to configure and create on SES.
+
+With our domain configured in the CDK stack, the next thing we’ll want to do is to define the email address we want to send emails from using SES, this email address will need to use the domain we configured a moment ago. To create a new email address on SES, we can update our previous code to look like the below which will in turn configure an email identity on SES.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// 1. Define our email address and it's domain that we want to use with SES
+const email = "example@example.com";
+const domain = "example.com";
+const domainIdentity = Identity.domain(domain);
+const emailIdentity = Identity.email(email);
+
+// 2. Create the new domain Identity on SES, ensuring `dkimSigning` is true
+const sesDomainIdentity = new EmailIdentity(this, "DomainIdentity", {
+  identity: domainIdentity,
+  dkimSigning: true,
+});
+
+// 3. Create the new email Identity on SES
+new EmailIdentity(this, "EmailIdentity", {
+  identity: emailIdentity,
+});
+```
+
+With our domain and email address both configured, we’re almost ready to deploy to AWS but before we can do that, let’s add in an output using a `CfnOutput` to give us the DNS records we’ll need to add to our domain for configuring DKIM.
+
+To add this output add the below code at the bottom of your CDK stack.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// 4. Print out the DKIM CNAME records to add to our DNS
+new cdk.CfnOutput(this, "DkimRecordOutputs", {
+  value: JSON.stringify(sesDomainIdentity.dkimRecords),
+});
+```
+
+With this code now added, we’re ready to deploy to AWS, so in your terminal run the command `cdk deploy`, accept any prompts it gives you and then wait for your resources to be deployed on AWS.
+
+### Configuring the DNS records
+
+With the deployment finished, you should now have the DKIM records you’ll need to add to the DNS records of the domain you’re configuring. If you didn’t add the output above or want to find the records again in the future, you can also find them via the AWS SES dashboard [as covered in the AWS documentation.](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#just-verify-domain-proc)
+
+At this point, you’ll want to log into your domain hosting platform and add the CNAME DNS records for configuring DKIM to your target domain.
+
+Then after you’ve finished configuring the DNS records for DKIM, you’ll also want to configure the DNS record for SPF. You can do this by creating a new `TXT` record in your DNS records with the name as your domain name and the content/value as `v=spf1 include:amazonses.com ~all`.
+
+**\*NOTE:** You’re only allowed one SPF record per domain so if you have multiple domains you want to include in the SPF record, you’ll need to include them all in the one record which can be done like this `v=spf1 include:amazonses.com include:another.domain ~all`. However, there is a limit of 10 domains in one SPF record so you’ll need to bear this in mind if you have a lot of domains to add.\*
+
+Finally, after a moment (but possibly up to 48 hours) AWS should detect the addition of your DKIM DNS records and then complete the verification process of your domain in the AWS dashboard. Once this has happened you should receive an email to your AWS root account email address saying that DKIM was successfully configured for your target domain. After receiving this email you’ll know DKIM was successfully configured and you can now send emails from SES using that domain with DKIM.
+
+## Testing our configuration
+
+At this point, we’re almost ready to test our SES configuration but first, we need to make sure the email address we added in the CDK stack is verified and ready to be used.
+
+To complete the verification, you should have received an email to the email address you configured in the CDK stack asking you to verify your email address for use with SES, inside this email there should be a link to complete the process. Once you’ve clicked on that link your email should be verified with SES and you should be ready to send emails using it.
+
+With both our email address and domain configured and verified we’re now ready to test our setup and make sure DKIM and SPF are working correctly for any emails sent via SES. To test whether these records are set up correctly we’ll need to inspect an email that has been sent from SES with our configured email address. There are a few ways to send this email, the easiest is using the [mailbox simulator in the SES console](https://docs.aws.amazon.com/ses/latest/dg/send-an-email-from-console.html) but you could also build a [contact form on your website using SES](https://conermurphy.com/blog/how-to-build-a-contact-form-with-nextjs-and-aws) or [send emails in response to an API request.](https://conermurphy.com/blog/rest-api-contact-forms-aws-ses-api-gateway-lambda-aws-cdk-guide)
+
+After choosing the method you want to trigger the sending of an email via and then sending a test email to an email address you have access to, you should then be able to inspect the email received to see its header. The method to do this is different for every email provider but for Gmail, you can use the option to “Show Original” under the menu, you should then see a new page with a breakdown of the email along with if the DKIM and SPF checks passed.
+
+If SPF and DKIM show as “PASS” then everything was configured correctly on SES and you can now send emails via SES knowing you have this extra layer of security in place to help prevent potentially malicious.
+
+### Closing Thoughts
+
+In this tutorial, we’ve looked at how to protect our domain from potentially malicious and unauthorised users by configuring DKIM and SPF DNS records in AWS SES using the AWS CDK.
+
+Now, at this point, you may be asking what happened to the third authentication method we mentioned at the start, DMARC. We didn’t cover it in this tutorial, as it’s not configured specifically for SES but rather, it is a general DNS record that applies to the domain as a whole. Saying this however you should configure it for your domain alongside DKIM and SPF. [The AWS documentation covers DMARC and how to configure it in detail here.](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dmarc.html)
+
+Finally, if you’d like to [see the full example code/project for this tutorial](https://github.com/conermurphy/cdk-tutorials/tree/main/ses-email-dkim-configuration), you can [see it in my CDK Tutorials GitHub repository](https://github.com/conermurphy/cdk-tutorials/tree/main) along with all of my other CDK tutorials and projects.
+
+I hope you found this post helpful and thank you for reading.

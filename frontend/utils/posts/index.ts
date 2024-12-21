@@ -1,9 +1,0 @@
-export { default as getAllPosts } from './getAllPosts';
-export { default as getAllPostData } from './getAllPostsData';
-export { default as getAllPostNames } from './getAllPostsNames';
-export { default as getPost } from './getPost';
-export { default as getHeadings } from './getHeadings/getHeadings';
-export { default as getHeadingLink } from './getHeadingsLink/getHeadingLink';
-export { default as getAllTopics } from './getAllTopics/getAllTopics';
-export { default as getPostPaths } from './getPostPaths';
-export { default as linkBuilder } from './linkBuilder';

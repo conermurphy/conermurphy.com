@@ -1,0 +1,304 @@
+---
+UUID: '85dfb40b-f554-4cb6-8454-5e10aefbb47a'
+title: 'Shifting from AWS Lambda to AWS ECS/Fargate: A Migration Guide'
+description: 'Migrate from AWS Lambda to AWS ECS/Fargate with ease. Discover the key steps needed for a smooth migration to optimize your infrastructure.'
+date: '2024-02-22'
+topics: ['AWS', 'ECS', 'LAMBDA', 'FARGATE']
+slug: aws-lambda-to-ecs-fargate-migration-guide
+image:
+published: true
+canonical_url: ''
+imageLink:
+---
+
+Lambda is one of AWS’s most commonly used services and for a lot of applications and use cases it’s the perfect fit. However, there are some applications and use cases where it might pay to migrate from Lambda to a stateful service like ECS/Fargate.
+
+So, in this post, we’re going to be exploring what are these use cases and why you might want to consider migrating from Lambda to ECS as well as how to do it with an example tutorial covering the migration of a basic Lambda function to an ECS container running an express web server
+
+So, without further ado, let’s jump into the post and first look at why you might want to migrate from Lambda in the first place.
+
+## Why Migrate From Lambda to ECS/Fargate?
+
+There are several reasons you might want to consider migrating from Lambda to ECS but here are four common reasons to consider.
+
+### Long-running processes
+
+While Lambda has a time limit that is perfectly okay for most tasks (15 minutes), there might be some tasks where this might cause an issue. In these cases, it would be beneficial to migrate to ECS as there is no defined time limit per request meaning a request can take as long as it needs to take to complete. What this also means is you can batch requests together instead of needing to split them out over multiple requests as you would need to with Lambda.
+
+### Resource limitations
+
+Lambda has fixed limits on the amount of resources (CPU, memory, and storage) an individual function can consume. ECS on the other hand gives you much more granular control over the resources it uses by allowing you to configure the underlying EC2 instance as required. Or, if you’re using Fargate (as we will be later on), you can choose the exact CPU and memory configuration you require.
+
+### Granular Environment Control
+
+Because ECS runs any Docker image you provide it; including your custom ones, you can control the exact environment your code will be running in. By using ECS and Docker you have control over the runtime, environment, libraries, and dependencies that are running, and with all of this granularity, you can control things exactly as needed.
+
+### Cheaper for Predictable, Continuous Workloads
+
+If you have predictable workloads then it can be more cost-effective to use ECS when compared to provisioned concurrency in Lambda. This is because you can make use of Fargate’s pay-as-you-go pricing model or if you’re not using Fargate, the reserved/spot instances in EC2.
+
+### Remove Lambda Cold Starts
+
+If you’re building an application that needs quick responses and low latency like an API using Lambda, then the issue of cold starts is likely one you’re familiar with. Now, there are some solutions to this for Lambda, such as using provisioned concurrency which can become quite expensive, or by [pre-warming your functions with EventBridge rules](https://conermurphy.com/blog/pre-warming-lambda-functions-eventbridge-rules) but this has the issue of being inconsistent.
+
+While ECS on the other hand doesn’t suffer from cold starts because the service is always available and ready to process requests so there is no need to re-configure the environment per request like Lambda does.
+
+## How to Migrate From Lambda to ECS/Fargate
+
+Now, that we’ve looked at why we might want to migrate from Lambda to ECS, let’s work through an example CDK stack and show how you might actually go about performing this migration.
+
+In this example, we’re going to be migrating a basic Lambda function that returns a simple message to the requester. But, if you would like to see a more complete example where we migrate an entire API with authentication from Lambda to ECS, make sure to let me know by [messaging me on social media.](https://conermurphy.com/contact)
+
+### Prerequisites
+
+Before we can jump in and start writing some code, let’s take a moment and look at the various things we need to have configured on our machine and set up to allow us to perform this migration.
+
+Firstly, we’ll need the AWS CLI and CDK setup and configured on our machine, we’ll also need a CDK project to which we want to add our example code so if you don’t already have one of these, create a new one using `cdk init app --language typescript`.
+
+Finally, we’ll need to have Docker installed and running on our machine. To check if you already have this configured, run the command `docker --version`. If you get a response with a version number then you have Docker installed and ready to go. If not, then you will need to install it, the easiest way to do this is by installing the [Docker Desktop application](https://www.docker.com/products/docker-desktop/) and letting it configure the CLI for you.
+
+With our prerequisites covered, let’s jump into the actual tutorial and migrate a Lambda function to ECS!
+
+### Defining an Example Lambda Function
+
+The first thing we’re going to do in our CDK stack is define our example Lambda function that we’re going to be migrating over to ECS. So, to do this create a new file at `./resources/lambda.ts` and add the below code to it.
+
+```ts:[]:./resources/lambda.ts:TYPESCRIPT
+// ./resources/lambda.ts
+
+export const handler = async () => {
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: "Hello from Lambda!" }),
+  };
+};
+```
+
+Then inside your stack definition file in the `lib` directory add the below code inside the existing class defined.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// 1. Create starting example Lambda function
+const lambda = new NodejsFunction(this, "EXAMPLE_LAMBDA", {
+  entry: "resources/lambda.ts",
+  handler: "handler",
+  runtime: Runtime.NODEJS_20_X,
+});
+
+const functionURL = lambda.addFunctionUrl({
+  // Removing the authType will allow us to test the function without any authentication
+  authType: FunctionUrlAuthType.NONE,
+});
+
+new cdk.CfnOutput(this, "LAMBDA_FUNCTION_URL", {
+  value: functionURL.url,
+});
+```
+
+This code will define our new Lambda function in our CDK stack as well as add a new Lambda function URL to it which we’ll use to test it in Postman later on. Finally, are creating the function URL, we log it out to our terminal.
+
+### Creating Our express Server Docker Image
+
+With our Lambda function now defined and ready to go, let’s turn our attention to the ECS server we’re going to be migrating the Lambda’s functionality to. So, as mentioned earlier in the introduction, we’re going to be migrating our Lambda function to a web server running in ECS, more specifically it’s going to be an express web server running inside a Docker container on ECS.
+
+This is because ECS is just a service for managing Docker containers and not actually processing requests like Lambda does, this means we need to add the request processing functionality in our Docker container which is where the express server comes in. By us running the express server, we can listen to requests and then process them like we would in Lambda.
+
+#### Creating Our express Server
+
+So, now we know why we need an express server, let’s go about creating one. To start we need to install some dependencies for express into our CDK stack project. You can do this by running two commands `npm i express` and `npm i -D @types/node @types/express`.
+
+Then with these dependencies installed, create a new file at `./resources/ecs-server.ts` and add the below code to it. This code is the actual express server code that will run when a request is sent to it. This is a basic server as we’re just focusing on the process of migrating from Lambda but you could expand this server to add in any normal express features you’d like to use.
+
+```ts:[]:./resources/ecs-server.ts:TYPESCRIPT
+// ./resources/ecs-server.ts
+
+import express from "express";
+
+const app = express();
+const PORT = 3000;
+
+app.get("/", async (req, res) => {
+  // Add the logic for handling the request here
+  const result = {
+    statusCode: 200,
+    body: { message: "Hello from ECS!" },
+  };
+
+  // Send the response from the endpoint
+  res.status(200).json(result);
+});
+
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+```
+
+#### Defining the `Dockerfile`
+
+Then with our express server defined, we now need to create a new `Dockerfile` in the root of the project. This file will handle the building of our express server into a Docker image that is then ready to be pushed to a Docker registry to be used inside ECS. To create this file, create the `Dockerfile` in the root of the project and add the below code.
+
+```docker:[]:./Dockerfile:DOCKER
+# ./Dockerfile
+
+# Use an official Node runtime as a parent image
+FROM node:20
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy the current directory contents into the container at /usr/src/app
+COPY . .
+
+# Install any needed packages specified in package.json and TS globally to build our server
+RUN npm install && npm install typescript -g
+
+# Make port 3000 available to the world outside this container
+EXPOSE 3000
+
+# Build the TS to JS
+RUN tsc
+
+# Run our web server when the container launches
+CMD ["node", "./resources/ecs-server.js"]
+```
+
+We do a few things in this file so let’s quickly run through it, first of all, we base our Docker image off the official Node version 20 image before then copying in all of our files and installing the required dependencies as well as TypeScript.
+
+After we’ve installed all of the dependencies we need, we then expose the port `3000` as this is the port our server is hosted on and without this requests wouldn’t reach out server. Then, after this, we run `tsc` to convert the TypeScript code we wrote for our server into JavaScript so we can run it using Node. Finally, we run the compiled JavaScript code for our web server when the container launches using the `CMD` command.
+
+#### Building the Docker Image
+
+Finally, with our express server’s code written and the `Dockerfile` created we can now, build our Docker image by running the command `docker build -t <YOUR_IMAGE_NAME>:<YOUR_TAG> .` and substituting in the image name and tag you’d like to use. So, for example you could run the command `docker build -t example-ecs-container:1.0.0 .` and you would create a Docker image with a name of `example-ecs-container` that is tagged at version 1.0.0.
+
+### Publishing Your Docker Image to AWS
+
+Now, with our Docker image built and ready to go, we’re almost ready to define our ECS resources in our stack definition file. But, first we need to publish our Docker image to a container registry.
+
+If you wanted to you could use Docker Hub for this but in the spirit of keeping this an AWS tutorial, we’re going to use Amazon’s own container registry called ECR (Elastic Container Registry).
+
+To do this we’re going to need to run a few AWS CLI commands so let’s get started. The first command we’re going to run is to create a new ECR repository for us to host our Docker images in. To create this, run the command `aws ecr create-repository --repository-name <YOUR_REPOSITORY_NAME>`, making sure to add in the repository name you’d like to use.
+
+Then after creating your new ECR repository, we need to authenticate it with Docker which we can do by running the command `aws ecr get-login-password --region <YOUR_AWS_REGION> | docker login --username AWS --password-stdin <YOUR_AWS_ACCOUNT_ID>[.dkr.ecr.<YOUR_AWS_REGION>.amazonaws.com](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/)`. Before running this command, make sure to switch in your AWS region and account ID.
+
+After that command finishes, we’re almost ready to push our Docker image to ECR, all we need to do is tag our newly created image on ECR by running the command `docker tag <YOUR_LOCAL_IMAGE_NAME>:<YOUR_TAG> <YOUR_AWS_ACCOUNT_ID>[.dkr.ecr.<YOUR_AWS_REGION>.amazonaws.com](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/)[/<YOUR_ECR_REPOSITORY_NAME>:](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/your-repository-name:tag)<YOUR_TAG>`. Once again, make sure to switch in your AWS region and account ID, the name and tag of your docker image built earlier and finally, your ECR repository name and the tag you’d like to give it on ECR (probably the same as the one you used earlier).
+
+Finally, with all of that out of the way, we can now push our new image to ECR by running the command `docker push <YOUR_AWS_ACCOUNT_ID>[.dkr.ecr.<YOUR_AWS_REGION>.amazonaws.com](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/)[/<YOUR_ECR_REPOSITORY_NAME>:](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/your-repository-name:tag)<YOUR_TAG>`. Make sure to add in your AWS account ID, AWS region, ECR repository name and tag.
+
+At this point your new docker image should now be available on ECR but if you would like to validate this you can do so by running the command `aws ecr list-images --repository-name <YOUR_REPOSITORY_NAME>`. This command will list all of the available Docker images for the ECR repository name you provide.
+
+### Deploying Our ECS Instance
+
+With all of the Docker image stuff handled and our new Docker image ready to be used on ECR, we can turn our attention to actually defining our new ECS instance and actually deploying our web server.
+
+For this tutorial, I’m going to be using Fargate to deploy and run our server to help simplify some of the steps but if you would like to use ECS you’re more than welcome to.
+
+All of the below code will be happening in the stack definition file in the `lib` directory so to start, under the code we added for our Lambda function earlier, create a new ECS cluster using the code below.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+const cluster = new Cluster(this, "ECS_EXAMPLE_CLUSTER");
+```
+
+Then under this code we’re going to define a new security group that will allow outbound connections from our ECS cluster as well as allow traffic in that is using port `3000` so our web server can receive the requests and process them.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+const securityGroup = new SecurityGroup(this, "TaskSecurityGroup", {
+  vpc: cluster.vpc,
+  allowAllOutbound: true,
+});
+
+securityGroup.addIngressRule(Peer.anyIpv4(), Port.tcp(3000));
+```
+
+After creating our cluster and security group, we’re going to create a new Fargate task definition to define the OS the container will run in as well as the CPU architecture to be used. It’s important to note that this CPU architecture should line up with the CPU architecture of your local machine that you used to build the Docker image to avoid any issues with incompatible images.
+
+At this point, we’re also going to define a new IAM execution role that will be used to run the task definition we define. This is required because the default execution role won’t have the required permissions to pull images from a private ECR repository (ECR repositories are private by default). To create both the execution role and the Fargate task definition, add in the below code under the security group code we added above.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+const executionRole = new Role(this, "TaskExecutionRole", {
+  assumedBy: new ServicePrincipal("ecs-tasks.amazonaws.com"),
+  managedPolicies: [
+    ManagedPolicy.fromAwsManagedPolicyName(
+      "service-role/AmazonECSTaskExecutionRolePolicy"
+    ),
+  ],
+});
+
+const taskDefinition = new FargateTaskDefinition(
+  this,
+  "FARGATE_TASK_DEFINITION",
+  {
+    executionRole,
+    runtimePlatform: {
+      operatingSystemFamily: OperatingSystemFamily.LINUX,
+      /**
+       * Change this to align with the machine you're building on.
+       * E.g. Apple Silicon (M*) === ARM64
+       */
+      cpuArchitecture: CpuArchitecture.ARM64,
+    },
+  }
+);
+```
+
+We now have just two things left to do before we’re ready to deploy our new Fargate task running our express web server. The first is to add our Docker image from earlier as a new container on our Fargate task definition which we can do by adding the below code.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+// Reference our Docker image from ECR.
+// Replace this with your own ECR image URL using the format:
+// <ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/<REPO_NAME>:<TAG>
+const image = ContainerImage.fromRegistry("YOUR_IMAGE_URL");
+
+const container = taskDefinition.addContainer("WEB_SERVER_CONTAINER", {
+  image,
+  memoryLimitMiB: 512,
+  cpu: 256,
+  logging: LogDrivers.awsLogs({ streamPrefix: "EXAMPLE_APP" }),
+});
+
+container.addPortMappings({
+  containerPort: 3000,
+});
+```
+
+In this code, make sure to switch (`YOUR_IMAGE_URL`) for the URL of your Docker image that is hosted in your ECR repository using the format provided in the code comment.
+
+Then inside this code, we define the resources available to our Fargate task definition as well as configure the logging of the container so we can monitor what our express server is doing. We then also pass through port `3000` to our container so it can process the requests allowed by our security group earlier on.
+
+Finally, the last thing we need to do is actually create our new Fargate service that will actually run our new Docker container and allow us to make requests to it. To do this, add the below code under the code we just added for adding the container to our Fargate service.
+
+```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+new FargateService(this, "WEB_SERVER_FARGATE_SERVICE", {
+  cluster,
+  taskDefinition,
+  // Assign a public IP to our ECS task so we can easily test it from Postman
+  assignPublicIp: true,
+  vpcSubnets: { subnetType: SubnetType.PUBLIC },
+  // Use the security group we defined earlier
+  securityGroups: [securityGroup],
+});
+```
+
+As you can see in this final code block, we tie together everything we’ve defined so far in the file, the `cluster`, `taskDefinition` as well as the `securityGroup`. But, there are two more important things to note in this file and they are the `assignPublicIp` and `vpcSubnets` properties because without these it wouldn’t be possible to send requests to our express server as the container wouldn’t be publicly reachable.
+
+However, with that code added, we’ve finished defining everything we need for our express server and the Docker container that will run it so the last thing we need to do is to deploy it all by running the command `cdk deploy` in our terminal and accepting any prompts we’re given.
+
+### Testing Our Lambda and ECS/Fargate Deployments
+
+With our Lambda function and express server Docker container deployed and running, we’re almost ready to test them by sending requests to them from Postman. However, before we can do this, we need to find the public IP of our Fargate task to allow us to send requests to it from Postman.
+
+To find the public IP, it’s easiest to use the AWS dashboard. Inside the dashboard, goto the ECS service page then inspect the cluster we deployed before switching to the “Tasks” tab and then selecting the task we created. After opening the task’s page you should see the “Public IP” field listed on the right hand side, make a note of this value as we’ll need it in a moment.
+
+Now, we have the public IP address of our ECS server, we’re now ready to test our Lambda function and ECS web server. So, let’s start by testing the Lambda function which we can do by sending a `GET` request from a tool like Postman to the Lambda function URL that should’ve been outputted to our terminal after the `cdk deploy` command earlier. After sending this request, you should then receive a 200 status code and a message saying “Hello from Lambda!” back.
+
+Then repeat the same process but instead of using the Lambda function URL, switch in the public IP of your Fargate task using the format `PUBLIC_IP:3000`. It’s important we add the `:3000` on the end as this is the port our express server is hosted on so we need to make sure we target it specifically with our request. After sending the `GET` request, you should receive a 200 status code back with a response body containing “Hello from ECS!”
+
+At this point if you got both of these responses with 200 status codes then congrats, everything worked as expected and you have successfully migrated a Lambda function over to an ECS web server using Fargate.
+
+### Cleanup
+
+With our testing complete and our express web server performing as expected, here’s how you can cleanup and destroy all of the resources we’ve created in this tutorial. First of all, to destroy the CDK stack we created, you can run the command `cdk destroy` followed by accepting any prompts you’re given.
+
+Then at this point, you just need to remove the ECR repository we created as well as the images inside, which we can do by running the command `aws ecr delete-repository --repository-name <YOUR_REPOSITORY_NAME> --force` and replacing the name of the ECR repository. By providing the `--force` argument it will delete a repository that still contains images, deleting the images inside it as well so we don’t need to worry about manually deleting individual images.
+
+### Closing Thoughts
+
+And, that’s it we’ve now finished our tutorial and have successfully migrated a Lambda function over to an ECS/Fargate web server using express. I hope you found this post helpful and if you would like to read the full example code of this project, make sure to [check it out on GitHub](https://github.com/conermurphy/cdk-tutorials/tree/main/migrate-lambda-to-ecs) along [with all of the other CDK tutorials I have](https://github.com/conermurphy/cdk-tutorials).
+
+Thank you for reading.
