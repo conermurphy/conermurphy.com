@@ -1,0 +1,96 @@
+---
+import {
+  transformerMetaHighlight,
+  transformerNotationFocus,
+  transformerNotationDiff,
+} from '@shikijs/transformers'
+import { Code } from 'astro:components'
+import type {
+  BuiltinLanguage,
+  LanguageRegistration,
+  SpecialLanguage,
+} from 'shiki'
+
+interface Props {
+  code: string
+  language: BuiltinLanguage | SpecialLanguage | LanguageRegistration
+  highlightedLines: string
+  filePath: string
+  icon: string
+}
+
+const props = Astro.props
+const code = props.code
+  .split('\n')
+  // NOTE: Slice to remove the first and last empty lines
+  .slice(1, -1)
+  .map((line, i) => `${i + 1}    ${line}`)
+  .join('\n')
+---
+
+<div class="mb-6 overflow-hidden rounded-lg border-2 border-brand bg-dark">
+  <div class="relative bg-darkest px-4 pt-3">
+    <p class="w-max rounded-t bg-dark px-3 py-1 text-sm italic">
+      {props.filePath}
+    </p>
+    <p class="absolute right-5 top-2">{props.language}</p>
+  </div>
+
+  <Code
+    code={code}
+    class="!bg-dark p-4 text-sm"
+    lang={props.language}
+    meta={props.highlightedLines}
+    transformers={[
+      transformerMetaHighlight(),
+      transformerNotationFocus(),
+      transformerNotationDiff(),
+      {
+        tokens(tokens) {
+          return tokens.map((token) => {
+            const [slotOne, ...restOfSlots] = token
+
+            const match = /^(\S+)(.*)$/.exec(slotOne.content)
+            if (!match) return token
+
+            const [, firstPart, rest] = match
+            if (!rest) return token
+
+            return [
+              { ...slotOne, content: firstPart, offset: 0 },
+              { ...slotOne, content: rest, offset: 10 },
+              ...restOfSlots,
+            ]
+          })
+        },
+        line(node) {
+          // @ts-expect-error
+          this.addClassToHast(node.children[0], 'line-number')
+        },
+      },
+    ]}
+  />
+</div>
+
+<style is:global>
+  .highlighted {
+    /* NOTE: Same as var(--light-color) */
+    background-color: rgba(225, 226, 227, 0.25);
+    width: 100% !important;
+    display: inline-block;
+    border-left: 0.25rem solid var(--brand-color);
+  }
+
+  pre.has-focused .line:not(.focused) {
+    filter: blur(1px);
+  }
+
+  .line:not(.highlighted) {
+    margin-left: 0.25rem;
+  }
+
+  .line-number {
+    color: var(--light-color) !important;
+    margin-left: 0.25rem;
+  }
+</style>

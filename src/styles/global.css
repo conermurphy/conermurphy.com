@@ -1,3 +1,12 @@
+:root {
+  --brand-color: #FA347B;
+  --darkest-color: #0B0E16;
+  --dark-color: #111622;
+  --mid-color: #A4A5A8;
+  --light-color: #E1E2E3;
+  --lightest-color: #FFFFFF;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "Arvo"
 }

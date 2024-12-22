@@ -1,15 +1,12 @@
 ---
-UUID: '9c967737-590b-4acb-85d3-5d5854a319af'
 title: 'Master DynamoDB Integration Testing with Vitest and Docker: A Step-by-Step Guide'
 description: 'Learn how to master DynamoDB integration testing using Vitest and Docker with this easy, step-by-step guide. Enhance your testing skills today!'
 date: '2024-04-25'
 topics: ['AWS', 'DYNAMODB']
 slug: master-dynamodb-integration-testing-vitest-docker-guide
-image:
-published: true
-canonical_url: ''
-imageLink:
 ---
+
+import CodeBlock from '../../components/md/CodeBlock.astro'
 
 Testing is important to every application regardless of how small or large it may be. Tests allow us to ensure things are working as intended, find bugs sooner, create a higher quality product, and most importantly for this post, develop faster and more effectively.
 
@@ -25,7 +22,7 @@ The first thing you’ll need for this project is Docker, so if you don’t alre
 
 Once you have Docker installed, we can begin working on our project. The first thing you’ll want to create in your project is a `docker-compose.yml` file in the root of the project and add the below code to it.
 
-```yaml:[]:docker-compose.yml
+<CodeBlock language="yaml" highlightedLines="" filePath="docker-compose.yml" icon="" code={`
 version: "3.7"
 
 services:
@@ -35,7 +32,7 @@ services:
     ports:
       - "8000:8000"
     command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ."
-```
+`}/>
 
 If you’ve never written a `docker-compose.yml` file before this may look a bit strange but essentially what we’ve added to this file is a Docker container definition that uses [Amazon’s Local DynamoDB Docker image](https://hub.docker.com/r/amazon/dynamodb-local/). We’ve also configured our container to run on port `8000` of our machine and to run the defined command when the container starts which will start the database.
 
@@ -43,11 +40,11 @@ After defining our Docker container, the final thing we need to do for our Docke
 
 To do add this command, add the below line inside your `scripts` property in your `package.json` file.
 
-```json:[]:package.json
+<CodeBlock language="json" highlightedLines="" filePath="package.json" icon="" code={`
 "scripts": {
-	"start:testing:db": "docker compose up testing-db"
+    "start:testing:db": "docker compose up testing-db"
 },
-```
+`}/>
 
 With all of this configured you can now run the command we just added to our `package.json` file by running `npm run start:testing:db` in your terminal. Then after a few seconds, you should have a local DynamoDB database running in Docker that we can test against in the coming steps.
 
@@ -57,24 +54,24 @@ With Docker now configured and our testing database ready to go, let’s turn ou
 
 Once Vitest is installed in your project, we’ll want to quickly update our `package.json` to add the command we’ll need to use to the tests in our project. To do this, add the command below to your `package.json` file under the one we added previously for starting the testing database.
 
-```json:[]:package.json
+<CodeBlock language="json" highlightedLines="" filePath="package.json" icon="" code={`
 "scripts": {
-	"start:testing:db": "docker compose up testing-db",
-  "test": "vitest"
+    "start:testing:db": "docker compose up testing-db",
+    "test": "vitest"
 },
-```
+`}/>
 
 Then with our `package.json` file configured, we’ll want to turn our attention to creating the configuration file for Vitest which can be done by creating a new file in the root of your project called `vitest.config.ts` and adding the code below to it.
 
-```ts:[]:vitest.config.ts:TYPESCRIPT
+<CodeBlock language="ts" highlightedLines="" filePath="vitest.config.ts" icon="ts" code={`
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  test: {
-    globalSetup: "./__tests__/global.setup.js",
-  },
+    test: {
+      globalSetup: "./__tests__/global.setup.js",
+    },
 });
-```
+`}/>
 
 In this configuration file, we mostly use the default configuration of Vitest, the only thing we add to it is a custom `globalSetup` file which we’re now going to create.
 
@@ -84,97 +81,95 @@ However, before we can create the `global.setup.js` file, we first need to insta
 
 With the SDKs for DynamoDB now installed, we can now turn our attention back to creating our `global.setup.js` file. To create this file, make a new file at `./__tests__/global.setup.js` and add the below code to it.
 
-```js:[]:./__tests__/global.setup.js:JAVASCRIPT
-import {
-  CreateTableCommand,
-  DeleteTableCommand,
-  DescribeTableCommand,
-  DynamoDB,
-  ListTablesCommand,
-} from "@aws-sdk/client-dynamodb";
+<CodeBlock language="js" highlightedLines="" filePath="./__tests__/global.setup.js" icon="js" code={`
+  import {
+    CreateTableCommand,
+    DeleteTableCommand,
+    DescribeTableCommand,
+    DynamoDB,
+    ListTablesCommand,
+  } from "@aws-sdk/client-dynamodb";
 
 // NOTE: Using the local endpoint for DynamoDB to connect to our Docker container
-const dynamodb = new DynamoDB({
-  endpoint: 'http://localhost:8000',
-})
+const dynamodb = new DynamoDB({ endpoint: 'http://localhost:8000' })
 const TableName = "test-db";
 
 async function pollTablesList(tableName) {
-  // Fetch a list of the current tables in the database
-  const tables = await dynamodb.send(new ListTablesCommand());
+    // Fetch a list of the current tables in the database
+    const tables = await dynamodb.send(new ListTablesCommand());
 
-  // If the current tables includes our table name, keep checking
-  if (tables.TableNames.includes(tableName)) {
-    await pollTablesList(tableName);
-  }
+    // If the current tables includes our table name, keep checking
+    if (tables.TableNames.includes(tableName)) {
+      await pollTablesList(tableName);
+    }
 }
 
 async function pollTable(status) {
-  // Fetch the current table from the database
-  const table = await dynamodb.send(
-    new DescribeTableCommand({
-      TableName,
-    })
-  );
-
-  // If the current status is not the provided status ("ACTIVE") then check again
-  if (table.Table.TableStatus !== status) {
-    await pollTable(status);
-  }
-}
-
-export async function setup() {
-  console.log("Running Setup");
-  try {
-    // When setting up the tests, create a new table on our docker database
-    await dynamodb.send(
-      new CreateTableCommand({
+    // Fetch the current table from the database
+    const table = await dynamodb.send(
+      new DescribeTableCommand({
         TableName,
-        AttributeDefinitions: [
-          {
-            AttributeName: "pk",
-            AttributeType: "S",
-          },
-          {
-            AttributeName: "sk",
-            AttributeType: "S",
-          },
-        ],
-        KeySchema: [
-          {
-            AttributeName: "pk",
-            KeyType: "HASH",
-          },
-          {
-            AttributeName: "sk",
-            KeyType: "RANGE",
-          },
-        ],
-        BillingMode: "PAY_PER_REQUEST",
       })
     );
 
-    // Poll the table status to ensure it's ACTIVE before allowing tests to run
-    await pollTable("ACTIVE");
-  } catch (e) {
-    console.log(e);
-  }
+    // If the current status is not the provided status ("ACTIVE") then check again
+    if (table.Table.TableStatus !== status) {
+      await pollTable(status);
+    }
+}
+
+export async function setup() {
+    console.log("Running Setup");
+    try {
+      // When setting up the tests, create a new table on our docker database
+      await dynamodb.send(
+        new CreateTableCommand({
+          TableName,
+          AttributeDefinitions: [
+            {
+              AttributeName: "pk",
+              AttributeType: "S",
+            },
+            {
+              AttributeName: "sk",
+              AttributeType: "S",
+            },
+          ],
+          KeySchema: [
+            {
+              AttributeName: "pk",
+              KeyType: "HASH",
+            },
+            {
+              AttributeName: "sk",
+              KeyType: "RANGE",
+            },
+          ],
+          BillingMode: "PAY_PER_REQUEST",
+        })
+      );
+
+      // Poll the table status to ensure it's ACTIVE before allowing tests to run
+      await pollTable("ACTIVE");
+    } catch (e) {
+      console.log(e);
+    }
 }
 
 export async function teardown() {
-  console.log("Running Teardown");
+    console.log("Running Teardown");
 
-  // Delete the table we created in the setup function
-  await dynamodb.send(
-    new DeleteTableCommand({
-      TableName,
-    })
-  );
+    // Delete the table we created in the setup function
+    await dynamodb.send(
+      new DeleteTableCommand({
+        TableName,
+      })
+    );
 
-  // Poll the table to ensure it's been deleted before exitting
-  await pollTablesList(TableName);
+    // Poll the table to ensure it's been deleted before exitting
+    await pollTablesList(TableName);
 }
-```
+`}/>
 
 A fair amount is happening in this file so let’s take a dive into it and see what’s going on. From this setup file, we export two functions `setup` and `teardown`, these functions are in turn run by Vitest when we’re either setting up the test environment at the beginning or tearing it down at the end.
 
@@ -200,62 +195,60 @@ Finally, before we jump into our example test, I wanted to note that I’ll be u
 
 To create our example test, add a new file at `./__tests__/books/create-book.test.ts` and add the below code to it.
 
-```ts:[]:./__tests__/books/create-book.test.ts:TYPESCRIPT
+<CodeBlock language="ts" highlightedLines="" filePath="./__tests__/books/create-book.test.ts" icon="ts" code={`
 import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
 import { expect, describe, it } from "vitest";
 import { z } from "zod";
 
 const bookSchema = z.object({
-  pk: z.string(),
-  sk: z.string(),
-  author: z.string(),
-  title: z.string(),
+    pk: z.string(),
+    sk: z.string(),
+    author: z.string(),
+    title: z.string(),
 });
 
 // NOTE: Using the local endpoint for DynamoDB to connect to our Docker container
-const dynamodb = new DynamoDB({
-  endpoint: 'http://localhost:8000',
-})
+const dynamodb = new DynamoDB({ endpoint: 'http://localhost:8000' })
 const TableName = "test-db";
 
 describe("create-book", () => {
-  describe("SUCCESS", () => {
-    it("creates a book", async () => {
-      await dynamodb.send(
-        new PutCommand({
-          TableName,
-          Item: {
-            pk: "USER#3",
-            sk: "BOOK#3",
-            author: "Example Author",
-            title: "Example Title",
-          },
-        })
-      );
+    describe("SUCCESS", () => {
+      it("creates a book", async () => {
+        await dynamodb.send(
+          new PutCommand({
+            TableName,
+            Item: {
+              pk: "USER#3",
+              sk: "BOOK#3",
+              author: "Example Author",
+              title: "Example Title",
+            },
+          })
+        );
 
-      const { Item: book } = await dynamodb.send(
-        new GetCommand({
-          TableName,
-          Key: {
-            pk: "USER#3",
-            sk: "BOOK#3",
-          },
-        })
-      );
+        const { Item: book } = await dynamodb.send(
+          new GetCommand({
+            TableName,
+            Key: {
+              pk: "USER#3",
+              sk: "BOOK#3",
+            },
+          })
+        );
 
-      const parsedBook = bookSchema.parse(book);
+        const parsedBook = bookSchema.parse(book);
 
-      expect(parsedBook).toMatchObject({
-        pk: "USER#3",
-        sk: "BOOK#3",
-        author: "Example Author",
-        title: "Example Title",
+        expect(parsedBook).toMatchObject({
+          pk: "USER#3",
+          sk: "BOOK#3",
+          author: "Example Author",
+          title: "Example Title",
+        });
       });
     });
-  });
 });
-```
+`}/>
 
 In this code, we define a couple of nested `describe` blocks from Vitest and then add an example `it` statement which contains our test for the creation of a book in our DynamoDB database.
 

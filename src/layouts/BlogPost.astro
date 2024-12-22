@@ -7,31 +7,59 @@ import Layout from './Layout.astro'
 
 type Props = CollectionEntry<'blog'>['data']
 
-const { title, description, date, updatedDate } = Astro.props
+const { title, description, date, updatedDate, topics } = Astro.props
 ---
 
 <Layout title={title} description={description}>
   <Header />
-  <main>
-    <article>
-      <div class="prose">
-        <div class="title">
-          <div class="date">
-            <FormattedDate date={date} />
+
+  <main class="space-y-24 py-24 sm:space-y-40 sm:py-32">
+    <article class="mx-auto max-w-4xl space-y-32 px-6 lg:px-8">
+      <div>
+        <div class="pb-16 sm:pb-24">
+          <div class="flex justify-between">
+            <div class="flex items-center gap-x-2 font-bold">
+              <span class="text-brand">
+                <FormattedDate date={date} />
+              </span>
+              {
+                updatedDate ? (
+                  <p>
+                    // Last updated on
+                    <span class="text-brand">
+                      <FormattedDate date={updatedDate} />
+                    </span>
+                  </p>
+                ) : null
+              }
+            </div>
+
             {
-              updatedDate ? (
-                <div class="last-updated-on">
-                  Last updated on <FormattedDate date={updatedDate} />
+              topics?.length ? (
+                <div class="flex gap-x-2">
+                  {topics.map((topic) => (
+                    <p class="font-semibold text-brand">{topic}</p>
+                  ))}
                 </div>
               ) : null
             }
           </div>
-          <h1>{title}</h1>
-          <hr />
+
+          <div class="space-y-2">
+            <h1
+              class="mt-2 text-3xl font-semibold tracking-tight text-light sm:text-5xl"
+            >
+              {title}
+            </h1>
+            <p class="mt-8 text-pretty text-lg text-mid sm:text-xl/8">
+              {description}
+            </p>
+          </div>
         </div>
         <slot />
       </div>
     </article>
   </main>
+
   <Footer />
 </Layout>

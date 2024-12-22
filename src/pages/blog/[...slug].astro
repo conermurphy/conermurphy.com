@@ -3,6 +3,11 @@ import { type CollectionEntry, getCollection } from 'astro:content'
 import BlogPost from '../../layouts/BlogPost.astro'
 import { render } from 'astro:content'
 import CodeComponent from '../../components/md/CodeComponent.astro'
+import PComponent from '../../components/md/PComponent.astro'
+import AComponent from '../../components/md/AComponent.astro'
+import H2Component from '../../components/md/H2Component.astro'
+import H3Component from '../../components/md/H3Component.astro'
+import H4Component from '../../components/md/H4Component.astro'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog')
@@ -15,8 +20,17 @@ type Props = CollectionEntry<'blog'>
 
 const post = Astro.props
 const { Content } = await render(post)
+
+const components = {
+  code: CodeComponent,
+  p: PComponent,
+  a: AComponent,
+  h2: H2Component,
+  h3: H3Component,
+  h4: H4Component,
+}
 ---
 
 <BlogPost {...post.data}>
-  <Content components={{ code: CodeComponent }} />
+  <Content components={components} />
 </BlogPost>

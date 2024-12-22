@@ -23,6 +23,9 @@ importers:
       '@astrojs/tailwind':
         specifier: ^5.1.4
         version: 5.1.4(astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1))(tailwindcss@3.4.17)
+      '@fontsource-variable/jetbrains-mono':
+        specifier: ^5.1.1
+        version: 5.1.1
       '@fontsource-variable/syne':
         specifier: ^5.1.0
         version: 5.1.0
@@ -413,6 +416,9 @@ packages:
   '@fastify/busboy@2.1.1':
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
+
+  '@fontsource-variable/jetbrains-mono@5.1.1':
+    resolution: {integrity: sha512-V+1aRFRvuZ66PpO30s8l/2aADKzpV9VRsO3kSZE+rTMvi4vab3cUcPHMN2z+wAvjkYJO71Yf+g3/Y6pSMmQpVQ==}
 
   '@fontsource-variable/syne@5.1.0':
     resolution: {integrity: sha512-u38VNAY8npFwmDH83DvsH4nqu+hmLHNdegXunOPCrbvHTzm1Qt7dStYjl4mFXvQ6AoCNUkb/l0vKOZh94nWrUg==}
@@ -2834,6 +2840,8 @@ snapshots:
     optional: true
 
   '@fastify/busboy@2.1.1': {}
+
+  '@fontsource-variable/jetbrains-mono@5.1.1': {}
 
   '@fontsource-variable/syne@5.1.0': {}
 
