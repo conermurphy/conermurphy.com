@@ -1,15 +1,16 @@
 {
-  "name": "astro",
+  "name": "conermurphy",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "astro": "astro",
     "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "astro dev",
+    "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.3",
+    "@astrojs/node": "^9.0.0",
     "@astrojs/rss": "^4.0.10",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^5.1.4",
@@ -17,6 +18,8 @@
     "@fontsource/arvo": "^5.1.0",
     "@shikijs/transformers": "^1.24.3",
     "astro": "^5.1.1",
+    "astro-sst": "2.45.2",
+    "sst": "3.4.27",
     "tailwindcss": "^3.4.17"
   },
   "devDependencies": {

@@ -50,3 +50,6 @@ dist/
 
 # generated types
 .astro/
+
+# sst
+.sst
