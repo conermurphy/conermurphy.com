@@ -3,3 +3,4 @@
 
 export const SITE_TITLE = 'Coner Murphy'
 export const SITE_DESCRIPTION = 'Welcome to my website!'
+export const PAGE_POST_LIMIT = 10

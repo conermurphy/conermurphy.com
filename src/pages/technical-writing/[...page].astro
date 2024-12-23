@@ -5,13 +5,15 @@ import Footer from '../../components/Footer.astro'
 import Layout from '../../layouts/Layout.astro'
 import { getCollection } from 'astro:content'
 import PostCard from '../../components/PostCard.astro'
+import Pagination from '../../components/Pagination.astro'
+import { PAGE_POST_LIMIT } from '../../consts'
 
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = (await getCollection('technicalWriting')).sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
   )
 
-  return paginate(posts, { pageSize: 10 })
+  return paginate(posts, { pageSize: PAGE_POST_LIMIT })
 }) satisfies GetStaticPaths
 
 const { page } = Astro.props
@@ -47,6 +49,8 @@ const { page } = Astro.props
           ))
         }
       </section>
+
+      <Pagination page={page} />
     </div>
   </main>
 

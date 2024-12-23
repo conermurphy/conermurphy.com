@@ -1,14 +1,9 @@
 ---
-UUID: '25e1d71d-ab7b-4b95-872c-caa93c890e34'
 title: 'How to Trigger a Lambda Function From Another Lambda Function Using an AWS EventBridge Event Bus'
 date: '2023-02-10'
 topics: ['LAMBDA', 'AWS', 'EVENTBRIDGE']
 slug: trigger-lambda-function-from-lambda-via-eventbridge-event-bus
-image: /images/generic/paper-flowchart.jpg
-published: true
 description: "It’s a quite common to need to trigger a lambda function from another lambda and there's many ways to do it. But, today we'll explore how to do it with an AWS EventBridge event bus."
-canonical_url: ''
-imageLink: 'https://unsplash.com/photos/lFtttcsx5Vk'
 ---
 
 It’s a quite common scenario to need to trigger a lambda function from another lambda function. This might be because you need to trigger another action to occur unrelated to your original function or it could be to split up the processing of some data, for example, one lambda per user. So, now we have an idea of why you might want to trigger a lambda from another lambda, let’s talk about how we can do it. There are quite a few ways you can do it but the one we’ll be focusing on in this post is doing it via an AWS EventBridge event bus.

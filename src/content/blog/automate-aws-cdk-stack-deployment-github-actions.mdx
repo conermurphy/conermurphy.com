@@ -1,14 +1,9 @@
 ---
-UUID: '0ff22ef5-e6e1-4319-a100-9d6d6ab711f6'
 title: 'Automate Your AWS CDK Stack Deployment with GitHub Actions'
 description: "To ensure security and maintain consistency while deploying AWS CDK stacks, it's best to deploy them using a CI environment like GitHub Actions. Learn how to configure GitHub Actions for deploying CDK stacks in this tutorial."
 date: '2023-03-26'
 topics: ['AWS', 'GITHUB']
 slug: automate-aws-cdk-stack-deployment-github-actions
-image: /images/generic/okay.jpg
-published: true
-canonical_url: ''
-imageLink: https://unsplash.com/photos/IPyGgliTDo4
 ---
 
 When we’re deploying our AWS CDK stacks we have a few options available to us, the easiest and where most people start is deploying them via the terminal on your local machine with a command like `cdk deploy`. For development, this method is more than adequate as it allows quick and easy deployment but for staging and production environments we should avoid deploying from our local terminal and instead use a CI environment like GitHub Actions.

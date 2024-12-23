@@ -1,14 +1,9 @@
 ---
-UUID: '4d6ae5fe-c5cf-48a4-b4e9-607d7317f2b6'
 title: "Maximizing Your AWS Lambda Function's Potential with Layers and the AWS CDK"
 date: '2023-03-11'
 topics: ['LAMBDA', 'AWS', 'TYPESCRIPT']
 slug: maximizing-aws-lambda-function-potential-layers-aws-cdk
-image: /images/generic/sticky-notes.jpg
-published: true
 description: 'Learn how to maximize AWS Lambda performance with Layers in AWS CDK using TypeScript. Improve deployment time and shrink deployment size.'
-canonical_url: ''
-imageLink: 'https://unsplash.com/photos/Rl_ceSSjnuQ'
 ---
 
 A common approach to working with AWS lambdas in the AWS CDK with TypeScript is to bundle your external dependencies and reused code into the final compiled JavaScript that is deployed to the lambda function. Often this is achieved by using something like the `NodeJsFunction` construct but this comes with its downsides such as increased bundle size leading to potentially slower deployment times.

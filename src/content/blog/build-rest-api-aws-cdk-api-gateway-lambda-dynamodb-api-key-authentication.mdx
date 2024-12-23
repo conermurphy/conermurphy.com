@@ -1,14 +1,9 @@
 ---
-UUID: '92bc057b-b101-4f87-9040-04273e8619e3'
 title: 'How to Build a REST API With the AWS CDK Using API Gateway, Lambda, and Dynamodb With API Key Authentication'
 description: 'Learn how to build a REST API with API key authentication using AWS API Gateway, DynamoDB, Lambda, and the AWS CDK as well as how to test it with Postman.'
 date: '2023-06-22'
 topics: ['AWS', 'LAMBDA', 'API-GATEWAY', 'DYNAMODB']
 slug: build-rest-api-aws-cdk-api-gateway-lambda-dynamodb-api-key-authentication
-image: /images/generic/server.jpg
-published: true
-canonical_url: ''
-imageLink: 'https://unsplash.com/photos/M5tzZtFCOfs'
 ---
 
 APIs are a common occurrence in the developer world and for a good reason, they allow us to easily connect separate systems and products together. It’s highly likely that at some point in your developer journey, you’ll use one but today we’re going to go one step further and look at how we can create one with AWS using API Gateway, Lambda, DynamoDB, and the AWS CDK.
@@ -275,7 +270,6 @@ The above function is for our `/posts` endpoint so we just trigger the relevant 
 
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
 import { PutCommand } from '@aws-sdk/lib-dynamodb';
-import { randomUUID } from 'crypto';
 import { IPost } from '../../../types';
 
 const dynamodb = new DynamoDB({});

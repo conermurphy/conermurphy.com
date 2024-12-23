@@ -3,6 +3,7 @@ import {
   transformerMetaHighlight,
   transformerNotationFocus,
   transformerNotationDiff,
+  transformerRenderWhitespace,
 } from '@shikijs/transformers'
 import { Code } from 'astro:components'
 import type {
@@ -10,6 +11,8 @@ import type {
   LanguageRegistration,
   SpecialLanguage,
 } from 'shiki'
+import CheckIcon from '../icons/check.astro'
+import CopyIcon from '../icons/copy.astro'
 
 interface Props {
   code: string
@@ -28,7 +31,9 @@ const code = props.code
   .join('\n')
 ---
 
-<div class="mb-6 overflow-hidden rounded-lg border-2 border-brand bg-dark">
+<div
+  class="group relative mb-6 overflow-hidden rounded-lg border-2 border-brand bg-dark"
+>
   <div class="relative bg-darkest px-4 pt-3">
     <p class="w-max rounded-t bg-dark px-3 py-1 text-sm italic">
       {props.filePath}
@@ -36,12 +41,30 @@ const code = props.code
     <p class="absolute right-5 top-2">{props.language}</p>
   </div>
 
+  <button
+    class="group absolute bottom-2 right-2 grid h-8 w-8 grid-cols-1 grid-rows-1 place-items-center rounded border border-brand bg-transparent text-light opacity-0 transition-all duration-150 ease-in-out hover:bg-brand group-hover:opacity-100"
+    id="copyToClipboard"
+    data-value={props.code}
+  >
+    <span
+      class="invisible col-start-1 row-start-1 opacity-0 group-data-[checked]:visible group-data-[checked]:opacity-100"
+    >
+      <CheckIcon />
+    </span>
+    <span
+      class="col-start-1 row-start-1 group-data-[checked]:invisible group-data-[checked]:opacity-0"
+    >
+      <CopyIcon />
+    </span>
+  </button>
+
   <Code
     code={code}
     class="!bg-dark p-4 text-sm"
     lang={props.language}
     meta={props.highlightedLines}
     transformers={[
+      transformerRenderWhitespace(),
       transformerMetaHighlight(),
       transformerNotationFocus(),
       transformerNotationDiff(),
@@ -71,6 +94,28 @@ const code = props.code
     ]}
   />
 </div>
+
+<script>
+  const copyButtons = document.querySelectorAll('#copyToClipboard')
+
+  copyButtons.forEach((button) => {
+    button.addEventListener('click', async () => {
+      const codeToCopy = button.getAttribute('data-value')
+      if (!codeToCopy) return
+
+      try {
+        await navigator.clipboard.writeText(codeToCopy)
+        button.setAttribute('data-checked', 'true')
+
+        setTimeout(() => {
+          button.removeAttribute('data-checked')
+        }, 1000)
+      } catch (e) {
+        console.log(e)
+      }
+    })
+  })
+</script>
 
 <style is:global>
   .highlighted {

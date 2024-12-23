@@ -1,14 +1,9 @@
 ---
-UUID: 'f2cbe3ac-f483-4e34-9322-f761fa784b50'
 title: 'Leveraging AWS WAF to Throttle API Gateway Rest API Requests'
 description: 'In this tutorial, learn how to protect and throttle requests to an AWS API Gateway REST API using AWS WAF based on IP addresses. Deployed using the AWS CDK.'
 date: '2023-12-06'
 topics: ['AWS', 'API-GATEWAY', 'LAMBDA', 'WAF']
 slug: aws-waf-throttle-api-gateway-rest-api-requests
-image:
-published: true
-canonical_url: ''
-imageLink:
 ---
 
 [In a previous post](https://conermurphy.com/blog/api-gateway-usage-plans-api-key-throttling), we looked at throttling API key requests associated with a REST API deployed with API Gateway by using usage plans. However, [in the documentation](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-api-usage-plans.html), AWS mentions that this isn’t the recommended solution for throttling requests because the limits we define in the usage plan for throttling are applied “on a best-effort basis”.
