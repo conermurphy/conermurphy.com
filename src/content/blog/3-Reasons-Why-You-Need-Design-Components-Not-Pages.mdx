@@ -11,7 +11,7 @@ In this post, I want to cover why I think designing components is the best way t
 
 Let's get started.
 
-## Consistent and Efficent Design
+## Consistent and Efficient Design
 
 If you've ever tried to replicate the same element across two pages you'll appreciate how hard it can be to make them identical. By designing individual components standalone from their use cases we remove this issue. This is because the component is already made, all we need to do is drop it into the new use case.
 
@@ -31,7 +31,7 @@ When developing components with this mindset, it pays to generalise the componen
 
 Because we remove the need to recreate the same component multiple times, we can cut down on the development time of the project. This means we can spend more time ensuring the project is fit for purpose and meets all our client's needs.
 
-## How I Implemented This Metholody on My Website
+## How I Implemented This Methodology on My Website
 
 ### Designing
 
@@ -51,7 +51,8 @@ Below are all the components currently used on my website.
 
 By having all the components separated I cut down on the amount of code required on the individual pages. Below is the code used to generate the content for my home page.
 
-```jsx:[]:index.js:JAVASCRIPT
+```jsx
+META: './index.js'
 export default function HomePage({ path }) {
   const MotionLink = motion(Link);
 

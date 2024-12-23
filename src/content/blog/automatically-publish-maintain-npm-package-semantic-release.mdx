@@ -14,7 +14,8 @@ By the end of this post, we’re going to have created and published an NPM pack
 
 For this tutorial, I’ll be using a custom ESLint configuration I created which you can find [on GitHub here](https://github.com/conermurphy/eslint-config-conermurphy) if you’re interested. But, it doesn’t need to be this, the package you publish can be pretty much anything you want. For the purposes of this tutorial, it can even be a project generated from running `npm init -y`. Really all we need is an `index.js` file in the root of the project that has some code exported from it and then have this file referenced in the `main` property of the `package.json` file like below.
 
-```jsx:[]:package.json:NODEJS
+```json
+META: './package.json':{2-4}
 {
 	"name": "some-name",
 	"main": "index.js",
@@ -35,7 +36,8 @@ To get started with the setup of `semantic-release`, you first need to install i
 
 To install these plugins run `npm install @semantic-release/changelog @semantic-release/git -D`. With these plugins installed we can move on to creating the configuration file for `semantic-release` so in the root of your repository create a new file called `.releaserc.json` and paste the below into it.
 
-```json:[]:.releaserc.json
+```json
+META: '.releaserc.json'
 {
   "branches": ["main"],
   "plugins": [
@@ -70,7 +72,8 @@ These plugins are what will perform the “magic” for us. When we push to `mai
 
 To configure the GitHub Action I just mentioned, create a `.github` folder at the root of your repository and then a `workflows` folder within that. Inside the `workflows` folder, create a new file called `release.yml` and paste the following code into it.
 
-```yaml:[]:release.yml
+```yaml
+META: './release.yml'
 name: Release
 on:
   push:

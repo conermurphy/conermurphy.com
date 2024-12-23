@@ -22,7 +22,8 @@ Once you have access to the models you want to use, we’re ready to continue wi
 
 To start with you’ll need a CDK stack so you can either use an existing one or create a new one using the command `cdk init app --language typescript`. Then once you have your CDK stack, you’ll want to ensure the stack is configured to use the same region as the region we have access to the Bedrock models in. So, in my case that is `us-east-1`, you can configure this inside the `bin` directory where your stack is defined.
 
-```ts:[]:./bin/*.ts:TYPESCRIPT
+```ts
+META: './bin/*.ts':{ }
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
@@ -42,7 +43,8 @@ new YourStack(app, 'YourStack', {
 
 After your stack and its region are configured correctly, let’s move on to defining our Lambda function. To do this, add the below code to your stack’s services definition file inside the `lib` directory.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 new NodejsFunction(this, 'TextLambda', {
   entry: 'resources/text-lambda.ts',
   handler: 'handler',
@@ -73,7 +75,8 @@ With our function now defined in our CDK stack, let’s create it. To do this, c
 
 With that out of the way, we’re ready to add the code for our function. Below is all of the code you’ll need for it.
 
-```ts:[]:./resources/text-lambda.ts:TYPESCRIPT
+```ts
+META: './resources/text-lambda.ts':{ }
 import {
   BedrockRuntimeClient,
   InvokeModelCommand,

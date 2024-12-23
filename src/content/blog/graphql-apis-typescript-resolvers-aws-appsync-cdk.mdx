@@ -20,7 +20,8 @@ To get started with this tutorial, you’ll of course need an AWS CDK project so
 
 The first thing we’re going to do is create a new DynamoDB database, to do this, add the below code to your stack definition file (`./lib/*-stack.ts`).
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 1. Create a new DynamoDB table
 const table = new Table(this, 'posts-db', {
   tableName: 'graphql-posts-db',
@@ -35,7 +36,8 @@ In this code, we define a new DynamoDB table with the name `graphql-posts-db`, w
 
 With our DynamoDB database now configured and ready to go, let’s turn our attention to the AppSync GraphQL API. To create this, we’re going to add the below code under the code we just added for DynamoDB.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...DynamoDB definition
 
 // 2. Create an AppSync GraphQL API
@@ -61,7 +63,8 @@ With this code, we generate a new GraphQL API with the name `graphql-api` and po
 
 With our GraphQL API now defined, let’s take a look at creating the GraphQL Schema file we linked to the API. To do this, create a new folder in the root of the project called `graphql` and then inside that directory create a new file called `schema.graphql`. Inside that file, add the below code.
 
-```graphql:[]:./graphql/schema.graphql:GRAPHQL
+```graphql
+META: './graphql/schema.graphql'
 type Post {
   id: ID!
   title: String!
@@ -95,7 +98,8 @@ In our schema, we define the two queries we’ll be using (`getPost` and `getAll
 
 Finally, with our GraphQL API and schema defined, we can link it to our database by adding the below code to our stack definition file under our GraphQL API definition from earlier.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...GraphQL API definition
 
 // 3. Link the GraphQL API with the DynamoDB table
@@ -129,7 +133,8 @@ With the TypeScript types for our GraphQL schema generated, we’re ready to sta
 
 With those packages installed, let’s create our TypeScript resolvers. First of all, create a new directory inside our `graphql` directory called `ts-resolvers` and then inside that directory create a new file called `create-post.ts`. This will be the resolver for our `createPost` mutation and handle any requests sent to the mutation as well as the responses being sent back. Inside our resolver file, add the below code.
 
-```ts:[]:./graphql/ts-resolvers/create-post.ts:TYPESCRIPT
+```ts
+META: './graphql/ts-resolvers/create-post.ts':{ }
 import { put } from '@aws-appsync/utils/dynamodb';
 import { Context, util } from '@aws-appsync/utils';
 import { CreatePostMutationVariables, Post } from '../types/graphql';
@@ -152,7 +157,8 @@ We then just need to repeat this process for the remaining queries and mutations
 
 ### Delete
 
-```ts:[]:./graphql/ts-resolvers/delete-post.ts:TYPESCRIPT
+```ts
+META: './graphql/ts-resolvers/delete-post.ts':{ }
 import { remove } from '@aws-appsync/utils/dynamodb';
 import { Context } from '@aws-appsync/utils';
 import { DeletePostMutationVariables, Post } from '../types/graphql';
@@ -172,7 +178,8 @@ export function response(ctx: Context) {
 
 ### Get One
 
-```ts:[]:./graphql/ts-resolvers/get-one-post.ts:TYPESCRIPT
+```ts
+META: './graphql/ts-resolvers/get-one-post.ts':{ }
 import { get } from '@aws-appsync/utils/dynamodb';
 import { Context } from '@aws-appsync/utils';
 import { Post, GetPostQueryVariables } from '../types/graphql';
@@ -190,7 +197,8 @@ export function response(ctx: Context) {
 
 ### Get All
 
-```ts:[]:./graphql/ts-resolvers/get-all-posts.ts:TYPESCRIPT
+```ts
+META: './graphql/ts-resolvers/get-all-posts.ts':{ }
 import { scan } from '@aws-appsync/utils/dynamodb';
 import { Context } from '@aws-appsync/utils';
 import { Post } from '../types/graphql';
@@ -212,7 +220,8 @@ With the TypeScript resolvers for our GraphQL API written we’ve almost finishe
 
 But, there is an easy solution to this, we can build out our TypeScript to JavaScript before we deploy our CDK stack, this is why we installed `esbuild` and `glob` earlier on. To set this up, create a new file in the root of your CDK project called `build.mjs` and add the below code to it.
 
-```js:[]:./build.mjs:JAVASCRIPT
+```js
+META: './build.mjs':{ }
 import { build } from "esbuild";
 import { glob } from "glob";
 
@@ -235,7 +244,8 @@ This code will build out all of the TypeScript files in our `ts-resolvers` direc
 
 But, before we do that, let’s make a small quality-of-life improvement and add a new `predeploy` step to our `package.json` so we don’t need to remember to run our build file each time manually before deploying. To add this script, add the below line of code to your `scripts` object in your `package.json` file.
 
-```json:[]:./package.json
+```json
+META: './package.json'
 {
   "scripts": {
     "predeploy": "node build.mjs"
@@ -247,7 +257,8 @@ But, before we do that, let’s make a small quality-of-life improvement and add
 
 With our resolvers now written and building out to JavaScript, let’s connect them to our GraphQL API by creating a resolver resource for each one on the data source we created earlier when we connected DynamoDB to our GraphQL API. Below is the code you’ll need to add to your stack definition file for all of the resolvers.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...data source definition
 
 // 4. Defining our AppSync Resolvers
@@ -296,7 +307,8 @@ And, now we’ve finished defining all of the services and resources we’ll nee
 
 To add these outputs, add the below code under the resolvers code we just added in the last step in our stack definition file.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...resolvers code
 
 // Misc. Outputs

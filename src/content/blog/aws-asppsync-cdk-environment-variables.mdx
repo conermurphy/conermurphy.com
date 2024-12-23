@@ -20,7 +20,8 @@ There aren’t many prerequisites for this tutorial, the main two are that you w
 
 Once you have your CDK stack created, the first thing we’re going to want to do is to create a new DynamoDB table definition in the stack definition file in the `lib` directory. You can do this by adding the code below.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{}
 // Create a new DynamoDB table
 const table = new Table(this, "appsync-envs-table", {
   partitionKey: { name: "id", type: AttributeType.STRING },
@@ -34,7 +35,8 @@ With our database definition sorted, we can now turn our attention to the GraphQ
 
 To add this definition to our stack, add the below code under the code we just added for our DynamoDB database.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // Create a new GraphQL API using CfnGraphQLApi as GraphQLApi does not support environment variables yet
 const api = new CfnGraphQLApi(this, "appsync-envs-graphql-api", {
   name: "appsync-envs-api",
@@ -52,7 +54,8 @@ In this code, we create our API but we also add some configuration options. Firs
 
 As mentioned a moment ago, we’re now going to create the API key to use with the GraphQL API we just defined. To do this, add the below code under the code we just added for the GraphQL API.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // Create a new API key for our GraphQL API
 const apiKey = new CfnApiKey(this, "appsync-envs-api-key", {
   apiId: api.attrApiId,
@@ -71,7 +74,8 @@ With our GraphQL API defined and our API key added to it, there is only one thin
 
 To add the schema, create a new file at `./graphql/schema.graphql` with the below contents.
 
-```graphql:[]:./graphql/schema.graphql:GRAPHQL
+```graphql
+META: './graphql/schema.graphql':{}
 type Mutation {
   createItem: Item
 }
@@ -90,7 +94,8 @@ You can see this is a pretty basic schema which is all we need for this tutorial
 
 To link this schema file to our GraphQL API, add the below code to the bottom of your stack definition file in the `lib` directory.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // Add the schema to our API
 new CfnGraphQLSchema(this, "appsync-envs-schema", {
   apiId: api.attrApiId,
@@ -110,7 +115,8 @@ Also, at this point, you’ll need to install a few NPM packages that we’ll be
 
 The first thing we need to do before we can write our GraphQL resolvers is to add a new data source that will allow us to connect to our DynamoDB database from inside the resolvers. To create this data source, add the below code under the schema file code we added in the last section.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // Create a new IAM role for our DB table for AppSync to use
 const dataSourceRole = new Role(this, "appsync-envs-datasource-role", {
   assumedBy: new ServicePrincipal("appsync.amazonaws.com"),
@@ -154,7 +160,8 @@ With our data source now configured let’s turn our attention to the resolvers 
 
 Then inside the `create-item.ts` file, add the below code.
 
-```ts:[]:./graphql/resolvers/ts/create-item.ts:TYPESCRIPT
+```ts
+META: './graphql/resolvers/ts/create-item.ts':{}
 import { Context } from "@aws-appsync/utils";
 import { put } from "@aws-appsync/utils/dynamodb";
 
@@ -182,7 +189,8 @@ AppSync automatically exposes our environment variables under the `env` property
 
 Then with our first resolver created, we just need to create the second one. To do that, add the below code to the file `get-item.ts`.
 
-```ts:[]:./graphql/resolvers/ts/get-item.ts:TYPESCRIPT
+```ts
+META: './graphql/resolvers/ts/get-item.ts':{ }
 import { Context } from "@aws-appsync/utils";
 import { get } from "@aws-appsync/utils/dynamodb";
 
@@ -203,7 +211,8 @@ I won’t go into too much detail on the compiling process in this post as I cov
 
 To compile our resolvers, create a new file in the root of the project called `build.mjs` and add the below code to it.
 
-```js:[]:./build.mjs:JAVASCRIPT
+```js
+META: './build.mjs':{ }
 import { build } from "esbuild";
 import { glob } from "glob";
 
@@ -224,7 +233,8 @@ await build({
 
 Then update your `package.json` file to include the below two scripts.
 
-```json:[]:./package.json
+```json
+META: './package.json'
 "predeploy": "node build.mjs",
 "deploy": "cdk deploy"
 ```
@@ -235,7 +245,8 @@ And, then if you would like to test if the compiling works correctly, run the co
 
 With the resolvers now created and compiled, all that we need to do is to define them in our stack definition file in the `lib` directory. To do that, add the code below under the code we added for the data source in the previous section.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // Create a new JS resolver (built from the TS file) for our API
 const createItemResolver = new CfnResolver(
   this,
@@ -284,7 +295,8 @@ At this point, we’re almost ready to hit deploy and then test our new GraphQL 
 
 To add this to the stack definition file, add the code below under the code we just added for the resolver definitions.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // Output our API URL and API key value
 new cdk.CfnOutput(this, "appsync-envs-output", {
   value: JSON.stringify({

@@ -58,7 +58,8 @@ With our prerequisites covered, let’s jump into the actual tutorial and migrat
 
 The first thing we’re going to do in our CDK stack is define our example Lambda function that we’re going to be migrating over to ECS. So, to do this create a new file at `./resources/lambda.ts` and add the below code to it.
 
-```ts:[]:./resources/lambda.ts:TYPESCRIPT
+```ts
+META: './resources/lambda.ts':{ }
 // ./resources/lambda.ts
 
 export const handler = async () => {
@@ -71,7 +72,8 @@ export const handler = async () => {
 
 Then inside your stack definition file in the `lib` directory add the below code inside the existing class defined.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 1. Create starting example Lambda function
 const lambda = new NodejsFunction(this, "EXAMPLE_LAMBDA", {
   entry: "resources/lambda.ts",
@@ -103,7 +105,8 @@ So, now we know why we need an express server, let’s go about creating one. To
 
 Then with these dependencies installed, create a new file at `./resources/ecs-server.ts` and add the below code to it. This code is the actual express server code that will run when a request is sent to it. This is a basic server as we’re just focusing on the process of migrating from Lambda but you could expand this server to add in any normal express features you’d like to use.
 
-```ts:[]:./resources/ecs-server.ts:TYPESCRIPT
+```ts
+META: './resources/ecs-server.ts':{ }
 // ./resources/ecs-server.ts
 
 import express from "express";
@@ -129,7 +132,8 @@ app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
 Then with our express server defined, we now need to create a new `Dockerfile` in the root of the project. This file will handle the building of our express server into a Docker image that is then ready to be pushed to a Docker registry to be used inside ECS. To create this file, create the `Dockerfile` in the root of the project and add the below code.
 
-```docker:[]:./Dockerfile:DOCKER
+```docker
+META: './Dockerfile'
 # ./Dockerfile
 
 # Use an official Node runtime as a parent image
@@ -186,13 +190,15 @@ For this tutorial, I’m going to be using Fargate to deploy and run our server 
 
 All of the below code will be happening in the stack definition file in the `lib` directory so to start, under the code we added for our Lambda function earlier, create a new ECS cluster using the code below.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 const cluster = new Cluster(this, "ECS_EXAMPLE_CLUSTER");
 ```
 
 Then under this code we’re going to define a new security group that will allow outbound connections from our ECS cluster as well as allow traffic in that is using port `3000` so our web server can receive the requests and process them.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 const securityGroup = new SecurityGroup(this, "TaskSecurityGroup", {
   vpc: cluster.vpc,
   allowAllOutbound: true,
@@ -205,7 +211,8 @@ After creating our cluster and security group, we’re going to create a new Far
 
 At this point, we’re also going to define a new IAM execution role that will be used to run the task definition we define. This is required because the default execution role won’t have the required permissions to pull images from a private ECR repository (ECR repositories are private by default). To create both the execution role and the Fargate task definition, add in the below code under the security group code we added above.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 const executionRole = new Role(this, "TaskExecutionRole", {
   assumedBy: new ServicePrincipal("ecs-tasks.amazonaws.com"),
   managedPolicies: [
@@ -234,7 +241,8 @@ const taskDefinition = new FargateTaskDefinition(
 
 We now have just two things left to do before we’re ready to deploy our new Fargate task running our express web server. The first is to add our Docker image from earlier as a new container on our Fargate task definition which we can do by adding the below code.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // Reference our Docker image from ECR.
 // Replace this with your own ECR image URL using the format:
 // <ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/<REPO_NAME>:<TAG>
@@ -258,7 +266,8 @@ Then inside this code, we define the resources available to our Fargate task def
 
 Finally, the last thing we need to do is actually create our new Fargate service that will actually run our new Docker container and allow us to make requests to it. To do this, add the below code under the code we just added for adding the container to our Fargate service.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 new FargateService(this, "WEB_SERVER_FARGATE_SERVICE", {
   cluster,
   taskDefinition,

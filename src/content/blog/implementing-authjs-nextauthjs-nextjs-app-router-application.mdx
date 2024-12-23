@@ -65,7 +65,8 @@ We’re now ready to move on to configuring Auth.js (NextAuth.js).
 
 The first thing we need to do for configuring Auth.js in our project is create a new file at `./app/lib/auth.ts` and add in the below code, these are the configuration options and settings for Auth.js.
 
-```tsx:[]:./app/lib/auth.ts:TYPESCRIPT
+```tsx
+META: './app/lib/auth.ts':{ }
 import { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 
@@ -87,7 +88,8 @@ In this code, we configure our GitHub provider using the new environment variabl
 
 However, for now, let’s finish configuring Auth.js by adding a new API route to handle the callbacks from GitHub, we can do this by creating the file `./app/api/auth/[...nextauth]/route.ts` and adding the below code.
 
-```tsx:[]:./app/api/auth/[...nextauth]/route.ts:TYPESCRIPT
+```tsx
+META: './app/api/auth/[...nextauth]/route.ts':{ }
 import NextAuth from "next-auth";
 import { authOptions } from "@/app/lib/auth";
 
@@ -101,7 +103,8 @@ This is quite a simple file as it’s just passing in the settings we configured
 
 With our API endpoint and settings now configured, all we need to do is update our UI so we can sign in to our application. The first thing we’re going to do is create a couple of reusable buttons that will allow us to sign in and out of our application. To create these buttons, create a new file at `./app/components/AuthButtons.tsx` and add the below code to it.
 
-```tsx:[]:./app/components/AuthButtons.tsx:TYPESCRIPT
+```tsx
+META: './app/components/AuthButtons.tsx':{ }
 "use client";
 
 import {
@@ -147,7 +150,8 @@ It’s worth noting that these buttons are also separated into their own file be
 
 With our `SignIn` and `SignOut` buttons now taken care of, let’s now handle the custom sign-in page we defined earlier in our settings. To create this page, add a new file at `./app/auth/signin/page.tsx` and add the below code to it.
 
-```tsx:[]:./app/auth/signin/page.tsx:TYPESCRIPT
+```tsx
+META: './app/auth/signin/page.tsx':{ }
 import { getProviders } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -177,7 +181,8 @@ We then check if the user has a current session and redirect them to the home pa
 
 With our custom sign-in page now configured, let’s finish off our application by updating our home page at `./app/page.tsx` with the below code.
 
-```tsx:[]:./app/page.tsx:TYPESCRIPT
+```tsx
+META: './app/page.tsx':{ }
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { SignOut } from "./components/AuthButtons";

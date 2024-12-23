@@ -37,7 +37,7 @@ const { title, description, date, updatedDate, topics } = Astro.props
             {
               topics?.length ? (
                 <div class="flex gap-x-2">
-                  {topics.map((topic) => (
+                  {topics.slice(0, 3).map((topic) => (
                     <p class="font-semibold text-brand">{topic}</p>
                   ))}
                 </div>

@@ -36,7 +36,8 @@ Now we’ve covered the benefits of using Lambda layers in our AWS stacks, let�
 
 For this example, I’m going to be using the external dependency `lorem-ipsum` to show how we can bundle NPM packages up into a layer for use in lambda. So, to get started in, your stack definition file inside `lib` add the below code.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 👇 Create the lambda layer
 const loremIpsumLayer = new LayerVersion(this, "LoremIpsumLayer", {
   code: Code.fromAsset("./resources/layers/loremIpsum"),
@@ -51,7 +52,8 @@ Next, let’s create the actual layer code, to get started create a series of ne
 
 Inside our `nodejs` folder, create a new `package.json` and paste into it the below contents.
 
-```json:[]:./resources/layers/loremIpsum/nodejs/package.json
+```json
+META: './resources/layers/loremIpsum/nodejs/package.json'
 {
   "name": "loreum-ipsum",
   "version": "0.1.0",
@@ -63,7 +65,8 @@ Inside our `nodejs` folder, create a new `package.json` and paste into it the be
 
 At this point, you’ll want to `cd` into the `nodejs` directory and run `npm install` to install these dependencies so you can use them locally. After installing, create a new file in the same directory called `loremIpsum.ts`, and inside it put the following.
 
-```ts:[]:./resources/layers/loremIpsum/nodejs/loremIpsum.ts:TYPESCRIPT
+```ts
+META: './resources/layers/loremIpsum/nodejs/loremIpsum.ts':{ }
 export { loremIpsum } from "lorem-ipsum";
 ```
 
@@ -73,7 +76,8 @@ For our example this is just a simple export as all we want to do is reuse the p
 
 Before we can actually use our new layer in our Lambda code, we first need to define our Lambda so back in our stack definition file inside `lib`, add the below code.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 👇 Create the Layer Lambda
 const layerLambda = new NodejsFunction(this, "LayerLambda", {
   memorySize: 1024,
@@ -103,7 +107,8 @@ So, in our Lambda code locally we need to reference the path they’ll be at onc
 
 To add this configuration, inside your `tsconfig.json` file, add the below code to your `compilerOptions` object.
 
-```json:[]:./tsconfig.json
+```json
+META: './tsconfig.json'
 "paths": {
   "opt/nodejs/loremIpsum": ["resources/layers/loremIpsum/nodejs/loremIpsum"],
 }
@@ -111,7 +116,8 @@ To add this configuration, inside your `tsconfig.json` file, add the below code 
 
 With that bit of configuration out the way, let’s define our Lambda function by creating a new `lambdas` folder inside our `resources` folder and then a new file called `layer-lambda.ts` inside that. Inside this new file add the below code.
 
-```ts:[]:./resources/lambdas/layer-lambda.ts:TYPESCRIPT
+```ts
+META: './resources/lambdas/layer-lambda.ts':{ }
 import { loremIpsum } from "opt/nodejs/loremIpsum";
 
 export const handler = () => {
@@ -143,7 +149,8 @@ It’s a pretty simple function we’re running, we just generate some text usin
 
 Before we can test our Lambda function, we need to deploy our stack and call our Lambda function via the CLI. You can either find the name of your lambda function after deploying it by using the dashboard or the CLI. Or, you can add a `CfnOutput` construct to your stack definition file inside `lib` to have it automatically outputted after the deployment finishes. To do this, add the following to the bottom of the stack definition file.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 👇 Output the name of the lambda functions to call via the CLI
 new CfnOutput(this, "LayerLambdaFunction", {
   value: layerLambda.functionName,
@@ -174,7 +181,8 @@ But, instead of just talking about the theory let’s take a look at a practical
 
 So, to get started, install `lorem-ipsum` in your root `package.json` and then create a new file inside your `lambdas` directory called `non-layer-lambda.ts` and paste into it the below code.
 
-```ts:[]:./resources/lambdas/non-layer-lambda.ts:TYPESCRIPT
+```ts
+META: './resources/lambdas/non-layer-lambda.ts':{ }
 import { loremIpsum } from "lorem-ipsum";
 
 export const handler = () => {
@@ -204,7 +212,8 @@ This function is identical to the previous one we wrote with the only difference
 
 To add this Lambda to our CDK stack, in your stack definition file inside `lib` add the below code.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 👇 Create the Non Layer Lambda
 const nonLayerLambda = new NodejsFunction(this, "NonLayerLambda", {
   memorySize: 1024,

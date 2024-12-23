@@ -60,7 +60,8 @@ Now, we have that bit sorted, let's get into the meaty part. For each file we ne
 
 A quick side note but don't make the mistake I first made which is using .forEach() to loop over the array, instead use .map() because .forEach() will never return any values besides 'undefined' which is not helpful to us as we need promises returned. So, make sure to use .map() like so:
 
-```jsx{3-8}
+```jsx
+META: '':{3-8}
 function dataDeleter() {
   return Promise.all(
     ['confirmed', 'deaths', 'recovered', 'dailyReport'].map(
@@ -77,7 +78,8 @@ So, we now have a new promise being returned for each of our values in the array
 
 Let's take a look at deleting the files.
 
-```jsx{6-11}
+```jsx
+META: '':{6-11}
 function dataDeleter() {
   return Promise.all(
     ['confirmed', 'deaths', 'recovered', 'dailyReport'].map(
@@ -100,7 +102,8 @@ Following this, regardless if the code errors or succeeds, the callback function
 
 Now, due to how my code in this project works we actually convert all of the csv files into there own JSON files before merging them into one file which means there's actually 2 files to delete per value, luckily I had the foresight to name them the same thing (more like laziness). So, it's just a case of adding in the other file extension I need to delete as another fs.unlink() call like so:
 
-```jsx{11-15}
+```jsx
+META: '':{11-15}
 function dataDeleter() {
   return Promise.all(
     ['confirmed', 'deaths', 'recovered', 'dailyReport'].map(
@@ -128,7 +131,8 @@ There was one issue I had to get around, you see for the first three values (con
 
 However, implementing this change was actually easy, all we had to do is run an if statement in between the two calls to fs.unlink() and check if the value currently being mapped over is 'dailyReport' and if so resolve the promise and return from the loop, if it isn't that value then carry on as normal.
 
-```jsx{11-14}
+```jsx
+META: '':{11-14}
 function dataDeleter() {
   return Promise.all(
     ['confirmed', 'deaths', 'recovered', 'dailyReport'].map(
@@ -156,7 +160,8 @@ function dataDeleter() {
 
 With that out the way, all we need to do now is add some basic error handling with a catch statement like so:
 
-```jsx{20-23}
+```jsx
+META: '':{20-23}
 function dataDeleter() {
   return Promise.all(
     ['confirmed', 'deaths', 'recovered', 'dailyReport'].map(

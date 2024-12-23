@@ -26,7 +26,8 @@ Now, we’re up to date with the theory behind warm lambda functions and why we 
 
 So, inside a CDK project, we’re going to define two lambdas, one to be our cold lambda and one to be our warm one. You can define these lambdas using the below code.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 1. Defining our Warm and Cold Lambda Functions
 const warmLambda = new NodejsFunction(this, "WarmLambda", {
   runtime: Runtime.NODEJS_16_X,
@@ -45,7 +46,8 @@ const coldLambda = new NodejsFunction(this, "ColdLambda", {
 
 After defining our functions, we’re then going to define the EventBridge rule that will trigger our warm lambda function every 5 minutes with the below code.
 
-```ts:[11-13]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{11-13}
 // 2. Defining our CloudWatch Event Rule for our CRON job to run every 5 minutes
 const rule = new Rule(this, "Rule", {
   schedule: Schedule.cron({
@@ -69,7 +71,8 @@ If the lambda was triggered by the EventBridge rule, we’ll return early from t
 
 With our lambda functions and EventBridge rule defined, let’s finish off our example project by writing the code for our lambda functions. For this, create a new directory in the root of your project called `resources` and then inside it, create two files `cold-lambda.ts` and `warm-lambda.ts`, and then add the corresponding code below to them.
 
-```ts:[]:./resources/warm-lambda.ts:TYPESCRIPT
+```ts
+META: './resources/warm-lambda.ts':{ }
 import { EventBridgeEvent } from "aws-lambda";
 
 export const handler = (
@@ -89,7 +92,8 @@ export const handler = (
 };
 ```
 
-```ts:[]:./resources/cold-lambda.ts:TYPESCRIPT
+```ts
+META: './resources/cold-lambda.ts':{ }
 export const handler = () => {
   console.log("Hi! I am a cold Lambda function.");
 };

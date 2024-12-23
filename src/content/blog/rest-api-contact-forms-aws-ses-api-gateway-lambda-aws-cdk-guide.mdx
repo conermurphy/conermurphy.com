@@ -25,7 +25,8 @@ Now, we know what we’ll be building and what we’ll be building it with we’
 
 The first thing we need to do in our CDK project is define the email address we want to send our form submissions from, this is called a verified email identity. To create this verified identity, add the below code to our stack definition file in the `lib` directory; make sure to update `YOUR_EMAIL_ADDRESS` to the email address you want to send emails from.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 1. Define our SES Verified Email Address
 const verifiedEmail = "YOUR_EMAIL_ADDRESS";
 const identity = Identity.email(verifiedEmail);
@@ -38,7 +39,8 @@ new EmailIdentity(this, "SESIdentity", {
 
 With SES now configured and ready to go, let’s shift our focus to the Lambda function we’ll be using to process requests from our API and then request the sending of emails with SES. The first thing we want to do is define our Lambda function in our stack definition file, so just below the SES code, add the code below for our Lambda function.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 2. Create our Lambda functions to handle requests
 const sendEmailLambda = new NodejsFunction(this, "SendEmailLambda", {
   entry: "resources/send-email.ts",
@@ -61,7 +63,8 @@ The two important things to note with this definition are that we pass the email
 
 With both of those things covered, let’s move on to creating the actual function that our Lambda will execute. To do this, create a new file at `./resources/send-email.ts` and then inside it add the below code.
 
-```ts:[]:./resources/send-email.ts:TYPESCRIPT
+```ts
+META: './resources/send-email.ts':{ }
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { APIGatewayProxyEvent } from "aws-lambda";
 
@@ -160,7 +163,8 @@ Finally, it’s worth noting that the email we send from and to is the same emai
 
 With our Lambda function now defined and written, we’re ready to move onto the final piece of our CDK stack and that’s defining our new REST API. To define our new REST API, add the below code under the Lambda definition we created earlier in the stack definition file in the `lib` directory.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 3. Define our REST API
 const api = new RestApi(this, "EmailApi", {
   restApiName: "EmailApi",
@@ -206,7 +210,8 @@ It’s worth mentioning that creating REST APIs with API Gateway and the AWS CDK
 
 We’ve now defined all of the services we need for our new REST API to process requests from a contact form and send the results to our target email address. But, before we can deploy our CDK stack to our AWS account, we need to add one more output to our CDK stack for our API key ID. So, at the bottom of your stack definition file add the below code.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // Misc: Outputs
 new cdk.CfnOutput(this, "API Key ID", {
   value: apiKey.keyId,

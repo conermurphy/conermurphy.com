@@ -87,7 +87,8 @@ to use this data in the Blog Post template file and then in turn pass down to ou
 The final step for us to add Open Graph support to our blog posts is modifying our blog post template file which for me is _blogPost.js_ but this is whatever file is responsible for creating
 the blog posts as pages, if you're new to Gatsby and not sure what file this is for you, you can find a reference to it normally in your _gatsby-node.js_ file. It'll be in a code block like so:
 
-```jsx{4}
+```jsx
+META: '':{4}
 posts.forEach(({ node }, index) => {
     createPage({
       path: node.fields.slug,
@@ -111,7 +112,8 @@ _Unfortunately it's not as simple as taking the direct url of the image file bec
 
 So, to retrieve the src of the image using GraphQL, add in the below code to your existing frontmatter query:
 
-```jsx{9-14}
+```jsx
+META: '':{9-14}
 export const query = graphql`
   query($slug: String!) {
     mdx(fields: { slug: { eq: $slug } }) {

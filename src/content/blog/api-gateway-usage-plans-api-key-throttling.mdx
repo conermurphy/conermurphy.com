@@ -6,8 +6,6 @@ topics: ['AWS', 'LAMBDA', 'API-GATEWAY']
 slug: api-gateway-usage-plans-api-key-throttling
 ---
 
-import CodeBlock from '../../components/md/CodeBlock.astro'
-
 When building an API for a production application, something you need to consider is request rate limiting and throttling. This is for a few reasons but most notably, you want to prevent abuse of the API by potentially malicious users trying to overload your API by sending an excessive number of requests.
 
 So, in this tutorial, we’re going to take a look at how we can implement and test a basic REST API request throttling implementation using rate limiting in AWS API Gateway, deployed via the AWS CDK!
@@ -42,17 +40,18 @@ Now we know more about API request throttling with API Gateway let’s build an 
 
 To define the REST API, add the below code to your stack definition file.
 
-<CodeBlock language="ts" highlightedLines="" filePath="./lib/*-stack.ts" icon="ts" code={`
+```ts
+META: './lib/*-stack.ts'
 // ...imports and class definition
 
 // 1. Create our API Gateway
 const api = new RestApi(this, "REST_API", {
-restApiName: "REST API",
-defaultCorsPreflightOptions: {
-allowOrigins: Cors.ALL_ORIGINS,
-allowMethods: Cors.ALL_METHODS,
-},
-apiKeySourceType: ApiKeySourceType.HEADER,
+  restApiName: "REST API",
+  defaultCorsPreflightOptions: {
+    allowOrigins: Cors.ALL_ORIGINS,
+    allowMethods: Cors.ALL_METHODS,
+  },
+  apiKeySourceType: ApiKeySourceType.HEADER,
 });
 
 // 2. Create our API Key
@@ -60,21 +59,21 @@ const apiKey = new ApiKey(this, "API_KEY");
 
 // 3. Create a usage plan and add the API key to it
 const usagePlan = new UsagePlan(this, "USAGE_PLAN", {
-name: "Usage Plan",
-apiStages: [
-{
-api,
-stage: api.deploymentStage,
-},
-],
+  name: "Usage Plan",
+  apiStages: [
+    {
+      api,
+      stage: api.deploymentStage,
+    },
+  ],
 });
 
 usagePlan.addApiKey(apiKey);
 
 // 4. Create our Lambda functions to handle requests
 const postsLambda = new NodejsFunction(this, "LAMBDA", {
-entry: "resources/posts.ts",
-handler: "handler",
+  entry: "resources/posts.ts",
+  handler: "handler",
 });
 
 // 5. Connect our Lambda functions to our API Gateway endpoints
@@ -82,18 +81,19 @@ const postsIntegration = new LambdaIntegration(postsLambda);
 
 // 6. Define our API Gateway methods
 api.root.addMethod("GET", postsIntegration, {
-apiKeyRequired: true,
+  apiKeyRequired: true,
 });
 
 // Misc: Outputs
 new CfnOutput(this, "API Key ID", {
-value: apiKey.keyId,
+  value: apiKey.keyId,
 });
-`}/>
+```
 
 And, then to finish off our REST API we just need to create the Lambda function we call when requests come into the API. To do this, create a new file at `./resources/posts.ts` and add the below code to it.
 
-```ts:[]:./resources/posts.ts:TYPESCRIPT
+```ts
+META: './resources/posts.ts'
 export const handler = async () => {
   try {
     return {
@@ -133,7 +133,8 @@ So, to implement this throttling limit we need to take a look at our usage plan 
 
 Here is the updated version of our usage plan definition with the `throttle` property added in and configured.
 
-```ts:[10-13]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{10-13}
 const usagePlan = new UsagePlan(this, "USAGE_PLAN", {
   name: "Usage Plan",
   apiStages: [
@@ -164,7 +165,8 @@ When it comes to actually testing our API rate limiting you could use a tool lik
 
 So, what we need is a custom script to send multiple requests at once, below is one I’ve written to do just that. To use it, create a new file in the root of the project called `rate-limit-test.ts` and then add the code below.
 
-```ts:[]:./rate-limit-test.ts:TYPESCRIPT
+```ts
+META: './rate-limit-test.ts':{}
 async function rateLimit() {
   const API_URL = "API_URL";
   const API_KEY = "API_KEY";

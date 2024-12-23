@@ -101,7 +101,8 @@ With all of the original plugin set-up completed, let's look at the changes we n
 
 First of all, we need to change all the references to 'allMarkdownRemark' in the plugin configuration to 'allMdx', below the lines you need to change are highlighted:
 
-```jsx{19, 20, 31}
+```jsx
+META: '':{19,20,31}
 {
     resolve: `gatsby-plugin-feed`,
     options: {
@@ -175,7 +176,8 @@ With this changed, you can run the RSS feed but it doesn't quite work as expecte
 
 Once, you have located the file, we just need to repeat what we did above and change all references of 'allMarkdownRemark' to 'allMdx' inside of the serialize function, once complete it should look like this:
 
-```jsx{4-5}
+```jsx
+META: '':{4-5}
 var serialize = function serialize(_ref) {
   var _ref$query = _ref.query,
       site = _ref$query.site,

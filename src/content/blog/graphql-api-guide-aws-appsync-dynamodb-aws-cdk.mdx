@@ -32,7 +32,8 @@ Once we have all of the needed prerequisites covered, we’re ready to get start
 
 To create our new DynamoDB table, add the below code to your stack definition file inside the `lib` directory.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 1. Create a new DynamoDB table
 const table = new Table(this, "posts-db", {
   tableName: "graphql-posts-db",
@@ -45,7 +46,8 @@ const table = new Table(this, "posts-db", {
 
 With our DynamoDB table taken care of, let’s move on to defining our new GraphQL API using AWS AppSync. To do this, add the below code under the code we just added for our DyanamoDB table.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 2. Create an AppSync GraphQL API
 const api = new GraphqlApi(this, "graphql-api", {
   name: "graphql-api",
@@ -65,7 +67,8 @@ With this code, we define a new GraphQL API with the name of `graphql-api`, we t
 
 With our new GraphQL API defined in our CDK stack, let’s now create the GraphQL schema file that we pointed our API to above. To do this, create a new file at `./graphql/schema.graphql` and add the below code to it.
 
-```graphql:[]:./graphql/schema.graphql:GRAPHQL
+```graphql
+META: './graphql/schema.graphql'
 type Post {
   id: ID!
   title: String!
@@ -98,7 +101,8 @@ This schema defines two queries and two mutations for us to use on our API; this
 
 With our database and API defined, let’s now connect the two together so our API can read and write data from our database. To do this we will need to create a new data source by adding the below code to your stack definition file in the `lib` directory under the code we added for our GraphQL API.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 3. Link the GraphQL API with the DynamoDB table
 const dataSource = api.addDynamoDbDataSource("post-db-source", table);
 ```
@@ -116,7 +120,8 @@ Below is the code for the four resolvers we need for our queries and mutations. 
 - `requestMappingTemplate`: The request mapping template file that is linked to this resolver.
 - `responseMappingTemplate`: The response mapping template file that is linked to this resolver.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 4. Create our resolvers for queries
 // 4a. Create a resolver for the `getPost` query
 dataSource.createResolver("get-post-query", {
@@ -183,7 +188,8 @@ To create our mapping templates, we’ll create a new `resolvers` directory insi
 
 With the `getPost` query, we perform a `GetItem` operation which will retrieve the item in the database that has an id that matches the one passed into the request. We then take the result of that operation and pass it back to the requester using `$util.toJson`.
 
-```vtl:[]:./graphql/resolvers/Query.getPost.req.vtl
+```
+META: './graphql/resolvers/Query.getPost.req.vtl'
 {
   "version": "2017-02-28",
   "operation": "GetItem",
@@ -193,7 +199,8 @@ With the `getPost` query, we perform a `GetItem` operation which will retrieve t
 }
 ```
 
-```vtl:[]:./graphql/resolvers/Query.getPost.res.vtl
+```
+META: './graphql/resolvers/Query.getPost.res.vtl'
 $util.toJson($context.result);
 ```
 
@@ -201,14 +208,16 @@ $util.toJson($context.result);
 
 For `getAllPosts`, we do a similar thing to `getPost` but instead of doing a `GetItem` operation, we do a `Scan` operation to read all of the items in the database. We then take the result of that `Scan` operation and check if there are any post items in the returned data, if so we return them to the requester using `$util.toJson`. Otherwise, we return an empty array.
 
-```vtl:[]:./graphql/resolvers/Query.getAllPosts.req.vtl
+```
+META: './graphql/resolvers/Query.getAllPosts.req.vtl'
 {
   "version": "2017-02-28",
   "operation": "Scan"
 }
 ```
 
-```vtl:[]:./graphql/resolvers/Query.getAllPosts.res.vtl
+```
+META: './graphql/resolvers/Query.getAllPosts.res.vtl'
 #if($ctx.result && $ctx.result.items)
   $util.toJson($ctx.result.items)
 #else
@@ -222,7 +231,8 @@ For `createPost`, we perform a `PutItem` operation to create a new item in our d
 
 After we create the new item in the database, we return the attributes of that item back to the requester, including the generated ID.
 
-```vtl:[]:./graphql/resolvers/Mutation.createPost.req.vtl
+```
+META: './graphql/resolvers/Mutation.createPost.req.vtl'
 {
   "version": "2017-02-28",
   "operation": "PutItem",
@@ -238,7 +248,8 @@ After we create the new item in the database, we return the attributes of that i
 }
 ```
 
-```vtl:[]:./graphql/resolvers/Mutation.createPost.res.vtl
+```
+META: './graphql/resolvers/Mutation.createPost.res.vtl'
 $util.toJson($context.result);
 ```
 
@@ -246,7 +257,8 @@ $util.toJson($context.result);
 
 Finally, for `deletePost`, we use the `DeleteItem` operation to delete the item that matches the ID passed into the request from the database. After the operation has been performed, we return the id of the item deleted back to the requester.
 
-```vtl:[]:./graphql/resolvers/Mutation.deletePost.req.vtl
+```
+META: './graphql/resolvers/Mutation.deletePost.req.vtl'
 {
   "version": "2017-02-28",
   "operation": "DeleteItem",
@@ -256,7 +268,8 @@ Finally, for `deletePost`, we use the `DeleteItem` operation to delete the item 
 }
 ```
 
-```vtl:[]:./graphql/resolvers/Mutation.deletePost.res.vtl
+```
+META: './graphql/resolvers/Mutation.deletePost.res.vtl'
 $util.toJson($context.args.id);
 ```
 
@@ -264,7 +277,8 @@ $util.toJson($context.args.id);
 
 With all of our mapping templates and resolvers now defined, we have everything needed to deploy a working GraphQL API using AWS AppSync. But, before we can do that we need to add a couple of outputs to our stack definition file in our `lib` directory. One for the URL the API is deployed to and one for the API key value we can use in our requests. Add these outputs to your stack by adding the below code snippet under the resolvers code from earlier.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // Misc. Outputs
 new CfnOutput(this, "ApiKeyOutput", {
   value: api.apiKey || "",

@@ -18,7 +18,8 @@ The first stop on our list is [ESLint](https://eslint.org/) and [Prettier](https
 
 Regardless of the config you go for (or if you decide to make your own), the setup is pretty similar. In the root of your project, make sure you have a `package.json` file and then create a new file called `.eslintrc.json`, install your configuration package from NPM and then add your ESLint configuration to the config file you created. For example, if you were to use Wes Bos’s configuration, you’d include the below code.
 
-```json:[]:.eslintrc.json
+```json
+META: '.eslintrc.json'
 {
   "extends": ["wesbos"]
 }
@@ -34,7 +35,8 @@ In regards to Prettier, my preferred way to configure it is via [its ESLint plug
 
 To setup this up on your project is pretty easy, install commitlint and the conventional commit plugin with the command `npm install -g @commitlint/cli @commitlint/config-conventional`. Then create a new config file in the root of your project called `commitlint.config.js` and paste the below code into it.
 
-```js:[]:./commitlint.config.js:JAVASCRIPT
+```js
+META: './commitlint.config.js':{ }
 module.exports = { extends: ["@commitlint/config-conventional"] };
 ```
 

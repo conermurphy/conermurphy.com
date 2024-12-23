@@ -35,7 +35,8 @@ With that out the way, let’s jump into building our CDK project!
 
 To get started you can either use an existing CDK project or [create a new one](https://docs.aws.amazon.com/cdk/v2/guide/work-with-cdk-typescript.html). The first thing we need to do in our CDK project is to define our event bus which can be done by adding the below code into your stack.
 
-```ts:[]:./lib/your-cdk-stack-file.ts:TYPESCRIPT
+```ts
+META: './lib/your-cdk-stack-file.ts':{ }
 export class CDKStackName extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
@@ -64,7 +65,8 @@ As mentioned in the intro we’ll need three lambda functions, these are.
 
 So, to define our lambda functions, add the below code to the file we just added our event bus definition to.
 
-```ts:[]:./lib/your-cdk-stack-file.ts:TYPESCRIPT
+```ts
+META: './lib/your-cdk-stack-file.ts':{ }
 // ...event bus definition
 
 // 👇 Defining our number generator Lambda function
@@ -113,7 +115,8 @@ In these definitions, we’re creating three NodeJS lambda functions and pointin
 
 Before our `number-generator` lambda can put new events onto our event bus, we need to give it `PutEvents` permission on our event bus. Luckily this can be done in a quick one-liner so add the following line below our lambda definitions.
 
-```ts:[]:./lib/your-cdk-stack-file.ts:TYPESCRIPT
+```ts
+META: './lib/your-cdk-stack-file.ts':{ }
 // 👇 Granting the number generator lambda put events
 eventBus.grantPutEventsTo(numberGeneratorHandler);
 ```
@@ -122,7 +125,8 @@ eventBus.grantPutEventsTo(numberGeneratorHandler);
 
 For our event bus to know how to handle events created on it, we need to define a series of events that cover each event type. In this case, we’ll need two rules, one for odd numbers and one for even. To create these rules, add the below code below the `PutEvents` line you just added.
 
-```ts:[]:./lib/your-cdk-stack-file.ts:TYPESCRIPT
+```ts
+META: './lib/your-cdk-stack-file.ts':{ }
 // 👇 Define a rule for the event bus to trigger the odd number processor lambda
 new Rule(this, "OddNumberEventRule", {
   eventBus,
@@ -152,7 +156,8 @@ That brings us nicely to the second important piece in the rule definition and t
 
 Earlier we defined our lambda functions but right now they don’t have any code in them so let’s change that. First, let’s write the code for our `number-generator` lambda so create a new file at `./resources/number-generator.ts` and add in the below code.
 
-```ts:[]:./resources/number-generator.ts:TYPESCRIPT
+```ts
+META: './resources/number-generator.ts':{ }
 import { EventBridge } from "aws-sdk";
 
 const eventBridge = new EventBridge();
@@ -202,7 +207,8 @@ Finally, we use the `Detail` property to pass the data we want to include in the
 
 With our `number-generator` lambda code now defined, let’s change our focus and define our `event-processor` lambda. For this create a new file at `./resources/even-processor.ts` and add the below code.
 
-```ts:[]:./resources/even-processor.ts:TYPESCRIPT
+```ts
+META: './resources/even-processor.ts':{ }
 import { EventBridgeEvent } from "aws-lambda";
 
 export const handler = (
@@ -231,7 +237,8 @@ This is a much shorter function than our `number-generator` lambda from the last
 
 To finish off our lambda code, let’s do our `odd-processor` function. It’s very similar to our `even-processor` from the last step but instead of cubing the number, we square it. So, to add this code, create a new file at `./resources/odd-processor.ts` and paste the below code into the file.
 
-```ts:[]:./resources/odd-processor.ts:TYPESCRIPT
+```ts
+META: './resources/odd-processor.ts':{ }
 import { EventBridgeEvent } from "aws-lambda";
 
 export const handler = (
@@ -270,7 +277,8 @@ To confirm this for yourself, head over to AWS CloudWatch in your AWS Dashboard 
 
 If everything worked fine, you should see similar to the outputs below but with most likely different numbers. Also, depending on what numbers were generated you may see either the `even-generator`, `odd-generator`, or both of them in your logs if you run it multiple times.
 
-```:[2,7]:number-generator
+```
+META: 'number-generator':{2,7}
 START RequestId: cbb7f2e1-2fc2-419f-a5ca-baaff4ee4ffc Version: $LATEST
 2023-02-08T21:10:39.837Z cbb7f2e1-2fc2-419f-a5ca-baaff4ee4ffc INFO === NUMBER GENERATOR OUTPUT: 9 ===
 END RequestId: cbb7f2e1-2fc2-419f-a5ca-baaff4ee4ffc
@@ -282,14 +290,16 @@ END RequestId: 205fe9cb-b429-4737-9ee8-cddb378904be
 REPORT RequestId: 205fe9cb-b429-4737-9ee8-cddb378904be	Duration: 556.17 ms	Billed Duration: 557 ms	Memory Size: 128 MB	Max Memory Used: 83 MB
 ```
 
-```:[2]:even-generator
+```
+META: 'even-generator':{2}
 START RequestId: 896aa4d2-aa1e-4a3a-bb9d-59cb6db6c648 Version: $LATEST
 2023-02-08T21:11:08.746Z 896aa4d2-aa1e-4a3a-bb9d-59cb6db6c648 INFO **=== EVEN NUMBER OUTPUT: 8 ===**
 END RequestId: 896aa4d2-aa1e-4a3a-bb9d-59cb6db6c648
 REPORT RequestId: 896aa4d2-aa1e-4a3a-bb9d-59cb6db6c648	Duration: 1.34 ms	Billed Duration: 2 ms	Memory Size: 128 MB	Max Memory Used: 58 MB
 ```
 
-```:[2]:odd-generator
+```
+META: 'even-generator':{2}
 START RequestId: b9803b6b-0563-49e8-a91b-da4700301eb5 Version: $LATEST
 2023-02-08T21:10:41.037Z b9803b6b-0563-49e8-a91b-da4700301eb5 INFO **=== ODD NUMBER OUTPUT: 81 ===**
 END RequestId: b9803b6b-0563-49e8-a91b-da4700301eb5

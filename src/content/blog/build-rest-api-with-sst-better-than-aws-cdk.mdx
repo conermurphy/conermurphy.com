@@ -36,7 +36,8 @@ However, before we can start writing any code, the first thing we need to do is 
 
 The first thing we’re going to do in our project is clear out the example code given to us by SST in the project we created. To do this, update your `MyStack.ts` file in the `stacks` directory to look like the below code with just an empty function.
 
-```ts:[]:./stacks/MyStack.ts:TYPESCRIPT
+```ts
+META: './stacks/MyStack.ts':{ }
 import { StackContext } from "sst/constructs";
 
 export function APIStack({ stack }: StackContext) {}
@@ -44,7 +45,8 @@ export function APIStack({ stack }: StackContext) {}
 
 Then after clearing out the example code, we’re going to add in our DynamoDB database definition by adding in the below code to our `APIStack` function.
 
-```ts:[]:./stacks/MyStack.ts:TYPESCRIPT
+```ts
+META: './stacks/MyStack.ts':{ }
 // Don't forget to import 'Table'
 import { StackContext, Table } from "sst/constructs";
 
@@ -67,7 +69,8 @@ With this code, we create a new DyanmoDB table using the `Table` construct from 
 
 With our database now defined, we’re ready to turn our attention to the REST API. To define our REST API, add the below code under the database definition we just added.
 
-```ts:[]:./stacks/MyStack.ts:TYPESCRIPT
+```ts
+META: './stacks/MyStack.ts':{ }
 // Don't forget to import 'Api'
 import { Api, StackContext, Table } from "sst/constructs";
 
@@ -116,7 +119,8 @@ With our two new files created, we can add the respective code below to both of 
 
 #### `create.ts`
 
-```ts:[]:./packages/functions/src/create.ts:TYPESCRIPT
+```ts
+META: './packages/functions/src/create.ts':{ }
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { PutCommand } from "@aws-sdk/lib-dynamodb";
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
@@ -159,7 +163,8 @@ This seemingly minor improvement can be a massive help in larger APIs where you 
 
 #### `list.ts`
 
-```ts:[]:./packages/functions/src/list.ts:TYPESCRIPT
+```ts
+META: './packages/functions/src/list.ts':{ }
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { Table } from "sst/node/table";

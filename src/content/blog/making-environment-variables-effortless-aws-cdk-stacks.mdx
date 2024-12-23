@@ -25,7 +25,8 @@ After this, we’re then going to add this `.env` file to our `.gitignore` file 
 
 With that all sorted, let’s create the file that is going to let us access our environment variables from anywhere in the stack. To do this, create a new file in the `lib` directory called `config.ts` and add the below code.
 
-```ts:[]:./lib/config.ts:TYPESCRIPT
+```ts
+META: './lib/config.ts':{ }
 import * as dotenv from "dotenv";
 import path = require("path");
 
@@ -53,7 +54,8 @@ This `getConfig()` function is where everything happens, we can call this functi
 
 With our stack setup complete, let’s look at how we can consume our environment variables using the `getConfig()` function we just defined. First, let’s edit our stack entry file in our `bin` directory to control the region we’re going to deploy to as well as pass our config through to any stacks defined in the file. To do this, we’re going to use the code below.
 
-```ts:[]:./bin/*-stack.ts:TYPESCRIPT
+```ts
+META: './bin/*-stack.ts':{ }
 #!/usr/bin/env node
 import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
@@ -81,7 +83,8 @@ At this point, if you’re using TS you might get an error regarding the `config
 
 To fix the above-mentioned error we need to define a new type and use that to type the props being passed into the stack.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 import { Stack, StackProps } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
@@ -107,7 +110,8 @@ So, with the above code, we define a new type that extends `StackProps` to also 
 
 At this point, we can now use our environment variables from our `config` object inside our CDK stack as well as with the services defined inside our stack. To demonstrate this let’s create an example lambda function to log out our environment variable from earlier. To do this create a new file at `./resources/test-lambda.ts` and add in the below code.
 
-```ts:[]:./resources/test-lambda.ts:TYPESCRIPT
+```ts
+META: './resources/test-lambda.ts':{ }
 export const handler = () => {
   console.log(process.env.LAMBDA_ENV);
 };
@@ -115,7 +119,8 @@ export const handler = () => {
 
 Let’s now define our new lambda function inside our CDK stack definition file in our `lib` directory by adding the below code under where we destructured our `config` object earlier.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...rest of the stack definition
 const { config } = props;
 

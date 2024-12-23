@@ -24,13 +24,15 @@ So, with all that said and covered, let’s jump into the actual tutorial portio
 
 To get started, use either an existing CDK project or create a new one. Then ensure you have a lambda function or two that you’d like to trigger on a one-off and recurring basis. For this example, I’m going to create two new functions inside a `./resources` folder with the below code.
 
-```ts:[]:./resources/one-off.ts:TYPESCRIPT
+```ts
+META: './resources/one-off.ts':{ }
 // ./resources/one-off.ts
 
 export const handler = () => console.log('one off');
 ```
 
-```ts:[]:./resources/recurring.ts:TYPESCRIPT
+```ts
+META: './resources/recurring.ts':{ }
 // ./resources/recurring.ts
 
 export const handler = () => console.log('recurring');
@@ -38,7 +40,8 @@ export const handler = () => console.log('recurring');
 
 We’re then going to define the Lambda functions in our CDK stack file inside our `lib` directory with the below code.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 export class EventbridgeSchedulerStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
@@ -67,7 +70,8 @@ So, now we have two simple Lambda functions that console log a message to show w
 
 Before we can actually create our scheduler, we need to define a new role for the scheduler to use to invoke our Lambda functions. To get started with this, define a new role that assumes the `scheduler.amazonaws.com` service principal using the code below.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...lambda definitions
 
 // 2. Define the IAM role for the scheduler to invoke our Lambda functions with
@@ -78,7 +82,8 @@ const schedulerRole = new Role(this, 'schedulerRole', {
 
 Then we need to define a new policy that we can attach to our new role. This policy will give the role permission to invoke our Lambda functions by passing in the ARNs of the functions.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...our role definition
 
 // 2a. Create the policy that will allow the role to invoke our functions
@@ -97,7 +102,8 @@ const invokeLambdaPolicy = new Policy(this, 'invokeLambdaPolicy', {
 
 Finally, to finish off our role definition, we need to attach our new policy to the role we created earlier. We can achieve this with the below code.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...our policy definition
 
 // 2b. Attach the policy to the role
@@ -110,7 +116,8 @@ So, at this point, we have our Lambda functions defined as well as the role we�
 
 Let’s now create our two schedules using the `CfnResource` construct mentioned earlier. Below the role and policy code you just added, add the below code to define the two schedules.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 3. Defining our one-off schedule
 new CfnResource(this, 'oneOffSchedule', {
   type: 'AWS::Scheduler::Schedule',

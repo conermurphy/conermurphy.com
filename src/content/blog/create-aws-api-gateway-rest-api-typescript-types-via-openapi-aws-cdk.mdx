@@ -22,7 +22,8 @@ Before jumping into the tutorial, there are a few prerequisites that we need to 
 
 With our CDK project ready to go, let’s get started by creating a new OpenAPI spec file that we’ll use throughout this tutorial. To create this, add a new file in the root of the project called `openapi-spec.json` and paste the below code into it.
 
-```json:[]:./openapi-spec.json:JSON
+```json
+META: './openapi-spec.json'
 {
   "openapi": "3.0.1",
   "info": {
@@ -343,7 +344,8 @@ With the OpenAPI spec file now complete, let’s turn our attention to generatin
 
 So, to add this functionality to the project, add the below command into the scripts object in your `package.json` file.
 
-```json:[]:./package.json:JSON
+```json:
+META: './package.json'
 "generate-types": "npx openapi-typescript ./openapi-spec.json -o ./types/openapi.d.ts"
 ```
 
@@ -355,7 +357,8 @@ With our types now generated, let’s move on to defining and then creating the 
 
 To define the database, add the below code into your stack definition file in the `lib` directory inside the `constructor`.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 1. Create a new DynamoDB database
 const booksDb = new Table(this, "BooksDbTable", {
   partitionKey: { name: "pk", type: AttributeType.STRING },
@@ -366,7 +369,8 @@ const booksDb = new Table(this, "BooksDbTable", {
 
 Then with our new database defined, we can then define our two Lambda functions, one for the `GET` method and one for the `POST` method. To define these Lambda functions, add the below code under the code we just added for the DynamoDB database.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 2. Create the POST lambda function
 const createBookLambda = new NodejsFunction(this, "CreateBookLambda", {
   entry: "resources/create-book.ts",
@@ -388,7 +392,8 @@ const getAllBooksLambda = new NodejsFunction(this, "GetAllBooksLambda", {
 
 Finally, we just need to configure the permissions required for our Lambda functions to connect to our DynamoDB database as well as to allow them to be invoked by API Gateway. To add these permissions add the below code under our Lambda definition code.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 4. Grant permissions to the lambda functions
 booksDb.grantReadWriteData(createBookLambda);
 booksDb.grantReadWriteData(getAllBooksLambda);
@@ -412,7 +417,8 @@ Now, it’s time to see our generated types in action, to create the Lambda func
 
 With our two files created, let’s now add their contents. First of all, add the below code for our `POST` handler into the `create-book.ts` file.
 
-```ts:[]:./resources/create-book.ts:TYPESCRIPT
+```ts
+META: './resources/create-book.ts':{ }
 import { APIGatewayProxyEvent } from "aws-lambda";
 import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { PutCommand } from "@aws-sdk/lib-dynamodb";
@@ -468,7 +474,8 @@ This is a pretty standard `POST` handler for creating new data in a database but
 
 With our `POST` handler now complete, let’s turn our attention to the `GET` handler and add the below code to our `get-all-books.ts` file.
 
-```ts:[]:./resources/get-all-books.ts:TYPESCRIPT
+```ts
+META: './resources/get-all-books.ts':{ }
 import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { paths } from "../types/openapi";
@@ -516,7 +523,8 @@ To do this, we’re going to use another NPM package called [`mustache`](https:/
 
 To do this add the below code under the code you added earlier for adding the permissions to the Lambda functions.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 5. Define the variables to replace in the OpenAPI spec file
 const variables = {
   region: "eu-west-2",
@@ -542,7 +550,8 @@ With our OpenAPI spec now ready to go, we’re now ready to add the construct th
 
 To add this code into your stack definition file add the below code under the code we just added for switching out the variables in our OpenAPI spec file.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 6. Define the REST API from the spec file
 const booksApi = new SpecRestApi(this, "BooksAPI", {
   apiDefinition: ApiDefinition.fromInline(openApiSpecJson),
@@ -557,7 +566,8 @@ I won’t go into too much depth on creating API keys in the CDK in this tutoria
 
 But, to add the API key creation into our stack, you can add the below code to the stack definition file under the code we just added for defining our REST API.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 8. Add an API key
 const apiKey = new ApiKey(this, "ApiKey");
 
@@ -580,7 +590,8 @@ All of the resources and services we’ll need are now defined but before we can
 
 To log out the API key ID, add the below code to the bottom of your stack definition file under the code we just added for adding the API key.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 9. Log out the API URL and API key
 new CfnOutput(this, "api-values-output", {
   value: JSON.stringify({

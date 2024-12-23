@@ -18,7 +18,8 @@ To get started with this tutorial, you can use either an existing CDK stack or c
 
 To configure SNS, we’ll need to first create a new SNS topic, then we’ll create a new subscription for that topic which will point to our email address. This way when we publish new notifications to our SNS topic, we’ll be notified by email of them via our subscription. To configure this in your stack, add the below code to your services definition file in the `lib` directory, making sure to add the email address you’d like to get notified at.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // The email address to send the SNS notifications to
 const emailAddress = "";
 
@@ -36,7 +37,8 @@ new Subscription(this, "emailSubscription", {
 
 After configuring the SNS topic and subscription, let’s quickly define the example Lambda function we’ll be using to create the error for our CloudWatch alarm to detect. To define the Lambda function, create a new file at `./resources/example.ts` and add the below code.
 
-```ts:[]:./resources/example.ts:TYPESCRIPT
+```ts
+META: './resources/example.ts':{ }
 export const handler = () => {
   console.log("ERROR: Example error message");
 };
@@ -44,7 +46,8 @@ export const handler = () => {
 
 Then with the code for our Lambda function added, let’s add it to our stack by adding the code below underneath where we just defined our SNS services.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...SNS code
 
 // 2. Define a lambda function for our CloudWatch alarm to monitor the logs of
@@ -63,7 +66,8 @@ For CloudWatch to successfully monitor the logs of our Lambda function for error
 
 Let’s start by defining our custom metric which we can do by adding the code below into our stack file under our Lambda function code.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...Lambda code
 
 // 3. Define our custom metric for monitoring our logs for certain errors and/or phrases
@@ -82,7 +86,8 @@ In this code, we create a new `MetricFilter` instance which is configured to mon
 
 Speaking of our alarm, let’s now create our new custom CloudWatch alarm to monitor our metric. To define our new alarm, add the code below under the code we just added for the metric.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...Metric code
 
 // 4. Define our CloudWatch alarm to monitor our custom metric
@@ -101,7 +106,8 @@ With this alarm, we’ve configured it to enter the “ALARM” state whenever t
 
 However, there is one piece missing which is the link between CloudWatch and our SNS topic which is what will ultimately send the notification to our target email address. At the moment, when our alarm enters the “ALARM” state nothing happens, so let’s change that by defining a new alarm action to send the notification to SNS.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...Alarm code
 
 // 5. Add an alarm action to trigger our SNS topic when the alarm is triggered
@@ -114,7 +120,8 @@ Now, when the alarm enters the “ALARM” state because the metric has detected
 
 We’ve now written the majority of our CDK stack but before we can deploy and test it we just need to add one final piece which we will need for testing. This is a `CfnOutput` containing our lambda function name so we can invoke it using the CLI to save us from needing to log into the dashboard to find it. To configure this, add the below code under the rest of the services we just defined.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 //...Alarm action code
 
 // Misc. Outputs

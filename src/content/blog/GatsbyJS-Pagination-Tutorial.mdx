@@ -225,7 +225,8 @@ We achieve this by taking the `totalnumber` from our graphQL query and dividing 
 
 Then we get to the juicy part:
 
-```jsx{2}
+```jsx
+META: '':{2}
 // Loop through each page required (1 to x) and create a new blog page for each.
 Array.from({ length: pageCount }).forEach((_, i) => {
   createPage({
@@ -337,7 +338,8 @@ Remember when we edited the `gatsby-node.js` file we passed a few pieces of cont
 
 Let's take a look at the amended query and then we'll break them down:
 
-```jsx{2, 4-5}
+```jsx
+META: '':{2,4-5}
 export const query = graphql`
   query($skip: Int = 0, $pageSize: Int = 6) {
     blog: allMdx(
@@ -391,7 +393,8 @@ So, in this line, we are taking in two variables which are both Integers (Ints) 
 
 Now, let's take a look at where they're used in the query:
 
-```jsx{1, 3-4}
+```jsx
+META: '':{1,3-4}
 query($skip: Int = 0, $pageSize: Int = 6 ) {
     blog: allMdx(
       limit: $pageSize
@@ -407,7 +410,8 @@ As you can see we have added the `skip` and `pageSize` variables. They are passe
 
 If we were to translate this to the actual values of page 1, it would look like this:
 
-```jsx{1, 3-4}
+```jsx
+META: '':{1,3-4}
 query($skip: Int = 0, $pageSize: Int = 6 ) {
     blog: allMdx(
       limit: 6
@@ -421,7 +425,8 @@ query($skip: Int = 0, $pageSize: Int = 6 ) {
 
 This is because we want to limit the results to 6 values and we are skipping 0 because we are on the first page. If we were to look at page 2 as an example, we can start to see how it works.
 
-```jsx{1, 3-4}
+```jsx
+META: '':{1,3-4}
 query($skip: Int = 0, $pageSize: Int = 6 ) {
     blog: allMdx(
       limit: 6
@@ -555,7 +560,7 @@ This covers the functionality, the last part is adding the text elements to labe
 
 CSS Code to disable the link:
 
-```CSS
+```css
 &[disabled] {
       pointer-events: none;
       text-decoration: line-through;

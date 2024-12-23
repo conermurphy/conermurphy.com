@@ -24,7 +24,8 @@ Before starting this tutorial, you’ll need to have an existing AWS CDK stack t
 
 Once you have your stack, you’ll need to make sure it’s configured to deploy to the region `us-east-1`, this is because we’ll be configuring Route 53 services which are global and are controlled from the `us-east-1` region. You can configure your stack to deploy to the `us-east-1` region by amending your stack definition file in your `bin` directory to look like the one below.
 
-```ts:[3-5]:./bin/*-stack.ts:TYPESCRIPT
+```ts
+META: './bin/*-stack.ts':{3-5}
 const app = new cdk.App();
 new Route53UpdateDNSRecordStack(app, "Route53UpdateDNSRecordStack", {
   env: {
@@ -41,7 +42,8 @@ Once your stack is configured to deploy to `us-east-1`, let’s jump into actual
 
 To define your Route 53 Hosted Zone, go into your services definition file in your `lib` directory and add the below code to the constructor inside it.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 const domain = "yourdomain.com";
 
 // Define the Route53 hosted zone for our domain
@@ -52,7 +54,8 @@ const domainHostedZone = new HostedZone(this, "DomainHostedZone", {
 
 After we’ve added this code to create our hosted zone, let’s add the code to create the base A record on it so we can update it later on in our lambda function.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...hosted zone code
 
 // Define a new A record for our domain to be updated by our lambda function
@@ -74,7 +77,8 @@ Here we define a new A record with an example IP Address of `192.168.1.1` and ad
 
 With our hosted zone and A record configured, let’s now configure the lambda function that will handle the updating of our A record when triggered. To do this, we first need to configure a custom IAM Policy Statement that will allow our lambda function to execute the necessary SDK commands required. To create this policy statement add the below code under the A record code we just added.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...A record code
 
 // Define our IAM permissions for our lambda function
@@ -90,7 +94,8 @@ const route53Permission = new PolicyStatement({
 
 This IAM policy statement allows us to list records and update them on the hosted zone we defined earlier. After this, we need to define our lambda function and add this new policy to it which we can do with the code below.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...IAM policy code
 
 // Define our lambda to update the IP of our A Record
@@ -111,7 +116,8 @@ updateRecordLambda.addToRolePolicy(route53Permission);
 
 The important thing to note here is the environment variables we pass to the function, `zoneId` and `zoneNam` as we’ll need these to update the A record in the lambda function. With that code added, we’ve defined our lambda function so we just need to write it. To do that create a new file at `./resources/update-record.ts` and add the below code.
 
-```ts:[]:./resources/update-record.ts:TYPESCRIPT
+```ts
+META: './resources/update-record.ts':{ }
 import {
   ChangeResourceRecordSetsCommand,
   ListResourceRecordSetsCommand,

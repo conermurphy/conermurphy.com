@@ -86,7 +86,8 @@ export type IQueryCommandOutput<T> = Omit<QueryCommandOutput, 'Items'> & {
 
 We can now use this type with any `QueryCommand` in our codebase and provide it with a type to substitute with the generic `T` so we can have nicely typed data for all of our queries. Here is our example updated to use this new abstraction.
 
-```ts:[]:./types.ts:TYPESCRIPT
+```ts
+META: './types.ts':{ }
 import { QueryCommandOutput } from "@aws-sdk/lib-dynamodb";
 
 export type Item = {
@@ -98,7 +99,8 @@ export type IQueryCommandOutput<T> = Omit<QueryCommandOutput, "Items"> & {
 };
 ```
 
-```ts:[]:./query.ts:TYPESCRIPT
+```ts
+META: './query.ts':{ }
 import { Item, IQueryCommandOutput } from "./types";
 
 const { Items } = (await dbClient.send(

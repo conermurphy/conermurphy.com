@@ -16,7 +16,8 @@ Also, by doing this, we’ll gain the ability to be able to autocomplete our ENV
 
 To create the type declaration file we’ll need for this, create a new file in the root of your project called `env.d.ts` and add the below code to it.
 
-```ts:[]:./env.d.ts:TYPESCRIPT
+```ts
+META: './env.d.ts':{ }
 declare namespace NodeJS {
   export interface ProcessEnv {
     // 👇 Replace with your ENV names and types
@@ -27,7 +28,8 @@ declare namespace NodeJS {
 
 Inside this file, you can add your ENVs and their respective types to the `ProcessEnv` interface. For example, you could do something like this.
 
-```ts:[]:./env.d.ts:TYPESCRIPT
+```ts
+META: './env.d.ts':{ }
 declare namespace NodeJS {
   export interface ProcessEnv {
     ACCESS_TOKEN: string;
@@ -41,7 +43,8 @@ declare namespace NodeJS {
 
 The final step we need to perform is to update our `tsconfig.json` file to include our new type declaration file (`env.d.ts`), this will allow TypeScript to use our new type declaration file to type the ENVs present in our environment. To include the file in your `tsconfig.json`, add the below code to your `tsconfig.json` file.
 
-```json:[]:./tsconfig.json:JSON
+```json
+META: './tsconfig.json'
 {
   "include": ["env.d.ts"]
 }

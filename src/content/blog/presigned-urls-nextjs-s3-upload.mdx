@@ -37,7 +37,8 @@ To get started, let’s add a new AWS CDK project to our existing Next.js projec
 
 With our CDK project now created, let’s start defining some services. Let’s start by defining our S3 bucket, by adding the below code to our `./cdk/lib/*-stack.ts` file.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // Class definition and constructor omitted for brevity
 
 // 1. Create new S3 Bucket with public read access
@@ -69,7 +70,8 @@ With our S3 bucket defined and configured, the next step is to define the IAM us
 
 To create our new IAM user, add the below code under the code we just added for the S3 bucket.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // S3 bucket definition
 
 // 2. Create new IAM User with PutObject access to the S3 Bucket
@@ -88,7 +90,8 @@ In this code, we create a new IAM user using the `User` construct and then creat
 
 With our IAM user configured, we just need to create and log out the access keys we’ll need to connect to AWS from our Next.js application. To do this add the below code under where we just defined our IAM user.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // IAM User definition
 
 // 3. Create and output the Access Key and Secret Key for the IAM User
@@ -120,7 +123,8 @@ With our AWS services all provisioned and ready to go, let’s now set up our Ne
 
 Then once the packages are installed, we need to configure our environment variables by populating the below values in our `./.env.local` file.
 
-```text:[]:./.env.local
+```text
+META: '.env.local'
 S3_ACCESS_KEY=""
 S3_SECRET_KEY=""
 S3_BUCKET_NAME=""
@@ -135,7 +139,8 @@ You can populate the first three environment variables by using the values outpu
 
 With the initial configuration of our Next.js project completed, it’s time to start adding some logic and functionality to our project. To start with, we’re going to create the route handler that will handle the creation of the presigned URLs that we will use to upload files to our S3 bucket. We can do this by creating a new file at `./app/api/presigned-url/route.ts` and adding the below code.
 
-```ts:[]:./app/api/presigned-url/route.ts:TYPESCRIPT
+```ts
+META: './app/api/presigned-url/route.ts':{ }
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { NextRequest } from "next/server";
@@ -181,7 +186,8 @@ With our route handler created and configured, we can turn our attention to the 
 
 To start with, create a new file at `./app/components/FileUpload.tsx` and add the below code.
 
-```tsx:[]:./app/components/FileUpload.tsx:TYPESCRIPT
+```tsx
+META: './app/components/FileUpload.tsx':{ }
 "use client";
 
 import Image from "next/image";
@@ -255,7 +261,8 @@ In this file, we create our form UI as well as some state controlling the status
 
 With this initial UI configured, let’s update our home page to display it which we can do by updating the file `./app/page.tsx` to have the below code.
 
-```tsx:[]:./app/page.tsx:TYPESCRIPT
+```tsx
+META: './app/page.tsx':{ }
 import { FileUpload } from "./components/FileUpload";
 
 export default function Home() {
@@ -269,7 +276,8 @@ export default function Home() {
 
 Finally, because we’re uploading an image to our S3 bucket in this example and then displaying it on the page, we need to update the `remotePatterns` property in our `next.config.js` file to allow URLs from AWS. To do this, update your `next.config.js` file to have the below code.
 
-```js:[]:next.config.js:JAVASCRIPT
+```js
+META: 'next.config.js':{ }
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -291,7 +299,8 @@ Now, with our form UI rendering nicely on our home page, let’s add in the logi
 
 Here is the completed code for our `onSubmit` handler we defined in the last section.
 
-```tsx:[]:./app/components/FileUpload.tsx:TYPESCRIPT
+```tsx
+META: './app/components/FileUpload.tsx':{ }
 const onSubmit: SubmitHandler<FormValues> = async (data) => {
   if (!data.file[0]) {
     setStatus(STATUS.ERROR);

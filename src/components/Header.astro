@@ -7,7 +7,7 @@ import Logo from '../images/logo.svg'
 
 <header>
   <nav
-    class="mx-auto flex max-w-7xl items-center justify-between gap-x-20 px-10 py-6 lg:justify-center lg:px-8"
+    class="fixed left-1/2 top-4 z-[90] flex w-max -translate-x-1/2 items-center justify-between gap-x-10 rounded-2xl bg-light/10 px-4 py-4 backdrop-blur-md sm:max-w-2xl lg:justify-center lg:px-10"
     aria-label="Global"
   >
     <div class="hidden lg:flex lg:gap-x-12">
@@ -17,10 +17,10 @@ import Logo from '../images/logo.svg'
 
     <a href="/" class="-m-1.5 p-1.5">
       <span class="sr-only">{SITE_TITLE}</span>
-      <Image class="h-8 w-auto" src={Logo} alt="" />
+      <Image class="h-5 w-auto" src={Logo} alt="" />
     </a>
 
-    <div class="lg:hidden">
+    <div class="flex items-center lg:hidden">
       <button
         type="button"
         class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-light"
@@ -53,11 +53,11 @@ import Logo from '../images/logo.svg'
   <div class="group lg:hidden" role="dialog" aria-modal="true">
     <!-- Background backdrop, show/hide based on slide-over state. -->
     <div
-      class="fixed inset-0 -z-10 transition duration-300 ease-in-out group-aria-expanded:z-10 group-aria-expanded:backdrop-blur-sm"
+      class="fixed inset-0 -z-10 transition duration-300 ease-in-out group-aria-expanded:z-[90] group-aria-expanded:backdrop-blur-sm"
     >
     </div>
     <div
-      class="fixed inset-y-0 right-0 z-10 w-full max-w-60 translate-x-60 overflow-y-auto bg-dark px-10 py-6 transition-transform duration-150 ease-in-out group-aria-expanded:translate-x-0"
+      class="fixed inset-y-0 right-0 z-[999] w-full max-w-60 translate-x-60 overflow-y-auto bg-dark px-10 py-6 transition-transform duration-150 ease-in-out group-aria-expanded:translate-x-0"
     >
       <div class="flex w-full items-center justify-between">
         <a href="/" class="-m-1.5 p-1.5">

@@ -8,6 +8,7 @@ import AComponent from '../../components/md/AComponent.astro'
 import H2Component from '../../components/md/H2Component.astro'
 import H3Component from '../../components/md/H3Component.astro'
 import H4Component from '../../components/md/H4Component.astro'
+import PreComponent from '../../components/md/PreComponent.astro'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog')
@@ -23,6 +24,7 @@ const { Content } = await render(post)
 
 const components = {
   code: CodeComponent,
+  pre: PreComponent,
   p: PComponent,
   a: AComponent,
   h2: H2Component,

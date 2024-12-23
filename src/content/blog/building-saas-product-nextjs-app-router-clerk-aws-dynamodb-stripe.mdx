@@ -63,7 +63,8 @@ Once you’re in your Next.js project’s directory, create a new folder in the 
 
 After your CDK project has finished initialising, open up the stack definition file inside the `lib` directory and add the below code to the class constructor that is already in the file, making sure to update the `databaseName` variable with the name you’d like to assign to your database.
 
-```ts:[]:./cdk/lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './cdk/lib/*-stack.ts':{ }
 const databaseName = "YOUR_TABLE_NAME";
 
 new Table(this, databaseName, {
@@ -77,7 +78,8 @@ new Table(this, databaseName, {
 
 So, after adding the code, your stack definition file should look similar to this.
 
-```ts:[]:./cdk/lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './cdk/lib/*-stack.ts':{ }
 import { RemovalPolicy, Stack, StackProps } from "aws-cdk-lib";
 import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
 import { Construct } from "constructs";
@@ -105,7 +107,8 @@ With that added to our stack definition file, we’re ready to deploy our CDK st
 
 After our DynamoDB table is finished deploying, we need to add some environment variables, NPM packages, and configuration files to our Next.js project so we’re able to communicate with our new database. To get started, create a new `.env.local` file in the root of your Next.js project (if you don’t already have one) and add the below environment variables to it.
 
-```:[]:.env.local
+```
+META: '.env.local'
 # AWS API KEYS
 AWS_ACCOUNT_ACCESS_KEY="YOUR_AWS_ACCOUNT_ACCESS_KEY"
 AWS_ACCOUNT_SECRET_KEY="YOUR_AWS_ACCOUNT_SECRET_KEY"
@@ -117,7 +120,8 @@ You can then populate the values of these variables by switching out the placeho
 
 Finally, to finish off our Next.js connection to DynamoDB, we’ll need to install a couple of NPM packages which we can do with the command `npm i @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb`. With these installed, the last thing we need to do is create the configuration file that will contain our DynamoDB client. To add this, create a new file in the root of the project called `config.ts` and add the below code to it.
 
-```ts:[]:./config.ts:TYPESCRIPT
+```ts
+META: './config.ts':{ }
 import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 
@@ -156,7 +160,8 @@ Fortunately for us, Clerk makes their setup a dream and easy to do. To get start
 
 After, ensuring all of the above options are configured correctly, head to the “API Keys” page in Clerk and select “Next.js” from the dropdown before then copying both of the environment variables shown to you. Let’s now add them to our `.env.local` file in our Next.js project like so.
 
-```:[]:.env.local
+```
+META: '.env.local'
 # CLERK ENVS
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="YOUR_CLERK_PUBLISHABLE_KEY"
 CLERK_SECRET_KEY="YOUR_CLERK_SECRET_KEY"
@@ -175,7 +180,8 @@ We’ve also added two more environment variables alongside the ones we got from
 
 After configuring our environment variables, we need to install the Clerk Next.js package to our project using the command `npm i @clerk/nextjs`. And, then we need to wrap our application in the `ClerkProvider` component which we can do in our `app/layout.tsx` file. Below is the complete `app/layout.tsx` file that includes the `ClerkProvider` as well as some base styles, fonts, and headings for the app to use.
 
-```tsx:[]:./app/layout.tsx:TYPESCRIPT
+```tsx
+META: './app/layout.tsx':{ }
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import type { Metadata } from "next";
@@ -219,13 +225,15 @@ export default function RootLayout({
 
 Also while we’re talking about setting up styles, let’s update your `./app/global.css` file to just contain the Tailwind styles like below as well as update our `./tailwind.config.ts` file to look like below as well. You’ll need to also install `@tailwindcss/forms` as we use that to add some base styles to our form inputs.
 
-```css:[]:./app/global.css:CSS
+```css
+META: './app/global.css':{ }
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 ```
 
-```ts:[]:./tailwind.config.ts:TYPESCRIPT
+```ts
+META: './tailwind.config.ts':{ }
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -244,7 +252,8 @@ export default config;
 
 Finally, to finish off the setup of Clerk, we need to create a new middleware for our application which can be done by creating a new `middleware.ts` file in the root of the project and adding the below code.
 
-```ts:[]:./middleware.ts:TYPESCRIPT
+```ts
+META: './middleware.ts':{ }
 // ./middleware.ts
 
 import { authMiddleware } from "@clerk/nextjs";
@@ -276,7 +285,8 @@ On our sign-up page, we’ll be displaying a form for users to fill in with thei
 
 Once that is installed, we can get started on creating the form we just mentioned, to do this create a new file at `./components/auth/SignUpForm.tsx` and add in the below code.
 
-```tsx:[]:./components/auth/SignUpForm.tsx:TYPESCRIPT
+```tsx
+META: './components/auth/SignUpForm.tsx':{ }
 "use client";
 
 import { useSignUp } from "@clerk/nextjs";
@@ -366,7 +376,8 @@ It’s also worth noting that because we use the `useSignUp` hook and `useForm` 
 
 To finish off the `sign-up` page, we just need to create the page itself which we can do by creating a new file at `./app/sign-up/page.tsx` and adding in the below code.
 
-```tsx:[]:./app/sign-up/page.tsx:TYPESCRIPT
+```tsx
+META: './app/sign-up/page.tsx':{ }
 import Link from "next/link";
 import SignUpForm from "@/components/auth/SignUpForm";
 
@@ -395,7 +406,8 @@ However, before we can create the page and component that will allow the user to
 
 To create this API route, create a new file at `./app/api/user/route.ts` and then add the below code to it.
 
-```ts:[]:./app/api/user/route.ts:TYPESCRIPT
+```ts
+META: './app/api/user/route.ts':{ }
 import { PutCommand } from "@aws-sdk/lib-dynamodb";
 import { currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
@@ -430,7 +442,8 @@ In this API route, we get the current user and then use the `db` client we creat
 
 With this API route now created, we’re ready to create the component that will consume it. To get started, create a new file at `./components/auth/CodeForm.tsx` and add the below code into it.
 
-```tsx:[]:./components/auth/CodeForm.tsx:TYPESCRIPT
+```tsx
+META: './components/auth/CodeForm.tsx':{ }
 "use client";
 
 import { useSignUp } from "@clerk/nextjs";
@@ -502,7 +515,8 @@ In this function, we use the `useSignUp` hook from Clerk again but this time, we
 
 With our `CodeForm` component created, the last thing we need to do is to create the verify email address page itself so to do that create a new file at `./app/sign-up/verify-email-address/page.tsx` and add in the below code.
 
-```tsx:[]:./app/sign-up/verify-email-address/page.tsx:TYPESCRIPT
+```tsx
+META: './app/sign-up/verify-email-address/page.tsx':{ }
 import CodeForm from "@/components/auth/CodeForm";
 
 export default function Page() {
@@ -518,7 +532,8 @@ With our sign-up and verify email address pages complete, our sign-up flow is fi
 
 Firstly, let’s create our sign-in form component by creating a new file at `./components/auth/SignInForm.tsx` and adding the below code.
 
-```tsx:[]:./components/auth/SignInForm.tsx:TYPESCRIPT
+```tsx
+META: './components/auth/SignInForm.tsx':{ }
 "use client";
 
 import { useSignIn } from "@clerk/nextjs";
@@ -595,7 +610,8 @@ This component is similar to the two we previously covered but the big differenc
 
 Finally, to complete our sign-in flow and finish off our authentication pages, we just need to create our sign-in page by creating a new file at `./app/sign-in/page.tsx` and adding the below code.
 
-```tsx:[]:./app/sign-in/page.tsx:TYPESCRIPT
+```tsx
+META: './app/sign-in/page.tsx':{ }
 import Link from "next/link";
 import SignInForm from "@/components/auth/SignInForm";
 
@@ -658,7 +674,8 @@ Because we’ll be using Stripe’s webhooks to process the events that occur on
 
 With the products created and the Stripe CLI configured, we just need to add some more ENVs to our Next.js project to allow everything to function correctly. Below are the ENVs you’ll need to add to your `.env.local` file.
 
-```:[]:.env.local
+```
+META: '.env.local'
 STRIPE_SECRET_KEY = "";
 STRIPE_WEBHOOK_SECRET = "";
 
@@ -677,7 +694,8 @@ Finally, for `STRIPE_WEBHOOK_SECRET`, you can get this value by running the comm
 
 With our authentication pages and Stripe configuration finished, let’s get started on building out the functionality of Clicky. The first thing we’re going to do is to define the plans that are available for our product and their limitations, to do this, create a new file in the root of the project called `constants.ts` and add the below code.
 
-```ts:[]:./constants.ts:TYPESCRIPT
+```ts
+META: './constants.ts':{ }
 import { IPlan } from "./types";
 
 export const PLANS: IPlan[] = [
@@ -708,7 +726,8 @@ export const PLANS: IPlan[] = [
 
 At this point we’ll have an import error in our code so we’ll also need to define the type `IPlan` to resolve the import error. To do this, create a new file called `types.ts` in the root of the project and add the code below.
 
-```ts:[]:./types.ts:TYPESCRIPT
+```ts
+META: './types.ts':{ }
 import { GetCommandOutput } from "@aws-sdk/lib-dynamodb";
 
 export type IUser = {
@@ -744,7 +763,8 @@ With our types and plans configuration sorted, let’s update our home page to s
 
 The first one we’re going to create is `getCurrentUser` which we’ll use to fetch the current user’s details from the database. To create this, create a new file at `./utils/db/get-current-user.ts` and add in the below code.
 
-```ts:[]:./utils/db/get-current-user.ts:TYPESCRIPT
+```ts
+META: './utils/db/get-current-user.ts':{ }
 import { GetCommand } from "@aws-sdk/lib-dynamodb";
 import { currentUser } from "@clerk/nextjs";
 import { db } from "@/config";
@@ -775,7 +795,8 @@ In this file, we perform a `GetCommand` to our database to retrieve the current 
 
 The second custom function we’re going to define is `getPlan` which will retrieve the user’s current plan as well as the limitations and data associated with it from our `constants.ts` file. To create this function, create a new file at `./utils/get-plan.ts` and add the below code.
 
-```ts:[]:./utils/get-plan.ts:TYPESCRIPT
+```ts
+META: './utils/get-plan.ts':{ }
 import { PLANS } from "@/constants";
 import { IPlan } from "@/types";
 
@@ -792,7 +813,8 @@ With our utility functions now sorted, let’s add some actual functionality to 
 
 To add this functionality we’re going to create a new client component to render the button itself and a new API route to handle the incrementing of the data for our user in the database. Let’s start by creating the new API route first, to do this, create a new file at `./app/api/clicks/route.ts` and add the below code to it.
 
-```ts:[]:./app/api/clicks/route.ts:TYPESCRIPT
+```ts
+META: './app/api/clicks/route.ts':{ }
 import { UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { NextResponse } from "next/server";
 import { db } from "@/config";
@@ -859,7 +881,8 @@ With our API route now implemented, we just need to add the UI that allows the u
 
 But, before we can create this file, we need to update our `config.ts` file with a `fetcher` function for `swr` to use in our component for fetching data. So, inside your `config.ts` update the file to add in the `fetcher` function below as well as update the export statement to include it like so. Don’t forget to also install `swr` using `npm i swr`.
 
-```ts:[]:./config.ts:TYPESCRIPT
+```ts
+META: './config.ts':{ }
 // ...AWS and DyanmoDB config...
 
 const fetcher = async <T,>(url: string) =>
@@ -870,7 +893,8 @@ export { db, fetcher };
 
 With this added in, we’re ready to move on to creating the UI for our API route. To do this, create a new file at `./components/Button.tsx` and add the below code to it.
 
-```tsx:[]:./components/Button.tsx:TYPESCRIPT
+```tsx
+META: './components/Button.tsx':{ }
 "use client";
 
 import useSWR from "swr";
@@ -953,7 +977,8 @@ Finally, we have a `useEffect` hook that triggers every time the user’s curren
 
 After adding this component, let’s update our home page to show it as well as some other information about the user and a way to sign out by updating our `./app/page.tsx` file to use the below code.
 
-```tsx:[]:./app/page.tsx:TYPESCRIPT
+```tsx
+META: './app/page.tsx':{ }
 import { UserButton } from "@clerk/nextjs";
 import getCurrentUser from "@/utils/db/get-current-user";
 import Button from "@/components/Button";
@@ -1003,7 +1028,8 @@ Let’s get started with adding the utility functions as we mentioned. The first
 
 To create this function, create a new file at `./utils/stripe/create-stripe-user-id.ts` and add the below code to it, don’t forget to also install the stripe NPM package by running `npm i stripe` in your terminal.
 
-```ts:[]:./utils/stripe/create-stripe-user-id.ts:TYPESCRIPT
+```ts
+META: './utils/stripe/create-stripe-user-id.ts':{ }
 import { UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import Stripe from "stripe";
 import { IUser } from "@/types";
@@ -1056,7 +1082,8 @@ With that function now created, we can create our next utility function `createC
 
 However, before we can create this function we need to make a small addition to our `config.ts` file to define our application’s URL for both local development and production. So, in your `config.ts` file, add the below code underneath the `fetcher` function we defined earlier as well as update the export statement.
 
-```ts:[]:./config.ts:TYPESCRIPT
+```ts
+META: './config.ts':{ }
 // ...fetcher function and AWS config...
 
 const isProd = process.env.NODE_ENV === "production";
@@ -1067,7 +1094,8 @@ export { db, fetcher, appUrl, isProd };
 
 This function allows us to just pass `appUrl` and the app will automatically pass the correct URL based on if we’re in development or production. With this addition to our `config.ts` file finished, we’re ready to create our new function for creating checkout sessions. To add this function, create a new file at `./utils/stripe/create-checkout-session.ts` and add the below code.
 
-```ts:[]:./utils/stripe/create-checkout-session.ts:TYPESCRIPT
+```ts
+META: './utils/stripe/create-checkout-session.ts':{ }
 import Stripe from "stripe";
 import { IPlan, IUser } from "@/types";
 import { appUrl } from "@/config";
@@ -1127,7 +1155,8 @@ With the utility functions required for creating our checkout sessions completed
 
 To create this component, create a new file at `./components/PlanTable.tsx` and add in the below code.
 
-```tsx:[]:./components/PlanTable.tsx:TYPESCRIPT
+```tsx
+META: './components/PlanTable.tsx':{ }
 import { PLANS } from "@/constants";
 import getCurrentUser from "@/utils/db/get-current-user";
 import createCheckoutSession from "@/utils/stripe/create-checkout-session";
@@ -1179,7 +1208,8 @@ With our plan table UI now added, the last thing we need to do is add it to our 
 
 To add the plan table component to the home page, go to your `./app/page.tsx` file and add the below lines to it.
 
-```tsx:[]:./app/page.tsx:TYPESCRIPT
+```tsx
+META: './app/page.tsx':{ }
 import { UserButton } from "@clerk/nextjs";
 import getCurrentUser from "@/utils/db/get-current-user";
 import Button from "@/components/Button";
@@ -1230,7 +1260,8 @@ To add this we need to add a new utility function to allow us to fetch users fro
 
 To get started, let’s create that new utility function by creating a new file at `./utils/db/get-user-by-id.ts` and adding the below code to it.
 
-```ts:[]:./utils/db/get-user-by-id.ts:TYPESCRIPT
+```ts
+META: './utils/db/get-user-by-id.ts':{ }
 import { GetCommand } from "@aws-sdk/lib-dynamodb";
 import { db } from "@/config";
 import { IGetCommandOutput, IUser } from "@/types";
@@ -1256,7 +1287,8 @@ export default async function getUserById({ id }: IProps) {
 
 After adding this utility function to fetch a user from our database by their ID, we’re ready to work on the new API route to process our webhooks. To create this, create a new file at `./app/api/webhooks/stripe/route.ts` and add the below code to it.
 
-```ts:[]:./app/api/webhooks/stripe/route.ts:TYPESCRIPT
+```ts
+META: './app/api/webhooks/stripe/route.ts':{ }
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { UpdateCommand } from "@aws-sdk/lib-dynamodb";
@@ -1399,7 +1431,8 @@ This is a fairly long file with a fair bit going on so let’s break it down int
 
 Then at the top of the function, we define the code below which will handle getting Stripe’s signature from the request headers and getting the raw request body as well as creating a new Stripe client and getting our webhook secret which we defined earlier when setting up the Stripe CLI.
 
-```ts:[]:./app/api/webhooks/stripe/route.ts:TYPESCRIPT
+```ts
+META: './app/api/webhooks/stripe/route.ts':{ }
 const sig = request?.headers?.get("stripe-signature");
 const requestBody = await request.text();
 
@@ -1415,7 +1448,8 @@ const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 We then consume all of the above information to verify the webhook request actually came from Stripe and isn’t a malicious actor trying to impersonate Stripe. We do this with the below code, you can [read more about webhook request validation on their docs here.](https://stripe.com/docs/webhooks#verify-events)
 
-```ts:[]:./app/api/webhooks/stripe/route.ts:TYPESCRIPT
+```ts
+META: './app/api/webhooks/stripe/route.ts':{ }
 let event;
 
 try {
@@ -1436,7 +1470,8 @@ Once we have verified the webhook event has indeed come up from Stripe, we move 
 
 In the case of our application, we want to handle two event types, these are `customer.subscription.updated` and `customer.subscription.deleted`. These two events allow us to handle users creating and updating a subscription (`.updated`) as well as cancelling their subscriptions (`.deleted`). Here is the code we use to define the switch statement.
 
-```ts:[]:./app/api/webhooks/stripe/route.ts:TYPESCRIPT
+```ts
+META: './app/api/webhooks/stripe/route.ts':{ }
 switch (event.type) {
   // Handle a subscription being created or updated
   case "customer.subscription.updated": {
@@ -1463,7 +1498,8 @@ Now, we add in the part where the “magic” happens so to say, for the `.updat
 
 If you’re configuring subscriptions to cancel at the end of the billing period this isn’t required because the `.updated` and `.deleted` events will be triggered at different times and so don’t have the possibility of overlapping like they do with immediate cancellation. [This is because Stripe doesn’t guarantee the order of webhook event delivery.](https://stripe.com/docs/webhooks#event-ordering)
 
-```ts:[]:./app/api/webhooks/stripe/route.ts:TYPESCRIPT
+```ts
+META: './app/api/webhooks/stripe/route.ts':{ }
 // Handle a subscription being created or updated
 case 'customer.subscription.updated': {
   const subscription = event.data.object as Stripe.Subscription;
@@ -1511,7 +1547,8 @@ case 'customer.subscription.updated': {
 
 With our `.updated` event now sorted, all we need to do is handle the `.deleted` event which is a lot simpler because we know if the user is cancelling their plan, they’re going to be downgraded to the free plan. This means all we need to do is get the user’s data from the database using the `getUserById` function and then perform an update to set their `subscriptionStatus` to `CANCELLED` and then set their `plan` to `FREE`.
 
-```ts:[]:./app/api/webhooks/stripe/route.ts:TYPESCRIPT
+```ts
+META: './app/api/webhooks/stripe/route.ts':{ }
 // Handle a subscription being cancelled
 case 'customer.subscription.deleted': {
   const subscription = event.data.object as Stripe.Subscription;
@@ -1549,7 +1586,8 @@ case 'customer.subscription.deleted': {
 
 Then finally, with all of the logic added to our webhook API route, the last thing we need to do is close out the function with a return statement to send a `200` response to Stripe once we have successfully processed it. Or, if something has gone wrong a `500` error.
 
-```ts:[]:./app/api/webhooks/stripe/route.ts:TYPESCRIPT
+```ts
+META: './app/api/webhooks/stripe/route.ts':{ }
 return NextResponse.json(
     {
       received: true,
@@ -1596,7 +1634,8 @@ To implement the customer portal into our application, we need to create a new u
 
 Let’s get started by creating the utility function, for this, create a new file at `./utils/stripe/create-customer-portal-session.ts` and then add the below code to it.
 
-```ts:[]:./utils/stripe/create-customer-portal-session.ts:TYPESCRIPT
+```ts
+META: './utils/stripe/create-customer-portal-session.ts':{ }
 import Stripe from "stripe";
 import getCurrentUser from "../db/get-current-user";
 import { appUrl } from "@/config";
@@ -1625,7 +1664,8 @@ In this function, we get the current user from our `getCurrentUser` function and
 
 Now, with our utility function written, we’re ready to move on to creating our new component to link to the customer portal itself. To create this, create a new file at `./components/CustomerPortal.tsx` and add the below code to it.
 
-```tsx:[]:./components/CustomerPortal.tsx:TYPESCRIPT
+```tsx
+META: './components/CustomerPortal.tsx':{ }
 import getCurrentUser from "@/utils/db/get-current-user";
 import createCustomerPortalSession from "@/utils/stripe/create-customer-portal-session";
 
@@ -1655,7 +1695,8 @@ In this component, we get the current user and then check if they’re on a paid
 
 Finally, to complete the billing portal configuration for our application, we just need to add it to the home page of our application. To do this, update your `./app/page.tsx` file to include the below lines.
 
-```tsx:[]:./app/page.tsx:TYPESCRIPT
+```tsx
+META: './app/page.tsx':{ }
 import { UserButton } from "@clerk/nextjs";
 import getCurrentUser from "@/utils/db/get-current-user";
 import Button from "@/components/Button";

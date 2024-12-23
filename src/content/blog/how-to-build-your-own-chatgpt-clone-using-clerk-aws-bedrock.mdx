@@ -64,7 +64,8 @@ Once you have the project cloned, installed, and ready to go, we can move on to 
 
 To configure the AWS SDK clients in our project, create a new file in the root of the project called `config.ts` and then add the below code to it.
 
-```ts:[]:./config:TYPESCRIPT
+```ts
+META: './config':{ }
 import { BedrockRuntimeClient } from "@aws-sdk/client-bedrock-runtime";
 import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
@@ -112,7 +113,8 @@ DB_TABLE_NAME=ChatRockDB
 
 With our AWS SDK clients now configured and ready to go, we’re ready to deploy our DynamoDB database for our project. To do this, replace the contents of the file `./infrastructure/lib/chatrock-infrastructure-stack.ts` with the below code.
 
-```tsx:[]:./infrastructure/lib/chatrock-infrastructure-stack.ts:TYPESCRIPT
+```tsx
+META: './infrastructure/lib/chatrock-infrastructure-stack.ts':{ }
 import * as cdk from "aws-cdk-lib";
 import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
 import { Construct } from "constructs";
@@ -141,7 +143,8 @@ To deploy the database to AWS, run the command `cdk deploy` in your terminal ins
 
 The first thing we’re going to do in our application is take care of some housekeeping and add some basic styles as well as create a new component for the icon we’ll be using. To create the icon component, create a new file at `./components/icon.tsx` and add the below code to it.
 
-```tsx:[]:./components/icon.tsx:TYPESCRIPT
+```tsx
+META: './components/icon.tsx':{ }
 import { IoMdChatbubbles } from "react-icons/io";
 
 export function Icon() {
@@ -157,7 +160,8 @@ export function Icon() {
 
 With our `Icon` component now created (we’ll need this in a moment for our custom sign-in and sign-up pages). We’re going to quickly turn our attention to the `./app/layout.tsx` file and update it to look like the code below.
 
-```tsx:[]:./app/layout.tsx:TYPESCRIPT
+```tsx
+META: './app/layout.tsx':{ }
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
@@ -234,7 +238,8 @@ CLERK_SECRET_KEY=""
 
 With these ENVs added we can now setup Clerk in our application to provide authentication to our users. To do this, we’ll need to wrap our application in the `ClerkProvider` component from the `@clerk/nextjs` package, we can do this by updating our `./app/layout.tsx` file from earlier. Below is what your code should now look like with this added.
 
-```tsx:[]:./app/layout.tsx:TYPESCRIPT
+```tsx
+META: './app/layout.tsx':{ }
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
@@ -277,7 +282,8 @@ export default function RootLayout({
 
 With our application now wrapped in the `ClerkProvider`, we’ve almost configured our application to have authentication using Clerk. The final thing we need to do is to enforce the authentication in our app by adding a custom `middleware.ts` file to our project. To do, this create a new `middleware.ts` file in the root of your project and add the below code to it.
 
-```ts:[]:./middleware.ts:TYPESCRIPT
+```ts
+META: './middleware.ts':{ }
 import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({});
@@ -295,7 +301,8 @@ Now, while I love the ease and simplicity of Clerk’s hosted sign-in and sign-u
 
 The first thing we’ll need to do to create our custom sign-up and sign-in pages is to create the pages in our Next.js application. To do this, create a new file at `./app/sign-up/[[...sign-up]]/page.tsx` and at `./app/sign-in/[[...sign-in]]/page.tsx` and add the below code to them respectively.
 
-```tsx:[]:./app/sign-up/[[...sign-up]]/page.tsx:TYPESCRIPT
+```tsx
+META: './app/sign-up/[[...sign-up]]/page.tsx':{ }
 import { Icon } from "@/components/icon";
 import { SignUp } from "@clerk/nextjs";
 import Link from "next/link";
@@ -326,7 +333,8 @@ export default function Page() {
 }
 ```
 
-```tsx:[]:./app/sign-in/[[...sign-in]]/page.tsx:TYPESCRIPT
+```tsx
+META: './app/sign-in/[[...sign-in]]/page.tsx':{ }
 import { Icon } from "@/components/icon";
 import { SignIn } from "@clerk/nextjs";
 import Link from "next/link";
@@ -374,7 +382,8 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 
 Finally, the last thing we need to do is to update our `middleware.ts` file to ensure that the new sign-in/up pages aren’t placed behind our authentication and are made public so anyone can access them. To do this, update your `middleware.ts` file to look like below.
 
-```ts:[]:./middleware.ts:TYPESCRIPT
+```ts
+META: './middleware.ts':{ }
 import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
@@ -405,7 +414,8 @@ To build our conversation history functionality we’ll need to create a couple 
 
 With the overview of this functionality covered, let’s jump in and get building. So, as mentioned earlier we’re going to be starting by making the new Server Actions, to do this, create a new directory inside the `app` directory called `actions` and then another new one inside that called `db`. Then inside the `db` directory create two new files called `get-all-conversations.ts` and `deprecate-conversation.ts`. Then add the respective code below to each of them.
 
-```ts:[]:./app/actions/db/get-all-conversations.ts:TYPESCRIPT
+```ts
+META: './app/actions/db/get-all-conversations.ts':{ }
 "use server";
 
 import { db } from "@/config";
@@ -446,7 +456,8 @@ export const getAllConversations = async (includeDeprecated = false) => {
 };
 ```
 
-```ts:[]:./app/actions/db/deprecate-conversation.ts:TYPESCRIPT
+```ts
+META: './app/actions/db/deprecate-conversation.ts':{ }
 "use server";
 
 import { db } from "@/config";
@@ -485,7 +496,8 @@ export const deprecateConversation = async (uuid: string) => {
 
 With our Server Actions now written for our conversation history functionality, let’s build the UI for it. To do this, we’re going to create a new component called `ConversationHistory`, to add this component, create a new file at `./components/conversation-history.tsx` and then add the below code to it.
 
-```tsx:[]:./components/conversation-history.tsx:TYPESCRIPT
+```tsx
+META: './components/conversation-history.tsx':{ }
 "use client";
 
 import Link from "next/link";
@@ -554,7 +566,8 @@ You can see in this code, that we fetch all of the current user’s conversation
 
 With our conversation history functionality now complete we can turn our attention to building the sidebar itself and adding in the `UserButton` component from Clerk that we mentioned earlier. To add this component, create a new file at `./components/sidebar.tsx` and add the below code to it.
 
-```tsx:[]:./components/sidebar.tsx:TYPESCRIPT
+```tsx
+META: './components/sidebar.tsx':{ }
 import { UserButton, currentUser } from "@clerk/nextjs";
 import { Icon } from "./icon";
 import Link from "next/link";
@@ -617,7 +630,8 @@ We then render out the `ConversationHistory` component we created a moment ago b
 
 With our `Sidebar` component now created the last thing we need to do is add it to our `layout.tsx` file from earlier so it shows on every authenticated page. To do this, update your `./app/layout.tsx` file to look like the one below.
 
-```tsx:[]:./app/layout.tsx:TYPESCRIPT
+```tsx
+META: './app/layout.tsx':{ }
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
@@ -672,7 +686,8 @@ So, for the home page, we need to add in the functionality to allow users to ent
 
 So, now we know what we’re building for the home page, let’s get started building. The first thing we’re going to do is create the new Server Action that’ll allow us to create new conversations in the database. To create this, create a new file in the `./app/actions/db` directory from earlier called `create-conversation.ts` and add the below code.
 
-```ts:[]:./app/actions/db/create-conversation.ts:TYPESCRIPT
+```ts
+META: './app/actions/db/create-conversation.ts':{ }
 "use server";
 
 import { db } from "@/config";
@@ -737,7 +752,8 @@ So, keeping this in mind and to reduce the duplication of code, we’re going to
 
 With that explanation out of the way, let’s get started building our `GenericPromptInput` component, to create this add a new file at `./components/prompt-inputs/generic.tsx` and add the below code to it.
 
-```tsx:[]:./components/prompt-inputs/generic.tsx:TYPESCRIPT
+```tsx
+META: './components/prompt-inputs/generic.tsx':{ }
 "use client";
 
 import { Button } from "../ui/button";
@@ -808,7 +824,8 @@ We then define the UI itself by creating a new `form` element and passing in the
 
 With our `GenericPromptInput` taken care of, let’s now write the `HomePromptInput` component which will wrap it and provide the custom `onSubmitHandler` for it. To create this function, add a new file in the `prompt-inputs` directory we created previously called `home.tsx` and add the below code to it.
 
-```tsx:[]:./components/prompt-inputs/home.tsx:TYPESCRIPT
+```tsx
+META: './components/prompt-inputs/home.tsx':{ }
 "use client";
 
 import { createConversation } from "@/app/actions/db/create-conversation";
@@ -836,7 +853,8 @@ Then after the conversation is created in the database, we take the `uuid` retur
 
 Now, with the form input complete for the home page, the last thing we need to do is to update the home page’s UI to display the form as well as some other generic text to inform the user what to do. We can do this by updating the page `./app/page.tsx` with the below code.
 
-```tsx:[]:./app/page.tsx:TYPESCRIPT
+```tsx
+META: './app/page.tsx':{ }
 import { HomePromptInput } from "@/components/prompt-inputs/home";
 
 export default function Home() {
@@ -871,7 +889,8 @@ The first thing we need to look at implementing for our conversation page is a c
 
 To create this context, create a new directory in the root of the project called `context` and then create a new file inside called `conversation-context.tsx` and add the below code to it.
 
-```tsx:[]:./context/conversation-context.tsx:TYPESCRIPT
+```tsx
+META: './context/conversation-context.tsx':{ }
 // This code was based on an article from Kent C. Dodds (https://kentcdodds.com/blog/how-to-use-react-context-effectively)
 
 import { conversationSchema } from "@/schema";
@@ -948,7 +967,8 @@ Let’s start by taking a look at some code we’re already familiar with and th
 
 However, before we can write the component itself, we first need to create a couple of new Server Actions (`getOneConversation` and `updateConversation`) that we’ll then use in the `onSubmitHandler` in the component. We can create these Server Actions by creating two new files in our `app/actions/db` directory from earlier, `get-one-conversation.ts` and `update-conversation.ts`. Then, once you have these new files add the respective code below.
 
-```ts:[]:./app/actions/db/get-one-conversation.ts:TYPESCRIPT
+```ts
+META: './app/actions/db/get-one-conversation.ts':{ }
 "use server";
 
 import { db } from "@/config";
@@ -980,7 +1000,8 @@ export const getOneConversation = async (uuid: string) => {
 };
 ```
 
-```ts:[]:./app/actions/db/update-conversation.ts:TYPESCRIPT
+```ts
+META: './app/actions/db/update-conversation.ts':{ }
 "use server";
 
 import { db } from "@/config";
@@ -1033,7 +1054,8 @@ export const updateConversation = async (uuid: string, prompt: string) => {
 
 With these two new Server Actions added, we can now turn our attention to the UI aspect of the component. To create this UI add a new file in the `./components/prompt-inputs` directory called `conversation.tsx` and add the code below.
 
-```tsx:[]:./components/prompt-inputs/conversation.tsx:TYPESCRIPT
+```tsx
+META: './components/prompt-inputs/conversation.tsx':{ }
 "use client";
 
 import { updateConversation } from "@/app/actions/db/update-conversation";
@@ -1072,7 +1094,8 @@ At this point, we’ve now finished all of the forms for our project and the use
 
 To do this we’re going to need to create the final Server Action in our project which is the one that is going to communicate with AWS Bedrock to generate new AI responses based on our inputs. To create this, create a new directory in our `./app/actions` directory called `bedrock` and then add a new file inside it called `generate-response.ts` with the below code.
 
-```ts:[]:./app/actions/bedrock/generate-response.ts:TYPESCRIPT
+```ts
+META: './app/actions/bedrock/generate-response.ts':{ }
 "use server";
 
 import { bedrock, db } from "@/config";
@@ -1168,7 +1191,8 @@ We then send our request to AWS Bedrock and wait for a response. Once we have th
 
 With our Server Action now implemented, all we need to do is build the matching frontend UI that will invoke this Server Action and display all of the messages to the user. To do this, create a new component in the `./components` directory called `conversation-display.tsx` and add the below code to it.
 
-```tsx:[]:./components/conversation-display.tsx:TYPESCRIPT
+```tsx
+META: './components/conversation-display.tsx':{ }
 "use client";
 
 import { generateResponse } from "@/app/actions/bedrock/generate-response";
@@ -1261,7 +1285,8 @@ Finally, with our conversation messages now displaying, we have one last piece o
 
 To create this component, create a new file in the `components` directory called `generating-banner.tsx` and add the below code to it.
 
-```tsx:[]:./components/generating-banner.tsx:TYPESCRIPT
+```tsx
+META: './components/generating-banner.tsx':{ }
 "use client";
 
 import { useConversation } from "@/context/conversation-context";
@@ -1289,7 +1314,8 @@ In this component, we use our `useConversation` hook to retrieve the current val
 
 To finish off the conversation page and tie all of the UI and functionality we’ve created together, let’s create our new conversation page by creating a new directory in the `app` directory called `[uuid]` and then adding a new file to that directory called `page.tsx` with the below code.
 
-```tsx:[]:./app/[uuid]/page.tsx:TYPESCRIPT
+```tsx
+META: './app/[uuid]/page.tsx':{ }
 "use client";
 
 import { ConversationPromptInput } from "@/components/prompt-inputs/conversation";

@@ -24,7 +24,8 @@ With that all covered and out of the way, let’s get started with building our 
 
 The first thing we need to do in our CDK Stack is define our new DynamoDB table which we’ll use to store the post data created via our API. To define your new table, add the below code into the class in your stack definition file in the `lib` directory.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 1. Create our DynamoDB table
 const dbTable = new Table(this, 'DbTable', {
   partitionKey: { name: 'pk', type: AttributeType.STRING },
@@ -39,7 +40,8 @@ With this code, we create a new DynamoDB table that uses a `partiionKey` of `pk`
 
 With our DynamoDB table taken care of; let’s move on to step 2 and create our new REST API in API Gateway. To do this add the code below under the code we just added for our DB table.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 const api = new RestApi(this, 'RestAPI', {
   restApiName: 'RestAPI',
   defaultCorsPreflightOptions: {
@@ -54,7 +56,8 @@ With this code, we create our new REST API, give it a name in the AWS Dashboard,
 
 Speaking of our API key, let’s create a new one, to do this add the below code under the code we just added to create our REST API.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 3. Create our API Key
 const apiKey = new ApiKey(this, 'ApiKey');
 ```
@@ -71,7 +74,8 @@ For API key authentication to work, we need to associate the API key we just gen
 
 But, before we can associate our API key with a usage plan, we first need to create our usage plan in our CDK stack. To do that add the below code under the API key code.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 4. Create a usage plan and add the API key to it
 const usagePlan = new UsagePlan(this, 'UsagePlan', {
   name: 'Usage Plan',
@@ -90,7 +94,8 @@ In this example, we’re just using the default stage of our API which is produc
 
 Finally, we just need to link our API key to our new usage plan which we can achieve by adding the below code under the code we just added for the usage plan.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 usagePlan.addApiKey(apiKey);
 ```
 
@@ -104,7 +109,8 @@ Because our API is going to have 2 endpoints `/posts` and `/posts/{id}`, we’re
 
 To define these Lambda functions in our CDK stack, add the below code under the usage plan code we just added.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 5. Create our Lambda functions to handle requests
 const postsLambda = new NodejsFunction(this, 'PostsLambda', {
   entry: 'resources/endpoints/posts.ts',
@@ -129,7 +135,8 @@ With this code, we define two Lambda functions using the `NodejsFunction` constr
 
 After defining the Lambda functions, the final thing we need to do is to grant them the necessary permissions to be able to read and write to our DynamoDB table which we can achieve with the below code.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 6. Grant our Lambda functions access to our DynamoDB table
 dbTable.grantReadWriteData(postsLambda);
 dbTable.grantReadWriteData(postLambda);
@@ -171,7 +178,8 @@ Before we can populate these files with the required code however there are a co
 1. We need to install some AWS NPM packages to allow us to access and operate on the DB table and have the required TS types. You can do this by running the command `npm i @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb @types/aws-lambda aws-lambda`.
 2. We also need to create a type for our post data to be used in the `create` handler function so we can type the data passed to us from the request. To do this, create a new file in the root of the project called `types.ts` and add the below code into it.
 
-```ts:[]:./types.ts:TYPESCRIPT
+```ts
+META: './types.ts':{ }
 export interface IPost {
   title: string;
   description: string;
@@ -184,7 +192,8 @@ With both of those things taken care of, we’re now ready to populate the conte
 
 #### Endpoints
 
-```ts:[]:./resources/endpoints/post.ts:TYPESCRIPT
+```ts
+META: './resources/endpoints/post.ts':{ }
 // ./resources/endpoints/post.ts
 
 import { APIGatewayProxyEvent } from 'aws-lambda';
@@ -228,7 +237,8 @@ export const handler = async (event: APIGatewayProxyEvent) => {
 
 The above code will be for our `/posts/{id}` endpoint so we take the `id` parameter out of the event that triggered the Lambda function. We then check if the `id` parameter is present or not and return a `400` error to the user if required. We then pass the `id` parameter into the relevant handler function depending on the HTTP method that was used in the request.
 
-```ts:[]:./resources/endpoints/posts.ts:TYPESCRIPT
+```ts
+META: './resources/endpoints/posts.ts':{ }
 // ./resources/endpoints/posts.ts
 
 import { APIGatewayProxyEvent } from 'aws-lambda';
@@ -265,7 +275,8 @@ The above function is for our `/posts` endpoint so we just trigger the relevant 
 
 #### Handlers
 
-```ts:[]:./resources/handlers/posts/create.ts:TYPESCRIPT
+```ts
+META: './resources/handlers/posts/create.ts':{ }
 // ./resources/handlers/posts/create.ts
 
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
@@ -308,7 +319,8 @@ export async function create(body: string | null) {
 
 With this function, we handle the creation of a new post in the database. We first check if the body is present and if it isn’t we return an error to the user to inform them. We then parse the body if it was provided, typing it as the `IPost` we created earlier before then performing the `PutCommand` with the SDK to add the item to the database.
 
-```ts:[]:./resources/handlers/posts/delete.ts:TYPESCRIPT
+```ts
+META: './resources/handlers/posts/delete.ts':{ }
 // ./resources/handlers/posts/delete.ts
 
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
@@ -335,7 +347,8 @@ export async function deletePost({ id }: { id: string }) {
 
 This function handles the deletion of an existing post. We take in the `id` parameter from the request and then perform the `DeleteCommand` request in the SDK to delete the target item in the database.
 
-```ts:[]:./resources/handlers/posts/get-all.ts:TYPESCRIPT
+```ts
+META: './resources/handlers/posts/get-all.ts':{ }
 // ./resources/handlers/posts/get-all.ts
 
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
@@ -359,7 +372,8 @@ export async function getAll() {
 
 In this function, we fetch all of the existing records in the database using the `ScanCommand` to read the entire database before returning them to the user.
 
-```ts:[]:./resources/handlers/posts/get-one.ts:TYPESCRIPT
+```ts
+META: './resources/handlers/posts/get-one.ts':{ }
 // ./resources/handlers/posts/get-one.ts
 
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
@@ -404,7 +418,8 @@ With all of our Lambda functions and handlers now defined and written, we’re r
 
 The first thing we need to do when linking our API and Lambda functions together is to create the routes on our API for users to request. As you’ll recall from earlier we’re going to have 2 endpoints `/posts` and `/posts/{id}`. To define these on our API we can add the below code under the other code from earlier in the stack file in our `lib` directory.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 7. Define our API Gateway endpoints
 const posts = api.root.addResource('posts');
 const post = posts.addResource('{id}');
@@ -416,7 +431,8 @@ What this code will create is a new `/posts` endpoint on the root of our API and
 
 After we’ve created the endpoints on our API, we need to create Lambda integrations out of our Lambda functions to connect to those endpoints. You can do this by adding the below code.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 8. Connect our Lambda functions to our API Gateway endpoints
 const postsIntegration = new LambdaIntegration(postsLambda);
 const postIntegration = new LambdaIntegration(postLambda);
@@ -426,7 +442,8 @@ const postIntegration = new LambdaIntegration(postLambda);
 
 Now, with our API endpoints, Lambda handlers, and Lambda integrations created and defined, we’re ready to link them all together by defining the methods that can be used on each endpoint. We can do this with the code below.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 9. Define our API Gateway methods
 posts.addMethod('GET', postsIntegration, {
   apiKeyRequired: true,
@@ -466,7 +483,8 @@ But, before we can deploy it we need to add a final output statement to the CDK 
 
 To add this into your CDK stack add the below to the bottom of the stack file in the `lib` directory, just under where we defined our API methods a moment ago.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // Misc: Outputs
 new CfnOutput(this, 'API Key ID', {
   value: apiKey.keyId,

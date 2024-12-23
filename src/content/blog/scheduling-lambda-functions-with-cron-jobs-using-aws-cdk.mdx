@@ -20,7 +20,8 @@ Now, we understand what cron expressions are as well as what they can help us ac
 
 The first step is to create our Lambda function which fortunately can be quite small as it’s just for testing purposes. So, inside your CDK project, create a new file at `./resources/lambdas/hello-world.ts`, and inside that file, paste the below code.
 
-```ts:[]:resources/lambdas/hello-world.ts:TYPESCRIPT
+```ts
+META: 'resources/lambdas/hello-world.ts':{ }
 export const handler = () => {
   console.log('hello world');
 };
@@ -28,7 +29,8 @@ export const handler = () => {
 
 With the Lambda function’s code taken care of, let’s head over to our stack definition file where we’ll be defining our new Lambda function. So, inside your stack definition file inside the `lib` directory, paste the code below inside your constructor to define the Lambda function and add the below imports to the file.
 
-```ts:[]:lib/stack.ts:TYPESCRIPT
+```ts
+META: 'lib/stack.ts':{ }
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { Duration } from 'aws-cdk-lib';
@@ -48,7 +50,8 @@ And, that’s it! Our new Lambda function is defined and we can move on to defin
 
 Thankfully, defining the cron trigger for our Lambda Function is easier than defining the Lambda function, all we need to do is add a new EventBridge rule with our cron schedule expression and then point the target of the rule to our new Lambda function. So, let’s take care of both of them now. Add the below imports to your file as well as the new definitions below your Lambda function definition.
 
-```ts:[]:lib/stack.ts:TYPESCRIPT
+```ts
+META: 'lib/stack.ts':{ }
 import { Rule, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 

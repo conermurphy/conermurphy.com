@@ -1,12 +1,34 @@
 :root {
-  --brand-color: #FA347B;
-  --darkest-color: #0B0E16;
-  --dark-color: #111622;
-  --mid-color: #A4A5A8;
-  --light-color: #E1E2E3;
-  --lightest-color: #FFFFFF;
+  --brand-color: 338 95 59;
+  --darkest-color: 224 33 6;
+  --dark-color: 222 33 10;
+  --mid-color: 225 2 65;
+  --light-color: 210 3 89;
+  --lightest-color: 0 0 100;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: "Arvo"
+}
+
+/* NOTE: Used for code block highlighting */
+.highlighted {
+  /* NOTE: Same as var(--light-color) */
+  background-color: rgba(225, 226, 227, 0.25);
+  width: 100% !important;
+  display: inline-block;
+  border-left: 0.25rem solid var(--brand-color);
+}
+
+pre.has-focused .line:not(.focused) {
+  filter: blur(1px);
+}
+
+.line:not(.highlighted) {
+  margin-left: 0.25rem;
+}
+
+.line-number {
+  color: var(--light-color) !important;
+  margin-left: 0.25rem;
 }

@@ -28,7 +28,8 @@ Now we have a better understanding of WAF, what it does, and how it works with o
 
 For this, you’re going to need to use either an existing CDK stack or create a new one using `cdk init app --language typescript`. Once you have your CDK stack, we’re going to define the below resources in our services definition file in the `lib` directory.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 1. Create an API
 const api = new RestApi(this, "REST_API", {
   restApiName: "REST API",
@@ -55,7 +56,8 @@ This code will create a new REST API using API Gateway as well as a new Lambda f
 
 With our API and Lambda now defined, the last thing we need to do is add the code for our Lambda function itself. To do that, create a new file at `./resources/posts.ts` and add the below code to it.
 
-```ts:[]:./resources/posts.ts:TYPESCRIPT
+```ts
+META: './resources/posts.ts':{ }
 export const handler = async () => {
   try {
     return {
@@ -97,7 +99,8 @@ To define a new Web ACL, we’re going to use the `CfnWebACL` construct in the C
 
 Then underneath the code we added earlier for defining our REST API, add the below code to make the base of our ACL code.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // ...REST API code
 
 // 5. Create a WebACL with an IP rate-based rule
@@ -158,7 +161,8 @@ In this example, WAF will monitor all requests and if an individual IP address m
 
 With this rule added, our web ACL definition is complete. So, to recap, our full definition will look like the one below.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 const webAcl = new CfnWebACL(this, "WEB_ACL", {
   // Allow all requests by default
   defaultAction: {
@@ -201,7 +205,8 @@ const webAcl = new CfnWebACL(this, "WEB_ACL", {
 
 At this point, we have our REST API and our web ACL definition but they’re not connected yet. To do that, we need to add an association between them which we can do with the construct `CfnWebACLAssociation` (again imported from version 2). To make this association, add the below code under the code we just added for our ACL definition a moment ago.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 6. Associate the WebACL with the API
 const webAclAssociation = new CfnWebACLAssociation(
   this,
@@ -228,7 +233,8 @@ With our CDK stack now finished, we can deploy it to AWS using `cdk deploy`, onc
 
 To test the API and ensure WAF is correctly blocking our requests based on our IP address we’re going to add a new file to the root of our project called `rate-limit-test.ts` with the below code.
 
-```ts:[]:./rate-limit-test.ts:TYPESCRIPT
+```ts
+META: './rate-limit-test.ts':{ }
 async function rateLimit() {
   const API_URL = "API_URL";
 

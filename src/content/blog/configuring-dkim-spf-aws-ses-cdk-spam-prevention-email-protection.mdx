@@ -36,7 +36,8 @@ So, as mentioned, to implement DKIM on SES, we first need to create a domain on 
 
 To create the domain identity in your CDK stack, add the below code where we use (rather confusingly) the `EmailIdentity` construct with a domain identity to create our domain on SES.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 const domain = "example.com";
 const domainIdentity = Identity.domain(domain);
 
@@ -51,7 +52,8 @@ In this case, we’ve used the example domain `example.com` so make sure to swit
 
 With our domain configured in the CDK stack, the next thing we’ll want to do is to define the email address we want to send emails from using SES, this email address will need to use the domain we configured a moment ago. To create a new email address on SES, we can update our previous code to look like the below which will in turn configure an email identity on SES.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 1. Define our email address and it's domain that we want to use with SES
 const email = "example@example.com";
 const domain = "example.com";
@@ -74,7 +76,8 @@ With our domain and email address both configured, we’re almost ready to deplo
 
 To add this output add the below code at the bottom of your CDK stack.
 
-```ts:[]:./lib/*-stack.ts:TYPESCRIPT
+```ts
+META: './lib/*-stack.ts':{ }
 // 4. Print out the DKIM CNAME records to add to our DNS
 new cdk.CfnOutput(this, "DkimRecordOutputs", {
   value: JSON.stringify(sesDomainIdentity.dkimRecords),
