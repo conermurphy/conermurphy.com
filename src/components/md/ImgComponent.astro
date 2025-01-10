@@ -1,0 +1,18 @@
+---
+import { Image } from 'astro:assets'
+
+type ImageProps = Record<string, unknown> & {
+  src: string
+  alt: string
+  width?: number
+  height?: number
+}
+const props = Astro.props as ImageProps
+---
+
+<Image
+  {...props}
+  width={100}
+  height={100}
+  class="mb-6 h-full w-full rounded-lg border-2 border-brand"
+/>

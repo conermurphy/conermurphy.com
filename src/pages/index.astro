@@ -26,7 +26,7 @@ const techWritingPosts = (await getCollection('technicalWriting'))
       <div class="mx-auto max-w-2xl lg:mx-0">
         <a href="/" class="-m-1.5 p-1.5">
           <span class="sr-only">{SITE_TITLE}</span>
-          <Image class="h-8 w-auto" src={Logo} alt="" />
+          <Image class="h-8 w-auto" src={Logo} alt="" loading="eager" />
         </a>
         <h1
           class="mt-2 text-5xl font-semibold tracking-tight text-light sm:text-7xl"

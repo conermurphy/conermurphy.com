@@ -11,20 +11,30 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Arvo"
 }
 
+:is(h1, h2, h3, h4, h5, h6) > code {
+  font-weight: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
 /* NOTE: Used for code block highlighting */
 .highlighted {
   /* NOTE: Same as var(--light-color) */
   background-color: rgba(225, 226, 227, 0.25);
-  width: 100% !important;
+  width: calc(100% - 0.25rem) !important;
   display: inline-block;
   border-left: 0.25rem solid var(--brand-color);
+}
+
+pre {
+  width: 100%;
 }
 
 pre.has-focused .line:not(.focused) {
   filter: blur(1px);
 }
 
-.line:not(.highlighted) {
+.line {
   margin-left: 0.25rem;
 }
 

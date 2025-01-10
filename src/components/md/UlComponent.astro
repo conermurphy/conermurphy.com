@@ -1,0 +1,10 @@
+---
+const props = Astro.props
+---
+
+<ul
+  {...props}
+  class="mb-6 list-disc pl-4 leading-relaxed sm:mb-8 sm:text-lg sm:leading-loose"
+>
+  <slot />
+</ul>

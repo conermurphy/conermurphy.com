@@ -19,7 +19,7 @@ const { title, description, type = 'website', date } = Astro.props
 <meta charset="utf-8" />
 <meta name="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.png" />
+<link rel="icon" type="image/svg+xml" href="/logo.svg" />
 <meta name="generator" content={Astro.generator} />
 <meta lang="en-GB" />
 <meta property="og:locale" content="en-GB" />
@@ -29,6 +29,7 @@ const { title, description, type = 'website', date } = Astro.props
   title="RSS blog feed for conermurphy.com"
   href="/rss/blog.xml"
 />
+<link rel="sitemap" href="/sitemap-index.xml" />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />

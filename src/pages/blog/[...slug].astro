@@ -9,6 +9,15 @@ import H2Component from '../../components/md/H2Component.astro'
 import H3Component from '../../components/md/H3Component.astro'
 import H4Component from '../../components/md/H4Component.astro'
 import PreComponent from '../../components/md/PreComponent.astro'
+import UlComponent from '../../components/md/UlComponent.astro'
+import OlComponent from '../../components/md/OlComponent.astro'
+import BlockQuoteComponent from '../../components/md/BlockQuoteComponent.astro'
+import HrComponent from '../../components/md/HrComponent.astro'
+import TableComponent from '../../components/md/TableComponent.astro'
+import THeadComponent from '../../components/md/THeadComponent.astro'
+import TdComponent from '../../components/md/TdComponent.astro'
+import ThComponent from '../../components/md/ThComponent.astro'
+import ImgComponent from '../../components/md/ImgComponent.astro'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog')
@@ -30,6 +39,15 @@ const components = {
   h2: H2Component,
   h3: H3Component,
   h4: H4Component,
+  ul: UlComponent,
+  ol: OlComponent,
+  blockquote: BlockQuoteComponent,
+  hr: HrComponent,
+  table: TableComponent,
+  thead: THeadComponent,
+  th: ThComponent,
+  td: TdComponent,
+  img: ImgComponent,
 }
 ---
 
