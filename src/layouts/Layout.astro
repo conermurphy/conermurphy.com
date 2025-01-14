@@ -9,9 +9,11 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
 interface Props {
   title?: string
   description?: string
+  type?: 'article' | 'website'
+  date?: Date
 }
 
-const { title, description } = Astro.props
+const { title, description, type = 'website', date } = Astro.props
 ---
 
 <!doctype html>
@@ -20,6 +22,8 @@ const { title, description } = Astro.props
     <BaseHead
       title={title ? `${title} | ${SITE_TITLE}` : SITE_TITLE}
       description={description || SITE_DESCRIPTION}
+      type={type}
+      date={date}
     />
 
     <script

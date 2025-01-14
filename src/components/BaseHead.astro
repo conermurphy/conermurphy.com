@@ -1,18 +1,26 @@
 ---
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
+import { SITE_TITLE } from '../consts'
 import '../styles/global.css'
 
 interface Props {
   title: string
   description: string
+  date?: Date
   type?: 'article' | 'website'
-  date?: string
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 
 const { title, description, type = 'website', date } = Astro.props
+const imageURL = new URL(Astro.url)
+imageURL.href = `${imageURL.href}.og.png`
+imageURL.searchParams.set('title', title.split('|')[0])
+imageURL.searchParams.set('description', description)
+
+// NOTE: If there is a date append it
+date && imageURL.searchParams.set('date', date?.toISOString())
 ---
 
 <!-- Global Metadata -->
@@ -52,8 +60,7 @@ const { title, description, type = 'website', date } = Astro.props
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<!-- TODO: Replace this with OG image generation -->
-<!-- <meta property="og:image" content={new URL(image, Astro.url)} /> -->
+<meta property="og:image" content={imageURL} />
 <meta property="og:type" content={type} />
 <meta property="og:site_name" content="Coner Murphy" />
 
@@ -62,5 +69,4 @@ const { title, description, type = 'website', date } = Astro.props
 <meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<!-- TODO: Replace this with OG image generation -->
-<!-- <meta property="twitter:image" content={new URL(image, Astro.url)} /> -->
+<meta property="twitter:image" content={imageURL} />

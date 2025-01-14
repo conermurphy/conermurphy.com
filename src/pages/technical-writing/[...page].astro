@@ -19,7 +19,12 @@ export const getStaticPaths = (async ({ paginate }) => {
 const { page } = Astro.props
 ---
 
-<Layout title="Technical Writing">
+<Layout
+  title={page.currentPage === 1
+    ? 'Technical Writing'
+    : `Technical Writing - Page ${page.currentPage}`}
+  description="All of the blog posts I've partnered with companies on. Want to work with me on a post for your company? Get in touch."
+>
   <Header />
 
   <main class="space-y-24 py-24 sm:space-y-40 sm:py-32">
