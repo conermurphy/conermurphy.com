@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdir } from 'node:fs'
 import { ImageResponse } from '@vercel/og'
 
 export const prerender = false
@@ -116,8 +116,12 @@ export async function GET(request: Request) {
     },
   }
 
-  const arvoFontPath = `${process.cwd()}/public/fonts/Arvo-Bold.ttf`
-  const syneFontPath = `${process.cwd()}/public/fonts/Syne-Regular.ttf`
+  const arvoFontPath = import.meta.env.PROD
+    ? `${process.cwd()}/dist/client/fonts/Arvo-Bold.ttf`
+    : `${process.cwd()}/public/fonts/Arvo-Bold.ttf`
+  const syneFontPath = import.meta.env.PROD
+    ? `${process.cwd()}/dist/client/fonts/Syne-Regular.ttf`
+    : `${process.cwd()}/public/fonts/Syne-Regular.ttf`
 
   const arvoFont = readFileSync(arvoFontPath)
   const syneFont = readFileSync(syneFontPath)
