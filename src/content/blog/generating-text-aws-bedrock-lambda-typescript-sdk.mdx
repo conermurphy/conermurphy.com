@@ -1,0 +1,188 @@
+---
+title: 'Generating Text Using AWS Bedrock via Lambda in TypeScript with the AWS SDK'
+description: "Learn how to generate text with AWS Bedrock's AI models from a Lambda function using the AWS SDK and TypeScript, all provisioned using the AWS CDK."
+date: '2023-11-15'
+topics: ['AWS', 'BEDROCK', 'LAMBDA']
+slug: generating-text-aws-bedrock-lambda-typescript-sdk
+---
+
+[AWS Bedrock](https://aws.amazon.com/bedrock/) is AWS’s new serverless generative AI offering that recently [went into general availability](https://www.aboutamazon.com/news/aws/aws-amazon-bedrock-general-availability-generative-ai-innovations). Bedrock allows users to easily consume several different foundation models they’ve integrated from leading AI companies through a single interface. You can also take it one step further than just sending requests to these models by fine-tuning them with your own custom dataset to help improve the accuracy of the results generated.
+
+Now, with the introduction to Bedrock out of the way, what are we going to be doing in this post? Today, we’re going to be looking at how we can programmatically send requests to one of the Bedrock models using a Lambda function and the AWS SDK in TypeScript using the [@aws-sdk/client-bedrock-runtime](https://www.npmjs.com/package/@aws-sdk/client-bedrock-runtime) package. I’ll be using the AWS CDK to provision the Lambda function but this isn’t required if you’d prefer to do it another way.
+
+## Configuring Bedrock
+
+However, before we can jump into the actual code portion of this blog, we need to ensure that Bedrock is set up and ready to go on our account. First of all, Bedrock is only available in a subset of AWS regions at the moment so we need to ensure we’re using one of those regions on the dashboard and in the CDK. For this tutorial, I’ll be using `us-east-1` as at the time of writing they have the most models available for use.
+
+Then on the AWS dashboard, we need to head to the Bedrock page and [request access to all of the models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) we want to use. For this tutorial, I’ll be using the “Cohere Command” model so you’ll need access to that model at a minimum but you can request access to as many of the other models as you would like.
+
+Once you have access to the models you want to use, we’re ready to continue with the tutorial and start setting up our CDK stack and Lambda function!
+
+## Setting Up Our CDK Stack
+
+To start with you’ll need a CDK stack so you can either use an existing one or create a new one using the command `cdk init app --language typescript`. Then once you have your CDK stack, you’ll want to ensure the stack is configured to use the same region as the region we have access to the Bedrock models in. So, in my case that is `us-east-1`, you can configure this inside the `bin` directory where your stack is defined.
+
+```ts
+META: './bin/*.ts':{ }
+#!/usr/bin/env node
+import 'source-map-support/register';
+import * as cdk from 'aws-cdk-lib';
+import { YourStack } from '../lib/your-stack';
+
+const app = new cdk.App();
+new YourStack(app, 'YourStack', {
+  env: {
+    region: 'YOUR_REGION',
+  },
+});
+```
+
+**\*NOTE:** You don’t necessarily need to set the CDK region to be the same as the Bedrock region as you can change the region for the Bedrock SDK client independently. But, for the sake of simplicity and to avoid using multiple regions, we’re going to change the entire stack’s region to align with Bedrock.\*
+
+## Creating Our Lambda Function
+
+After your stack and its region are configured correctly, let’s move on to defining our Lambda function. To do this, add the below code to your stack’s services definition file inside the `lib` directory.
+
+```ts
+META: './lib/*-stack.ts':{ }
+new NodejsFunction(this, 'TextLambda', {
+  entry: 'resources/text-lambda.ts',
+  handler: 'handler',
+  runtime: Runtime.NODEJS_18_X,
+  timeout: Duration.minutes(3),
+  bundling: {
+    nodeModules: ['@aws-sdk/client-bedrock-runtime'],
+  },
+  initialPolicy: [
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ['bedrock:*'],
+      resources: [`*`],
+    }),
+  ],
+});
+```
+
+### Creating an IAM policy for Lambda and Bedrock
+
+A lot of this code is pretty normal stuff for a Lambda definition in the CDK but the thing you’ll want to pay closer attention to is the `initialPolicy` property.
+
+With this property, we define the IAM policy that is required for our function to be able to invoke and use Bedrock via the SDK. Ideally, we’d make this IAM policy more restrictive and less generic but as we’re just experimenting with Bedrock this policy is ideal as it’ll allow us to work with any model in Bedrock we have access to.
+
+## Connecting Lambda and Bedrock
+
+With our function now defined in our CDK stack, let’s create it. To do this, create a new file at `./resources/text-lambda.ts`. This is the file that will contain all of the code for our Lambda function that we’ll write in a moment. But, first, before we can do that, we need to install the Bedrock SDK client using the NPM package mentioned at the start of the post. To do that, run the command `npm i @aws-sdk/client-bedrock-runtime` in your terminal.
+
+With that out of the way, we’re ready to add the code for our function. Below is all of the code you’ll need for it.
+
+```ts
+META: './resources/text-lambda.ts':{ }
+import {
+  BedrockRuntimeClient,
+  InvokeModelCommand,
+} from '@aws-sdk/client-bedrock-runtime';
+
+// Create a new Bedrock SDK Client
+const client = new BedrockRuntimeClient();
+
+export const handler = async () => {
+  // Configure the input for the request to our Bedrock model.
+  const input = {
+    // NOTE: The body differs depending on the model you are using so use the playground on the Bedrock dashboard to figure out what you need to include.
+    body: JSON.stringify({
+      prompt:
+        'Write me a story about a car that goes on a journey to save a village',
+      max_tokens: 400,
+      temperature: 0.75,
+      p: 0.01,
+      k: 0,
+      stop_sequences: [],
+      return_likelihoods: 'NONE',
+    }),
+    accept: 'application/json',
+    contentType: 'application/json',
+    // The model you'd like to use
+    modelId: 'cohere.command-text-v14',
+  };
+
+  try {
+    // Send the request to the Bedrock model
+    const response = await client.send(new InvokeModelCommand(input));
+
+    // Process the output from the Bedrock model and return the generated data.
+    // NOTE: The structure of the response also differs depending on the model used.
+    const { generations } = JSON.parse(
+      new TextDecoder().decode(response.body)
+    ) as {
+      generations: {
+        finish_reason: string;
+        id: string;
+        text: string;
+      }[];
+    };
+
+    return {
+      statusCode: 200,
+      body: generations[0].text,
+    };
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: e,
+    };
+  }
+};
+```
+
+Let’s now take a moment to go through the code and understand what everything is doing and how it works. To start with we create a new SDK client using the `BedrockRuntimeClient` class we import from the package we just installed.
+
+Inside the function handler, we then configure the input for the request we want to send to the model itself. In the `input` object you can see the property `modelId` which we have set to `cohere.command-text-v14`, this is the property that allows us to control which model we’d like to use on Bedrock.
+
+We then define a `body` property which is set to an object that is being run through `JSON.stringify()` as Bedrock requires the property to be a string. Inside this `body` property is all of the data that our model needs to process our request including our `prompt` which you can customise to your liking.
+
+### Handling Requests to Different Bedrock Models
+
+At this point it’s worth noting that the `body` property will differ from model to model so if you’re using a different model you’ll need to change the `body` object to match what that model expects to receive.
+
+To find out what a chosen model is expecting to receive you can use the playground page on the Bedrock Dashboard to test your request and then use the “View API Request” button after sending the request to view the request and its `body` structure. Then once you know the structure of the `body` you can copy that over to the Lambda function and it should work as expected.
+
+### Handling Bedrock SDK Responses
+
+In a similar vein to the `body` property in the requests to Bedrock, the responses also differ depending on the model used in the request.
+
+This means if we’re to type the response from Bedrock correctly we need to know their structure and the easiest way to find this out is to send a request to Bedrock from our Lambda and look at the data returned. We can then use this data to build the type we want to assert to the response from Bedrock which is what we do with the code below.
+
+```ts
+const response = await client.send(new InvokeModelCommand(input))
+
+const { generations } = JSON.parse(new TextDecoder().decode(response.body)) as {
+  generations: {
+    finish_reason: string
+    id: string
+    text: string
+  }[]
+}
+
+return {
+  statusCode: 200,
+  body: generations[0].text,
+}
+```
+
+## Testing Our Lambda Function and Bedrock
+
+At this point, we’ve now finished writing our Lambda function and are ready to test it but first, we need to deploy it which we can do by running the command `cdk deploy` and accepting any prompts given to us.
+
+With our function now deployed to AWS, we’re ready to test it. There are several ways you can do this, you could use the dashboard or the AWS CLI to invoke the function but I’m personally going to use the [VSCode extension “AWS Toolkit”](https://aws.amazon.com/visualstudiocode/) which allows you to easily manage your AWS resources from inside VSCode.
+
+After invoking your lambda function and waiting a few seconds for Bedrock to process your request, you should see a response from Lambda containing the generated text from Bedrock as well as a `statusCode` property with a value of `200`.
+
+If that is what you see then congrats everything is working as expected and you have successfully configured Lambda to send requests to Bedrock using the AWS SDK!
+
+## Closing Thoughts
+
+So, to recap, in this post, we’ve looked at what is [AWS Bedrock](https://aws.amazon.com/bedrock/) as well as how to configure it on the AWS dashboard to allow us to send requests to their models in their online playground. We then looked at how to send requests to Bedrock from a Lambda function via the AWS SDK that was provisioned using the AWS CDK and handle the generated responses sent back to us.
+
+Finally, if you’re interested in checking out the [full example project and CDK stack for this tutorial](https://github.com/conermurphy/cdk-tutorials/tree/main/bedrock-sdk-requests), you can see it over on [my GitHub](https://github.com/conermurphy) along with all of [my other example CDK projects and AWS tutorials](https://github.com/conermurphy/cdk-tutorials/).
+
+I hope you found this post helpful and thanks for reading.

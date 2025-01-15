@@ -1,0 +1,38 @@
+---
+import '@fontsource/arvo'
+import '@fontsource-variable/syne'
+import '@fontsource-variable/jetbrains-mono'
+
+import BaseHead from '../components/BaseHead.astro'
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
+
+interface Props {
+  title?: string
+  description?: string
+  type?: 'article' | 'website'
+  date?: Date
+}
+
+const { title, description, type = 'website', date } = Astro.props
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth bg-darkest">
+  <head>
+    <BaseHead
+      title={title ? `${title} | ${SITE_TITLE}` : SITE_TITLE}
+      description={description || SITE_DESCRIPTION}
+      type={type}
+      date={date}
+    />
+
+    <script
+      src="https://cdn.usefathom.com/script.js"
+      data-site="FBDCDFEY"
+      defer
+      is:inline></script>
+  </head>
+  <body class="bg-darkest font-body text-light">
+    <slot />
+  </body>
+</html>

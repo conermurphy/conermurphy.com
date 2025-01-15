@@ -1,0 +1,544 @@
+---
+title: 'How to Build a REST API With the AWS CDK Using API Gateway, Lambda, and Dynamodb With API Key Authentication'
+description: 'Learn how to build a REST API with API key authentication using AWS API Gateway, DynamoDB, Lambda, and the AWS CDK as well as how to test it with Postman.'
+date: '2023-06-22'
+topics: ['AWS', 'LAMBDA', 'API-GATEWAY', 'DYNAMODB']
+slug: build-rest-api-aws-cdk-api-gateway-lambda-dynamodb-api-key-authentication
+---
+
+APIs are a common occurrence in the developer world and for a good reason, they allow us to easily connect separate systems and products together. It’s highly likely that at some point in your developer journey, you’ll use one but today we’re going to go one step further and look at how we can create one with AWS using API Gateway, Lambda, DynamoDB, and the AWS CDK.
+
+But, first, why might you want to create one? There are many reasons why you might want to create an API but one of the most common would be to give external developers an easy way to integrate with your product or platform to perform operations as if they were using the product directly.
+
+So, by the end of this post, we’re going to have created an example REST API that allows users to create, delete, and retrieve example blog posts from a DynamoDB table. We’re also going to protect our API by requiring an API key to be used in the requests so any unauthenticated requests are responded to with a `403 Forbidden` response.
+
+## Prerequisites
+
+Before we jump into the tutorial and get started with building our example API, there are a couple of things to take care of. You’ll need to have an AWS account, as well as the AWS CLI and CDK, configured on your local machine. You will also need a CDK project initialized locally, this can either be an existing one you’d like to add an API to or a brand new one.
+
+Finally, you’ll need a way of testing the API we build. You could opt for something like `curl` but I’d recommend using Postman as it provides a nice UI for testing APIs and their responses.
+
+With that all covered and out of the way, let’s get started with building our AWS API.
+
+## DynamoDB
+
+The first thing we need to do in our CDK Stack is define our new DynamoDB table which we’ll use to store the post data created via our API. To define your new table, add the below code into the class in your stack definition file in the `lib` directory.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 1. Create our DynamoDB table
+const dbTable = new Table(this, 'DbTable', {
+  partitionKey: { name: 'pk', type: AttributeType.STRING },
+  removalPolicy: RemovalPolicy.DESTROY,
+  billingMode: BillingMode.PAY_PER_REQUEST,
+});
+```
+
+With this code, we create a new DynamoDB table that uses a `partiionKey` of `pk` and is set to use on-demand mode as well as to be removed when we destroy the stack so we don’t leave any lingering data.
+
+## API Gateway
+
+With our DynamoDB table taken care of; let’s move on to step 2 and create our new REST API in API Gateway. To do this add the code below under the code we just added for our DB table.
+
+```ts
+META: './lib/*-stack.ts':{ }
+const api = new RestApi(this, 'RestAPI', {
+  restApiName: 'RestAPI',
+  defaultCorsPreflightOptions: {
+    allowOrigins: Cors.ALL_ORIGINS,
+    allowMethods: Cors.ALL_METHODS,
+  },
+  apiKeySourceType: ApiKeySourceType.HEADER,
+});
+```
+
+With this code, we create our new REST API, give it a name in the AWS Dashboard, and configure our CORS options. We also configure where the API key will be stored for the requests to our API, which will be in the header of the requests.
+
+Speaking of our API key, let’s create a new one, to do this add the below code under the code we just added to create our REST API.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 3. Create our API Key
+const apiKey = new ApiKey(this, 'ApiKey');
+```
+
+This code will generate a new API key to use with our API when we deploy our CDK stack to AWS.
+
+It’s worth noting that in an actual deployment of an API if you wanted to allow users to generate their own API keys, you would use the AWS SDK and something like a Lambda function to generate the API key instead of doing it via the CDK. But, for our example project where we only need one API key this method will work fine.
+
+### Usage Plan
+
+The final thing we need to configure for API Gateway at the moment is a usage plan. Usage plans are how we can implement things like throttling, quota limits, and monetization on an API. But, for this post, we’re not going to be looking at those features, instead the thing we’re most interested in is the access control functionality that usage plans offer. **_[Read more about API Gateway Usage Plans.](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-api-usage-plans.html)_**
+
+For API key authentication to work, we need to associate the API key we just generated with a usage plan. If we don’t associate the API key with a usage plan then the API key won’t work and we’ll be unable to access our API with it.
+
+But, before we can associate our API key with a usage plan, we first need to create our usage plan in our CDK stack. To do that add the below code under the API key code.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 4. Create a usage plan and add the API key to it
+const usagePlan = new UsagePlan(this, 'UsagePlan', {
+  name: 'Usage Plan',
+  apiStages: [
+    {
+      api,
+      stage: api.deploymentStage,
+    },
+  ],
+});
+```
+
+This code creates a new usage plan for the API we specify in the `apiStages` property. You’ll also notice the `stage` property in the configuration options, this is if you want to configure different usage plans for different stages of your API like “staging”, “production”, etc.
+
+In this example, we’re just using the default stage of our API which is production so we don’t need to configure anything else here.
+
+Finally, we just need to link our API key to our new usage plan which we can achieve by adding the below code under the code we just added for the usage plan.
+
+```ts
+META: './lib/*-stack.ts':{ }
+usagePlan.addApiKey(apiKey);
+```
+
+## Lambda
+
+With the base of our new API configured, we’re now ready to move on to defining our Lambda functions and handlers which will contain the actual logic used when a user sends a request to our API. Let’s start by defining the Lambda functions in our CDK stack before then writing them and linking them to our API.
+
+### Defining our Lambda functions
+
+Because our API is going to have 2 endpoints `/posts` and `/posts/{id}`, we’re going to have two Lambda functions, one for each of the endpoints.
+
+To define these Lambda functions in our CDK stack, add the below code under the usage plan code we just added.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 5. Create our Lambda functions to handle requests
+const postsLambda = new NodejsFunction(this, 'PostsLambda', {
+  entry: 'resources/endpoints/posts.ts',
+  handler: 'handler',
+  environment: {
+    TABLE_NAME: dbTable.tableName,
+  },
+});
+
+const postLambda = new NodejsFunction(this, 'PostLambda', {
+  entry: 'resources/endpoints/post.ts',
+  handler: 'handler',
+  environment: {
+    TABLE_NAME: dbTable.tableName,
+  },
+});
+```
+
+With this code, we define two Lambda functions using the `NodejsFunction` construct and pass both of them the DynamoDB table name that we created earlier so we can access the table from within the function.
+
+### Granting read/write permissions
+
+After defining the Lambda functions, the final thing we need to do is to grant them the necessary permissions to be able to read and write to our DynamoDB table which we can achieve with the below code.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 6. Grant our Lambda functions access to our DynamoDB table
+dbTable.grantReadWriteData(postsLambda);
+dbTable.grantReadWriteData(postLambda);
+```
+
+### Creating our handlers
+
+Now our Lambda functions are defined and they have the necessary permissions to run, we just need to create them so let’s do that now.
+
+To do this, we’ll need to create a series of new files and directories that will contain the code for the Lambda functions themselves as well as a series of handler functions that the Lambdas will use to access the DB and perform the required operations.
+
+The final file structure should look like the one below.
+
+```
+// Existing directories in the root directory of the project  👇
+
+- /lib
+- /bin
+- ...
+
+// Files/Directories we've added 👇
+
+- /resources
+	- /endpoints (These are the Lambda functions)
+		- post.ts (lambda for /posts/{id})
+		- posts.ts (lambda for /posts)
+	- /handlers
+		- /posts (These are the handlers called from the Lambda functions)
+			- create.ts
+			- get-all.ts
+			- get-one.ts
+			- delete.ts
+```
+
+So, after creating the required files and folders, you should now have a `resources` directory at the root of your project alongside your `lib` and `bin` directories. And, then inside that `resources` directory you should have all of the files required for our Lambda functions to run.
+
+Before we can populate these files with the required code however there are a couple of things we need to do.
+
+1. We need to install some AWS NPM packages to allow us to access and operate on the DB table and have the required TS types. You can do this by running the command `npm i @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb @types/aws-lambda aws-lambda`.
+2. We also need to create a type for our post data to be used in the `create` handler function so we can type the data passed to us from the request. To do this, create a new file in the root of the project called `types.ts` and add the below code into it.
+
+```ts
+META: './types.ts':{ }
+export interface IPost {
+  title: string;
+  description: string;
+  author: string;
+  publicationDate: string;
+}
+```
+
+With both of those things taken care of, we’re now ready to populate the contents of the files we created above. Below are the complete code snippets for each file we created.
+
+#### Endpoints
+
+```ts
+META: './resources/endpoints/post.ts':{ }
+// ./resources/endpoints/post.ts
+
+import { APIGatewayProxyEvent } from 'aws-lambda';
+import { getOne } from '../handlers/posts/get-one';
+import { deletePost } from '../handlers/posts/delete';
+
+export const handler = async (event: APIGatewayProxyEvent) => {
+  const id = event.pathParameters?.id;
+
+  if (!id) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ message: 'Missing path parameter: id' }),
+    };
+  }
+
+  try {
+    // Handle different HTTP methods
+    switch (event.httpMethod) {
+      case 'GET':
+        return await getOne({ id });
+      case 'DELETE':
+        return await deletePost({ id });
+      default:
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ message: 'Invalid HTTP method' }),
+        };
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: error }),
+    };
+  }
+};
+```
+
+The above code will be for our `/posts/{id}` endpoint so we take the `id` parameter out of the event that triggered the Lambda function. We then check if the `id` parameter is present or not and return a `400` error to the user if required. We then pass the `id` parameter into the relevant handler function depending on the HTTP method that was used in the request.
+
+```ts
+META: './resources/endpoints/posts.ts':{ }
+// ./resources/endpoints/posts.ts
+
+import { APIGatewayProxyEvent } from 'aws-lambda';
+import { getAll } from '../handlers/posts/get-all';
+import { create } from '../handlers/posts/create';
+
+export const handler = async (event: APIGatewayProxyEvent) => {
+  try {
+    // Handle different HTTP methods
+    switch (event.httpMethod) {
+      case 'GET':
+        return await getAll();
+      case 'POST':
+        return await create(event.body);
+      default:
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ message: 'Invalid HTTP method' }),
+        };
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: error }),
+    };
+  }
+};
+```
+
+The above function is for our `/posts` endpoint so we just trigger the relevant handler function depending on the HTTP method that was used. In the case of the `create` handler, we also pass through the body of the request to the handler.
+
+#### Handlers
+
+```ts
+META: './resources/handlers/posts/create.ts':{ }
+// ./resources/handlers/posts/create.ts
+
+import { DynamoDB } from '@aws-sdk/client-dynamodb';
+import { PutCommand } from '@aws-sdk/lib-dynamodb';
+import { IPost } from '../../../types';
+
+const dynamodb = new DynamoDB({});
+
+export async function create(body: string | null) {
+  const uuid = randomUUID();
+
+  // If no body, return an error
+  if (!body) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ message: 'Missing body' }),
+    };
+  }
+
+  // Parse the body
+  const bodyParsed = JSON.parse(body) as IPost;
+
+  // Creat the post
+  await dynamodb.send(
+    new PutCommand({
+      TableName: process.env.TABLE_NAME,
+      Item: {
+        pk: `POST#${uuid}`,
+        ...bodyParsed,
+      },
+    })
+  );
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: 'Post created' }),
+  };
+}
+```
+
+With this function, we handle the creation of a new post in the database. We first check if the body is present and if it isn’t we return an error to the user to inform them. We then parse the body if it was provided, typing it as the `IPost` we created earlier before then performing the `PutCommand` with the SDK to add the item to the database.
+
+```ts
+META: './resources/handlers/posts/delete.ts':{ }
+// ./resources/handlers/posts/delete.ts
+
+import { DynamoDB } from '@aws-sdk/client-dynamodb';
+import { DeleteCommand } from '@aws-sdk/lib-dynamodb';
+
+const dynamodb = new DynamoDB({});
+
+export async function deletePost({ id }: { id: string }) {
+  await dynamodb.send(
+    new DeleteCommand({
+      TableName: process.env.TABLE_NAME,
+      Key: {
+        pk: `POST#${id}`,
+      },
+    })
+  );
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: 'Post deleted' }),
+  };
+}
+```
+
+This function handles the deletion of an existing post. We take in the `id` parameter from the request and then perform the `DeleteCommand` request in the SDK to delete the target item in the database.
+
+```ts
+META: './resources/handlers/posts/get-all.ts':{ }
+// ./resources/handlers/posts/get-all.ts
+
+import { DynamoDB } from '@aws-sdk/client-dynamodb';
+import { ScanCommand } from '@aws-sdk/lib-dynamodb';
+
+const dynamodb = new DynamoDB({});
+
+export async function getAll() {
+  const result = await dynamodb.send(
+    new ScanCommand({
+      TableName: process.env.TABLE_NAME,
+    })
+  );
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(result.Items),
+  };
+}
+```
+
+In this function, we fetch all of the existing records in the database using the `ScanCommand` to read the entire database before returning them to the user.
+
+```ts
+META: './resources/handlers/posts/get-one.ts':{ }
+// ./resources/handlers/posts/get-one.ts
+
+import { DynamoDB } from '@aws-sdk/client-dynamodb';
+import { GetCommand } from '@aws-sdk/lib-dynamodb';
+
+const dynamodb = new DynamoDB({});
+
+export async function getOne({ id }: { id: string }) {
+  // Get the post from DynamoDB
+  const result = await dynamodb.send(
+    new GetCommand({
+      TableName: process.env.TABLE_NAME,
+      Key: {
+        pk: `POST#${id}`,
+      },
+    })
+  );
+
+  // If the post is not found, return a 404
+  if (!result.Item) {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ message: 'Post not found' }),
+    };
+  }
+
+  // Otherwise, return the post
+  return {
+    statusCode: 200,
+    body: JSON.stringify(result.Item),
+  };
+}
+```
+
+Finally, with this function, we take the `id` parameter from the request and retrieve the post from the DB that matches it. If no item matches the provided `id` then we return a `404` error to the user to inform them.
+
+## Linking together our API and Lambda functions
+
+With all of our Lambda functions and handlers now defined and written, we’re ready to link them to our API from earlier so that when a user sends a request to the API the relevant Lambda function and handler are triggered.
+
+### Creating the endpoints
+
+The first thing we need to do when linking our API and Lambda functions together is to create the routes on our API for users to request. As you’ll recall from earlier we’re going to have 2 endpoints `/posts` and `/posts/{id}`. To define these on our API we can add the below code under the other code from earlier in the stack file in our `lib` directory.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 7. Define our API Gateway endpoints
+const posts = api.root.addResource('posts');
+const post = posts.addResource('{id}');
+```
+
+What this code will create is a new `/posts` endpoint on the root of our API and then a new child endpoint on the `/posts` endpoint with the value `{id}`. It’s important to note the `{}` surrounding `id` as this is what denotes it will be a variable the user can pass in for us to retrieve as a parameter in the function.
+
+### Creating our Lambda integrations
+
+After we’ve created the endpoints on our API, we need to create Lambda integrations out of our Lambda functions to connect to those endpoints. You can do this by adding the below code.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 8. Connect our Lambda functions to our API Gateway endpoints
+const postsIntegration = new LambdaIntegration(postsLambda);
+const postIntegration = new LambdaIntegration(postLambda);
+```
+
+### Creating our methods
+
+Now, with our API endpoints, Lambda handlers, and Lambda integrations created and defined, we’re ready to link them all together by defining the methods that can be used on each endpoint. We can do this with the code below.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 9. Define our API Gateway methods
+posts.addMethod('GET', postsIntegration, {
+  apiKeyRequired: true,
+});
+posts.addMethod('POST', postsIntegration, {
+  apiKeyRequired: true,
+});
+
+post.addMethod('GET', postIntegration, {
+  apiKeyRequired: true,
+});
+post.addMethod('DELETE', postIntegration, {
+  apiKeyRequired: true,
+});
+```
+
+Let’s break down one of these methods to better understand what is happening. We first choose the endpoint we’d like to add the method to (`posts` or `post`). We then call `addMethod` and pass in the HTTP method (`GET`, `POST`, `DELETE`) we’d like to add to that endpoint.
+
+We then pass the name of the Lambda integration we’d like invoked when that endpoint is requested with the specified HTTP method. Finally, we pass in the `apiKeyRequired` property to the options object to enforce the use of an API key with that method.
+
+This means we have 2 API endpoints which both accept 2 HTTP methods and looks a bit like the diagram below.
+
+```
+- /posts
+	- GET
+	- POST
+	- /{id}
+		- GET
+		- DELETE
+```
+
+## Outputs
+
+With the above methods configured, we’ve finished defining our REST API using API Gateway, Lambda, and DynamoDB via the AWS CDK.
+
+But, before we can deploy it we need to add a final output statement to the CDK stack to print out our API key ID to the console so we can fetch its value with the AWS CLI to allow us to test the API with a tool like Postman.
+
+To add this into your CDK stack add the below to the bottom of the stack file in the `lib` directory, just under where we defined our API methods a moment ago.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// Misc: Outputs
+new CfnOutput(this, 'API Key ID', {
+  value: apiKey.keyId,
+});
+```
+
+## Deploying our CDK stack
+
+Before we can deploy our CDK stack to our AWS account, we need to ensure we have the `esbuild` package installed to allow the `NodejsFunction` construct to deploy successfully. So if you don’t already have `esbuild` installed, you can install it by using the command `npm i -D esbuild`.
+
+After you have `esbuild` installed, you can deploy your CDK stack by running the command `cdk deploy`.
+
+## Testing your REST API
+
+Once your CDK stack has finished deploying you should have two outputs in your terminal, one for the API key ID which we configured a moment ago, and another for the REST API URL.
+
+The first thing we need to do before testing our API is to look up our API key value using the AWS CLI which we can do by using the command `aws apigateway get-api-key --api-key API_KEY_ID --include-value`. Make sure to switch out `API_KEY_ID` for the ID outputted from the CDK deploy command.
+
+Once you’ve got your API key value, you’re ready to test your new REST API using a tool like Postman. To test an endpoint using Postman, you’ll want to enter the URL of your API followed by the endpoint you want to test. So for example our `/posts` endpoint would be `API_URL/posts`. You can then choose the HTTP method you want to use and add your API key value to the headers of the request with the key set to `x-api-key` and the value as your API key value.
+
+While I won’t cover every test scenario you could perform against the API, here are some high-level tests you could run to make sure your API functions as intended.
+
+| Endpoint              | Test                               | Expected Response        |
+| --------------------- | ---------------------------------- | ------------------------ |
+| `ALL`                 | No API Key provided                | `403` Forbidden          |
+| `GET: /posts`         | Returns list of posts              | `200` Array of posts     |
+| `POST: /post`         | Creates a new post with valid body | `200` “Post Created”     |
+| `POST: /post`         | Missing body                       | `400` “Missing Body”     |
+| `GET: /posts/{id}`    | Retrieves the target post ID       | `200` Target post's data |
+| `DELETE: /posts/{id}` | Deletes the target post ID         | `200` “Post Deleted”     |
+
+When it comes to performing the test to create a new post, you’ll need to pass in the data you want to create the post with to the body of the request. When testing this with Postman, you can use the `raw` option for the body and use the below JSON object for the body’s data.
+
+```json
+{
+  "title": "Example post 1",
+  "description": "",
+  "author": "me",
+  "publicationDate": "some-date"
+}
+```
+
+## Closing Thoughts
+
+If all of your tests have given the expected response then congratulations you have built and deployed a working REST API using API Gateway, Lambda, DynamoDB, and the AWS CDK as well as tested it using Postman!
+
+Overall, even though there are a lot of steps involved in building a REST API with the AWS CDK when broken down into its individual steps it can be quite logical and straightforward to do. So, I hope you found this post helpful and if so I would be grateful if you would share it with others so they can find it helpful too.
+
+_If you would like to see the full example code for this project, [you can see it on GitHub here](https://github.com/conermurphy/cdk-tutorials/tree/main/rest-api-with-api-key-auth)._
+
+Thank you for reading
+
+Coner
+
+---
+
+> **\*NOTE:** Once you’re finished with this CDK project, make sure to remove it from your AWS account to ensure you don’t get billed for it by running `cdk destroy`.\*

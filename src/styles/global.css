@@ -1,0 +1,44 @@
+:root {
+  --brand-color: 338 95 59;
+  --darkest-color: 224 33 6;
+  --dark-color: 222 33 10;
+  --mid-color: 225 2 65;
+  --light-color: 210 3 89;
+  --lightest-color: 0 0 100;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Arvo"
+}
+
+:is(h1, h2, h3, h4, h5, h6) > code {
+  font-weight: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* NOTE: Used for code block highlighting */
+.highlighted {
+  /* NOTE: Same as var(--light-color) */
+  background-color: rgba(225, 226, 227, 0.25);
+  width: calc(100% - 0.25rem) !important;
+  display: inline-block;
+  border-left: 0.25rem solid var(--brand-color);
+}
+
+pre {
+  width: 100%;
+}
+
+pre.has-focused .line:not(.focused) {
+  filter: blur(1px);
+}
+
+.line {
+  margin-left: 0.25rem;
+}
+
+.line-number {
+  color: var(--light-color) !important;
+  margin-left: 0.25rem;
+}

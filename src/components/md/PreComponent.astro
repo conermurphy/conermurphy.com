@@ -1,0 +1,126 @@
+---
+import { JSDOM } from 'jsdom'
+import { Code } from 'astro:components'
+import {
+  transformerMetaHighlight,
+  transformerNotationFocus,
+  transformerNotationDiff,
+  transformerRenderWhitespace,
+} from '@shikijs/transformers'
+import CheckIcon from '../icons/check.astro'
+import CopyIcon from '../icons/copy.astro'
+
+const { class: classNames, style, ...props } = Astro.props
+
+const content = await Astro.slots.render('default')
+
+const dom = new JSDOM(content)
+const codeElement = dom.window.document.querySelector('code')
+const codeText = codeElement?.textContent?.trim()?.slice(1, -1)
+
+const lineOne = codeElement?.querySelector('span.line')
+
+let meta: { filePath: string | null; highlightedLines: string } = {
+  filePath: '',
+  highlightedLines: '',
+}
+
+let codeToRender = codeText || ''
+
+if (codeText && lineOne?.textContent?.startsWith('META:')) {
+  const [filePath, highlightedLines] = lineOne?.textContent
+    ?.split(': ')[1]
+    .split(':')
+
+  const filePathContents = filePath.match(/^['](.*)[']$/)
+
+  meta = {
+    filePath: filePathContents?.length ? filePathContents[1] : null,
+    highlightedLines,
+  }
+
+  const codeBlocks = codeText.split('\n')
+  codeBlocks.splice(0, 1)
+  codeToRender = codeBlocks.join('\n')
+}
+
+const totalLines = codeToRender.split('\n').length
+---
+
+<div
+  class="group relative mb-6 overflow-hidden rounded-lg border-2 border-brand bg-dark"
+>
+  {
+    meta.filePath ? (
+      <div class="relative bg-darkest px-4 pt-3">
+        <p class="w-max rounded-t bg-dark px-3 py-1 text-sm italic">
+          {meta.filePath}
+        </p>
+        {props['data-language'] ? (
+          <p class="absolute right-5 top-2">{props['data-language']}</p>
+        ) : null}
+      </div>
+    ) : null
+  }
+
+  <button
+    class="group absolute bottom-2 right-2 grid h-8 w-8 grid-cols-1 grid-rows-1 place-items-center rounded border border-brand bg-transparent text-light opacity-0 transition-all duration-150 ease-in-out hover:bg-brand group-hover:opacity-100"
+    id="copyToClipboard"
+    data-value={codeToRender}
+  >
+    <span
+      class="invisible col-start-1 row-start-1 opacity-0 group-data-[checked]:visible group-data-[checked]:opacity-100"
+    >
+      <CheckIcon />
+    </span>
+    <span
+      class="col-start-1 row-start-1 group-data-[checked]:invisible group-data-[checked]:opacity-0"
+    >
+      <CopyIcon />
+    </span>
+  </button>
+
+  <div class="flex gap-x-2 px-6 py-4 text-sm">
+    <div class="z-20 flex flex-col">
+      {
+        Array.from({ length: totalLines }).map((_, i) => (
+          <span class="my-0 py-0">{i + 1}</span>
+        ))
+      }
+    </div>
+    <Code
+      code={codeToRender || ''}
+      meta={meta.highlightedLines}
+      class="-ml-8 !bg-dark [&>code>.line]:pl-9"
+      lang={props['data-language']}
+      transformers={[
+        transformerMetaHighlight(),
+        transformerRenderWhitespace(),
+        transformerNotationFocus(),
+        transformerNotationDiff(),
+      ]}
+    />
+  </div>
+</div>
+
+<script>
+  const copyButtons = document.querySelectorAll('#copyToClipboard')
+
+  copyButtons.forEach((button) => {
+    button.addEventListener('click', async () => {
+      const codeToCopy = button.getAttribute('data-value')
+      if (!codeToCopy) return
+
+      try {
+        await navigator.clipboard.writeText(codeToCopy)
+        button.setAttribute('data-checked', 'true')
+
+        setTimeout(() => {
+          button.removeAttribute('data-checked')
+        }, 1000)
+      } catch (e) {
+        console.log(e)
+      }
+    })
+  })
+</script>

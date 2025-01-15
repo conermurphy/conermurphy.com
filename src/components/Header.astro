@@ -1,0 +1,110 @@
+---
+import HeaderLink from './HeaderLink.astro'
+import { SITE_TITLE } from '../consts'
+import { Image } from 'astro:assets'
+import Logo from '../images/logo.svg'
+---
+
+<header>
+  <nav
+    class="fixed left-1/2 top-4 z-[90] flex w-max -translate-x-1/2 items-center justify-between gap-x-10 rounded-2xl bg-light/10 px-4 py-4 backdrop-blur-md sm:max-w-2xl lg:justify-center lg:px-10"
+    aria-label="Global"
+  >
+    <div class="hidden lg:flex lg:gap-x-12">
+      <HeaderLink href="/">Home</HeaderLink>
+      <HeaderLink href="/contact">Contact Me</HeaderLink>
+    </div>
+
+    <a href="/" class="-m-1.5 p-1.5">
+      <span class="sr-only">{SITE_TITLE}</span>
+      <Image class="h-5 w-auto" src={Logo} alt="" loading="eager" />
+    </a>
+
+    <div class="flex items-center lg:hidden">
+      <button
+        type="button"
+        class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-light"
+      >
+        <span class="sr-only">Open main menu</span>
+        <svg
+          class="size-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          aria-hidden="true"
+          data-slot="icon"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="hidden lg:flex lg:gap-x-12">
+      <HeaderLink href="/blog">Blog</HeaderLink>
+      <HeaderLink href="/technical-writing">Technical Writing</HeaderLink>
+    </div>
+  </nav>
+
+  <!-- Mobile menu, show/hide based on menu open state. -->
+  <div class="group lg:hidden" role="dialog" aria-modal="true">
+    <!-- Background backdrop, show/hide based on slide-over state. -->
+    <div
+      class="fixed inset-0 -z-10 transition duration-300 ease-in-out group-aria-expanded:z-[90] group-aria-expanded:backdrop-blur-sm"
+    >
+    </div>
+    <div
+      class="fixed inset-y-0 right-0 z-[999] w-full max-w-60 translate-x-60 overflow-y-auto bg-dark px-10 py-6 transition-transform duration-150 ease-in-out group-aria-expanded:translate-x-0"
+    >
+      <div class="flex w-full items-center justify-between">
+        <a href="/" class="-m-1.5 p-1.5">
+          <span class="sr-only">{SITE_TITLE}</span>
+          <Image class="h-8 w-auto" src={Logo} alt="" />
+        </a>
+
+        <div>
+          <button type="button" class="-m-2.5 rounded-md p-2.5 text-light">
+            <span class="sr-only">Close menu</span>
+            <svg
+              class="size-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              aria-hidden="true"
+              data-slot="icon"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18 18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-6 flex flex-col space-y-2">
+        <HeaderLink href="/">Home</HeaderLink>
+        <HeaderLink href="/blog">Blog</HeaderLink>
+        <HeaderLink href="/technical-writing">Technical Writing</HeaderLink>
+        <HeaderLink href="/contact">Contact Me</HeaderLink>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const mobileMenuContainer = document.querySelector('[role="dialog"]')
+  const buttons = document.querySelectorAll('button')
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const isExpanded =
+        mobileMenuContainer?.getAttribute('aria-expanded') === 'true'
+      mobileMenuContainer?.setAttribute('aria-expanded', `${!isExpanded}`)
+    })
+  })
+</script>

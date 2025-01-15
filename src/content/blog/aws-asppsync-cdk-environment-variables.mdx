@@ -1,0 +1,378 @@
+---
+title: 'Integrating Environment Variables with AWS AppSync via the AWS CDK'
+description: 'Learn how to integrate environment variables in a GraphQL API using AWS AppSync, deployed via the AWS CDK in this comprehensive guide.'
+date: '2024-03-05'
+topics: ['AWS', 'APPSYNC']
+slug: aws-asppsync-cdk-environment-variables
+---
+
+Recently there was an [announcement that AWS AppSync now supports environment variables](https://aws.amazon.com/about-aws/whats-new/2024/02/aws-appsync-environment-variables-graph-ql-resolvers-functions/) on their GraphQL APIs. However, the [documentation provided for doing it](https://docs.aws.amazon.com/appsync/latest/devguide/environmental-variables.html) doesn’t showcase how to do it using the AWS CDK.
+
+So, in this tutorial, we’re going to take a look at how to create a GraphQL API using AppSync via the AWS CDK that will allow us to create and retrieve items from a DynamoDB database. And, then when defining the API via the AWS CDK, we’re going to use the new environment variables feature to retrieve secrets in our JavaScript resolvers which we’ll then use when creating and retrieving items from the database.
+
+So, let’s not waste any time and get straight into the post!
+
+## Prerequisites
+
+There aren’t many prerequisites for this tutorial, the main two are that you will require an AWS account already set up and configured. Secondly, you will require a CDK project setup and created on your local machine which if you don’t already have you can create by running the command `cdk init app --language typescript`.
+
+## Defining a DynamoDB Table
+
+Once you have your CDK stack created, the first thing we’re going to want to do is to create a new DynamoDB table definition in the stack definition file in the `lib` directory. You can do this by adding the code below.
+
+```ts
+META: './lib/*-stack.ts':{}
+// Create a new DynamoDB table
+const table = new Table(this, "appsync-envs-table", {
+  partitionKey: { name: "id", type: AttributeType.STRING },
+  removalPolicy: cdk.RemovalPolicy.DESTROY,
+});
+```
+
+## Defining the GraphQL API
+
+With our database definition sorted, we can now turn our attention to the GraphQL API itself. To define this in our CDK stack, we’re going to use the `CfnGraphQLApi` L1 construct. This is because currently at the time of writing the more commonly used `GraphqlApi` construct doesn’t support the `environmentVariables` property.
+
+To add this definition to our stack, add the below code under the code we just added for our DynamoDB database.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// Create a new GraphQL API using CfnGraphQLApi as GraphQLApi does not support environment variables yet
+const api = new CfnGraphQLApi(this, "appsync-envs-graphql-api", {
+  name: "appsync-envs-api",
+  environmentVariables: {
+    // Define any environment variables to be added to the API
+    secret: "some-secret-value",
+  },
+  authenticationType: "API_KEY",
+});
+```
+
+In this code, we create our API but we also add some configuration options. Firstly, we specify that the `authenticationType` we’d like to use is `API_KEY` (we’ll create our API key in a moment). Secondly, and more importantly for this tutorial, we define the `environmentVariables` we’d like to add to our GraphQL API. In this case, we only add one example value called `secret` with a value of `some-secret-value`.
+
+### Creating an API Key
+
+As mentioned a moment ago, we’re now going to create the API key to use with the GraphQL API we just defined. To do this, add the below code under the code we just added for the GraphQL API.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// Create a new API key for our GraphQL API
+const apiKey = new CfnApiKey(this, "appsync-envs-api-key", {
+  apiId: api.attrApiId,
+  // Time expires time is based on epoch time
+  expires: 1741162545,
+});
+```
+
+Not too much is happening in this code, we define the API Key itself and then we link it to the API that we want to use it with. Finally, we then add the time we want the API key to expire.
+
+> **NOTE:** In this case I’ve set the API key to expire on 5th March 2025. But, if you’re reading this tutorial after that date or want to experiment with different values. [Use this website to generate a new Epoch timestamp.](https://www.epochconverter.com/)
+
+### Adding our GraphQL Schema
+
+With our GraphQL API defined and our API key added to it, there is only one thing left for us to do on the API definition before we can move on to writing the GraphQL resolvers and that’s add the schema file.
+
+To add the schema, create a new file at `./graphql/schema.graphql` with the below contents.
+
+```graphql
+META: './graphql/schema.graphql':{}
+type Mutation {
+  createItem: Item
+}
+
+type Query {
+  getItem(id: ID!): Item
+}
+
+type Item {
+  id: ID!
+  value: String
+}
+```
+
+You can see this is a pretty basic schema which is all we need for this tutorial as we’re only focused on the environment variables.
+
+To link this schema file to our GraphQL API, add the below code to the bottom of your stack definition file in the `lib` directory.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// Add the schema to our API
+new CfnGraphQLSchema(this, "appsync-envs-schema", {
+  apiId: api.attrApiId,
+  definition: readFileSync("./graphql/schema.graphql", "utf-8"),
+});
+```
+
+With that code now added, we’ve finished everything we need to define the API itself. We can now move on to creating the resolvers in the next section.
+
+## Creating our GraphQL Resolvers
+
+When it comes to creating our GraphQL resolvers, we’re going to be using TypeScript files compiled out to JavaScript. If this concept is new to you or if you would like to read in more detail about it, [check out my full tutorial covering it.](https://conermurphy.com/blog/graphql-api-typescript-resolvers-aws-appsync-cdk)
+
+Also, at this point, you’ll need to install a few NPM packages that we’ll be using throughout this section of the tutorial. You can do this by running the command `npm i -D esbuild glob @aws-appsync/utils`.
+
+### Creating a New Data Source
+
+The first thing we need to do before we can write our GraphQL resolvers is to add a new data source that will allow us to connect to our DynamoDB database from inside the resolvers. To create this data source, add the below code under the schema file code we added in the last section.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// Create a new IAM role for our DB table for AppSync to use
+const dataSourceRole = new Role(this, "appsync-envs-datasource-role", {
+  assumedBy: new ServicePrincipal("appsync.amazonaws.com"),
+});
+
+// Attach the required DynamoDB permissions to our role
+dataSourceRole.addToPolicy(
+  new PolicyStatement({
+    actions: [
+      "dynamodb:Query",
+      "dynamodb:GetItem",
+      "dynamodb:Scan",
+      "dynamodb:PutItem",
+      "dynamodb:UpdateItem",
+      "dynamodb:DeleteItem",
+    ],
+    resources: [table.tableArn],
+  })
+);
+
+// Create a new data source to link our API and DB together
+const dataSource = new CfnDataSource(this, "appsync-envs-data-source", {
+  apiId: api.attrApiId,
+  name: "appsyncEnvsDataSource",
+  type: "AMAZON_DYNAMODB",
+  dynamoDbConfig: {
+    tableName: table.tableName,
+    awsRegion: this.region,
+  },
+  serviceRoleArn: dataSourceRole.roleArn,
+});
+```
+
+In this code, we do a few things, we first create a new IAM role that is assumed by AppSync. We then create a new `PolicyStatement` on that role that adds the various DynamoDB actions we might want to perform.
+
+We then create the data source, connecting it to both our DynamoDB table and our GraphQL API while also providing the ARN of the new IAM role we created.
+
+### Writing Our Resolvers
+
+With our data source now configured let’s turn our attention to the resolvers themselves. To create these, create two new files at `./graphql/resolvers/ts/create-item.ts` and `./graphql/resolvers/ts/get-item.ts`.
+
+Then inside the `create-item.ts` file, add the below code.
+
+```ts
+META: './graphql/resolvers/ts/create-item.ts':{}
+import { Context } from "@aws-appsync/utils";
+import { put } from "@aws-appsync/utils/dynamodb";
+
+export function request(ctx: Context) {
+  const id = util.autoId();
+
+  // Create a new item in our DB using the secret from the environment variables stored in our API
+  return put({
+    key: { id },
+    // Access the environment variable using `ctx.env`
+    item: { value: ctx.env.secret, id },
+  });
+}
+
+export function response(ctx: Context) {
+  return ctx.result;
+}
+```
+
+This file is a rather normal resolver for a AppSync GraphQL API but it does have one notable difference that we’re especially interested in for this tutorial. That difference is the value we assign to the `value` property, `ctx.env.secret`.
+
+If you remember back to the API definition we created at the start of this tutorial, we defined our environment variables for the API. In our case, we only defined one variable, called `secret` and the code above is how we access that variable in our resolver.
+
+AppSync automatically exposes our environment variables under the `env` property of the context (`ctx`) in each request. This means we can fetch our variables from there and use them in our resolvers as we see fit! How cool is that! 😎
+
+Then with our first resolver created, we just need to create the second one. To do that, add the below code to the file `get-item.ts`.
+
+```ts
+META: './graphql/resolvers/ts/get-item.ts':{ }
+import { Context } from "@aws-appsync/utils";
+import { get } from "@aws-appsync/utils/dynamodb";
+
+export function request(ctx: Context) {
+  return get({
+    key: { id: ctx.args.id },
+  });
+}
+
+export function response(ctx: Context) {
+  return ctx.result;
+}
+```
+
+### Compiling The Resolvers To JS
+
+I won’t go into too much detail on the compiling process in this post as I covered it in a lot more detail in the [tutorial I mentioned earlier.](https://conermurphy.com/blog/graphql-api-typescript-resolvers-aws-appsync-cdk) But, in short, we can’t deploy our TS resolvers to AppSync so we need to compile them out to JS first and then deploy the JS versions.
+
+To compile our resolvers, create a new file in the root of the project called `build.mjs` and add the below code to it.
+
+```js
+META: './build.mjs':{ }
+import { build } from "esbuild";
+import { glob } from "glob";
+
+const files = await glob("graphql/resolvers/ts/**/*.ts");
+
+await build({
+  sourcemap: "inline",
+  sourcesContent: false,
+  format: "esm",
+  target: "esnext",
+  platform: "node",
+  external: ["@aws-appsync/utils"],
+  outdir: "graphql/resolvers/js",
+  entryPoints: files,
+  bundle: true,
+});
+```
+
+Then update your `package.json` file to include the below two scripts.
+
+```json
+META: './package.json'
+"predeploy": "node build.mjs",
+"deploy": "cdk deploy"
+```
+
+And, then if you would like to test if the compiling works correctly, run the command `npm run predeploy` in your terminal and your new JS resolvers should be created in the `./graphql/resolvers/js` directory.
+
+### Defining The Resolvers
+
+With the resolvers now created and compiled, all that we need to do is to define them in our stack definition file in the `lib` directory. To do that, add the code below under the code we added for the data source in the previous section.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// Create a new JS resolver (built from the TS file) for our API
+const createItemResolver = new CfnResolver(
+  this,
+  "appsync-envs-create-item-resolver",
+  {
+    apiId: api.attrApiId,
+    typeName: "Mutation",
+    fieldName: "createItem",
+    dataSourceName: dataSource.name,
+    runtime: {
+      name: "APPSYNC_JS",
+      runtimeVersion: "1.0.0",
+    },
+    code: readFileSync("./graphql/resolvers/js/create-item.js", "utf-8"),
+  }
+);
+
+const getItemResolver = new CfnResolver(
+  this,
+  "appsync-envs-get-item-resolver",
+  {
+    apiId: api.attrApiId,
+    typeName: "Query",
+    fieldName: "getItem",
+    dataSourceName: dataSource.name,
+    runtime: {
+      name: "APPSYNC_JS",
+      runtimeVersion: "1.0.0",
+    },
+    code: readFileSync("./graphql/resolvers/js/get-item.js", "utf-8"),
+  }
+);
+
+// Add a dependency to both resolvers so they are created after the data source
+createItemResolver.addDependency(dataSource);
+getItemResolver.addDependency(dataSource);
+```
+
+In this code snippet, we define two new JS resolvers on our GraphQL API using the `CfnResolver` construct. In each of the definitions, we define whether it’s a `Query` or `Mutation` as well as the `fieldName` required in the request to trigger the resolver. We also link the data source we created earlier to each resolver and provide the compiled JS code we’d like to run when the resolver is triggered.
+
+Finally, at the end of the snippet, we add a new dependency onto each of the resolvers to ensure that they are created after the data source is created to avoid any issues during the deployment process.
+
+## Testing
+
+At this point, we’re almost ready to hit deploy and then test our new GraphQL API and see the environment variables in action. But, first, before we can do that we need to add a `CfnOutput` to the bottom of our stack to log out the API URL we need to use as well as the API key we need to provide on each request.
+
+To add this to the stack definition file, add the code below under the code we just added for the resolver definitions.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// Output our API URL and API key value
+new cdk.CfnOutput(this, "appsync-envs-output", {
+  value: JSON.stringify({
+    url: api.attrGraphQlUrl,
+    apiKey: apiKey.attrApiKey,
+  }),
+});
+```
+
+Then, with that code added we’re ready to deploy our stack by running `npm run deploy` in the terminal and accepting any prompts given to us. You should also notice that in the terminal, the `predeploy` command is run automatically before `deploy` to ensure we deploy the latest code for our JS resolvers.
+
+Once the deployment has finished and you have the API URL and key you need to use. Open a tool like Postman and send a new GraphQL request to your API URL. Make sure to add your API key to the request headers otherwise, you’ll receive a 401 unauthorised response.
+
+If you’re using Postman, you can add the API key by selecting the “Authorization” tab and then selecting the type of “API Key” with the key having a value of `x-api-key` and a value equal to the API key value given to you in the terminal.
+
+At this point, we’re now able to send our queries to the API. Firstly, let’s perform a mutation to create a new item in the database. You can do this, by adding the below code to your query and sending it.
+
+```graphql
+mutation createItem {
+  createItem {
+    id
+    value
+  }
+}
+```
+
+You should receive a response like the one below from the API.
+
+```json
+{
+  "data": {
+    "createItem": {
+      "id": "5c6e00fc-bb20-4fa9-a56d-2c7ff7ed792f",
+      "value": "some-secret-value"
+    }
+  }
+}
+```
+
+In this response, the `id` will be automatically generated by the resolver and will differ for each item created. But, what we’re primarily interested in here is the `value` property which you can see is using the value of the environment variable we added to our API definition at the start of this tutorial! 🎉
+
+Finally, let’s test everything was stored in the database correctly. So, switch out your mutation for the query below and make sure to add in the `id` from the item you just created.
+
+```graphql
+query getItem {
+  getItem(id: "YOUR_ITEM_ID") {
+    id
+    value
+  }
+}
+```
+
+Then, when you run this query, you should get a response back from the API that looks like the one below.
+
+```json
+{
+  "data": {
+    "getItem": {
+      "id": "YOUR_ITEM_ID",
+      "value": "some-secret-value"
+    }
+  }
+}
+```
+
+If this is the case then you can see the value we assigned to the environment variable was correctly used in the resolver and stored on the item in the database!
+
+## Closing Thoughts
+
+At this point, if you got all the same outputs as shown then you have successfully managed to build a GraphQL API using AWS AppSync via the AWS CDK. And, in that API you have successfully used the new environment variables feature available for AppSync GraphQL APIs, you have also retrieved those environment variables in a JS resolver.
+
+If you would like to read more about environment variables support in AppSync, [make sure to check out the AWS documentation.](https://docs.aws.amazon.com/appsync/latest/devguide/environmental-variables.html) Also, if you’re interested in checking out the full example code for this project, [check it out on my CDK tutorials GitHub repository.](https://github.com/conermurphy/cdk-tutorials/tree/main/appsync-envs)
+
+Finally, if you’re interested in learning more about making GraphQL APIs using AWS AppSync and the AWS CDK, make sure to check out my other tutorials below.
+
+- [Building a GraphQL API With TypeScript Resolvers Using AWS AppSync and CDK](https://conermurphy.com/blog/graphql-api-typescript-resolvers-aws-appsync-cdk)
+- [How to Create a GraphQL API: Step-by-Step Guide with AppSync and DynamoDB Using the AWS CDK](https://conermurphy.com/blog/graphql-api-guide-aws-appsync-dynamodb-aws-cdk)
+
+Thank you for reading.

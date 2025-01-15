@@ -1,0 +1,266 @@
+---
+title: 'Leveraging AWS WAF to Throttle API Gateway Rest API Requests'
+description: 'In this tutorial, learn how to protect and throttle requests to an AWS API Gateway REST API using AWS WAF based on IP addresses. Deployed using the AWS CDK.'
+date: '2023-12-06'
+topics: ['AWS', 'API-GATEWAY', 'LAMBDA', 'WAF']
+slug: aws-waf-throttle-api-gateway-rest-api-requests
+---
+
+[In a previous post](https://conermurphy.com/blog/api-gateway-usage-plans-api-key-throttling), we looked at throttling API key requests associated with a REST API deployed with API Gateway by using usage plans. However, [in the documentation](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-api-usage-plans.html), AWS mentions that this isn’t the recommended solution for throttling requests because the limits we define in the usage plan for throttling are applied “on a best-effort basis”.
+
+This means in some cases, clients can exceed the throttling limits we defined so we shouldn’t rely on these limits for blocking access to our API. So, what should we use instead? Luckily, AWS provides the answer in their docs, we should be using [AWS WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html) to manage API requests and the throttling of them.
+
+So, in this post, we’re going to be looking at implementing AWS WAF to implement IP-based rate limiting with an example REST API from API Gateway deployed via the CDK.
+
+## AWS WAF Overview
+
+But, before we jump into the actual tutorial, let’s take a quick look at [WAF](https://aws.amazon.com/waf/) to familiarise ourselves with it. WAF is a web application firewall that allows us to monitor HTTP(S) requests that are forwarded to application resources. These resources can include things such as API Gateway REST APIs, Load Balancers, AppSync GraphQL APIs, CloudFront Distributions, and more.
+
+WAF allows us to define various rules that are applied to requests as they come in. For example, in this tutorial, we’ll be defining an IP rule that will block any requests from an IP to our API if a defined quota is exceeded in a five-minute period. But, you can define other rules such as blocking all requests unless they come from a defined list of regions/countries.
+
+Once a request has been blocked, any further requests will be responded to with a 403 status code (or with a custom response if one has been set) and this will continue to happen until the five-minute period has elapsed.
+
+[Learn more about WAF in the documentation.](https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html#waf-intro)
+
+## Creating an Example REST API
+
+Now we have a better understanding of WAF, what it does, and how it works with our resources; let’s move on to building our example project using it. To start, we’re going to build an example REST API using API Gateway and Lambda.
+
+For this, you’re going to need to use either an existing CDK stack or create a new one using `cdk init app --language typescript`. Once you have your CDK stack, we’re going to define the below resources in our services definition file in the `lib` directory.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 1. Create an API
+const api = new RestApi(this, "REST_API", {
+  restApiName: "REST API",
+  defaultCorsPreflightOptions: {
+    allowOrigins: Cors.ALL_ORIGINS,
+    allowMethods: Cors.ALL_METHODS,
+  },
+});
+
+// 2. Create the Lambda function to handle requests
+const postsLambda = new NodejsFunction(this, "LAMBDA", {
+  entry: "resources/posts.ts",
+  handler: "handler",
+});
+
+// 3. Connect the Lambda function to the API
+const postsIntegration = new LambdaIntegration(postsLambda);
+
+// 4. Define a method on our API
+api.root.addMethod("GET", postsIntegration);
+```
+
+This code will create a new REST API using API Gateway as well as a new Lambda function which is attached to the API to handle our requests to it. If you wanted to, you could also add an API key to this REST API using usage plans but this isn’t required for the throttling to work with WAF so I won’t be adding one. If you’re interested in [learning more about REST APIs and creating them with API Gateway, check out my tutorial here.](https://conermurphy.com/blog/build-rest-api-aws-cdk-api-gateway-lambda-dynamodb-api-key-authentication)
+
+With our API and Lambda now defined, the last thing we need to do is add the code for our Lambda function itself. To do that, create a new file at `./resources/posts.ts` and add the below code to it.
+
+```ts
+META: './resources/posts.ts':{ }
+export const handler = async () => {
+  try {
+    return {
+      statusCode: 200,
+      body: JSON.stringify([
+        {
+          id: "1",
+          title: "My first blog post",
+          content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        },
+        {
+          id: "2",
+          title: "My second blog post",
+          content:
+            "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        },
+      ]),
+    };
+  } catch (error) {
+    console.log(error);
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: error }),
+    };
+  }
+};
+```
+
+In this Lambda, we just return some example JSON data to mimic us returning data from a database. With our API and Lambda now finished, we’re ready to move on to adding WAF and protecting our API.
+
+## Adding AWS WAF to the API
+
+In this section we’re going to add WAF to protect our API, we’re going to start by defining a Web ACL (Access Control List) for our API before adding our rules to the ACL and finally associating the ACL to our API.
+
+### Defining a Web ACL
+
+To define a new Web ACL, we’re going to use the `CfnWebACL` construct in the CDK, when importing this construct, make sure to import it from version 2 of the library and not version 1. To import this construct from version 2, import the construct from `aws-cdk-lib/aws-wafv2`.
+
+Then underneath the code we added earlier for defining our REST API, add the below code to make the base of our ACL code.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// ...REST API code
+
+// 5. Create a WebACL with an IP rate-based rule
+const webAcl = new CfnWebACL(this, "WEB_ACL", {
+  // Allow all requests by default
+  defaultAction: {
+    allow: {},
+  },
+  // For API Gateway, the scope must be REGIONAL
+  scope: "REGIONAL",
+  visibilityConfig: {
+    cloudWatchMetricsEnabled: true,
+    sampledRequestsEnabled: true,
+    metricName: "web-acl-metric",
+  },
+});
+```
+
+In this code, we define our ACL as well as the default action for our ACL which is to allow all requests unless they match one of the rules that we’ll define in a moment. If they do match one of those rules, we’ll apply the action defined in that rule.
+
+Then we define the scope of the ACL, this can be either `REGIONAL` or `CLOUDFRONT`. For our tutorial, we need this to be `REGIONAL` to work with API Gateway. Finally, we define `visibilityConfig` which is to allow CloudWatch to collect metrics and sample requests from the ACL.
+
+### Adding IP Throttling Rules
+
+With our base ACL now defined, let’s look at defining our rules so we can implement our IP-based throttling. To do this, we’re going to add a new property to our base ACL definition called `rules`, the value of this property will be an array of the rules we want to apply to the requests. Below is the array of rules we’re going to add.
+
+```ts
+;[
+  // Defining a rate-based rule
+  {
+    name: 'rate-based-rule',
+    // If this rule is matched, block the request and return a 403
+    action: {
+      block: {},
+    },
+    priority: 1,
+    visibilityConfig: {
+      cloudWatchMetricsEnabled: true,
+      sampledRequestsEnabled: true,
+      metricName: 'rate-based-rule-metric',
+    },
+    // Define the statement for the rule over a 5 minute period
+    statement: {
+      rateBasedStatement: {
+        limit: 100,
+        aggregateKeyType: 'IP',
+      },
+    },
+  },
+]
+```
+
+In this rule, we define the name of the rule as well as the action we want to take (block) when the rule is matched. We then define a priority for the rule which is how WAF determines how to apply rules to requests when there are multiple of them (lower priority first).
+
+After the priority, we then define another `visibilityConfig` as we did earlier before then defining the `statement` that contains the configuration for how to determine if a request matches this rule or not applied over a five-minute period. In our case, we define a `rateBasedStatement` with a limit of 100 (the lowest allowed) using the IP address of the request.
+
+In this example, WAF will monitor all requests and if an individual IP address makes more than 100 requests in a 5-minute period, further requests will be blocked and a 403 status code will be returned until the period has elapsed.
+
+With this rule added, our web ACL definition is complete. So, to recap, our full definition will look like the one below.
+
+```ts
+META: './lib/*-stack.ts':{ }
+const webAcl = new CfnWebACL(this, "WEB_ACL", {
+  // Allow all requests by default
+  defaultAction: {
+    allow: {},
+  },
+  // For API Gateway, the scope must be REGIONAL
+  scope: "REGIONAL",
+  visibilityConfig: {
+    cloudWatchMetricsEnabled: true,
+    sampledRequestsEnabled: true,
+    metricName: "web-acl-metric",
+  },
+  rules: [
+    // Defining a rate-based rule
+    {
+      name: "rate-based-rule",
+      // If this rule is matched, block the request and return a 403
+      action: {
+        block: {},
+      },
+      priority: 1,
+      visibilityConfig: {
+        cloudWatchMetricsEnabled: true,
+        sampledRequestsEnabled: true,
+        metricName: "rate-based-rule-metric",
+      },
+      // Define the statement for the rule over a 5 minute period
+      statement: {
+        rateBasedStatement: {
+          limit: 100,
+          aggregateKeyType: "IP",
+        },
+      },
+    },
+  ],
+});
+```
+
+### Associating the Web ACL and API
+
+At this point, we have our REST API and our web ACL definition but they’re not connected yet. To do that, we need to add an association between them which we can do with the construct `CfnWebACLAssociation` (again imported from version 2). To make this association, add the below code under the code we just added for our ACL definition a moment ago.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 6. Associate the WebACL with the API
+const webAclAssociation = new CfnWebACLAssociation(
+  this,
+  "WEB_ACL_ASSOCIATION",
+  {
+    resourceArn: api.deploymentStage.stageArn,
+    webAclArn: webAcl.attrArn,
+  }
+);
+```
+
+In this code, we pass in the ARN of the web ACL we want to apply as well as the ARN of the resource we want the ACL to apply to which in our case is the REST API. And, with that code added we’ve now associated our REST API and web ACL together so once deployed WAF will be protecting our API with the rule we defined.
+
+However before we can deploy and test our REST API, we need to add a final piece of code to our CDK stack to add a dependency between the web ACL definition and the API definition to ensure the API is created first on AWS. To do this, add the below code under the code we just added for the association.
+
+```tsx
+// 7. Add a dependency on the API to the WebACL association so the API is deployed first
+webAclAssociation.node.addDependency(api)
+```
+
+## Testing our API
+
+With our CDK stack now finished, we can deploy it to AWS using `cdk deploy`, once that finishes we should be given the URL of our new REST API which we can test.
+
+To test the API and ensure WAF is correctly blocking our requests based on our IP address we’re going to add a new file to the root of our project called `rate-limit-test.ts` with the below code.
+
+```ts
+META: './rate-limit-test.ts':{ }
+async function rateLimit() {
+  const API_URL = "API_URL";
+
+  while (true) {
+    const res = await fetch(API_URL);
+
+    console.log(res.status);
+
+    if (res.status === 403) {
+      console.log("Rate limit exceeded");
+      break;
+    }
+  }
+}
+
+rateLimit();
+```
+
+This code will allow us to repeatedly hit our API with requests until we get the 403 response from WAF to indicate we’ve been throttled. To run this file, update the `API_URL` variable with the API URL you got when deploying the CDK stack. Then run the command `npx ts-node rate-limit-test.ts` and let the script run until it finishes with the 403 response.
+
+Then any further requests you try to make to the API will receive the same response until the five-minute period has elapsed. At this point, you should be able to make further requests and receive a 200 response with the mock data we defined in the Lambda function earlier.
+
+### Closing Thoughts
+
+In this tutorial, we’ve looked at how to throttle and block requests using an IP-based rule in WAF with an example API Gateway REST API deployed using the AWS CDK. If you’re interested in seeing the full example code for this project, [you can see it on my GitHub.](https://github.com/conermurphy/cdk-tutorials/tree/main/rest-api-throttling-waf)
+
+And, if you’re interested in reading further about creating REST APIs using API Gateway and the AWS CDK, [check out my tutorial here.](https://conermurphy.com/blog/build-rest-api-aws-cdk-api-gateway-lambda-dynamodb-api-key-authentication)
+
+Thanks for reading.

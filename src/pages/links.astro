@@ -1,0 +1,55 @@
+---
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import Layout from '../layouts/Layout.astro'
+
+const links = [
+  { name: 'Website', url: '/' },
+  { name: 'Blog', url: '/blog' },
+  { name: 'YouTube Channel', url: 'https://www.youtube.com/@conermurphy' },
+  { name: 'X', url: 'https://twitter.com/mrconermurphy' },
+  { name: 'Bluesky', url: 'https://bsky.app/profile/conermurphy.com' },
+  { name: 'TikTok', url: 'https://www.tiktok.com/@conermurphy' },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/conermurphy/' },
+  { name: 'GitHub', url: 'https://github.com/conermurphy/' },
+  { name: 'Contact Me', url: '/contact' },
+]
+---
+
+<Layout
+  title="Links"
+  description="Here's everywhere you can find me online and get in touch with me."
+>
+  <Header />
+
+  <main class="space-y-24 py-24 sm:space-y-40 sm:py-32">
+    <div class="mx-auto max-w-5xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl lg:mx-0">
+        <h1
+          class="mt-2 text-5xl font-semibold tracking-tight text-light sm:text-7xl"
+        >
+          Links
+        </h1>
+        <p class="mt-8 text-pretty text-lg text-mid sm:text-xl/8">
+          Here are all of the places you can find me online. Let's connect!
+        </p>
+      </div>
+      <section
+        class="grid w-full grid-cols-1 gap-x-8 gap-y-6 py-12 sm:grid-cols-2 md:grid-cols-3"
+      >
+        {
+          links.map(({ name, url }) => (
+            <a
+              href={url}
+              class="rounded-md border border-mid px-2 py-2 transition-colors duration-150 ease-in-out hover:border-brand"
+            >
+              {name}
+            </a>
+          ))
+        }
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

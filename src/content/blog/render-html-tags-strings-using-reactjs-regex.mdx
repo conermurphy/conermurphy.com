@@ -1,0 +1,87 @@
+---
+title: 'Dynamically Wrapping Strings in HTML Tags Using ReactJS and Regex'
+description: "Whether it's adding code tags to titles or something else, wrapping strings in HTML tags can be a helpful tool. Here's how to do it in ReactJS with Regex."
+date: '2022-10-17'
+topics: ['DEVELOPMENT', 'JAVASCRIPT', 'REACTJS', 'TAILWINDCSS']
+slug: dynamically-wrap-strings-html-tags-using-reactjs-regex
+---
+
+The other day while working on my [personal blog](https://conermurphy.com/blog) I noticed that I had several blog posts that reference inline code blocks in the title but they would be rendered straight to the page as strings but surrounded by ``. Now, this isn't the end of the world but I did think how much better would it be if the title did actually display the inline code blocks as actual HTML `code` tags with the relevant styling that I add for them on my website.
+
+So, in this blog post, that’s precisely what I’m going to walk through. How you can take any string and then wrap part of that string in HTML tags of your choosing before rendering it out to the DOM using ReactJS.
+
+## Prerequisites
+
+You may have already guessed it by the intro above but you’ll need a couple of things before you can follow along with this tutorial. First of all, your website will need to be using ReactJS in some way or another, I’ll be using Next.js. And, secondly, you’ll need to have access to your text as a string. In my case, my blog is powered by [MDX](https://mdxjs.com/) so all of the frontmatter and most importantly the title is given to me as strings before they are rendered to the page.
+
+The methods covered in this tutorial might work in other situations and configurations but you may need to re-configure some parts of the tutorial to make it work.
+
+## Substituting Our String
+
+The first thing you will need to do is to decide on the characters, words, or strings you want to target for wrapping in HTML tags. In my case, as mentioned earlier I’m targeting inline code blocks which are always wrapped in backticks (``). So, whenever backticks are encountered I want to wrap any text contained with them to be wrapped with `code` tags. For example, if we had ``Array.isArray()``in a string for a blog post title, I would want it to be substituted to become`<code>`Array.isArray()`</code>`.
+
+### The Magic Method
+
+To perform the replacement we’re going to use the `String.replace()` method but we can’t just plug our backticks into the replace method and expect it to work. This is because of two reasons.
+
+1. `.replace()` only replaces the first instance of the provided target string so if there were multiple instances we wanted to target it would only target the first.
+2. We want to replace everything in between the target strings as well as the targets themselves, not just the target we pass to `.replace()`.
+
+These two reasons, rule out the use of just passing our target strings into `.replace()` but fear not there is a solution. The almighty regex!
+
+For me, the regex I need is `/`(.\*?)`/g`, this regex targets everything in between backticks and does it globally across the entire string. In essence, it replaces everything in between backticks for every occurrence of backticks in the string passed to it.
+
+To wrap any strings inside backticks with `code` blocks I can do something like this.
+
+```jsx
+const wrappedTitle = title.replace(/`(.*?)`/g, '<code>$&</code>')
+```
+
+The keen-eyed among you may have noticed something funky going on inside the `code` tags I’m replacing the regex with. That is the `$&` symbols. This symbol is a convenient way of accessing whatever was matched by the regex we passed. So, now we can take our original string, match whatever was contained in the backticks using our regex and then replace the matched string with itself but wrapped in `code` blocks. 🙌
+
+> _There are other patterns you can use outside `$&`, [read about them here.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#specifying_a_string_as_the_replacement)_
+
+### Styling
+
+For my blog, I have a particular style I use for inline code blocks in my posts. So, I wanted this style to also be used in the post titles that have inline code blocks in them. Luckily, now we have the replacement setup and our target string is wrapped in the `code` tags it’s not difficult to add.
+
+On my website, I use TailwindCSS so the syntax and styles may vary for you depending on how you do your CSS and what your style is. But, to add styles to our new `code` tags we just need to add the classes to it like so.
+
+```jsx
+const wrappedTitle = title.replace(
+  /`(.*?)`/g,
+  '<code class="p-1 font-extrabold">$&</code>'
+)
+```
+
+So, now when this new title is rendered to the page, the text inside the `code` tag will be given the TailwindCSS classes of `p-1` for padding and `font-extrabold` for font-weight making it match the other inline code blocks on my blog.
+
+> _NOTE: If you are using TailwindCSS for your styling and want to do similar to what I’ve done above, make sure the styles you add to the replaced string are already being used on the website elsewhere. This is because TailwindCSS only includes the styles being used on the page when it compiles and the styles added in the `.replace()` aren’t detected so they have to be used elsewhere to be included in the compiled styles. Once the styles are included in the compiled ones, they do display correctly._
+
+## Rendering Our New String
+
+Now, we have our new string ready to go. Our target strings have been wrapped with our chosen HTML tags and any styles have been added. Now, all left to do now is actually render it to the page.
+
+This is where ReactJS comes in because we will be using the `dangerouslySetInnerHTML`, **this allows us to replace the `innerHTML` of an HTML tag on the page with new HTML. So, in my case of changing blog post titles, I take the `h1` tag of the page and add `dangerouslySetInnerHTML` **to it; providing it with the new wrapped title HTML like so.
+
+```jsx
+<h1 dangerouslySetInnerHTML={{ __html: wrappedTitle }} />
+```
+
+> _NOTE: `dangerouslySetInnerHTML` can as the name implies be dangerous for your website and its users. However, this risk only becomes an issue when you’re passing HTML from either a third-party service or an external user where you don’t know what the HTML is. In the case of this blog post, it’s okay to use because we control the HTML and its contents from end-to-end so we know nothing malicious is contained within it._
+
+When the `h1` then renders to the page, the HTML inside it is replaced with the HTML of our `wrappedTitle` that contains the `code` tags and styles we added earlier. Below is an example of the finished product on one of my blog posts using `code` tags in the title.
+
+![Blog post example](/images/blog/dynamically-wrap-strings-html-tags-using-reactjs-regex/post-example.jpg)
+
+## Closing Thoughts
+
+And, that’s it! We have taken a string containing target characters and wrapped them with HTML tags of our choosing before styling them and rendering them out to the page for users to see.
+
+I hope you found this tutorial and blog post helpful. If you did, please consider sharing it for others to see and hopefully find helpful as well. If you want to see more content from me then please consider [checking out my blog](https://conermurphy.com/blog) where I post fortnightly or if that isn’t enough for you, [follow me over on Twitter](https://twitter.com/mrConerMurphy/) for more regular content.
+
+Finally, if you’re interested in working with me on a blog post for your company or hiring me as a freelance developer, please [get in touch via my contact form](https://conermurphy.com/contact).
+
+Thank you for reading.
+
+Coner

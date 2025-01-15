@@ -1,0 +1,39 @@
+---
+import FormattedDate from './FormattedDate.astro'
+
+interface Props {
+  title: string
+  date: Date
+  url: string
+  description: string
+  tags?: string[]
+}
+
+const props = Astro.props
+---
+
+<article class="flex max-w-xl flex-col items-start justify-start">
+  <div class="flex items-center gap-x-4 text-xs">
+    <FormattedDate date={props.date} />
+    {
+      props.tags?.length
+        ? props.tags.map((tag) => <p class="font-semibold text-brand">{tag}</p>)
+        : null
+    }
+  </div>
+
+  <div class="group relative">
+    <h3
+      class="mt-3 text-lg/6 font-semibold text-light transition-colors duration-150 ease-in-out group-hover:text-brand"
+    >
+      <a href={props.url}>
+        <span class="absolute inset-0"></span>
+        {props.title}
+      </a>
+    </h3>
+    <p class="mt-5 line-clamp-3 text-sm/6 text-mid">
+      {props.description}
+    </p>
+    <p class="mt-3 text-brand">Read More...</p>
+  </div>
+</article>

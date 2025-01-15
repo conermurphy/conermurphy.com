@@ -1,0 +1,63 @@
+---
+import type { GetStaticPaths } from 'astro'
+import Header from '../../components/Header.astro'
+import Footer from '../../components/Footer.astro'
+import Layout from '../../layouts/Layout.astro'
+import { getCollection } from 'astro:content'
+import PostCard from '../../components/PostCard.astro'
+import Pagination from '../../components/Pagination.astro'
+import { PAGE_POST_LIMIT } from '../../consts'
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = (await getCollection('technicalWriting')).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  )
+
+  return paginate(posts, { pageSize: PAGE_POST_LIMIT })
+}) satisfies GetStaticPaths
+
+const { page } = Astro.props
+---
+
+<Layout
+  title={page.currentPage === 1
+    ? 'Technical Writing'
+    : `Technical Writing - Page ${page.currentPage}`}
+  description="All of the blog posts I've partnered with companies on. Want to work with me on a post for your company? Get in touch."
+>
+  <Header />
+
+  <main class="space-y-24 py-24 sm:space-y-40 sm:py-32">
+    <div class="mx-auto max-w-5xl space-y-32 px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl lg:mx-0">
+        <h1
+          class="mt-2 text-5xl font-semibold tracking-tight text-light sm:text-7xl"
+        >
+          Technical Writing
+        </h1>
+        <p class="mt-8 text-pretty text-lg text-mid sm:text-xl/8">
+          Here are all of the blog posts I've partnered with companies on. Want
+          to work with me on a post for your company? Get in touch.
+        </p>
+      </div>
+
+      <section class="grid grid-cols-1 gap-x-16 gap-y-20 md:grid-cols-2">
+        {
+          page.data.map((post) => (
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              url={post.data.url}
+              tags={[post.data.client]}
+            />
+          ))
+        }
+      </section>
+
+      <Pagination page={page} />
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

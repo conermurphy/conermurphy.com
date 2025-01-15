@@ -1,0 +1,638 @@
+---
+title: 'Automatically Create an AWS API Gateway REST API and Related TypeScript Types via an OpenAPI Specification and AWS CDK'
+description: 'Learn how to automate the creation of an AWS API Gateway REST API and corresponding TypeScript types using OpenAPI specifications and AWS CDK.'
+date: '2024-03-27'
+topics: ['AWS', 'API-GATEWAY']
+slug: create-aws-api-gateway-rest-api-typescript-types-via-openapi-aws-cdk
+---
+
+When it comes to building REST APIs in AWS using API Gateway there are several different ways you can do it. [A common way as I covered in a previous post](https://conermurphy.com/blog/build-rest-api-aws-cdk-api-gateway-lambda-dynamodb-api-key-authentication) is to use the AWS CDK and individually define each part of the API and link them together.
+
+This method works great but there is another way you can use that utilises OpenAPI spec files. This method gives you extra benefits like built-in documentation for each of the endpoints including their possible responses, it also gives you the ability to generate TypeScript types dynamically for both the requests and the responses!
+
+So, in this post, we’re going to be taking a closer look at that second approach and how we can use an OpenAPI spec file to create a REST API using AWS API Gateway as well as how we can generate TypeScript types for that API for us to then use in our Lambda handlers.
+
+So, without further ado let’s get started on this tutorial and let’s build our API!
+
+## Prerequisites
+
+Before jumping into the tutorial, there are a few prerequisites that we need to take care of. Most importantly we need an AWS account setup and configured, we’ll also need the AWS CDK and CLI configured on our local machine. Once you have all of this configured, you’ll need to either use an existing CDK project or create a new one which you can create by running the command `cdk init app --language typescript`.
+
+## OpenAPI Spec File
+
+With our CDK project ready to go, let’s get started by creating a new OpenAPI spec file that we’ll use throughout this tutorial. To create this, add a new file in the root of the project called `openapi-spec.json` and paste the below code into it.
+
+```json
+META: './openapi-spec.json'
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Books API",
+    "version": "1.0.0",
+    "description": "API for managing books in a database"
+  },
+  "paths": {
+    "/books": {
+      "post": {
+        "summary": "Add a new book",
+        "description": "Add a new book to the database",
+        "operationId": "addBook",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title", "author"],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "The Great Gatsby"
+                  },
+                  "author": {
+                    "type": "string",
+                    "example": "F. Scott Fitzgerald"
+                  },
+                  "year": {
+                    "type": "integer",
+                    "example": 1925
+                  },
+                  "genre": {
+                    "type": "string",
+                    "example": "Fiction"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Book created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "1"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "uri": "arn:aws:apigateway:{{region}}:lambda:path/2015-03-31/functions/{{post_function_arn}}/invocations",
+          "responses": {
+            "default": {
+              "statusCode": "200"
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      },
+      "get": {
+        "summary": "Get all books",
+        "description": "Retrieve a list of all books in the database",
+        "operationId": "getAllBooks",
+        "responses": {
+          "200": {
+            "description": "A list of books",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "1"
+                      },
+                      "title": {
+                        "type": "string",
+                        "example": "The Great Gatsby"
+                      },
+                      "author": {
+                        "type": "string",
+                        "example": "F. Scott Fitzgerald"
+                      },
+                      "year": {
+                        "type": "integer",
+                        "example": 1925
+                      },
+                      "genre": {
+                        "type": "string",
+                        "example": "Fiction"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "uri": "arn:aws:apigateway:{{region}}:lambda:path/2015-03-31/functions/{{get_all_function_arn}}/invocations",
+          "responses": {
+            "default": {
+              "statusCode": "200"
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ]
+}
+```
+
+A fair amount is going on in this JSON file so over the next few sections let’s break it down so we can get a better understanding of what each part of the file does.
+
+### Defining the API
+
+Right at the top of the file, we have the below data which denotes the version of OpenAPI we’re using in the file as well as some basic information about the API such as its name, description, and version number.
+
+```json
+"openapi": "3.0.1",
+"info": {
+  "title": "Books API",
+  "version": "1.0.0",
+  "description": "API for managing books in a database"
+},
+```
+
+### Defining our endpoints
+
+Then after we have added that basic information about our API we use the `paths` property to define any endpoints on our API. In our case, we define one endpoint, the `/books` endpoint. Then immediately after defining that endpoint, we define the methods we’d like to use with it by adding properties inside the `/paths` object with the method names, in our case, we add the methods `get` and `post`.
+
+Inside the `get` and `post` method objects we’re then able to add information specifically about that endpoint and method combination. For example, we add a `summary` and `description` to describe what will happen if a request is sent to that endpoint using the method specified. After giving this basic information about the method, we then move on to the interesting part where we define the `requestBody` we expect to receive (if applicable) and the `response` we’ll give back depending on the `statusCode`.
+
+#### Requests
+
+To get a better understanding of the `requestBody` property, let’s take a closer look at the one for the `POST` method.
+
+```json
+// ...previous JSON
+
+"requestBody": {
+  "required": true,
+  "content": {
+    "application/json": {
+      "schema": {
+        "type": "object",
+        "required": ["title", "author"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "The Great Gatsby"
+          },
+          "author": {
+            "type": "string",
+            "example": "F. Scott Fitzgerald"
+          },
+          "year": {
+            "type": "integer",
+            "example": 1925
+          },
+          "genre": {
+            "type": "string",
+            "example": "Fiction"
+          }
+        }
+      }
+    }
+  }
+},
+
+// ...rest of JSON
+```
+
+In this JSON for our `POST` method, you can see we mark the `requestBody` as required by setting the `required` property to `true`. We then define all of the properties that we expect to see in the body of the request as well as give examples for each of them. Finally, we also define the required fields in the body by providing an array of property names to the `required` property inside the `schema` of the body.
+
+#### Responses
+
+With the request out of the way, let’s now take a look at its counterpart, the response. Let’s continue our example by looking at the responses of the `POST` method on our `/books` endpoint.
+
+```json
+// ...previous JSON
+
+"responses": {
+  "201": {
+    "description": "Book created",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "1"
+            }
+          }
+        }
+      }
+    }
+  },
+  "400": {
+    "description": "Invalid input"
+  },
+  "500": {
+    "description": "Internal server error"
+  }
+},
+
+// ...rest of JSON
+```
+
+The `responses` object is fairly simple, we list the possible status codes we’d like to respond to requests with as properties inside the object and then we provide an object to each of them.
+
+Inside the provided objects, we then provide a `description` property which describes what the response will be. For example, for the `201` it’s “Book created” and for the `500` it’s “Internal server error”. We then define the `content` property in the object which outlines what the body of that response for that status code will be. For example, for the `201` response, the `content` will be an object that contains the `id` of the book created.
+
+#### Linking the Lambda Integrations
+
+Finally, there is one part left that we need to look at for defining endpoints using an OpenAPI spec and this bit is specific to AWS and that’s linking the Lambda function we want to run to the endpoint.
+
+To do this, we can add another object alongside our `requestBody` and `responses` objects inside our method object called `x-amazon-apigateway-integration` and inside that object we can specify the information required to connect our Lambda function to the endpoint.
+
+Below is the object we use to connect the Lambda to our `POST` method, let’s break it down.
+
+```json
+ "x-amazon-apigateway-integration": {
+  "uri": "arn:aws:apigateway:{{region}}:lambda:path/2015-03-31/functions/{{get_all_function_arn}}/invocations",
+  "responses": {
+    "default": {
+      "statusCode": "200"
+    }
+  },
+  "passthroughBehavior": "when_no_match",
+  "httpMethod": "POST",
+  "type": "aws_proxy"
+}
+```
+
+To start with the first thing we define is the `uri` property which is the ARN of the Lambda connection in API Gateway. Inside this API Gateway ARN, we provide the ARN of the Lambda function we want to trigger in response to requests, we specify that using `{{get_all_function_arn}}`. We also do a similar thing with the region in our ARN and specify it with `{{region}}`.
+
+Now, at this point, you may be wondering why we specify the values in this template form instead of providing the actual values. In the case of the region which we could hard code, we specify it like this because it provides more flexibility when it comes to updating it. Instead of us needing to hunt through a file that is possibly thousands of lines long, looking for each instance, we can now update one line in our stack definition file and have the rest done for us.
+
+However, in the case of the Lambda ARN, it is because at the time of us writing the OpenAPI spec file we didn’t know what the ARN would be so we needed to use a placeholder which we could then switch out during the deployment flow to the real ARN of the Lambda function.
+
+When it comes to defining our API later in this tutorial, we’ll see how we can switch out these template values for real values and how doing this can give us a lot of flexibility. But, for now, let’s continue looking at our Lambda connection object.
+
+The next property is the `responses` object which defines the possible responses API Gateway can receive from Lambda when it invokes the Lambda function. In this case, we define a `200` response which is for a successful invocation of the function. At this point, it’s important to remember that these aren’t the responses our Lambda function can return to the user but rather the responses API Gateway can receive from invoking the Lambda. In the vast majority of cases, you’ll be okay to specify just a `200` response here.
+
+Finally, after the `responses` object, the rest of the properties follow a similar pattern and are related to the connection between API Gateway and Lambda such as the `method` used which is always a `POST` request. And, the `type` of connection which is `aws_proxy` as well as the `passthroughBehavior` which we have set as `when_no_match`.
+
+If you would like to learn more about the `x-amazon-apigateway-integration` object, [check out the documentation.](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-swagger-extensions-integration.html)
+
+### API Key security
+
+Finally, we’ve reached the last part of our OpenAPI spec file and that is defining the security we use with the API. In our case, we use an API key in the header of each request which we define in the OpenAPI spec file by using the below at the bottom of the file.
+
+```json
+"components": {
+  "securitySchemes": {
+    "ApiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "x-api-key"
+    }
+  }
+},
+"security": [
+  {
+    "ApiKeyAuth": []
+  }
+]
+```
+
+And, with that, we’ve now gone through each part of our OpenAPI spec file and we’re ready to move on to the next section where we’ll be generating TypeScript types from this file which we can then use in our Lambda handlers in the following section!
+
+## Generating TypeScript Types from the OpenAPI Spec File
+
+With the OpenAPI spec file now complete, let’s turn our attention to generating the TypeScript types we mentioned. Thankfully, the process for doing this is actually incredibly simple as we’ll be making use of the [`openapi-typescript`](https://www.npmjs.com/package/openapi-typescript) NPM package to do the heavy lifting for us.
+
+So, to add this functionality to the project, add the below command into the scripts object in your `package.json` file.
+
+```json:
+META: './package.json'
+"generate-types": "npx openapi-typescript ./openapi-spec.json -o ./types/openapi.d.ts"
+```
+
+Then run the command `npm run generate-types` in your terminal to generate the types from your OpenAPI spec file. The generated types will then be available in the newly created `types` directory at the root of the project.
+
+## Defining the Lambda Handlers
+
+With our types now generated, let’s move on to defining and then creating the Lambda functions where we’ll consume those types. But, before we can define the Lambda functions, we first need to define a new DynamoDB database that we’ll use to contain all of the records for our API.
+
+To define the database, add the below code into your stack definition file in the `lib` directory inside the `constructor`.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 1. Create a new DynamoDB database
+const booksDb = new Table(this, "BooksDbTable", {
+  partitionKey: { name: "pk", type: AttributeType.STRING },
+  removalPolicy: RemovalPolicy.DESTROY,
+  billingMode: BillingMode.PAY_PER_REQUEST,
+});
+```
+
+Then with our new database defined, we can then define our two Lambda functions, one for the `GET` method and one for the `POST` method. To define these Lambda functions, add the below code under the code we just added for the DynamoDB database.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 2. Create the POST lambda function
+const createBookLambda = new NodejsFunction(this, "CreateBookLambda", {
+  entry: "resources/create-book.ts",
+  handler: "handler",
+  environment: {
+    TABLE_NAME: booksDb.tableName,
+  },
+});
+
+// 3. Create the GET lambda function
+const getAllBooksLambda = new NodejsFunction(this, "GetAllBooksLambda", {
+  entry: "resources/get-all-books.ts",
+  handler: "handler",
+  environment: {
+    TABLE_NAME: booksDb.tableName,
+  },
+});
+```
+
+Finally, we just need to configure the permissions required for our Lambda functions to connect to our DynamoDB database as well as to allow them to be invoked by API Gateway. To add these permissions add the below code under our Lambda definition code.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 4. Grant permissions to the lambda functions
+booksDb.grantReadWriteData(createBookLambda);
+booksDb.grantReadWriteData(getAllBooksLambda);
+
+getAllBooksLambda.addPermission("InvokeByApiGateway", {
+  principal: new ServicePrincipal("apigateway.amazonaws.com"),
+});
+
+createBookLambda.addPermission("InvokeByApiGateway", {
+  principal: new ServicePrincipal("apigateway.amazonaws.com"),
+});
+```
+
+With our DynamoDB database and Lambda’s defined as well as the required permissions configured for our Lambda functions we’re ready to move on to writing the code in our Lambda functions.
+
+## Writing the Lambda Handlers
+
+Now, it’s time to see our generated types in action, to create the Lambda functions, create a new directory in the root of the project called `resources` and then inside it add two files. One called `create-book.ts` for our `POST` method and one called `get-all-books.ts` for our `GET` method.
+
+### `POST`
+
+With our two files created, let’s now add their contents. First of all, add the below code for our `POST` handler into the `create-book.ts` file.
+
+```ts
+META: './resources/create-book.ts':{ }
+import { APIGatewayProxyEvent } from "aws-lambda";
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
+import { PutCommand } from "@aws-sdk/lib-dynamodb";
+import { randomUUID } from "crypto";
+import { paths } from "../types/openapi";
+
+const dynamodb = new DynamoDB({});
+
+export const handler = async (event: APIGatewayProxyEvent) => {
+  try {
+    // If no body, return an error
+    if (!event.body) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ message: "Invalid input" }),
+      };
+    }
+
+    const body = JSON.parse(
+      event.body
+    ) as paths["/books"]["post"]["requestBody"]["content"]["application/json"];
+    const uuid = randomUUID();
+
+    await dynamodb.send(
+      new PutCommand({
+        TableName: process.env.TABLE_NAME,
+        Item: {
+          pk: `BOOK#${uuid}`,
+          ...body,
+        },
+      })
+    );
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ id: uuid }),
+    };
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: "Internal server error" }),
+    };
+  }
+};
+```
+
+This is a pretty standard `POST` handler for creating new data in a database but what is important to note is the use of our generated types when we type the body passed to the request.
+
+### `GET`
+
+With our `POST` handler now complete, let’s turn our attention to the `GET` handler and add the below code to our `get-all-books.ts` file.
+
+```ts
+META: './resources/get-all-books.ts':{ }
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
+import { ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { paths } from "../types/openapi";
+
+const dynamodb = new DynamoDB({});
+
+export const handler = async () => {
+  try {
+    const { Items } = await dynamodb.send(
+      new ScanCommand({
+        TableName: process.env.TABLE_NAME,
+      })
+    );
+
+    const parsedItems =
+      Items as paths["/books"]["get"]["responses"]["200"]["content"]["application/json"];
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(parsedItems),
+    };
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: "Internal server error" }),
+    };
+  }
+};
+```
+
+Just like the `POST` handler, this is a pretty simple `GET` handler for fetching all of the records in the database. In this case, we use a `ScanCommand` to fetch all of the records but you could switch this out for a `QueryCommand` if you wanted to.
+
+## Creating the REST API
+
+With the code added to our Lambda functions, they’re now complete and we can turn our attention to defining and creating the REST API itself.
+
+### Preparing the OpenAPI spec file
+
+However, before we can call the construct that will create the REST API for us on API Gateway, we must first prepare our OpenAPI spec file by replacing those template values from earlier with their real values.
+
+To do this, we’re going to use another NPM package called [`mustache`](https://www.npmjs.com/package/mustache) which you’ll need to install by running the command `npm i mustache`. With that package installed, we can then update our stack definition file to handle the replacement of the template values in our OpenAPI spec file with the real values.
+
+To do this add the below code under the code you added earlier for adding the permissions to the Lambda functions.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 5. Define the variables to replace in the OpenAPI spec file
+const variables = {
+  region: "eu-west-2",
+  post_function_arn: createBookLambda.functionArn,
+  get_all_function_arn: getAllBooksLambda.functionArn,
+};
+
+const openApiSpecJson = this.resolve(
+  Mustache.render(
+    readFileSync(path.join(__dirname, "../openapi-spec.json"), "utf-8"),
+    variables
+  )
+);
+```
+
+In this code, we first list the variables we specified earlier in our OpenAPI spec file using the `{{VARIABLE_NAME}}` syntax. We then assign them the value that we’d like to switch the template placeholder out with. So, for example, we’ll take the `{{REGION}}` placeholder and switch it out with the value `eu-west-2`.
+
+Then after defining our variables and their target values, we call `Mustache.render()` to perform the actual replacement of the variables. Once that process is complete we then have a finalised OpenAPI spec stored in our `openApiSpecJson` variable with the templates switched out with their real values.
+
+### Defining the REST API
+
+With our OpenAPI spec now ready to go, we’re now ready to add the construct that will create the REST API for us on AWS. For this, we’re going to be using the `SpecRestAPI` construct as this will allow us to provide an OpenAPI spec and transform it into the required API Gateway resources.
+
+To add this code into your stack definition file add the below code under the code we just added for switching out the variables in our OpenAPI spec file.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 6. Define the REST API from the spec file
+const booksApi = new SpecRestApi(this, "BooksAPI", {
+  apiDefinition: ApiDefinition.fromInline(openApiSpecJson),
+});
+```
+
+## Adding an API Key
+
+With the API now defined, we’re almost ready to deploy and test it but before we can do that we need to create a new API key to use with our API. This is because if you remember back to earlier when we went through our OpenAPI spec, we defined that we’d be using API keys in the headers of the requests for security.
+
+I won’t go into too much depth on creating API keys in the CDK in this tutorial but if you want to read more into the process and what each part does, [you can read a previous tutorial I wrote on it here.](https://conermurphy.com/blog/build-rest-api-aws-cdk-api-gateway-lambda-dynamodb-api-key-authentication)
+
+But, to add the API key creation into our stack, you can add the below code to the stack definition file under the code we just added for defining our REST API.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 8. Add an API key
+const apiKey = new ApiKey(this, "ApiKey");
+
+const booksUsagePlan = new UsagePlan(this, "BooksApiUsagePlan", {
+  name: "Books Usage Plan",
+  apiStages: [
+    {
+      api: booksApi,
+      stage: booksApi.deploymentStage,
+    },
+  ],
+});
+
+booksUsagePlan.addApiKey(apiKey);
+```
+
+## Deployment and Testing
+
+All of the resources and services we’ll need are now defined but before we can deploy them to AWS, we first need to add an output to our stack to log out the ID of our new API key. With that ID, we can then retrieve the value of our API key using the AWS CLI which we can then use in the header of our requests.
+
+To log out the API key ID, add the below code to the bottom of your stack definition file under the code we just added for adding the API key.
+
+```ts
+META: './lib/*-stack.ts':{ }
+// 9. Log out the API URL and API key
+new CfnOutput(this, "api-values-output", {
+  value: JSON.stringify({
+    apiKey: apiKey.keyId,
+  }),
+});
+```
+
+Then with this added, we can deploy our stack to AWS by running the command `cdk deploy` in the terminal and accepting any prompts displayed.
+
+With the stack now deployed to AWS, you should now have the URL of your newly created API logged out in your terminal along with the ID of your API key as well. But, before we can send requests to our API, we first need to retrieve the value of the API key using the AWS CLI.
+
+To do this, you can run the command `aws apigateway get-api-key --api-key API_KEY_ID --include-value` in your terminal, making sure to replace the placeholder `API_KEY_ID` with the ID you received a moment ago. In the output of this command, you should then see the value of your API key, copy this value as we’ll need it in the next step.
+
+With our API key value now obtained, we’re ready to test our API and make sure that the OpenAPI spec is deployed correctly. To test the API, take the URL that was outputted in the terminal and add `/books` to the end of it as that’s the endpoint we defined.
+
+Then inside a tool like Postman, create a new request and add a new header to it with a key of `x-api-key` and a value of the API key value we obtained a moment ago.
+
+Then you should be able to send a `POST` request to your API URL with a body like the one below to create a new record in the database with the provided data.
+
+```json
+{
+  "title": "Example2",
+  "author": "Example"
+}
+```
+
+In response, you should then receive the ID of the newly created record, if so, the `POST` method works as intended and all that is left to test is the `GET` method. You can test this by removing the body of the request and switching the method to `GET`. Then, after sending this request, you should receive back an array that contains the record we created in our `POST` request.
+
+If you did get both of the responses outlined above then congratulations, you now have a fully working REST API deployed on AWS API Gateway from an OpenAPI spec file!
+
+## Closing Thoughts
+
+In this tutorial, we looked at how to create a REST API on AWS API Gateway from an OpenAPI spec file via the `SpecRestApi` construct. We also looked at how to generate TypeScript types from that same OpenAPI spec file and how we can use those generated types in the Lambda functions powering our API to give us accurate types for our request and response bodies.
+
+If you would like to see the final, complete code for this tutorial, [you can see it here](https://github.com/conermurphy/cdk-tutorials/tree/main/openapi-spec-rest-api-ts) in my [CDK Tutorials GitHub repository](https://github.com/conermurphy/cdk-tutorials/tree/main) which contains the code for this tutorial and all of my other tutorials as well.
+
+Finally, if you found this tutorial helpful, then make sure to check out my other AWS API Gateway tutorials below.
+
+- [How to Build a REST API With the AWS CDK Using API Gateway, Lambda, and Dynamodb With API Key Authentication](https://conermurphy.com/blog/build-rest-api-aws-cdk-api-gateway-lambda-dynamodb-api-key-authentication)
+- [Leveraging AWS WAF to Throttle API Gateway Rest API Requests](https://conermurphy.com/blog/aws-waf-throttle-api-gateway-rest-api-requests)
+- [Throttling API Keys in an API Gateway REST API using Usage Plans](https://conermurphy.com/blog/api-gateway-usage-plans-api-key-throttling)
+
+I hope you found this post helpful and thank you for reading.

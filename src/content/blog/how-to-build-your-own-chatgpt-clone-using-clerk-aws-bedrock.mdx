@@ -1,0 +1,1380 @@
+---
+title: 'How to Build Your Own ChatGPT Clone Using React & AWS Bedrock'
+date: '2024-03-20'
+topics: ['DYNAMODB', 'AWS', 'BEDROCK', 'NEXTJS', 'CLERK']
+slug: how-to-build-your-own-chatgpt-clone-using-clerk-aws-bedrock
+image:
+description: 'Learn to create a ChatGPT clone step by step using React (Next.js) and AWS Bedrock. Build the entire application from scratch with this comprehensive guide.'
+---
+
+import Video from '../../components/md/VideoComponent.astro'
+
+Over the last few months, AI-powered chat applications like ChatGPT have exploded in popularity and have become some of the largest and most popular applications in use today. And, for a lot of people, they may have an air of mystery and wonder about how they work. So, to help remove that, in today’s post, we’re going to look at building a ChatGPT-inspired application called Chatrock that will be powered by Next.js, AWS Bedrock & DynamoDB, and Clerk.
+
+Below is a sneak peek of the application we’re going to end up with at the end of this tutorial so without further ado, let’s jump in and get building!
+
+<Video width="720" height="480" controls>
+  <source
+    src="/images/blog/how-to-build-your-own-chatgpt-clone-using-clerk-aws-bedrock/chatrock.mp4"
+    type="video/mp4"
+  />
+</Video>
+
+## Tech Stack Breakdown
+
+But, before we jump in and start writing code for our application, let’s take a quick look at the tech stack we’ll be using to build our app so we can get familiar with the tools we’ll be using to build Chatrock.
+
+### Next.js
+
+[Next.js](https://nextjs.org) has long cemented itself as one of the front runners in the web framework world for JavaScript/TypeScript projects so we’re going to be using that. More specifically we’re going to be using V14 of Next.js which allows us to use some exciting new features like [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations) and the [App Router.](https://nextjs.org/docs/app)
+
+Finally, for our front end, we’re going to be pairing Next.js with the great combination of [TailwindCSS](https://tailwindcss.com) and [`shadcn/ui`](https://ui.shadcn.com) so we can focus on building the functionality of the app and let them handle making it look awesome!
+
+### Clerk
+
+Of course, we’ll need some authentication with our application to make sure the queries people ask stay private. And, because authentication is notoriously finicky and potentially problematic to add we’re going to be using [Clerk](https://clerk.com?utm_source=coner-murphy&utm_medium=blog&utm_campaign=chatgpt-clone&utm_content=tutorial). And, as we’ll see later on when we start building our application and adding the auth in, Clerk makes it super effortless to implement high-quality and effective authentication to Next.js projects.
+
+### AWS
+
+The final large piece of the tech stack that we’ll focus on in this section is AWS. Now, we won’t be using all of the services AWS offers (I’m not sure if this is possible) but instead, we’re going to be using two in particular.
+
+The first is [AWS DynamoDB](https://aws.amazon.com/dynamodb/) which is going to act as our NoSQL database for our project which we’re also going to pair with a [Single-Table design architecture](https://www.alexdebrie.com/posts/dynamodb-single-table/).
+
+The second service is what’s going to make our application come alive and give it the AI functionality we need and that service is [AWS Bedrock](https://aws.amazon.com/bedrock/) which is their new generative AI service launched in 2023. AWS Bedrock offers multiple models that you can choose from depending on the task you’d like to carry out but for us, we’re going to be making use of [Meta’s Llama V2 model](https://llama.meta.com), more specifically `meta.llama2-70b-chat-v1`.
+
+## Prerequisites
+
+With the overview of our tech stack out of the way, let’s take a quick look at the prerequisites that we’ll need for this project. First of all this tutorial isn’t intended as a Next.js tutorial so if you’re not comfortable working in Next.js or using some of their newer features like the App Router or Server Actions, take a look at their docs, and once you’re comfortable with them, return to this tutorial and carry on building!
+
+Secondly, you’ll need an [AWS account](https://aws.amazon.com/getting-started/guides/setup-environment/module-one/) to deploy the DynamoDB database we’ll define to as well as give you access to Bedrock. Once you have your AWS account, [you’ll need to request access to the specific Bedrock model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) we’ll be using (`meta.llama2-70b-chat-v1`), this can be quickly done from the AWS Bedrock dashboard.
+
+> **NOTE:** When requesting the model access, make sure to do this from the `us-east-1` region as that’s the region we’ll be using in this tutorial.
+
+While you’re in the AWS dashboard, if you don’t already have an IAM account configured with API keys, you’ll need to [create one with these](https://docs.aws.amazon.com/streams/latest/dev/setting-up.html) so you can use the DynamoDB and Bedrock SDKs to communicate with AWS from our application. [Read how to generate API keys for an IAM user on their docs.](https://docs.aws.amazon.com/cli/latest/userguide/cli-authentication-user.html#cli-authentication-user-get)
+
+Finally, once you have your AWS account set up and working, you’ll need to configure the AWS CDK on your local machine to allow you to deploy the DynamoDB database we’ll configure in this project. [Check out the docs to learn how to do this.](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install)
+
+## Getting Started
+
+Now, with the tech stack and prerequisites out of the way, we’re ready to get building! The first thing you’ll want to do is [clone the `starter-code` branch of the Chatrock repository](https://github.com/conermurphy/chatrock/tree/starter-code) from GitHub. You’ll then want to install all of the dependencies by running `npm i` in your terminal inside both the root directory and the `infrastructure` directory.
+
+Inside this branch of the project, I’ve already gone ahead and installed the various dependencies we’ll be using for the project. I’ve also configured some boilerplate code for things like TypeScript types we’ll be using as well as some Zod validation schemas that we’ll be using for validating the data we return from DynamoDB as well as validating the form inputs we get from the user. Finally, I’ve also configured some basic UI components we’ll be using from `shadcn/ui`.
+
+Once you have the project cloned, installed, and ready to go, we can move on to the next step which is configuring our AWS SDK clients in the Next.js project as well as adding some basic styling to our application.
+
+### Setting Up Our AWS SDK Clients
+
+To configure the AWS SDK clients in our project, create a new file in the root of the project called `config.ts` and then add the below code to it.
+
+```ts
+META: './config':{ }
+import { BedrockRuntimeClient } from "@aws-sdk/client-bedrock-runtime";
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
+
+const awsConfig = {
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.AWS_SECRET_KEY_VALUE || "",
+  },
+  region: process.env.AWS_API_REGION || "",
+};
+
+export const db = DynamoDBDocument.from(new DynamoDB(awsConfig), {
+  marshallOptions: {
+    convertEmptyValues: true,
+    removeUndefinedValues: true,
+    convertClassInstanceToMap: false,
+  },
+});
+
+export const bedrock = new BedrockRuntimeClient({
+  ...awsConfig,
+  region: "us-east-1",
+});
+```
+
+What this code does is export two clients (`db` and `bedrock`), we can then use these clients inside our Next.js Server Actions to communicate with our database and Bedrock respectively.
+
+Finally, to complete the setup of our AWS clients we need to add some ENVs to our project. In the root of your project create a new file called `.env.local` and add the below values to it, make sure to populate any blank values with ones from your AWS dashboard.
+
+```
+# AWS
+
+# API Key ID and Value from your IAM account
+AWS_ACCESS_KEY_ID=""
+AWS_SECRET_KEY_VALUE=""
+
+# Set this to the default AWS region your account was configured for on your local machine earlier.
+AWS_API_REGION=""
+
+DB_TABLE_NAME=ChatRockDB
+```
+
+## Deploying the Database
+
+With our AWS SDK clients now configured and ready to go, we’re ready to deploy our DynamoDB database for our project. To do this, replace the contents of the file `./infrastructure/lib/chatrock-infrastructure-stack.ts` with the below code.
+
+```tsx
+META: './infrastructure/lib/chatrock-infrastructure-stack.ts':{ }
+import * as cdk from "aws-cdk-lib";
+import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
+import { Construct } from "constructs";
+
+export class ChatRockIntfrastructureStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    // Create a new DynamoDB instance that is set to use on-demand billing and to be removed when the stack is destroyed
+    new Table(this, "ChatRockDB", {
+      partitionKey: { name: "pk", type: AttributeType.STRING },
+      sortKey: { name: "sk", type: AttributeType.STRING },
+      billingMode: BillingMode.PAY_PER_REQUEST,
+      tableName: "ChatRockDB",
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+  }
+}
+```
+
+In this code, we define a new DynamoDB database that is configured to use on-demand billing as well as to be destroyed when the CDK stack is destroyed.
+
+To deploy the database to AWS, run the command `cdk deploy` in your terminal inside the `infrastructure` directory and accept any prompts you’re given. Then once complete your new database called `ChatRockDB` should be deployed and ready to go! With the database sorted, we’re now ready to jump into Next.js and start building our application, let’s do this!
+
+## Adding Some Basic Styling
+
+The first thing we’re going to do in our application is take care of some housekeeping and add some basic styles as well as create a new component for the icon we’ll be using. To create the icon component, create a new file at `./components/icon.tsx` and add the below code to it.
+
+```tsx
+META: './components/icon.tsx':{ }
+import { IoMdChatbubbles } from "react-icons/io";
+
+export function Icon() {
+  return (
+    <div className="flex flex-row gap-3 items-center">
+      <div className="bg-stone-50 p-2 rounded-lg shadow-md">
+        <IoMdChatbubbles className="text-4xl text-violet-500" size={24} />
+      </div>
+    </div>
+  );
+}
+```
+
+With our `Icon` component now created (we’ll need this in a moment for our custom sign-in and sign-up pages). We’re going to quickly turn our attention to the `./app/layout.tsx` file and update it to look like the code below.
+
+```tsx
+META: './app/layout.tsx':{ }
+import type { Metadata } from "next";
+import { Inter as FontSans } from "next/font/google";
+import "./globals.css";
+import { cn } from "@/lib/utils";
+
+export const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+export const metadata: Metadata = {
+  title: "Create Next App",
+  description: "Generated by create next app",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={cn(
+          "flex flex-row min-h-screen bg-background font-sans antialiased text-stone-700 bg-slate-100",
+          fontSans.variable
+        )}
+      >
+        <div className="min-w-max w-full h-screen overflow-y-auto">
+          {children}
+        </div>
+      </body>
+    </html>
+  );
+}
+```
+
+In this code, we’ve updated the base styles of our entire project to give us a good base to build off in the coming sections when we look at adding in our authentication with Clerk as well as building out the sidebar that will allow users to switch between the various conversations they have as well as sign out. So, let’s take a closer look at both of those next.
+
+## Adding Authentication with Clerk
+
+Before we can look at implementing Clerk into our project and using it to protect our application, we first need to configure our application on Clerk’s dashboard. So, if you don’t already have a Clerk account, [head over to their dashboard and sign up for one](https://dashboard.clerk.com/sign-in?utm_source=coner-murphy&utm_medium=blog&utm_campaign=chatgpt-clone&utm_content=tutorial).
+
+Once you’ve signed into your account, we’ll need to create a new application, for our project, we won’t be using any social auth providers and will be keeping it fairly basic with just the “Email” sign-in option they provide. So, for now just select “Email”, give your application a name (”Chatrock”), and then click “Create application”.
+
+Then once you’re on the Clerk dashboard for your application, we need to enable the option for users to have the optional choice to provide us with their name so we can display it on our application’s sidebar when they’re logged in. To enable this option, click on “User & Authentication”, then “Email, Phone, Username” and then scroll down to the “Personal Information” section where you can toggle “Name” on and then press “Apply changes”.
+
+Finally, in the Clerk dashboard, click on “API Keys” on the sidebar and then copy the ENV values shown to you, (make sure that Next.js is selected on the dropdown).
+
+### Adding Clerk to Our Application
+
+Now, at this point, we’ve configured our Clerk application on the dashboard and have copied the ENVs that we will need inside our app so we’re now ready to integrate Clerk into our app!
+
+To do this, first, paste the ENVs you copied from the Clerk dashboard into your `.env.local` file from earlier so it now looks something like this.
+
+```
+# AWS
+
+# API Key ID and Value from your IAM account
+AWS_ACCESS_KEY_ID=""
+AWS_SECRET_KEY_VALUE=""
+
+# Set this to the default AWS region your account was configured for on your local machine earlier.
+AWS_API_REGION=""
+
+DB_TABLE_NAME=ChatRockDB
+
+# CLERK
+
+# Values from your Clerk dashboard
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=""
+CLERK_SECRET_KEY=""
+```
+
+With these ENVs added we can now setup Clerk in our application to provide authentication to our users. To do this, we’ll need to wrap our application in the `ClerkProvider` component from the `@clerk/nextjs` package, we can do this by updating our `./app/layout.tsx` file from earlier. Below is what your code should now look like with this added.
+
+```tsx
+META: './app/layout.tsx':{ }
+import type { Metadata } from "next";
+import { Inter as FontSans } from "next/font/google";
+import "./globals.css";
+import { cn } from "@/lib/utils";
+import { ClerkProvider } from "@clerk/nextjs";
+
+export const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+export const metadata: Metadata = {
+  title: "Create Next App",
+  description: "Generated by create next app",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={cn(
+            "flex flex-row min-h-screen bg-background font-sans antialiased text-stone-700 bg-slate-100",
+            fontSans.variable
+          )}
+        >
+          <div className="min-w-max w-full h-screen overflow-y-auto">
+            {children}
+          </div>
+        </body>
+      </html>
+    </ClerkProvider>
+  );
+}
+```
+
+With our application now wrapped in the `ClerkProvider`, we’ve almost configured our application to have authentication using Clerk. The final thing we need to do is to enforce the authentication in our app by adding a custom `middleware.ts` file to our project. To do, this create a new `middleware.ts` file in the root of your project and add the below code to it.
+
+```ts
+META: './middleware.ts':{ }
+import { authMiddleware } from "@clerk/nextjs";
+
+export default authMiddleware({});
+
+export const config = {
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+};
+```
+
+Now, with this custom middleware added, our application enforces authentication and if you were to start your application by running `npm run dev` in the root directory and visit the app on `http://localhost:3000` you would be redirected to the Clerk sign-up page where you could sign up for an account. Then after signing up for an account, you would be redirected back to the home page of our application.
+
+### Adding Custom Sign-In and Sign-Up Pages
+
+Now, while I love the ease and simplicity of Clerk’s hosted sign-in and sign-up pages sometimes you will want custom sign-in and sign-up pages to give your user a cohesive experience from start to finish when using your app. So, what we’re going to do now is to create some custom sign-up and sign-in pages that utilize Clerk’s pre-built auth components (`SignIn` and `SignUp`).
+
+The first thing we’ll need to do to create our custom sign-up and sign-in pages is to create the pages in our Next.js application. To do this, create a new file at `./app/sign-up/[[...sign-up]]/page.tsx` and at `./app/sign-in/[[...sign-in]]/page.tsx` and add the below code to them respectively.
+
+```tsx
+META: './app/sign-up/[[...sign-up]]/page.tsx':{ }
+import { Icon } from "@/components/icon";
+import { SignUp } from "@clerk/nextjs";
+import Link from "next/link";
+
+export default function Page() {
+  return (
+    <div className="h-screen flex flex-col items-center justify-center gap-6 min-w-full">
+      <Icon />
+      <h2 className="text-2xl font-semibold text-gray-800">
+        Sign up for a new account
+      </h2>
+      <SignUp
+        appearance={{
+          elements: { footer: "hidden", formButtonPrimary: "bg-violet-700" },
+        }}
+      />
+      <div className="flex flex-row gap-1 text-sm">
+        <p>Already a user?</p>
+        <Link
+          href="/sign-in"
+          className="text-violet-700 underline font-semibold"
+        >
+          Sign in here.
+        </Link>
+      </div>
+    </div>
+  );
+}
+```
+
+```tsx
+META: './app/sign-in/[[...sign-in]]/page.tsx':{ }
+import { Icon } from "@/components/icon";
+import { SignIn } from "@clerk/nextjs";
+import Link from "next/link";
+
+export default function Page() {
+  return (
+    <div className="h-screen flex flex-col items-center justify-center gap-6 min-w-full">
+      <Icon />
+      <h2 className="text-2xl font-semibold text-gray-800">
+        Sign in to your account
+      </h2>
+      <SignIn
+        appearance={{
+          elements: { footer: "hidden", formButtonPrimary: "bg-violet-700" },
+        }}
+      />
+      <div className="flex flex-row gap-1 text-sm">
+        <p>Not a user?</p>
+        <Link
+          href="/sign-up"
+          className="text-violet-700 underline font-semibold"
+        >
+          Sign up here.
+        </Link>
+      </div>
+    </div>
+  );
+}
+```
+
+You can see both of these pages are quite similar in structure, they show the `Icon` component we made earlier before then showing a title and rendering their respective pre-built Clerk component (`SignIn` or `SignUp`) from the `@clerk/nextjs` package. At this point, we also perform some minor customizations to the Clerk components to make sure they fit in with our branding a bit better by updating their colors.
+
+Finally, we then render a custom footer to our page which helps users navigate between our sign-up and sign-in pages if they want to change between them at any point.
+
+With our custom pages now built, we have two more things we need to do before our custom authentication pages are ready to go. First of all, we need to update our `.env.local` file from earlier to add in some custom ENVs for the pre-built Clerk components to utilize. Add these ENVs under the ones you added for Clerk earlier on.
+
+```
+# Other Clerk and AWS ENVs...
+
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+```
+
+Finally, the last thing we need to do is to update our `middleware.ts` file to ensure that the new sign-in/up pages aren’t placed behind our authentication and are made public so anyone can access them. To do this, update your `middleware.ts` file to look like below.
+
+```ts
+META: './middleware.ts':{ }
+import { authMiddleware } from "@clerk/nextjs";
+
+export default authMiddleware({
+  // Note this line where we've defined our auth pages as public routes to opt-out of authentication
+  publicRoutes: ["/sign-in", "/sign-up"],
+});
+
+export const config = {
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+};
+```
+
+Our new custom sign-in/up pages are now complete and if you still have your development server running, visit one of the pages and enjoy the new designs we’ve implemented!
+
+> **NOTE:** If you signed up for an account using the Clerk-hosted pages, you won’t be able to sign out of the application at the moment (we’re implementing this in the next section) so if you’d like to check out the new sign in/up pages before then, use private browsing, a different browser, or clear your sessions in the browser’s dev console.
+
+## Finishing the Application’s Layout
+
+Now with our authentication setup, let’s take a look at implementing the last piece of our application’s layout, the sidebar. This sidebar will contain two important pieces of functionality, the first is the conversation history of the currently authenticated user which will allow them to switch between different conversations they’ve had. The second is the `UserButton` component from Clerk which will give users an easy way to sign out of the application.
+
+### Conversation History
+
+Let’s start by building the conversation history functionality and UI before then tying it together with the `UserButton` component in a new custom `sidebar.tsx` file we’ll create.
+
+To build our conversation history functionality we’ll need to create a couple of Server Actions (`getAllConversations` and `deprecateConversation`), the purpose of both of these should be fairly self-explanatory but we’re going to use the `getAllConversations` action to give us a list of all of the user’s conversations to map over and act as links on the sidebar. Then for each conversation, we’re going to offer the ability to “delete” it using the `deprecateConversation` Server Action.
+
+> **NOTE:** I’ve put delete in quotations because although it’ll appear to the user that we’re deleting the conversation we're actually performing a soft-delete and just marking the item as `DEPRECATED` in the database and only showing them `ACTIVE` ones on the front end.
+
+With the overview of this functionality covered, let’s jump in and get building. So, as mentioned earlier we’re going to be starting by making the new Server Actions, to do this, create a new directory inside the `app` directory called `actions` and then another new one inside that called `db`. Then inside the `db` directory create two new files called `get-all-conversations.ts` and `deprecate-conversation.ts`. Then add the respective code below to each of them.
+
+```ts
+META: './app/actions/db/get-all-conversations.ts':{ }
+"use server";
+
+import { db } from "@/config";
+import { conversationSchema } from "@/schema";
+import { QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { currentUser } from "@clerk/nextjs";
+
+export const getAllConversations = async (includeDeprecated = false) => {
+  const currentUserData = await currentUser();
+
+  try {
+    // Get the first 100 conversations for the current user from the DB
+    const { Items } = await db.send(
+      new QueryCommand({
+        TableName: process.env.DB_TABLE_NAME,
+        ExpressionAttributeValues: {
+          ":pk": `USER#${currentUserData?.id}`,
+          ":sk": "CONVERSATION#",
+        },
+        KeyConditionExpression: "pk = :pk AND begins_with(sk, :sk)",
+        Limit: 100,
+      })
+    );
+
+    const parsedPrompts = conversationSchema.array().nullish().parse(Items);
+
+    // If the request wants to return deprecated ones, return all data
+    if (includeDeprecated) {
+      return parsedPrompts;
+    }
+
+    // Otherwise filter for just active ones and return them
+    return parsedPrompts?.filter((prompt) => prompt.status === "ACTIVE");
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to fetch all conversations");
+  }
+};
+```
+
+```ts
+META: './app/actions/db/deprecate-conversation.ts':{ }
+"use server";
+
+import { db } from "@/config";
+import { UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { currentUser } from "@clerk/nextjs";
+
+export const deprecateConversation = async (uuid: string) => {
+  const currentUserData = await currentUser();
+
+  try {
+    // To mark an item as deleted we use "soft deletes" so we update the item status to be "DEPRECATED" and then filter these out when fetching data
+    await db.send(
+      new UpdateCommand({
+        TableName: process.env.DB_TABLE_NAME,
+        Key: {
+          pk: `USER#${currentUserData?.id}`,
+          sk: `CONVERSATION#${uuid}`,
+        },
+        UpdateExpression: "SET #status = :status",
+        ExpressionAttributeNames: {
+          "#status": "status",
+        },
+        ExpressionAttributeValues: {
+          ":status": "DEPRECATED",
+        },
+      })
+    );
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to deprecate conversation");
+  }
+};
+```
+
+#### Conversation History
+
+With our Server Actions now written for our conversation history functionality, let’s build the UI for it. To do this, we’re going to create a new component called `ConversationHistory`, to add this component, create a new file at `./components/conversation-history.tsx` and then add the below code to it.
+
+```tsx
+META: './components/conversation-history.tsx':{ }
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { getAllConversations } from "@/app/actions/db/get-all-conversations";
+import { z } from "zod";
+import { conversationSchema } from "@/schema";
+import { usePathname, useRouter } from "next/navigation";
+import { IoTrashBin } from "react-icons/io5";
+import { deprecateConversation } from "@/app/actions/db/deprecate-conversation";
+
+export default function ConversationHistory() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [deleting, setDeleting] = useState(false);
+  const [prompts, setPrompts] = useState<
+    z.infer<typeof conversationSchema>[] | null
+  >();
+
+  // When the pathname or the deleting state changes, fetch all of the conversations from the DB and update the state
+  useEffect(() => {
+    const fetchPrompts = async () => {
+      setPrompts(await getAllConversations());
+      setDeleting(false);
+    };
+
+    fetchPrompts();
+  }, [pathname, deleting]);
+
+  return (
+    <div className="flex flex-col gap-2 grow">
+      {prompts?.map((prompt) => {
+        const uuid = prompt.sk.split("#")[1];
+
+        return (
+          <div
+            className="relative flex flex-row justify-start items-center group bg-slate-200 p-2 py-2.5 rounded-sm text-sm hover:bg-slate-100 transiiton-all ease-in-out duration-300"
+            key={prompt.sk}
+          >
+            <Link href={`/${uuid}`}>
+              <span className="w-24 overflow-hidden whitespace-nowrap">
+                {prompt.title}
+              </span>
+            </Link>
+            <button className="absolute right-0 mr-2 opacity-0 group-hover:opacity-100 bg-red-400 p-2 rounded-sm transition-all ease-in-out duration-300">
+              <IoTrashBin
+                onClick={async () => {
+                  await deprecateConversation(uuid);
+                  setDeleting(true);
+
+                  router.push("/");
+                }}
+              />
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+```
+
+You can see in this code, that we fetch all of the current user’s conversations when the pathname updates or the `deleting` state changes, we then map over their conversations and display a `Link` for each of them that will take the user to the conversation's respective page (we’ll create this later on). Then finally we display a button that appears on hover and when clicked will trigger our `deprecateConversation` functionality and remove the conversation from the view of the user.
+
+#### Sidebar
+
+With our conversation history functionality now complete we can turn our attention to building the sidebar itself and adding in the `UserButton` component from Clerk that we mentioned earlier. To add this component, create a new file at `./components/sidebar.tsx` and add the below code to it.
+
+```tsx
+META: './components/sidebar.tsx':{ }
+import { UserButton, currentUser } from "@clerk/nextjs";
+import { Icon } from "./icon";
+import Link from "next/link";
+import ConversationHistory from "./conversation-history";
+import { IoAddOutline } from "react-icons/io5";
+
+export async function Sidebar() {
+  const currentUserData = await currentUser();
+
+  // If the user data is falsy, return null. This is needed on the auth pages as the user is authenticated then.
+  if (!currentUserData) {
+    return null;
+  }
+
+  // If the user gave us their name during signup, check here to influence styling on the page and whether we should show the name
+  const hasUserGivenName =
+    currentUserData.firstName && currentUserData.lastName;
+
+  return (
+    <aside className="flex flex-col justify-start min-h-screen w-full py-6 px-8 max-w-60 bg-slate-300 border-r-2 border-r-slate-500 gap-12">
+      <header className="flex flex-row gap-2 justify-between items-center">
+        <Link href="/" className="flex flex-row gap-2 items-center">
+          <Icon />
+          <p className="text-gray-700 font-bold">Chatrock</p>
+        </Link>
+        <Link
+          href="/"
+          className='flex flex-row justify-start items-center group bg-slate-200 p-2 h-max rounded-sm hover:bg-slate-100 transiiton-all ease-in-out duration-300"'
+        >
+          <IoAddOutline />
+        </Link>
+      </header>
+
+      <ConversationHistory />
+      <footer
+        className={`w-full flex flex-row ${
+          !hasUserGivenName && "justify-center"
+        }`}
+      >
+        <UserButton
+          afterSignOutUrl="/sign-in"
+          showName={Boolean(hasUserGivenName)}
+          appearance={{
+            elements: { userButtonBox: "flex-row-reverse" },
+          }}
+        />
+      </footer>
+    </aside>
+  );
+}
+```
+
+Now, with this component, we do a few things, first of all, we fetch the current user from Clerk using the `currentUser()` function. We then check if there is data for the current user and if not we return `null`. This is important because on non-authenticated pages like the sign-in and sign-up, we will want to return `null` as there is no current user, this will prevent the sidebar from rendering on the page.
+
+Then we check if the current user gave us their name during the signup flow and store that in the `hasUserGivenName` variable which we then use to control the displaying of the user’s name in the `UserButton` component as well as some styling on the sidebar.
+
+Finally, we render out the component which starts by creating a small header section with the Chatrock name and `Icon` component as well as an “Add” (`+`) button that allows users to start a new conversation by being redirected to the home page.
+
+We then render out the `ConversationHistory` component we created a moment ago before finishing the component with a custom footer that contains the `UserButton` component from Clerk that displays the user’s name if they gave it to us and allows them to sign out of the application.
+
+With our `Sidebar` component now created the last thing we need to do is add it to our `layout.tsx` file from earlier so it shows on every authenticated page. To do this, update your `./app/layout.tsx` file to look like the one below.
+
+```tsx
+META: './app/layout.tsx':{ }
+import type { Metadata } from "next";
+import { Inter as FontSans } from "next/font/google";
+import "./globals.css";
+import { cn } from "@/lib/utils";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Sidebar } from "@/components/sidebar";
+
+export const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+export const metadata: Metadata = {
+  title: "Create Next App",
+  description: "Generated by create next app",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={cn(
+            "flex flex-row min-h-screen bg-background font-sans antialiased text-stone-700 bg-slate-100",
+            fontSans.variable
+          )}
+        >
+          <Sidebar />
+          <div className="min-w-max w-full h-screen overflow-y-auto">
+            {children}
+          </div>
+        </body>
+      </html>
+    </ClerkProvider>
+  );
+}
+```
+
+## Building the Home page
+
+At this point, we now have a completed application shell that a user can use to sign in and out of the application freely as well as the functionality to show a user’s conversation history. So, now let’s work on adding in the functionality to allow users to create new conversations which is where the home page comes in.
+
+But before we jump into building the functionality let’s take a moment to explore the flow of how this should work. When the user logs into the application they will be taken to the home page that will show an input field allowing them to ask something to the AI, when they fill in this input and submit it, we’ll create a new conversation in the database, generating a new `UUID` for the conversation. We’ll then return this `UUID` to the front end and redirect the user to that conversation’s specific page where the AI will then be triggered to reply and then the user can reply and so on.
+
+So, for the home page, we need to add in the functionality to allow users to enter a new prompt and then have that input stored in the database before redirecting the user to the newly created conversation’s page (which will `404` for the moment as we’re going to create this in the next section).
+
+### Implementing The Functionality
+
+So, now we know what we’re building for the home page, let’s get started building. The first thing we’re going to do is create the new Server Action that’ll allow us to create new conversations in the database. To create this, create a new file in the `./app/actions/db` directory from earlier called `create-conversation.ts` and add the below code.
+
+```ts
+META: './app/actions/db/create-conversation.ts':{ }
+"use server";
+
+import { db } from "@/config";
+import { conversationSchema } from "@/schema";
+import { IPromptStatus } from "@/types";
+import { PutCommand } from "@aws-sdk/lib-dynamodb";
+import { currentUser } from "@clerk/nextjs";
+import { randomUUID } from "crypto";
+
+export const createConversation = async (prompt: string) => {
+  const currentUserData = await currentUser();
+
+  if (!currentUserData) {
+    throw new Error("User not found");
+  }
+
+  // Generate a randomUUID for the new conversation this will be used for the page UUID
+  const uuid = randomUUID();
+  const conversationUuid = `CONVERSATION#${uuid}`;
+
+  // Build the input for creating the new item in the DB
+  const createBody = {
+    pk: `USER#${currentUserData?.id}`,
+    sk: conversationUuid,
+    uuid,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    title: `${prompt.slice(0, 20)}...`,
+    conversation: [
+      {
+        author: `USER#${currentUserData?.id}`,
+        content: prompt,
+      },
+    ],
+    status: IPromptStatus.ACTIVE,
+  };
+
+  try {
+    // Create the item in the DB using the prepared body
+    await db.send(
+      new PutCommand({
+        TableName: process.env.DB_TABLE_NAME,
+        Item: createBody,
+        ReturnValues: "ALL_OLD",
+      })
+    );
+
+    // Return the created data to the frontend
+    return conversationSchema.parse(createBody);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to create conversation");
+  }
+};
+```
+
+Then with our Server Action created, we can move on to building the frontend UI elements to interact with it. The main UI element we need to build is the input that is shown at the bottom of the screen as this is where the user will input their query before it is sent to the Server Action above for processing.
+
+In our application, we’re going to have two forms, one on the home page and one on the individual conversation page. For the most part, these forms are going to be identical with the only differences being in the `onSubmitHandler` function they run when the user submits the form.
+
+So, keeping this in mind and to reduce the duplication of code, we’re going to build a generic version of the input field component called `GenericPromptInput` and then we’re going to build a wrapper of this called `HomePromptInput` that will add in the custom `onSubmitHandler` we need for the home page.
+
+With that explanation out of the way, let’s get started building our `GenericPromptInput` component, to create this add a new file at `./components/prompt-inputs/generic.tsx` and add the below code to it.
+
+```tsx
+META: './components/prompt-inputs/generic.tsx':{ }
+"use client";
+
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { promptFormSchema } from "@/schema";
+import { PromptFormInputs } from "@/types";
+
+interface IProps {
+  isGenerating?: boolean;
+  onSubmitHandler: (data: PromptFormInputs) => Promise<void>;
+}
+
+export function GenericPromptInput({
+  isGenerating = false,
+  onSubmitHandler,
+}: IProps) {
+  // Create a new useForm instance from react-hook-form to handle our form's state
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<PromptFormInputs>({
+    // Pass the form's values using our Zod schema to ensure the inputs pass validation
+    resolver: zodResolver(promptFormSchema),
+    defaultValues: {
+      prompt: "",
+    },
+  });
+
+  return (
+    <div className="flex flex-col gap-1 w-full items-center max-w-xl">
+      <form
+        className="flex w-full space-x-2"
+        onSubmit={handleSubmit((data) => {
+          // Run the onSubmitHandler passed into the component and then reset the form after submission
+          onSubmitHandler(data);
+          reset();
+        })}
+      >
+        <Input
+          type="text"
+          placeholder="What would you like to ask?"
+          disabled={isGenerating}
+          {...register("prompt", { required: true })}
+        />
+        <Button type="submit" disabled={isGenerating}>
+          Submit
+        </Button>
+      </form>
+      {errors.prompt?.message && (
+        <p className="text-sm text-red-600 self-start">
+          {errors.prompt?.message}
+        </p>
+      )}
+    </div>
+  );
+}
+```
+
+A fair amount is going on in this file so let’s take a moment to break it down and see what’s going on. The first thing we do in the form is create a new instance of `useForm` from `react-hook-form` which is the package we’re going to be using for handling our form’s state. We pair this with a custom Zod schema that will parse the inputs to the form and will handle all of our validation and error-generating for us.
+
+We then define the UI itself by creating a new `form` element and passing in the `onSubmitHandler` that is passed in as a prop to the component. Then we define our form’s UI which is just a single input and button before rendering any errors out to the page that has been thrown by `react-hook-form` and Zod.
+
+#### Home Wrapper
+
+With our `GenericPromptInput` taken care of, let’s now write the `HomePromptInput` component which will wrap it and provide the custom `onSubmitHandler` for it. To create this function, add a new file in the `prompt-inputs` directory we created previously called `home.tsx` and add the below code to it.
+
+```tsx
+META: './components/prompt-inputs/home.tsx':{ }
+"use client";
+
+import { createConversation } from "@/app/actions/db/create-conversation";
+import { GenericPromptInput } from "./generic";
+import { PromptFormInputs } from "@/types";
+import { useRouter } from "next/navigation";
+
+export function HomePromptInput() {
+  const router = useRouter();
+
+  // onSubmit hanlder to create a new conversation in the DB based on the user's prompt and then redirect to that conversation's page using the UUID
+  const onSubmitHandler = async (data: PromptFormInputs) => {
+    const { uuid } = await createConversation(data.prompt);
+
+    router.push(`/${uuid}`);
+  };
+
+  return <GenericPromptInput onSubmitHandler={onSubmitHandler} />;
+}
+```
+
+You can see in comparison this file is much simpler, and all we have in the file is the custom `onSubmitHandler` function which is where we run the logic for creating the new conversation in the database using the Server Action we defined at the top of this section.
+
+Then after the conversation is created in the database, we take the `uuid` returned to us and redirect the user to it, this is then where the logic for the individual conversation page will take over and trigger the AI to generate a response to the prompt the user inputted, we’ll write this logic and functionality in the next section when we look at building the individual conversation page.
+
+Now, with the form input complete for the home page, the last thing we need to do is to update the home page’s UI to display the form as well as some other generic text to inform the user what to do. We can do this by updating the page `./app/page.tsx` with the below code.
+
+```tsx
+META: './app/page.tsx':{ }
+import { HomePromptInput } from "@/components/prompt-inputs/home";
+
+export default function Home() {
+  return (
+    <main className="flex h-full flex-col items-center justify-between p-12">
+      <div className="flex flex-col items-center gap-1 my-auto">
+        <h1 className="font-bold text-2xl">What would you like to ask?</h1>
+        <p>Ask me anything!</p>
+      </div>
+      <HomePromptInput />
+    </main>
+  );
+}
+```
+
+Again, this is another simple block of code as the primary purpose of this page is to render the input for the user to interact with and then redirect the user to the conversation’s individual page where the majority of the functionality will happen so let’s take a look at building that next. But, as a final recap, your application should now look something like this.
+
+<Video width="720" height="480" controls>
+  <source
+    src="/images/blog/how-to-build-your-own-chatgpt-clone-using-clerk-aws-bedrock/chatrock-sidebar.mp4"
+    type="video/mp4"
+  />
+</Video>
+
+## Conversation Page
+
+At this point, we have nearly built the entirety of the application, the last piece of functionality that we need to implement is also the most important, the individual conversation page. On this page, users will be able to read the entire conversation history they’ve had as well as prompt the AI to generate more responses off the back of that conversation. So, let’s start implementing it!
+
+### Custom Context
+
+The first thing we need to look at implementing for our conversation page is a custom context provider which will wrap the entire page and facilitate easy sharing of state across all of the components that will be rendered on this page.
+
+To create this context, create a new directory in the root of the project called `context` and then create a new file inside called `conversation-context.tsx` and add the below code to it.
+
+```tsx
+META: './context/conversation-context.tsx':{ }
+// This code was based on an article from Kent C. Dodds (https://kentcdodds.com/blog/how-to-use-react-context-effectively)
+
+import { conversationSchema } from "@/schema";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useContext,
+  useState,
+} from "react";
+import { z } from "zod";
+
+const ConversationContext = createContext<
+  | {
+      conversation: z.infer<typeof conversationSchema> | undefined;
+      setConversation: Dispatch<
+        SetStateAction<z.infer<typeof conversationSchema> | undefined>
+      >;
+      isGenerating: boolean;
+      setIsGenerating: Dispatch<SetStateAction<boolean>>;
+    }
+  | undefined
+>(undefined);
+
+function ConversationProvider({ children }: { children: ReactNode }) {
+  const [conversation, setConversation] = useState<
+    z.infer<typeof conversationSchema> | undefined
+  >(undefined);
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const value = {
+    conversation,
+    setConversation,
+    isGenerating,
+    setIsGenerating,
+  };
+
+  return (
+    <ConversationContext.Provider value={value}>
+      {children}
+    </ConversationContext.Provider>
+  );
+}
+
+function useConversation() {
+  const context = useContext(ConversationContext);
+
+  if (context === undefined) {
+    throw new Error(
+      "useConversation must be used within a ConversationProvider"
+    );
+  }
+
+  return context;
+}
+
+export { ConversationProvider, useConversation };
+```
+
+In this code, we do a few things, we create a new provider which we can use to wrap our page and then we also define a new custom hook called `useConversation` that will allow us to access the data inside the context.
+
+Inside the context, we have four values, the state container the current conversation’s data and a way to update that state as well as if the AI is currently generating a response or not and a way to update that state.
+
+Finally, if you would like to learn more about this way of writing context in React, I highly recommend [checking out this Kent C. Dodds post](https://kentcdodds.com/blog/how-to-use-react-context-effectively) that this code was based on.
+
+### Implementing the Functionality
+
+With our custom context now created, we’re ready to start work on creating the final pieces of functionality for our application. In total we’re going to need to create three new Server Actions and three new components as well so let’s get started.
+
+#### Conversation Prompt Input
+
+Let’s start by taking a look at some code we’re already familiar with and that’s building the conversation page wrapper of the prompt input component we made in the last section for our home page. As you may recall, I mentioned earlier that the conversation page and the home page will actually share the same input component but with different `onSubmitHandler` functions so let’s go about creating the conversation page’s version now.
+
+However, before we can write the component itself, we first need to create a couple of new Server Actions (`getOneConversation` and `updateConversation`) that we’ll then use in the `onSubmitHandler` in the component. We can create these Server Actions by creating two new files in our `app/actions/db` directory from earlier, `get-one-conversation.ts` and `update-conversation.ts`. Then, once you have these new files add the respective code below.
+
+```ts
+META: './app/actions/db/get-one-conversation.ts':{ }
+"use server";
+
+import { db } from "@/config";
+import { conversationSchema } from "@/schema";
+import { GetCommand } from "@aws-sdk/lib-dynamodb";
+import { currentUser } from "@clerk/nextjs";
+
+export const getOneConversation = async (uuid: string) => {
+  const currentUserData = await currentUser();
+
+  try {
+    // Fetch the provided conversation UUID for the user from the DB
+    const { Item } = await db.send(
+      new GetCommand({
+        TableName: process.env.DB_TABLE_NAME,
+        Key: {
+          pk: `USER#${currentUserData?.id}`,
+          sk: `CONVERSATION#${uuid}`,
+        },
+      })
+    );
+
+    // Return the data to the frontend, passing it through Zod
+    return conversationSchema.parse(Item);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to fetch conversation");
+  }
+};
+```
+
+```ts
+META: './app/actions/db/update-conversation.ts':{ }
+"use server";
+
+import { db } from "@/config";
+import { UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { currentUser } from "@clerk/nextjs";
+import { getOneConversation } from "./get-one-conversation";
+import { conversationSchema } from "@/schema";
+
+export const updateConversation = async (uuid: string, prompt: string) => {
+  const currentUserData = await currentUser();
+
+  if (!currentUserData) {
+    throw new Error("User not found");
+  }
+
+  // Fetch the current conversation from the DB
+  const { conversation } = await getOneConversation(uuid);
+
+  try {
+    // Update the target conversation with the new prompt from the user's form submission
+    const { Attributes } = await db.send(
+      new UpdateCommand({
+        TableName: process.env.DB_TABLE_NAME,
+        Key: {
+          pk: `USER#${currentUserData?.id}`,
+          sk: `CONVERSATION#${uuid}`,
+        },
+        UpdateExpression: "set conversation = :c",
+        ExpressionAttributeValues: {
+          ":c": [
+            ...conversation,
+            {
+              author: `USER#${currentUserData?.id}`,
+              content: prompt,
+            },
+          ],
+        },
+        ReturnValues: "ALL_NEW",
+      })
+    );
+
+    // Return the new conversation with the updated messages to the frontend
+    return conversationSchema.parse(Attributes);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to update conversation");
+  }
+};
+```
+
+With these two new Server Actions added, we can now turn our attention to the UI aspect of the component. To create this UI add a new file in the `./components/prompt-inputs` directory called `conversation.tsx` and add the code below.
+
+```tsx
+META: './components/prompt-inputs/conversation.tsx':{ }
+"use client";
+
+import { updateConversation } from "@/app/actions/db/update-conversation";
+import { GenericPromptInput } from "./generic";
+import { PromptFormInputs } from "@/types";
+import { useConversation } from "@/context/conversation-context";
+
+interface IProps {
+  uuid: string;
+}
+
+export function ConversationPromptInput({ uuid }: IProps) {
+  const { setConversation, isGenerating } = useConversation();
+
+  // onSubmit handler to update the conversation in the DB with the user's new prompt and update the data in context
+  const onSubmitHandler = async (data: PromptFormInputs) => {
+    const updatedConversation = await updateConversation(uuid, data.prompt);
+
+    setConversation(updatedConversation);
+  };
+
+  return (
+    <GenericPromptInput
+      onSubmitHandler={onSubmitHandler}
+      isGenerating={isGenerating}
+    />
+  );
+}
+```
+
+In this code, you can see we have a fairly basic `onSubmitHandler` which is similar to the one we wrote earlier for the home page but this time we’re updating the conversation instead of creating a new one. The other notable difference is that instead of us redirecting the user to another page we’re instead updating the current conversation stored in the context we created earlier with the updated data following the user’s form submission.
+
+#### Conversation Display
+
+At this point, we’ve now finished all of the forms for our project and the user is now able to submit new conversations as well as update existing ones with new prompts so now let’s turn our attention to displaying the conversation messages and triggering responses from the AI to make this chatbot come alive!
+
+To do this we’re going to need to create the final Server Action in our project which is the one that is going to communicate with AWS Bedrock to generate new AI responses based on our inputs. To create this, create a new directory in our `./app/actions` directory called `bedrock` and then add a new file inside it called `generate-response.ts` with the below code.
+
+```ts
+META: './app/actions/bedrock/generate-response.ts':{ }
+"use server";
+
+import { bedrock, db } from "@/config";
+import { getOneConversation } from "../db/get-one-conversation";
+import { InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
+import { bedrockResponseSchema, conversationSchema } from "@/schema";
+import { UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { currentUser } from "@clerk/nextjs";
+
+export const generateResponse = async (uuid: string) => {
+  const currentUserData = await currentUser();
+  const { conversation } = await getOneConversation(uuid);
+
+  // Build the prompt for the AI using the correct syntax
+  const prompt = conversation
+    .map(({ author, content }) => {
+      if (author === "ai") {
+        return `${content}`;
+      } else {
+        // Wrap any user inputs in [INST] blocks
+        return `[INST]${content}[/INST]`;
+      }
+    })
+    .join("");
+
+  // Prepare the input for the AI model
+  const input = {
+    accept: "application/json",
+    contentType: "application/json",
+    modelId: "meta.llama2-70b-chat-v1",
+    body: JSON.stringify({
+      prompt,
+      max_gen_len: 512,
+      temperature: 0.5,
+      top_p: 0.9,
+    }),
+  };
+
+  let generation = "";
+
+  try {
+    // Invoke the Bedrock AI model with the prepared input
+    const bedrockResponse = await bedrock.send(new InvokeModelCommand(input));
+
+    // Parse the response from Bedrock to get the generated text
+    const response = bedrockResponseSchema.parse(
+      JSON.parse(new TextDecoder().decode(bedrockResponse.body))
+    );
+
+    generation = response.generation;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to generate response from Bedrock");
+  }
+
+  try {
+    // Update the conversation in the database adding the updated response to the end of the conversation
+    const { Attributes } = await db.send(
+      new UpdateCommand({
+        TableName: process.env.DB_TABLE_NAME,
+        Key: {
+          pk: `USER#${currentUserData?.id}`,
+          sk: `CONVERSATION#${uuid}`,
+        },
+        UpdateExpression: "set conversation = :c",
+        ExpressionAttributeValues: {
+          ":c": [
+            ...conversation,
+            {
+              author: "ai",
+              content: generation,
+            },
+          ],
+        },
+        ReturnValues: "ALL_NEW",
+      })
+    );
+
+    // Return the updated conversation to the frontend
+    return conversationSchema.parse(Attributes);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to update conversation");
+  }
+};
+```
+
+A fair amount is happening in this Server Action so let’s take a moment to dive into it and see what’s going on. The first thing we do is fetch the current conversation data from the database based on the `uuid` of the conversation that’s provided, we do this using our `getOneConversation` Server Action from earlier.
+
+We then take this data and convert the existing messages inside it into the correct structure that the AI model is expecting which includes wrapping any user messages in `[INST]` blocks. After this, we then prepare the `input` object for our Bedrock request which includes defining the model ID we want to use as well as any parameters we want to use to customize the AI’s response as well as finally including the body we prepared with our messages in.
+
+We then send our request to AWS Bedrock and wait for a response. Once we have the response, we parse it to get the generated reply and then update the conversation in the database to have the latest AI response added to the end. Finally, we then return the updated conversation to the front end so it can be displayed to the user.
+
+With our Server Action now implemented, all we need to do is build the matching frontend UI that will invoke this Server Action and display all of the messages to the user. To do this, create a new component in the `./components` directory called `conversation-display.tsx` and add the below code to it.
+
+```tsx
+META: './components/conversation-display.tsx':{ }
+"use client";
+
+import { generateResponse } from "@/app/actions/bedrock/generate-response";
+import { getOneConversation } from "@/app/actions/db/get-one-conversation";
+import { useConversation } from "@/context/conversation-context";
+import { useEffect } from "react";
+import { MdOutlineComputer, MdOutlinePersonOutline } from "react-icons/md";
+
+interface IProps {
+  uuid: string;
+}
+
+export function ConversationDisplay({ uuid }: IProps) {
+  const { conversation, setConversation, isGenerating, setIsGenerating } =
+    useConversation();
+
+  // When the page loads for the first time, fetch the conversation for the page UUID from the DB and add it to the context
+  useEffect(() => {
+    async function fetchConversation() {
+      const conversation = await getOneConversation(uuid);
+      setConversation(conversation);
+    }
+
+    fetchConversation();
+  }, []);
+
+  // When the conversation is updated run this useEffect
+  useEffect(() => {
+    async function generateAIResponse() {
+      if (isGenerating) return;
+
+      setIsGenerating(true);
+
+      const lastAuthor = conversation?.conversation.at(-1)?.author;
+
+      /**
+       * If the lastAuthor is the 'ai' then we know the user needs to respond so return early and update the context state
+       * If the conversation is falsy, also return and and update the context state
+       */
+      if (!conversation || lastAuthor === "ai") {
+        setIsGenerating(false);
+        return;
+      }
+
+      // Generate a new reply from the AI and update the conversation in the context state below.
+      const generatedReponse = await generateResponse(uuid);
+
+      setConversation(generatedReponse);
+      setIsGenerating(false);
+    }
+
+    generateAIResponse();
+  }, [conversation]);
+
+  return (
+    <div className="flex flex-col items-start gap-12">
+      {conversation?.conversation.map((message, ind) => (
+        <div
+          className="flex flex-row gap-4 items-start"
+          key={`${message.content}-${ind}`}
+        >
+          {message.author === conversation.pk ? (
+            <div className="bg-violet-400 rounded-sm p-2 text-white">
+              <MdOutlinePersonOutline size={20} />
+            </div>
+          ) : (
+            <div className="bg-green-400 rounded-sm p-2 text-white">
+              <MdOutlineComputer />
+            </div>
+          )}
+          <p key={message.content}>{message.content}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+In this component, we request the current conversation from the database when the page first renders, we then store this data in our context. After the conversation data is stored in context it triggers our second `useEffect` block which is where the request to generate the AI response happens.
+
+In this second `useEffect` block we perform a series of checks to see if an AI response is required or not. For example, we check if the last response was from the AI or the user and if a generation request is already in progress. If a request to the AI is required, we then submit the request using the Server Action we wrote a moment ago before setting the updated conversation data returned to us from the Server Action to our context which would then trigger a re-render and the new message to appear.
+
+While we’re talking about the second `useEffect` block it’s also worth mentioning that this block will also be triggered when a user submits a new message in the conversation because the `onSubmitHandler` we defined before updates the conversation stored in the context which will trigger this `useEffect` block to rerun.
+
+Finally, we then render out all of the messages stored in our context for that conversation by mapping over them and displaying their content as well as an icon to indicate if they came from the AI or the user.
+
+#### Generating Banner
+
+Finally, with our conversation messages now displaying, we have one last piece of UI we need to create before we can tie it all together. This final piece of UI is a simple component that will display “Generating” on the screen to inform the user that a request to the AI is in progress. This component will also prevent the user from submitting new messages while a request is happening, helping to prevent duplicate requests to the AI.
+
+To create this component, create a new file in the `components` directory called `generating-banner.tsx` and add the below code to it.
+
+```tsx
+META: './components/generating-banner.tsx':{ }
+"use client";
+
+import { useConversation } from "@/context/conversation-context";
+import { AiOutlineLoading } from "react-icons/ai";
+
+export function GeneratingBanner() {
+  const { isGenerating } = useConversation();
+
+  return (
+    <div
+      className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full flex flex-col items-center justify-center gap-4 bg-gray-100/75 ${
+        isGenerating ? "opacity-100" : "opacity-0 -z-10"
+      }`}
+    >
+      <AiOutlineLoading className="animate-spin text-gray-700" size={56} />
+      <p className="text-2xl font-semibold animate-pulse">Generating...</p>
+    </div>
+  );
+}
+```
+
+In this component, we use our `useConversation` hook to retrieve the current value of the `isGenerating` state. We then use this value to conditionally style the banner so that it animates onto the page when a request to Bedrock is in progress before hiding again when the request finishes.
+
+### Tying it All Together
+
+To finish off the conversation page and tie all of the UI and functionality we’ve created together, let’s create our new conversation page by creating a new directory in the `app` directory called `[uuid]` and then adding a new file to that directory called `page.tsx` with the below code.
+
+```tsx
+META: './app/[uuid]/page.tsx':{ }
+"use client";
+
+import { ConversationPromptInput } from "@/components/prompt-inputs/conversation";
+import { ConversationDisplay } from "@/components/conversation-display";
+import { GeneratingBanner } from "@/components/generating-banner";
+import { ConversationProvider } from "@/context/conversation-context";
+
+interface IPageProps {
+  params: {
+    uuid: string;
+  };
+}
+
+export default function Page({ params: { uuid } }: IPageProps) {
+  return (
+    <main className="relative flex h-full flex-row w-full items-center justify-center p-12 pb-0">
+      <div className="h-full w-full max-w-3xl flex flex-col justify-between items-start gap-12">
+        <ConversationProvider>
+          <GeneratingBanner />
+          <ConversationDisplay uuid={uuid} />
+          <div className="w-full flex justify-center pb-12">
+            <ConversationPromptInput uuid={uuid} />
+          </div>
+        </ConversationProvider>
+      </div>
+    </main>
+  );
+}
+```
+
+Similar to our home page this page is pretty simple and acts as a holding place for all of the other components we’ve defined in this section. But, there are some important things to note such as the `uuid` parameter we bring in as a prop which will control the active conversation we’re looking at. Another important thing is the `ConversationProvider` we have wrapping all of the components we’ve created to allow them access to the custom context we created.
+
+## Testing The Application
+
+Now with all of the code added and all of the functionality implemented, we’re ready to give our new application a shot and test out its AI-generating abilities. To do this, start up your local dev instance if you haven’t already by running `npm run dev` and then head over to `http://localhost:3000` in your browser.
+
+Then once on your application if you don’t have an active session you should be redirected to the sign-in/up page we created. If you do have an account already you can now sign in and be taken to the home page otherwise sign up for a new one using the sign-up page.
+
+Once you’re on the home page you can submit a new prompt using the input field and you should then be taken to the individual page for that conversation where after a second or two the AI should reply to your query. At this point, if you wish you can then submit another prompt and continue the conversation. Finally, if at any point you want to create a new conversation, you can use the `+` icon on the top of the sidebar to create a new standalone conversation via the home page.
+
+At this point if all of the above worked as expected and you have an application that resembles the one shown in the video below then congrats you’ve completed the tutorial and have built your own ChatGPT-inspired chat application, called Chatrock!
+
+<Video width="720" height="480" controls>
+  <source
+    src="/images/blog/how-to-build-your-own-chatgpt-clone-using-clerk-aws-bedrock/chatrock.mp4"
+    type="video/mp4"
+  />
+</Video>
+
+## Closing Thoughts
+
+In this post, we’ve covered a lot of ground and we learned how to build a ChatGPT-inspired application called Chatrock that uses Next.js, AWS DynamoDB & Bedrock, and Clerk!
+
+I hope you found this post helpful and if you have any questions at all or are stuck in any of the sections of this post, feel free to reach out to me and I’d be happy to help; all of the ways you can contact me are [shown on my contact page](https://conermurphy.com/contact).
+
+Finally, if you would like to read the entire finished code, you can [check out the GitHub repository here](https://github.com/conermurphy/chatrock) and if you would like to learn more about Clerk, make sure to [read their excellent documentation here](https://clerk.com/docs?utm_source=coner-murphy&utm_medium=blog&utm_campaign=chatgpt-clone&utm_content=tutorial).
+
+Thank you for reading.
+
+> **NOTE:** Once you’re finished with the application, if you want to remove the deployed DyanmoDB table, you can run the `cdk destroy` command from inside the `infrastructure` folder in the project. After accepting any prompts this will remove the database and all of the data inside it.

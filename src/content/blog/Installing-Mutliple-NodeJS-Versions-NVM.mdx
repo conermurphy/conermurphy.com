@@ -1,0 +1,113 @@
+---
+title: 'How to Install Multiple NodeJS Versions Using NVM'
+date: '2021-04-12'
+topics: ['DEVELOPMENT', 'NODEJS']
+slug: installing-mutliple-nodejs-versions-nvm
+description: "Upgrading and managing multiple NodeJS versions can be a pain for many developers, here's how to do it easily with NVM."
+---
+
+Recently, while I was updating my website I also wanted to upgrade the NodeJS version. Having explored this path in the past I knew it could be painful.
+
+So on I went down the journey of upgrading NodeJS. I found there is multiple ways of tackling this problem. But, the best method I found is [NVM or Node Version Manager.](https://github.com/nvm-sh/nvm)
+
+In this post, we'll look at using NVM to install multiple NodeJS versions and how to switch between them at the drop of a hat.
+
+## Installing NVM
+
+To install NVM it's as simple as running the authors install script which you can find [here.](https://github.com/nvm-sh/nvm/blob/v0.38.0/install.sh) You can either paste this into your terminal or you can run one of the below `curl` or `wget` commands to do it for you:
+
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+```
+
+After running this script, you should notice the NVM repository has been copied into a `~/.nvm` folder. Following this, the below code should now be added to your current terminal profile.
+
+For example, I use ZSH for my terminal which is located in `~/.zshrc`. After installing NVM I should find the below code copied into that file.
+
+```bash
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+```
+
+If everything went smoothly, NVM should now be installed!
+
+## Using NVM
+
+Using NVM is simple, let's take a look at some of the most common commands you'll use:
+
+### Installing a New NodeJS Version
+
+To install a new NodeJS version, you can use one of the below commands.
+
+To get the latest version you can run:
+
+```bash
+nvm install node # "node" is an alias for the latest version
+```
+
+Or, if you have a particular version in mind:
+
+```bash
+nvm install 14.8.0 # or 10.10.0, 8.9.1, etc
+```
+
+_NOTE: The first version you install becomes the default that new shell windows use._
+
+### Checking Installed NodeJS Versions
+
+If you want to check what versions of Node you have installed you can run:
+
+```bash
+nvm ls
+```
+
+### Checking What NodeJS Versions Can Be installed.
+
+If you're interested in seeing what versions you can install using NVM, you can run:
+
+```bash
+nvm ls-remote
+```
+
+### Switching NodeJS Versions
+
+To switch between versions you can use:
+
+```bash
+nvm use 14.8.0 # or 10.10.0, 8.9.1, etc
+```
+
+### Uninstalling Old NodeJS Versions
+
+If you want to uninstall a version of Node you no longer need:
+
+```bash
+nvm uninstall 14.8.0 # or 10.10.0, 8.9.1, etc
+```
+
+## Troubleshooting
+
+If you were like me and run into the error `nvm: command not found` every time you try to run one of these commands. Or, you have another issue you can check out the troubleshooting section on the [NVM GitHub Repo.](https://github.com/nvm-sh/nvm#additional-notes)
+
+Unfortunately, my issue wasn't on the troubleshooting section so I had to do some digging. Here's how I solved it.
+
+After retracing my steps, I found that the original install script hadn't added the below code to my `~/.zshrc`.
+
+```bash
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+```
+
+After I opened my `~/.zshrc` file and dropped in that code at the bottom, NVM started to work. If you're getting the `nvm: command not found` error try the troubleshooting guide first. If that doesn't help, check it was installed correctly.
+
+If neither of these work I would recommend opening an issue on GitHub for some support.
+
+## Conclusion
+
+That's it! NVM should now be installed and you should be able to install and use as many NodeJS versions as you please.
+
+I hope you found this post helpful. If you did I would greatly appreciate you sharing it with others so they can find it helpful too. If you would like to see more content like this, please consider [following me on Twitter.](https://twitter.com/MrConerMurphy)
+
+Until next time, thank you for reading. 😃

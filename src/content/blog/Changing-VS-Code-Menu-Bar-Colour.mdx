@@ -1,0 +1,33 @@
+---
+title: "Changing the colour of VSCode's menu bar"
+description: 'VSCode is already one of the most customisable code editors out there but did you know you can change the menu bar colour per project?'
+date: '2020-05-27'
+topics: ['DEVELOPMENT']
+slug: changing-vscode-menu-bar-colour
+---
+
+To change the menu bar colour of your VSCode instance per project you just need to add the following folders and files to your project and no matter who picks it up your colours will be there for all to see.
+
+Start by creating a '.vscode' folder in the root of your project and inside this folder add a 'settings.json' file, so your structure will be like:
+
+```
+/
+  .vscode
+      settings.json
+  ...Other folders in your project root
+```
+
+With your folder and file structure set-up, open your settings.json file and drop the following code into it:
+
+```
+{
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "",
+        "titleBar.inactiveBackground": ""
+    }
+}
+```
+
+Now, all you need to do is change the two empty strings to be two hex values of your choosing.
+
+And, there you go your VSCode menu bar now changes colour per project and if you're active or not on that window.
