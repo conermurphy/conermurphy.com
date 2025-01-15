@@ -54,14 +54,14 @@ By having all the components separated I cut down on the amount of code required
 ```jsx
 META: './index.js'
 export default function HomePage({ path }) {
-  const MotionLink = motion(Link);
+  const MotionLink = motion(Link)
 
   return (
     <>
       <SEO
         post={{
           slug: path,
-          title: "Home",
+          title: 'Home',
         }}
       />
       <HeroSection>
@@ -93,7 +93,7 @@ export default function HomePage({ path }) {
       <CallToAction />
       <Testimonials />
     </>
-  );
+  )
 }
 ```
 

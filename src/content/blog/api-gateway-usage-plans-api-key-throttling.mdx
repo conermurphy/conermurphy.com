@@ -45,49 +45,49 @@ META: './lib/*-stack.ts'
 // ...imports and class definition
 
 // 1. Create our API Gateway
-const api = new RestApi(this, "REST_API", {
-  restApiName: "REST API",
+const api = new RestApi(this, 'REST_API', {
+  restApiName: 'REST API',
   defaultCorsPreflightOptions: {
     allowOrigins: Cors.ALL_ORIGINS,
     allowMethods: Cors.ALL_METHODS,
   },
   apiKeySourceType: ApiKeySourceType.HEADER,
-});
+})
 
 // 2. Create our API Key
-const apiKey = new ApiKey(this, "API_KEY");
+const apiKey = new ApiKey(this, 'API_KEY')
 
 // 3. Create a usage plan and add the API key to it
-const usagePlan = new UsagePlan(this, "USAGE_PLAN", {
-  name: "Usage Plan",
+const usagePlan = new UsagePlan(this, 'USAGE_PLAN', {
+  name: 'Usage Plan',
   apiStages: [
     {
       api,
       stage: api.deploymentStage,
     },
   ],
-});
+})
 
-usagePlan.addApiKey(apiKey);
+usagePlan.addApiKey(apiKey)
 
 // 4. Create our Lambda functions to handle requests
-const postsLambda = new NodejsFunction(this, "LAMBDA", {
-  entry: "resources/posts.ts",
-  handler: "handler",
-});
+const postsLambda = new NodejsFunction(this, 'LAMBDA', {
+  entry: 'resources/posts.ts',
+  handler: 'handler',
+})
 
 // 5. Connect our Lambda functions to our API Gateway endpoints
-const postsIntegration = new LambdaIntegration(postsLambda);
+const postsIntegration = new LambdaIntegration(postsLambda)
 
 // 6. Define our API Gateway methods
-api.root.addMethod("GET", postsIntegration, {
+api.root.addMethod('GET', postsIntegration, {
   apiKeyRequired: true,
-});
+})
 
 // Misc: Outputs
-new CfnOutput(this, "API Key ID", {
+new CfnOutput(this, 'API Key ID', {
   value: apiKey.keyId,
-});
+})
 ```
 
 And, then to finish off our REST API we just need to create the Lambda function we call when requests come into the API. To do this, create a new file at `./resources/posts.ts` and add the below code to it.
@@ -100,27 +100,27 @@ export const handler = async () => {
       statusCode: 200,
       body: JSON.stringify([
         {
-          id: "1",
-          title: "My first blog post",
-          content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+          id: '1',
+          title: 'My first blog post',
+          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         },
         {
-          id: "2",
-          title: "My second blog post",
+          id: '2',
+          title: 'My second blog post',
           content:
-            "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         },
       ]),
-    };
+    }
   } catch (error) {
-    console.log(error);
+    console.log(error)
 
     return {
       statusCode: 500,
       body: JSON.stringify({ message: error }),
-    };
+    }
   }
-};
+}
 ```
 
 For our Lambda function, we have some very simple code where we just return some mock data to the requester to simulate retrieving data from a database. And, now, with our API and Lambda configured, let’s move on to implementing the request throttling into our API definition.
