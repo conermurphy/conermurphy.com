@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@astrojs/mdx':
         specifier: ^4.0.3
-        version: 4.0.3(astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1))
+        version: 4.0.3(astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.3)(yaml@2.6.1))
       '@astrojs/node':
         specifier: ^9.0.0
-        version: 9.0.0(astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1))
+        version: 9.0.0(astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.3)(yaml@2.6.1))
       '@astrojs/rss':
         specifier: ^4.0.10
         version: 4.0.10
@@ -22,7 +22,7 @@ importers:
         version: 3.2.1
       '@astrojs/tailwind':
         specifier: ^5.1.4
-        version: 5.1.4(astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1))(tailwindcss@3.4.17)
+        version: 5.1.4(astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.3)(yaml@2.6.1))(tailwindcss@3.4.17)
       '@fontsource-variable/jetbrains-mono':
         specifier: ^5.1.1
         version: 5.1.1
@@ -40,7 +40,7 @@ importers:
         version: 0.6.4
       astro:
         specifier: ^5.1.1
-        version: 5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1)
+        version: 5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.3)(yaml@2.6.1)
       astro-sst:
         specifier: 2.45.2
         version: 2.45.2
@@ -56,6 +56,9 @@ importers:
       tailwindcss:
         specifier: ^3.4.17
         version: 3.4.17
+      typescript:
+        specifier: ^5.7.3
+        version: 5.7.3
     devDependencies:
       '@types/jsdom':
         specifier: ^21.1.7
@@ -2492,8 +2495,8 @@ packages:
     resolution: {integrity: sha512-UJShLPYi1aWqCdq9HycOL/gwsuqda1OISdBO3t8RlXQC4QvtuIz4b5FCfe2dQIWEpmlRExKmcTBfP1r9bhY7ig==}
     engines: {node: '>=16'}
 
-  typescript@5.7.2:
-    resolution: {integrity: sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==}
+  typescript@5.7.3:
+    resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -2831,12 +2834,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@4.0.3(astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1))':
+  '@astrojs/mdx@4.0.3(astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.3)(yaml@2.6.1))':
     dependencies:
       '@astrojs/markdown-remark': 6.0.1
       '@mdx-js/mdx': 3.1.0(acorn@8.14.0)
       acorn: 8.14.0
-      astro: 5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1)
+      astro: 5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.3)(yaml@2.6.1)
       es-module-lexer: 1.5.4
       estree-util-visit: 2.0.0
       hast-util-to-html: 9.0.4
@@ -2850,9 +2853,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/node@9.0.0(astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1))':
+  '@astrojs/node@9.0.0(astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.3)(yaml@2.6.1))':
     dependencies:
-      astro: 5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1)
+      astro: 5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.3)(yaml@2.6.1)
       send: 1.1.0
       server-destroy: 1.0.1
     transitivePeerDependencies:
@@ -2873,9 +2876,9 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.24.1
 
-  '@astrojs/tailwind@5.1.4(astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1))(tailwindcss@3.4.17)':
+  '@astrojs/tailwind@5.1.4(astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.3)(yaml@2.6.1))(tailwindcss@3.4.17)':
     dependencies:
-      astro: 5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1)
+      astro: 5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.3)(yaml@2.6.1)
       autoprefixer: 10.4.20(postcss@8.4.49)
       postcss: 8.4.49
       postcss-load-config: 4.0.2(postcss@8.4.49)
@@ -3488,7 +3491,7 @@ snapshots:
       '@astrojs/webapi': 3.0.0
       set-cookie-parser: 2.7.1
 
-  astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1):
+  astro@5.1.1(aws4fetch@1.0.20)(jiti@2.4.2)(rollup@4.28.1)(typescript@5.7.3)(yaml@2.6.1):
     dependencies:
       '@astrojs/compiler': 2.10.3
       '@astrojs/internal-helpers': 0.4.2
@@ -3535,7 +3538,7 @@ snapshots:
       semver: 7.6.3
       shiki: 1.24.3
       tinyexec: 0.3.1
-      tsconfck: 3.1.4(typescript@5.7.2)
+      tsconfck: 3.1.4(typescript@5.7.3)
       ultrahtml: 1.5.3
       unist-util-visit: 5.0.0
       unstorage: 1.14.1(aws4fetch@1.0.20)
@@ -3548,7 +3551,7 @@ snapshots:
       yocto-spinner: 0.1.2
       zod: 3.24.1
       zod-to-json-schema: 3.24.1(zod@3.24.1)
-      zod-to-ts: 1.2.0(typescript@5.7.2)(zod@3.24.1)
+      zod-to-ts: 1.2.0(typescript@5.7.3)(zod@3.24.1)
     optionalDependencies:
       sharp: 0.33.5
     transitivePeerDependencies:
@@ -5578,16 +5581,16 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  tsconfck@3.1.4(typescript@5.7.2):
+  tsconfck@3.1.4(typescript@5.7.3):
     optionalDependencies:
-      typescript: 5.7.2
+      typescript: 5.7.3
 
   tslib@2.8.1:
     optional: true
 
   type-fest@4.30.2: {}
 
-  typescript@5.7.2: {}
+  typescript@5.7.3: {}
 
   ufo@1.5.4: {}
 
@@ -5807,9 +5810,9 @@ snapshots:
     dependencies:
       zod: 3.24.1
 
-  zod-to-ts@1.2.0(typescript@5.7.2)(zod@3.24.1):
+  zod-to-ts@1.2.0(typescript@5.7.3)(zod@3.24.1):
     dependencies:
-      typescript: 5.7.2
+      typescript: 5.7.3
       zod: 3.24.1
 
   zod@3.24.1: {}

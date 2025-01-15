@@ -6,7 +6,7 @@ import {
   Table,
 } from 'aws-cdk-lib/aws-dynamodb'
 import { EmailIdentity, Identity } from 'aws-cdk-lib/aws-ses'
-import { StackConfig } from './types'
+import { type StackConfig } from './types'
 
 type ExtendedStackProps = cdk.StackProps & {
   config: Readonly<StackConfig>

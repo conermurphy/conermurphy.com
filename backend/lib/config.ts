@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv'
 import * as path from 'path'
-import { StackConfig } from './types'
+import { type StackConfig } from './types'
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') })
 

@@ -1,4 +1,4 @@
-import { readFileSync, readdir } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { ImageResponse } from '@vercel/og'
 
 export const prerender = false

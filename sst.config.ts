@@ -2,6 +2,7 @@
 
 export default $config({
   app(input) {
+    const isCi = process.env.CI
     const isMain = process.env.GITHUB_REF_NAME === 'main'
 
     return {
@@ -11,7 +12,7 @@ export default $config({
       home: 'aws',
       providers: {
         aws: {
-          profile: 'conermurphy',
+          profile: isCi ? undefined : 'conermurphy',
         },
         ...(isMain && {
           cloudflare: '5.43.1',
