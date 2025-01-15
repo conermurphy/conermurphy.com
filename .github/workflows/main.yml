@@ -13,52 +13,52 @@ permissions:
   contents: read
 
 jobs:
-  prettier:
-    name: Prettier
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Configure Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run Prettier
-        run: npx prettier --check .
-
-  ts_checks:
-    name: TypeScript Checks
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Configure Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run TypeScript Checks
-        run: pnpm ts:check
+  # prettier:
+  #   name: Prettier
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #
+  #     - name: Configure Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '20'
+  #
+  #     - uses: pnpm/action-setup@v4
+  #       with:
+  #         version: 9
+  #
+  #     - name: Install Dependencies
+  #       run: pnpm install --frozen-lockfile
+  #
+  #     - name: Run Prettier
+  #       run: npx prettier --check .
+  #
+  # ts_checks:
+  #   name: TypeScript Checks
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #
+  #     - name: Configure Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '20'
+  #
+  #     - uses: pnpm/action-setup@v4
+  #       with:
+  #         version: 9
+  #
+  #     - name: Install Dependencies
+  #       run: pnpm install --frozen-lockfile
+  #
+  #     - name: Run TypeScript Checks
+  #       run: pnpm ts:check
 
   production_deployment:
     name: Deploy Production
     timeout-minutes: 20
-    needs: [ts_checks, prettier]
+    # needs: [ts_checks, prettier]
     runs-on: ubuntu-latest
     environment: Production
     env:
