@@ -13,13 +13,19 @@ const props = Astro.props
 ---
 
 <article class="flex max-w-xl flex-col items-start justify-start">
-  <div class="flex items-center gap-x-4 text-xs">
+  <div
+    class="flex w-full flex-col items-start justify-between gap-y-1 text-xs lg:flex-row"
+  >
     <FormattedDate date={props.date} />
-    {
-      props.tags?.length
-        ? props.tags.map((tag) => <p class="font-semibold text-brand">{tag}</p>)
-        : null
-    }
+    <div class="flex flex-wrap gap-x-2 lg:gap-x-4">
+      {
+        props.tags?.length
+          ? props.tags.map((tag) => (
+              <p class="font-semibold text-brand">{tag}</p>
+            ))
+          : null
+      }
+    </div>
   </div>
 
   <div class="group relative">
