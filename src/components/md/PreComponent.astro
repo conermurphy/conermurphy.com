@@ -52,8 +52,8 @@ const totalLines = codeToRender.split('\n').length
 >
   {
     meta.filePath ? (
-      <div class="relative bg-darkest px-4 pt-3">
-        <p class="w-max rounded-t bg-dark px-3 py-1 text-sm italic">
+      <div class="relative bg-darkest px-9 pt-3">
+        <p class="w-max max-w-48 overflow-scroll text-nowrap rounded-t bg-dark px-3 py-1 text-sm italic">
           {meta.filePath}
         </p>
         {props['data-language'] ? (
@@ -80,8 +80,8 @@ const totalLines = codeToRender.split('\n').length
     </span>
   </button>
 
-  <div class="flex gap-x-2 px-6 py-4 text-sm">
-    <div class="z-20 flex flex-col">
+  <div class="flex gap-x-2 px-4 py-4 text-sm">
+    <div class="z-20 flex flex-col bg-dark">
       {
         Array.from({ length: totalLines }).map((_, i) => (
           <span class="my-0 py-0">{i + 1}</span>
@@ -91,7 +91,7 @@ const totalLines = codeToRender.split('\n').length
     <Code
       code={codeToRender || ''}
       meta={meta.highlightedLines}
-      class="-ml-8 !bg-dark [&>code>.line]:pl-9"
+      class="!bg-dark pl-2"
       lang={props['data-language']}
       transformers={[
         transformerMetaHighlight(),

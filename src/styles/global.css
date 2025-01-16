@@ -39,10 +39,6 @@ pre.has-focused .line:not(.focused) {
   filter: blur(1px);
 }
 
-.line {
-  margin-left: 0.25rem;
-}
-
 .line-number {
   color: var(--light-color) !important;
   margin-left: 0.25rem;
