@@ -3,6 +3,7 @@
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist", "sst.config.ts"],
   "compilerOptions": {
+    "types": ["astro/env"],
     "strictNullChecks": true
   }
 }
