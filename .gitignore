@@ -40,7 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 
 # Sitemap info
-robots.txt
 sitemap-0.xml
 sitemap.xml
 public/rss
