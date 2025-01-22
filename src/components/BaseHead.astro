@@ -10,8 +10,7 @@ interface Props {
   type?: 'article' | 'website'
 }
 
-// NOTE: slice to remove the trailing /
-const canonicalURL = new URL(Astro.url.pathname.slice(0, -1), Astro.site)
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 
 const { title, description, type = 'website', date } = Astro.props
 const imageURL = new URL(Astro.url)
