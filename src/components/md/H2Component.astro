@@ -1,7 +1,20 @@
 ---
+import LinkIcon from '../icons/link.astro'
+import Slugify from 'slugify'
+
 const props = Astro.props
+const content = await Astro.slots.render('default')
+const id = Slugify(content, { lower: true })
 ---
 
-<h2 {...props} class="mb-6 mt-10 text-2xl font-bold text-brand sm:text-3xl">
-  <slot />
+<h2
+  {...props}
+  class="group relative mb-6 mt-10 text-2xl font-bold text-brand sm:text-3xl"
+>
+  <a class="linked-header" href={`#${id}`} id={id}>
+    <LinkIcon
+      classes="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:-left-7 transition-all duration-150 ease-in-out"
+    />
+    <slot />
+  </a>
 </h2>

@@ -174,11 +174,25 @@ If you wanted to you could use Docker Hub for this but in the spirit of keeping 
 
 To do this we’re going to need to run a few AWS CLI commands so let’s get started. The first command we’re going to run is to create a new ECR repository for us to host our Docker images in. To create this, run the command `aws ecr create-repository --repository-name <YOUR_REPOSITORY_NAME>`, making sure to add in the repository name you’d like to use.
 
-Then after creating your new ECR repository, we need to authenticate it with Docker which we can do by running the command `aws ecr get-login-password --region <YOUR_AWS_REGION> | docker login --username AWS --password-stdin <YOUR_AWS_ACCOUNT_ID>[.dkr.ecr.<YOUR_AWS_REGION>.amazonaws.com](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/)`. Before running this command, make sure to switch in your AWS region and account ID.
+Then after creating your new ECR repository, we need to authenticate it with Docker which we can do by running the below command. Before running this command, make sure to switch in your AWS region and account ID.
 
-After that command finishes, we’re almost ready to push our Docker image to ECR, all we need to do is tag our newly created image on ECR by running the command `docker tag <YOUR_LOCAL_IMAGE_NAME>:<YOUR_TAG> <YOUR_AWS_ACCOUNT_ID>[.dkr.ecr.<YOUR_AWS_REGION>.amazonaws.com](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/)[/<YOUR_ECR_REPOSITORY_NAME>:](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/your-repository-name:tag)<YOUR_TAG>`. Once again, make sure to switch in your AWS region and account ID, the name and tag of your docker image built earlier and finally, your ECR repository name and the tag you’d like to give it on ECR (probably the same as the one you used earlier).
+```
+aws ecr get-login-password --region <YOUR_AWS_REGION> | docker login --username AWS --password-stdin <YOUR_AWS_ACCOUNT_ID>[.dkr.ecr.<YOUR_AWS_REGION>.amazonaws.com](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/)
+```
 
-Finally, with all of that out of the way, we can now push our new image to ECR by running the command `docker push <YOUR_AWS_ACCOUNT_ID>[.dkr.ecr.<YOUR_AWS_REGION>.amazonaws.com](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/)[/<YOUR_ECR_REPOSITORY_NAME>:](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/your-repository-name:tag)<YOUR_TAG>`. Make sure to add in your AWS account ID, AWS region, ECR repository name and tag.
+After that command finishes, we’re almost ready to push our Docker image to ECR, all we need to do is tag our newly created image on ECR by running this command. 
+
+```
+docker tag <YOUR_LOCAL_IMAGE_NAME>:<YOUR_TAG> <YOUR_AWS_ACCOUNT_ID>[.dkr.ecr.<YOUR_AWS_REGION>.amazonaws.com](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/)[/<YOUR_ECR_REPOSITORY_NAME>:](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/your-repository-name:tag)<YOUR_TAG>
+```
+
+Once again, make sure to switch in your AWS region and account ID, the name and tag of your docker image built earlier and finally, your ECR repository name and the tag you’d like to give it on ECR (probably the same as the one you used earlier).
+
+Finally, with all of that out of the way, we can now push our new image to ECR by running the below command. Make sure to add in your AWS account ID, AWS region, ECR repository name and tag.
+
+```
+docker push <YOUR_AWS_ACCOUNT_ID>[.dkr.ecr.<YOUR_AWS_REGION>.amazonaws.com](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/)[/<YOUR_ECR_REPOSITORY_NAME>:](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/your-repository-name:tag)<YOUR_TAG>
+```
 
 At this point your new docker image should now be available on ECR but if you would like to validate this you can do so by running the command `aws ecr list-images --repository-name <YOUR_REPOSITORY_NAME>`. This command will list all of the available Docker images for the ECR repository name you provide.
 

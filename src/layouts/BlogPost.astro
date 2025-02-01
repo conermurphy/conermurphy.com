@@ -60,10 +60,23 @@ const { title, description, date, updatedDate, topics } = Astro.props
             </p>
           </div>
         </div>
-        <slot />
+        <div class="text-light/90">
+          <slot />
+        </div>
       </div>
     </article>
   </main>
 
   <Footer />
 </Layout>
+
+<script>
+  const links = document.querySelectorAll('a.linked-header')
+
+  links.forEach((link) => {
+    link.addEventListener('click', async () => {
+      const newURL = `${window.location.origin}${window.location.pathname}#${link.id}`
+      await navigator.clipboard.writeText(newURL)
+    })
+  })
+</script>
