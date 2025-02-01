@@ -180,7 +180,7 @@ Then after creating your new ECR repository, we need to authenticate it with Doc
 aws ecr get-login-password --region <YOUR_AWS_REGION> | docker login --username AWS --password-stdin <YOUR_AWS_ACCOUNT_ID>[.dkr.ecr.<YOUR_AWS_REGION>.amazonaws.com](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/)
 ```
 
-After that command finishes, we’re almost ready to push our Docker image to ECR, all we need to do is tag our newly created image on ECR by running this command. 
+After that command finishes, we’re almost ready to push our Docker image to ECR, all we need to do is tag our newly created image on ECR by running this command.
 
 ```
 docker tag <YOUR_LOCAL_IMAGE_NAME>:<YOUR_TAG> <YOUR_AWS_ACCOUNT_ID>[.dkr.ecr.<YOUR_AWS_REGION>.amazonaws.com](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/)[/<YOUR_ECR_REPOSITORY_NAME>:](http://your-aws-account-id.dkr.ecr.your-region.amazonaws.com/your-repository-name:tag)<YOUR_TAG>
