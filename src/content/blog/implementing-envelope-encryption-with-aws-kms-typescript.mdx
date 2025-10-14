@@ -20,7 +20,7 @@ Before we jump into the code and look at how we can encrypt and decrypt data usi
 
 ### Standard Encryption
 
-Firstly, let’s consider the standard encryption flow. We have a piece of plain text data that we want to encrypt. We then take this piece of data and pass it through an encryption function like `createCipheriv` in Node.js, and outcome is a cipher. 
+Firstly, let’s consider the standard encryption flow. We have a piece of plain text data that we want to encrypt. We then take this piece of data and pass it through an encryption function like `createCipheriv` in Node.js, and outcome is a cipher.
 
 This cipher is now the encrypted version of our plain text data from earlier and can safely be stored without worrying about anyone being able to read it unless they have the original encryption key we used to create it.
 
@@ -34,7 +34,7 @@ In review, the standard encryption flow works, and the majority of the time, you
 
 ### Envelope Encryption
 
-The envelope encryption flow is similar to the standard flow, but with a notable exception. The key you use to encrypt the plain text data (Data Encryption Key (DEK)) is encrypted by another key (master key). 
+The envelope encryption flow is similar to the standard flow, but with a notable exception. The key you use to encrypt the plain text data (Data Encryption Key (DEK)) is encrypted by another key (master key).
 
 This means the DEK you use can be changed per encryption and stored alongside the data that was encrypted with it (because the DEK itself is encrypted).
 
@@ -70,14 +70,14 @@ META: './sst.config.ts':{ }
         id: key.id.apply((v) => v.toString()),
       },
     }))
-    
+
     const encryptionKey = new aws.kms.Key('EncryptionKey', {
       description: 'KMS key for envelope encryption demo',
       keyUsage: 'ENCRYPT_DECRYPT',
     })
 ```
 
-This creates a new KMS key that we can then pass the ID of to our Lambda functions to use with the KMS SDK, which we can install using `npm install @aws-sdk/client-kms`. 
+This creates a new KMS key that we can then pass the ID of to our Lambda functions to use with the KMS SDK, which we can install using `npm install @aws-sdk/client-kms`.
 
 Finally, while we’re in the `sst.config.ts` file, we can define our two lambda functions. One for encrypting and one for decrypting the target data.
 
@@ -203,7 +203,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 }
 ```
 
-In this code, we take in the body of the request and parse it using Zod. This gives us the plain text data we want to encrypt.  
+In this code, we take in the body of the request and parse it using Zod. This gives us the plain text data we want to encrypt.
 
 We then generate a new DEK using the `GenerateDataKeyCommand` from the KMS SDK. This gives us the two versions of the DEK we mentioned before, `plaintextDEK` and `encryptedDEK`. We then use the `plaintextDEK` to encrypt our target data using the `createCipheriv` function with the `aes-256-gcm` algorithm.
 
@@ -315,7 +315,7 @@ This code is pretty similar to the encryption code. We take in the body of the r
 
 We then retrieve the record from the database and ensure it exists; otherwise, we return an error. We then send the encrypted DEK to KMS via the `DecryptCommand` to retrieve the plain text version to allow us to decrypt the stored cipher, which we do using `createDecipheriv`.
 
-After we’ve successfully decrypted the data into its plain text form, we return it to the requester. 
+After we’ve successfully decrypted the data into its plain text form, we return it to the requester.
 
 And that is how you can use envelope encryption with KMS to encrypt and decrypt data in your application.
 
