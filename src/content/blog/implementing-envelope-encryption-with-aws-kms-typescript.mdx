@@ -1,0 +1,336 @@
+---
+title: 'Implementing Envelope Encryption with AWS KMS in TypeScript'
+description: 'Learn how to encrypt and decrypt sensitive data using AWS KMS envelope encryption with TypeScript Lambda functions built using SST.'
+date: '2025-10-14'
+topics: ['AWS', 'KMS', 'SST']
+slug: implementing-envelope-encryption-with-aws-kms-typescript
+---
+
+When it comes to securely storing sensitive information in your application, there are several approaches you could take. One of the most common approaches for applications running on AWS is to use AWS Key Management Service (KMS).
+
+AWS KMS is a managed service that makes it easy for developers to create and manage an application’s encryption keys and improve its security by allowing the implementation of a pattern called envelope encryption.
+
+In this post, we’ll explore how KMS and envelope encryption work and implement them both in an example Lambda application where we’ll generate KMS keys and encrypt/decrypt data inside TypeScript Lambdas, [all built using SST](https://sst.dev/).
+
+Let’s get started!
+
+## Understanding Envelope Encryption
+
+Before we jump into the code and look at how we can encrypt and decrypt data using KMS in Lambda functions. Let’s take a moment to understand envelope encryption and how it can help us.
+
+### Standard Encryption
+
+Firstly, let’s consider the standard encryption flow. We have a piece of plain text data that we want to encrypt. We then take this piece of data and pass it through an encryption function like `createCipheriv` in Node.js, and outcome is a cipher. 
+
+This cipher is now the encrypted version of our plain text data from earlier and can safely be stored without worrying about anyone being able to read it unless they have the original encryption key we used to create it.
+
+Now, I’ll admit this is a mile-high view of the process, and I’ve omitted parts like algorithms, ivs, and auth tags, but to understand the general flow, we don’t need to worry about those parts.
+
+But this flow has issues. What are they, you may ask? Well, the obvious one is the single key we’re using to encrypt all the data. If that key leaks, then all our encrypted data becomes vulnerable!
+
+Secondly, that single master encryption key is present in our code and application; if the application is compromised, then that key is at risk, and by extension, our data is too.
+
+In review, the standard encryption flow works, and the majority of the time, you’ll likely be fine using it. But we can improve upon it and its security. This is where envelope encryption comes in.
+
+### Envelope Encryption
+
+The envelope encryption flow is similar to the standard flow, but with a notable exception. The key you use to encrypt the plain text data (Data Encryption Key (DEK)) is encrypted by another key (master key). 
+
+This means the DEK you use can be changed per encryption and stored alongside the data that was encrypted with it (because the DEK itself is encrypted).
+
+The entire flow goes like this.
+
+1. Generate a plain-text DEK and its encrypted version
+2. Use the plain text DEK to encrypt the target plain text data
+3. Store the encrypted DEK and encrypted data
+4. Discard the plain text DEK
+
+This now solves one of the issues with the standard encryption flow, one key encrypts all the data. Now, if a DEK leaks, the compromised data is limited to the data that was encrypted by the leaked DEK, not all the data.
+
+But, at this point, you may be going, “What if the master key leaks? Wouldn’t all the data and DEKs be vulnerable?”. And, in the current setup, where we control all the keys, that would be correct and a big problem. But this is where KMS comes in.
+
+### KMS and Envelope Encryption
+
+The role KMS plays in the encryption process is small but important! KMS controls and stores the master key and uses that master key to generate DEKs on demand.
+
+This means the master encryption key never leaves AWS unencrypted, greatly reducing the chances of it leaking. If you’re curious about how AWS keeps the keys safe on its infrastructure, you can [read about it here](https://docs.aws.amazon.com/kms/latest/developerguide/overview.html) and [here](https://docs.aws.amazon.com/kms/latest/developerguide/concepts-intro.html).
+
+## Example Project Setup
+
+Now, we know more about envelope encryption and how KMS can help us implement it to improve the security of our entire encryption process and our application. Let’s take a look at how to implement it in TypeScript Lambda functions using the AWS SDK.
+
+I’m going to be using an [SST](https://sst.dev/) project for the code below, and if you want to see the entire project, [you can here.](https://github.com/conermurphy/sst-kms-guide)
+
+To start, we need to create a new KMS master encryption key. We can do this in SST by adding the code below to our `sst.config.ts` file.
+
+```ts
+META: './sst.config.ts':{ }
+    sst.Linkable.wrap(aws.kms.Key, (key) => ({
+      properties: {
+        id: key.id.apply((v) => v.toString()),
+      },
+    }))
+    
+    const encryptionKey = new aws.kms.Key('EncryptionKey', {
+      description: 'KMS key for envelope encryption demo',
+      keyUsage: 'ENCRYPT_DECRYPT',
+    })
+```
+
+This creates a new KMS key that we can then pass the ID of to our Lambda functions to use with the KMS SDK, which we can install using `npm install @aws-sdk/client-kms`. 
+
+Finally, while we’re in the `sst.config.ts` file, we can define our two lambda functions. One for encrypting and one for decrypting the target data.
+
+```ts
+META: './sst.config.ts':{ }
+    new sst.aws.Function('EncryptFunction', {
+      handler: 'src/functions/encrypt.handler',
+      url: true,
+      link: [encryptionKey],
+      environment: {
+        DATABASE_URL: process.env.DATABASE_URL!,
+      },
+      permissions: [
+        {
+          actions: ['kms:GenerateDataKey'],
+          resources: [encryptionKey.arn],
+        },
+      ],
+    })
+
+    new sst.aws.Function('DecryptFunction', {
+      handler: 'src/functions/decrypt.handler',
+      url: true,
+      link: [encryptionKey],
+      environment: {
+        DATABASE_URL: process.env.DATABASE_URL!,
+      },
+      permissions: [
+        {
+          actions: ['kms:Decrypt'],
+          resources: [encryptionKey.arn],
+        },
+      ],
+    })
+```
+
+In this code, we defined our two Lambda functions, pointed them to their relevant files, and gave them the relevant IAM permissions for the actions they’ll be performing with KMS. We then linked the KMS key to them both and gave them a `DATABASE_URL` for storing the encrypted data.
+
+## Encrypting data with KMS
+
+At this point, with our functions defined and our KMS key created, we’re ready to start encrypting data. To start, create a new file at `src/functions/encrypt.ts` and add the code below to it.
+
+```ts
+META: './src/functions/encrypt.ts':{ }
+import { APIGatewayProxyHandlerV2 } from 'aws-lambda'
+import { KMSClient, GenerateDataKeyCommand } from '@aws-sdk/client-kms'
+import { createCipheriv, randomBytes } from 'crypto'
+import { Resource } from 'sst'
+import { z } from 'zod'
+import { db } from 'db/client'
+
+const kmsClient = new KMSClient({})
+
+const schema = z.object({
+  data: z.string(),
+})
+
+export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+  try {
+    if (!event.body) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          error: 'Please provide a body',
+        }),
+      }
+    }
+
+    const { data } = schema.parse(JSON.parse(event.body))
+
+    const { Plaintext: plaintextDEK, CiphertextBlob: encryptedDEK } =
+      await kmsClient.send(
+        new GenerateDataKeyCommand({
+          KeyId: Resource.EncryptionKey.id,
+          KeySpec: 'AES_256',
+        })
+      )
+
+    if (!plaintextDEK || !encryptedDEK) {
+      console.log('Failed to generate data key')
+
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          error: `Something went wrong, please try again.`,
+        }),
+      }
+    }
+
+    const iv = randomBytes(12)
+    const cipher = createCipheriv('aes-256-gcm', Buffer.from(plaintextDEK), iv)
+
+    let ciphertext = cipher.update(data, 'utf8', 'base64')
+    ciphertext += cipher.final('base64')
+    const authTag = cipher.getAuthTag()
+
+    const result = await db
+      .insertInto('encryptedRecords')
+      .values({
+        encryptedDataKey: Buffer.from(encryptedDEK).toString('base64'),
+        ciphertext: ciphertext,
+        iv: iv.toString('base64'),
+        authTag: authTag.toString('base64'),
+      })
+      .returning('id')
+      .executeTakeFirstOrThrow()
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        recordId: result.id,
+      }),
+    }
+  } catch (error) {
+    console.error('Encryption error:', error)
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        error: 'Failed to encrypt data',
+      }),
+    }
+  }
+}
+```
+
+In this code, we take in the body of the request and parse it using Zod. This gives us the plain text data we want to encrypt.  
+
+We then generate a new DEK using the `GenerateDataKeyCommand` from the KMS SDK. This gives us the two versions of the DEK we mentioned before, `plaintextDEK` and `encryptedDEK`. We then use the `plaintextDEK` to encrypt our target data using the `createCipheriv` function with the `aes-256-gcm` algorithm.
+
+After we’ve encrypted the data, we have all the data we need: the `cipher` containing the encrypted data, the `iv` and `authTag` used in the encryption process, and the `encryptedDEK` that we generated earlier.
+
+This data is then stored in the database to allow us to retrieve it later on when we want to decrypt the data. Finally, we return the generated `id` from the database for the newly inserted records. This is what we’ll use to retrieve the data in the decrypt function and allow us to retrieve the plain text version.
+
+Speaking of which, let’s look at that next.
+
+## Decrypting data with KMS
+
+To create the decryption function, create a new file `src/functions/decrypt.ts` and add the code below to it.
+
+```ts
+META: './src/functions/decrypt.ts':{ }
+import { APIGatewayProxyHandlerV2 } from 'aws-lambda'
+import { KMSClient, DecryptCommand } from '@aws-sdk/client-kms'
+import { createDecipheriv } from 'crypto'
+import { Resource } from 'sst'
+import { db } from 'db/client'
+import z from 'zod'
+
+const kmsClient = new KMSClient({})
+
+const schema = z.object({
+  id: z.string(),
+})
+
+export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+  try {
+    if (!event.body) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          error: 'Please provide a body',
+        }),
+      }
+    }
+
+    const { id } = schema.parse(JSON.parse(event.body))
+
+    const record = await db
+      .selectFrom('encryptedRecords')
+      .selectAll()
+      .where('id', '=', id)
+      .executeTakeFirst()
+
+    if (!record) {
+      return {
+        statusCode: 404,
+        body: JSON.stringify({
+          error: `Record with ID ${id} not found`,
+        }),
+      }
+    }
+
+    const encryptedDEK = Buffer.from(record.encryptedDataKey, 'base64')
+    const { Plaintext: plaintextDEK } = await kmsClient.send(
+      new DecryptCommand({
+        CiphertextBlob: encryptedDEK,
+        KeyId: Resource.EncryptionKey.id,
+      })
+    )
+
+    if (!plaintextDEK) {
+      console.log('Failed to decrypt data key')
+
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          error: `Something went wrong, please try again.`,
+        }),
+      }
+    }
+
+    const iv = Buffer.from(record.iv, 'base64')
+    const authTag = Buffer.from(record.authTag, 'base64')
+    const decipher = createDecipheriv(
+      'aes-256-gcm',
+      Buffer.from(plaintextDEK),
+      iv
+    )
+
+    decipher.setAuthTag(authTag)
+
+    let decryptedData = decipher.update(record.ciphertext, 'base64', 'utf8')
+    decryptedData += decipher.final('utf8')
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        data: decryptedData,
+        recordId: record.id,
+      }),
+    }
+  } catch (error) {
+    console.error('Decryption error:', error)
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        error: 'Failed to decrypt data',
+      }),
+    }
+  }
+}
+```
+
+This code is pretty similar to the encryption code. We take in the body of the request and parse it using Zod to get the `id` of the database record we want to decrypt.
+
+We then retrieve the record from the database and ensure it exists; otherwise, we return an error. We then send the encrypted DEK to KMS via the `DecryptCommand` to retrieve the plain text version to allow us to decrypt the stored cipher, which we do using `createDecipheriv`.
+
+After we’ve successfully decrypted the data into its plain text form, we return it to the requester. 
+
+And that is how you can use envelope encryption with KMS to encrypt and decrypt data in your application.
+
+## Best Practices
+
+Now that you’ve seen how to encrypt and decrypt data inside Lambda functions, I wanted to mention a couple of best practices to keep in mind while working with KMS.
+
+Firstly, ensure the plain text data keys generated from KMS are exclusively stored in memory. Don’t store them anywhere else in their plain text forms (including in logs). Even though the damage is controlled if one of the data keys is exposed, it’s better not to expose it in the first place!
+
+Secondly. and this is more of a general AWS best practice, ensure the functions and infrastructure where you use KMS are given the minimal permissions required for their purpose. For example, in the function where we generated the data keys, we granted the `kms:GenerateDataKey` permission to it and nothing else.
+
+## Recap
+
+In this post, we’ve looked at AWS KMS and how we can use it to encrypt and decrypt data using envelope encryption inside Lambda functions created using SST.
+
+If you’re interested in reading more about AWS KMS, you can check out the [KMS documentation here](https://docs.aws.amazon.com/kms/latest/developerguide/overview.html). You can [learn more about envelope encryption here](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#enveloping), and if you want to [see the full example code for this blog post, you can here.](https://github.com/conermurphy/sst-kms-guide)
+
+Thanks for reading.
