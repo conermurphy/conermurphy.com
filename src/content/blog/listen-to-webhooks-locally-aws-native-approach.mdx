@@ -1,0 +1,194 @@
+---
+title: 'Listen to Webhooks Locally, An AWS-Native Approach'
+description: 'Build a local webhook listener with AWS Lambda Function URLs and SST Live. Test GitHub webhooks locally without relying on third-party services.'
+date: '2025-12-08'
+topics: ['AWS', 'SST', 'LAMBDA']
+slug: listen-to-webhooks-locally-aws-native-approach
+---
+
+Listening to webhooks locally has always been a bit of a pain, often requiring tools like [ngrok](https://ngrok.com/) or [localtunnel](https://localtunnel.me/). But, in this post, we’re going to look at how we can replace tools like these with a custom solution using just AWS and [SST Live](https://sst.dev/docs/live/).
+
+By the end of this post, you’ll have a working repository that can listen to GitHub webhook events deployed to AWS and proxied to your local machine via SST live.
+
+## The Problem with Local Webhook Testing
+
+As mentioned above, working with webhooks on your local machine has always been a bit of a pain, requiring external services that you have effectively zero control over.
+
+This setup is fine, many people use this setup (including myself for years), but as I got deeper into the AWS ecosystem and started using SST more, I realised there is a better way.
+
+By using AWS directly, we get more control, flexibility in implementing, and transparency of what is happening. Including improved privacy as we’re no longer sending our requests via third parties because, as [SST says here](https://sst.dev/docs/live/#privacy), there are no 3rd parties involved, just our machine and our AWS account.
+
+## How SST Live Helps
+
+So, we’ve mentioned it a few times now but what actually is SST Live? SST Live is a feature of SST that allows us to proxy requests between AWS and our local machine. Typically this is used in development for testing changes to your Lambda functions without needing to redeploy code saving you an incredible amount of time.
+
+However, for our purposes, we can take this a bit further and create a Lambda function with a Function URL. We can then provide this Function URL to the service we want to consume webhooks from (e.g. GitHub).
+
+Meaning, while our local SST instance is running, we can see and process the requests to this Lambda function locally, with our responses being proxied back to the originating service via AWS.
+
+And, that’s how by using a combination of Lambda Function URLs and SST Live, we can replace third-party tools like localtunnel and ngrok with an AWS-only solution.
+
+## Prerequisites
+
+So, now that we know the theory of how we can implement SST Live for listening to and processing webhook events locally, let’s take a look at implementing it. But first, there are a couple of prerequisites.
+
+- Have an AWS account
+- Have the AWS CLI with SSO configured ([see this guide](https://sst.dev/docs/aws-accounts/))
+- Experience with SST (Optional)
+- Node.js installed
+- A webhook service to consume events from (We’re using GitHub)
+
+## Implementation
+
+To get started, you can [clone the `start` branch from my example repository](https://github.com/conermurphy/github-webhook-listener-demo/tree/start). This branch already has SST installed and the files we need created, ready for us to populate.
+
+All you need to do is run `npm i` and `npx sst install` followed by adding your AWS SSO profile name into the `.env` file, which you can create by duplicating and renaming the `.env.example` file included in the repository.
+
+### Defining Infrastructure
+
+With those project setup steps done, we’re ready to start building the project. The first thing we’re going to do is update the `./infra/functions.ts` file to include the below infrastructure.
+
+```ts
+META: './infra/functions.ts':{ }
+const webhookSecret = new sst.Secret('WebhookSecret')
+
+export const githubWebhookListener = new sst.aws.Function(
+  'GitHubWebhookListener',
+  {
+    url: true,
+    handler: './functions/github-webhook-listener.handler',
+    link: [webhookSecret],
+    runtime: 'nodejs22.x',
+  }
+)
+```
+
+In this code, we define a new [SST Secret](https://sst.dev/docs/component/secret/) which we’ll use in a moment to store our GitHub Webhook Secret that’ll sign the webhook events as they’re sent.
+
+We then define the Lambda function that’ll be receiving the webhook events from GitHub. Notice the important `url` property we define; this is what configures our Lambda to have a Function URL. We then provide the file path that contains our handler for the function, as well as link the SST Secret we created and specify the function’s runtime.
+
+### Setting the SST Secret
+
+With our infrastructure defined, the next thing we’ll want to do is define our SST Secret, so when we deploy our infrastructure in a moment, the secret is ready to be used.
+
+But first, before we can define our SST Secret, we need to generate a new webhook secret to use since GitHub doesn’t create them for us. To do this, run the command `openssl rand -hex 32` in your terminal to generate a sufficiently long string to act as our secret.
+
+Then, with your secret generated, we can create our SST Secret using the command `npx sst secret set WebhookSecret <WEBHOOK_SECRET_VALUE> --stage development`, making sure to swap in your new webhook secret for `<WEBHOOK_SECRET_VALUE>`.
+
+You’ll notice the `--stage` flag we passed to the command. For those unfamiliar with SST, the `--stage` flag is a way to redeploy the infrastructure you’ve defined multiple times without needing to duplicate any code or files. For example, you might have `production` and `development` stages. In this post, we’ll be scoping everything we do to the `development` stage.
+
+### Writing the Lambda
+
+With our webhook secret now configured and set in SST, we can move on to writing our function. To do this, update the file `./functions/github-webhook-listener.ts` with the below code.
+
+```ts
+META: './functions/github-webhook-listener.ts':{ }
+import { Handler } from 'aws-lambda'
+import { Webhooks } from '@octokit/webhooks'
+import { Resource } from 'sst'
+
+type Event = {
+  requestContext: {
+    http: {
+      method: string
+    }
+  }
+  headers: {
+    'x-hub-signature-256': string
+  }
+  body: string
+}
+
+const webhooks = new Webhooks({
+  secret: Resource.WebhookSecret.value,
+})
+
+export const handler: Handler<Event> = async (event) => {
+  if (event.requestContext.http.method !== 'POST') {
+    return {
+      statusCode: 405,
+      body: 'Method not allowed',
+    }
+  }
+
+  const { headers, body } = event
+  const signature = headers['x-hub-signature-256']
+
+  if (!(await webhooks.verify(body, signature))) {
+    return {
+      statusCode: 401,
+      body: 'Webhook signature failed verification',
+    }
+  }
+
+  const parsedBody = JSON.parse(body)
+  console.log({ event: parsedBody.action })
+
+  return { statusCode: 200, body: 'Success' }
+}
+```
+
+We do a few things in this function. First, we take in the event, which is generated for us automatically by AWS when a request is sent.
+
+From this event, we check the `method` that was used; if it’s anything other than a `POST` request, we reject the request with a `405`.
+
+After ensuring we’re processing a `POST` request, we then extract the `body` and `x-hub-signature-256` header from the event before passing them through `webhooks.verify` to verify the webhook is legitimately from GitHub, as [recommended in their documentation](https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries#typescript-example).
+
+This is also where our `WebhookSecret` secret comes into play. You’ll notice that when we instantiate `Webhooks` from `@octokit/webhooks`, we provide `Resource.WebhookSecret.value` as the `secret`. This will use our SST Secret `WebhookSecret` and is only possible because of the `link` property we added when we defined our function earlier.
+
+At this point, if the event verification fails, we return a `401`. If the event verification succeeds, we log the type of the event. Before, finally returning a `200`.
+
+### Starting the development server
+
+At this point, we now have a fully defined and ready-to-go function for processing our webhook events. All we need to do is deploy our project using the command `npx sst dev --stage development`. After this command finishes, we’ll have a URL for our function that we can provide to GitHub and a running server ready to process events.
+
+### Creating a GitHub Webhook
+
+With the SST portion of this tutorial finished, you should now have a Function URL and the secret we generated earlier. So, now let’s go configure GitHub.
+
+If you’d like more detail [GitHub has a guide on creating webhooks](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks). But as a summary, you’ll need to do the following.
+
+- Go to the settings of the repository you’d like to receive webhook events from
+- Go to the “Webhooks” page
+- Click “Add webhook”
+- Paste in the Function URL you got in the last step for the “Payload URL”
+- Choose `application/json` for the “Content type”
+- Add your generated secret as the “Secret”
+- Choose which events you want to listen to.
+- Click “Add webhook”
+
+You should now have a working GitHub webhook, and if you trigger an action related to an event you're listening to. E.g. creating an issue if you’re listening to the “Issues” event type.
+
+You should see its name appear in your SST terminal logs under the “Functions” tab. You can also see the responses of any sent events on GitHub under the “Recent Deliveries” tab for the created webhook.
+
+At this point, you now have a working webhook listener built using AWS and proxied to your local machine via SST Live!
+
+## Recap
+
+Throughout this post, we’ve explored how we can use SST to deploy infrastructure to AWS and use [SST Live](https://sst.dev/docs/live/) to proxy requests to our local machine to allow us to consume webhook events locally without the need for third-party services like ngrok and localtunnel.
+
+If you’re interested, you can [see the complete example code for this project on GitHub.](https://github.com/conermurphy/github-webhook-listener-demo)
+
+## FAQs
+
+### What happens when the SST dev server isn’t running?
+
+If the SST server isn’t running in `dev` mode locally, then the requests will still be sent to the lambda function on AWS (if it was previously deployed), but they won’t be proxied to your local machine, resulting in a `500` error for the originating service.
+
+### How can I use this setup for production applications?
+
+The overall process is the same as development. You can create a Lambda function with a Function URL and give that URL to the webhook service with its own secret. Then you can process the requests as usual; however, they won’t be proxied to your local machine but rather handled by the deployed Lambda function on AWS.
+
+### How can I secure the Lambda function?
+
+If you’re using the Lambda function as we’ve been using it in this guide for processing webhook events, then ensuring you have a sufficiently strong webhook secret, signing the events, and returning a `401` if the signature check fails will secure it.
+
+### Do I need to pay for AWS to listen to webhooks with SST?
+
+The Lambda portion of this setup is subject to the normal free tier allocations (Function URLs have no additional costs). So, if you stay within the free tier limits, Lambda will cost you nothing.
+
+SST Live, on the other hand [as documented](https://sst.dev/docs/live/#cost) is powered by AppSync Events. AppSync events does have a free tier for the first 12 months for new accounts, and then roughly $1.00 per million messages, which is pretty cheap, especially if you’re just using this occasionally for development.
+
+### What webhook services work with SST Live?
+
+Any webhook service! The beautiful thing about this SST Live setup is that, to the webhook service, it’s just another URL to send events to; they don’t care what is on the other side of that URL.
