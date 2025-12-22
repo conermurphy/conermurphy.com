@@ -11,4 +11,5 @@ export default defineConfig({
     : 'http://localhost:4321',
   integrations: [mdx(), sitemap(), tailwind()],
   adapter: aws(),
+  output: 'server',
 })
