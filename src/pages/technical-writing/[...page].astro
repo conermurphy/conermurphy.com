@@ -8,6 +8,8 @@ import PostCard from '../../components/PostCard.astro'
 import Pagination from '../../components/Pagination.astro'
 import { PAGE_POST_LIMIT } from '../../consts'
 
+export const prerender = true
+
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = (await getCollection('technicalWriting')).sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
