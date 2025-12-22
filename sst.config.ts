@@ -15,7 +15,7 @@ export default $config({
           profile: isCi ? undefined : 'conermurphy',
         },
         ...(isMain && {
-          cloudflare: '5.43.1',
+          cloudflare: '6.11.0',
         }),
       },
     }
@@ -24,28 +24,14 @@ export default $config({
     const domainName = 'conermurphy.com'
     const isMain = process.env.GITHUB_REF_NAME === 'main'
 
-    const vpc = new sst.aws.Vpc('PersonalWebsiteVpc')
-    const cluster = new sst.aws.Cluster('PersonalWebsiteCluster', { vpc })
-
-    cluster.addService('PersonalWebsiteService', {
-      ...(isMain
-        ? {
-            loadBalancer: {
-              ports: [{ listen: '443/https', forward: '4321/http' }],
-              domain: {
-                dns: sst.cloudflare.dns(),
-                name: domainName,
-              },
-            },
-          }
-        : {
-            loadBalancer: {
-              ports: [{ listen: '80/http', forward: '4321/http' }],
-            },
-          }),
-      dev: {
-        command: 'npm run dev',
-      },
+    new sst.aws.Astro('PersonalWebsite', {
+      server: { runtime: 'nodejs22.x' },
+      ...(isMain && {
+        domain: {
+          dns: sst.cloudflare.dns(),
+          name: domainName,
+        },
+      }),
     })
   },
 })
