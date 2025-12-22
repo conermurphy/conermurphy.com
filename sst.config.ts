@@ -24,14 +24,14 @@ export default $config({
     const domainName = 'conermurphy.com'
     const isMain = process.env.GITHUB_REF_NAME === 'main'
 
-    new sst.aws.Astro('PersonalWebsite', {
-      server: { runtime: 'nodejs22.x' },
-      ...(isMain && {
-        domain: {
-          dns: sst.cloudflare.dns(),
-          name: domainName,
-        },
-      }),
-    })
+    // new sst.aws.Astro('PersonalWebsite', {
+    //   server: { runtime: 'nodejs22.x' },
+    //   ...(isMain && {
+    //     domain: {
+    //       dns: sst.cloudflare.dns(),
+    //       name: domainName,
+    //     },
+    //   }),
+    // })
   },
 })
