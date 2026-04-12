@@ -15,7 +15,7 @@ export default $config({
           profile: isCi ? undefined : 'conermurphy',
         },
         ...(isMain && {
-          cloudflare: '6.11.0',
+          cloudflare: '6.13.0',
         }),
       },
     }
