@@ -1,2 +1,23 @@
-minimumReleaseAgeExclude:
-  - prettier@3.9.8
+allowBuilds:
+  esbuild: true
+
+# Supply chain protections. See https://pnpm.io/supply-chain-security
+# 7 days. Setting this explicitly also makes it strict, so pnpm fails rather
+# than falling back to a version that is too new.
+minimumReleaseAge: 10080
+minimumReleaseAgeExcludePrune: true
+minimumReleaseAgeIgnoreMissingTime: false
+
+# Fail if a version has weaker publish trust than earlier releases of the
+# same package, e.g. provenance was dropped.
+trustPolicy: no-downgrade
+# Skip the trust check for versions older than 30 days.
+trustPolicyIgnoreAfter: 43200
+trustPolicyExcludePrune: true
+
+# Already the pnpm 12 defaults; stated so they cannot regress silently.
+blockExoticSubdeps: true
+strictDepBuilds: true
+
+patchedDependencies:
+  astro-sst@3.1.4: patches/astro-sst@3.1.4.patch

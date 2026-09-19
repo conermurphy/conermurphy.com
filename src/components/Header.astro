@@ -39,7 +39,8 @@ import Logo from '../images/logo.svg'
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          ></path>
         </svg>
       </button>
     </div>
@@ -53,13 +54,8 @@ import Logo from '../images/logo.svg'
   <!-- Mobile menu, show/hide based on menu open state. -->
   <div class="group lg:hidden" role="dialog" aria-modal="true">
     <!-- Background backdrop, show/hide based on slide-over state. -->
-    <div
-      class="fixed inset-0 -z-10 transition duration-300 ease-in-out group-aria-expanded:z-[90] group-aria-expanded:backdrop-blur-sm"
-    >
-    </div>
-    <div
-      class="fixed inset-y-0 right-0 z-[999] w-full max-w-60 translate-x-60 overflow-y-auto bg-dark px-10 py-6 transition-transform duration-150 ease-in-out group-aria-expanded:translate-x-0"
-    >
+    <div class="fixed inset-0 -z-10 transition duration-300 ease-in-out group-aria-expanded:z-[90] group-aria-expanded:backdrop-blur-sm"></div>
+    <div class="fixed inset-y-0 right-0 z-[999] w-full max-w-60 translate-x-60 overflow-y-auto bg-dark px-10 py-6 transition-transform duration-150 ease-in-out group-aria-expanded:translate-x-0">
       <div class="flex w-full items-center justify-between">
         <a href="/" class="-m-1.5 p-1.5">
           <span class="sr-only">{SITE_TITLE}</span>
@@ -85,7 +81,8 @@ import Logo from '../images/logo.svg'
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M6 18 18 6M6 6l12 12"></path>
+                d="M6 18 18 6M6 6l12 12"
+              ></path>
             </svg>
           </button>
         </div>
