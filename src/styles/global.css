@@ -1,45 +1,87 @@
-:root {
-  --brand-color: 338 95 59;
-  --darkest-color: 224 33 6;
-  --dark-color: 222 33 10;
-  --mid-color: 225 2 65;
-  --light-color: 210 3 89;
-  --lightest-color: 0 0 100;
+@import 'tailwindcss';
+
+@theme {
+  --font-heading:
+    'Arvo', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-body:
+    'Syne Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-code:
+    'JetBrains Mono Variable', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --color-brand: hsl(var(--brand-color));
+  --color-darkest: hsl(var(--darkest-color));
+  --color-dark: hsl(var(--dark-color));
+  --color-mid: hsl(var(--mid-color));
+  --color-light: hsl(var(--light-color));
+  --color-lightest: hsl(var(--lightest-color));
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Arvo';
+/*
+  NOTE: Tailwind v4 changed the default border color to `currentColor` and
+  removed `cursor: pointer` from buttons. These keep the v3 behaviour.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
-:is(h1, h2, h3, h4, h5, h6) code {
-  font-weight: inherit !important;
-  font-size: inherit !important;
-  line-height: inherit !important;
-}
+@layer base {
+  :root {
+    --brand-color: 338 95 59;
+    --darkest-color: 224 33 6;
+    --dark-color: 222 33 10;
+    --mid-color: 225 2 65;
+    --light-color: 210 3 89;
+    --lightest-color: 0 0 100;
+  }
 
-/* NOTE: Used for code block highlighting */
-.highlighted {
-  /* NOTE: Same as var(--light-color) */
-  background-color: rgba(225, 226, 227, 0.25);
-  width: calc(100% - 0.25rem) !important;
-  display: inline-block;
-  border-left: 0.25rem solid var(--brand-color);
-}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Arvo';
+  }
 
-pre {
-  width: 100%;
-}
+  :is(h1, h2, h3, h4, h5, h6) code {
+    font-weight: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
 
-pre.has-focused .line:not(.focused) {
-  filter: blur(1px);
-}
+  /* NOTE: Used for code block highlighting */
+  .highlighted {
+    /* NOTE: Same as var(--light-color) */
+    background-color: rgba(225, 226, 227, 0.25);
+    width: calc(100% - 0.25rem) !important;
+    display: inline-block;
+    border-left: 0.25rem solid var(--brand-color);
+  }
 
-.line-number {
-  color: var(--light-color) !important;
-  margin-left: 0.25rem;
+  pre {
+    width: 100%;
+  }
+
+  pre.has-focused .line:not(.focused) {
+    filter: blur(1px);
+  }
+
+  .line-number {
+    color: var(--light-color) !important;
+    margin-left: 0.25rem;
+  }
 }

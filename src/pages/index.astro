@@ -28,9 +28,7 @@ const techWritingPosts = (await getCollection('technicalWriting'))
           <span class="sr-only">{SITE_TITLE}</span>
           <Image class="h-8 w-auto" src={Logo} alt="" loading="eager" />
         </a>
-        <h1
-          class="mt-2 text-5xl font-semibold tracking-tight text-light sm:text-7xl"
-        >
+        <h1 class="mt-2 text-5xl font-semibold tracking-tight text-light sm:text-7xl">
           Coner Murphy
         </h1>
         <p class="mt-8 text-pretty text-lg text-mid sm:text-xl/8">
@@ -46,35 +44,31 @@ const techWritingPosts = (await getCollection('technicalWriting'))
           Projects
         </h2>
       </div>
-      <section
-        class="grid w-full grid-cols-1 gap-x-16 gap-y-10 py-12 md:grid-cols-2"
-      >
-        {
-          projects.map(({ data: project }) => (
-            <div class="group relative rounded-lg border border-mid px-3 py-4 transition-colors duration-150 ease-in-out hover:border-brand">
-              <a class="flex h-full flex-col gap-y-2" href={project.url}>
-                <h3 class="text-2xl transition-colors duration-150 ease-in-out group-hover:text-brand">
-                  {project.name}
-                </h3>
-                <p class="flex-grow">{project.description}</p>
-                <div class="mt-2 flex w-max gap-x-2 border-t border-dashed border-t-light pt-2">
-                  {project.tech.map((tech) => (
-                    <p>{tech}</p>
-                  ))}
-                </div>
-              </a>
+      <section class="grid w-full grid-cols-1 gap-x-16 gap-y-10 py-12 md:grid-cols-2">
+        {projects.map(({ data: project }) => (
+          <div class="group relative rounded-lg border border-mid px-3 py-4 transition-colors duration-150 ease-in-out hover:border-brand">
+            <a class="flex h-full flex-col gap-y-2" href={project.url}>
+              <h3 class="text-2xl transition-colors duration-150 ease-in-out group-hover:text-brand">
+                {project.name}
+              </h3>
+              <p class="grow">{project.description}</p>
+              <div class="mt-2 flex w-max gap-x-2 border-t border-dashed border-t-light pt-2">
+                {project.tech.map((tech) => (
+                  <p>{tech}</p>
+                ))}
+              </div>
+            </a>
 
-              {project.github_url ? (
-                <a
-                  href={project.github_url}
-                  class="absolute right-5 top-4 transition-colors duration-150 ease-in-out hover:text-brand"
-                >
-                  <GitHubIcon />
-                </a>
-              ) : null}
-            </div>
-          ))
-        }
+            {project.github_url ? (
+              <a
+                href={project.github_url}
+                class="absolute right-5 top-4 transition-colors duration-150 ease-in-out hover:text-brand"
+              >
+                <GitHubIcon />
+              </a>
+            ) : null}
+          </div>
+        ))}
       </section>
     </div>
 
@@ -82,26 +76,23 @@ const techWritingPosts = (await getCollection('technicalWriting'))
       <div class="mx-auto max-w-2xl md:mx-0">
         <h2 class="w-max border-b-2 border-brand text-3xl sm:text-5xl">Blog</h2>
       </div>
-      <section
-        class="grid w-full grid-cols-1 gap-x-16 gap-y-20 py-12 md:grid-cols-2"
-      >
-        {
-          posts.map(({ data: post }) => (
-            <PostCard
-              title={post.title}
-              description={post.description}
-              date={post.date}
-              url={`/blog/${post.slug}/`}
-              tags={post.topics}
-            />
-          ))
-        }
+      <section class="grid w-full grid-cols-1 gap-x-16 gap-y-20 py-12 md:grid-cols-2">
+        {posts.map(({ data: post }) => (
+          <PostCard
+            title={post.title}
+            description={post.description}
+            date={post.date}
+            url={`/blog/${post.slug}/`}
+            tags={post.topics}
+          />
+        ))}
       </section>
       <a
         href="/blog"
         class="border-t-2 border-dashed border-t-light pt-2 font-bold text-brand"
-        >View all blog posts...</a
       >
+        View all blog posts...
+      </a>
     </div>
 
     <div class="mx-auto max-w-5xl px-6 lg:px-8">
@@ -110,26 +101,23 @@ const techWritingPosts = (await getCollection('technicalWriting'))
           Technical Writing
         </h2>
       </div>
-      <section
-        class="grid w-full grid-cols-1 gap-x-16 gap-y-20 py-12 md:grid-cols-2"
-      >
-        {
-          techWritingPosts.map(({ data: post }) => (
-            <PostCard
-              title={post.title}
-              description={post.description}
-              date={post.date}
-              url={post.url}
-              tags={[post.client]}
-            />
-          ))
-        }
+      <section class="grid w-full grid-cols-1 gap-x-16 gap-y-20 py-12 md:grid-cols-2">
+        {techWritingPosts.map(({ data: post }) => (
+          <PostCard
+            title={post.title}
+            description={post.description}
+            date={post.date}
+            url={post.url}
+            tags={[post.client]}
+          />
+        ))}
       </section>
       <a
         href="/technical-writing"
         class="border-t-2 border-dashed border-t-light pt-2 font-bold text-brand"
-        >View all technical writing...</a
       >
+        View all technical writing...
+      </a>
     </div>
   </main>
 
