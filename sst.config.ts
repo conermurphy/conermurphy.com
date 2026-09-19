@@ -15,7 +15,7 @@ export default $config({
           profile: isCi ? undefined : 'conermurphy',
         },
         ...(isMain && {
-          cloudflare: '6.13.0',
+          cloudflare: { package: '@pulumi/cloudflare', version: '6.20.0' },
         }),
       },
     }
