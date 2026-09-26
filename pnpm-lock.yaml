@@ -171,10 +171,10 @@ importers:
     dependencies:
       '@astrojs/mdx':
         specifier: 8.0.1
-        version: 8.0.1(@astrojs/markdown-satteri@0.4.1)(astro@7.3.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0))
+        version: 8.0.1(@astrojs/markdown-satteri@0.4.1)(astro@7.3.3(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0))
       '@astrojs/node':
-        specifier: 11.1.5
-        version: 11.1.5(astro@7.3.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0))
+        specifier: 11.1.6
+        version: 11.1.6(astro@7.3.3(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0))
       '@astrojs/rss':
         specifier: 4.0.19
         version: 4.0.19
@@ -200,8 +200,8 @@ importers:
         specifier: 0.6.4
         version: 0.6.4
       astro:
-        specifier: 7.3.2
-        version: 7.3.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0)
+        specifier: 7.3.3
+        version: 7.3.3(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0)
       astro-sst:
         specifier: 3.1.4
         version: 3.1.4(patch_hash=22d4c12d6a313ab304fb557c7976f2f3d477bcc0e5c6cd22cd3166f53c05d166)
@@ -228,14 +228,14 @@ importers:
         specifier: 21.1.7
         version: 21.1.7
       prettier:
-        specifier: 3.8.5
-        version: 3.8.5
+        specifier: 3.9.8
+        version: 3.9.8
       prettier-plugin-astro:
-        specifier: 1.0.0
-        version: 1.0.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.8.5)
+        specifier: 1.0.1
+        version: 1.0.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.9.8)
       prettier-plugin-tailwindcss:
         specifier: 0.8.1
-        version: 0.8.1(prettier-plugin-astro@1.0.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.8.5))(prettier@3.8.5)
+        version: 0.8.1(prettier-plugin-astro@1.0.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.9.8))(prettier@3.9.8)
       shiki:
         specifier: 4.4.3
         version: 4.4.3
@@ -327,8 +327,8 @@ packages:
       '@astrojs/markdown-remark':
         optional: true
 
-  '@astrojs/node@11.1.5':
-    resolution: {integrity: sha512-CgA+LmG4UWqHxg/Vdc5MdxjjJNZSjKYQQx4uEUwnbj+1ZD2CYumJI3OWg2twsVdj2FlYsB5yvmCC54Re+OK+UQ==}
+  '@astrojs/node@11.1.6':
+    resolution: {integrity: sha512-jNZ10/vAT+HuXkX0E/tITsIYCSn3BmAvsooVAN1OjagG+FEzelpUWToy1bA3x6Irmu0VaknWRfReY+1twd35sQ==}
     peerDependencies:
       astro: ^7.2.1
 
@@ -1226,8 +1226,8 @@ packages:
   astro-sst@3.1.4:
     resolution: {integrity: sha512-tVb/z6xm8pQRaJS1Tt8df04fGUuWCBZaWjW+h1ofdT/SpYwBVRIPAB1YDYQG/Bl+UdHOdD9cdDO2SKYfhsxjvA==}
 
-  astro@7.3.2:
-    resolution: {integrity: sha512-ysTcdpGP61XZpHoMRYC/CK19DQ94qkBvzXMtXEo0gEqPNkmOU/Tv++CtWmzaI4nF2Ck8RXFdiWvdlTWa2oOr9w==}
+  astro@7.3.3:
+    resolution: {integrity: sha512-NF08hk3edFkVmr9avf9HW/rQyf6NrpbVDyYj2cVN3JfijDhfJYh1ivWVTY5PUd5+rRZn/Vtu4iaeyNlP0Iv6mg==}
     engines: {node: '>=22.12.0', npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
     peerDependencies:
@@ -1511,8 +1511,8 @@ packages:
   fflate@0.7.5:
     resolution: {integrity: sha512-QieYf//cis6ywHNi5qW1+PXPQ4bC+XVJAtS4AXIML8P76GroEiOxm/oQtn1f02UkJY1+KsXMJcC+R2v/Eg4G3g==}
 
-  find-proc@0.1.0:
-    resolution: {integrity: sha512-OaOpEYv2PiQ7SQ5LIrl+deA1XaWcxEjnpM6VuWXTUvn+teIXxeFTLDmu18/zDQpFmHN4o3oDBX+BT0AGwEhemg==}
+  find-proc@0.2.0:
+    resolution: {integrity: sha512-a6h2nTrgB3g5Wrn4au9Ux4kMk7IJtyF6oA8uGn+mk3weLZssUtc1cp6meHIzzuW2o1srrBAxzkmXLbqjRkgB6w==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
   flattie@1.1.1:
@@ -1995,8 +1995,8 @@ packages:
     resolution: {integrity: sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A==}
     engines: {node: ^10 || ^12 || >=14}
 
-  prettier-plugin-astro@1.0.0:
-    resolution: {integrity: sha512-xOlwKNSaPkPPiJeOhiFk8/MA2eH5A+in99dID+weTJhPcq+FBdIaB/3UNFdy9ckmc8/bT7QNyxSb78cnopgElQ==}
+  prettier-plugin-astro@1.0.1:
+    resolution: {integrity: sha512-FKLtmNgyAoUbUixxmgkyO9ZMjEWCpHgMLtci8IakhCIzr8b+ML9YssBqsMfNoDdd/iE27BixwBZSq2amWDwpFQ==}
     engines: {node: '>=22.12.0'}
     peerDependencies:
       prettier: ^3.5.3
@@ -2056,8 +2056,8 @@ packages:
       prettier-plugin-svelte:
         optional: true
 
-  prettier@3.8.5:
-    resolution: {integrity: sha512-zxcTTCedNGJM4R8sj/Cq/F0W/c4iE0afWBcBwMTRtw4WHYP9TWkYjdiH3npPRUYsXQCPR0hTU9yjovOu+E6EQA==}
+  prettier@3.9.8:
+    resolution: {integrity: sha512-WRFq3Wn3WId7LLROfMLdH7xaFr2jR62wU8nLO6rQUOLOxNZUviyJQs1M0iIhLexSFy+L+w0ch66wtoO2jRjG0A==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -2420,6 +2420,10 @@ packages:
       uploadthing:
         optional: true
 
+  verkit@0.4.1:
+    resolution: {integrity: sha512-mMVzj0TXExtVdlDEq+Mzp0eyOuyznNpFobNM3uAqe3HVm/Ps2c+u17BligMkZjZCA6EiXpoon8iRTer3iu40SQ==}
+    engines: {node: '>=18.12.0'}
+
   vfile-message@4.0.3:
     resolution: {integrity: sha512-QTHzsGd1EhbZs4AsQ20JX1rC3cOlt/IWJruk893DfLRr57lcnOeMaWG4K0JrRta4mIJZKth2Au3mM3u03/JWKw==}
 
@@ -2626,17 +2630,17 @@ snapshots:
       github-slugger: 2.0.0
       satteri: 0.10.5
 
-  '@astrojs/mdx@8.0.1(@astrojs/markdown-satteri@0.4.1)(astro@7.3.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0))':
+  '@astrojs/mdx@8.0.1(@astrojs/markdown-satteri@0.4.1)(astro@7.3.3(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0))':
     dependencies:
       '@astrojs/internal-helpers': 0.11.0
       '@astrojs/markdown-satteri': 0.4.1
-      astro: 7.3.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0)
+      astro: 7.3.3(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0)
       es-module-lexer: 2.3.2
 
-  '@astrojs/node@11.1.5(astro@7.3.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0))':
+  '@astrojs/node@11.1.6(astro@7.3.3(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0))':
     dependencies:
       '@astrojs/internal-helpers': 0.11.0
-      astro: 7.3.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0)
+      astro: 7.3.3(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0)
       send: 1.2.1
       server-destroy: 1.0.1
     transitivePeerDependencies:
@@ -3421,7 +3425,7 @@ snapshots:
     dependencies:
       set-cookie-parser: 2.7.2
 
-  astro@7.3.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0):
+  astro@7.3.3(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.5.1)(jiti@2.7.0):
     dependencies:
       '@astrojs/compiler-rs': 0.4.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
       '@astrojs/internal-helpers': 0.11.0
@@ -3442,7 +3446,7 @@ snapshots:
       dset: 3.1.4
       es-module-lexer: 2.3.2
       esbuild: 0.28.2
-      find-proc: 0.1.0
+      find-proc: 0.2.0
       flattie: 1.1.1
       fontace: 0.4.1
       get-tsconfig: 5.0.0-beta.4
@@ -3461,7 +3465,6 @@ snapshots:
       package-manager-detector: 1.8.0
       piccolore: 0.1.3
       picomatch: 4.0.7
-      semver: 7.8.5
       shiki: 4.4.3
       smol-toml: 1.8.0
       svgo: 4.1.0
@@ -3471,6 +3474,7 @@ snapshots:
       ultrahtml: 1.7.0
       unifont: 0.7.5
       unstorage: 1.17.5
+      verkit: 0.4.1
       vite: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)
       vitefu: 1.1.3(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0))
       xxhash-wasm: 1.1.0
@@ -3766,7 +3770,7 @@ snapshots:
 
   fflate@0.7.5: {}
 
-  find-proc@0.1.0: {}
+  find-proc@0.2.0: {}
 
   flattie@1.1.1: {}
 
@@ -4222,23 +4226,23 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  prettier-plugin-astro@1.0.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.8.5):
+  prettier-plugin-astro@1.0.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.9.8):
     dependencies:
       '@astrojs/compiler-rs': 0.4.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
       '@prettier/parse-srcset': 3.1.0
-      prettier: 3.8.5
+      prettier: 3.9.8
       sass-formatter: 0.8.0
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
 
-  prettier-plugin-tailwindcss@0.8.1(prettier-plugin-astro@1.0.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.8.5))(prettier@3.8.5):
+  prettier-plugin-tailwindcss@0.8.1(prettier-plugin-astro@1.0.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.9.8))(prettier@3.9.8):
     dependencies:
-      prettier: 3.8.5
+      prettier: 3.9.8
     optionalDependencies:
-      prettier-plugin-astro: 1.0.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.8.5)
+      prettier-plugin-astro: 1.0.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.9.8)
 
-  prettier@3.8.5: {}
+  prettier@3.9.8: {}
 
   prismjs@1.30.0: {}
 
@@ -4601,6 +4605,8 @@ snapshots:
       node-fetch-native: 1.6.7
       ofetch: 1.5.1
       ufo: 1.6.4
+
+  verkit@0.4.1: {}
 
   vfile-message@4.0.3:
     dependencies:
