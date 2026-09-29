@@ -13,48 +13,30 @@ const { title, description, date, updatedDate, topics } = Astro.props
 <Layout title={title} description={description} type="article" date={date}>
   <Header />
 
-  <main class="space-y-24 py-24 sm:space-y-40 sm:py-32">
-    <article class="mx-auto max-w-4xl space-y-32 px-6 lg:px-8">
-      <div>
-        <div class="pb-16 sm:pb-24">
-          <div class="flex flex-col flex-wrap justify-between text-sm sm:text-base md:flex-row">
-            <div class="flex items-center gap-x-2 font-bold">
-              <span class="text-brand">
-                <FormattedDate date={date} />
-              </span>
-              {updatedDate ? (
-                <p>
-                  // Last updated on
-                  <span class="text-brand">
-                    <FormattedDate date={updatedDate} />
-                  </span>
-                </p>
-              ) : null}
-            </div>
-
-            <div class="flex flex-wrap gap-x-2 lg:gap-x-4">
-              {topics?.length ? (
-                <div class="flex gap-x-2">
-                  {topics.slice(0, 3).map((topic) => (
-                    <p class="font-semibold text-brand">{topic}</p>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-          </div>
-
-          <div class="space-y-2">
-            <h1 class="mt-2 text-3xl font-semibold tracking-tight text-light sm:text-5xl">
-              {title}
-            </h1>
-            <p class="mt-8 text-pretty text-lg text-mid sm:text-xl/8">
-              {description}
-            </p>
-          </div>
+  <main class="py-20 sm:py-24">
+    <article class="mx-auto max-w-3xl px-6">
+      <div class="pb-12 sm:pb-16">
+        <div class="flex flex-wrap items-center gap-x-2 font-code text-xs text-mid">
+          <span class="text-brand">
+            <FormattedDate date={date} />
+          </span>
+          {updatedDate ? (
+            <span>
+              · Updated <FormattedDate date={updatedDate} />
+            </span>
+          ) : null}
+          {topics?.length ? (
+            <span>· {topics.slice(0, 3).join(', ')}</span>
+          ) : null}
         </div>
-        <div class="text-light/90">
-          <slot />
-        </div>
+
+        <h1 class="mt-4 text-3xl font-semibold tracking-tight text-light sm:text-4xl">
+          {title}
+        </h1>
+        <p class="mt-6 text-pretty text-mid sm:text-lg/8">{description}</p>
+      </div>
+      <div class="text-light/90">
+        <slot />
       </div>
     </article>
   </main>

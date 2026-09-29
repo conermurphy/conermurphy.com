@@ -4,9 +4,9 @@ import Header from '../../components/Header.astro'
 import Footer from '../../components/Footer.astro'
 import Layout from '../../layouts/Layout.astro'
 import { getCollection } from 'astro:content'
-import PostCard from '../../components/PostCard.astro'
+import LinkRow from '../../components/LinkRow.astro'
 import Pagination from '../../components/Pagination.astro'
-import { PAGE_POST_LIMIT } from '../../consts'
+import { CLIENT_NAMES, PAGE_POST_LIMIT } from '../../consts'
 
 export const prerender = true
 
@@ -31,32 +31,33 @@ const { page } = Astro.props
 >
   <Header />
 
-  <main class="space-y-24 py-24 sm:space-y-40 sm:py-32">
-    <div class="mx-auto max-w-5xl space-y-32 px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl lg:mx-0">
-        <h1 class="mt-2 text-5xl font-semibold tracking-tight text-light sm:text-7xl">
-          Technical Writing
-        </h1>
-        <p class="mt-8 text-pretty text-lg text-mid sm:text-xl/8">
-          Here are all of the blog posts I've partnered with companies on. Want
-          to work with me on a post for your company? Get in touch.
-        </p>
-      </div>
-
-      <section class="grid grid-cols-1 gap-x-16 gap-y-20 md:grid-cols-2">
-        {page.data.map((post) => (
-          <PostCard
-            title={post.data.title}
-            description={post.data.description}
-            date={post.data.date}
-            url={post.data.url}
-            tags={[post.data.client]}
-          />
-        ))}
-      </section>
-
-      <Pagination page={page} />
+  <main class="mx-auto max-w-2xl space-y-12 px-6 py-20 sm:py-24">
+    <div>
+      <h1 class="text-4xl font-semibold tracking-tight text-light sm:text-5xl">
+        Technical Writing
+      </h1>
+      <p class="mt-6 text-pretty text-mid sm:text-lg/8">
+        Blog posts I've partnered with companies on. Want to work with me on a
+        post for your company?{' '}
+        <a href="mailto:hey@conermurphy.com" class="text-brand">
+          Get in touch
+        </a>
+        .
+      </p>
     </div>
+
+    <ul>
+      {page.data.map((post) => (
+        <LinkRow
+          title={post.data.title}
+          href={post.data.url}
+          meta={CLIENT_NAMES[post.data.client]}
+          external
+        />
+      ))}
+    </ul>
+
+    <Pagination page={page} />
   </main>
 
   <Footer />
