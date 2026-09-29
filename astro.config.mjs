@@ -10,6 +10,10 @@ export default defineConfig({
     ? 'https://conermurphy.com'
     : 'http://localhost:4321',
   integrations: [mdx(), sitemap()],
+  redirects: {
+    '/contact': '/',
+    '/links': '/',
+  },
   vite: {
     plugins: [tailwindcss()],
   },

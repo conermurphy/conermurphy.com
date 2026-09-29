@@ -1,0 +1,36 @@
+---
+import FormattedDate from './FormattedDate.astro'
+
+interface Props {
+  title: string
+  href: string
+  meta?: string | Date
+  external?: boolean
+}
+
+const { title, href, meta, external } = Astro.props
+---
+
+<li class="border-b border-dark">
+  <a
+    href={href}
+    class="group flex flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:gap-4"
+    {...(external ? { target: '_blank', rel: 'noopener' } : {})}
+  >
+    <span class="text-light transition-colors duration-150 ease-in-out group-hover:text-brand">
+      {title}
+    </span>
+    <span
+      class="hidden min-w-8 flex-1 border-b border-dotted border-mid/30 sm:block"
+      aria-hidden="true"
+    ></span>
+    <span class="shrink-0 font-code text-xs text-mid">
+      {meta instanceof Date ? <FormattedDate date={meta} /> : meta}
+      {external ? (
+        <span class="ml-1" aria-hidden="true">
+          ↗
+        </span>
+      ) : null}
+    </span>
+  </a>
+</li>
