@@ -1,0 +1,236 @@
+---
+title: 'Mitigating npm Supply Chain Attacks with pnpm, GitHub Actions and Dependabot'
+description: 'The pnpm settings, GitHub Actions hardening and dependency bump checklist I use to reduce the risk of a compromised npm package running code on my machine or in CI.'
+date: '2026-09-30'
+topics: ['DEVELOPMENT', 'NODEJS', 'GITHUB']
+slug: mitigating-npm-supply-chain-attacks-with-pnpm
+---
+
+Earlier this month, while upgrading this site to Astro 7 and SST 4, I went to check the changelog of one of my dependencies and found something I wasn’t expecting. The repository for [astro-sst](https://github.com/anomalyco/astro-sst), the adapter this site uses to deploy Astro to AWS, had a commit titled ["SECURITY: Remove malicious preinstall.js from attack"](https://github.com/anomalyco/astro-sst/commit/4b86ab38d18e221018a84db42bc0aef347610ad2).
+
+That sent me down a rabbit hole of auditing what I was installing and, more importantly, configuring pnpm and my CI so that a compromised package has as few opportunities as possible to run code. This post is the write-up of that work so I (and hopefully you) can refer back to it the next time dependencies need bumping.
+
+By the end of this post, you’ll have a `pnpm-workspace.yaml` that blocks install scripts, delays new versions, and refuses packages whose publish trust has dropped, a set of GitHub Actions workflows that don’t leak secrets to the install step, and a checklist to run through on every dependency bump.
+
+## What Happened with astro-sst
+
+The commit in question removed two things from the root `package.json` of the astro-sst monorepo: a `preinstall` script entry, and a one line `preinstall.js` file. That file looked mostly empty because the payload was hidden inside Unicode variation selectors, which are invisible characters that most editors and diff viewers don’t render, and decoded at runtime.
+
+It’s a good example of why "I skimmed the diff and it looked fine" isn’t enough. A `preinstall` script runs before anything else the moment you run `pnpm install`, with your user’s permissions and access to every environment variable in that shell, including any cloud credentials or tokens you have.
+
+To be clear about the blast radius here, no published version of astro-sst on npm has ever included an install hook, and the latest version was published in May 2025, ten months before the attack. So, the package people actually install was never affected, only the repository itself was compromised. However it was close enough to make me stop and take note.
+
+## Hardening pnpm
+
+pnpm has added a lot of supply chain protection over the last few major versions, and it documents them on its [Mitigating supply chain attacks](https://pnpm.io/supply-chain-security) page. This is the `pnpm-workspace.yaml` I landed on, followed by an explanation of each section.
+
+```yaml
+META: './pnpm-workspace.yaml':{ }
+allowBuilds:
+  esbuild: true
+
+# Supply chain protections. See https://pnpm.io/supply-chain-security
+# 7 days. Setting this explicitly also makes it strict, so pnpm fails rather
+# than falling back to a version that is too new.
+minimumReleaseAge: 10080
+minimumReleaseAgeExcludePrune: true
+minimumReleaseAgeIgnoreMissingTime: false
+
+# Fail if a version has weaker publish trust than earlier releases of the
+# same package, e.g. provenance was dropped.
+trustPolicy: no-downgrade
+# Skip the trust check for versions older than 30 days.
+trustPolicyIgnoreAfter: 43200
+trustPolicyExcludePrune: true
+
+# Already the pnpm 12 defaults; stated so they cannot regress silently.
+blockExoticSubdeps: true
+strictDepBuilds: true
+```
+
+### Block install scripts by default
+
+Since pnpm 10, dependencies aren’t allowed to run their `preinstall`, `install` or `postinstall` scripts unless you explicitly approve them. With `strictDepBuilds` enabled, which is the default, `pnpm install` exits with a non-zero code if any dependency has a build script you haven’t reviewed, rather than just printing a warning.
+
+`allowBuilds` is where you list the packages you trust to run scripts. For this site the only one is `esbuild`, which uses a `postinstall` script to fetch and verify the correct platform binary. Everything else, including transitive dependencies, is blocked. If a package that never needed a build script suddenly ships one in a new version, the install fails and you get to ask why.
+
+### Wait before installing new versions
+
+While it’s not a foolproof solution, malicious versions are usually spotted and pulled from the registry within hours. `minimumReleaseAge` takes advantage of that by refusing to resolve any version younger than the number of minutes specified, for direct and transitive dependencies alike. I’ve set it to `10080` (seven days). The pnpm default is one day, which is probably fine for most projects, but I like to err on the side of caution and for a personal site there is no cost to waiting a week.
+
+Two details worth knowing about here:
+
+- Setting `minimumReleaseAge` explicitly turns on `minimumReleaseAgeStrict`. Without it, pnpm would fall back to a too-new version when nothing in your range satisfies the age constraint so the install can still succeed. With it, the install fails, which is what you want.
+- `minimumReleaseAgeIgnoreMissingTime: false` makes pnpm fail if the registry can’t tell it when a version was published, instead of quietly skipping the check. Some private registries and mirrors omit that data, so if you use one you may need to leave this at the default.
+
+When you genuinely need a newer version, `minimumReleaseAgeExclude` lets you list a package or a specific version to bypass the wait. `minimumReleaseAgeExcludePrune: true` means pnpm removes those entries automatically once the lockfile no longer resolves them, so the exceptions don’t hang around forever.
+
+### Refuse trust downgrades
+
+npm packages can be published with provenance, or by a trusted publisher (a CI workflow linked to the repository), or with no trust evidence at all. `trustPolicy: no-downgrade` makes pnpm fail the install if a version has weaker trust evidence than any earlier published version. If a maintainer’s account is hijacked and someone publishes from their laptop, that version will lack the provenance the previous ones had and pnpm will refuse it.
+
+`trustPolicyIgnoreAfter: 43200` skips the check for versions published more than 30 days ago, which avoids having to add exclusions for every old package that predates provenance. `trustPolicyExcludePrune`, like its release age equivalent, tidies up any `trustPolicyExclude` entries once they’re no longer needed.
+
+### Keep transitive dependencies on the registry
+
+`blockExoticSubdeps: true` stops transitive dependencies from being resolved from git repositories or direct tarball URLs. Only direct dependencies you list in `package.json` may use those sources. It’s the pnpm 12 default, but I’ve stated it explicitly, along with `strictDepBuilds`, so that a future default change or a copied config can’t silently turn them off.
+
+## Pinning Everything in package.json
+
+Alongside the workspace settings I made two changes to `package.json`.
+
+First, I added a `packageManager` field so that the version of pnpm itself is pinned. pnpm 12 then writes a two-document lockfile, where the first document records pnpm and its platform binaries with integrity hashes. That means CI installs the exact pnpm build I used locally, rather than whatever `latest` resolves to on the day.
+
+Second, I removed every `^` range and pinned all dependencies to exact versions. Of course, the lockfile already pins what gets installed, so this is mostly belt and braces especially on a solo personal project.
+
+```json
+META: './package.json':{ }
+{
+  "packageManager": "pnpm@12.4.2",
+  "dependencies": {
+    "astro": "7.3.2",
+    "astro-sst": "3.1.4",
+    "sst": "4.17.1"
+  }
+}
+```
+
+## Hardening GitHub Actions
+
+The install step in CI is the other place a malicious package could possibly run, and it’s arguably worse than your laptop because it usually has deployment credentials or access to production environments. These are the changes I made to the workflows.
+
+```yaml
+META: './.github/workflows/main.yml':{ }
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  production_deployment:
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+
+      # No secrets are exposed to this step on purpose: it is where
+      # third-party install scripts would run.
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ROLE_NAME }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy app
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: pnpm exec sst deploy --stage production
+```
+
+### Scope secrets to the steps that need them
+
+Previously `CLOUDFLARE_API_TOKEN` was set in the job level `env`, which made it visible to every step including `pnpm install`. Now it’s only set on the deploy step, and the AWS credentials are only configured after the install has finished. If a package somehow gets a script to run during install, there is nothing worth stealing in that step’s environment.
+
+### Pin actions to commit SHAs
+
+Every `uses:` now references a full commit SHA with the tag in a comment, rather than a mutable tag like `@v4`. Tags can be moved, and there have been real incidents of popular actions having their tags repointed at malicious commits. A SHA can’t be changed underneath you.
+
+### Least privilege and no lingering credentials
+
+`permissions: contents: read` is set at the top of the PR workflow so the `GITHUB_TOKEN` can’t write to the repository, and `persist-credentials: false` on every checkout stops that token being written into the git config where later steps (and their dependencies) could read it.
+
+### Frozen lockfile and pnpm exec
+
+`pnpm install --frozen-lockfile` fails if `package.json` and the lockfile disagree, so CI can never resolve a new version on its own. And because `trustLockfile` is left at its default of `false`, pnpm re-applies the `minimumReleaseAge` and `trustPolicy` checks to every entry in the lockfile during install, catching a lockfile that was generated under a weaker policy.
+
+I also replaced `npx` with `pnpm exec` everywhere. `npx` will happily download and run a package that isn’t installed, whereas `pnpm exec` only runs binaries that are already in `node_modules`.
+
+### Dependency review on pull requests
+
+Finally, the PR workflow gained a job using GitHub’s `dependency-review-action`, which compares the dependency graph before and after the PR and fails if it introduces a package with a known high severity vulnerability.
+
+```yaml
+META: './.github/workflows/pr.yml':{ }
+dependency_review:
+  name: Dependency Review
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      with:
+        persist-credentials: false
+
+    - name: Review dependency changes
+      uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4
+      with:
+        fail-on-severity: high
+```
+
+## Matching Dependabot to the Release Age
+
+With a seven day `minimumReleaseAge`, a Dependabot PR that proposes a version published yesterday would fail to install. Dependabot has a `cooldown` setting for exactly this, so it’s been configured to match.
+
+```yaml
+META: './.github/dependabot.yml':{ }
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    # Match pnpm's minimumReleaseAge so proposed versions are installable.
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns:
+          - '*'
+```
+
+Grouping minor and patch updates into one PR keeps the noise down, and the `github-actions` ecosystem is what keeps those pinned SHAs moving forward without me editing them by hand.
+
+## The Dependency Bump Checklist
+
+The configuration above does most of the work automatically, but there are still a few things I endeavour to check manually when I bump dependencies.
+
+1. **Read the changelog and the recent commits** of each package being bumped, not just the release notes. The astro-sst commit was only visible in the repository history.
+2. **Check the registry metadata for new install hooks.** The npm registry JSON for a package (`https://registry.npmjs.org/<name>`) lists the `scripts` for every version. A package that has gained a `preinstall` or `postinstall` script since the last version needs a very good reason.
+3. **Check for a drop in provenance.** The same metadata shows whether each version has provenance attestations. `trustPolicy` will catch this for you, but it’s worth understanding why an install failed rather than reaching for an exclusion.
+4. **Diff the lockfile**, not just `package.json`. Look for packages you’ve never heard of appearing as new transitive dependencies, and for any resolution that isn’t the registry.
+5. **Run `pnpm install --frozen-lockfile` locally** in a shell with no cloud credentials or tokens exported. If the install needs to write the lockfile, do that in a separate step and read the diff before committing it.
+6. **If something looks wrong, don’t run it.** Read it. Fetch the tarball and inspect it, read the diff through the GitHub API, but never execute a suspect script to "see what it does".
+7. **Prefer an older, known good version** over an exclusion. If the version you want is too new or has weaker trust, pinning an older version is usually the safer and simpler fix.
+
+## What This Doesn’t Cover
+
+None of this makes a project immune and there are a few gaps:
+
+- `minimumReleaseAge` delays security fixes by the same seven days it delays everything else. For a genuine urgent patch, `minimumReleaseAgeExclude` with a specific version is the escape hatch.
+- Packages that have never published with provenance get no protection from `trustPolicy` beyond future downgrades.
+- Blocking install scripts doesn’t stop malicious code that runs when the package is imported at build or runtime. That’s what the release age delay, lockfile diffs and dependency review are for, but it’s a narrower net that has an element of human error to account for.
+
+## Recap
+
+A compromised commit in a dependency’s repository was the push I needed to properly harden how this site installs packages. pnpm now blocks install scripts unless explicitly allowed, waits a week before resolving new versions, and refuses versions whose publish trust has dropped. Every dependency and the package manager itself are pinned exactly. In CI, actions are pinned to SHAs, the install step has no secrets in scope, and dependency review runs on every PR.
