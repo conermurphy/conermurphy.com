@@ -28,7 +28,7 @@
     "slugify": "1.6.9",
     "sst": "4.17.1",
     "tailwindcss": "4.3.3",
-    "typescript": "5.7.3"
+    "typescript": "7.0.2"
   },
   "devDependencies": {
     "@types/jsdom": "21.1.7",
